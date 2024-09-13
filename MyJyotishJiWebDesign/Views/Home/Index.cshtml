@@ -83,15 +83,6 @@
 
 
     <!-- Search Bar -->
-    @* <div class="container-fluid-fluid justify-content-center " id="searchcontainer-fluid">
-        <div class="container-fluid">
-            <div class="justify-content-center" id="searchForm">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </div>
-        </div>
-    </div>  *@
-
     <div class="container-fluid" id="searchcontainer">
         <div class="container d-flex justify-content-center">
             <div id="searchForm" class=" justify-content-center align-items-center">
@@ -135,7 +126,7 @@
            
            
         </div>
-       @*  <svg xmlns="http://www.w3.org/2000/svg" id="astroBookPoojaToggle" class="btn btn-outline-dark border-0 p-0 m-0" width="3em" height="3em" viewBox="0 0 64 64"><circle cx="32" cy="32" r="30" fill="#4fd1d9" /><path fill="#fff" d="M33.7 16L49 32L33.7 48V37.4H15V27.1h18.7z" /></svg> *@
+    
       
     </div>
 
@@ -147,7 +138,7 @@
             right: 0;
             width: 100px;
             height: 140px;
-            background-color: rgb(253, 224, 182);
+            
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border: 1px solid #ddd;
             z-index: 1000;
@@ -214,10 +205,10 @@
 
 
     <!-- Service Cards -->
-    <div class="container-fluid my-5">
+  @*   <div class="container-fluid my-5">
         <h3 class="text-center mb-5">Our Services</h3>
         <div class="row text-center justify-content-between">
-            <div class="col-6 col-md-2 mb-4">
+            <div class="col-6 col-md-2 mb-4 border ">
                 <img src="https://api.myjyotishg.in/Images/Tabs/Astrology.jpg"
                      class="card-img-top ServiceCard"
                      alt="Astrology" />
@@ -249,9 +240,76 @@
             </div>
         </div>
     </div>
+ *@
 
 
 
+
+
+    <div class="container-fluid my-5">
+        <h3 class="text-center mb-5">Our Services</h3>
+        <div class="row  justify-content-between">
+
+            <div class="col-6 col-md-2  mb-4 service-card rounded  text-center  " style="background-color: #ffdd00 ">
+                <img src="https://api.myjyotishg.in/Images/Tabs/Astrology.jpg"
+                     class="card-img-top servicecard mt-5"
+                     alt="Astrology" />
+                <p class="card-title mt-2">Astrology</p>
+            </div>
+            <div class="col-6 col-md-2 mb-4 service-card rounded text-center " style="background-color: rgb(254, 118, 115)">
+                <img src="https://api.myjyotishg.in/Images/Tabs/Palmistry.jpg"
+                     class="card-img-top ServiceCard"
+                     alt="Palmistry" />
+                <p class="card-title mt-2">Palmistry</p>
+            </div>
+            <div class="col-6 col-md-2 mb-4 service-card rounded text-center" style="">
+                <img src="https://api.myjyotishg.in/Images/Tabs/tarot.png"
+                     class="card-img-top ServiceCard"
+                     alt="Tarot" />
+                <p class="card-title mt-2">Tarot</p>
+            </div>
+            <div class="col-6 col-md-2 mb-4 service-card  rounded text-center">
+                <img src="https://api.myjyotishg.in/Images/Tabs/vastu.jpg"
+                     class="card-img-top ServiceCard"
+                     alt="Vastu" />
+                <p class="card-title mt-2">Vastu</p>
+            </div>
+            <div class="col-12 col-md-2 mb-4 service-card rounded text-center">
+                <img src="https://api.myjyotishg.in/Images/Tabs/Horoscope.jpg"
+                     class="card-img-top ServiceCard    "
+                     alt="Horoscope" />
+                <p class="card-title mt-2">Horoscope</p>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .service-card {
+            padding-top: 20px;
+            padding-bottom:20px;
+            perspective: 1000px; /* Add perspective to create a 3D effect */
+            transform-style: preserve-3d; /* Allow 3D transformations */
+            transition: transform 0.5s; /* Add a smooth transition effect */
+           
+          
+            transform: rotateX(10deg) scale(1.05); /* Rotate and scale the entire card */
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Add a shadow effect to the card */
+        }
+
+        .service-card:hover {
+            transform: rotateY(20deg) scale(1.1); /* Rotate and scale on hover */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add a shadow effect */
+        }
+
+        .service-card img {
+            transform: translateZ(20px) rotateX(10deg); /* Move the image forward and rotate it slightly */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add a shadow effect */
+        }
+
+        .service-card p {
+            transform: translateZ(-20px) rotateX(-10deg); /* Move the text backward and rotate it slightly */
+        }
+    </style>
 
 
 
@@ -263,9 +321,9 @@
             <div class="col-12 col-sm-2 col-md-2 col-lg-2 mb-2 p-1">
                 <div class="card astrologer-card shadow">
                     <img src="https://api.myjyotishg.in/Images/Astro/Astro6.jpg" class="card-img-top rounded" alt="Astrologer 1">
-                    <div class="card-body p-0">
+                    <div class="card-body p-0 pt-2">
                         <h5 class="card-title">Khushi</h5>
-                        <p class="card-text">
+                        <p class="card-text px-auto" style="text-align:left">
                             Expertise: Vastu <br />City: Delhi <br />Experience: 10 Years <br /> Rating:
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
@@ -280,7 +338,7 @@
             <div class="col-12 col-sm-2 col-md-2 col-lg-2 mb-2 p-1">
                 <div class="card astrologer-card shadow">
                     <img src="https://api.myjyotishg.in/Images/Astro/Astro8.jpg" class="card-img-top rounded" alt="Astrologer 2">
-                    <div class="card-body p-0">
+                    <div class="card-body p-0 pt-2">
                         <h5 class="card-title">Muskan</h5>
                         <p class="card-text">
                             Expertise: Palmistry <br />City: Delhi <br />Experience: 10 Years <br /> Rating:
@@ -297,7 +355,7 @@
             <div class="col-12 col-sm-2 col-md-2 col-lg-2 mb-2 p-1">
                 <div class="card astrologer-card shadow">
                     <img src="https://api.myjyotishg.in/Images/Astro/Astro9.jpg" class="card-img-top rounded" alt="Astrologer 3">
-                    <div class="card-body p-0">
+                    <div class="card-body p-0 pt-2">
                         <h5 class="card-title">Mahek</h5>
                         <p class="card-text">
                             Expertise: Face Reading <br />City: Delhi <br />Experience: 10 Years <br /> Rating:
@@ -314,7 +372,7 @@
             <div class="col-12 col-sm-2 col-md-2 col-lg-2 mb-2 p-1">
                 <div class="card astrologer-card shadow">
                     <img src="https://api.myjyotishg.in/Images/Astro/Astro10.jpg" class="card-img-top rounded" alt="Astrologer 4">
-                    <div class="card-body p-0">
+                    <div class="card-body p-0 pt-2">
                         <h5 class="card-title">Sakshi</h5>
                         <p class="card-text">
                             Expertise: Tarot <br />City: Delhi <br />Experience: 10 Years <br /> Rating:
@@ -331,7 +389,7 @@
             <div class="col-12 col-sm-2 col-md-2 col-lg-2 mb-2 p-1">
                 <div class="card astrologer-card shadow">
                     <img src="https://api.myjyotishg.in/Images/Astro/Astro11.jpg" class="card-img-top rounded" alt="Astrologer 5">
-                    <div class="card-body p-0">
+                    <div class="card-body p-0 pt-2">
                         <h5 class="card-title">Alisha</h5>
                         <p class="card-text">
                             Expertise: Vastu <br />City: Delhi <br />Experience: 10 Years <br /> Rating:
@@ -917,7 +975,7 @@
 
 
 
-    <div> hi</div>
+ 
 
   
 

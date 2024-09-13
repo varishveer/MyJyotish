@@ -13,10 +13,7 @@ namespace MyJyotishJiWebDesign.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+       
 
         public IActionResult Privacy()
         {
@@ -25,7 +22,8 @@ namespace MyJyotishJiWebDesign.Controllers
         public IActionResult SignUpUser() {return View(); }
         public IActionResult OtpVerification() { return View(); }
         public IActionResult Login() { return View();}
-
+        public IActionResult Index() { return View(); }
+        public IActionResult Search() { return View(); }
 
         public IActionResult Register() {return View(); }
         public IActionResult HomePage() { return View(); }  
