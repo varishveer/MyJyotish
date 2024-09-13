@@ -1,0 +1,155 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<style>
+
+
+    .astrologer-container {
+        display: flex;
+        align-items: center;
+        gap: 10px; /* Space between elements */
+    }
+
+    .header {
+        display: flex;
+        align-items: center;
+    }
+
+    .heading {
+        margin: 0;
+    }
+
+    .balance-info {
+        display: flex;
+        align-items: center;
+    }
+
+    .available-balance {
+        display: flex;
+        align-items: center;
+    }
+
+    .actions {
+        display: flex;
+        align-items: center;
+    }
+
+    .recharge-link,
+    .filter-button,
+    .sort-button {
+        margin-right: 10px; /* Space between links and buttons */
+    }
+
+    .search-container {
+        display: flex;
+        align-items: center;
+    }
+
+    .search-input {
+        margin-right: 5px; /* Space between input and icon */
+    }
+
+</style>
+
+
+<br />
+@* <div class="container bg-light ">
+    <div class="row justify-content-around  d-inline-flex">
+        <p>Shop By Category</p>
+        <h5> Search Filters</h5>
+    </div>
+
+</div> *@
+
+<div class="astrologer-container">
+    <div class="header">
+        <h1 class="heading">Shop With Our Mall</h1>
+    </div>
+
+    <div class="balance-info">
+        <div class="available-balance">
+            Available balance:
+            <span class="balance-amount">₹ 0</span>
+        </div>
+    </div>
+
+    <div class="actions">
+        <a class="recharge-link">Recharge</a>
+
+        <button type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#filterModal"
+                class="filter-button">
+            <i class="fa fa-filter"></i>
+            Filter
+        </button>
+
+        <button type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#sortModal"
+                class="sort-button">
+            <i class="fa fa-sort-amount-desc"></i>
+            Sort by
+        </button>
+
+        <div class="search-container">
+            <input name="searchText"
+                   type="search"
+                   autocomplete="off"
+                   id="searchQuery"
+                   class="search-input"
+                   placeholder="Search name...">
+            <i class="fa fa-search"></i>
+        </div>
+    </div>
+</div>
+
+<br />
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <a href="/Home/MallProduct" class="card-link">
+                <div class="card">
+                    <div class="card-img-wrapper">
+                        <img src="https://via.placeholder.com/100" alt="Astrologer Image" class="card-img-top">
+                    </div>
+                    <div class="card-content" style="margin-top:-100px;">
+                        <h5 class="card-title">Bracelet & Pendants</h5>
+                        <p class="card-text">Astrotalk is engaged in offering a assured range of Moti Mala Rt for the Market</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a href="/Home/MallProduct" class="card-link">
+                <div class="card">
+                    <div class="card-img-wrapper">
+                        <img src="https://via.placeholder.com/100" alt="Astrologer Image" class="card-img-top">
+                    </div>
+                    <div class="card-content" style="margin-top:-100px;">
+                        <h5 class="card-title">Bracelet & Pendants</h5>
+                        <p class="card-text">My Jyotish ji is engaged in offering a assured range of Moti Mala Rt for the Market</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a href="/Home/MallPooja" class="card-link">
+                <div class="card">
+                    <div class="card-img-wrapper">
+                        <img src="https://via.placeholder.com/100" alt="Astrologer Image" class="card-img-top">
+                    </div>
+                    <div class="card-content" style="margin-top:-100px;">
+                        <h5 class="card-title">Pooja</h5>
+                        <p class="card-text">Pooja</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>

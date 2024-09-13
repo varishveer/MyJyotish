@@ -1,0 +1,218 @@
+﻿@{
+    Layout = "JyotishLayout";
+}
+<style>
+    .outerDiv {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+       
+        
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+       
+    }
+
+    .profile-settings {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 600px;
+        max-width: 90%;
+    }
+
+        .profile-settings h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+    .notifications, .language, .actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .actions {
+        justify-content: space-around;
+    }
+
+    button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .edit-profile {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .logout {
+        background-color: #ff4d4d;
+        color: white;
+    }
+
+    .delete-account {
+        background-color: #dc3545;
+        color: white;
+    }
+
+    input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+    }
+
+    .edit-language {
+        color: #28a745;
+        cursor: pointer;
+    }
+
+    .user-details {
+        margin-top: 20px;
+    }
+
+        .user-details h3 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .user-details table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .user-details th, .user-details td {
+            text-align: left;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .user-details th {
+            background-color: #f2f2f2;
+        }
+</style>
+
+<div class="outerDiv">
+    <div class="profile-settings">
+        <h2>Profile Settings</h2>
+        <div class="notifications">
+            <div>
+                <h3>Notifications</h3>
+                <div>
+                    <label for="astromall-chat"> chat</label>
+                    <input type="checkbox" id="astromall-chat" checked>
+                </div>
+                <div>
+                    <label for="live-events">Live Events</label>
+                    <input type="checkbox" id="live-events" checked>
+                </div>
+            </div>
+        </div>
+        <div class="language">
+            <h3>My Language</h3>
+            <span class="edit-language">Edit your languages</span>
+        </div>
+        <div class="actions">
+            <a href="/Jyotish/EditProfile">
+                <button class="edit-profile">Edit Profile</button>
+            </a>
+            <button class="logout">Logout from all other devices</button>
+            <button class="delete-account">Delete My Account</button>
+        </div>
+
+        <!-- User Details -->
+        <div class="user-details">
+            <h3>User Details</h3>
+            <table>
+                <tr>
+                    <th>Key</th>
+                    <th>Value</th>
+                </tr>
+                <tr>
+                    <td>Profile Picture</td>
+                    <td><img src="~/Img/Astrologer.jpg" alt="Profile Picture" /></td>
+                </tr>
+                <tr>
+                    <td>Name</td>
+                    <td>My Jyotish</td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td>email@gmail.com</td>
+                </tr>
+                <tr>
+                    <td>Phone Number</td>
+                    <td>7985738573</td>
+                </tr>
+                <tr>
+                    <td>Gender</td>
+                    <td>Male</td>
+                </tr>
+                <tr>
+                    <td>Languages</td>
+                    <td>Hindi, English</td>
+                </tr>
+                
+                <tr>
+                    <td>Expertise</td>
+                    <td>Horoscope</td>
+                </tr>
+                <tr>
+                    <td>Morning Time</td>
+                    <td>07:00 AM</td>
+                </tr>
+                <tr>
+                    <td>Evening Time</td>
+                    <td>07:00 PM</td>
+                </tr>
+                <tr>
+                    <td>Online Consultation Fee</td>
+                    <td>RS : 1000</td>
+                </tr> 
+                <tr>
+                    <td>Professional Experience</td>
+                    <td>5 Year</td>
+                </tr>
+                <tr>
+                    <td>Pooja(multiple Select)</td>
+                    <td>1. Pooja One 2. Pooja Two ...</td>
+                </tr>
+                <tr>
+                    <td>Password</td>
+                    <td>Password</td>
+                </tr>
+                <tr>
+                    <td>Chat</td>
+                    <td>Yes/No</td>
+                </tr>
+                <tr>
+                    <td>Chat Price</td>
+                    <td>10 / Minute</td>
+                </tr>
+                <tr>
+                    <td>Call</td>
+                    <td>Yes/No</td>
+                </tr>
+                <tr>
+                    <td>call Price</td>
+                    <td>10/Minute</td>
+                </tr>
+
+
+                <tr>
+                    <td>Address</td>
+                    <td>Sector 66, Noida</td>
+                </tr>
+                <tr>
+                    <td>Date of Birth</td>
+                    <td>19/10/1995</td>
+                </tr>
+               
+            </table>
+        </div>
+    </div>
+</div>

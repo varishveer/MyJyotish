@@ -1,0 +1,109 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "PendingJyotishLayout";
+}
+<div class=" ">
+    <div class="row w-100  ">
+        <div class="col-sm-12 col-xl-6 mx-auto">
+            <div class="bg-light rounded h-100 p-4">
+                <h6 class="mb-4">Upload Documents</h6>
+                <form id="uploadForm">
+                    <div class="mb-3">
+                        <label for="idProof" class="form-label">ID Proof</label>
+                        <input class="form-control" type="file" id="idProof" name="IdProof">
+                    </div>
+                    <div class="mb-3">
+                        <label for="addressProof" class="form-label">Address Proof</label>
+                        <input class="form-control" type="file" id="addressProof" name="AddressProof">
+                    </div>
+                    <div class="mb-3">
+                        <label for="tenthCertificate" class="form-label">Tenth Certificate</label>
+                        <input class="form-control" type="file" id="tenthCertificate" name="TenthCertificate">
+                    </div>
+                    <div class="mb-3">
+                        <label for="twelveCertificate" class="form-label">Twelve Certificate</label>
+                        <input class="form-control" type="file" id="twelveCertificate" name="TwelveCertificate">
+                    </div>
+                    <div class="mb-3">
+                        <label for="professionalCertificate" class="form-label">Professional Certificate</label>
+                        <input class="form-control" type="file" id="professionalCertificate" name="ProfessionalCertificate">
+                    </div>
+                    <input type="hidden" id="jyotishEmail" name="JyotishEmail" value="">
+                    <button type="submit" class="btn btn-primary">Upload</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        const email = localStorage.getItem('userEmail');
+        $('#jyotishEmail').val(email);
+
+        $('#uploadForm').submit(function (event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Check if at least one image file is selected
+            const idProofFile = document.getElementById('idProof').files.length > 0;
+            const addressProofFile = document.getElementById('addressProof').files.length > 0;
+            const tenthCertificateFile = document.getElementById('tenthCertificate').files.length > 0;
+            const twelveCertificateFile = document.getElementById('twelveCertificate').files.length > 0;
+            const professionalCertificateFile = document.getElementById('professionalCertificate').files.length > 0;
+
+            const isAnyImageSelected = idProofFile || addressProofFile || tenthCertificateFile || twelveCertificateFile || professionalCertificateFile;
+
+            if (!isAnyImageSelected) {
+                alert('Please select at least one image file to upload.');
+                return;
+            }
+
+            // Create a FormData object from the form
+            const formData = new FormData($(this)[0]);
+
+            // Append files to FormData
+            if (idProofFile) formData.append('IdProof', document.getElementById('idProof').files[0]);
+            if (addressProofFile) formData.append('AddressProof', document.getElementById('addressProof').files[0]);
+            if (tenthCertificateFile) formData.append('TenthCertificate', document.getElementById('tenthCertificate').files[0]);
+            if (twelveCertificateFile) formData.append('TwelveCertificate', document.getElementById('twelveCertificate').files[0]);
+            if (professionalCertificateFile) formData.append('ProfessionalCertificate', document.getElementById('professionalCertificate').files[0]);
+
+            // Add the email from the hidden field
+            formData.append('JyotishEmail', email);
+
+            const token = localStorage.getItem('Token3');
+            debugger;
+            // Send the data via AJAX
+            $.ajax({
+                url: 'https://localhost:7118/Api/PendingJyotish/UploadDocument',
+                type: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                data: formData,
+                processData: false, // Prevent jQuery from automatically processing the data
+                contentType: false, // Prevent jQuery from setting content type, as it is handled by FormData
+                success: function (result) {
+                    // Handle success
+                    console.log('Success:', result);
+                    alert('Files and data uploaded successfully!');
+                },
+                error: function (xhr, status, message) {
+                    // Handle errors
+                    console.error('Error:');
+                    console.error(status);
+                    console.error(message);
+                    console.error(xhr);
+                    alert('There was a problem with your submission.');
+                }
+            });
+        });
+    });
+
+
+
+
+</script>

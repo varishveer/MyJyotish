@@ -1,0 +1,6 @@
+@MyJyotishJi_HostAddress = http://localhost:5020
+
+GET {{MyJyotishJi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

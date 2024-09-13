@@ -1,0 +1,52 @@
+﻿body {
+}
+#HomepageBanner {
+   
+    width: 400px; /* Max width at 1100px or larger */
+}
+
+@media (max-width: 1100px) {
+    #HomepageBanner {
+        width: 300px; /* Adjust the width as screen size decreases */
+    }
+}
+
+@media (max-width: 900px) {
+    #HomepageBanner {
+        width: 300px;
+    }
+}
+
+@media (max-width: 768px) {
+    #HomepageBanner {
+        width: 250px;
+        margin: auto;
+    }
+}
+
+@media (max-width: 500px) {
+    #HomepageBanner {
+        width: 200px;
+        margin: auto;
+    }
+}
+#HomepageSearchbox{}
+
+.Services-img{
+    width:500px;
+    border-radius:15px;
+}
+
+@media (max-width:768px)
+{
+    .Services-img {
+        width:300px;
+    }
+    
+}
+
+@media (max-width:420px) {
+    .Services-img {
+        width: 300px;
+    }
+}

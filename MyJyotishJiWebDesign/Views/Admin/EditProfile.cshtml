@@ -1,0 +1,127 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@{
+    Layout = "AdminLayout";
+}
+
+<style>
+    .outerDiv {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .profile-header {
+        display: flex;
+        align-items: center;
+        border-bottom: 2px solid #eee;
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+    }
+
+    .profile-picture {
+        flex: 1;
+        text-align: center;
+    }
+
+        .profile-picture img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #ddd;
+        }
+
+    .profile-info {
+        flex: 2;
+        padding-left: 20px;
+    }
+
+        .profile-info h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .profile-info p {
+            margin: 5px 0;
+            color: #555;
+        }
+
+    .profile-form form {
+        display: grid;
+        gap: 15px;
+    }
+
+    .profile-form label {
+        font-weight: bold;
+        display: block;
+    }
+
+    .profile-form input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+
+    .profile-form button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        background-color: #28a745;
+        color: #fff;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+        .profile-form button:hover {
+            background-color: #218838;
+        }
+
+</style>
+<div class="outerDiv">
+    <div class="container">
+        <div class="profile-header">
+            <div class="profile-picture">
+                <img src="profile-pic-placeholder.png" alt="Profile Picture">
+            </div>
+            <div class="profile-info">
+                <h1>John Doe</h1>
+                <p>Email: john.doe@example.com</p>
+                <p>Mobile: +123 456 7890</p>
+            </div>
+        </div>
+        <div class="profile-form">
+            <form>
+                <label for="profile-picture-upload">Change Profile Picture:</label>
+                <input type="file" id="profile-picture-upload" name="profile-picture-upload">
+
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" value="John Doe">
+
+                <label for="email">Email ID:</label>
+                <input type="email" id="email" name="email" value="john.doe@example.com">
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder="********">
+
+                <label for="mobile">Mobile:</label>
+                <input type="tel" id="mobile" name="mobile" value="+123 456 7890">
+
+                <button type="submit">Save Changes</button>
+            </form>
+        </div>
+    </div>
+</div>

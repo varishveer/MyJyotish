@@ -1,0 +1,164 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+    }
+
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    .card {
+        width: 300px;
+        margin: 10px;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+    .card-content {
+        padding: 15px;
+    }
+
+    .card-title {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .card-text {
+        color: #666;
+        margin-bottom: 10px;
+    }
+
+    .button {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+    .header {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 20px;
+        text-align: center;
+    }
+
+        .header h1 {
+            margin: 0;
+        }
+
+    .search-bar {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .search-input {
+        width: 300px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+
+    .search-button {
+        padding: 10px;
+       
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-left: 10px;
+    }
+</style>
+
+
+
+<header class="header">
+    <h1>Book a Pooja</h1>
+</header>
+
+<div class="search-bar">
+    <input type="text" class="search-input" placeholder="Let's find what you're looking for...">
+    <button class="search-button">Search</button>
+</div>
+
+<div class="container">
+    <div class="card">
+        <a href="/Home/PoojaDetails">
+            <img src="https://dummyimage.com/300x200/007bff/fff" alt="Card Image">
+            <div class="card-content">
+                <h2 class="card-title">06 Aug</h2>
+                <p class="card-text">Works Everytime</p>
+                <p class="card-text">Sweeten Your Relationship Healing</p>
+                <p class="card-text">Increase Emotional Balance, Love & Understanding In Rel...</p>
+                <button class="button">Book Now</button>
+            </div>
+        </a>
+        
+    </div>
+    <div class="card">
+        <img src="https://dummyimage.com/300x200/007bff/fff" alt="Card Image">
+        <div class="card-content">
+            <h2 class="card-title">06 Aug</h2>
+            <p class="card-text">Hanuman Jaisi Shakti Paayein</p>
+            <p class="card-text">Hanuman Chalisa and Aarti</p>
+            <p class="card-text">Get Rid of Health Issues & Attract a Healthy Body, Mind & ...</p>
+            <button class="button">Book Now</button>
+        </div>
+    </div>
+    <div class="card">
+        <img src="https://dummyimage.com/300x200/007bff/fff" alt="Card Image">
+        <div class="card-content">
+            <h2 class="card-title">07 Aug</h2>
+            <p class="card-text">Meetha Chadaye, Meetha Fal Paayein</p>
+            <p class="card-text">Ganesh Ji ko Laddoo Chadhaye</p>
+            <p class="card-text">Ganesh Jii Ko Laddoo Arpan Karein Aur Ghar Mai Khushal...</p>
+            <button class="button">Book Now</button>
+        </div>
+    </div>
+    <div class="card">
+        <img src="https://dummyimage.com/300x200/007bff/fff" alt="Card Image">
+        <div class="card-content">
+            <h2 class="card-title">07 Aug</h2>
+            <p class="card-text">Card Title</p>
+            <p class="card-text">Card Description</p>
+            <button class="button">Book Now</button>
+        </div>
+    </div>
+    <div class="card">
+        <img src="https://dummyimage.com/300x200/007bff/fff" alt="Card Image">
+        <div class="card-content">
+            <h2 class="card-title">07 Aug</h2>
+            <p class="card-text">Card Title</p>
+            <p class="card-text">Card Description</p>
+            <button class="button">Book Now</button>
+        </div>
+    </div>
+</div>

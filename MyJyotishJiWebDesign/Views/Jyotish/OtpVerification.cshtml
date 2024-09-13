@@ -1,0 +1,167 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+}
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/MyJyotishJiWebDesign.styles.css" asp-append-version="true" />
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 400px;
+        padding: 20px;
+        background: #ffffff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
+
+    .padding_desktop_view {
+        padding: 20px;
+    }
+
+    .otp_sent_number {
+        font-size: 16px;
+        margin-bottom: 20px;
+    }
+
+    .mobile-number {
+        font-weight: bold;
+    }
+
+    .otp_enter_section {
+        margin-top: 20px;
+    }
+
+    .otp_enter_row {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .otp-input {
+        width: 50px;
+        height: 50px;
+        text-align: center;
+        font-size: 24px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        margin: 0 5px;
+        outline: none;
+    }
+
+        .otp-input:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+    .opt_submit_btn {
+        width: 100%;
+        padding: 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        cursor: not-allowed;
+        margin-top: 20px;
+    }
+
+        .opt_submit_btn:enabled {
+            cursor: pointer;
+        }
+
+    .resend-otp-row {
+        margin-top: 20px;
+    }
+
+    .resend_otp_available {
+        font-size: 14px;
+        color: #333;
+    }
+
+    .text-danger {
+        color: #dc3545;
+    }
+
+    .bnts_recent_otp {
+        width: 100%;
+        padding: 10px;
+        background-color: #6c757d;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        cursor: not-allowed;
+        margin-top: 10px;
+    }
+
+        .bnts_recent_otp:enabled {
+            cursor: pointer;
+        }
+</style>
+<div class="container">
+    <div class="padding_desktop_view">
+        <h6 class="otp_sent_number">
+            OTP sent to
+            <span class="mobile-number">+91-7985738804</span>
+        </h6>
+        <div class="otp_enter_section">
+            <form novalidate autocomplete="off">
+                <div class="otp_enter_row">
+                    <input autocomplete="off" id="otp1" inputmode="numeric" name="otp1" type="text" maxlength="1" class="otp-input">
+                    <input autocomplete="off" id="otp2" inputmode="numeric" name="otp2" type="text" maxlength="1" class="otp-input">
+                    <input autocomplete="off" id="otp3" inputmode="numeric" name="otp3" type="text" maxlength="1" class="otp-input">
+                    <input autocomplete="off" id="otp4" inputmode="numeric" name="otp4" type="text" maxlength="1" class="otp-input">
+                </div>
+                <a href="/Jyotish/Register" class="btn btn-success">
+                    LOGIN / NEXT
+                </a>
+
+            </form>
+            <div class="resend-otp-row">
+                <div class="resend-otp-text">
+                    <h6 class="resend_otp_available">
+                        Resend OTP available in
+                        <span class="text-danger">40s</span>
+                    </h6>
+                </div>
+                <div class="recent_otp_sms_call">
+                    <button type="button" class="bnts_recent_otp" disabled>Resend OTP</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+
+<script>
+    // JavaScript for input field focus handling (optional)
+    document.querySelectorAll('.otp-input').forEach((input, index, inputs) => {
+        input.addEventListener('input', () => {
+            if (input.nextElementSibling && input.value.length === 1) {
+                input.nextElementSibling.focus();
+            }
+            if (input.previousElementSibling && input.value.length === 0) {
+                input.previousElementSibling.focus();
+            }
+        });
+    });
+</script>

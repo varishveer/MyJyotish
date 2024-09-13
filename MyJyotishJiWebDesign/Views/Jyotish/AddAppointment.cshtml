@@ -1,0 +1,91 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "JyotishLayout";
+}
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Schedule an Appointment</h5>
+            <form id="appointmentForm">
+                <div class="form-group">
+                    <label for="mode">Mode</label>
+                    <select class="form-control" id="mode">
+                        <option>Online</option>
+                        <option>Offline</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="username">Name</label>
+                    <input type="text" class="form-control" id="username" placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label for="mobile">Mobile No.</label>
+                    <input type="number" class="form-control" id="mobile" placeholder="Enter your mobile number">
+                </div>
+                <div class="form-group">
+                    <label for="date">Date and Time</label>
+                    <input type="datetime-local" class="form-control" id="date">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="problems">Problems</label>
+                    <input type="text" class="form-control" id="problems" placeholder="Describe your problems">
+                </div>
+                <div class="form-group">
+                    <label for="amount">Amount Charged</label>
+                    <input type="number" class="form-control" id="amount" placeholder="Enter amount charged">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#appointmentForm').on('submit', function (event) {
+            event.preventDefault(); // Prevent default form submission
+          
+
+            // Capture form data
+            var formData = {
+                mode: $('#mode').val(),
+                name: $('#username').val(),
+                mobile: $('#mobile').val(),
+                dateTime: $('#date').val(),
+                email: $('#email').val(),
+                jyotishEmail: localStorage.getItem('userEmail'),
+                problem: $('#problems').val(),
+                amount: $('#amount').val()
+            };
+          
+            // Send data using AJAX
+            $.ajax({
+                url: 'https://localhost:7118/Api/Jyotish/AddAppointment', // Replace with your API endpoint
+                type: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token2")}`, // Example of an authorization header
+                    'Content-Type': 'application/json', // Example of a content type header
+
+                },
+                data: JSON.stringify(formData),
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+               
+                success: function (response) {
+                    console.log('Form submitted successfully:', response.data);
+                    alert('Appointment booked successfully!');
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error submitting form:', error, status, xhr);
+                    alert('An error occurred while submitting the form. Please try again.');
+                }
+            });
+        });
+    });
+</script>

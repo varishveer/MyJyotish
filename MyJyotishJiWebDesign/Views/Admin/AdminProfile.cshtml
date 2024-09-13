@@ -1,0 +1,97 @@
+﻿@{
+    Layout = "AdminLayout";
+}
+<style>
+    .outerDiv {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .profile-header {
+        display: flex;
+        align-items: center;
+        border-bottom: 2px solid #eee;
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+    }
+
+    .profile-picture {
+        flex: 1;
+        text-align: center;
+    }
+
+        .profile-picture img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #ddd;
+        }
+
+    .profile-info {
+        flex: 2;
+        padding-left: 20px;
+    }
+
+        .profile-info h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .profile-info p {
+            margin: 5px 0;
+            color: #555;
+        }
+
+</style>
+<div class="outerDiv">
+    <div class="container">
+        <div class="profile-header">
+            <div class="profile-picture">
+                <img src="~/Img/Sample.jpg" alt="Profile Picture">
+            </div>
+            <div id="DetailsDiv" class="profile-info">
+                
+              
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+      
+        var email = localStorage.getItem('userEmail');
+        $.ajax({
+            url: `https://localhost:7118/api/Admin/Profile?email=${encodeURIComponent(email)}`,
+            type: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Example of an authorization header
+                'Content-Type': 'application/json', // Example of a content type header
+
+            },
+            success: function (response) {
+                if (response.success) {
+                    let details = `<h1>Name: ${response.data.name}</h1><p>Email: ${response.data.email}</p>`;
+                    $('#DetailsDiv').html(details);
+                } else {
+                    console.error('Failed to retrieve profile:', response);
+                }
+            },
+            error: function (errormessage) {
+                console.error('Error fetching data:', errormessage.responseText);
+            }
+        });
+    });
+</script>

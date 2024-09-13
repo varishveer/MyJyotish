@@ -1,0 +1,274 @@
+﻿@{
+    Layout = "PendingJyotishLayout";
+}
+<div class="container mt-2">
+    <h1 class="mb-4">Update Profile Information</h1>
+    <form id="profileUpdateForm">
+        <div class="row">
+            <!-- Personal Information Section -->
+            <div class="col-md-12 col-lg-6">
+                <div class="profile-card bg-light rounded p-3 mb-4">
+                    <h4 class="mb-3">Personal Information</h4>
+                    <div class="form-group mb-3">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" class="form-control" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="gender">Gender:</label>
+                        <select id="gender" name="gender" class="form-control" required>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="dateOfBirth">Date of Birth:</label>
+                        <input type="date" id="dateOfBirth" name="dateOfBirth" class="form-control" required>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="mobile">Mobile:</label>
+                        <input type="tel" id="mobile" name="mobile" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="expertise">Expertise:</label>
+                        <select id="expertise" name="expertise" class="form-control">
+                            <option value="">Select Expertise</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="country">Country:</label>
+                        <select id="country" name="country" class="form-control">
+                            <option value="">Select Country</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="state">State:</label>
+                        <select id="state" name="state" class="form-control" disabled>
+                            <option value="">Select State</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="city">City:</label>
+                        <select id="city" name="city" class="form-control" disabled>
+                            <option value="">Select City</option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="language">Language:</label>
+                        <input type="text" id="language" name="language" class="form-control" required>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Profile Image Section -->
+            <div class="col-md-12 col-lg-6">
+                <div class="profile-card bg-light rounded p-3 mb-4">
+                    <h4 class="mb-3">Profile Image</h4>
+                    <div class="form-group mb-3">
+                        <label for="profileImage">Upload New Image:</label>
+                        <input type="file" id="profileImage" name="profileImage" class="form-control">
+                    </div>
+                    <img id="profileImageUrl" src="https://via.placeholder.com/300" alt="Profile Image" class="img-fluid">
+                </div>
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary">Update Profile</button>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var token = localStorage.getItem('Token3');
+        var email = localStorage.getItem("userEmail");
+
+        // Load Profile Data on Page Load
+        function loadProfileData() {
+            $.ajax({
+                url: 'https://localhost:7118/Api/PendingJyotish/Profile',
+                type: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                data: { Email: email }, // Query string parameter
+                success: function (response) {
+                    var data = response.data;
+                    $('#name').val(data.name);
+                    $('#gender').val(data.gender);
+                    $('#dateOfBirth').val(data.dateOfBirth);
+                    $('#mobile').val(data.mobile);
+                    $('#language').val(data.language);
+                    $('#expertise').val(data.expertise);
+                    $('#country').val(data.country);
+                    $('#state').val(data.state);
+                    $('#city').val(data.city);
+
+                    if (data.profileImageUrl) {
+                        $('#profileImageUrl').attr('src', data.profileImageUrl);
+                    }
+
+                    loadStates(data.country);
+                    loadCities(data.state);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error('Error fetching profile data:', textStatus, errorThrown);
+                }
+            });
+        }
+
+        // Load Expertise
+        function loadExpertise() {
+            $.ajax({
+                url: 'https://localhost:7118/Api/Jyotish/Expertise',
+                type: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                success: function (response) {
+                    var expertiseDropdown = $('#expertise');
+                    expertiseDropdown.empty().append('<option value="">Select Expertise</option>');
+                    response.data.forEach(expertise => {
+                        expertiseDropdown.append(new Option(expertise.name, expertise.name));
+                    });
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error('Error fetching expertise:', textStatus, errorThrown);
+                }
+            });
+        }
+
+        // Load Countries
+        function loadCountries() {
+            $.ajax({
+                url: 'https://localhost:7118/Api/Jyotish/Country',
+                type: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                success: function (response) {
+                    var countryDropdown = $('#country');
+                    countryDropdown.empty().append('<option value="">Select Country</option>');
+                    response.data.forEach(country => {
+                        countryDropdown.append(new Option(country.name, country.id));
+                    });
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error('Error fetching countries:', textStatus, errorThrown);
+                }
+            });
+        }
+
+        // Load States
+        function loadStates(countryId) {
+            $.ajax({
+                url: `https://localhost:7118/Api/Jyotish/State`,
+                type: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                data: { Id: countryId }, // Query string parameter
+                success: function (response) {
+                    var stateDropdown = $('#state');
+                    stateDropdown.empty().append('<option value="">Select State</option>');
+                    response.data.forEach(state => {
+                        stateDropdown.append(new Option(state.name, state.id));
+                    });
+                    stateDropdown.prop('disabled', false);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error('Error fetching states:', textStatus, errorThrown);
+                }
+            });
+        }
+
+        // Load Cities
+        function loadCities(stateId) {
+            $.ajax({
+                url: `https://localhost:7118/Api/Jyotish/City`,
+                type: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                data: { Id: stateId }, // Query string parameter
+                success: function (response) {
+                    var cityDropdown = $('#city');
+                    cityDropdown.empty().append('<option value="">Select City</option>');
+                    response.data.forEach(city => {
+                        cityDropdown.append(new Option(city.name, city.id));
+                    });
+                    cityDropdown.prop('disabled', false);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error('Error fetching cities:', textStatus, errorThrown);
+                }
+            });
+        }
+
+        // Event Listeners
+        $('#country').on('change', function () {
+            const countryId = $(this).val();
+            if (countryId) {
+                loadStates(countryId);
+            } else {
+                $('#state').empty().append('<option value="">Select State</option>').prop('disabled', true);
+                $('#city').empty().append('<option value="">Select City</option>').prop('disabled', true);
+            }
+        });
+
+        $('#state').on('change', function () {
+            const stateId = $(this).val();
+            if (stateId) {
+                loadCities(stateId);
+            } else {
+                $('#city').empty().append('<option value="">Select City</option>').prop('disabled', true);
+            }
+        });
+
+        // Submit Form Data
+        $('#profileUpdateForm').on('submit', function (event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Create a FormData object from the form
+            var formData = new FormData(this);
+            formData.append('email', email);
+
+            // If you need to handle the profile image separately
+            var profileImage = $('#profileImage')[0].files[0];
+            if (profileImage) {
+                formData.append('Image', profileImage);
+            }
+
+            // Send the data via AJAX
+            $.ajax({
+                url: 'https://localhost:7118/Api/PendingJyotish/UpdateProfile',
+                type: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                data: formData,
+                processData: false, // Prevent jQuery from automatically processing the data
+                contentType: false, // Prevent jQuery from setting content type, as it is handled by FormData
+                success: function (response) {
+                    console.log('Profile updated successfully:', response);
+                    alert('Profile updated successfully!');
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error('Error updating profile:', textStatus, errorThrown);
+                    alert('There was a problem updating your profile. Please try again.');
+                }
+            });
+        });
+
+        // Load data on page load
+        loadProfileData();
+        loadExpertise();
+        loadCountries();
+    });
+</script>

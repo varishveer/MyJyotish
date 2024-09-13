@@ -1,0 +1,469 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<style>
+   
+    .outerDiv {
+        font-family: sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f2f2f2;
+    }
+
+    .container {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    .section {
+        background-color: #fff;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    p {
+        color: #555;
+        line-height: 1.6;
+    }
+
+    .form-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    button {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .saved-kundli {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+        .saved-kundli h2 {
+            margin-bottom: 10px;
+        }
+
+    .search-input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    .recently-opened {
+        margin-top: 15px;
+    }
+
+        .recently-opened p {
+            margin-bottom: 0;
+        }
+
+    .visit-here-button {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-align: center;
+        display: block;
+        margin: 20px auto;
+    }
+
+    .faq-container {
+        background-color: #fff;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+        .faq-container h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+    .faq-question {
+        color: #555;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    .faq-answer {
+        color: #555;
+        margin-bottom: 15px;
+    }
+
+    .astrotalk-container {
+        background-color: #fff;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+        .astrotalk-container h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+    .astrotalk-question {
+        color: #555;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    .astrotalk-answer {
+        color: #555;
+        margin-bottom: 15px;
+    }
+
+    .astrotalk-logo {
+        width: 50px;
+        height: 50px;
+        margin-right: 10px;
+    }
+
+    .astrotalk-nav {
+        display: flex;
+        justify-content: center;
+        margin-top: 15px;
+    }
+
+        .astrotalk-nav a {
+            color: #007bff;
+            margin-right: 15px;
+            text-decoration: none;
+        }
+
+            .astrotalk-nav a:hover {
+                text-decoration: underline;
+            }
+
+    .kundli-matching-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+    .kundli-matching-button {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .horoscopes-dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .horoscopes-dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+
+        .horoscopes-dropdown-content a {
+            color: #333;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+            .horoscopes-dropdown-content a:hover {
+                background-color: #f1f1f1;
+            }
+
+    .horoscopes-dropdown:hover .horoscopes-dropdown-content {
+        display: block;
+    }
+
+    .astro-blog-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 15px;
+    }
+
+        .astro-blog-nav a {
+            color: #007bff;
+            margin-right: 15px;
+            text-decoration: none;
+        }
+
+            .astro-blog-nav a:hover {
+                text-decoration: underline;
+            }
+
+    .new-button {
+        background-color: #007bff;
+        color: #fff;
+        padding: 5px 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 12px;
+    }
+
+    .eng-dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .eng-dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 100px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+
+        .eng-dropdown-content a {
+            color: #333;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+            .eng-dropdown-content a:hover {
+                background-color: #f1f1f1;
+            }
+
+    .eng-dropdown:hover .eng-dropdown-content {
+        display: block;
+    }
+
+    .eng-icon {
+        width: 20px;
+        height: 20px;
+    }
+</style>
+
+        <div class="outerDiv">
+    <div class="container">
+        <h1>Free Kundli Online</h1>
+        <p>Get instant & accurate, Janam Kundli</p>
+        <div class="section">
+            <h2>Free Kundli Online - Get Your Detailed Birth Chart with Predictions</h2>
+            <p>Looking for your free Kundli from expert astrologers? Then you have come to the right place. The online free kundali available on Astrotalk is a 100% free and authentic free Kundli that has been prepared after consulting more than 50 expert astrologers on board. The free kundli is such that it can give you a glimpse into various aspects of your life such as your career, love life, marriage, business and much more. The online kundli prepared by the free Kundali software here is no less than any traditional Kundli and can also be used for purposes like matching making, kundali matching for marriage or simply making future predictions.</p>
+            <p>Talking about future predictions, the kundali catered by Astrotalk to you is such that it considers the movement of all the planets in the native's life from the beginning of his or her life till as far as 100 years. Doing so helps you understand the reasons behind not only the ongoing circumstances but also what's to come for you in the future. So if in any way you are confused about life, the online kundli can be your saviour. Having said that, make sure you try the free online kundli, and let us know what you feel about it.</p>
+            <div class="form-container">
+                <div>
+                    <h2>New Kundli</h2>
+                    <form>
+                        <div class="form-group">
+                            <label for="name">Name*</label>
+                            <input type="text" id="name" placeholder="Enter Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="gender">Gender*</label>
+                            <select id="gender">
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="birth-details">Birth Details</label>
+                            <div class="birth-details">
+                                <div class="form-group">
+                                    <label for="day">Day*</label>
+                                    <select id="day">
+                                        <option value="1">1</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="month">Month*</label>
+                                    <select id="month">
+                                        <option value="jan">Jan</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="year">Year*</label>
+                                    <select id="year">
+                                        <option value="1990">1990</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="hour">Hour*</label>
+                                    <select id="hour">
+                                        <option value="15">15</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="minute">Minute*</label>
+                                    <select id="minute">
+                                        <option value="22">22</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="second">Second</label>
+                                    <select id="second">
+                                        <option value="10">10</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="birth-place">Birth Place*</label>
+                            <input type="text" id="birth-place" placeholder="Enter your birth place">
+                        </div>
+                        <button type="submit">Generate Horoscope</button>
+                    </form>
+                </div>
+                <div class="saved-kundli">
+                    <h2>Saved Kundli</h2>
+                    <div class="search-input">
+                        <input type="text" placeholder="Search kundli by name">
+                    </div>
+                    <div class="recently-opened">
+                        <h3>Recently Opened</h3>
+                        <p>No sufficient data available!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="visit-here-button">
+                Want to know more about kundli
+            </div>
+        </div>
+        <div class="section">
+            <h2>Online Free Kundli For Future Predictions</h2>
+            <p>Get Your Kundli by Date of Birth</p>
+            <p>The Kundli of a person is one of the most sought aspects of astrology. A Kundali entails the details about the positions of stars and planets at the time of your birth based on which further predictions are made. And with further predictions, we mean predictions about different aspects of one's life like love, career, health, business, finance, and even marriage. Simply said, Kundli making is a necessary thing for any individual and is likely to improve their decision-making capabilities gradually in the course of time.</p>
+            <p>A Janam Kundli is made after studying the exact position of planets at the time you were born and based on the same, one's Sun sign, Moon sign, and other such astrological aspects are listed. The Kundali is a co-existence of predictions and charts that help the astrologer learn about what your future would be like, the times you will have to grind harder, and also the times when luck will be by your side in abundance.</p>
+            <p>However, with the culture shift, people are getting very tech-savvy and seek things under their thumb. And for the same reason, the Janam Kundali making process has also gone online, making it more pocket-friendly, accessible, and detailed. We at AstroTalk, for the convenience of the huge user base of ours, provide them with free Janam kundali online so anyone and everyone has the luxury of learning more about themselves and thus can plan their life better.</p>
+            <p>However, we also often bump into people who wonder if this online kundali astrology is accurate and if it has the same essence of the physical Kundli making process? Or is getting a Kundli made by a pandit or Vedic astrologer still the best option? To be honest, a Kundli made by a Vedic astrologer surely takes the top spot (which our astrologers can make for you), but an online Kundli software is no less when it comes to precision. Honestly, an online Kundli can be more detailed when compared to the physical ones.</p>
+            <p>To state the obvious, just like a physical Kundli is made by learned Vedic astrologers and pandits, similarly, an online Kundli too is also prepared as per the astrological predictions by the astrologers. What changes is only the medium of sharing that information with you, i.e. digital? The digitalisation of Kundli is to only allow you more benefits like the availability of information in multiple languages.</p>
+            <p>And anyway, one can always get their physical Janam Kundali report made by our astrologers, which will reach you physically.</p>
+            <h3>How To Create a Free Online Janam Kundli?</h3>
+            <p>Creating an online Kundli for yourself is relatively easy. Honestly, butter-easy. All you need to do to make your online Janam Kundli with AstroTalk is simply go to the 'Kundli' option and Insert the requested information. The requested information would be your date of birth, time of your birth, etc. The correct date and time allow precise predictions.</p>
+            <p>Once you have filled in the details, all you need to do is click submit. Once you click submit, within seconds, you will find a detailed Janam Kundli of yourself. Besides textual content (that will help you understand what strong or weak traits you have), the Janam Kundli will also help you with charts that will showcase the position of the different planets in houses based on your current astrological situation, which reveals a whole new dimension of information.</p>
+            <p>The free Janam Kundli you get on AstroTalk, though, is made after a precise study of all the scientific methods but when it comes to writing it down, the study is portrayed in a very simple language so you can understand it without any hassle. However, just in case you hit a snag or can't understand what it means, simply chat or ring our astrologers to help you with your queries.</p>
+            <p>Besides getting a Janam Kundli for yourself, we also offer Janam Kundli matching service to anyone seeking. Janam kundli matching is most important when one plans to get married. Matching of kundlis is done to ensure the girl and boy planning to get married are compatible with each other. This, however, doesn't mean that if kundli doesn't match one shouldn't marry the other person. But in case kundli doesn't match, an astrologer can let you know why it did not, and also recommend remedies for the same.</p>
+            <p>Janam Kundli matching is related to Gun matching. Janam Kundli of two people, when matched, shows how many guns of those people match. Based on this, marriages are fixed. With Janam Kundli matching, you can also understand how being Manglik of two people will affect each other, what could be the effect of Manglik dosh on you, and remedies to get rid of Manglik dosha.</p>
+            <p>These were just a handful of times when Janam Kundli could come in handy. So if looking to get one for yourself, get in touch with our astrologers for the best advice and service.</p>
+            <p>To get your online Janam Kundli, Kundli prediction, and kundali reading, you can either chat with our astrologer or talk to our astrologer. For free online Kundli making, you can also visit the free Janam Kundli chart option and get a personalised free Janam kundali for yourself by our Janam Kundli maker software. You can get free kundali check and free Kundli prediction.</p>
+        </div>
+        <div class="section faq-container">
+            <h2>FAQ free Kundli</h2>
+            <div class="faq-question">
+                Q 1. What is Janam Kundli?
+            </div>
+            <div class="faq-answer">
+                Kundli is a chart prepared in astrology depending on the precise date, place, and time of birth of an individual. It figures out the placement of all the planets and signs, along with the Sun and Moon at the time of your birth. Along with all this, it also shows the other astrological aspects and relevant information about a newborn individual. With all these details, astrologers calculate your ascendant status as well as your rising sign of the native. Also, it provides a diligent insight into how a person would become, how would you do in your life-future, and how your life's scenario is in the present.
+            </div>
+            <div class="faq-question">
+                Q 2. What is Dasamsa or D10 Chart in Kundli reading?
+            </div>
+            <div class="faq-answer">
+                A sign is separated into ten uniform parts to create the D10 chart in astrology. The Dasamsa chart is prepared to depend upon the 10th distribution of the zodiac sign. If the Kundli analysis is done using the Dasamsa chart, it lets you look into your professional accomplishments and success with utmost detail.
+            </div>
+            <div class="faq-question">
+                Q 3. What is Dasha in Kundli analysis?
+            </div>
+        </div>
+        <div class="section astrotalk-container">
+            <h2>◉ Astrotalk</h2>
+            <div class="astrotalk-question">
+                Q 4. How to know Mahadasha in Kundli?
+            </div>
+            <div class="astrotalk-answer">
+                There is a specific procedure in Vedic astrology to find out the Mahadasha period. According to it, 3 Nakshatras are proportioned out to each planet, which makes the number of Nakshatras count to 27 for all the nine planets. So, the Mahadasha of any planet depends on the position of the Moon in a particular Nakshatra.
+            </div>
+            <div class="astrotalk-question">
+                Q 5. What are Yogas in Kundli reading?
+            </div>
+            <div class="astrotalk-answer">
+                Yogas are the positive/negative influences of the planets that are present in the horoscope or birth chart of an individual. It could be both auspicious as well as inauspicious. The inauspicious ones are known as the Dosha and generally impact the life of the person in a negative manner.
+            </div>
+            <div class="astrotalk-question">
+                Q 6. What are the signs of Mangal Dosh?
+            </div>
+            <div class="astrotalk-answer">
+                Signs of Mangal Dosh, also known as Manglik Dosha, are believed to include certain astrological conditions where the planet Mars (Mangal) has a malefic influence. Individuals with Mangal Dosh are often advised to consider matching their Kundlis with someone else having the same dosha or perform remedies to mitigate its effects for a successful marriage.
+            </div>
+            <div class="kundli-matching-container">
+                <button class="kundli-matching-button">Free Kundli</button>
+                <button class="kundli-matching-button">Kundli Matching</button>
+                <div class="horoscopes-dropdown">
+                    <button class="kundli-matching-button">Horoscopes</button>
+                    <div class="horoscopes-dropdown-content">
+                        <a href="#">Daily Horoscope</a>
+                        <a href="#">Weekly Horoscope</a>
+                        <a href="#">Monthly Horoscope</a>
+                    </div>
+                </div>
+                <div class="eng-dropdown">
+                    <button class="kundli-matching-button">Eng▾</button>
+                    <div class="eng-dropdown-content">
+                        <a href="#">Hindi</a>
+                        <a href="#">Gujarati</a>
+                        <a href="#">Marathi</a>
+                    </div>
+                </div>
+            </div>
+            <div class="astro-blog-nav">
+                <a href="#">Chat with Astrologer</a>
+                <a href="#">Talk to Astrologer</a>
+                <a href="#">Book a Pooja <span class="new-button">New</span></a>
+               
+                <a href="#">Blog</a>
+            </div>
+        </div>
+    </div>
+        </div>

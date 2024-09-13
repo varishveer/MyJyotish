@@ -1,0 +1,925 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    Layout = null;
+}
+<html>
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+   
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+    <link href="~/css/index.css" rel="stylesheet" />
+
+</head>
+    <body>
+        <!-- Nav Bar-->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top p-0" style="background-color:#fde0b6">
+        <div class="container-fluid">
+            <a class="navbar-brand p-0" href="#"> <img src="https://api.myjyotishg.in/Images/Logo.png" width="70" height="40" /></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Language
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="languageDropdown">
+                            <li><a class="dropdown-item" href="#">English</a></li>
+                            <li><a class="dropdown-item" href="#">Hindi</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Book a Pooja</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Free Kundli</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Kundli Matching</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="horoscopeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Horoscope
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="horoscopeDropdown">
+                            <li><a class="dropdown-item" href="#">Today</a></li>
+                            <li><a class="dropdown-item" href="#">Weekly</a></li>
+                            <li><a class="dropdown-item" href="#">Overall</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Chat with Astrologer</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Call with Astrologer</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Blog</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="LoginDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Login
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="LoginDropdown">
+                            <li><a class="dropdown-item" href="#">User</a></li>
+                            <li><a class="dropdown-item" href="#">Astrologer</a></li>
+                        </ul>
+                    </li>
+                    <button class="btn btn-outline-dark ms-3 border-0" id="toggleSearch"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="m19.485 20.154l-6.262-6.262q-.75.639-1.725.989t-1.96.35q-2.402 0-4.066-1.663T3.808 9.503T5.47 5.436t4.064-1.667t4.068 1.664T15.268 9.5q0 1.042-.369 2.017t-.97 1.668l6.262 6.261zM9.539 14.23q1.99 0 3.36-1.37t1.37-3.361t-1.37-3.36t-3.36-1.37t-3.361 1.37t-1.37 3.36t1.37 3.36t3.36 1.37" /></svg></button>
+
+                </ul>
+             
+            </div>
+        </div>
+    </nav>
+
+
+   
+
+
+    <!-- Search Bar -->
+    @* <div class="container-fluid-fluid justify-content-center " id="searchcontainer-fluid">
+        <div class="container-fluid">
+            <div class="justify-content-center" id="searchForm">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </div>
+        </div>
+    </div>  *@
+
+    <div class="container-fluid" id="searchcontainer">
+        <div class="container d-flex justify-content-center">
+            <div id="searchForm" class=" justify-content-center align-items-center">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" style="height:30px">
+                <button id="SearchBoxIcon" style="margin-left:-30px" class="border-0"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+        </div>
+    </div>
+
+ 
+     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            var toggleIcon = document.getElementById('SearchBoxIcon');
+            var toggleButton = document.getElementById('toggleSearch');
+            var searchForm = document.getElementById('searchForm');
+
+            toggleButton.addEventListener('click', function () {
+                if (searchForm.style.display === 'none' || searchForm.style.display === '') {
+                    searchForm.style.display = 'flex';
+                  
+                } else {
+                    searchForm.style.display = 'none';
+                 
+                }
+            });
+            toggleIcon.addEventListener('click', function () {            
+                    searchForm.style.display = 'none';
+            });
+        });
+        
+    </script> 
+
+
+     <!-- Book A Pooja Section -->
+    <div id="astroBookPoojacontainer-fluid" class="fixed-section rounded" >
+        <div id="astroBookPoojaContent" class="content-container-fluid p-0 m-0">
+            
+            <img src="https://api.myjyotishg.in/Images/PoojaSection.png" class="img-fluid" />
+            <p>Book Pooja</p>
+           
+           
+        </div>
+       @*  <svg xmlns="http://www.w3.org/2000/svg" id="astroBookPoojaToggle" class="btn btn-outline-dark border-0 p-0 m-0" width="3em" height="3em" viewBox="0 0 64 64"><circle cx="32" cy="32" r="30" fill="#4fd1d9" /><path fill="#fff" d="M33.7 16L49 32L33.7 48V37.4H15V27.1h18.7z" /></svg> *@
+      
+    </div>
+
+
+    <style>
+        .fixed-section {
+            position: fixed;
+            top: 150px;
+            right: 0;
+            width: 100px;
+            height: 140px;
+            background-color: rgb(253, 224, 182);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border: 1px solid #ddd;
+            z-index: 1000;
+            overflow-y: auto;
+            transition: width 0.3s ease, transform 0.3s ease;
+            text-align:center;
+        }
+
+        .content-container-fluid {
+            padding: 15px;
+        }
+
+        .fixed-section.hidden {
+            transform: translateX(100%);
+            width: 0;
+        }
+    </style>
+
+    <!-- Add this script to handle the show/hide functionality -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var toggleButton = document.getElementById('astroBookPoojaToggle');
+            var section = document.getElementById('astroBookPoojacontainer-fluid');
+
+            toggleButton.addEventListener('click', function () {
+                if (section.classList.contains('hidden')) {
+                    section.classList.remove('hidden');
+                    toggleButton.textContent = 'Hide';
+                } else {
+                    section.classList.add('hidden');
+                    toggleButton.textContent = 'Show';
+                }
+            });
+        });
+    </script>
+ 
+
+    <!-- Banners (Carousel) -->
+    <div id="bannerCarousel" class="carousel slide"  data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="https://api.myjyotishg.in/Images/HomeBanner1.jpg" class="d-block w-100" alt="Banner 1">
+            </div>
+            <div class="carousel-item">
+                <img src="https://api.myjyotishg.in/Images/HomeBanner2.jpg" class="d-block w-100" alt="Banner 2">
+            </div>
+            <div class="carousel-item">
+                <img src="https://api.myjyotishg.in/Images/HomeBanner3.jpg" class="d-block w-100" alt="Banner 3">
+            </div>
+            <div class="carousel-item">
+                <img src="https://api.myjyotishg.in/Images/HomeBanner4.jpg" class="d-block w-100" alt="Banner 4">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#bannerCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+
+
+    <!-- Service Cards -->
+    <div class="container-fluid my-5">
+        <h3 class="text-center mb-5">Our Services</h3>
+        <div class="row text-center justify-content-between">
+            <div class="col-6 col-md-2 mb-4">
+                <img src="https://api.myjyotishg.in/Images/Tabs/Astrology.jpg"
+                     class="card-img-top ServiceCard"
+                     alt="Astrology" />
+                <p class="card-title mt-2">Astrology</p>
+            </div>
+            <div class="col-6 col-md-2 mb-4">
+                <img src="https://api.myjyotishg.in/Images/Tabs/Palmistry.jpg"
+                     class="card-img-top ServiceCard"
+                     alt="Palmistry" />
+                <p class="card-title mt-2">Palmistry</p>
+            </div>
+            <div class="col-6 col-md-2 mb-4">
+                <img src="https://api.myjyotishg.in/Images/Tabs/tarot.png"
+                     class="card-img-top ServiceCard"
+                     alt="Tarot" />
+                <p class="card-title mt-2">Tarot</p>
+            </div>
+            <div class="col-6 col-md-2 mb-4">
+                <img src="https://api.myjyotishg.in/Images/Tabs/vastu.jpg"
+                     class="card-img-top ServiceCard"
+                     alt="Vastu" />
+                <p class="card-title mt-2">Vastu</p>
+            </div>
+            <div class="col-12 col-md-2 mb-4 mx-auto mx-md-0">
+                <img src="https://api.myjyotishg.in/Images/Tabs/Horoscope.jpg"
+                     class="card-img-top ServiceCard"
+                     alt="Horoscope" />
+                <p class="card-title mt-2">Horoscope</p>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <!-- Top Astrologers -->
+    <div class="container-fluid my-5">
+        <h3 class="text-center mb-5">Top Astrologers</h3>
+        <div class="row d-flex justify-content-between">
+            <div class="col-12 col-sm-2 col-md-2 col-lg-2 mb-2 p-1">
+                <div class="card astrologer-card shadow">
+                    <img src="https://api.myjyotishg.in/Images/Astro/Astro6.jpg" class="card-img-top rounded" alt="Astrologer 1">
+                    <div class="card-body p-0">
+                        <h5 class="card-title">Khushi</h5>
+                        <p class="card-text">
+                            Expertise: Vastu <br />City: Delhi <br />Experience: 10 Years <br /> Rating:
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-2 col-md-2 col-lg-2 mb-2 p-1">
+                <div class="card astrologer-card shadow">
+                    <img src="https://api.myjyotishg.in/Images/Astro/Astro8.jpg" class="card-img-top rounded" alt="Astrologer 2">
+                    <div class="card-body p-0">
+                        <h5 class="card-title">Muskan</h5>
+                        <p class="card-text">
+                            Expertise: Palmistry <br />City: Delhi <br />Experience: 10 Years <br /> Rating:
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-2 col-md-2 col-lg-2 mb-2 p-1">
+                <div class="card astrologer-card shadow">
+                    <img src="https://api.myjyotishg.in/Images/Astro/Astro9.jpg" class="card-img-top rounded" alt="Astrologer 3">
+                    <div class="card-body p-0">
+                        <h5 class="card-title">Mahek</h5>
+                        <p class="card-text">
+                            Expertise: Face Reading <br />City: Delhi <br />Experience: 10 Years <br /> Rating:
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-2 col-md-2 col-lg-2 mb-2 p-1">
+                <div class="card astrologer-card shadow">
+                    <img src="https://api.myjyotishg.in/Images/Astro/Astro10.jpg" class="card-img-top rounded" alt="Astrologer 4">
+                    <div class="card-body p-0">
+                        <h5 class="card-title">Sakshi</h5>
+                        <p class="card-text">
+                            Expertise: Tarot <br />City: Delhi <br />Experience: 10 Years <br /> Rating:
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-2 col-md-2 col-lg-2 mb-2 p-1">
+                <div class="card astrologer-card shadow">
+                    <img src="https://api.myjyotishg.in/Images/Astro/Astro11.jpg" class="card-img-top rounded" alt="Astrologer 5">
+                    <div class="card-body p-0">
+                        <h5 class="card-title">Alisha</h5>
+                        <p class="card-text">
+                            Expertise: Vastu <br />City: Delhi <br />Experience: 10 Years <br /> Rating:
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Small Banner -->
+    <div class="container-fluid my-3">
+    <div class="row">
+            <img src="https://api.myjyotishg.in/Images/HomeBanner12.jpg" class="img-fluid" alt="Small Banner">
+    </div>
+    </div>
+
+    <!-- Free Services -->
+   <div class="container-fluid my-5">
+    <h3 class="text-center mb-4">Free Services</h3>
+    <div class="row d-flex justify-content-between">
+        <div class="FreeServicesCol col-6 col-md-2 col-sm-2 col-lg-2 mb-3 p-1">
+            <div class="card service-card shadow">
+                <img src="https://api.myjyotishg.in/Images/Services/HoroscopeFreeService.jpg" class="img-fluid rounded" alt="Today's Horoscope">
+                <div>
+                    <h5 class="card-title free-service-title">Horoscope</h5>
+                </div>
+            </div>
+        </div>
+
+        <div class="FreeServicesCol col-6 col-md-2 col-sm-2 col-lg-2 mb-3 p-1">
+            <div class="card service-card shadow">
+                <img src="https://api.myjyotishg.in/Images/Services/KundaliServiceSection.jpeg" class="img-fluid rounded" alt="Free Kundali">
+                <div>
+                    <h5 class="card-title free-service-title">Free Kundali</h5>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="FreeServicesCol col-6 col-md-2 col-sm-2 col-lg-2 mb-3 p-1">
+            <div class="card service-card shadow">
+                <img src="https://api.myjyotishg.in/Images/Services/KundaliMatchingFreeService.jpeg" class="img-fluid rounded" alt="Kundali Matching">
+                <div>
+                    <h5 class="card-title free-service-title">Kundli Matching</h5>
+                </div>
+            </div>
+        </div>
+
+        <div class="FreeServicesCol col-6 col-md-2 col-sm-2 col-lg-2 mb-3 p-1">
+            <div class="card service-card shadow">
+                <img src="https://api.myjyotishg.in/Images/Services/PanchangFreeService.jpeg" class="img-fluid rounded" alt="Today Pachang">
+                <div>
+                    <h5 class="card-title free-service-title">Todays Panchang</h5>
+                </div>
+            </div>
+        </div>
+
+        <div class="FreeServicesCol col-6 col-md-2 col-sm-2 col-lg-2 mb-3 p-1">
+            <div class="card service-card shadow">
+                <img src="https://api.myjyotishg.in/Images/Services/FestivalCalenderFreeService.jpeg" class="img-fluid rounded" alt="Festival Calendar">
+                <div>
+                    <h5 class="card-title free-service-title">Festival Calendar</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+   
+</style>
+
+
+
+
+    <!-- Services Section -->
+    <div class="container-fluid my-5">
+        <h3 class="text-center mb-5">Services</h3>
+
+        <div class="row SSBgColor rounded p-2 mb-5">
+            <div class="col-md-9">
+                <h3>Astrology</h3>
+                <p style="text-align: justify;">
+                    Astrology explores the influence of celestial bodies on human behavior and events. Rooted in ancient traditions, it involves creating charts based on planetary positions to interpret personality traits and predict future outcomes. Despite its lack of scientific backing, astrology remains popular for offering personal insights and guidance. Many people find meaning in its symbolism and use it for self-reflection and understanding their connection to the universe.<br />
+                    Astrology explores the influence of celestial bodies on human behavior and events. Rooted in ancient traditions, it involves creating charts based on planetary positions to interpret personality traits and predict future outcomes. Despite its lack of scientific backing, astrology remains popular for offering personal insights and guidance. Many people find meaning in its symbolism and use it for self-reflection and understanding their connection to the universe.<br />
+                    Astrology explores the influence of celestial bodies on human behavior and events. Rooted in ancient traditions, it involves creating charts based on planetary positions to interpret personality traits and predict future outcomes. Despite its lack of scientific backing, astrology remains popular for offering personal insights and guidance. Many people find meaning in its symbolism and use it for self-reflection and understanding their connection to the universe.
+                </p>
+            </div>
+            <div class="col-md-3 text-center d-flex flex-column align-items-center justify-content-center p-5">
+                <img src="https://api.myjyotishg.in/Images/Services/AstrologyServices.jpeg" class="img-fluid rounded" alt="Astrology Services Image">
+            </div>
+        </div>
+
+        <div class="row SSBgColor rounded p-2 mb-5">
+            <div class="col-md-3 text-center d-flex flex-column align-items-center justify-content-center p-5">
+                <img src="https://api.myjyotishg.in/Images/Services/PoojaServices.jpeg" class="img-fluid rounded" alt="Pooja Services Image">
+            </div>
+            <div class="col-md-9">
+                <h3>Pooja</h3>
+                <p style="text-align: justify;">
+                    Pooja is a sacred and fundamental ritual in Hinduism, an ancient religion rich in tradition and spiritual practices. It is an act of showing reverence to deities, spirits, or other divine entities through invocations, prayers, songs, and rituals. Pooja can be performed in various settings, whether in the sanctity of one's home, at a temple, or during communal gatherings. The ritual typically includes chanting mantras, lighting oil lamps (diyas), and performing the symbolic washing and dressing of the deity's image or idol.<br />Pooja is a sacred and fundamental ritual in Hinduism, an ancient religion rich in tradition and spiritual practices. It is an act of showing reverence to deities, spirits, or other divine entities through invocations, prayers, songs, and rituals. Pooja can be performed in various settings, whether in the sanctity of one's home, at a temple, or during communal gatherings. The ritual typically includes chanting mantras, lighting oil lamps (diyas), and performing the symbolic washing and dressing of the deity's image or idol.<br />Pooja is a sacred and fundamental ritual in Hinduism, an ancient religion rich in tradition and spiritual practices. It is an act of showing reverence to deities, spirits, or other divine entities through invocations, prayers, songs, and rituals. Pooja can be performed in various settings, whether in the sanctity of one's home, at a temple, or during communal gatherings. The ritual typically includes chanting mantras, lighting oil lamps (diyas), and performing the symbolic washing and dressing of the deity's image or idol.
+                </p>
+            </div>
+        </div>
+
+        <div class="row SSBgColor rounded p-2 mb-5">
+            <div class="col-md-9">
+                <h3>Palmistry</h3>
+                <p style="text-align: justify;">
+                    Palmistry, also known as chiromancy, is the art of interpreting the lines, shapes, and mounts of the hands to gain insight into an individual’s personality and future. This ancient practice dates back to civilizations like the Greeks and Indians, who believed that the hands are a reflection of one's inner self and destiny. Palmists analyze the major lines, along with the mounts and other features of the hand.<br /> Palmistry, also known as chiromancy, is the art of interpreting the lines, shapes, and mounts of the hands to gain insight into an individual’s personality and future. This ancient practice dates back to civilizations like the Greeks and Indians, who believed that the hands are a reflection of one's inner self and destiny. Palmists analyze the major lines, along with the mounts and other features of the hand.<br /> Palmistry, also known as chiromancy, is the art of interpreting the lines, shapes, and mounts of the hands to gain insight into an individual’s personality and future. This ancient practice dates back to civilizations like the Greeks and Indians, who believed that the hands are a reflection of one's inner self and destiny. Palmists analyze the major lines, along with the mounts and other features of the hand.
+                </p>
+            </div>
+            <div class="col-md-3 text-center d-flex flex-column align-items-center justify-content-center p-5">
+                <img src="https://api.myjyotishg.in/Images/Services/horoscope.jpeg" class="img-fluid rounded" alt="Palmistry Services Image">
+            </div>
+        </div>
+
+        <div class="row SSBgColor rounded p-2 mb-5">
+            <div class="col-md-3 text-center d-flex flex-column align-items-center justify-content-center p-5">
+                <img src="https://api.myjyotishg.in/Images/Services/Vastu.jpeg" class="img-fluid rounded" alt="Vastu Services Image">
+            </div>
+            <div class="col-md-9">
+                <h3>Vastu</h3>
+                <p style="text-align: justify;">
+                    Vastu Shastra is an ancient Indian architectural science that focuses on harmonizing human dwellings with natural elements. Rooted in Hindu traditions, Vastu provides guidelines for designing and constructing buildings to ensure balance and positive energy flow. Key principles include placing important rooms in specific directions and ensuring that structures align with natural forces.<br />Vastu Shastra is an ancient Indian architectural science that focuses on harmonizing human dwellings with natural elements. Rooted in Hindu traditions, Vastu provides guidelines for designing and constructing buildings to ensure balance and positive energy flow. Key principles include placing important rooms in specific directions and ensuring that structures align with natural forces.<br />Vastu Shastra is an ancient Indian architectural science that focuses on harmonizing human dwellings with natural elements. Rooted in Hindu traditions, Vastu provides guidelines for designing and constructing buildings to ensure balance and positive energy flow. Key principles include placing important rooms in specific directions and ensuring that structures align with natural forces.<br />Vastu Shastra is an ancient Indian architectural science that focuses on harmonizing human dwellings with natural elements. Rooted in Hindu traditions, Vastu provides guidelines for designing and constructing buildings to ensure balance and positive energy flow. Key principles include placing important rooms in specific directions and ensuring that structures align with natural forces.
+                </p>
+            </div>
+        </div>
+
+        <div class="row SSBgColor rounded p-2 mb-5">
+            <div class="col-md-9">
+                <h3>Tarot</h3>
+                <p style="text-align: justify;">
+                    Tarot is a divination tool that uses a deck of cards, typically consisting of 78 cards, to gain insight into various aspects of life and personal situations. Each card has its own symbolism and meaning, which can be interpreted based on its position in a spread or its relationship to other cards. Tarot readings are often used for guidance and self-reflection.<br />Tarot is a divination tool that uses a deck of cards, typically consisting of 78 cards, to gain insight into various aspects of life and personal situations. Each card has its own symbolism and meaning, which can be interpreted based on its position in a spread or its relationship to other cards. Tarot readings are often used for guidance and self-reflection.<br />Tarot is a divination tool that uses a deck of cards, typically consisting of 78 cards, to gain insight into various aspects of life and personal situations. Each card has its own symbolism and meaning, which can be interpreted based on its position in a spread or its relationship to other cards. Tarot readings are often used for guidance and self-reflection.<br />Tarot is a divination tool that uses a deck of cards, typically consisting of 78 cards, to gain insight into various aspects of life and personal situations. Each card has its own symbolism and meaning, which can be interpreted based on its position in a spread or its relationship to other cards. Tarot readings are often used for guidance and self-reflection.
+                </p>
+            </div>
+            <div class="col-md-3 text-center d-flex flex-column align-items-center justify-content-center p-5">
+                <img src="https://api.myjyotishg.in/Images/Services/Tarot.jpeg" class="img-fluid rounded" alt="Tarot Services Image">
+            </div>
+        </div>
+
+        <div class="row SSBgColor rounded p-2 mb-5">
+            <div class="col-md-3 text-center d-flex flex-column align-items-center justify-content-center p-5">
+                <img src="https://api.myjyotishg.in/Images/Services/KundaliServiceSection.jpeg" class="img-fluid rounded" alt="Kundli Services Image">
+            </div>
+            <div class="col-md-9">
+                <h3>Free Kundli</h3>
+                <p style="text-align: justify;">
+                    Kundali, also known as a natal or birth chart, is a key concept in Vedic astrology. It represents the astrological positions of celestial bodies at the exact moment of an individual's birth. Astrologers use the Kundali to analyze and interpret various influences and trends affecting an individual's personality, potential, and life path.<br />Kundali, also known as a natal or birth chart, is a key concept in Vedic astrology. It represents the astrological positions of celestial bodies at the exact moment of an individual's birth. Astrologers use the Kundali to analyze and interpret various influences and trends affecting an individual's personality, potential, and life path.<br />Kundali, also known as a natal or birth chart, is a key concept in Vedic astrology. It represents the astrological positions of celestial bodies at the exact moment of an individual's birth. Astrologers use the Kundali to analyze and interpret various influences and trends affecting an individual's personality, potential, and life path.<br />Kundali, also known as a natal or birth chart, is a key concept in Vedic astrology. It represents the astrological positions of celestial bodies at the exact moment of an individual's birth. Astrologers use the Kundali to analyze and interpret various influences and trends affecting an individual's personality, potential, and life path.
+                </p>
+            </div>
+            
+        </div>
+
+        <div class="row SSBgColor rounded p-2 mb-5">
+            <div class="col-md-9">
+                <h3>Horoscope</h3>
+                <p style="text-align: justify;">
+                    A horoscope is a chart or diagram that represents the positions of celestial bodies at a specific time, typically at an individual's birth, to provide insights into their personality, life events, and future possibilities. Astrologers interpret these elements to create personalized predictions and guidance.<br />A horoscope is a chart or diagram that represents the positions of celestial bodies at a specific time, typically at an individual's birth, to provide insights into their personality, life events, and future possibilities. Astrologers interpret these elements to create personalized predictions and guidance.<br />A horoscope is a chart or diagram that represents the positions of celestial bodies at a specific time, typically at an individual's birth, to provide insights into their personality, life events, and future possibilities. Astrologers interpret these elements to create personalized predictions and guidance.<br />A horoscope is a chart or diagram that represents the positions of celestial bodies at a specific time, typically at an individual's birth, to provide insights into their personality, life events, and future possibilities. Astrologers interpret these elements to create personalized predictions and guidance.<br />
+                </p>
+            </div>
+            <div class="col-md-3 text-center d-flex flex-column align-items-center justify-content-center p-5">
+                <img src="https://api.myjyotishg.in/Images/Services/Horoscope.jpeg" class="img-fluid rounded" alt="Horoscope Services Image">
+            </div>
+        </div>
+
+        <div class="row SSBgColor rounded p-2 mb-5">
+
+            <div class="col-md-3 text-center d-flex flex-column align-items-center justify-content-center p-5">
+                <img src="https://api.myjyotishg.in/Images/Services/KundaliMatchingFreeService.jpeg" class="img-fluid rounded" alt="Kundli Matching Services Image">
+            </div>
+            <div class="col-md-9">
+                <h3>Kundli Matching</h3>
+                <p style="text-align: justify;">
+                    Kundali matching, also known as horoscope matching, is a traditional practice in Vedic astrology used to assess the compatibility of two individuals, typically before marriage. The matching process examines various factors such as the positions of planets and their influence on different aspects of life to ensure compatibility in areas like health, finances, and emotional connection.<br />
+                    Kundali matching, also known as horoscope matching, is a traditional practice in Vedic astrology used to assess the compatibility of two individuals, typically before marriage. The matching process examines various factors such as the positions of planets and their influence on different aspects of life to ensure compatibility in areas like health, finances, and emotional connection.<br />
+                    Kundali matching, also known as horoscope matching, is a traditional practice in Vedic astrology used to assess the compatibility of two individuals, typically before marriage. The matching process examines various factors such as the positions of planets and their influence on different aspects of life to ensure compatibility in areas like health, finances, and emotional connection.<br />
+                    Kundali matching, also known as horoscope matching, is a traditional practice in Vedic astrology used to assess the compatibility of two individuals, typically before marriage. The matching process examines various factors such as the positions of planets and their influence on different aspects of life to ensure compatibility in areas like health, finances, and emotional connection.
+
+                </p>
+            </div>
+          
+        </div>
+    </div>
+
+
+
+
+
+    <!-- Testimonials -->
+    <div class="container-fluid testimonial-section my-5">
+        <h3 class="text-center mb-4">Testimonials</h3>
+        <div id="testimonialsCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="d-flex justify-content-center">
+                        <div class="testimonial-card text-center">
+                            <img src="https://api.myjyotishg.in/Images/Testimonials/1.png" class="rounded-circle mb-3" alt="Client 1" style="width:100px" />
+                            <h5>John Doe</h5>
+                            <p class="testimonial-text">"The astrology services are accurate and insightful. It has helped me tremendously in understanding my life path."</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="d-flex justify-content-center">
+                        <div class="testimonial-card text-center">
+                            <img src="https://api.myjyotishg.in/Images/Testimonials/5.png" class="rounded-circle mb-3" alt="Client 2" style="width:100px" />
+                            <h5>Jane Smith</h5>
+                            <p class="testimonial-text">"I had a wonderful experience with their tarot reading. It provided me with clarity and guidance."</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="d-flex justify-content-center">
+                        <div class="testimonial-card text-center">
+                            <img src="https://api.myjyotishg.in/Images/Testimonials/6.png" class="rounded-circle mb-3" alt="Client 3" style="width:100px">
+                            <h5>Michael Brown</h5>
+                            <p class="testimonial-text">"Highly recommend their vastu consultation services. My home feels more balanced and peaceful now."</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#testimonialsCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#testimonialsCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+
+
+
+    <style>
+        .accordion-button:not(.collapsed) {
+            background-color: rgba(253, 224, 182, 0.5);
+             /* Background color when active */
+        }
+    </style>
+    <!-- FAQ Section -->
+    <div class="container-fluid faq-section my-5">
+        <h3 class="text-center mb-4">FAQ</h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Why choose Jyotish G?
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body" style="text-align:justify">
+                        Experienced Astrologers: Our team consists of highly qualified and experienced astrologers with deep knowledge of Vedic astrology, ensuring accurate and insightful readings.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        What services does My Jyotish Ji offer?
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body" style="text-align:justify">
+                        My Jyotish Ji provides a range of astrology services including personalized horoscope readings, Kundali matching, Vastu consultations, Tarot readings, and more.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingThree">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree" >
+                        How do I get a consultation on My Jyotish Ji?
+                    </button>
+                </h2>
+                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body" style="text-align:justify">
+                        You can book a consultation through our online platform by selecting your preferred service, scheduling an appointment, and making the payment.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingFour">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour" >
+                        Are the consultations conducted online or in person?
+                    </button>
+                </h2>
+                <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body" style="text-align:justify">
+                        All consultations are conducted online via video call, phone call, or chat, allowing you to receive guidance from the comfort of your home.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingFive">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                        How do I prepare for my astrology consultation?
+                    </button>
+                </h2>
+                <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body " style="text-align:justify">
+                        To prepare, have your birth details (date, time, and place of birth) ready. This information is crucial for accurate readings and predictions.
+                    </div>
+                </div>
+            </div>
+          
+        </div>
+    </div>
+
+
+
+
+
+    <section>
+        <div class="container-fluid my-5 p-4 rounded" style=" background-color: rgba(253, 224, 182,0.5);">
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                    <div class="single-items mb-20">
+                        <div class="items-img">
+                            <h2 class="text-center">Why Choose Us ?</h2>
+                            <p style="text-align: justify;">
+
+                                <q>
+                                    <b>MyjyotishG</b> is a spiritual service platform based in India that offers a variety of astrology-related services and resources. Navigating life’s uncertainties can be challenging, but you don’t have to do it alone. Our team of experienced astrologers is always accessible, providing you with guidance and support at every step of your spiritual journey, offering clarity and reassurance whenever you need it.<br /><br />
+
+                                    Choose MyjyotishG for a spiritual partner that combines traditional wisdom with a personalized approach, ensuring that your life's challenges are addressed with insightful and compassionate solutions.
+                                </q>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                    <div class="single-items">
+                        <div class="items-img">
+                            <h2 class="text-center">
+                                My Jyotish G App
+                            </h2>
+                            <p class="text-center  p-2">
+                                <b>Download the mobile app</b>
+                                <br>
+                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
+                                Ipsum has been the industry's standard dummy text ever since the 1500s,
+                            </p>
+                            <div class="d-flex justify-content-center">
+                                <a href="https://play.google.com/">
+                                    <img src="https://api.myjyotishg.in/Images/Android.png" height="50">
+                                </a>
+                                <a href="https://www.apple.com/in/app-store/">
+                                    <img src="https://api.myjyotishg.in/Images/Iphone.png" class="items-img"
+                                     height="50">
+                                </a>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section >
+        <div class="container-fluid my-5">
+            <div class="mb-4">
+                <h3>Trending Videos</h3>
+                <hr>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-12 mb-3">
+                    <div>
+                        <div class="mb-3">
+                            <iframe class="rounded" width="100%" height="215" src="https://www.youtube.com/embed/CpqQFCIQURY?si=KqEc3aR1J1Adk3p_"></iframe>
+                          
+                        </div>
+                        <div>
+                            <h5><a href="#" style="text-decoration:none;">How To Read Your Own Hand/Palm </a></h5>
+                            <p>Consectetur adipisicing elit. Laborum fuga incidunt laboriosam voluptas iure, delectus..</p>
+                            <a href="#" class="btn btn-danger">Read More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-12 mb-3">
+                    <div>
+                        <div class="mb-3">
+                            <iframe class="rounded" width="100%" height="215" src="https://www.youtube.com/embed/LqEoMx0Cmt8?si=1qnohuRjU-0cvvVh"></iframe>
+                           
+                        </div>
+                        <div>
+                            <h5><a href="#" style="text-decoration:none;">Masterclass on ASTROLOGY | Watch now </a></h5>
+                            <p>Consectetur adipisicing elit. Laborum fuga incidunt laboriosam voluptas iure, delectus..</p>
+                            <a href="#" class="btn btn-danger">Read More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-12 mb-3">
+                    <div>
+                        <div class="mb-3">
+                            <iframe  class="rounded" width="100%" height="215" src="https://www.youtube.com/embed/ynOX3sGnnG0?si=-5EV_ZqjAxdwG0-v"></iframe>
+                     
+                        </div>
+                        <div>
+                            <h5>
+                                <a href="#" style="text-decoration:none;">
+                                    Will we get solution through Astrologer
+                                </a>
+                            </h5>
+                            <p>Consectetur adipisicing elit. Laborum fuga incidunt laboriosam voluptas iure, delectus..</p>
+                            <a href="#" class="btn btn-danger">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <footer class="py-4 px-2">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- 1st Column: Jyotish Services -->
+                <div class="col-md-3">
+                    <h5 class="footer-heading" style="font-weight:bolder">Jyotish Services</h5>
+                    <hr class="footer-line">
+                    <ul class="list-unstyled">
+                        <li class="footer-item"><a href="#">  Astrological Consultation</a></li>
+                        <li class="footer-item"><a href="#">  Personalized Horoscope</a></li>
+                        <li class="footer-item"><a href="#">  Kundali Matching</a></li>
+                        <li class="footer-item"><a href="#">  Vedic Astrology</a></li>
+                        <li class="footer-item"><a href="#">  Palmistry</a></li>
+                        <li class="footer-item"><a href="#">  Numerology</a></li>
+                        <li class="footer-item"><a href="#">  Tarot Card Reading</a></li>
+                        <li class="footer-item"><a href="#">  Face Reading</a></li>
+                        <li class="footer-item"><a href="#">  Birth Chart Analysis</a></li>
+                        <li class="footer-item"><a href="#">  Gemstone Therapy</a></li>
+                    </ul>
+                </div>
+
+                <!-- 2nd Column: Our Services -->
+                <div class="col-md-3">
+                    <h5 class="footer-heading" style="font-weight:bolder">Our Services</h5>
+                    <hr class="footer-line">
+                    <ul class="list-unstyled">
+                        <li class="footer-item"><a href="#">  Pooja and Rituals</a></li>
+                        <li class="footer-item"><a href="#">  Gemstone Suggestions</a></li>
+                        <li class="footer-item"><a href="#">  Astrological Remedies</a></li>
+                        <li class="footer-item"><a href="#">  Muhurta Selection</a></li>
+                        <li class="footer-item"><a href="#">  Vaastu Consultation</a></li>
+                        <li class="footer-item"><a href="#">  Health Astrology</a></li>
+                        <li class="footer-item"><a href="#">  Finance Astrology</a></li>
+                        <li class="footer-item"><a href="#">  Business Astrology</a></li>
+                        <li class="footer-item"><a href="#">  Child Birth Remedies</a></li>
+                        <li class="footer-item"><a href="#">  Dasha Prediction</a></li>
+                    </ul>
+                </div>
+
+                <!-- 3rd Column: Quick Links & Privacy Policy -->
+                <div class="col-md-3">
+                    <h5 class="footer-heading" style="font-weight:bolder">Quick Links</h5>
+                    <hr class="footer-line">
+                    <ul class="list-unstyled">
+                        <li class="footer-item"><a href="#">  About Jyotish G</a></li>
+                        <li class="footer-item"><a href="#">  Astrology Blogs</a></li>
+                        <li class="footer-item"><a href="#">  Contact Jyotish G</a></li>
+                        <li class="footer-item"><a href="#">  FAQ</a></li>
+                    </ul>
+
+                    <h5 class="footer-heading" style="font-weight:bolder">Privacy Policy & Terms</h5>
+                    <hr class="footer-line">
+                    <ul class="list-unstyled">
+                        <li class="footer-item"><a href="#">  Privacy Policy</a></li>
+                        <li class="footer-item"><a href="#">  Terms & Conditions</a></li>
+                    </ul>
+                </div>
+
+                <!-- 4th Column: Contact Info -->
+                <div class="col-md-3">
+                    <h5 class="footer-heading" style="font-weight:bolder">Contact Info</h5>
+                    <hr class="footer-line">
+                   
+                    <p class="footer-item"> <i class="fa-solid fa-location-dot" ></i> &nbsp; City of Stars, India</p>
+                    <p class="footer-item"><a href="mailto:jyotishg@astroservices.com"> <i class="fa-solid fa-envelope"></i> &nbsp;jyotishg@astroservices.com</a></p>
+                    <p class="footer-item"><a href="tel:+919876543210"> <i class="fa-solid fa-phone"></i> &nbsp;+(91) 9876543210</a></p>
+                    <p class="footer-item"><a href="http://www.myjyotishg.in"><i class="fa-brands fa-edge"></i>&nbsp;www.myjyotishg.in</a></p>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center mt-3">
+                <div class="btn-toolbar">
+
+                    <a class="btn btn-md-square rounded-circle mx-2" href="#" target="_blank" title="facebook">
+                        <img src="https://api.myjyotishg.in/Images/Icon/facebook.png" width="30" />
+                    </a>
+
+                    <a class="btn  btn-md-square rounded-circle mx-2" href="#" target="_blank" title="instagram">
+                        <img src="https://api.myjyotishg.in/Images/Icon/Instagram.png" width="30" />
+                    </a>
+
+                    <a class="btn  btn-md-square rounded-circle mx-2" title="linkedin" href="#" target="_blank">
+                        <img src="https://api.myjyotishg.in/Images/Icon/Linkedin.png" width="30" />
+                    </a>
+
+                    <a class="btn  btn-md-square rounded-circle mx-2" href="#" target="_blank" title="youtube">
+                        <img src="https://api.myjyotishg.in/Images/Icon/Youtube.png" width="30" />
+                    </a>
+
+                    <a class="btn  btn-md-square rounded-circle mx-2" href="#" title="twitter" target="_blank">
+                        <img src="https://api.myjyotishg.in/Images/Icon/twitter.png" width="30" />
+                    </a>
+
+                    <a class="btn  btn-md-square rounded-circle mx-2" href="#" title="pinterest" target="_blank">
+                        <img src="https://api.myjyotishg.in/Images/Icon/pinterest.png" width="30" />
+                    </a>
+
+                    <a class="btn  btn-md-square rounded-circle mx-2" href="#" title="blogger" target="_blank">
+                        <img src="https://api.myjyotishg.in/Images/Icon/blogger.png" width="30" />
+                    </a>
+                </div>
+            </div>
+            <hr style="color:grey" />
+        </div>
+    </footer>
+
+    <div class="container-fluid-fluid bg-black  py-4">
+        <div class="container-fluid">
+            <div class="row g-4 align-items-center">
+                <div class="col-md-10 text-center text-md-start mb-md-0">
+                    <span class="text-body">
+                        <a title="macreel" class="border-bottom text-white" style="text-decoration:none;">
+                            <i class="fas fa-copyright text-light me-2"></i>
+                            2024 - 2025 Macreel Infosoft Pvt . Ltd.
+                        </a>,
+                        All right reserved.
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <style>
+        .footer-heading {
+            color: white;
+            font-size: 18px;
+        }
+
+        .footer-line {
+            border-top: 2px solid white;
+            width: 50%;
+            margin: 5px 0;
+        }
+
+        .footer-item a {
+            color: #b0b0b0;
+            margin-bottom: 8px;
+            transition: color 0.3s ease;
+            text-decoration:none
+
+        }
+
+        .footer-item  {
+            color: #b0b0b0;
+            margin-bottom: 8px;
+            transition: color 0.3s ease;
+            text-decoration: none
+        }
+
+        .footer-item :hover{
+                color: rgb(253, 224, 182);
+           
+        }
+
+        footer {
+            background-color: #17303B;
+        }
+    </style>
+
+
+
+    <div> hi</div>
+
+  
+
+    </body>
+</html>

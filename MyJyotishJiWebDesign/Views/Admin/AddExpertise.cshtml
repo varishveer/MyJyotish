@@ -1,0 +1,126 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "AdminLayout";
+}
+
+
+<style>
+    .outerDiv {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+    }
+
+    .Expertise-form {
+        display: grid;
+        gap: 15px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+        .form-group label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            resize: vertical; /* Allows vertical resizing only */
+        }
+
+    button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        background-color: #28a745;
+        color: #fff;
+        font-size: 16px;
+        cursor: pointer;
+        align-self: center;
+    }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+</style>
+<div class="outerDiv">
+    <div class="container">
+        <h1>Add Expertise Information</h1>
+        <form id="ExpertiseFrom" class="Expertise-form">
+            <div class="form-group">
+                <label for="Expertise">Expertise:</label>
+                <textarea id="Expertise" name="Expertise" rows="6" placeholder="Enter Expertise details here..."></textarea>
+            </div>
+            <button type="submit" style="background-color: #ec4b14;">Save Changes</button>
+        </form>
+    </div>
+</div>
+
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#ExpertiseFrom').submit(function (e) {
+            e.preventDefault(); // Prevent the form from submitting normally
+
+            var Expertise = $('#Expertise').val();
+
+
+            $.ajax({
+                url: "https://localhost:7118/Api/Admin/AddExpertise",
+                type: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Example of an authorization header
+                    'Content-Type': 'application/json', // Example of a content type header
+
+                },
+                contentType: 'application/json', // Specify that the content type is JSON
+                data: JSON.stringify({
+                    id : 0,
+                    name: Expertise,
+
+                }),
+                success: function (response) {
+                    if (response.success) {
+
+
+                        window.location.href = "/Admin/ExpertiseList";
+                    } else {
+
+                        alert("Expertise Not Added");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error:", xhr.responseText);
+                }
+            });
+        });
+    });
+
+
+</script>

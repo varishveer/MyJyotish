@@ -1,0 +1,69 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<style>
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: #FFFFE0;
+    }
+
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+</style>
+
+
+<h2>Payment Information</h2>
+
+<table>
+  <tr>
+    <th>PRODUCT</th>
+    <th>AMOUNT</th>
+  </tr>
+  <tr>
+    <td>Green Aventurine With Tulsi Bracelet</td>
+    <td>₹ 1549</td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <td>Green Aventurine With Tulsi Bracelet ₹ 1549.00</td>
+        <td>
+            <a href="/Home/RazorPay">
+                <img src="~/img/Upi.png" alt="UPI" width="50" height="50">UPI
+                </a>
+        </td>
+    <td><img src="~/Img/DebitCard.jpg" alt="Credit/Debit Card" width="50" height="50">Credit/Debit Card</td>
+    <td><img src="~/Img/Netbanking.jpg" alt="Net Banking" width="50" height="50">Net Banking</td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <td>Total Amount</td>
+    <td>₹ 1549.00</td>
+  </tr>
+  <tr>
+    <td>GST 3%</td>
+    <td>₹ 46.47</td>
+  </tr>
+  <tr>
+    <td>Total Payable Amount</td>
+    <td>₹ 1595.47</td>
+  </tr>
+</table>

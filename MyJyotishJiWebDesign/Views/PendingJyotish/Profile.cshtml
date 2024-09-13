@@ -1,0 +1,106 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "PendingJyotishLayout";
+}
+<style>
+    .profile-card {
+        border: 1px solid #ddd;
+        border-radius: 0.25rem;
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+
+        .profile-card img {
+            max-width: 100%;
+            height: auto;
+        }
+</style>
+
+<div class="container mt-5">
+    <h1 class="mb-4">Profile Information</h1>
+
+    <a href="/PendingJyotish/UpdateProfile" class="btn btn-success mb-2" >Update </a>
+    <div class="row">
+        <div class="col-md-12 col-lg-6">
+            <div class="profile-card bg-light rounded">
+                <h4 class="mb-3">Personal Information</h4>
+                <p><strong>Name:</strong> <span id="name"></span></p>
+                <p><strong>Gender:</strong> <span id="gender"></span></p>
+                <p><strong>Date of Birth:</strong> <span id="dateOfBirth"></span></p>
+                <p><strong>Email:</strong> <span id="email"></span></p>
+                <p><strong>Mobile:</strong> <span id="mobile"></span></p>
+                <p><strong>Country:</strong> <span id="country"></span></p>
+                <p><strong>State:</strong> <span id="state"></span></p>
+                <p><strong>City:</strong> <span id="city"></span></p>
+                <p><strong>Language:</strong> <span id="language"></span></p>
+                <p><strong>Expertise:</strong> <span id="expertise"></span></p>
+            </div>
+        </div>
+        <div class="col-md-12 col-lg-6">
+            <div class="profile-card bg-light rounded">
+                <h4 class="mb-3">Profile Image</h4>
+                <img id="profileImageUrl" src="https://via.placeholder.com/300" alt="Profile Image">
+              
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script>
+    // Function to fetch data from API using email from local storage
+    function fetchData() {
+        // Retrieve the email from local storage
+        const email = localStorage.getItem('userEmail');
+
+        if (!email) {
+            $('#result').text('No email found in local storage.');
+            return;
+        }
+
+        // Construct the API URL with the email as a query parameter
+        const apiUrl = `https://localhost:7118/Api/PendingJyotish/Profile?email=${encodeURIComponent(email)}`;
+
+        // Get the token from local storage
+        const token = localStorage.getItem('Token3');
+
+        // Make the GET request using jQuery
+        $.ajax({
+            url: apiUrl,
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            success: function (response) {
+                // Update the HTML elements with the fetched data
+                const data = response.data;
+                $('#name').text(data.name || 'N/A');
+                $('#gender').text(data.gender || 'N/A');
+                $('#dateOfBirth').text(new Date(data.dateOfBirth).toLocaleDateString() || 'N/A');
+                $('#email').text(data.email || 'N/A');
+                $('#mobile').text(data.mobile || 'N/A');
+                $('#country').text(data.country || 'N/A');
+                $('#state').text(data.state || 'N/A');
+                $('#city').text(data.city || 'N/A');
+                $('#language').text(data.language || 'N/A');
+                $('#expertise').text(data.expertise || 'N/A');
+                $('#profileImageUrl').attr('src', "https://localhost:7118" + data.profileImageUrl);
+               
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                // Handle any errors
+                $('#result').text(`Error: ${errorThrown}`);
+            }
+        });
+    }
+
+    // Call the function to fetch data when the page loads
+    $(document).ready(function () {
+        fetchData();
+    });
+   
+</script>

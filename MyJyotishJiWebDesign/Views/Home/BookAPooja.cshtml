@@ -1,0 +1,248 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+
+<style>
+    .card-custom {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 16px;
+        width: 300px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        margin: 10px;
+    }
+
+    .card-img-wrapper {
+        text-align: center;
+    }
+
+    .card-img-top {
+        
+        width: 260px;
+        height: 260px;
+    }
+
+    .card-title {
+        font-size: 1.2em;
+        margin: 16px 0 8px;
+    }
+
+    .card-text {
+        margin: 8px 0;
+        font-size: 0.9em;
+    }
+
+    .btn-primary {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 0.9em;
+        color: #fff;
+        background-color: #007bff;
+        border: none;
+        border-radius: 4px;
+        text-decoration: none;
+        text-align: center;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+
+
+    .astrologer-container {
+        display: flex;
+        align-items: center;
+        gap: 10px; /* Space between elements */
+    }
+
+    .header {
+        display: flex;
+        align-items: center;
+    }
+
+    .heading {
+        margin: 0;
+    }
+
+    .balance-info {
+        display: flex;
+        align-items: center;
+    }
+
+    .available-balance {
+        display: flex;
+        align-items: center;
+    }
+
+    .actions {
+        display: flex;
+        align-items: center;
+    }
+
+    .recharge-link,
+    .filter-button,
+    .sort-button {
+        margin-right: 10px; /* Space between links and buttons */
+    }
+
+    .search-container {
+        display: flex;
+        align-items: center;
+    }
+
+    .search-input {
+        margin-right: 5px; /* Space between input and icon */
+    }
+
+</style>
+
+<br />
+@* <div class="container bg-light ">
+    <div class="row justify-content-around  d-inline-flex">
+        <p>Book A Pooja</p>
+        <h5> Search Filters</h5>
+    </div>
+
+</div> *@
+
+<div class="astrologer-container">
+    <div class="header">
+        <h1 class="heading">Book A Pooja With Us</h1>
+    </div>
+
+    <div class="balance-info">
+        <div class="available-balance">
+            Available balance:
+            <span class="balance-amount">₹ 0</span>
+        </div>
+    </div>
+
+    <div class="actions">
+        <a class="recharge-link">Recharge</a>
+
+        <button type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#filterModal"
+                class="filter-button">
+            <i class="fa fa-filter"></i>
+            Filter
+        </button>
+
+        <button type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#sortModal"
+                class="sort-button">
+            <i class="fa fa-sort-amount-desc"></i>
+            Sort by
+        </button>
+
+        <div class="search-container">
+            <input name="searchText"
+                   type="search"
+                   autocomplete="off"
+                   id="searchQuery"
+                   class="search-input"
+                   placeholder="Search name...">
+            <i class="fa fa-search"></i>
+        </div>
+    </div>
+</div>
+<br />
+<div class="conatiner">
+
+    <div class="row">
+       
+        <div class="col-md-4">
+            <div class="card card-custom">
+                <div class="card-img-wrapper">
+                    <img src="~/img/Pooja.jpg" alt="Astrologer Image" class="card-img-top">
+                </div>
+                <div class="card-content">
+                    <h5 class="card-title">Sarv Rog Nivaran Pooja</h5>
+                    <p class="card-text">Gives Strength To Overcome Any Obstacle In The Path Of Life</p>
+                    <p class="card-text"><strong>Date:</strong> 6 August</p>
+                   
+                    <a href="/Home/PoojaDetails" class="btn btn-primary">Book Now</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card card-custom">
+                <div class="card-img-wrapper">
+                    <img src="~/img/Pooja.jpg" alt="Astrologer Image" class="card-img-top">
+                </div>
+                <div class="card-content">
+                    <h5 class="card-title">Sarv Rog Nivaran Pooja</h5>
+                    <p class="card-text">Gives Strength To Overcome Any Obstacle In The Path Of Life</p>
+                    <p class="card-text"><strong>Date:</strong> 6 August</p>
+
+                    <a href="#" class="btn btn-primary">Book Now</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card card-custom">
+                <div class="card-img-wrapper">
+                    <img src="~/img/Pooja.jpg" alt="Astrologer Image" class="card-img-top">
+                </div>
+                <div class="card-content">
+                    <h5 class="card-title">Sarv Rog Nivaran Pooja</h5>
+                    <p class="card-text">Gives Strength To Overcome Any Obstacle In The Path Of Life</p>
+                    <p class="card-text"><strong>Date:</strong> 6 August</p>
+
+                    <a href="#" class="btn btn-primary">Book Now</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card card-custom">
+                <div class="card-img-wrapper">
+                    <img src="~/img/Pooja.jpg" alt="Astrologer Image" class="card-img-top">
+                </div>
+                <div class="card-content">
+                    <h5 class="card-title">Sarv Rog Nivaran Pooja</h5>
+                    <p class="card-text">Gives Strength To Overcome Any Obstacle In The Path Of Life</p>
+                    <p class="card-text"><strong>Date:</strong> 6 August</p>
+
+                    <a href="#" class="btn btn-primary">Book Now</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card card-custom">
+                <div class="card-img-wrapper">
+                    <img src="~/img/Pooja.jpg" alt="Astrologer Image" class="card-img-top">
+                </div>
+                <div class="card-content">
+                    <h5 class="card-title">Sarv Rog Nivaran Pooja</h5>
+                    <p class="card-text">Gives Strength To Overcome Any Obstacle In The Path Of Life</p>
+                    <p class="card-text"><strong>Date:</strong> 6 August</p>
+
+                    <a href="#" class="btn btn-primary">Book Now</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card card-custom">
+                <div class="card-img-wrapper">
+                    <img src="~/img/Pooja.jpg" alt="Astrologer Image" class="card-img-top">
+                </div>
+                <div class="card-content">
+                    <h5 class="card-title">Sarv Rog Nivaran Pooja</h5>
+                    <p class="card-text">Gives Strength To Overcome Any Obstacle In The Path Of Life</p>
+                    <p class="card-text"><strong>Date:</strong> 6 August</p>
+
+                    <a href="#" class="btn btn-primary">Book Now</a>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>

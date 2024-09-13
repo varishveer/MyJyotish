@@ -1,0 +1,119 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    .product-title {
+        text-align: center;
+        margin: 20px 0;
+    }
+
+    .product-search {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+        .product-search input {
+            width: 300px;
+            border-radius: 20px 0 0 20px;
+            border: 1px solid #ccc;
+            padding: 5px 10px;
+        }
+
+        .product-search button {
+            border-radius: 0 20px 20px 0;
+            border: 1px solid #ccc;
+            background-color: #ffc107;
+            padding: 5px 15px;
+        }
+
+    .card {
+        border: none;
+        margin: 10px;
+    }
+
+        .card img {
+            border-radius: 15px;
+        }
+
+    .card-title {
+        font-size: 1rem;
+        font-weight: bold;
+    }
+
+    .card-price {
+        color: red;
+        font-size: 1.2rem;
+    }
+
+    .card-discount {
+        text-decoration: line-through;
+        color: grey;
+        margin-left: 10px;
+    }
+
+    .book-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: #ffc107;
+        border: none;
+        border-radius: 15px;
+        padding: 5px 10px;
+    }
+</style>
+<div class="container">
+    <div class="product-title">
+        <h2>Malas-japmala-beads Products</h2>
+        <p>Shop Best Online Astrology Products And Services</p>
+    </div>
+    <div class="product-search">
+        <input type="text" placeholder="Search Malas-japmala-beads Product">
+        <button type="button">🔍</button>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <a href="/Home/ProductDetails" class="card-link">
+                <div class="card">
+                    <img src="https://via.placeholder.com/300x200.png?text=Green+Aventurine+With+Tulsi+Bracelet" class="card-img-top" alt="Green Aventurine With Tulsi Bracelet">
+                    <button class="book-btn">Book</button>
+                    <div class="card-body">
+                        <p class="card-title">Green Aventurine With Tulsi Bracelet</p>
+                        <p class="card-price">₹ 1549 <span class="card-discount">₹ 2099</span></p>
+                    </div>
+                </div>
+            </a>
+            
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <img src="https://via.placeholder.com/300x200.png?text=Green+Aventurine+With+Tulsi+Bracelet" class="card-img-top" alt="Evil Eye Bracelet">
+                <button class="book-btn">Book</button>
+                <div class="card-body">
+                    <p class="card-title">Evil Eye Bracelet</p>
+                    <p class="card-price">₹ 1299 <span class="card-discount">₹ 1999</span></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <img src="https://via.placeholder.com/300x200.png?text=Green+Aventurine+With+Tulsi+Bracelet" class="card-img-top" alt="Black Tourmaline Bracelet">
+                <button class="book-btn">Book</button>
+                <div class="card-body">
+                    <p class="card-title">Black Tourmaline Bracelet</p>
+                    <p class="card-price">₹ 1699 <span class="card-discount">₹ 2499</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

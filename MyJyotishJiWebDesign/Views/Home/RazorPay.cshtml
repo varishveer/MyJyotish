@@ -1,0 +1,307 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: sans-serif;
+        background-color: #f5f5f5;
+    }
+
+    .container {
+        display: flex;
+        min-height: 100vh;
+        justify-content: space-between;
+    }
+
+    .sidebar {
+        width: 300px;
+        background-color: #fff;
+        padding: 20px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .main-content {
+        width: calc(100% - 330px);
+        background-color: #fff;
+        padding: 20px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+    }
+
+        .logo img {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+
+    .header h2 {
+        margin: 0;
+        font-size: 1.5rem;
+    }
+
+    .price-summary {
+        background-color: #f8f8f8;
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+    }
+
+        .price-summary h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.2rem;
+        }
+
+        .price-summary p {
+            margin: 0;
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+    .payment-methods {
+        margin-bottom: 20px;
+    }
+
+        .payment-methods h4 {
+            margin-bottom: 10px;
+        }
+
+    .payment-options {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+        .payment-options img {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+        }
+
+        .payment-options .title {
+            font-weight: bold;
+        }
+
+        .payment-options .input-group {
+            position: relative;
+        }
+
+        .payment-options input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .payment-options .input-group .icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+        }
+
+        .payment-options .button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+            .payment-options .button:hover {
+                background-color: #0056b3;
+            }
+
+        .payment-options .qr-code {
+            width: 150px;
+            height: 150px;
+        }
+
+        .payment-options .scan-text {
+            font-size: 0.8rem;
+            margin-bottom: 5px;
+        }
+
+        .payment-options .scan-icons {
+            display: flex;
+            justify-content: center;
+        }
+
+            .payment-options .scan-icons img {
+                width: 25px;
+                height: 25px;
+                margin: 0 5px;
+            }
+
+    .secure-by {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+        .secure-by img {
+            width: 100px;
+            height: 25px;
+        }
+
+    .sidebar {
+        width: 300px;
+        background-color: #fff;
+        padding: 20px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+        .sidebar h2 {
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 20px;
+        }
+
+        .sidebar li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar .payment-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            .sidebar .payment-options .title {
+                font-weight: bold;
+            }
+
+            .sidebar .payment-options img {
+                width: 20px;
+                height: 20px;
+            }
+
+        .sidebar .button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+            .sidebar .button:hover {
+                background-color: #0056b3;
+            }
+
+        .sidebar .qr-code {
+            width: 100px;
+            height: 100px;
+        }
+
+        .sidebar .scan-text {
+            font-size: 0.8rem;
+            margin-bottom: 5px;
+        }
+
+        .sidebar .scan-icons {
+            display: flex;
+            justify-content: center;
+        }
+
+            .sidebar .scan-icons img {
+                width: 20px;
+                height: 20px;
+                margin: 0 5px;
+            }
+</style>
+
+
+
+<div class="container">
+    <div class="sidebar">
+        <h2>Payment Options</h2>
+        <ul>
+            <li class="payment-options">
+                <span class="title">UPI</span>
+                <img src="~/Img/Upi.png" alt="UPI">
+            </li>
+            <li class="payment-options">
+                <span class="title">Netbanking</span>
+                <img src="~/Img/Netbanking.jpg" alt="Netbanking">
+            </li>
+            <li class="payment-options">
+                <span class="title">EMI</span>
+                <img src="~/Img/DebitCard.jpg" alt="EMI">
+            </li>
+            <li class="payment-options">
+                <span class="title">Wallet</span>
+                <img src="~/Img/Ewallet.jpg" alt="Wallet">
+            </li>
+            <li class="payment-options">
+                <span class="title">Paylater</span>
+                <img src="~/Img/Paylater.jpg" alt="Paylater">
+            </li>
+        </ul>
+    </div>
+    <div class="main-content">
+        <div class="header">
+            <div class="logo">
+               
+                <h2> My Jyotish Ji Purchase</h2>
+            </div>
+            <span>
+                ✔ Razorpay Trusted Business
+            </span>
+        </div>
+        <div class="price-summary">
+            <h3>Price Summary</h3>
+            <p>₹1,595.48</p>
+        </div>
+        <div class="payment-methods">
+            <h4>Recommended</h4>
+            <div class="payment-options">
+                <span class="title">UPI QR</span>
+                <img class="qr-code" src="~/Img/Qr.jpg" alt="QR Code">
+                <span class="scan-text">Scan with any app</span>
+                <div class="scan-icons">
+                    <img src="~/Img/Gpay.jpg" alt="Google Pay" width="50" height="50">
+                    <img src="~/Img/Phonepe.jpg" alt="PhonePe" width="50" height="50">
+                    <img src="~/Img/paytm.jpg" alt="Paytm" width="50" height="50">
+                   
+                </div>
+            </div>
+        </div>
+        <div class="payment-methods">
+            <h4>Frequently Used Methods</h4>
+            <div class="payment-options">
+                <span class="title">UPI ID / Number</span>
+                <div class="input-group">
+                    <input type="text" placeholder="example@okhdfcbank">
+                    <img class="icon" src="~/Img/Upi.png" alt="UPI">
+                </div>
+                <button class="button">Verify and Pay</button>
+            </div>
+        </div>
+        <div class="secure-by">
+            Secured by RazorPay
+        </div>
+    </div>
+</div>

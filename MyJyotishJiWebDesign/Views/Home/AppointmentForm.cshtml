@@ -1,0 +1,45 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-body">
+            <div class="text-center">
+                <h5 class="card-title">Schedule an Appointment</h5>
+                <img src="~/Img/Astrologer.jpg" />
+                <h4>Astrologer Name</h4>
+                <h5>Experience: 5 year</h5>
+                <h5>Expertise: Vastu , Horoscope </h5>
+
+            </div>
+            
+           
+            <form>
+                <div class="form-group">
+                    <label for="appointmentType">Appointment Type</label>
+                    <select class="form-control" id="appointmentType">
+                        <option>Online</option>
+                        <option>Offline</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="availableSlots">Available Slots</label>
+                    <select class="form-control" id="availableSlots">
+                        <option>10 Oct 10:00 AM</option>
+                        <option>10 Oct 11:00 AM</option>
+                        <option>10 Oct 12:00 PM</option>
+                        <option>11 Oct 11:00 AM</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="problem">Problem</label>
+                    <input type="text" class="form-control" id="problem" placeholder="Describe your problem">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>

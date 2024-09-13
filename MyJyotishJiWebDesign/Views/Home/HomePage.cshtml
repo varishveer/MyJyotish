@@ -1,0 +1,612 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "HomePage";
+}
+
+
+
+<link href="~/css/homepagestyle.css" rel="stylesheet" />
+
+<style>
+
+    .outerDiv1 {
+        background-image: linear-gradient(#000, #37362af0);
+        padding: 20px;
+    }
+
+    /* Banner Start */
+    .inner-banner {
+        background: linear-gradient(90deg, #FF9933, #fff 50%, #FF9933);
+       
+    }
+
+ 
+    .form{
+
+        position: relative;
+    }
+
+    .form .fa-search{
+
+        position: absolute;
+        top:20px;
+        left: 20px;
+        color: #9ca3af;
+
+    }
+
+    .form span{
+
+        position: absolute;
+        right: 17px;
+        top: 13px;
+        padding: 2px;
+        border-left: 1px solid #d1d5db;
+
+    }
+
+    
+
+    .form-input{
+
+        height: 55px;
+        text-indent: 33px;
+        border-radius: 10px;
+    }
+
+    .form-input:focus{
+
+        box-shadow: none;
+        border:none;
+    }
+   /* Banner End */
+
+    .container {
+        max-width: 1130px;
+        width: 100%;
+        padding: 0 15px;
+        margin: 0 auto;
+    }
+
+   
+
+
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+        margin-right: -15px;
+        margin-left: -15px;
+        justify-content: space-between;
+    }
+
+    .custom-card {
+       
+        border-radius: 15px; /* Makes the card corners rounded */
+        transition: transform 0.3s, box-shadow 0.3s; /* Smooth transition for hover effects */
+
+    }
+
+        .custom-card:hover {
+            transform: scale(1.05); /* Slightly zooms in on hover */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Adds a shadow effect on hover */
+        }
+
+    .card-img-top {
+        height: 255px;
+        object-fit: cover;
+        border-radius: 15px;
+    }
+
+    .card-img-astro{
+        height: 150px;
+        width: 150px;
+        object-fit: cover;
+    }
+   
+</style> 
+
+
+ 
+ <div class="outerDiv1">
+     <div class="container ">
+        <div class="inner-banner row rounded border border-0">
+            <div class="col-lg-5 col-md-5 col-sm-12 p-5 d-flex justify-content-center">
+                <img src="~/img/Banner3.png" alt="Logo" id="HomepageBanner"  />
+            </div>
+            <div class="col-lg-7 col-md-7 col-sm-12 p-5 m-auto text-center">
+                <p class="" style="color:dimgrey; font-size:20px;">Do You Have Any Question?</p>
+                <p class="" style="color:dimgrey; font-size:20px;">Consult With Your Own Astrologer?</p>
+                <div class="form">
+                    <i class="fa fa-search"></i>
+                    <input type="text" id="HomepageSearchbox" class="form-control form-input" placeholder="Search Astrologer..." />
+                </div>
+            </div>
+        </div>
+
+     </div>
+        <div class="container my-5">
+            <div class="row g-4">
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <a href="/Services/Astrology">
+                        <div class="card" style="border-radius:15px">
+                            <img src="~/Img/Tabs/Astrology.jpg" class="card-img-top mt-3" alt="Astrology" width="auto" height="auto">
+                            <div class="card-body text-center p-2">
+                                <p class="card-text">Astrology</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <a href="/Services/Palmistry">
+                        <div class="card" style="border-radius:15px">
+                        <img src="~/Img/Tabs/Palmistry.jpg" class="card-img-top mt-3" alt="Palmistry" width="auto" height="auto">
+                            <div class="card-body text-center p-2">
+                                <p class="card-text">Palmistry</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                     <a href="/Services/tarot">
+                        <div class="card" style="border-radius:15px">
+                        <img src="~/Img/Tabs/Tarot.png" class="card-img-top mt-3" alt="Tarot" width="" height="auto">
+                            <div class="card-body text-center p-2">
+                                <p class="card-text">Tarot</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                     <a href="/Services/Pooja">
+                        <div class="card" style="border-radius:15px">
+                            <img src="~/Img/Tabs/Pooja.jpg" class="card-img-top rounded-circle mt-3" alt="Pooja">
+                            <div class="card-body text-center p-2">
+                                <p class="card-text">Pooja</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                     <a href="/Services/Vastu">
+                        <div class="card" style="border-radius:15px">
+                            <img src="~/Img/Tabs/Vastu.jpg" class="card-img-top mt-3" alt="Vastu">
+                            <div class="card-body text-center p-2">
+                                <p class="card-text">Vastu</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                     <a href="/Services/Kunadali">
+                        <div class="card" style="border-radius:15px">
+                            <img src="~/Img/Tabs/Kundali.jpg" class="card-img-top mt-3" alt="Kundali">
+                            <div class="card-body text-center p-2">
+                                <p class="card-text">Kundali</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                     <a href="/Services/KundaliMatching">
+                        <div class="card" style="border-radius:15px">
+                            <img src="~/Img/Tabs/KundaliMatching.jpg" class="card-img-top mt-3" alt="Kundali Matching">
+                            <div class="card-body text-center p-2">
+                                <p class="card-text">Kundali Matching</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <a href="/Services/Horoscope">
+                        <div class="card" style="border-radius:15px">
+                            <img src="~/Img/Tabs/Horoscope.jpg" class="card-img-top mt-3" alt="Horoscope">
+                            <div class="card-body text-center p-2">
+                                <p class="card-text">Horoscope</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+ </div>
+
+
+<div class="container py-5">
+    <h4 class="text-center mb-4">Our Astrologers</h4>
+    <div class="row">
+        <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+            <a href="JyotishProfile">
+            <div class="card border-2 shadow-sm">
+                <img src="~/img/Astro/Astro1.jpg" class="card-img-top rounded-circle mx-auto d-block card-img-astro" alt="Astrologer 1">
+                <div class="card-body text-center">
+                    <h6 class="card-title font-weight-bold">Ajay</h6>
+                    <div class="my-2 border-top border-dark"></div>
+                    <p class="card-text text-muted">Vastu</p>
+                    <div class="my-2 border-top border-dark"></div>
+                </div>
+            </div>
+            </a>
+        </div>
+
+        <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+            <div class="card border-2 shadow-sm">
+                <img src="~/img/Astro/Astro2.jpg" class="card-img-top rounded-circle mx-auto d-block card-img-astro" alt="Astrologer 2">
+                <div class="card-body text-center">
+                    <h6 class="card-title font-weight-bold">Sarika</h6>
+                    <div class="my-2 border-top border-dark"></div>
+                    <p class="card-text text-muted">Vedic Astrology</p>
+                    <div class="my-2 border-top border-dark"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+            <div class="card border-2 shadow-sm">
+                <img src="~/img/Astro/Astro3.jpg" class="card-img-top rounded-circle mx-auto d-block card-img-astro" alt="Astrologer 3">
+                <div class="card-body text-center">
+                    <h6 class="card-title font-weight-bold">Rachna</h6>
+                    <div class="my-2 border-top border-dark"></div>
+                    <p class="card-text text-muted">Numerology</p>
+                    <div class="my-2 border-top border-dark"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+            <div class="card border-2 shadow-sm">
+                <img src="~/img/Astro/Astro4.jpg" class="card-img-top rounded-circle mx-auto d-block card-img-astro" alt="Astrologer 4" >
+                <div class="card-body text-center">
+                    <h6 class="card-title font-weight-bold">Sanjeev</h6>
+                    <div class="my-2 border-top border-dark"></div>
+                    <p class="card-text text-muted">Vedic Astrology</p>
+                    <div class="my-2 border-top border-dark"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="free_services rounded-3" style="background-color: #f9f9f9;">
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-12 section-headings">
+                <h4 class="text-center mb-4">Complimentary Astrology Services</h4>
+            </div>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-3 col-sm-6">
+                <div class="card h-100 text-center">
+                    <img src="~/img/horoscopecomplimenatryservice.png" class="card-img-top mx-auto" alt="Today's Horoscope" style="height: 100px; width: auto;">
+                    <div class="card-body">
+                        <h5 class="card-title">Today's Horoscope</h5>
+                        <p class="card-text">Get free Aries horoscope online prediction from top astrologer. Read your Aries Zodiac Sign Horoscope today!</p>
+                    </div>
+                   
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="card h-100 text-center">
+                    <img src="~/img/kundalicomplimenatryservice.png" class="card-img-top mx-auto" alt="Free Kundli" style="height: 100px; width: auto;">
+                    <div class="card-body">
+                        <h5 class="card-title">Free Kundli</h5>
+                        <p class="card-text">Generate your free online kundli report. Our Kundli software can help you predict your future by reading the birth chart.</p>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="card h-100 text-center">
+                    <img src="~/img/compabilitycomplimenatryservice.png" class="card-img-top mx-auto" alt="Compatibility" style="height: 100px; width: auto;">
+                    <div class="card-body">
+                        <h5 class="card-title">Compatibility</h5>
+                        <p class="card-text">Check your compatibility with our tool to ignite a love that lasts forever and strengthen your relationship for a lifetime.</p>
+                    </div>
+                   
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="card h-100 text-center">
+                    <img src="~/img/festivalcomplimenatryservice.png" class="card-img-top mx-auto" alt="Festival 2024" style="height: 100px; width: auto;">
+                    <div class="card-body">
+                        <h5 class="card-title">Festival 2024</h5>
+                        <p class="card-text">Explore the vibrant world of festivities, a realm filled with celebration, joy, and cultural richness that unites people.</p>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<br />
+
+
+
+<div class="container">
+    <h4 class="text-center mb-4">LATEST FROM BLOG</h4>
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card custom-card">
+                
+                <img src="~/img/blogs/blog1.jpg" class="card-img-top" alt="Blog Image 1">
+                <div class="card-body">
+                    <a href="/Home/BlogDetails" class="card-title text-decoration-none text-dark">
+                        <p class="card-title">Zodiac Signs That Are Destined Greatness </p>
+                    </a>
+                 
+                </div>
+            </div>
+        </div>
+         <div class="col-md-4 mb-4">
+            <div class="card custom-card">
+                <img src="~/img/blogs/blog3.jpg" class="card-img-top" alt="Blog Image 3">
+                <div class="card-body">
+                    <a href="/Home/BlogDetails" class="card-title text-decoration-none text-dark">
+                        <p class="card-title"> How Planetary Positions Influence Your Life</p>
+                    </a>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card custom-card">
+                <img src="~/img/blogs/blog2.jpg" class="card-img-top" alt="Blog Image 2">
+                <div class="card-body">
+                    <a href="/Home/BlogDetails" class="card-title text-decoration-none text-dark">
+                        <p class="card-title">4 Zodiac Signs That Radiate Positive Vibes</P>
+                    </a>
+                   
+                </div>
+            </div>
+        </div>
+
+       
+    </div>
+</div>
+
+
+
+
+
+<h4 class="text-center my-5"> Our Services</h4>
+
+<div class="container">
+    
+    <div class="row my-3">
+         <h4 class="text-center">Astrology</h4>
+        <div class="col-lg-6 col-md-6 col-sm-12">
+           
+            <p style="text-align:justify;">
+                Astrology, a time-honored tradition spanning thousands of years, offers a unique perspective on life’s challenges and uncertainties.
+                It provides insights not just as a predictive tool, but as a means to understand oneself and the world around us on a deeper level.
+                People often turn to astrology to find solutions to their problems because it helps to illuminate the underlying forces at play in their lives.
+                <br /><br />
+                At its core, astrology is based on the belief that the positions and movements of celestial bodies—such as planets and stars—at the time of one’s birth can influence personality traits,
+                behaviors, and life events.
+                By studying these influences, astrologers can offer guidance that is tailored to an individual’s unique circumstances.
+                This personalized approach is one of the reasons why astrology resonates with so many people.
+                Astrology helps in self-awareness, which is crucial for solving personal problems.
+                <br /><br />
+                When we understand our inherent strengths, weaknesses, and tendencies, we can make better decisions and navigate life’s challenges with greater ease.
+                For example, astrology can reveal why certain relationships are difficult, why we might struggle with career choices, or why we face recurring challenges. 
+            
+            </p>
+            <a href="/Services/Astrology" class="btn btn-info"> Read More </a>
+        </div>
+        <div class="col-lg-6  col-md-6 col-sm-12 text-center p-3">
+            <img src="~/Img/tabs/WhyAstrology.jpg" class="Services-img"  />
+        </div>
+    </div>
+
+    <div class="row my-5">
+         <h4 class="text-center">Horoscope</h4>
+        <div class="col-lg-6 col-md-6 col-sm-12 text-center p-3">
+            <img src="~/Img/tabs/AstrologyScience.jpeg" class="Services-img" />
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12">
+          
+            <p style="text-align:justify;">
+               Horoscopes, a captivating aspect of astrology, provide insights into how celestial bodies influence human behavior and events. Rooted in ancient traditions, horoscopes are based on the positions of the planets, stars, and the twelve zodiac signs at the time of a person’s birth. These positions are believed to shape personality traits, life experiences, and future possibilities.
+               <br /><br />
+                Each zodiac sign, from Aries to Pisces, is associated with specific characteristics and tendencies. For example, Aries is known for its dynamic and adventurous spirit, while Taurus is celebrated for its practicality and steadfastness. Horoscopes interpret these traits to offer personalized predictions and advice, often reflecting on daily, weekly, or monthly themes.
+                <br /><br />
+                Astrologers create horoscopes by analyzing the complex interactions between celestial bodies and the twelve houses of the astrological chart. This analysis aims to provide guidance on various aspects of life, including career, relationships, and personal growth.
+                <br/><br />
+               
+            </p>
+            <a href="/Services/Horoscope" class="btn btn-info"> Read More </a>
+        </div>
+        
+    </div>
+    
+    <div class="row my-5">
+        <h4 class="text-center">Palmistry</h4>
+        <div class="col-lg-6 col-md-6 col-sm-12">
+            
+            <p style="text-align:justify;">
+               Palmistry, the ancient art of hand reading, offers a fascinating glimpse into the intricate relationship between our physical features and our inner selves. This practice, also known as chiromancy, involves analyzing the lines, shapes, and markings on the palms to gain insights into an individual's personality, potential, and life path.
+                <br /><br />
+                Central to palmistry are the major lines: the heart line, head line, and life line. Each line is believed to reveal different aspects of one's life. The heart line, for instance, reflects emotional tendencies and relationships, while the head line offers insights into intellectual capabilities and decision-making styles. The life line, often the most scrutinized, is thought to indicate overall vitality and life span.
+                <br /><br />
+                Beyond these primary lines, palmists also examine other features such as the mounts (elevated areas of the palm) and finger shapes. Each element is interpreted in the context of an individual's unique hand structure, providing a personalized reading.
+                <br /><br />
+               
+            
+            </p>
+              <a href="/Services/Palmistry" class="btn btn-info"> Read More </a>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12 text-center p-3">
+          <img src="~/img/services/horoscope.jpeg" class="Services-img"  />
+        </div>
+    </div>
+
+    <div class="row my-5">
+       <h4 class="text-center">Vastu</h4>
+         <div class="col-lg-6 col-md-6 col-sm-12 text-center p-3">
+            <img src="~/Img/Services/Vastu.jpeg" class="Services-img" />
+            </div>
+        <div class="col-lg-6 col-md-6 col-sm-12">
+           
+        
+            
+            <p style="text-align:justify;">
+                 Vastu Shastra, an ancient Indian science of architecture and design, offers guidelines for creating harmonious living and working environments. Rooted in Vedic traditions, Vastu Shastra emphasizes the alignment of structures with cosmic forces to enhance well-being and prosperity. The term "Vastu" translates to "dwelling" or "abode," and "Shastra" means "science" or "knowledge," reflecting its focus on creating balanced and harmonious spaces.
+                 <br /><br />
+                Central to Vastu Shastra are its principles of orientation, layout, and design. It advocates for aligning buildings with cardinal directions, ensuring that spaces are organized to align with natural elements such as sunlight, wind, and water. Key aspects include the placement of entrances, rooms, and functional areas to maximize positive energy flow and minimize negative influences.
+                <br /><br />
+                The science categorizes various elements of design into zones, each associated with specific aspects of life—such as prosperity, health, and relationships. 
+                <br /><br />
+                  </p>
+                    <a href="/Services/Vastu" class="btn btn-info"> Read More </a>
+        </div>
+        
+    </div>
+
+
+
+     <div class="row my-5">
+           <h4 class="text-center">Pooja</h4>
+        <div class="col-lg-6 col-md-6 col-sm-12">
+          
+            <p style="text-align:justify;">
+                Pooja is a sacred and fundamental ritual in Hinduism, an ancient religion rich in tradition and spiritual practices. It is an act of showing reverence to deities, spirits, or other divine entities through invocations, prayers, songs, and rituals. Pooja can be performed in various settings, whether in the sanctity of one's home, at a temple, or during communal gatherings. This act of worship may be carried out individually or collectively, reflecting both personal devotion and community faith.
+                <br /><br />
+                The term "Pooja" is derived from the Sanskrit word "puja," which means reverence, honor, or worship. The ritual itself is deeply symbolic, with each component carrying profound spiritual meaning. During Pooja, offerings such as fruits, flowers, incense, and sweets are made to the deity, symbolizing the devotee's love, respect, and gratitude. The ritual typically includes chanting mantras, lighting oil lamps (diyas), and performing the symbolic washing and dressing of the deity's image or idol, known as "abhisheka."
+                <br /><br />
+             
+            </p>
+              <a href="/Services/Pooja" class="btn btn-info"> Read More </a>
+                      </div>
+        <div class="col-lg-6 col-md-6 col-sm-12  text-center p-3">
+            <img src="~/Img/Services/PoojaServices.jpeg" class="Services-img"  />
+        </div>
+    </div>
+
+    <div class="row my-5">
+       <h4 class="text-center">Tarot</h4>
+        <div class="col-lg-6 col-md-6 col-sm-12  text-center p-3">
+            <img src="~/Img/Services/Tarot.jpeg" class="Services-img"  />
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12">
+            
+            <p style="text-align:justify;">
+                Tarot is a centuries-old system of divination that uses a deck of 78 cards to provide insights, guidance, and reflection. Each card in the tarot deck carries its own symbolism and meaning, often linked to aspects of human experience, such as emotions, relationships, and personal growth. The tarot deck is divided into two main sections: the Major Arcana, which consists of 22 cards representing significant life events or spiritual lessons, and the Minor Arcana, which includes 56 cards that reflect everyday challenges and opportunities.
+                <br /><br />
+                People turn to tarot for various reasons, from seeking answers to specific questions to exploring their inner selves and understanding their life path. A tarot reading involves drawing cards from the deck and interpreting their meanings in relation to the querent's (the person asking the question) current situation or query.
+                <br /><br />
+                Tarot is not about predicting the future with certainty but rather about providing a mirror to one's inner thoughts, feelings, and subconscious. 
+            </p>
+              <a href="/Services/Tarot" class="btn btn-info"> Read More </a>
+        </div>
+        
+    </div>
+    
+    <div class="row my-5">
+        <h4 class="text-center">Kundali</h4>
+        <div class="col-lg-6 col-md-6 col-sm-12">
+            
+            <p style="text-align:justify;">
+                Kundali, also known as a birth chart or horoscope, is a key component of Vedic astrology, a system rooted in ancient Indian wisdom. It is a detailed map of the positions of celestial bodies—such as planets, the sun, and the moon—at the exact moment of an individual’s birth. The Kundali is divided into twelve houses, each representing different aspects of life, such as personality, wealth, relationships, and career.
+                <br /><br />
+                In Vedic tradition, the Kundali is considered a blueprint of an individual’s life, revealing insights into their strengths, weaknesses, opportunities, and challenges. Astrologers analyze the Kundali to offer guidance on various life decisions, from career choices to marriage compatibility. The positions of the planets, along with their relationships with each other, are believed to influence an individual’s destiny and life path.
+                <br /><br />
+                Kundali readings are often used during important life events, such as marriage, to ensure compatibility between partners, or during times of uncertainty to seek direction. The belief is that by understanding the cosmic influences at play, individuals can make informed decisions and navigate life more harmoniously.
+            </p>
+              <a href="/Services/Kundali" class="btn btn-info"> Read More </a>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12  text-center p-3">
+            <img src="~/Img/tabs/AstrologyBenefits.jpeg" class="Services-img" style="border-radius:15px"/>
+        </div>
+    </div>
+
+    <div class="row my-5">
+       <h4 class="text-center">Kundali Matching</h4>
+         <div class="col-lg-6 col-md-6 col-sm-12 text-center p-3">
+            <img src="~/Img/Services/kundali-matching.webp" class="Services-img" style="border-radius:15px"/>
+            </div>
+        <div class="col-lg-6 col-md-6 col-sm-12">
+           
+        
+            
+            <p style="text-align:justify;">
+                Kundali matching, also known as horoscope matching or "Gun Milan," is an essential practice in Vedic astrology, particularly in the context of marriage. It involves comparing the birth charts (Kundalis) of two individuals to assess their compatibility for a harmonious and successful marriage. This tradition is deeply rooted in Indian culture and is considered crucial in ensuring that a couple's energies and characteristics align well with each other.
+                 <br /><br />
+                The process of Kundali matching primarily focuses on the "Ashtakoota" system, which evaluates eight different aspects of compatibility, known as "Kootas" or "Gunas." These include factors such as mental compatibility, physical attraction, emotional harmony, and financial stability. Each Koota is assigned a specific number of points, and the total score is used to determine the overall compatibility between the prospective bride and groom.
+                <br /><br />
+                A high score in Kundali matching is believed to indicate a strong, balanced relationship with fewer obstacles, while a lower score may suggest potential challenges that the couple might face in their marital life.
+                <br /><br />
+            </p>
+              <a href="/Services/KundaliMatching" class="btn btn-info"> Read More </a>
+        </div>
+        
+    </div>
+
+
+
+</div>
+
+
+
+
+<div class="container">
+   
+    <h3 class="text-center my-5"> FAQ</h3>
+    <div class="accordion" id="accordionPanelsStayOpenExample">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+            Celestial Obsession: What Makes &nbsp; <b> Astrology </b>&nbsp; So Irresistible?
+          </button>
+        </h2>
+        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
+          <div class="accordion-body" style="text-align:justify;">
+           "Celestial Obsession: What Makes Astrology So Irresistible?" explores the magnetic pull of astrology in contemporary culture. Despite being an ancient practice, astrology continues to captivate millions, weaving a unique tapestry of mysticism and self-discovery. Its allure lies in its promise of personalized insights and cosmic guidance. In an era marked by uncertainty and rapid change, astrology offers a comforting sense of stability and meaning.
+           <br /><br />
+            Astrology’s charm also stems from its ability to reflect individual personality traits and life patterns through the lens of the stars. The zodiac signs and their associated traits resonate with many, providing a framework for understanding oneself and others. This personal connection makes astrology feel both intimate and universally relevant.
+            <br/><br />
+            Moreover, astrology serves as a tool for introspection and decision-making. Horoscopes and birth charts offer a way to explore potential life paths and navigate challenges, fostering a deeper sense of self-awareness. The ritualistic aspect of consulting the stars adds an element of mystique and wonder to everyday life.
+            <br /><br />
+            Ultimately, astrology's irresistible nature is a blend of its ancient roots and its modern adaptability, reflecting our timeless curiosity about the cosmos and our quest for meaning in the universe.
+         </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+            <b>Astrology</b>: Science or Spiritual Art?
+          </button>
+        </h2>
+        <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" style="text-align:justify;">
+          <div class="accordion-body">
+           "Astrology: Science or Spiritual Art?" delves into the intriguing debate surrounding astrology’s classification. Historically, astrology has been intertwined with astronomy and considered a scholarly pursuit, as ancient civilizations like the Babylonians and Greeks used it to understand the cosmos and their place within it. However, modern science often regards astrology as a pseudoscience due to the lack of empirical evidence and reproducible results.
+           <br /><br />
+            On one side, astrology's proponents argue that its principles and practices offer valuable psychological insights and can guide personal growth. They view it as a spiritual art that connects individuals with cosmic forces and provides meaningful reflections on life’s patterns. This perspective emphasizes the symbolic and interpretive aspects of astrology rather than its scientific validation.
+            <br /><br />
+            Conversely, skeptics point out that astrology lacks the rigorous methodology and predictive accuracy characteristic of established sciences. They argue that while astrology may hold cultural and historical significance, it does not meet the criteria of scientific discipline.
+            <br /><br />
+            Ultimately, whether astrology is perceived as a legitimate science or a form of spiritual art may depend on one’s perspective and the value placed on empirical evidence versus personal belief systems. This ongoing debate highlights the broader conversation about the intersection of science, spirituality, and human experience.     </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+           <b>Unlocking the Benefits of Astrology</b>: Personal Growth and Insight
+          </button>
+        </h2>
+        <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse">
+          <div class="accordion-body" style="text-align:justify;">
+           "Unlocking the Benefits of Astrology: Personal Growth and Insight" explores how astrology can serve as a tool for self-improvement and emotional well-being. While often viewed with skepticism, astrology offers several benefits that can enhance personal growth and provide valuable insights into one's life.
+           <br /><br />
+            One key advantage of astrology is its ability to foster self-awareness. By examining one's birth chart and zodiac signs, individuals can gain a deeper understanding of their inherent strengths, weaknesses, and personality traits. This self-awareness can lead to more informed life choices and better relationships with others.
+            <br /><br />
+            Astrology also provides a framework for reflecting on personal challenges and growth opportunities. By aligning with the cyclical nature of celestial events, individuals can gain perspective on their life’s patterns and timing. This can help in making more strategic decisions and in understanding the broader context of one's experiences.
+            <br /><br />
+            Furthermore, astrology offers a sense of connection and meaning. It can provide comfort and guidance during difficult times, helping individuals navigate life’s uncertainties with a sense of purpose. While not a substitute for professional advice, astrology can complement personal development efforts and enrich one’s journey toward self-discovery.     </div>
+        </div>
+      </div>
+    </div>
+
+</div>
+ 

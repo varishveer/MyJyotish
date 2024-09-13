@@ -1,0 +1,140 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<style>
+    body {
+        font-size: .875rem;
+    }
+
+    .sidebar {
+        position: fixed;
+        top: 100px;
+        bottom: 0;
+        left: 0;
+        z-index: 100;
+        padding: 48px 0 0;
+        box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+    }
+
+        .sidebar .nav-link {
+            font-weight: 500;
+            color: #333;
+        }
+
+            .sidebar .nav-link.active {
+                color: #007bff;
+            }
+
+    .main {
+        margin-left: 200px; /* Same width as the sidebar */
+        padding: 20px;
+    }
+
+    .card-img-top {
+        height: 225px;
+        width: 100%;
+        display: block;
+    }
+</style>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <nav id="sidebar" class="col-md-2 d-none d-md-block bg-light sidebar">
+            <div class="sidebar-sticky">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Tarot</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Vastu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Vedic</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Kundli</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Sports</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Transits</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Festivals</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Business</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Gemstones</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main content -->
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 main">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Dashboard</h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <div class="btn-group mr-2">
+                        <input type="text" class="form-control" placeholder="Let's find what you're looking for...">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm">
+                        <img src="~/Img/Blog1.jpg" class="card-img-top" alt="..." />
+                        <div class="card-body">
+                            <a href="/Home/BlogDetails"> <p class="card-text">4 Zodiac Signs Most Likely to Travel the World</p></a>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">June 19, 2024</small>
+                                <small class="text-muted">112,625 views</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm">
+                        <img src="~/Img/Blog1.jpg" class="card-img-top" alt="..." />
+                        <div class="card-body">
+                            <p class="card-text">3 Zodiac Signs That Excel in Conflict Resolution</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">June 19, 2024</small>
+                                <small class="text-muted">84,351 views</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm">
+                        <img src="~/Img/Blog1.jpg" class="card-img-top" alt="..." />
+                        <div class="card-body">
+                            <p class="card-text">4 Zodiac Signs That Excel in Creative Professions</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">June 19, 2024</small>
+                                <small class="text-muted">48,447 views</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional rows of cards can be added here -->
+
+        </main>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

@@ -1,0 +1,317 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<style>
+    body {
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.left {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+.right {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+.product-card {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+.product-image-container {
+    width: 100%;
+    flex: 0 0 100%;
+}
+
+.product-image {
+    width: 100%;
+    height: 400px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+}
+
+.product-info {
+    width: 100%;
+    flex: 0 0 100%;
+    padding: 10px;
+}
+
+.product-description {
+    font-size: 20px;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.product-price {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.current-price {
+    color: #E91E63;
+}
+
+.original-price {
+    text-decoration: line-through;
+    color: #9E9E9E;
+    margin-left: 10px;
+}
+
+.discount {
+    background-color: #4CAF50;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-left: 10px;
+}
+
+.product-button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.product-button:hover {
+    background-color: #3e8e41;
+}
+
+.breadcrumbs {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+.breadcrumbs li {
+    margin-right: 10px;
+}
+
+.breadcrumbs li a {
+    text-decoration: none;
+    color: #000;
+}
+
+
+    .product-image-container {
+        flex: 0 0 40%;
+    }
+
+    .product-info {
+        flex: 0 0 60%;
+    }
+}
+
+
+
+    .four_section_sameas {
+        margin: 20px 0;
+    }
+
+        .four_section_sameas h2 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .four_section_sameas p {
+            font-size: 16px;
+            line-height: 1.5;
+            color: #555;
+        }
+
+    .testimonials {
+        width: 45%;
+        border: 1px solid #ccc;
+        padding: 20px;
+    }
+
+    .testimonial {
+        margin-bottom: 20px;
+        border: 1px solid #eee;
+        padding: 10px;
+    }
+
+        .testimonial img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .testimonial h4 {
+            margin-top: 0;
+        }
+
+        .testimonial p {
+            margin-bottom: 0;
+        }
+
+    .promises {
+        width: 45%;
+        border: 1px solid #ccc;
+        padding: 20px;
+        background-color: #FFFF00;
+        color: #000;
+    }
+
+    .button {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+
+        .button button {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+            .button button:hover {
+                background-color: #eee;
+            }
+
+            .button button i {
+                margin-right: 10px;
+            }
+</style>
+<div class="container">
+    <div class="left">
+        <ul class="breadcrumbs">
+            <li><a href="#">Home> </a></li>
+            <li><a href="#">Mall> </a></li>
+            <li><a href="#">Bracelets & Pendants> </a></li>
+            <li>Green Aventurine With Tulsi Bracelet </li>
+        </ul>
+    </div>
+</div>
+<div class="container">
+    
+    <div class="right">
+        <div class="product-card">
+            <div class="product-image-container">
+                <img class="product-image" src="https://i.imgur.com/F7p2v1h.png" alt="Green Aventurine With Tulsi Bracelet">
+            </div>
+            <div class="product-info">
+                <h1>Green Aventurine With Tulsi Bracelet</h1>
+                <div class="product-description">
+                    <p>Attracts true love | Increased wellness | Energized | Free Shipping | 100% Cashback | Use Code - CASHBACK100</p>
+                </div>
+                <div class="product-price">
+                    <span class="current-price">₹1549</span> <span class="original-price">₹2399</span> <span class="discount">35% OFF</span>
+                </div>
+                <a href="/Home/AddNewAddress">
+                    <button class="product-button" aria-label="Book Green Aventurine With Tulsi Bracelet">Book Now</button>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container m-3 " style="background-color:aliceblue; border: 1px solid #ccc;">
+    <div class="four_section_sameas">
+        <h2>What will be the benefits of Green Aventurine With Tulsi Bracelet?</h2>
+        <p>
+            • Attracts good opportunities into life.<br>
+            • Supports healthy metabolism and balances blood sugar and blood pressure.<br>
+            • Reduces stress levels and improves memory.<br>
+            • Promotes overall health and well-being and enhances positivity in life.
+        </p>
+    </div>
+</div>
+
+<div class="container m-3 " style="background-color:aliceblue; border: 1px solid #ccc;">
+    <div class="four_section_sameas">
+        <h2> Can gemstones be worn as bracelets?</h2>
+        <p>
+           
+            • One of the simplest and most powerful ways to experience the benefits of gemstones is by wearing them as jewelry.
+            • Each gemstone has its own energetic properties and benefits, and gemstone bracelets can be worn not only for aesthetic purposes, but also because they circulate positive energy within our being.
+        </p>
+    </div>
+</div>
+
+
+<div class="container m-3 " style="background-color:aliceblue; border: 1px solid #ccc;">
+    <div class="four_section_sameas">
+        <h2>
+            What is the return policy and estimated delivery duration?
+        </h2>
+        <p>
+            • We have a 7 days Return and Replacement Policy, ONLY if the product delivered is damaged or defective.
+            • This product requires energization of upto 2 or 3 days by the astrologer, following which it will be shipped to you.
+            • The estimated time of delivery is about 7 to 10 days.
+        </p>
+    </div>
+</div>
+<div class="container m-3 " style="background-color:aliceblue; border: 1px solid #ccc;">
+    <div class="four_section_sameas">
+        <h2>
+            Disclaimer
+        </h2>
+        <p>
+            For external use only. Keep away from children. Handle with care to avoid breakage. Avoid heat and moisture. Use gentle cleaners to avoid any damage. Contact us for assistance.
+        </p>
+    </div>
+</div>
+
+
+
+
+<div class="container d-flex justify-content-between">
+    <div class="testimonials">
+        <h3>Customer Testimonials</h3>
+        <div class="testimonial">
+            <img src="https://cdn-icons-png.flaticon.com/512/147/147144.png" alt="User Profile Picture">
+            <h4>Santosh</h4>
+            <p>★★★★★ Aug 5, 2024</p>
+            <p>beads ate completely different then in the picture</p>
+        </div>
+        <div class="testimonial">
+            <img src="https://cdn-icons-png.flaticon.com/512/147/147144.png" alt="User Profile Picture">
+            <h4>VEERANAGOUDA</h4>
+            <p>★★★★★ Aug 5, 2024</p>
+            <p>I have purchased Green aventurine with tulasi bracelet but I have received some wrong items</p>
+        </div>
+    </div>
+    <div class="promises">
+        <h3>My Jyotosh Ji Promises</h3>
+        <p>Mall is a one-stop shop for all your astrological needs. Apart from providing you the most genuine and lab - certified products like Gemstones, Kavach, Yantras, etc. Mall also assures excellence in providing services like Reiki healing, Past life regression, Consultation, etc. All these products and services on Mall comes with the promise of genuineness and are attuned and energised to your personal needs. If you have any queries about any of our products or services, you can simply reach out to our customer care executives.</p>
+        <div class="button">
+            <button><i class="fas fa-phone"></i> Talk to Astrologer</button>
+            <button><i class="fas fa-comments"></i> Chat with Astrologer</button>
+        </div>
+    </div>
+</div>
+   
