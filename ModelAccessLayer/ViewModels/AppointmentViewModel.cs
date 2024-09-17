@@ -10,8 +10,6 @@ namespace ModelAccessLayer.ViewModels
     public class AppointmentViewModel
     {
         [Required]
-        public string Mode { get; set; }
-        [Required]
         public string Name { get; set;  }
         [Required]
         public string Mobile { get; set; }

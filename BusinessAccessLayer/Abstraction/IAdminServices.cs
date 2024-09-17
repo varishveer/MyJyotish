@@ -11,7 +11,7 @@ namespace BusinessAccessLayer.Abstraction
     public interface IAdminServices
     {
         public List<JyotishModel> GetAllJyotish();
-       /* public List<PendingJyotishModel> GetAllPendingJyotish();*/
+        public List<JyotishModel> GetAllPendingJyotish();
         public List<UserModel> GetAllUser();
         public List<TeamMemberModel> GetAllTeamMember();
         public List<AppointmentModel> GetAllAppointment();

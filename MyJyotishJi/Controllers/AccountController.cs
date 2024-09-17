@@ -72,11 +72,11 @@ namespace MyJyotishJiApi.Controllers
                 }
                 else if (result == "Incorrect Password")
                 {
-                    return Unauthorized(new { Status = 400, Message = "Incorrect Password" });
+                    return Ok(new { Status = 400, Message = "Incorrect Password" });
                 }
                 else if (result == "Invalid Email")
                 {
-                    return Unauthorized(new { Status = 400, Message = "Invalid Email" });
+                    return Ok(new { Status = 400, Message = "Invalid Email" });
                 }
 
                 return Unauthorized();

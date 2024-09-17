@@ -33,15 +33,19 @@ namespace BusinessAccessLayer.Implementation
 
         public List<JyotishModel> GetAllJyotish()
         {
-            var Records = _context.JyotishRecords.ToList();
+            var Records = _context.JyotishRecords
+                             .Where(record => record.Role == "jyotish")
+                             .ToList();
             return Records;
         }
 
-       /* public List<PendingJyotishModel> GetAllPendingJyotish()
+        public List<JyotishModel> GetAllPendingJyotish()
         {
-            var Records = _context.PendingJyotishRecords.ToList();
+            var Records = _context.JyotishRecords
+                             .Where(record => record.Role == "pending")
+                             .ToList();
             return Records;
-        }*/
+        }
         public List<UserModel> GetAllUser()
         {
             var Records = _context.Users.ToList();

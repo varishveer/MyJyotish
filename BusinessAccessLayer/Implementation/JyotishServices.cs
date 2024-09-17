@@ -46,7 +46,7 @@ namespace BusinessAccessLayer.Implementation
 
             AppointmentModel newAppointment = new AppointmentModel()
             {
-                Mode = appointment.Mode,
+               
                 Name = appointment.Name,
                 Mobile = appointment.Mobile,
                 DateTime = appointment.DateTime,

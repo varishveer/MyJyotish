@@ -77,7 +77,7 @@ body {
 }
 
 .ServiceCard {
-    width: 12fixed-section0px;
+    width: 120px;
     height: 120px;
     border-radius: 50%;
     box-shadow: 0 16px 16px rgba(0, 0, 0, 0.3);

@@ -45,12 +45,12 @@ namespace MyJyotishJiApi.Controllers
             var Records = _admin.GetAllJyotish();
             return Ok(new { Success = true, data = Records });
         }
-       /* [HttpGet("PendingJyotish")]
+        [HttpGet("PendingJyotish")]
         public IActionResult AllPendingJyotishRecord()
         {
             var Records = _admin.GetAllPendingJyotish();
             return Ok(new { Success = true, data = Records });
-        }*/
+        }
         [HttpGet("User")]
         public IActionResult AllUser()
         {

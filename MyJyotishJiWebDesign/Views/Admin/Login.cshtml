@@ -80,33 +80,49 @@
 
             var email = $('#email').val();
             var password = $('#password').val();
-            localStorage.setItem('userEmail', email);   
+
+            // Prepare the data to be sent
+            var data = {
+                email: email,
+                password: password
+            };
+
+            // Perform the AJAX request
             $.ajax({
-                url: "https://localhost:7118/Api/Account/login",
+                url: "https://localhost:7118/Api/Account/LoginAdmin",
                 type: 'POST',
                 contentType: 'application/json', // Specify that the content type is JSON
-                data: JSON.stringify({
-                    email: email,
-                    password: password
-                }),
+                data: JSON.stringify(data),
                 success: function (response) {
+                   
+                    if (response.status === 200) {
+                        // Store the token and user email in local storage
+                        localStorage.setItem("Token", response.token);
+                        localStorage.setItem('userEmail', response.user);
 
-                    localStorage.setItem("Token", response.token);
-                   
-                    window.location.href = "/Admin/Dashboard";
-                   
-                        
-                    
+                        // Redirect to the dashboard
+                        window.location.href = "/Admin/Dashboard";
+                    } else if (response.status === 400) {
+                        // Handle invalid email or incorrect password scenarios
+                        alert(response.message);
+                    } else {
+                        // Handle unexpected success responses
+                        console.error("Unexpected response status:", response.status);
+                        alert("An unexpected error occurred.");
+                    }
                 },
                 error: function (xhr, status, error) {
-                    console.error("Error:", xhr.responseText);
-                    console.log("Invalid credentials");
-                    alert("Invalid credentials");
+                    // Handle HTTP error responses
+                    if (xhr.status === 401) {
+                        alert("Unauthorized access. Please check your credentials.");
+                    } else {
+                        console.error("Error:", xhr.responseText);
+                        alert("An error occurred. Please try again.");
+                    }
                 }
             });
         });
     });
-
-
 </script>
+
 
