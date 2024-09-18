@@ -4,6 +4,7 @@ using DataAccessLayer.DbServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20240918060028_Jyotish-Email")]
+    partial class JyotishEmail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -228,9 +231,6 @@ namespace DataAccessLayer.Migrations
                     b.Property<string>("IdProof")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("JId")
-                        .HasColumnType("int");
-
                     b.Property<string>("ProfessionalCertificate")
                         .HasColumnType("nvarchar(max)");
 
@@ -241,9 +241,6 @@ namespace DataAccessLayer.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("JId")
-                        .IsUnique();
 
                     b.ToTable("Documents");
                 });
@@ -605,17 +602,6 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("ModelAccessLayer.Models.DocumentModel", b =>
-                {
-                    b.HasOne("ModelAccessLayer.Models.JyotishModel", "Jyotish")
-                        .WithOne("DocumentModel")
-                        .HasForeignKey("ModelAccessLayer.Models.DocumentModel", "JId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Jyotish");
-                });
-
             modelBuilder.Entity("ModelAccessLayer.Models.PoojaRecordModel", b =>
                 {
                     b.HasOne("ModelAccessLayer.Models.PoojaCategoryModel", "PoojaCategoryModel")
@@ -632,9 +618,6 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("CallingModelRecord");
 
                     b.Navigation("ChattingModelRecord");
-
-                    b.Navigation("DocumentModel")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.PoojaCategoryModel", b =>

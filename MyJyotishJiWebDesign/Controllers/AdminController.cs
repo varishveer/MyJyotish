@@ -33,6 +33,7 @@ namespace MyJyotishJiWebDesign.Controllers
         public IActionResult CallingRecord() { return View(); }
         public IActionResult AppointmentDetail() { return View(); }
         public IActionResult UpdateAppointment() { return View(); }
+        public IActionResult AllJyotishDocument() { return View(); }
 
 
 

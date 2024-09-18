@@ -89,13 +89,13 @@ namespace MyJyotishJiApi.Controllers
         #endregion
 
         #region Jyotish
-        [HttpPost("RegisterJMobile")]
-        public IActionResult RegisterJMobile(string Mobile)
+        [HttpPost("RegisterJyotish")]
+        public IActionResult RegisterJyotish(string Email)
         {
             try {
-                var result = _account.JRegisterAndSendOtp(Mobile);
-                if (result == "Successfull") { return Ok(new {Status = 200,Message = result}); }
-                else if(result == "Mobile Number already existed")
+                var result = _account.JRegisterAndSendOtp(Email);
+                if (result == "Successful") { return Ok(new {Status = 200,Message = result}); }
+                else if(result == "Email Number already existed")
                 { return Conflict(new { Status = 409, Message = result }); }
                 else if(result == "Data not saved") { return StatusCode(500, new { Status = 500, Message = result }); }
                 
@@ -108,30 +108,30 @@ namespace MyJyotishJiApi.Controllers
              
         }
 
-        [HttpPost("VerifyJMobile")]
-        public IActionResult VerifyJMobile( string Mobile, int Otp)
+        [HttpPost("VerifyJyotish")]
+        public IActionResult VerifyJyotish(EmailViewModel model)
         {
             try
             {
-                var result = _account.VerifyJOtp(Mobile,Otp);
-                if (result == "Successfull") { return Ok(new { Status = 200, Message = result }); }
-                else if(result == "Mobile number not found") { return Conflict(new { Status = 409, Message = result }); }
-                else if(result == "Invalid Otp") { return BadRequest(new { Status = 400, Message = result }); }
+                var result = _account.VerifyJOtp(model.Email,model.Otp);
+                if (result == "Successful") { return Ok(new { Status = 200, Message = result }); }
+                else if(result == "Email not found") { return Ok(new { Status = 409, Message = result }); }
+                else if(result == "Invalid Otp") { return Ok(new { Status = 400, Message = result }); }
                 else if (result == "Mobile Number already Verified")
-                { return Conflict(new { Status = 409, Message = result }); }
-                else { return StatusCode(500, new { Status = 500, Message = "Internal Server Error" }); }
+                { return Ok(new { Status = 409, Message = result }); }
+                else { return Ok( new { Status = 500, Message = "Internal Server Error" }); }
             }
             catch(Exception ex)
-            { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
+            { return Ok( new { Status = 500, Message = "Internal Server Error", Error = ex }); }
         }
-        [HttpPost("RegisterJyotish")]
-        public IActionResult RegisterJyotish([FromBody]JyotishViewModel jyotishViewModel) 
+        [HttpPost("SignUpJyotish")]
+        public IActionResult SignUpJyotish(JyotishViewModel jyotishViewModel) 
         {
             try
             {
                 string? path = _environment.ContentRootPath;
-                var result = _account.SignUpJyotish(jyotishViewModel);
-                if (result == "Successfull")
+                var result = _account.SignUpJyotish(jyotishViewModel, path);
+                if (result == "Successful")
                 { return Ok(new { Status = 200, Message = result });}
                 else if (result == "Mobile Number not found")
                 { return Conflict(new { Status = 409, Message = result }); }
@@ -151,28 +151,28 @@ namespace MyJyotishJiApi.Controllers
             
         }
         [HttpPost("LoginJyotish")]
-        public IActionResult LoginJyotish([FromBody] LoginViewModel jyotishLogin)
+        public IActionResult LoginJyotish([FromBody] LoginModel jyotishLogin)
         {
             try
             {
-                string result = _account.SignInJyotish(jyotishLogin.Mobile, jyotishLogin.Password);
+                string result = _account.SignInJyotish(jyotishLogin.Email, jyotishLogin.Password);
                 if (result == "Login Successful")
                 {
-                    var JyotishName = _account.JUserName(jyotishLogin.Mobile);
+                    var JyotishName = _account.JUserName(jyotishLogin.Email);
                     var UName = JyotishName;
-                    var token = GenerateJwtToken(jyotishLogin.Mobile, "Scheme2");
-                    return Ok(new { Status = 200, Message = result, Token = token, User = jyotishLogin.Mobile, UserName = UName });
+                    var token = GenerateJwtToken(jyotishLogin.Email, "Scheme2");
+                    return Ok(new { Status = 200, Message = result, Token = token, User = jyotishLogin.Email, UserName = UName });
                 }
                 else if (result == "Invalid Email")
                 {
-                    return Conflict(new { status = 409, Message = "Invalid Email" });
+                    return Ok(new { status = 409, Message = "Invalid Email" });
                 }
                 else if (result == "Incorrect Password")
                 {
-                    return Conflict(new { status = 409, Message = "Incorrect Password" });
+                    return Ok(new { status = 409, Message = "Incorrect Password" });
                 }
                 else
-                return Unauthorized(new { status = 401, Message = "Unauthorized" });
+                return Ok(new { status = 401, Message = "Unauthorized" });
             }
             catch(Exception ex)
             {

@@ -11,10 +11,10 @@ namespace BusinessAccessLayer.Abstraction
     public interface IAccountServices
     {
         #region Jyotish
-        public string JRegisterAndSendOtp(string Mobile);
-        public string VerifyJOtp(string Mobile, int Otp);
-        public string SignUpJyotish(JyotishViewModel jyotishView );
-        public string SignInJyotish(string mobile, string password);
+        public string JRegisterAndSendOtp(string Email);
+        public string VerifyJOtp(string Email, int Otp);
+        public string SignUpJyotish(JyotishViewModel jyotishView, string path );
+        public string SignInJyotish(string Email, string password);
         public string JUserName(string Mobile);
         public string JForgotPasswordOtpRequest(string Email);
         public string JForgotPasswordOtpCheck(string Email, int Otp);

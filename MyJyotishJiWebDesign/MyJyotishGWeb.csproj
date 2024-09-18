@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Views\Admin\AddPoojaCategory.cshtml" />
     <Content Remove="Views\Admin\PoojaRecord.cshtml" />
   </ItemGroup>
 
@@ -23,17 +22,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <_ContentIncludedByDefault Remove="Views\Admin\AddPoojaCategory.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Admin\PoojaRecord.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Views\Admin\AddPoojaCategory.cshtml" />
     <None Include="Views\Admin\PoojaRecord.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Views\Admin\AddPoojaCategory.cshtml" />
   </ItemGroup>
 
 </Project>

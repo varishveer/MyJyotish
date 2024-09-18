@@ -22,19 +22,24 @@ namespace MyJyotishJiApi.Controllers
         [HttpGet("Profile")]
         public IActionResult Profile([FromQuery] string email)
         {
-            var record = _admin.Profile(email);
-            if (record == null)
+            try
             {
-                return BadRequest();
+                var Records =_admin.Profile(email);
+                if (Records == null)
+                {
+                    return Ok(new { Status = 400, data = Records, Message ="Admin Not found " });
+                }
+                else
+                { return Ok(new { Status = 200, data = Records, Message = "Success" }); }
             }
-            else
-            { return Ok(new { Success = true, data = record }); }
+            catch { return Ok(new { Status = 500,  Message = "Internal Server Error " }); }
+           
 
         }
        /* [HttpGet("Dashboard")]
         public IActionResult Dashboard()
         {
-            var record = _admin.Dashboard();
+            var Records =_admin.Dashboard();
             if (record == null) { return BadRequest(); }
             else { return Ok(new { success = true, data = record }); }
         }*/
@@ -42,72 +47,107 @@ namespace MyJyotishJiApi.Controllers
         [HttpGet("Jyotish")]
         public IActionResult AllJyotishRecord()
         {
-            var Records = _admin.GetAllJyotish();
-            return Ok(new { Success = true, data = Records });
+            try {
+                var Records =_admin.GetAllJyotish();
+                return Ok(new { Status = 200, data = Records, Message = "Success" });
+            }
+            catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
         }
         [HttpGet("PendingJyotish")]
         public IActionResult AllPendingJyotishRecord()
         {
-            var Records = _admin.GetAllPendingJyotish();
-            return Ok(new { Success = true, data = Records });
+            try {
+                var Records =_admin.GetAllPendingJyotish();
+                return Ok(new { Status = 200, data = Records, Message = "Success" });
+            }
+              catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
         }
         [HttpGet("User")]
         public IActionResult AllUser()
         {
-            var Records = _admin.GetAllUser();
-
-            return Ok(new { Success = true, data = Records });
+            try { var Records =_admin.GetAllUser(); return Ok(new { Status = 200, data = Records, Message = "Success" });
+            }
+            catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
 
         }
         [HttpGet("TeamMember")]
         public IActionResult AllTeamMember()
         {
-            var Records = _admin.GetAllTeamMember();
-            return Ok(new { Success = true, data = Records });
+            
+            try
+            {
+                var Records =_admin.GetAllTeamMember();
+                return Ok(new { Status = 200, data = Records, Message = "Success" });
+            }
+            catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
+          
         }
         [HttpGet("Appointment")]
         public IActionResult AllAppointment()
         {
-            List<AppointmentModel> Records = _admin.GetAllAppointment();
-
-            return Ok(new { Success = true, data = Records });
+            try
+            {
+                List<AppointmentModel> Records =_admin.GetAllAppointment();
+                return Ok(new { Status = 200, data = Records, Message = "Success" });
+            }
+            catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
         }
 
         [HttpPost("ApproveJyotish")]
         public IActionResult ApproveJyotish(IdViewModel model)
         {
-            var Records = _admin.ApproveJyotish(model);
-            if (Records == true)
-            { return Ok(new { Status  = 200, Message = "Successfully Approved" }); }
-            else { return BadRequest(); }
+           
+            try
+            {
+                var Records = _admin.ApproveJyotish(model);
+                if (Records == true)
+                { return Ok(new { Status = 200, Message = "Success" }); }
+                else { return Ok(new { Status = 400, Message = "Bad Request" }); }
+               
+            }
+            catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
 
         }
         [HttpPost("RejectJyotish")]
         public IActionResult RejectJyotish(IdViewModel model)
         {
-            var Records = _admin.RejectJyotish(model);
-            if (Records == true)
-            { return Ok(new { Status = 200, Message = "Successfully Rejected" }); }
-            else { return BadRequest(); }
+          
+
+            try
+            {
+                var Records = _admin.RejectJyotish(model);
+                if (Records == true)
+                { return Ok(new { Status = 200, Message = "Success" }); }
+                else { return Ok(new { Status = 400, Message = "Bad Request" }); }
+            }
+            catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
         }
         [HttpPost("RemoveJyotish")]
         public IActionResult RemoveJyotish(IdViewModel model)
         {
-            var Records = _admin.RemoveJyotish(model);
-            if (Records == true)
-            { return Ok(new { Success = true }); }
-            else { return BadRequest(); }
+            
+            try
+            {
+                var Records = _admin.RemoveJyotish(model);
+                if (Records == true)
+                { return Ok(new { Status = 200, Message = "Success" }); }
+                else { return Ok(new { Status = 400, Message = "Bad Request" }); }
+            }
+            catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
         }
 
         [HttpPost("AddPoojaCategory")]
-        public IActionResult AddPoojaCategory(PoojaCategoryModel pooja)
+        public IActionResult AddPoojaCategory(PoojaCategoryViewModel pooja)
         {
-            var result = _admin.AddPoojaCategory(pooja);
-            if (result == true)
-            {
-                return Ok(new { success = true });
+            try
+           { var result = _admin.AddPoojaCategory(pooja);
+                if (result == true)
+                {
+                    return Ok(new { Status = 200, Message = "Success" });
+                }
+                else { return Ok(new { Status = 400, Message = "Bad Request" }); }
             }
-            else { return BadRequest(); }
+            catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
         }
         [AllowAnonymous]
         [HttpPost("AddPoojaList")]
@@ -116,105 +156,144 @@ namespace MyJyotishJiApi.Controllers
             try {
                 var result = _admin.AddNewPoojaList(pooja);
                 if(result)
-                { return Ok(); }
-                else { return BadRequest(); }
+                { return Ok(new { Status = 200, Message = "Success" }); }
+                else { return Ok(new { Status = 400, Message = "Bad Request" }); }
             }
-            catch { return BadRequest(); }
+            catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
         }
 
         [HttpPost("AddExpertise")]
         public IActionResult AddExpertise(ExpertiseModel expertise)
         {
-            var result = _admin.AddExpertise(expertise);
-            if (result == true)
+            try
             {
-                return Ok(new { success = true });
+                var result = _admin.AddExpertise(expertise);
+                if (result == true)
+                {
+                    return Ok(new { Status = 200, Message = "Success" });
+                }
+                else { return Ok(new { Status = 400, Message = "Bad Request" }); }
             }
-            else { return BadRequest(); }
+            catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
         }
 
         [HttpGet("PoojaCategoryList")]
         public IActionResult PoojaCategoryList()
         {
-            var Records = _admin.GetAllPoojaCategory();
-            return Ok(new { Success = true, data = Records });
-
+            try
+            {
+                var Records =_admin.GetAllPoojaCategory();
+                return Ok(new { Status = 200, data = Records, Message = "Success" });
+            }
+            catch {return Ok(new { Status = 500, Message = "Internal Server Error " }); }
         }
         [HttpGet("ExpertiseList")]
         public IActionResult ExpertiseList()
         {
-            var Records = _admin.GetAllExpertise();
-            return Ok(new { Success = true, data = Records });
-
+            try
+           { var Records =_admin.GetAllExpertise();
+                return Ok(new { Status = 200, data = Records, Message = "Success" });
+            }
+            catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
         }
         [HttpGet("PoojaRecord")]
         public IActionResult PoojaRecord()
         {
-            var Records = _admin.PoojaRecord();
-            return Ok(new { Success = true, data = Records });
+            try
+            {
+                var Records = _admin.PoojaRecord();
+                return Ok(new { Status = 200, data = Records, Message = "Success" });
+            }
+            catch {return Ok(new { Status = 500, Message = "Internal Server Error " }); }
+
         }
 
         [HttpGet("ChattingRecord")]
         public IActionResult ChattingRecord()
         {
-            var Records = _admin.ChattingRecord();
-            return Ok(new { Success = true, data = Records });
+           try
+            { var Records = _admin.ChattingRecord();
+                return Ok(new { Status = 200, data = Records, Message = "Success" });
+            }
+            catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
         }
 
         [HttpGet("CallingRecord")]
         public IActionResult CallingRecord()
         {
-            var Records = _admin.CallingRecord();
-            return Ok(new { Success = true, data = Records });
+           
+            try
+            {
+                var Records = _admin.CallingRecord();
+                return Ok(new { Status = 200, data = Records, Message = "Success" });
+            }
+            catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
         }
         [HttpGet("AppointmentDetail")]
         public IActionResult AppointmentDetail(IdViewModel model)
         {
-            var Record = _admin.AppointmentDetails(model.Id);
-            if (Record == null)
-            { return BadRequest(); }
-            else
-            { return Ok(new { data = Record }); }
+            try
+            {
+            var Records =_admin.AppointmentDetails(model.Id);
+                if (Records == null)
+                { return Ok(new { Status = 400, Message = "Record Not Found" }); }
+                else
+                { return Ok(new { Status = 200, data = Records, Message = "Success" }); }
+            }
+            catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
         }
         [HttpPost("UpdateAppointment")]
         public IActionResult UpdateAppointment(AppointmentModel model)
         {
-            var Record = _admin.UpdateAppointment(model);
-            if (Record == false)
-            { return BadRequest(); }
-            else
-            { return Ok(Record); }
+            try
+            {
+                var Records = _admin.UpdateAppointment(model);
+                if (Records == false)
+                { return Ok(new { Status = 400, Message = "Record Not Found" }); }
+                else
+                { return Ok(new { Status = 200, data = Records, Message = "Success" }); }
+            }
+            catch {return Ok(new { Status = 500, Message = "Internal Server Error " }); }
         }
 
-        [HttpPost("AddCountry")]
+       /* [HttpPost("AddCountry")]
         public IActionResult AddCountry(Country country)
         {
-            var result = _admin.AddCountry(country);
-            if(result == false) 
-            { return BadRequest(); }
-            else { return Ok(); }
-           
+            try
+           { 
+                var result = _admin.AddCountry(country);
+                if (result == false)
+                { return Ok(new { Status = 400, Message = "Bad Request" }); }
+                else { return Ok(new { Status = 200,  Message = "Success" }); }
+            }
+            catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
+
         }
 
         [HttpPost("AddState")]
         public IActionResult AddState(State state)
         {
-            var result = _admin.AddState(state);
-            if (result == false)
-            { return BadRequest(); }
-            else { return Ok(); }
+           try{ var result = _admin.AddState(state);
+                if (result == false)
+                { return Ok(new { Status = 400, Message = "Bad Request" }); }
+                else { return Ok(new { Status = 200, Message = "Success" }); }
+            }
+            catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
 
         }
 
         [HttpPost("AddCity")]
         public IActionResult AddCity(City city)
         {
-            var result = _admin.AddCity(city);
-            if (result == false)
-            { return BadRequest(); }
-            else { return Ok(); }
+           try{ 
+                var result = _admin.AddCity(city);
+                if (result == false)
+                { return Ok(new { Status = 400, Message = "Bad Request" }); }
+                else { return Ok(new { Status = 200, Message = "Success" }); }
+            }
+            catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
 
-        }
+        }*/
         [AllowAnonymous]
         [HttpPost("AddSlider")]
         public IActionResult AddSlider(SliderImagesViewModel model)
@@ -222,13 +301,13 @@ namespace MyJyotishJiApi.Controllers
             try {
                 var result = _admin.AddSlider(model);
                 if(result)
-                { return Ok(); }
+                { return Ok(new { Status = 200, Message = "Success" }); }
                 else
                 {
-                    return BadRequest();
+                    return Ok(new { Status = 400, Message = "Bad Request" });
                 }
             }
-            catch { return BadRequest(); }
+            catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
         }
 
         [AllowAnonymous]
@@ -239,10 +318,20 @@ namespace MyJyotishJiApi.Controllers
             {
                 var result = _admin.AddPoojaDetail(model);
                 if (result)
-                { return Ok(); }
-                else { return BadRequest(); }
+                { return Ok(new { Status = 200, Message = "Success" }); }
+                else { return Ok(new { Status = 400, Message = "Bad Request" }); }
             }
-            catch { return BadRequest(); }
+            catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
+        }
+        [HttpGet("GetAllJyotishDocument")]
+        public IActionResult GetAllJyotishDocument()
+        {
+            try
+            {
+                var Records = _admin.GetAllJyotishDocument();
+                return Ok(new {Status = 200 , Data = Records, Message = "All Jyotish Document"});
+            }
+            catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
         }
     }
 }

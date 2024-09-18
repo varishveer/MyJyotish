@@ -1,11 +1,4 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿
 @{
     Layout = "Extra";
 }
@@ -98,8 +91,8 @@
             <input type="text" id="name" name="name" class="form-control">
         </div>
         <div class="form-group">
-            <label for="mobile">Phone Number:</label>
-            <input type="text" id="mobile" name="mobile" class="form-control">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" class="form-control">
             <button id="getOtp">Get Otp</button>
         </div>
         <div class="form-group">
@@ -109,8 +102,9 @@
         </div>
 
         <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" class="form-control">
+             <label for="mobile">Phone Number:</label>
+            <input type="text" id="mobile" name="mobile" class="form-control">
+          
         </div>
 
        
@@ -162,6 +156,7 @@
             </select>
         </div>
 
+
         <div class="text-center">
             <button type="submit" class="btn btn-success">
                 Submit
@@ -188,11 +183,11 @@
     $(document).ready(function () {
 
         $("#getOtp").click(function () {
-            var mobile = document.getElementById("mobile").value;
+            var email = document.getElementById("email").value;
             // Use jQuery to get the value
 
             $.ajax({
-                url: `https://localhost:7118/Api/Account/RegisterPJMobile?mobile=${encodeURIComponent(mobile)}`,
+                url: `https://localhost:7118/Api/Account/RegisterJyotish?email=${encodeURIComponent(email)}`,
                 type: 'POST',
                 contentType: 'application/json', // Set content type to JSON
                
@@ -210,24 +205,48 @@
 
 
         $("#verifyOtp").click(function () {
-            var mobile = document.getElementById("mobile").value;
+            var mobile = document.getElementById("email").value;
             var otp = document.getElementById("otp").value;
-            // Use jQuery to get the value
+
+            // Create the data object to send
+            var data = {
+                Email: mobile, // Match the property name in the model
+                Otp: otp
+            };
 
             $.ajax({
-                url: `https://localhost:7118/Api/Account/VerifyPJMobile?mobile=${encodeURIComponent(mobile)}&otp=${encodeURIComponent(otp)}`,
+                url: `https://localhost:7118/Api/Account/VerifyJyotish`,
                 type: 'POST',
-                contentType: 'application/json', // Set content type to JSON
+                contentType: 'application/json',
+                data: JSON.stringify(data), // Send the data as a JSON string
 
-                success: function () {
-                    alert("OTP Check successful.");
-                   
+                success: function (response) {
+                    // Handle different status messages based on the response
+                    switch (response.Status) {
+                        case 200:
+                            alert("OTP Check successful: " + response.Message);
+                            break;
+                        case 409:
+                            alert("Conflict: " + response.Message);
+                            break;
+                        case 400:
+                            alert("Bad Request: " + response.Message);
+                            break;
+                        case 500:
+                            alert("Internal Server Error: " + response.Message);
+                            break;
+                        default:
+                            alert("Unexpected response: " + response.Message);
+                            break;
+                    }
                 },
                 error: function (xhr) {
-                    alert("Error: " + xhr.status + " - " + xhr.statusText + " - OTP Incorrect");
+                    alert("Error: " + xhr.status + " - " + xhr.statusText);
                 }
             });
         });
+
+
 
 
 

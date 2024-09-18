@@ -18,7 +18,7 @@ namespace BusinessAccessLayer.Abstraction
         public bool ApproveJyotish(IdViewModel JyotishId);
         public bool RejectJyotish(IdViewModel JyotishId);
         public bool RemoveJyotish(IdViewModel JyotishId);
-        public bool AddPoojaCategory(PoojaCategoryModel _pooja);
+        public bool AddPoojaCategory(PoojaCategoryViewModel _pooja);
         public bool AddNewPoojaList(PoojaListViewModel model);
         public bool AddExpertise(ExpertiseModel _expertise);
         public List<ExpertiseModel> GetAllExpertise();
@@ -35,6 +35,7 @@ namespace BusinessAccessLayer.Abstraction
         public bool AddCity(City _city);
         public bool AddSlider(SliderImagesViewModel model);
         public bool AddPoojaDetail(PoojaRecordViewModel model);
+        public List<DocumentModel> GetAllJyotishDocument();
 
     }
 }

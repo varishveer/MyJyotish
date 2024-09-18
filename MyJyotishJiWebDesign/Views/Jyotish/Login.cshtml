@@ -82,29 +82,36 @@
             var password = $('#password').val();
 
             $.ajax({
-                url: "https://localhost:7118/Api/Account/loginJyotish",
+                url: "https://localhost:7118/Api/Account/LoginJyotish",
                 type: 'POST',
                 contentType: 'application/json', // Specify that the content type is JSON
                 data: JSON.stringify({
-                    email: email,
-                    password: password
+                    Email: email, // Make sure this matches the property name in your model
+                    Password: password // Make sure this matches the property name in your model
                 }),
                 success: function (response) {
-
-                    localStorage.setItem('Username', response.userName);
-                    localStorage.setItem('userEmail', email);
-                    localStorage.setItem("Token2", response.token);
-                    window.location.href = "/Jyotish/Dashboard";
+                    if (response.status === 200) {
+                        // Successful login
+                        localStorage.setItem('Username', response.userName);
+                        localStorage.setItem('userEmail', response.user);
+                        localStorage.setItem("Token2", response.token);
+                        alert("Login Successful! Redirecting to dashboard...");
+                        window.location.href = "/Jyotish/Dashboard";
+                    } else if (response.status === 409) {
+                        alert(response.message); // Show alert for Invalid Email or Incorrect Password
+                    } else if (response.status === 401) {
+                        alert(response.message); // Show alert for Unauthorized
+                    } else {
+                        alert("Unexpected response: " + response.message);
+                    }
                 },
-                error: function (xhr, status, error) {
+                error: function (xhr) {
                     console.error("Error:", xhr.responseText);
-                    console.log("Invalid credentials");
-                    alert("Invalid credentials");
+                    alert("An error occurred. Please try again.");
                 }
             });
         });
     });
-
-
 </script>
+
 

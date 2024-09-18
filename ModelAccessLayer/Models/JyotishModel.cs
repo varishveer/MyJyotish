@@ -12,7 +12,8 @@ namespace ModelAccessLayer.Models
         [Key]
         public int Id { get; set; }
         [Required]
-        public string Mobile { get; set; }
+        public string Email { get; set; }
+        public string? Mobile { get; set; }
 
         public string Role { get; set; }
 
@@ -24,7 +25,7 @@ namespace ModelAccessLayer.Models
       
         public string? Expertise { get; set; }
         
-        public string? Email { get; set; }
+       
         public string? Country { get; set; }
         public string? State { get; set; }
         public string? City { get; set; }
@@ -49,7 +50,7 @@ namespace ModelAccessLayer.Models
         public TimeOnly? TimeFrom { get; set; }
 
 
-       /* public DocumentModel DocumentModel { get; set; }*/
+        public DocumentModel DocumentModel { get; set; }
         public ICollection<CallingModel> CallingModelRecord { get; set; } = new List<CallingModel>();
         public ICollection<ChattingModel> ChattingModelRecord { get; set; } = new List<ChattingModel>();
         

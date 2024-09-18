@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace ModelAccessLayer.ViewModels
 {
-    public class EmailViewModel
+    public class PoojaCategoryViewModel
     {
-        public string Email { get; set; }
-        public int Otp { get; set; }
+        public string Name { get; set; }
+        public DateTime? DateAdded { get; set; }
     }
 }

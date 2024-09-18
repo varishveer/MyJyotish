@@ -25,40 +25,57 @@ namespace BusinessAccessLayer.Implementation
         }
 
         #region JYotish
-        public string JRegisterAndSendOtp(string Mobile)
+        public string JRegisterAndSendOtp(string Email)
         {
-            var IsMobileValid = _context.JyotishRecords.Where(x => x.Mobile == Mobile).FirstOrDefault();
+            var IsMobileValid = _context.JyotishRecords.Where(x => x.Email == Email).FirstOrDefault();
             
             if (IsMobileValid != null)
             { 
-                if(IsMobileValid.Status == "Unverified")
+                if(IsMobileValid.Status == "Unverified" || IsMobileValid.Status == "Verified")
                 {
-                    var NewOtp = SendOtp(Mobile);
-                    IsMobileValid.Otp = NewOtp;
-                    _context.JyotishRecords.Update(IsMobileValid);
+                    int NewOtp = 123456;
+                   
+                    string NewMessage = "Dear User,\r\n\r\nThank you for choosing My Jyotish G! To ensure the security of your account, we need to verify your identity.\r\n\r\nYour One-Time Password (OTP) is: " + NewOtp + "\r\n\r\nPlease enter this OTP within the next 10 minutes. If you did not request this code, please disregard this email.\r\n\r\nIf you have any questions or need assistance, feel free to contact our support team.\r\n\r\nThank you for being a valued part of the My Jyotish G community!\r\n\r\nBest regards,\r\nThe My Jyotish G Team\r\n\r\n";
+                    string NewSubject = "Verification Code for My Jyotish G";
+
+                    var isNewMailSend = SendEmail(NewMessage, Email, NewSubject);
+                    if(isNewMailSend)
+                    {IsMobileValid.Otp = NewOtp;
+
+                        IsMobileValid.Status = "Unverified";
+                        _context.JyotishRecords.Update(IsMobileValid);
                     var NewResult = _context.SaveChanges();
-                    if (NewResult > 0)
-                    { return "Successfull"; }
+                        if (NewResult > 0)
+                        { return "Successful"; }
+                        else { return "Data not saved"; }
+                    }
                     else { return "Data not saved"; }
                 }
-                return "Mobile Number already existed"; }
-
+                return "Email Number already existed"; 
+            }
+            int Otp = 123456;
             JyotishModel model = new JyotishModel();
-            var Otp = SendOtp(Mobile);
-            model.Otp = Otp;
-            model.Mobile = Mobile;
+            string Message = "Dear User,\r\n\r\nThank you for choosing My Jyotish G! To ensure the security of your account, we need to verify your identity.\r\n\r\nYour One-Time Password (OTP) is: "+ Otp +"\r\n\r\nPlease enter this OTP within the next 10 minutes. If you did not request this code, please disregard this email.\r\n\r\nIf you have any questions or need assistance, feel free to contact our support team.\r\n\r\nThank you for being a valued part of the My Jyotish G community!\r\n\r\nBest regards,\r\nThe My Jyotish G Team\r\n\r\n";
+            string Subject = "Verification Code for My Jyotish G";
+
+            var isMailSend =SendEmail(Message,Email,Subject);
+            if(isMailSend)
+            {model.Otp = Otp;
+            model.Email = Email;
             model.Status = "Unverified";
             model.Role = "Pending";
             _context.JyotishRecords.Add(model);
             var result = _context.SaveChanges();
-            if (result > 0)
-            { return "Successfull"; }
+                if (result > 0)
+                { return "Successful"; }
+                else { return "Data not saved"; }
+            }
             else { return "Data not saved"; }
 
         }
-        public string VerifyJOtp(string Mobile, int Otp)
+        public string VerifyJOtp(string Email, int Otp)
         {
-            var record = _context.JyotishRecords.Where(x => x.Mobile == Mobile).FirstOrDefault();
+            var record = _context.JyotishRecords.Where(x => x.Email == Email).FirstOrDefault();
             if (record != null)
             {
                 if (record.Otp == Otp)
@@ -67,13 +84,13 @@ namespace BusinessAccessLayer.Implementation
                     {
                         record.Status = "Verified";
                     }
-                    else { return "Mobile Number already Verified"; }
+                    else { return "Email already Verified"; }
 
 
                     _context.JyotishRecords.Update(record);
                     var result = _context.SaveChanges();
 
-                    if (result > 0) { return "Successfull"; }
+                    if (result > 0) { return "Successful"; }
                     else
                     {
                         return "Data not saved";
@@ -81,15 +98,15 @@ namespace BusinessAccessLayer.Implementation
                 }
                 else { return "Invalid Otp"; }
             }
-            return "Mobile number not found";
+            return "Email not found";
         }
-        public string SignUpJyotish(JyotishViewModel jyotishView)
+        public string SignUpJyotish(JyotishViewModel jyotishView , string path)
         {
             
            
-            var Jyotish = _context.JyotishRecords.Where(x => x.Mobile == jyotishView.Mobile).FirstOrDefault();
+            var Jyotish = _context.JyotishRecords.Where(x => x.Email == jyotishView.Email).FirstOrDefault();
             if (Jyotish == null )
-            { return "Mobile Number not found"; }
+            { return "Email Number not found"; }
 
             if( Jyotish.Status != "Verified")
             { return "Not authorized to register"; }
@@ -99,7 +116,7 @@ namespace BusinessAccessLayer.Implementation
 
             Jyotish.Name = jyotishView.Name;
 
-            Jyotish.Email = jyotishView.Email;
+            Jyotish.Mobile = jyotishView.Mobile;
             Jyotish.Gender = jyotishView.Gender;
             Jyotish.Language = jyotishView.Language;
             Jyotish.Expertise = jyotishView.Expertise;
@@ -111,23 +128,35 @@ namespace BusinessAccessLayer.Implementation
 
             Jyotish.Role = "Pending";
             Jyotish.Status = "Offline";
+            string uploadFolder = path + "/wwwroot/Images/Jyotish";
+            string imageName = Guid.NewGuid().ToString("N").Substring(0, 8) + jyotishView.Image.FileName  ;
+            Jyotish.ProfileImageUrl = imageName;
+
+            var filePath = Path.Combine(uploadFolder,imageName);
+           
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                jyotishView.Image.CopyTo(stream);
+            }
 
             _context.JyotishRecords.Update(Jyotish);
             var result = _context.SaveChanges();
             if (result > 0)
             {
+                
+
                 var message = "Dear Jyotish ," +
                     "/n Your account has been successfully created and your Credential are below , \n Email : " + Jyotish.Email + "\n Password: " + Jyotish.Password;
                 var subject = "MyJyotishG Account Credential";
-                SendPJPassword(message, Jyotish.Mobile, subject);
-                return "Successfull";
+                SendEmail(message, Jyotish.Mobile, subject);
+                return "Successful";
             }
             return "Data not saved";
         }
 
-        public string SignInJyotish(string mobile, string password)
+        public string SignInJyotish(string Email, string password)
         {
-            var _pJyotish = _context.JyotishRecords.Where(x => x.Mobile == mobile).FirstOrDefault();
+            var _pJyotish = _context.JyotishRecords.Where(x => x.Email == Email).FirstOrDefault();
             if (_pJyotish != null)
             {
                 if (_pJyotish.Password == password)

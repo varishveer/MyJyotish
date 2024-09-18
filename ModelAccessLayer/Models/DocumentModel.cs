@@ -22,7 +22,7 @@ namespace ModelAccessLayer.Models
         public string? TwelveCertificate { get; set; }
         [AllowNull]
         public string? ProfessionalCertificate { get; set; }
-      /*  public int JId { get; set; }
-        public JyotishModel Jyotish { get; set; }*/
+        public int JId { get; set; }
+        public JyotishModel Jyotish { get; set; }
     }
 }

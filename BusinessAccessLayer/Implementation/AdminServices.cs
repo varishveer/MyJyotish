@@ -177,12 +177,14 @@ namespace BusinessAccessLayer.Implementation
             { return false; }
 
         }
-        public bool AddPoojaCategory(PoojaCategoryModel _pooja)
+        public bool AddPoojaCategory(PoojaCategoryViewModel _pooja)
         {
             var isPoojaValid = _context.PoojaCategory.Where(x => x.Name == _pooja.Name).FirstOrDefault();
             if (isPoojaValid != null) { return false; }
-            _pooja.DateAdded = DateTime.Now;
-            _context.PoojaCategory.Add(_pooja);
+            PoojaCategoryModel model = new PoojaCategoryModel();
+            model.Name = _pooja.Name;
+            model.DateAdded = DateTime.Now;
+            _context.PoojaCategory.Add(model);
             var result = _context.SaveChanges();
             if (result > 0)
             { return true; }
@@ -245,6 +247,7 @@ namespace BusinessAccessLayer.Implementation
                 return record;
             }
         }
+
       /*  public AdminDashboardViewModal Dashboard()
         {
             int Users = _context.Users.Count();
@@ -431,6 +434,12 @@ namespace BusinessAccessLayer.Implementation
                 { return true; }
                 else { return false; }
             }
+        }
+
+        public List<DocumentModel> GetAllJyotishDocument()
+        {
+                var Records = _context.Documents.ToList();
+                return Records;   
         }
 
 

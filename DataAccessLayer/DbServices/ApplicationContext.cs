@@ -42,10 +42,10 @@ namespace DataAccessLayer.DbServices
             modelBuilder.Entity<ChattingModel>().HasOne(c => c.Jyotish).WithMany(j => j.ChattingModelRecord).HasForeignKey(c => c.JyotishId);
 
             modelBuilder.Entity<ChattingModel>().HasOne(c => c.User).WithMany(j => j.ChattingModelRecord).HasForeignKey(c => c.UserId);
-          
-          /*  modelBuilder.Entity<JyotishModel>().HasOne(j => j.DocumentModel).WithOne(d => d.Jyotish).HasForeignKey<DocumentModel>(d => d.JId);*/
 
-           /* modelBuilder.Entity<PoojaCategoryModel>().HasOne(j => j.PoojaListModel).WithOne(d => d.PoojaCategoryModel).HasForeignKey<PoojaListModel>(d => d.PoojaCategoryId);*/
+            modelBuilder.Entity<JyotishModel>().HasOne(j => j.DocumentModel).WithOne(d => d.Jyotish).HasForeignKey<DocumentModel>(d => d.JId);
+
+            /* modelBuilder.Entity<PoojaCategoryModel>().HasOne(j => j.PoojaListModel).WithOne(d => d.PoojaCategoryModel).HasForeignKey<PoojaListModel>(d => d.PoojaCategoryId);*/
 
             modelBuilder.Entity<PoojaCategoryModel>().HasMany(p =>p.PoojaRecordModel).WithOne(pl => pl.PoojaCategoryModel).HasForeignKey(pl => pl.PoojaCategoryId);
            
