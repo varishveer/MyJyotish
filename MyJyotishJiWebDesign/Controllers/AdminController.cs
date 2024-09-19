@@ -34,7 +34,8 @@ namespace MyJyotishJiWebDesign.Controllers
         public IActionResult AppointmentDetail() { return View(); }
         public IActionResult UpdateAppointment() { return View(); }
         public IActionResult AllJyotishDocument() { return View(); }
-
+        public IActionResult JyotishCalls() { return View(); }
+        public IActionResult JyotishChats() { return View(); }
 
 
     }

@@ -1,0 +1,104 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@{
+    Layout = "AdminLayout";
+}
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Include DataTables JS -->
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<div class="container">
+    <h1>Calling Records</h1>
+    <div id="loading" style="display:none;">Loading...</div>
+    <table id="DataTable" class="display">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>DateTime</th>
+                <th>Type</th>
+                <th>Total Time</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Status</th>
+                <th>UserId</th>
+                <th>JyotishId</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data will be populated here by JavaScript -->
+        </tbody>
+    </table>
+</div>
+
+<script>
+    $(document).ready(function () {
+        debugger;
+        // Function to get query parameter by name
+        function getQueryParameter(name) {
+            const params = new URLSearchParams(window.location.search);
+            return params.get(name);
+        }
+
+        // Extract the id from the URL
+        const id = getQueryParameter('id');
+        debugger;
+        function fetchData() {
+            if (!id) {
+                console.error('ID parameter is missing in the URL.');
+                return; // Exit if id is not defined
+            }
+            debugger;
+            $('#loading').show(); // Show loading indicator
+
+            $.ajax({
+                url: `https://localhost:7118/api/Admin/GetJyotishCalls?id=${id}`, // Use the extracted id
+                type: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                    'Content-Type': 'application/json'
+                },
+                success: function (result) {
+                    $('#loading').hide(); // Hide loading indicator
+
+                    if (!result.data || result.data.length === 0) {
+                        alert('No data found for the provided ID.');
+                        return;
+                    }
+
+                    // Destroy the existing DataTable instance if it exists
+                    if ($.fn.DataTable.isDataTable('#DataTable')) {
+                        $('#DataTable').DataTable().clear().destroy();
+                    }
+
+                    // Create a DataTable and populate it with data
+                    $('#DataTable').DataTable({
+                        data: result.data,
+                        columns: [
+                            { data: 'id', title: 'Id' },
+                            { data: 'dateTime', title: 'DateTime' },
+                            { data: 'type', title: 'Type' },
+                            { data: 'totalTime', title: 'Total Time' },
+                            { data: 'startTime', title: 'Start Time' },
+                            { data: 'endTime', title: 'End Time' },
+                            { data: 'status', title: 'Status' },
+                            { data: 'userId', title: 'UserId' },
+                            { data: 'jyotishId', title: 'JyotishId' }
+                        ],
+                    });
+                },
+                error: function (errormessage) {
+                    $('#loading').hide(); // Hide loading indicator
+                    console.error('Error fetching data:', errormessage.responseText);
+                    alert('An error occurred while fetching data. Please try again later.');
+                }
+            });
+        }
+
+        // Load data if the id is defined
+        fetchData();
+    });
+</script>

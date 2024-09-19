@@ -36,6 +36,7 @@ namespace BusinessAccessLayer.Abstraction
         public bool AddSlider(SliderImagesViewModel model);
         public bool AddPoojaDetail(PoojaRecordViewModel model);
         public List<DocumentModel> GetAllJyotishDocument();
-
+        public List<CallingModel> GetJyotishCalls(int id);
+        public List<ChattingModel> GetJyotishChats(int id);
     }
 }

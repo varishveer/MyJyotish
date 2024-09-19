@@ -80,6 +80,7 @@ namespace BusinessAccessLayer.Implementation
             { return false; }
        
             Jyotish.Status = "Approved";
+            Jyotish.Role = "Jyotish";
             _context.JyotishRecords.Update(Jyotish);
             var result = _context.SaveChanges();
             if (result > 0)
@@ -296,7 +297,20 @@ namespace BusinessAccessLayer.Implementation
            var isDetailsValid = _context.AppointmentRecords.Where(x => x.Id == model.Id).FirstOrDefault();
             if (isDetailsValid == null)
             { return false; }
-            _context.AppointmentRecords.Update(model);
+            isDetailsValid.Name = model.Name;
+            isDetailsValid.Mobile = model.Mobile;
+            isDetailsValid.DateTime = model.DateTime; 
+            isDetailsValid.Email = model.Email;
+            isDetailsValid.JyotishId = model.JyotishId;
+            isDetailsValid.UserId = model.UserId;
+            isDetailsValid.Problem = model.Problem;
+            isDetailsValid.Solution = model.Solution;
+            isDetailsValid.Status = model.Status;
+            isDetailsValid.Amount = model.Amount;
+
+
+
+            _context.AppointmentRecords.Update(isDetailsValid);
             var result = _context.SaveChanges();
             if (result > 0)
             { return true; }
@@ -442,7 +456,26 @@ namespace BusinessAccessLayer.Implementation
                 return Records;   
         }
 
-
+        public List<CallingModel> GetJyotishCalls(int id)
+        {
+            var isJyotishValid = _context.JyotishRecords.Where(x => x.Id == id).FirstOrDefault();
+            if(isJyotishValid == null)
+            {
+                return null;
+            }
+            var CallList = _context.CallingRecords.Where(x => x.JyotishId == id).ToList();
+            return CallList;
+        }
+        public List<ChattingModel> GetJyotishChats(int id)
+        {
+            var isJyotishValid = _context.JyotishRecords.Where(x => x.Id == id).FirstOrDefault();
+            if (isJyotishValid == null)
+            {
+                return null;
+            }
+            var ChatList = _context.ChatingRecords.Where(x => x.JyotishId == id).ToList();
+            return ChatList;
+        }
 
     }
 }

@@ -333,5 +333,34 @@ namespace MyJyotishJiApi.Controllers
             }
             catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
         }
+
+        [HttpGet("GetJyotishCalls")]
+        public IActionResult GetJyotishCalls(int id)
+        {
+            try {
+                var Records = _admin.GetJyotishCalls(id);
+                if(Records == null)
+                {
+                    return Ok(new { Status = 400, Message = "No Record found." });
+                }
+                return Ok(new { Status = 200, Data = Records, Message = "All Jyotish Calls" });
+            }
+            catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
+        }
+        [HttpGet("GetJyotishChats")]
+        public IActionResult GetJyotishChats(int id)
+        {
+            try
+            {
+                var Records = _admin.GetJyotishChats(id);
+                if (Records == null)
+                {
+                    return Ok(new { Status = 400, Message = "No Record found." });
+                }
+                return Ok(new { Status = 200, Data = Records, Message = "All Jyotish Chat" });
+            }
+            catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
+        }
+
     }
 }

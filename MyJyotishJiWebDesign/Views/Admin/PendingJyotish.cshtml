@@ -59,18 +59,47 @@
                     if ($.fn.DataTable.isDataTable('#DataTable')) {
                         $('#DataTable').DataTable().clear().destroy();
                     }
-                    let htmls = '<thead><tr><th>Id</th><th>Name</th><th>Mobile</th><th>Expertise</th><th>Language</th><th>Gender</th><th>Action</th> <th>Status</th> </tr></thead><tbody>';
+                    let htmls = '<thead><tr>' +
+                        '<th>Id</th>' +
+                        '<th>Name</th>' +
+                        '<th>Mobile</th>' +
+                        '<th>Expertise</th>' +
+                        '<th>Language</th>' +
+                        '<th>Gender</th>' +
+                        '<th>Email</th>' +
+                        '<th>Country</th>' +
+                        '<th>State</th>' +
+                        '<th>City</th>' +
+                        '<th>Password</th>' +
+                        '<th>Date Of Birth</th>' +
+                        '<th>Image</th>' +
+                      
+                        '<th>Status</th>' +
+                        '<th>Role</th>' +
+                        '<th>Action</th>' +
+
+                        '</tr></thead><tbody>';
 
                     $.each(result.data, function (key, item) {
-                       
-                       
+
+
                         htmls += '<tr>';
                         htmls += `<td class="text-center">${item.id}</td>`;
-                        htmls += `<td class="text-center">${item.name}</td>`;
+                        htmls += `<td class="text-center">${item.name ?? ''}</td>`; // Using nullish coalescing for optional fields
                         htmls += `<td class="text-center">${item.mobile}</td>`;
-                        htmls += `<td class="text-center">${item.expertise}</td>`;
-                        htmls += `<td class="text-center">${item.language}</td>`;
-                        htmls += `<td class="text-center">${item.gender}</td>`;
+                        htmls += `<td class="text-center">${item.expertise ?? ''}</td>`;
+                        htmls += `<td class="text-center">${item.language ?? ''}</td>`;
+                        htmls += `<td class="text-center">${item.gender ?? ''}</td>`;
+                        htmls += `<td class="text-center">${item.email ?? ''}</td>`;
+                        htmls += `<td class="text-center">${item.country ?? ''}</td>`;
+                        htmls += `<td class="text-center">${item.state ?? ''}</td>`;
+                        htmls += `<td class="text-center">${item.city ?? ''}</td>`;
+                        htmls += `<td class="text-center">${item.password ?? ''}</td>`;
+                        htmls += `<td class="text-center">${item.dateOfBirth ? new Date(item.dateOfBirth).toLocaleDateString() : ''}</td>`; // Format date if available
+                        htmls += `<td class="text-center">${item.profileImageUrl ?? ''}</td>`;
+                       
+                        htmls += `<td class="text-center">${item.status}</td>`;
+                       
 
                         if (item.role == "Rejected") { htmls += `<td class="text-center" style="color:darkorange">${item.role}</td>
                             <td class="text-center">
@@ -259,12 +288,19 @@
                     }),
                     success: function (response) {
                       
+                        if (response.status === 200) {
                             Swal.fire({
                                 title: "Approved!",
                                 text: "Your jyotish has been approved.",
                                 icon: "success"
                             });
                             fetchData();
+                        } else {
+                            Swal.fire({
+                                title: "Something went wrong!"
+                                
+                            });
+                        }
                         
                     },
                     error: function (xhr, status, error) {

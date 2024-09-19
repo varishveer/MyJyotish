@@ -16,7 +16,7 @@ namespace ModelAccessLayer.Models
         [Required]
         public  string Type { get; set; }
         
-        public TimeOnly TotalTime {  get; set; }
+        public int TotalTime {  get; set; }
         
         public TimeOnly StartTime { get; set;  }
         
