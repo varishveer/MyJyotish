@@ -463,7 +463,12 @@ namespace BusinessAccessLayer.Implementation
             {
                 return null;
             }
+            
             var CallList = _context.CallingRecords.Where(x => x.JyotishId == id).ToList();
+            foreach (var Call in CallList)
+            {
+                Call.Jyotish = null;
+            }
             return CallList;
         }
         public List<ChattingModel> GetJyotishChats(int id)
@@ -474,6 +479,11 @@ namespace BusinessAccessLayer.Implementation
                 return null;
             }
             var ChatList = _context.ChatingRecords.Where(x => x.JyotishId == id).ToList();
+
+            foreach (var Chat in ChatList)
+            {
+                Chat.Jyotish = null;
+            }
             return ChatList;
         }
 

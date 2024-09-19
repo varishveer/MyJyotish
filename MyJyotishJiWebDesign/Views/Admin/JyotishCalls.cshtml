@@ -45,7 +45,7 @@
 
         // Extract the id from the URL
         const id = getQueryParameter('id');
-        debugger;
+        
         function fetchData() {
             if (!id) {
                 console.error('ID parameter is missing in the URL.');
@@ -63,7 +63,7 @@
                 },
                 success: function (result) {
                     $('#loading').hide(); // Hide loading indicator
-
+                   
                     if (!result.data || result.data.length === 0) {
                         alert('No data found for the provided ID.');
                         return;

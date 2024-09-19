@@ -334,6 +334,7 @@ namespace MyJyotishJiApi.Controllers
             catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
         }
 
+        [AllowAnonymous]
         [HttpGet("GetJyotishCalls")]
         public IActionResult GetJyotishCalls(int id)
         {
@@ -347,6 +348,7 @@ namespace MyJyotishJiApi.Controllers
             }
             catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
         }
+
         [HttpGet("GetJyotishChats")]
         public IActionResult GetJyotishChats(int id)
         {
