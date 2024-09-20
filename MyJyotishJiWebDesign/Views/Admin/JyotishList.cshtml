@@ -124,7 +124,7 @@
     $(document).ready(function () {
         function fetchData() {
             $.ajax({
-                url: "https://localhost:7118/api/Admin/Jyotish",
+                url: "https://api.myjyotishg.in/api/Admin/Jyotish",
                 type: 'GET',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("Token")}`,
@@ -257,7 +257,7 @@
             };
 
             $.ajax({
-                url: `https://localhost:7118/api/Admin/Jyotish/${jyotishData.id}`,
+                url: `https://api.myjyotishg.in/api/Admin/Jyotish/${jyotishData.id}`,
                 type: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("Token")}`,

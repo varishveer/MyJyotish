@@ -9,9 +9,6 @@ namespace MyJyotishJiWebDesign.Controllers
        
         public IActionResult Login()
         { return View(); }
-       
-        public IActionResult AdminLogin()
-        { return View(); }
         public IActionResult Dashboard() { return View();}
         public IActionResult JyotishList() { return View(); }
         public IActionResult UserList() { return View(); }
@@ -22,20 +19,16 @@ namespace MyJyotishJiWebDesign.Controllers
         public IActionResult AdminProfile() { return View(); }
         public IActionResult EditProfile() { return View(); }
         public IActionResult PendingJyotish() { return View(); }
-
         public IActionResult AddPoojaCategory() { return View(); }
         public IActionResult AddExpertise() { return View(); }
-        public IActionResult JyotishDetails() { return View(); }
-        public IActionResult UserDetails() { return View(); }
         public IActionResult EditUpcommingAppointment() { return View(); }
         public IActionResult PoojaRecord() {  return View(); }
         public IActionResult ChattingRecord() { return View(); }
         public IActionResult CallingRecord() { return View(); }
-        public IActionResult AppointmentDetail() { return View(); }
-        public IActionResult UpdateAppointment() { return View(); }
         public IActionResult AllJyotishDocument() { return View(); }
         public IActionResult JyotishCalls() { return View(); }
         public IActionResult JyotishChats() { return View(); }
+        public IActionResult JyotishDocs() { return View(); }
 
 
     }

@@ -26,7 +26,7 @@
         function fetchData() {
             const Token = localStorage.getItem("Token");
             $.ajax({
-                url: "https://localhost:7118/api/Admin/User",
+                url: "https://api.myjyotishg.in/api/Admin/User",
                 type: 'GET',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Example of an authorization header

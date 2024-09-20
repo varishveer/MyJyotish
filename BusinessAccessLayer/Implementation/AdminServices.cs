@@ -487,5 +487,17 @@ namespace BusinessAccessLayer.Implementation
             return ChatList;
         }
 
+        public DocumentModel GetJyotishDocs(int id)
+        {
+            var isJyotishValid = _context.JyotishRecords.Where(x => x.Id == id).FirstOrDefault();
+            if (isJyotishValid == null)
+            {
+                return null;
+            }
+            var Docs = _context.Documents.Where(x => x.JId == id).FirstOrDefault();
+            Docs.Jyotish = null;
+           
+            return Docs;
+        }
     }
 }

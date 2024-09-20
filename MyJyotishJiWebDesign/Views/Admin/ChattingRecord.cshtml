@@ -32,7 +32,7 @@
     $(document).ready(function () {
         function fetchData() {
             $.ajax({
-                url: "https://localhost:7118/api/Admin/ChattingRecord",
+                url: "https://api.myjyotishg.in/api/Admin/ChattingRecord",
                 type: 'GET',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Example of an authorization header

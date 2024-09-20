@@ -17,7 +17,7 @@
 <!-- Include DataTables JS -->
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <div class="container">
-    <h1>Calling Records</h1>
+    <h1>Jyotish Chats</h1>
     <div id="loading" style="display:none;">Loading...</div>
     <table id="DataTable" class="display">
         <thead>
@@ -57,7 +57,7 @@
             $('#loading').show(); // Show loading indicator
 
             $.ajax({
-                url: `https://localhost:7118/api/Admin/GetJyotishChats?id=${id}`, // Use the extracted id
+                url: `https://api.myjyotishg.in/api/Admin/GetJyotishChats?id=${id}`, // Use the extracted id
                 type: 'GET',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("Token")}`,

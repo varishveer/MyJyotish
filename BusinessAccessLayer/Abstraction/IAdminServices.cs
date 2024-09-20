@@ -38,5 +38,6 @@ namespace BusinessAccessLayer.Abstraction
         public List<DocumentModel> GetAllJyotishDocument();
         public List<CallingModel> GetJyotishCalls(int id);
         public List<ChattingModel> GetJyotishChats(int id);
+        public DocumentModel GetJyotishDocs(int id);
     }
 }

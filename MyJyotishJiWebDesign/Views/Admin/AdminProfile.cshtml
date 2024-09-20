@@ -74,7 +74,7 @@
       
         var email = localStorage.getItem('userEmail');
         $.ajax({
-            url: `https://localhost:7118/api/Admin/Profile?email=${encodeURIComponent(email)}`,
+            url: `https://api.myjyotishg.in/api/Admin/Profile?email=${encodeURIComponent(email)}`,
             type: 'GET',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Example of an authorization header

@@ -344,7 +344,7 @@ namespace MyJyotishJiApi.Controllers
                 {
                     return Ok(new { Status = 400, Message = "No Record found." });
                 }
-                return Ok(new { Status = 200, Data = Records, Message = "All Jyotish Calls" });
+                return Ok(new { Status = 200, Data = Records, Message = "Jyotish Calls" });
             }
             catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
         }
@@ -359,10 +359,24 @@ namespace MyJyotishJiApi.Controllers
                 {
                     return Ok(new { Status = 400, Message = "No Record found." });
                 }
-                return Ok(new { Status = 200, Data = Records, Message = "All Jyotish Chat" });
+                return Ok(new { Status = 200, Data = Records, Message = "Jyotish Chats" });
             }
             catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
         }
-
+        [AllowAnonymous]
+        [HttpGet("GetJyotishDocs")]
+        public IActionResult GetJyotishDocs(int id)
+        {
+            try
+            {
+                var Records = _admin.GetJyotishDocs(id);
+                if (Records == null)
+                {
+                    return Ok(new { Status = 400, Message = "No Record found." });
+                }
+                return Ok(new { Status = 200, Data = Records, Message = "Jyotish Docs" });
+            }
+            catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
+        }
     }
 }

@@ -47,7 +47,7 @@
     $(document).ready(function () {
         function fetchData() {
             $.ajax({
-                url: "https://localhost:7118/api/Admin/PendingJyotish",
+                url: "https://api.myjyotishg.in/api/Admin/PendingJyotish",
                 type: 'GET',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Example of an authorization header
@@ -164,7 +164,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: "https://localhost:7118/Api/Admin/RemoveJyotish",
+                    url: "https://api.myjyotishg.in/api/Admin/RemoveJyotish",
                     type: 'POST',
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Example of an authorization header
