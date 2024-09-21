@@ -499,5 +499,16 @@ namespace BusinessAccessLayer.Implementation
            
             return Docs;
         }
+
+
+        public JyotishModel GetJyotishDetails(int id)
+        {
+            var jyotish = _context.JyotishRecords.Where(x => x.Id == id).FirstOrDefault();
+            if(jyotish == null)
+            {
+                return null;
+            }
+            return jyotish;
+        }
     }
 }

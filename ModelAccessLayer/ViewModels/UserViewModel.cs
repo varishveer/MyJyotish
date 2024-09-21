@@ -11,6 +11,8 @@ namespace ModelAccessLayer.ViewModels
     public class UserViewModel
     {
         [Required]
+        public string? Email { get; set; }
+        [AllowNull]
         public string? Mobile { get; set; }
         [AllowNull]
         public string? Name { get; set; }
@@ -25,6 +27,9 @@ namespace ModelAccessLayer.ViewModels
 
         [AllowNull]
         public string? Password { get; set; }
+
+        [AllowNull]
+        public string? Status { get; set; }
       
     
     }

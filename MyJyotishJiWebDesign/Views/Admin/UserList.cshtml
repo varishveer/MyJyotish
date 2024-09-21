@@ -23,42 +23,75 @@
 
 <script>
     $(document).ready(function () {
-        function fetchData() {
-            const Token = localStorage.getItem("Token");
-            $.ajax({
-                url: "https://api.myjyotishg.in/api/Admin/User",
-                type: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Example of an authorization header
-                    'Content-Type': 'application/json', // Example of a content type header
+            function fetchData() {
+                const token = localStorage.getItem("Token"); // Assuming Token is already set in localStorage
+                $.ajax({
+                    url: "https://api.myjyotishg.in/api/Admin/User", // Your API URL
+                    type: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`, // Authorization header with Bearer token
+                        'Content-Type': 'application/json'
+                        },
+                    success: function (result) {
+                        // Define table structure including all fields from the model
+                        let htmls = `
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Email</th>
+                                <th>Mobile</th>
+                                <th>Name</th>
+                                <th>Gender</th>
+                                <th>Date of Birth</th>
+                                    <th>Place of Birth</th>
+                                    <th>OTP</th>
+                                <th>Password</th>
+                                <th>Time of Birth</th>
+                                    <th>Current Address</th>
+                                <th>Country</th>
+                                <th>State</th>
+                                <th>City</th>
+                                <th>Pincode</th>
+                                <th>Profile Picture</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>`;
 
-                },
-                success: function (result) {
-                    let htmls = '<thead><tr><th>Id</th><th>FirstName</th><th>LastName</th><th>Mobile</th><th>Email</th></tr></thead><tbody>';
+                        // Loop through the result and append each row of data
+                        $.each(result.data, function (key, item) {
+                            htmls += '<tr>';
+                                htmls += `<td class="text-center">${item.id}</td>`;
+                                htmls += `<td class="text-center">${item.email || ''}</td>`;
+                                htmls += `<td class="text-center">${item.mobile || ''}</td>`;
+                                htmls += `<td class="text-center">${item.name || ''}</td>`;
+                                htmls += `<td class="text-center">${item.gender || ''}</td>`;
+                                htmls += `<td class="text-center">${item.doB || ''}</td>`;
+                                htmls += `<td class="text-center">${item.placeOfBirth || ''}</td>`;
+                                htmls += `<td class="text-center">${item.otp || ''}</td>`;
+                                htmls += `<td class="text-center">${item.password || ''}</td>`;
+                                htmls += `<td class="text-center">${item.timeOfBirth || ''}</td>`;
+                                htmls += `<td class="text-center">${item.currentAddress || ''}</td>`;
+                                htmls += `<td class="text-center">${item.country || ''}</td>`;
+                                htmls += `<td class="text-center">${item.state || ''}</td>`;
+                                htmls += `<td class="text-center">${item.city || ''}</td>`;
+                                htmls += `<td class="text-center">${item.pincode || ''}</td>`;
+                                htmls += `<td class="text-center">${item.profilePictureUrl ? '<img src="' + item.profilePictureUrl + '" alt="Profile Picture" width="50" height="50">' : ''}</td>`;
+                                htmls += `<td class="text-center">${item.status || ''}</td>`;
+                                htmls += '</tr>';
+                            });
 
-                    $.each(result.data, function (key, item) {
-                        htmls += '<tr>';
-                        htmls += `<td class="text-center">${item.id}</td>`;
-                        htmls += `<td class="text-center">${item.firstName}</td>`;
-                        htmls += `<td class="text-center">${item.lastName}</td>`;
-                        htmls += `<td class="text-center">${item.mobile}</td>`;
-                        htmls += `<td class="text-center">${item.email}</td>`;
-
-
-                        htmls += '</tr>';
+                            htmls += '</tbody>';
+                            $('#DataTable').html(htmls); // Inject HTML into table
+                            $('#DataTable').DataTable(); // Initialize DataTable
+                        },
+                        error: function (errormessage) {
+                            console.error('Error fetching data:', errormessage.responseText);
+                        }
                     });
-
-                    htmls += '</tbody>';
-                    $('#DataTable').html(htmls);
-                    $('#DataTable').DataTable();
-                },
-                error: function (errormessage) {
-                    console.error('Error fetching data:', errormessage.responseText);
                 }
-            });
-        }
 
-        // Load all records by default
-        fetchData();
-    });
+                // Call fetchData to load the data when the page is ready
+                fetchData();
+            });
 </script>

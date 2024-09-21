@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using ModelAccessLayer.Models;
 using ModelAccessLayer.ViewModels;
+using Newtonsoft.Json;
 using NuGet.Protocol.Plugins;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -261,29 +262,20 @@ namespace MyJyotishJiApi.Controllers
 
         #region User
 
-        [HttpPost("RegisterUserMobile")]
-        public IActionResult RegisterUserMobile(string Mobile)
+        [HttpPost("RegisterUserEmail")]
+        public IActionResult RegisterUserEmail(string Email)
         {
             try
             {
-                var result =_account.RegisterUserMobile(Mobile);
-                if (result == "Successfull") 
+                var result =_account.RegisterUserEmail(Email);
+                if (result == "Successful") 
                 {
-                    return Ok(new {Status = 200, Message = result,}); 
+                    return Ok(new {Status = 200, Message = result,});  
                 }
-                else if(result == "Mobile Number already exist")
+                else if(result == "Email already exist")
                 {
                     return Ok(new { Status = 409, Message = result });
                 }
-                else if (result == "Otp not sent")
-                {
-                    return Ok( new { Status = 500, Message = result });
-                }
-                else if(result == "Data not saved")
-                {
-                    return Ok( new { Status = 500, Message = "Internal Server Error" });
-                }
-
                 else { return Ok( new { Status = 500, Message = "Internal Server Error" }); }
             }
             catch(Exception ex)
@@ -294,17 +286,15 @@ namespace MyJyotishJiApi.Controllers
 
        
         [HttpPost("VerifyUserOtp")]
-        public IActionResult VerifyUserOtp(string Mobile , int Otp)
+        public IActionResult VerifyUserOtp(EmailViewModel model)
         {
             try
             {
-                var result = _account.VerifyUserOtp(Mobile, Otp);
+                var result = _account.VerifyUserOtp(model.Email, model.Otp);
                 if (result == "Successful") { return Ok(new {Status = 200,Message= result}); }
                 else if(result == "Invalid Data") { return Ok(new { Status = 400, Message = result }); }
-                else if(result == "Unauthorized User") { return Ok(new {Status = 409, MEssage = result});}
-                else if (result == "User not found" ) { return Ok(new { Status = 409, Message = result }); }
-
-                else { return Ok(new { Status = 400, Message = result }); }
+                else if(result == "Unauthorized User") { return Ok(new {Status = 401, MEssage = result});}
+                else { return Ok(new { Status = 409, Message = result }); }
             }
             catch(Exception ex)
             {
@@ -321,8 +311,8 @@ namespace MyJyotishJiApi.Controllers
                 var result = _account.RegisterUserDetails(_user);
                 
                 if (result == "Successful") { return Ok(new { Status = 200, Message = result }); }
-                else if (result== "Mobile Number Not Registered") { return Ok(new {Status = 409, Message = result }); }
-                else if(result == "Unauthorozed") { return Ok(new { Status = 400, Message = result }); }
+                else if (result== "Email Not Registered") { return Ok(new {Status = 409, Message = result }); }
+                else if(result == "Unauthorized") { return Ok(new { Status = 401, Message = result }); }
                 else { return Ok( new { Status = 500, Message = result }); }
             }
             catch(Exception ex)
@@ -331,32 +321,37 @@ namespace MyJyotishJiApi.Controllers
             }
         }
         [HttpPost("LoginUser")]
-        public IActionResult LoginUser(LoginViewModel model)
+        public IActionResult LoginUser(LoginModel model)
         {
             try
             {
                 var result = _account.LoginUser(model);
-                if(result == "Successful Login")
+                /*if(result == "Successful Login")
                 {
-                    var token = GenerateJwtToken(model.Mobile, "Scheme4");
+                    var token = GenerateJwtToken(model.Email, "Scheme4");
                     return Ok(new {Status = 200,Message = result, Token = token });
-                }
-                else if(result == "Invalid Number")
+                }*/
+                if (result.StartsWith("{") && result.EndsWith("}"))
                 {
-                    return Ok(new {Status = 400, Message = result});
-                }
-                else if (result == "Invalid Password")
-                {
-                    return Ok(new { Status = 400, Message = result });
-                }
-                else if (result == "Invalid Credential")
-                {
-                    return Ok(new { Status = 400, Message = result });
+                    var userResponse = JsonConvert.DeserializeObject<UserViewModel>(result);
+                    var token = GenerateJwtToken(model.Email, "Scheme4");
+                    return Ok(new
+                    {
+                        Status = 200,
+                        Message = "Successful Login",
+                        Token = token,
+                        UserName = userResponse.Name,
+                        UserEmail = userResponse.Email,
+                        UserStatus = userResponse.Status,
+                        UserMobile = userResponse.Mobile
+
+                    });
                 }
                 else
                 {
-                    return Ok(result );
+                    return Ok(new { Status = 409, Message = result });
                 }
+               
             }
             catch(Exception ex)
             {

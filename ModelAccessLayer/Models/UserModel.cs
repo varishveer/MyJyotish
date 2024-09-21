@@ -12,6 +12,7 @@ namespace ModelAccessLayer.Models
         [Key]
         public int Id { get; set; }
         [Required]
+        public string? Email { get; set; }
         public string? Mobile { get; set; }
         public string? Name { get; set; }
         public string? Gender { get; set; }
@@ -21,7 +22,7 @@ namespace ModelAccessLayer.Models
         
         
         public string? Password { get; set; }
-        public string? Email { get; set; }
+       
         public TimeOnly? TimeOfBirth { get; set; }
         public string? CurrentAddress { get; set; }
         public string? Country { get; set; }

@@ -30,10 +30,10 @@ namespace BusinessAccessLayer.Abstraction
      
 
         #region User
-        public string RegisterUserMobile(string Email);
-        public string VerifyUserOtp(string Mobile, int Otp);
+        public string RegisterUserEmail(string Email);
+        public string VerifyUserOtp(string Email, int Otp);
         public string RegisterUserDetails(UserViewModel _user);
-        public string LoginUser(LoginViewModel model);
+        public string LoginUser(LoginModel model);
         #endregion
 
       

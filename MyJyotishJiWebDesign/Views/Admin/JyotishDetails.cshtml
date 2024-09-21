@@ -1,0 +1,81 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<style>
+    .user-card {
+        border: 1px solid #ccc;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+    }
+
+        .user-card h3 {
+            margin-top: 0;
+        }
+
+        .user-card img {
+            max-width: 100px;
+            border-radius: 50%;
+        }</style>
+<div id="user-details" class="user-card">
+    <h3>User Details</h3>
+    <img id="profileImage" src="" alt="Profile Image">
+    <p><strong>Name:</strong> <span id="name"></span></p>
+    <p><strong>Email:</strong> <span id="email"></span></p>
+    <p><strong>Mobile:</strong> <span id="mobile"></span></p>
+    <p><strong>Role:</strong> <span id="role"></span></p>
+    <p><strong>Gender:</strong> <span id="gender"></span></p>
+    <p><strong>Location:</strong> <span id="location"></span></p>
+    <p><strong>Expertise:</strong> <span id="expertise"></span></p>
+    <p><strong>Experience:</strong> <span id="experience"></span> years</p>
+    <p><strong>Availability:</strong> From <span id="timeFrom"></span> to <span id="timeTo"></span></p>
+    <p><strong>Call Charges:</strong> <span id="callCharges"></span></p>
+    <p><strong>Chat Charges:</strong> <span id="chatCharges"></span></p>
+</div>
+
+
+<script>
+    $(document).ready(function() {
+        // Function to get query parameters
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        const id = getQueryParam('id'); // Assuming your URL has ?id=1
+        const apiUrl = `https://localhost:7118/api/Admin/GetJyotishDetails/${id}`; // Update the API URL
+
+        const Token = localStorage.getItem('Token'); // Get JWT token from local storage
+
+        $.ajax({
+            url: apiUrl,
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${Token}` // Include JWT token in the headers
+            },
+            dataType: 'json',
+            success: function(data) {
+                // Assuming data structure matches your model
+                $('#name').text(data.Name || 'N/A');
+                $('#email').text(data.Email || 'N/A');
+                $('#mobile').text(data.Mobile || 'N/A');
+                $('#role').text(data.Role || 'N/A');
+                $('#gender').text(data.Gender || 'N/A');
+                $('#location').text(`${data.City || 'N/A'}, ${data.State || 'N/A'}, ${data.Country || 'N/A'}`);
+                $('#expertise').text(data.Expertise || 'N/A');
+                $('#experience').text(data.Experience || 'N/A');
+                $('#timeFrom').text(data.TimeFrom ? data.TimeFrom.toString() : 'N/A');
+                $('#timeTo').text(data.TimeTo ? data.TimeTo.toString() : 'N/A');
+                $('#callCharges').text(data.CallCharges ? `$${data.CallCharges}` : 'N/A');
+                $('#chatCharges').text(data.ChatCharges ? `$${data.ChatCharges}` : 'N/A');
+                $('#profileImage').attr('src', data.ProfileImageUrl || 'default.jpg');
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error('Error fetching user details:', textStatus, errorThrown);
+            }
+        });
+    });
+</script>

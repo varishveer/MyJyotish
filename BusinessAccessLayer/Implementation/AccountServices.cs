@@ -13,6 +13,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace BusinessAccessLayer.Implementation
 {
@@ -282,44 +283,207 @@ namespace BusinessAccessLayer.Implementation
         #endregion
 
         #region User
-        public string RegisterUserMobile(string  mobile)
+        public string RegisterUserEmail(string Email)
         {
-            var record = _context.Users.Where(x=>x.Mobile == mobile).FirstOrDefault();
-            if(record != null) { 
-                if(record.Status == "Unverified")
+            var record = _context.Users.FirstOrDefault(x => x.Email == Email);
+
+            if (record != null)
+            {
+                if (record.Status == "Unverified")
                 {
-                    var newOtp = SendOtp(mobile);
-                    if (newOtp == 0 || newOtp == null) { return "Otp not sent"; }
+                    int newOtp = new Random().Next(100000, 1000000);
+                    string newMessage = $@"
+           <!DOCTYPE html>
+            <html lang=""en"">
+            <head>
+    <meta charset=""UTF-8"">
+    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+    <title>My Jyotish G Email</title>
+    <style>
+        body {{
+            font-family: Arial, sans-serif;
+        }}
+        .container {{
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }}
+        .header {{
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }}
+        .content {{
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }}
+        .otp {{
+            font-size: 20px;
+            font-weight: bold;
+            color: #000;
+        }}
+        .logo {{
+            margin: 20px 0;
+            text-align: center;
+        }}
+        .logo img {{
+            max-width: 150px;
+        }}
+        .footer {{
+            font-size: 14px;
+            color: #555;
+            margin-top: 20px;
+        }}
+        .footer a {{
+            color: #000;
+            text-decoration: none;
+        }}
+    </style>
+</head>
+<body>
+    <div class=""container"">
+       
+         <div class=""logo"">
+            <img src=""https://api.myjyotishg.in/Images/Logo.png"" alt=""My Jyotish G Logo"">
+        </div>
+        <div class=""content"">
+            Hi User,<br><br>
+            Thank you for signing up! To complete your registration, please verify your email address using the code below:<br><br>
+
+            Verification Code: <span class=""otp"">{newOtp}</span><br><br>
+
+            If you have any questions, feel free to reach out!
+        </div>
+
+       
+            <div class=""header"" style=""color:orange"">My Jyotish G</div>
+            <h4>www.myjyotishg.in</h4>
+            <h4>myjyotishg@gmail.com</h4>
+            <h4>7985738804</h4>
+            
+        
+    </div>
+</body>
+</html>
+";
+
+                    string newSubject = "Please Verify Your Email Address";
+                    SendEmail(newMessage, Email, newSubject);
+
                     record.Otp = newOtp;
                     _context.Users.Update(record);
                     var newResult = _context.SaveChanges();
-                    if (newResult > 0) { return "Successfull"; }
-                    else { return "Data not saved"; }
+                    return newResult > 0 ? "Successful" : "Data not saved";
                 }
-                return "Mobile Number already exist";
+                return "Email already exist";
             }
-                
-            var Otp = SendOtp(mobile);
-            if (Otp == 0 || Otp ==  null) { return "Otp not sent"; }
+
+            int otp = new Random().Next(100000, 1000000);
+            string message = $@"
+   <!DOCTYPE html>
+<html lang=""en"">
+<head>
+    <meta charset=""UTF-8"">
+    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+    <title>My Jyotish G Email</title>
+    <style>
+        body {{
+            font-family: Arial, sans-serif;
+        }}
+        .container {{
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }}
+        .header {{
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }}
+        .content {{
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }}
+        .otp {{
+            font-size: 20px;
+            font-weight: bold;
+            color: #000;
+        }}
+        .logo {{
+            margin: 20px 0;
+            text-align: center;
+        }}
+        .logo img {{
+            max-width: 150px;
+        }}
+        .footer {{
+            font-size: 14px;
+            color: #555;
+            margin-top: 20px;
+        }}
+        .footer a {{
+            color: #000;
+            text-decoration: none;
+        }}
+    </style>
+</head>
+<body>
+    <div class=""container"">
+       
+         <div class=""logo"">
+            <img src=""https://api.myjyotishg.in/Images/Logo.png"" alt=""My Jyotish G Logo"">
+        </div>
+        <div class=""content"">
+            Hi User,<br><br>
+            Thank you for signing up! To complete your registration, please verify your email address using the code below:<br><br>
+
+            Verification Code: <span class=""otp"">{otp}</span><br><br>
+
+            If you have any questions, feel free to reach out!
+        </div>
+
+       
+            <div class=""header"" style=""color:orange"">My Jyotish G</div>
+            <h4>www.myjyotishg.in</h4>
+            <h4>myjyotishg@gmail.com</h4>
+            <h4>7985738804</h4>
+            
+        
+    </div>
+</body>
+</html>
+";
+
+            string subject = "Please Verify Your Email Address";
+            SendEmail(message, Email, subject);
+
             UserModel _user = new UserModel()
-            { 
-                Mobile= mobile,
-                Otp = Otp,
+            {
+                Email = Email,
+                Otp = otp,
                 Status = "Unverified"
             };
             _context.Users.Add(_user);
             var result = _context.SaveChanges();
-            if (result > 0) { return "Successfull"; }
-            else { return "Data not saved"; }
+            return result > 0 ? "Successful" : "Data not saved";
         }
 
-        public string VerifyUserOtp(string Mobile, int Otp)
+
+        public string VerifyUserOtp(string Email, int Otp)
         {
-            if(Mobile == null || Otp ==0)
+            if(Email == null || Otp ==0)
             {
                 return "Invalid Data";
             }
-            var user = _context.Users.Where(x=>x.Mobile == Mobile).FirstOrDefault();
+            var user = _context.Users.Where(x=>x.Email == Email).FirstOrDefault();
             if(user == null) { return "User not found"; }
             if(user.Status != "Unverified") { return "Unauthorized User"; }
             if(user.Otp == Otp) 
@@ -333,12 +497,15 @@ namespace BusinessAccessLayer.Implementation
         }
         public string RegisterUserDetails(UserViewModel _user)
         {
-            var record = _context.Users.Where(x=>x.Mobile == _user.Mobile).FirstOrDefault();
+            var record = _context.Users.Where(x=>x.Email == _user.Email).FirstOrDefault();
             if(record == null)
             {
-                return "Mobile Number Not Registered";
+                return "Email Not Registered";
             }
-            if(record.Status != "Verified") { return "Unauthorozed"; }
+            if(record.Status != "Verified") { return "Unauthorized"; }
+
+            if (_user.Mobile != null)
+            { record.Mobile = _user.Mobile; }
             if (_user.Name != null)
             { record.Name = _user.Name; }
             if (_user.Gender != null)
@@ -353,28 +520,35 @@ namespace BusinessAccessLayer.Implementation
             var result = _context.SaveChanges();
             if(result>0)
             {
-                SendUserPassword(record.Mobile, record.Password);
+                string message = "Hi " +( _user.Name !=null? _user.Name: "User")+",\r\n\r\nThank you for signing up on Jyotish G! Here is your  password:\r\n\r\n Password:"+record.Password+" \r\n\r\nPlease log in using this password .\r\n\r\nIf you have any questions or need assistance, feel free to reach out!\r\n\r\nBest regards,\r\nVarish Veer Singh\r\n>My  Jyotish G";
+                string subject = "Your Password for Jyotish G";
+                SendEmail(message, record.Email, subject);
                 return "Successful";
             }
             else { return "Data not saved"; }
         }
-        public bool SendUserPassword(string Mobile, string password)
-        {
-            return true;
-        }
+       
 
-        public string LoginUser(LoginViewModel model)
+        public string LoginUser(LoginModel model)
         {
-            if (model.Mobile == null || model.Password == null) { return "Invalid Credential"; }
+            if (model.Email == null || model.Password == null) { return "Invalid Credential"; }
             else
             {
-                var record = _context.Users.Where(x => x.Mobile == model.Mobile).FirstOrDefault();
+                var record = _context.Users.Where(x => x.Email == model.Email).FirstOrDefault();
                 if(record == null)
-                { return "Invalid Number"; }
+                { return "Invalid Email"; }
                 else 
                 {
                     if(record.Password == model.Password)
-                    { return "Successful Login"; }
+                    {
+                        return JsonConvert.SerializeObject(new UserViewModel
+                        {
+                            Name = record.Name,
+                            Email = record.Email,
+                            Mobile = record.Mobile,
+                            Status = record.Status
+                        });
+                    }
                     else
                     {
                         return "Invalid Password";
@@ -412,8 +586,9 @@ namespace BusinessAccessLayer.Implementation
                     {
                         Subject = Subjectbody,
                         Body = MessageBody,
+                        IsBodyHtml = true
                     };
-
+                    
                     // Send the email
                     client.Send(message);
 
@@ -437,14 +612,6 @@ namespace BusinessAccessLayer.Implementation
             return false;
         }
 
-        public int SendOtp(string Mobile)
-        {
-
-            return 123456;
-        }
-        public bool SendPJPassword(string message,string Mobile ,string  subject)
-        {
-            return true;
-        }
+      
     }
 }

@@ -378,5 +378,19 @@ namespace MyJyotishJiApi.Controllers
             }
             catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
         }
+        [HttpGet("GetJyotishDetails")]
+        public IActionResult GetJyotishDetails(int id)
+        {
+            try
+            {
+                var Records = _admin.GetJyotishDetails(id);
+                if (Records == null)
+                {
+                    return Ok(new { Status = 400, Message = "No Record found." });
+                }
+                return Ok(new { Status = 200, Data = Records, Message = "Jyotish Details" });
+            }
+            catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
+        }
     }
 }
