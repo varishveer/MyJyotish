@@ -40,5 +40,8 @@ namespace BusinessAccessLayer.Abstraction
         public List<ChattingModel> GetJyotishChats(int id);
         public DocumentModel GetJyotishDocs(int id);
         public JyotishModel GetJyotishDetails(int id);
+        public string UpdateJyotishDetails(JyotishDetailsViewModel model);
+        public string ApproveJyotishDocs(EmailDocumentViewModel model);
+        public string RejectJyotishDocs(EmailDocumentViewModel model);
     }
 }

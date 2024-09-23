@@ -55,6 +55,7 @@
     left: 0;
     z-index: 1030; 
 
+
    
 }
 
@@ -159,5 +160,5 @@ h3,h5 {
     margin-bottom: 0.5rem; /* Reduced margin between cards */
 }
 .fa-star {
-    color: darkred;
+    color: rgb(87,227,44);
 }

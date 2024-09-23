@@ -510,5 +510,58 @@ namespace BusinessAccessLayer.Implementation
             }
             return jyotish;
         }
+
+        public string UpdateJyotishDetails(JyotishDetailsViewModel model)
+        {
+            var Record = _context.JyotishRecords.Where(x => x.Id == model.Id).FirstOrDefault();
+            if (Record == null)
+            {
+                return "Jyotish not found";
+            }
+            Record.Email = model.Email;
+            Record.Mobile = model.Mobile;
+            Record.Role = model.Role;
+            Record.Name = model.Name;
+            Record.Gender = model.Gender;
+            Record.Language = model.Language;
+            Record.Expertise = model.Expertise;
+            Record.Country = model.Country;
+            Record.State = model.State;
+            Record.City = model.City;
+            Record.Password = model.Password;
+            Record.DateOfBirth = model.DateOfBirth;
+            Record.ProfileImageUrl = model.ProfileImageUrl;
+            Record.Status = model.Status;
+            Record.Otp = model.Otp;
+            Record.Experience = model.Experience;
+            Record.Pooja = model.Pooja;
+            Record.Call = model.Call;
+            Record.CallCharges = model.CallCharges;
+            Record.Chat = model.Chat;
+            Record.ChatCharges = model.ChatCharges;
+            Record.Address = model.Address;
+            Record.TimeFrom = model.TimeFrom;
+            Record.TimeTo = model.TimeTo;
+            _context.JyotishRecords.Update(Record);
+            var result = _context.SaveChanges();
+            if(result >0) { return "Successful"; }
+            else { return "Data Not Update"; }
+        }
+
+        public string ApproveJyotishDocs(EmailDocumentViewModel model)
+        {
+            var jyotish = _context.JyotishRecords.Where(x => x.Id == model.Id).FirstOrDefault();
+            if (jyotish == null) { return null; }
+            AccountServices.SendEmail(model.Message, jyotish.Email, model.Subject);
+            return "Successful";
+        }
+        public string RejectJyotishDocs(EmailDocumentViewModel model)
+        {
+            var jyotish = _context.JyotishRecords.Where(x => x.Id == model.Id).FirstOrDefault();
+            if (jyotish == null) { return null; }
+            AccountServices.SendEmail(model.Message, jyotish.Email, model.Subject);
+            return "Successful";
+        }
+
     }
 }

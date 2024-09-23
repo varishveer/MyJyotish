@@ -18,6 +18,7 @@ namespace MyJyotishGApi.Controllers
             _services = services;
         }
 
+        [AllowAnonymous]
         [HttpGet("HomePageSlider")]
         public IActionResult HomaPageSlider()
         {
@@ -28,13 +29,15 @@ namespace MyJyotishGApi.Controllers
             }
             catch(Exception ex) { return StatusCode(500, new {Status = 500, Message = "Internal Server Error", Error = ex }); }
         }
+
+        [AllowAnonymous]
         [HttpGet("OurAstrologer")]
         public IActionResult OurAstrologer()
         {
             try
             {
                 var result = _services.OurAstrologer();
-                var record = result.Select(j => new { j.Name, j.ProfileImageUrl, j.Expertise }).ToList();
+                var record = result.Select(j => new {j.Id, j.Name, j.ProfileImageUrl, j.Expertise, j.Language,j.Address,j.Experience }).ToList();
                 return Ok(new { data = record, Status = 200, Message = "List Of Astrologer (Name, Profile Image , Expertise)" });
             }
             catch(Exception ex) { return StatusCode(500,new { Status = 500, Message = "Internal Server Error" , Error = ex  }); }
@@ -57,6 +60,7 @@ namespace MyJyotishGApi.Controllers
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
         }
 
+        [AllowAnonymous]
         [HttpGet("BAPCategorySlider")]
         public IActionResult BAPCategorySlider()
         {

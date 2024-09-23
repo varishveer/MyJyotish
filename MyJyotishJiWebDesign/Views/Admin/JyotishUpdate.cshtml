@@ -2,4 +2,206 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    Layout = "AdminLayout";
 }
+
+<div class="container mt-5">
+    <h1 class="mb-4">Update Jyotish Information</h1>
+    <form id="jyotishUpdateForm">
+        <div class="form-group mb-3">
+            <label for="jyotishId">ID:</label>
+            <input type="text" class="form-control" id="id" readonly>
+        </div>
+        <div class="form-group mb-3">
+            <label for="jyotishName">Name:</label>
+            <input type="text" class="form-control" id="name">
+        </div>
+        <div class="form-group mb-3">
+            <label for="jyotishEmail">Email:</label>
+            <input type="email" class="form-control" id="email">
+        </div>
+        <div class="form-group mb-3">
+            <label for="jyotishMobile">Mobile:</label>
+            <input type="text" class="form-control" id="mobile">
+        </div>
+        <div class="form-group mb-3">
+            <label for="jyotishRole">Role:</label>
+            <input type="text" class="form-control" id="role">
+        </div>
+        <div class="form-group mb-3">
+            <label for="jyotishGender">Gender:</label>
+            <input type="text" class="form-control" id="gender">
+        </div>
+        <div class="form-group mb-3">
+            <label for="jyotishLanguage">Language:</label>
+            <input type="text" class="form-control" id="language">
+        </div>
+        <div class="form-group mb-3">
+            <label for="jyotishExpertise">Expertise:</label>
+            <input type="text" class="form-control" id="expertise">
+        </div>
+        <div class="form-group mb-3">
+            <label for="jyotishCountry">Country:</label>
+            <input type="text" class="form-control" id="country">
+        </div>
+        <div class="form-group mb-3">
+            <label for="jyotishState">State:</label>
+            <input type="text" class="form-control" id="state">
+        </div>
+        <div class="form-group mb-3">
+            <label for="jyotishCity">City:</label>
+            <input type="text" class="form-control" id="city">
+        </div>
+        <div class="form-group mb-3">
+            <label for="jyotishAddress">Address:</label>
+            <input type="text" class="form-control" id="address">
+        </div>
+        <div class="form-group mb-3">
+            <label for="jyotishDateOfBirth">Date of Birth:</label>
+            <input type="date" class="form-control" id="dateOfBirth">
+        </div>
+        <div class="form-group mb-3">
+            <label for="jyotishStatus">Status:</label>
+            <input type="text" class="form-control" id="status">
+        </div>
+        <div class="form-group mb-3">
+            <label for="jyotishExperience">Experience:</label>
+            <input type="number" class="form-control" id="experience">
+        </div>
+        <div class="form-group mb-3">
+            <label for="jyotishPooja">Pooja:</label>
+            <input type="text" class="form-control" id="pooja">
+        </div>
+        <div class="form-group mb-3">
+            <label for="jyotishCall">Call Service:</label>
+            <input type="checkbox" id="call">
+        </div>
+        <div class="form-group mb-3">
+            <label for="jyotishCallCharges">Call Charges:</label>
+            <input type="number" class="form-control" id="callCharges">
+        </div>
+        <div class="form-group mb-3">
+            <label for="jyotishChat">Chat Service:</label>
+            <input type="checkbox" id="chat">
+        </div>
+        <div class="form-group mb-3">
+            <label for="jyotishChatCharges">Chat Charges:</label>
+            <input type="number" class="form-control" id="chatCharges">
+        </div>
+        <div class="form-group mb-3">
+            <label for="jyotishProfileImageUrl">Profile Image URL:</label>
+            <input type="text" class="form-control" id="profileImageUrl">
+        </div>
+        <button type="submit" class="btn btn-primary" id="updateJyotishButton">Update</button>
+    </form>
+</div>
+
+<script>
+    $(document).ready(function () {
+        // Function to get query parameters
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        const id = getQueryParam('id'); // Assuming your URL has ?id=1
+       // Update the API URL
+        const Token = localStorage.getItem('Token'); // Get JWT token from local storage
+
+        // Fetch Jyotish details
+        $.ajax({
+            url: `https://localhost:7118/api/Admin/GetJyotishDetails?id=${id}`,
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${Token}` // Include JWT token in the headers
+            },
+            dataType: 'json',
+            success: function (response) {
+                if (response.status === 200) {
+                    const data = response.data;
+                    // Fill the form fields
+                    $('#id').val(data.id || 'N/A');
+                    $('#name').val(data.name || 'N/A');
+                    $('#email').val(data.email || 'N/A');
+                    $('#mobile').val(data.mobile || 'N/A');
+                    $('#role').val(data.role || 'N/A');
+                    $('#gender').val(data.gender || 'N/A');
+                    $('#language').val(data.language || 'N/A');
+                    $('#expertise').val(data.expertise || 'N/A');
+                    $('#country').val(data.country || 'N/A');
+                    $('#state').val(data.state || 'N/A');
+                    $('#city').val(data.city || 'N/A');
+                    $('#address').val(data.address || 'N/A');
+                    $('#dateOfBirth').val(data.dateOfBirth || 'N/A');
+                    $('#status').val(data.status || 'N/A');
+                    $('#experience').val(data.experience || 'N/A');
+                    $('#pooja').val(data.pooja || 'N/A');
+                    $('#call').prop('checked', data.call || false);
+                    $('#callCharges').val(data.callCharges || 0);
+                    $('#chat').prop('checked', data.chat || false);
+                    $('#chatCharges').val(data.chatCharges || 0);
+                    $('#profileImageUrl').val(data.profileImageUrl || '');
+                } else if (response.status === 400) {
+                    alert("No Record Found");
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error('Error fetching Jyotish details:', textStatus, errorThrown);
+            }
+        });
+
+        // Handle form submission to update Jyotish details
+        $('#jyotishUpdateForm').submit(function (event) {
+            event.preventDefault(); // Prevent the default form submission
+            debugger;
+            const updateData = {
+                id: $('#id').val(),
+                name: $('#name').val(),
+                email: $('#email').val(),
+                mobile: $('#mobile').val(),
+                role: $('#role').val(),
+                gender: $('#gender').val(),
+                language: $('#language').val(),
+                expertise: $('#expertise').val(),
+                country: $('#country').val(),
+                state: $('#state').val(),
+                city: $('#city').val(),
+                address: $('#address').val(),
+                dateOfBirth: $('#dateOfBirth').val(),
+                status: $('#status').val(),
+                experience: $('#experience').val(),
+                pooja: $('#pooja').val(),
+                call: $('#call').is(':checked'),
+                callCharges: $('#callCharges').val(),
+                chat: $('#chat').is(':checked'),
+                chatCharges: $('#chatCharges').val(),
+                profileImageUrl: $('#profileImageUrl').val()
+            };
+
+            
+
+            $.ajax({
+                url: `https://localhost:7118/api/Admin/UpdateJyotishDetails`,
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${Token}`,
+                    'Content-Type': 'application/json'
+                },
+                data: JSON.stringify(updateData),
+                success: function (response) {
+                    debugger;
+                    if (response.status === 200) {
+                        alert('Jyotish details updated successfully');
+                        // Optionally redirect or perform another action
+                    } else {
+                        alert('Failed to update Jyotish details');
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    debugger;
+                    console.error('Error updating Jyotish details:', textStatus, errorThrown);
+                }
+            });
+        });
+    });
+</script>

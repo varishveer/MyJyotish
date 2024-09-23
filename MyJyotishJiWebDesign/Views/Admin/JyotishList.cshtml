@@ -168,34 +168,23 @@
                         htmls += `<td class="text-center">${item.callCharges ?? ''}</td>`;
                         htmls += `<td class="text-center">${item.chatCharges ?? ''}</td>`;
                         htmls += `<td class="text-center">
-                                <svg id="Edit" class="open-jyotish-modal" data-bs-toggle="modal" data-bs-target="#jyotishUpdateModal" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" style="cursor: pointer;"
-                                    data-id="${item.id}"
-                                    data-name="${item.name}"
-                                    data-mobile="${item.mobile}"
-                                    data-email="${item.email}"
-                                    data-expertise="${item.expertise}"
-                                    data-language="${item.language}"
-                                    data-gender="${item.gender}"
-                                    data-status="${item.status}"
-                                    data-experience="${item.experience}"
-                                    data-country="${item.country}"
-                                    data-state="${item.state}"
-                                    data-city="${item.city}"
-                                    data-address="${item.address}"
-                                    data-dateOfBirth="${item.dateOfBirth}"
-                                    data-call="${item.call}"
-                                    data-chat="${item.chat}">
+
+                                    <<a href="https://localhost:44324/Admin/JyotishUpdate?id=${item.id}">
+                                <svg id="Edit" class="open-jyotish-modal" data-bs-toggle="modal" data-bs-target="#jyotishUpdateModal" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" style="cursor: pointer;" >
                                     <path d="M3 21v-1.586l16.586-16.586L20 3l-16.586 16.586L3 21zm0 0l1.586-1.586L5 21H3zm1.586-1.586L3 21v-1.586zM19 3l2 2-16.586 16.586-2-2L19 3z" />
                                 </svg>
+                                </a>
 
+                                                <a href="https://localhost:44324/Admin/JyotishDetails?id=${item.id}">
                                         <svg id="Document" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 2.5a.25.25 0 0 0-.25-.25H7A2.75 2.75 0 0 0 4.25 5v14A2.75 2.75 0 0 0 7 21.75h10A2.75 2.75 0 0 0 19.75 19V9.147a.25.25 0 0 0-.25-.25H15a.75.75 0 0 1-.75-.75zm.75 9.75a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1 0-1.5zm0 4a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1 0-1.5z" clip-rule="evenodd"/><path fill="currentColor" d="M15.75 2.824c0-.184.193-.301.336-.186q.182.147.323.342l3.013 4.197c.068.096-.006.22-.124.22H16a.25.25 0 0 1-.25-.25z"/></svg>
+                                            </a>
 
-
+                                            <a href="https://myjyotishg.in/Admin/JyotishCalls?id=${item.id}">
                                             <svg id="Call" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M19.95 21q-3.125 0-6.187-1.35T8.2 15.8t-3.85-5.55T3 4.05V3h5.9l.925 5.025l-2.85 2.875q.55.975 1.225 1.85t1.45 1.625q.725.725 1.588 1.388T13.1 17l2.9-2.9l5 1.025V21z"/></svg>
-
-
+                                            </a>
+                                                 <a href="https://myjyotishg.in/Admin/JyotishChats?id=${item.id}">
                                                 <svg id="Chat" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M2 22V4q0-.825.588-1.412T4 2h16q.825 0 1.413.588T22 4v12q0 .825-.587 1.413T20 18H6zm4-8h8v-2H6zm0-3h12V9H6zm0-3h12V6H6z"/></svg>
-
+                                                </a>
                                 </td>`;
                         htmls += '</tr>';
                     });
@@ -277,21 +266,6 @@
         });
 
 
-        $(document).on('click', '#Call, #Chat , #Document', function () {
-            const id = $(this).closest('tr').find('.open-jyotish-modal').data('id'); // Get the ID from the row
-            const action = $(this).attr('id'); // Determine if it’s Call or Chat
-
-            if (action === 'Call') {
-                window.location.href = `https://myjyotishg.in/Admin/JyotishCalls?id=${id}`; // Redirect to Call page with ID
-            } else if (action === 'Chat') {
-                window.location.href = `https://myjyotishg.in/Admin/JyotishChats?id=${id}`; // Redirect to Chat page with ID
-            }else if (action === 'Document')
-            {
-                 window.location.href = `https://myjyotishg.in/Admin/JyotishDocs?id=${id}`;
-            }
-
-
-        });
 
 
     });

@@ -138,7 +138,7 @@
             right: 0;
             width: 100px;
             height: 140px;
-            
+            background-color: rgb(116,82,199);
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border: 1px solid #ddd;
             z-index: 1000;
@@ -204,43 +204,7 @@
 
 
 
-    <!-- Service Cards -->
-  @*   <div class="container-fluid my-5">
-        <h3 class="text-center mb-5">Our Services</h3>
-        <div class="row text-center justify-content-between">
-            <div class="col-6 col-md-2 mb-4 border ">
-                <img src="https://api.myjyotishg.in/Images/Tabs/Astrology.jpg"
-                     class="card-img-top ServiceCard"
-                     alt="Astrology" />
-                <p class="card-title mt-2">Astrology</p>
-            </div>
-            <div class="col-6 col-md-2 mb-4">
-                <img src="https://api.myjyotishg.in/Images/Tabs/Palmistry.jpg"
-                     class="card-img-top ServiceCard"
-                     alt="Palmistry" />
-                <p class="card-title mt-2">Palmistry</p>
-            </div>
-            <div class="col-6 col-md-2 mb-4">
-                <img src="https://api.myjyotishg.in/Images/Tabs/tarot.png"
-                     class="card-img-top ServiceCard"
-                     alt="Tarot" />
-                <p class="card-title mt-2">Tarot</p>
-            </div>
-            <div class="col-6 col-md-2 mb-4">
-                <img src="https://api.myjyotishg.in/Images/Tabs/vastu.jpg"
-                     class="card-img-top ServiceCard"
-                     alt="Vastu" />
-                <p class="card-title mt-2">Vastu</p>
-            </div>
-            <div class="col-12 col-md-2 mb-4 mx-auto mx-md-0">
-                <img src="https://api.myjyotishg.in/Images/Tabs/Horoscope.jpg"
-                     class="card-img-top ServiceCard"
-                     alt="Horoscope" />
-                <p class="card-title mt-2">Horoscope</p>
-            </div>
-        </div>
-    </div>
- *@
+  
 
 
 
@@ -248,21 +212,21 @@
 
     <div class="container-fluid my-5">
         <h3 class="text-center mb-5">Our Services</h3>
-        <div class="row  justify-content-between">
+        <div class="row  justify-content-between p-1">
 
-            <div class="col-6 col-md-2  mb-4 service-card rounded  text-center  " style="background-color: #ffdd00 ">
+            <div class="col-6 col-md-2  mb-4 service-card rounded  text-center  ">
                 <img src="https://api.myjyotishg.in/Images/Tabs/Astrology.jpg"
-                     class="card-img-top servicecard mt-5"
+                     class="card-img-top servicecard"
                      alt="Astrology" />
                 <p class="card-title mt-2">Astrology</p>
             </div>
-            <div class="col-6 col-md-2 mb-4 service-card rounded text-center " style="background-color: rgb(254, 118, 115)">
+            <div class="col-6 col-md-2 mb-4 service-card rounded text-center " >
                 <img src="https://api.myjyotishg.in/Images/Tabs/Palmistry.jpg"
                      class="card-img-top ServiceCard"
                      alt="Palmistry" />
                 <p class="card-title mt-2">Palmistry</p>
             </div>
-            <div class="col-6 col-md-2 mb-4 service-card rounded text-center" style="">
+            <div class="col-6 col-md-2 mb-4 service-card rounded text-center">
                 <img src="https://api.myjyotishg.in/Images/Tabs/tarot.png"
                      class="card-img-top ServiceCard"
                      alt="Tarot" />
@@ -288,27 +252,17 @@
             padding-top: 20px;
             padding-bottom:20px;
             perspective: 1000px; /* Add perspective to create a 3D effect */
-            transform-style: preserve-3d; /* Allow 3D transformations */
-            transition: transform 0.5s; /* Add a smooth transition effect */
-           
-          
-            transform: rotateX(10deg) scale(1.05); /* Rotate and scale the entire card */
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Add a shadow effect to the card */
         }
 
-        .service-card:hover {
-            transform: rotateY(20deg) scale(1.1); /* Rotate and scale on hover */
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add a shadow effect */
-        }
+    
 
         .service-card img {
-            transform: translateZ(20px) rotateX(10deg); /* Move the image forward and rotate it slightly */
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add a shadow effect */
+     
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         }
 
-        .service-card p {
-            transform: translateZ(-20px) rotateX(-10deg); /* Move the text backward and rotate it slightly */
-        }
+      
     </style>
 
 
@@ -481,23 +435,24 @@
                 <h3>Astrology</h3>
                 <p style="text-align: justify;">
                     Astrology explores the influence of celestial bodies on human behavior and events. Rooted in ancient traditions, it involves creating charts based on planetary positions to interpret personality traits and predict future outcomes. Despite its lack of scientific backing, astrology remains popular for offering personal insights and guidance. Many people find meaning in its symbolism and use it for self-reflection and understanding their connection to the universe.<br />
-                    Astrology explores the influence of celestial bodies on human behavior and events. Rooted in ancient traditions, it involves creating charts based on planetary positions to interpret personality traits and predict future outcomes. Despite its lack of scientific backing, astrology remains popular for offering personal insights and guidance. Many people find meaning in its symbolism and use it for self-reflection and understanding their connection to the universe.<br />
-                    Astrology explores the influence of celestial bodies on human behavior and events. Rooted in ancient traditions, it involves creating charts based on planetary positions to interpret personality traits and predict future outcomes. Despite its lack of scientific backing, astrology remains popular for offering personal insights and guidance. Many people find meaning in its symbolism and use it for self-reflection and understanding their connection to the universe.
+                    Astrology explores the influence of celestial bodies on human behavior and events. Rooted in ancient traditions, it involves creating charts based on planetary positions to interpret personality traits and predict future outcomes. Despite its lack of scientific backing.<br />
+                  
                 </p>
             </div>
-            <div class="col-md-3 text-center d-flex flex-column align-items-center justify-content-center p-5">
-                <img src="https://api.myjyotishg.in/Images/Services/AstrologyServices.jpeg" class="img-fluid rounded" alt="Astrology Services Image">
+            <div class="col-md-3 text-center d-flex flex-column align-items-center justify-content-center ">
+                <img src="https://api.myjyotishg.in/Images/Services/AstrologyServices.jpeg" style="height:200px;" class="img-fluid rounded" alt="Astrology Services Image" >
             </div>
         </div>
 
         <div class="row SSBgColor rounded p-2 mb-5">
-            <div class="col-md-3 text-center d-flex flex-column align-items-center justify-content-center p-5">
-                <img src="https://api.myjyotishg.in/Images/Services/PoojaServices.jpeg" class="img-fluid rounded" alt="Pooja Services Image">
+            <div class="col-md-3 text-center d-flex flex-column align-items-center justify-content-center ">
+                <img src="https://api.myjyotishg.in/Images/Services/PoojaServices.jpeg" style="height:200px;" class="img-fluid rounded" alt="Pooja Services Image">
             </div>
             <div class="col-md-9">
                 <h3>Pooja</h3>
                 <p style="text-align: justify;">
-                    Pooja is a sacred and fundamental ritual in Hinduism, an ancient religion rich in tradition and spiritual practices. It is an act of showing reverence to deities, spirits, or other divine entities through invocations, prayers, songs, and rituals. Pooja can be performed in various settings, whether in the sanctity of one's home, at a temple, or during communal gatherings. The ritual typically includes chanting mantras, lighting oil lamps (diyas), and performing the symbolic washing and dressing of the deity's image or idol.<br />Pooja is a sacred and fundamental ritual in Hinduism, an ancient religion rich in tradition and spiritual practices. It is an act of showing reverence to deities, spirits, or other divine entities through invocations, prayers, songs, and rituals. Pooja can be performed in various settings, whether in the sanctity of one's home, at a temple, or during communal gatherings. The ritual typically includes chanting mantras, lighting oil lamps (diyas), and performing the symbolic washing and dressing of the deity's image or idol.<br />Pooja is a sacred and fundamental ritual in Hinduism, an ancient religion rich in tradition and spiritual practices. It is an act of showing reverence to deities, spirits, or other divine entities through invocations, prayers, songs, and rituals. Pooja can be performed in various settings, whether in the sanctity of one's home, at a temple, or during communal gatherings. The ritual typically includes chanting mantras, lighting oil lamps (diyas), and performing the symbolic washing and dressing of the deity's image or idol.
+                    Astrology explores the influence of celestial bodies on human behavior and events. Rooted in ancient traditions, it involves creating charts based on planetary positions to interpret personality traits and predict future outcomes. Despite its lack of scientific backing, astrology remains popular for offering personal insights and guidance. Many people find meaning in its symbolism and use it for self-reflection and understanding their connection to the universe.<br />
+                    Astrology explores the influence of celestial bodies on human behavior and events. Rooted in ancient traditions, it involves creating charts based on planetary positions to interpret personality traits and predict future outcomes. Despite its lack of scientific backing.<br />
                 </p>
             </div>
         </div>
@@ -506,22 +461,24 @@
             <div class="col-md-9">
                 <h3>Palmistry</h3>
                 <p style="text-align: justify;">
-                    Palmistry, also known as chiromancy, is the art of interpreting the lines, shapes, and mounts of the hands to gain insight into an individual’s personality and future. This ancient practice dates back to civilizations like the Greeks and Indians, who believed that the hands are a reflection of one's inner self and destiny. Palmists analyze the major lines, along with the mounts and other features of the hand.<br /> Palmistry, also known as chiromancy, is the art of interpreting the lines, shapes, and mounts of the hands to gain insight into an individual’s personality and future. This ancient practice dates back to civilizations like the Greeks and Indians, who believed that the hands are a reflection of one's inner self and destiny. Palmists analyze the major lines, along with the mounts and other features of the hand.<br /> Palmistry, also known as chiromancy, is the art of interpreting the lines, shapes, and mounts of the hands to gain insight into an individual’s personality and future. This ancient practice dates back to civilizations like the Greeks and Indians, who believed that the hands are a reflection of one's inner self and destiny. Palmists analyze the major lines, along with the mounts and other features of the hand.
+                    Astrology explores the influence of celestial bodies on human behavior and events. Rooted in ancient traditions, it involves creating charts based on planetary positions to interpret personality traits and predict future outcomes. Despite its lack of scientific backing, astrology remains popular for offering personal insights and guidance. Many people find meaning in its symbolism and use it for self-reflection and understanding their connection to the universe.<br />
+                    Astrology explores the influence of celestial bodies on human behavior and events. Rooted in ancient traditions, it involves creating charts based on planetary positions to interpret personality traits and predict future outcomes. Despite its lack of scientific backing.<br />
                 </p>
             </div>
-            <div class="col-md-3 text-center d-flex flex-column align-items-center justify-content-center p-5">
-                <img src="https://api.myjyotishg.in/Images/Services/horoscope.jpeg" class="img-fluid rounded" alt="Palmistry Services Image">
+            <div class="col-md-3 text-center d-flex flex-column align-items-center justify-content-center">
+                <img src="https://api.myjyotishg.in/Images/Services/horoscope.jpeg" style="height:200px;" class="img-fluid rounded" alt="Palmistry Services Image">
             </div>
         </div>
 
         <div class="row SSBgColor rounded p-2 mb-5">
-            <div class="col-md-3 text-center d-flex flex-column align-items-center justify-content-center p-5">
-                <img src="https://api.myjyotishg.in/Images/Services/Vastu.jpeg" class="img-fluid rounded" alt="Vastu Services Image">
+            <div class="col-md-3 text-center d-flex flex-column align-items-center justify-content-center ">
+                <img src="https://api.myjyotishg.in/Images/Services/Vastu.jpeg" style="height:200px;" class="img-fluid rounded" alt="Vastu Services Image">
             </div>
             <div class="col-md-9">
                 <h3>Vastu</h3>
                 <p style="text-align: justify;">
-                    Vastu Shastra is an ancient Indian architectural science that focuses on harmonizing human dwellings with natural elements. Rooted in Hindu traditions, Vastu provides guidelines for designing and constructing buildings to ensure balance and positive energy flow. Key principles include placing important rooms in specific directions and ensuring that structures align with natural forces.<br />Vastu Shastra is an ancient Indian architectural science that focuses on harmonizing human dwellings with natural elements. Rooted in Hindu traditions, Vastu provides guidelines for designing and constructing buildings to ensure balance and positive energy flow. Key principles include placing important rooms in specific directions and ensuring that structures align with natural forces.<br />Vastu Shastra is an ancient Indian architectural science that focuses on harmonizing human dwellings with natural elements. Rooted in Hindu traditions, Vastu provides guidelines for designing and constructing buildings to ensure balance and positive energy flow. Key principles include placing important rooms in specific directions and ensuring that structures align with natural forces.<br />Vastu Shastra is an ancient Indian architectural science that focuses on harmonizing human dwellings with natural elements. Rooted in Hindu traditions, Vastu provides guidelines for designing and constructing buildings to ensure balance and positive energy flow. Key principles include placing important rooms in specific directions and ensuring that structures align with natural forces.
+                    Astrology explores the influence of celestial bodies on human behavior and events. Rooted in ancient traditions, it involves creating charts based on planetary positions to interpret personality traits and predict future outcomes. Despite its lack of scientific backing, astrology remains popular for offering personal insights and guidance. Many people find meaning in its symbolism and use it for self-reflection and understanding their connection to the universe.<br />
+                    Astrology explores the influence of celestial bodies on human behavior and events. Rooted in ancient traditions, it involves creating charts based on planetary positions to interpret personality traits and predict future outcomes. Despite its lack of scientific backing.<br />
                 </p>
             </div>
         </div>
@@ -530,22 +487,24 @@
             <div class="col-md-9">
                 <h3>Tarot</h3>
                 <p style="text-align: justify;">
-                    Tarot is a divination tool that uses a deck of cards, typically consisting of 78 cards, to gain insight into various aspects of life and personal situations. Each card has its own symbolism and meaning, which can be interpreted based on its position in a spread or its relationship to other cards. Tarot readings are often used for guidance and self-reflection.<br />Tarot is a divination tool that uses a deck of cards, typically consisting of 78 cards, to gain insight into various aspects of life and personal situations. Each card has its own symbolism and meaning, which can be interpreted based on its position in a spread or its relationship to other cards. Tarot readings are often used for guidance and self-reflection.<br />Tarot is a divination tool that uses a deck of cards, typically consisting of 78 cards, to gain insight into various aspects of life and personal situations. Each card has its own symbolism and meaning, which can be interpreted based on its position in a spread or its relationship to other cards. Tarot readings are often used for guidance and self-reflection.<br />Tarot is a divination tool that uses a deck of cards, typically consisting of 78 cards, to gain insight into various aspects of life and personal situations. Each card has its own symbolism and meaning, which can be interpreted based on its position in a spread or its relationship to other cards. Tarot readings are often used for guidance and self-reflection.
+                    Astrology explores the influence of celestial bodies on human behavior and events. Rooted in ancient traditions, it involves creating charts based on planetary positions to interpret personality traits and predict future outcomes. Despite its lack of scientific backing, astrology remains popular for offering personal insights and guidance. Many people find meaning in its symbolism and use it for self-reflection and understanding their connection to the universe.<br />
+                    Astrology explores the influence of celestial bodies on human behavior and events. Rooted in ancient traditions, it involves creating charts based on planetary positions to interpret personality traits and predict future outcomes. Despite its lack of scientific backing.<br />
                 </p>
             </div>
-            <div class="col-md-3 text-center d-flex flex-column align-items-center justify-content-center p-5">
-                <img src="https://api.myjyotishg.in/Images/Services/Tarot.jpeg" class="img-fluid rounded" alt="Tarot Services Image">
+            <div class="col-md-3 text-center d-flex flex-column align-items-center justify-content-center ">
+                <img src="https://api.myjyotishg.in/Images/Services/Tarot.jpeg" style="height:200px;" class="img-fluid rounded" alt="Tarot Services Image">
             </div>
         </div>
 
         <div class="row SSBgColor rounded p-2 mb-5">
-            <div class="col-md-3 text-center d-flex flex-column align-items-center justify-content-center p-5">
-                <img src="https://api.myjyotishg.in/Images/Services/KundaliServiceSection.jpeg" class="img-fluid rounded" alt="Kundli Services Image">
+            <div class="col-md-3 text-center d-flex flex-column align-items-center justify-content-center ">
+                <img src="https://api.myjyotishg.in/Images/Services/KundaliServiceSection.jpeg" style="height:200px;" class="img-fluid rounded" alt="Kundli Services Image">
             </div>
             <div class="col-md-9">
                 <h3>Free Kundli</h3>
                 <p style="text-align: justify;">
-                    Kundali, also known as a natal or birth chart, is a key concept in Vedic astrology. It represents the astrological positions of celestial bodies at the exact moment of an individual's birth. Astrologers use the Kundali to analyze and interpret various influences and trends affecting an individual's personality, potential, and life path.<br />Kundali, also known as a natal or birth chart, is a key concept in Vedic astrology. It represents the astrological positions of celestial bodies at the exact moment of an individual's birth. Astrologers use the Kundali to analyze and interpret various influences and trends affecting an individual's personality, potential, and life path.<br />Kundali, also known as a natal or birth chart, is a key concept in Vedic astrology. It represents the astrological positions of celestial bodies at the exact moment of an individual's birth. Astrologers use the Kundali to analyze and interpret various influences and trends affecting an individual's personality, potential, and life path.<br />Kundali, also known as a natal or birth chart, is a key concept in Vedic astrology. It represents the astrological positions of celestial bodies at the exact moment of an individual's birth. Astrologers use the Kundali to analyze and interpret various influences and trends affecting an individual's personality, potential, and life path.
+                    Astrology explores the influence of celestial bodies on human behavior and events. Rooted in ancient traditions, it involves creating charts based on planetary positions to interpret personality traits and predict future outcomes. Despite its lack of scientific backing, astrology remains popular for offering personal insights and guidance. Many people find meaning in its symbolism and use it for self-reflection and understanding their connection to the universe.<br />
+                    Astrology explores the influence of celestial bodies on human behavior and events. Rooted in ancient traditions, it involves creating charts based on planetary positions to interpret personality traits and predict future outcomes. Despite its lack of scientific backing.<br />
                 </p>
             </div>
             
@@ -555,26 +514,25 @@
             <div class="col-md-9">
                 <h3>Horoscope</h3>
                 <p style="text-align: justify;">
-                    A horoscope is a chart or diagram that represents the positions of celestial bodies at a specific time, typically at an individual's birth, to provide insights into their personality, life events, and future possibilities. Astrologers interpret these elements to create personalized predictions and guidance.<br />A horoscope is a chart or diagram that represents the positions of celestial bodies at a specific time, typically at an individual's birth, to provide insights into their personality, life events, and future possibilities. Astrologers interpret these elements to create personalized predictions and guidance.<br />A horoscope is a chart or diagram that represents the positions of celestial bodies at a specific time, typically at an individual's birth, to provide insights into their personality, life events, and future possibilities. Astrologers interpret these elements to create personalized predictions and guidance.<br />A horoscope is a chart or diagram that represents the positions of celestial bodies at a specific time, typically at an individual's birth, to provide insights into their personality, life events, and future possibilities. Astrologers interpret these elements to create personalized predictions and guidance.<br />
+                    Astrology explores the influence of celestial bodies on human behavior and events. Rooted in ancient traditions, it involves creating charts based on planetary positions to interpret personality traits and predict future outcomes. Despite its lack of scientific backing, astrology remains popular for offering personal insights and guidance. Many people find meaning in its symbolism and use it for self-reflection and understanding their connection to the universe.<br />
+                    Astrology explores the influence of celestial bodies on human behavior and events. Rooted in ancient traditions, it involves creating charts based on planetary positions to interpret personality traits and predict future outcomes. Despite its lack of scientific backing.<br />
                 </p>
             </div>
-            <div class="col-md-3 text-center d-flex flex-column align-items-center justify-content-center p-5">
-                <img src="https://api.myjyotishg.in/Images/Services/Horoscope.jpeg" class="img-fluid rounded" alt="Horoscope Services Image">
+            <div class="col-md-3 text-center d-flex flex-column align-items-center justify-content-center ">
+                <img src="https://api.myjyotishg.in/Images/Services/Horoscope.jpeg" style="height:200px;" class="img-fluid rounded" alt="Horoscope Services Image">
             </div>
         </div>
 
         <div class="row SSBgColor rounded p-2 mb-5">
 
-            <div class="col-md-3 text-center d-flex flex-column align-items-center justify-content-center p-5">
-                <img src="https://api.myjyotishg.in/Images/Services/KundaliMatchingFreeService.jpeg" class="img-fluid rounded" alt="Kundli Matching Services Image">
+            <div class="col-md-3 text-center d-flex flex-column align-items-center justify-content-center ">
+                <img src="https://api.myjyotishg.in/Images/Services/KundaliMatchingFreeService.jpeg" style="height:200px;" class="img-fluid rounded" alt="Kundli Matching Services Image">
             </div>
             <div class="col-md-9">
                 <h3>Kundli Matching</h3>
                 <p style="text-align: justify;">
-                    Kundali matching, also known as horoscope matching, is a traditional practice in Vedic astrology used to assess the compatibility of two individuals, typically before marriage. The matching process examines various factors such as the positions of planets and their influence on different aspects of life to ensure compatibility in areas like health, finances, and emotional connection.<br />
-                    Kundali matching, also known as horoscope matching, is a traditional practice in Vedic astrology used to assess the compatibility of two individuals, typically before marriage. The matching process examines various factors such as the positions of planets and their influence on different aspects of life to ensure compatibility in areas like health, finances, and emotional connection.<br />
-                    Kundali matching, also known as horoscope matching, is a traditional practice in Vedic astrology used to assess the compatibility of two individuals, typically before marriage. The matching process examines various factors such as the positions of planets and their influence on different aspects of life to ensure compatibility in areas like health, finances, and emotional connection.<br />
-                    Kundali matching, also known as horoscope matching, is a traditional practice in Vedic astrology used to assess the compatibility of two individuals, typically before marriage. The matching process examines various factors such as the positions of planets and their influence on different aspects of life to ensure compatibility in areas like health, finances, and emotional connection.
+                    Astrology explores the influence of celestial bodies on human behavior and events. Rooted in ancient traditions, it involves creating charts based on planetary positions to interpret personality traits and predict future outcomes. Despite its lack of scientific backing, astrology remains popular for offering personal insights and guidance. Many people find meaning in its symbolism and use it for self-reflection and understanding their connection to the universe.<br />
+                    Astrology explores the influence of celestial bodies on human behavior and events. Rooted in ancient traditions, it involves creating charts based on planetary positions to interpret personality traits and predict future outcomes. Despite its lack of scientific backing.<br />
 
                 </p>
             </div>
@@ -717,13 +675,19 @@
                     <div class="single-items mb-20">
                         <div class="items-img">
                             <h2 class="text-center">Why Choose Us ?</h2>
-                            <p style="text-align: justify;">
+                            <p >
 
                                 <q>
-                                    <b>MyjyotishG</b> is a spiritual service platform based in India that offers a variety of astrology-related services and resources. Navigating life’s uncertainties can be challenging, but you don’t have to do it alone. Our team of experienced astrologers is always accessible, providing you with guidance and support at every step of your spiritual journey, offering clarity and reassurance whenever you need it.<br /><br />
-
-                                    Choose MyjyotishG for a spiritual partner that combines traditional wisdom with a personalized approach, ensuring that your life's challenges are addressed with insightful and compassionate solutions.
+                                    <b>MyjyotishG</b> is a spiritual service platform that:
+                                    <ul>
+                                        <li>Offers astrology services in India.</li>
+                                        <li>Provides guidance through life’s uncertainties.</li>
+                                        <li>Has experienced astrologers available for support.</li>
+                                        <li>Combines traditional wisdom with a personalized approach.</li>
+                                        <li>Offers compassionate and insightful solutions.</li>
+                                    </ul>
                                 </q>
+
                             </p>
                         </div>
                     </div>

@@ -97,7 +97,7 @@ namespace MyJyotishJiApi.Controllers
                 var result = _account.JRegisterAndSendOtp(Email);
                 if (result == "Successful") { return Ok(new {Status = 200,Message = result}); }
                 else if(result == "Email Number already existed")
-                { return Conflict(new { Status = 409, Message = result }); }
+                { return Ok(new { Status = 409, Message = result }); }
                 else if(result == "Data not saved") { return StatusCode(500, new { Status = 500, Message = result }); }
                 
 
@@ -359,8 +359,28 @@ namespace MyJyotishJiApi.Controllers
             }
         }
         #endregion
+        [AllowAnonymous]
+        [HttpGet("PlaceOfBirthList")]
+        public IActionResult PlaceOfBirthList(string City)
+        {
+            try
+            {
+                var Records = _account.PlaceOfBirthList(City);
+                if (Records== null)
+                {
+                    return Ok(new { Status =500, Message= "Internal Server Error"  });
+                }
+                else
+                {
+                    return Ok(new { Status = 200,Data = Records, Message = "Successful" });
+                }
+            }
+            catch
+            {
+                return StatusCode(500, new { Status = 500, Message = "Internal Server Error" });
+            }
 
-
+        }
 
 
 

@@ -34,12 +34,89 @@ namespace BusinessAccessLayer.Implementation
             { 
                 if(IsMobileValid.Status == "Unverified" || IsMobileValid.Status == "Verified")
                 {
-                    int NewOtp = 123456;
-                   
-                    string NewMessage = "Dear User,\r\n\r\nThank you for choosing My Jyotish G! To ensure the security of your account, we need to verify your identity.\r\n\r\nYour One-Time Password (OTP) is: " + NewOtp + "\r\n\r\nPlease enter this OTP within the next 10 minutes. If you did not request this code, please disregard this email.\r\n\r\nIf you have any questions or need assistance, feel free to contact our support team.\r\n\r\nThank you for being a valued part of the My Jyotish G community!\r\n\r\nBest regards,\r\nThe My Jyotish G Team\r\n\r\n";
+                    int NewOtp = new Random().Next(100000, 1000000); ;
+
+                    string newMessage = $@"
+           <!DOCTYPE html>
+            <html lang=""en"">
+            <head>
+    <meta charset=""UTF-8"">
+    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+    <title>My Jyotish G Email</title>
+    <style>
+        body {{
+            font-family: Arial, sans-serif;
+        }}
+        .container {{
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }}
+        .header {{
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }}
+        .content {{
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }}
+        .otp {{
+            font-size: 20px;
+            font-weight: bold;
+            color: #000;
+        }}
+        .logo {{
+            margin: 20px 0;
+            text-align: center;
+        }}
+        .logo img {{
+            max-width: 150px;
+        }}
+        .footer {{
+            font-size: 14px;
+            color: #555;
+            margin-top: 20px;
+        }}
+        .footer a {{
+            color: #000;
+            text-decoration: none;
+        }}
+    </style>
+</head>
+<body>
+    <div class=""container"">
+       
+         <div class=""logo"">
+            <img src=""https://api.myjyotishg.in/Images/Logo.png"" alt=""My Jyotish G Logo"">
+        </div>
+        <div class=""content"">
+            Hi User,<br><br>
+            Thank you for signing up! To complete your registration, please verify your email address using the code below:<br><br>
+
+            Verification Code: <span class=""otp"">{NewOtp}</span><br><br>
+
+            If you have any questions, feel free to reach out!
+        </div>
+
+       
+            <div class=""header"" style=""color:orange"">My Jyotish G</div>
+            <h4>www.myjyotishg.in</h4>
+            <h4>myjyotishg@gmail.com</h4>
+            <h4>7985738804</h4>
+            
+        
+    </div>
+</body>
+</html>
+";
                     string NewSubject = "Verification Code for My Jyotish G";
 
-                    var isNewMailSend = SendEmail(NewMessage, Email, NewSubject);
+                    var isNewMailSend = SendEmail(newMessage, Email, NewSubject);
                     if(isNewMailSend)
                     {IsMobileValid.Otp = NewOtp;
 
@@ -54,12 +131,89 @@ namespace BusinessAccessLayer.Implementation
                 }
                 return "Email Number already existed"; 
             }
-            int Otp = 123456;
+            int Otp = new Random().Next(100000, 1000000); ;
             JyotishModel model = new JyotishModel();
-            string Message = "Dear User,\r\n\r\nThank you for choosing My Jyotish G! To ensure the security of your account, we need to verify your identity.\r\n\r\nYour One-Time Password (OTP) is: "+ Otp +"\r\n\r\nPlease enter this OTP within the next 10 minutes. If you did not request this code, please disregard this email.\r\n\r\nIf you have any questions or need assistance, feel free to contact our support team.\r\n\r\nThank you for being a valued part of the My Jyotish G community!\r\n\r\nBest regards,\r\nThe My Jyotish G Team\r\n\r\n";
+            string message = $@"
+           <!DOCTYPE html>
+            <html lang=""en"">
+            <head>
+    <meta charset=""UTF-8"">
+    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+    <title>My Jyotish G Email</title>
+    <style>
+        body {{
+            font-family: Arial, sans-serif;
+        }}
+        .container {{
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }}
+        .header {{
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }}
+        .content {{
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }}
+        .otp {{
+            font-size: 20px;
+            font-weight: bold;
+            color: #000;
+        }}
+        .logo {{
+            margin: 20px 0;
+            text-align: center;
+        }}
+        .logo img {{
+            max-width: 150px;
+        }}
+        .footer {{
+            font-size: 14px;
+            color: #555;
+            margin-top: 20px;
+        }}
+        .footer a {{
+            color: #000;
+            text-decoration: none;
+        }}
+    </style>
+</head>
+<body>
+    <div class=""container"">
+       
+         <div class=""logo"">
+            <img src=""https://api.myjyotishg.in/Images/Logo.png"" alt=""My Jyotish G Logo"">
+        </div>
+        <div class=""content"">
+          
+            Thank you for signing up! To complete your registration, please verify your email address using the code below:<br><br>
+
+            Verification Code: <span class=""otp"">{Otp}</span><br><br>
+
+            If you have any questions, feel free to reach out!
+        </div>
+
+       
+            <div class=""header"" style=""color:orange"">My Jyotish G</div>
+            <h4>www.myjyotishg.in</h4>
+            <h4>myjyotishg@gmail.com</h4>
+            <h4>7985738804</h4>
+            
+        
+    </div>
+</body>
+</html>
+";
             string Subject = "Verification Code for My Jyotish G";
 
-            var isMailSend =SendEmail(Message,Email,Subject);
+            var isMailSend =SendEmail(message,Email,Subject);
             if(isMailSend)
             {model.Otp = Otp;
             model.Email = Email;
@@ -87,11 +241,90 @@ namespace BusinessAccessLayer.Implementation
                     }
                     else { return "Email already Verified"; }
 
-
+                    record.Password= (new Random().Next(10000000, 100000000)).ToString();
                     _context.JyotishRecords.Update(record);
+
                     var result = _context.SaveChanges();
 
-                    if (result > 0) { return "Successful"; }
+                    if (result > 0) {
+
+                        string message = $@"
+           <!DOCTYPE html>
+            <html lang=""en"">
+            <head>
+    <meta charset=""UTF-8"">
+    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+    <title>My Jyotish G Email</title>
+    <style>
+        body {{
+            font-family: Arial, sans-serif;
+        }}
+        .container {{
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }}
+        .header {{
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }}
+        .content {{
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }}
+        .password {{
+            font-size: 20px;
+            font-weight: bold;
+            color: #000;
+        }}
+        .logo {{
+            margin: 20px 0;
+            text-align: center;
+        }}
+        .logo img {{
+            max-width: 150px;
+        }}
+        .footer {{
+            font-size: 14px;
+            color: #555;
+            margin-top: 20px;
+        }}
+        .footer a {{
+            color: #000;
+            text-decoration: none;
+        }}
+    </style>
+</head>
+<body>
+    <div class=""container"">
+        <div class=""logo"">
+            <img src=""https://api.myjyotishg.in/Images/Logo.png"" alt=""My Jyotish G Logo"">
+        </div>
+        <div class=""content"">
+            Hi User,<br><br>
+            Thank you for signing up! Your account has been successfully created. Below is your  password.<br><br>
+
+             Password: <span class=""password"">{record.Password}</span><br><br>
+
+            If you encounter any issues or have any questions, feel free to reach out to us.
+        </div>
+
+        <div class=""header"" style=""color:orange"">My Jyotish G</div>
+        <h4>www.myjyotishg.in</h4>
+        <h4>myjyotishg@gmail.com</h4>
+        <h4>7985738804</h4>
+    </div>
+</body>
+</html>
+";
+                        string subject = "Your Password for Jyotish G";
+                        SendEmail(message, record.Email, subject);
+                        return "Successful"; }
                     else
                     {
                         return "Data not saved";
@@ -473,6 +706,10 @@ namespace BusinessAccessLayer.Implementation
             };
             _context.Users.Add(_user);
             var result = _context.SaveChanges();
+
+
+
+
             return result > 0 ? "Successful" : "Data not saved";
         }
 
@@ -489,8 +726,86 @@ namespace BusinessAccessLayer.Implementation
             if(user.Otp == Otp) 
             {
                 user.Status = "Verified";
+                user.Password = (new Random().Next(10000000, 100000000)).ToString();
                 _context.Users.Update(user);
                 _context.SaveChanges();
+
+                string message = $@"
+           <!DOCTYPE html>
+            <html lang=""en"">
+            <head>
+    <meta charset=""UTF-8"">
+    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+    <title>My Jyotish G Email</title>
+    <style>
+        body {{
+            font-family: Arial, sans-serif;
+        }}
+        .container {{
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }}
+        .header {{
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }}
+        .content {{
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }}
+        .password {{
+            font-size: 20px;
+            font-weight: bold;
+            color: #000;
+        }}
+        .logo {{
+            margin: 20px 0;
+            text-align: center;
+        }}
+        .logo img {{
+            max-width: 150px;
+        }}
+        .footer {{
+            font-size: 14px;
+            color: #555;
+            margin-top: 20px;
+        }}
+        .footer a {{
+            color: #000;
+            text-decoration: none;
+        }}
+    </style>
+</head>
+<body>
+    <div class=""container"">
+        <div class=""logo"">
+            <img src=""https://api.myjyotishg.in/Images/Logo.png"" alt=""My Jyotish G Logo"">
+        </div>
+        <div class=""content"">
+            Hi User,<br><br>
+            Thank you for signing up! Your account has been successfully created. Below is your  password.<br><br>
+
+             Password: <span class=""password"">{user.Password}</span><br><br>
+
+            If you encounter any issues or have any questions, feel free to reach out to us.
+        </div>
+
+        <div class=""header"" style=""color:orange"">My Jyotish G</div>
+        <h4>www.myjyotishg.in</h4>
+        <h4>myjyotishg@gmail.com</h4>
+        <h4>7985738804</h4>
+    </div>
+</body>
+</html>
+";
+                string subject = "Your Password for Jyotish G";
+                SendEmail(message, user.Email, subject);
                 return "Successful"; 
             }
             else { return "Invalid Otp"; }
@@ -514,15 +829,12 @@ namespace BusinessAccessLayer.Implementation
             { record.DoB = _user.DoB; }
             if (_user.PlaceOfBirth != null)
             { record.PlaceOfBirth = _user.PlaceOfBirth; } 
-                record.Password = (new Random().Next(10000000, 100000000)).ToString();
+               
            
             _context.Users.Update(record);
             var result = _context.SaveChanges();
             if(result>0)
             {
-                string message = "Hi " +( _user.Name !=null? _user.Name: "User")+",\r\n\r\nThank you for signing up on Jyotish G! Here is your  password:\r\n\r\n Password:"+record.Password+" \r\n\r\nPlease log in using this password .\r\n\r\nIf you have any questions or need assistance, feel free to reach out!\r\n\r\nBest regards,\r\nVarish Veer Singh\r\n>My  Jyotish G";
-                string subject = "Your Password for Jyotish G";
-                SendEmail(message, record.Email, subject);
                 return "Successful";
             }
             else { return "Data not saved"; }
@@ -559,7 +871,7 @@ namespace BusinessAccessLayer.Implementation
         }
         #endregion
 
-        public bool SendEmail(string MessageBody, string Mail, string Subjectbody)
+        public static bool SendEmail(string MessageBody, string Mail, string Subjectbody)
         {
             try
             {
@@ -612,6 +924,35 @@ namespace BusinessAccessLayer.Implementation
             return false;
         }
 
-      
+        public List<string> PlaceOfBirthList(string CityName)
+        {
+           
+            var Countries = _context.Countries.ToList();
+            var States = _context.States.ToList();
+            var Cities = _context.Cities.ToList();
+
+            var Table = from Country in Countries
+                        join State in States on Country.Id equals State.CountryId
+                        join City in Cities on State.Id equals City.StateId
+                        select new
+                        {
+                            CityName = City.Name,
+                            StateName = State.Name,
+                            CountryName = Country.Name
+                        };
+
+            var Records = Table
+                            .Where(x => x.CityName.Contains(CityName)) 
+                            .OrderByDescending(x => x.CityName.StartsWith(CityName)) 
+                            .ThenBy(x => x.CityName) 
+                            .ThenBy(x => x.StateName) 
+                            .ThenBy(x => x.CountryName) 
+                            .Select(x => $"{x.CityName}, {x.StateName}, {x.CountryName}")
+                            .ToList();
+
+            return Records;
+        }
+
+
     }
 }

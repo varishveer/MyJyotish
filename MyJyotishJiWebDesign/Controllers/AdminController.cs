@@ -30,5 +30,6 @@ namespace MyJyotishJiWebDesign.Controllers
         public IActionResult JyotishDetails() { return View(); }
 
 
+
     }
 }

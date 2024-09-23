@@ -392,5 +392,62 @@ namespace MyJyotishJiApi.Controllers
             }
             catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
         }
+        [HttpPost("UpdateJyotishDetails")]
+        public IActionResult UpdateJyotishDetails(JyotishDetailsViewModel model)
+        {
+
+            try
+            {
+                var Records = _admin.UpdateJyotishDetails(model);
+                if (Records == "Jyotish not found")
+                {
+                    return Ok(new { Status = 400, Message = Records });
+                }
+                else if(Records == "Successful")
+                {
+                    return Ok(new { Status = 200, Message = Records });
+                }
+                else { return Ok(new { Status = 500, Message = Records }); }
+            }
+            catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
+        }
+        [HttpPost("ApproveJyotishDocs")]
+        public IActionResult  ApproveJyotishDocs(EmailDocumentViewModel model)
+        {
+            try
+            {
+                var Result = _admin.ApproveJyotishDocs(model);
+                if (Result == null)
+                {
+                    return Ok(new { Status = 400, Message = "Jyotish not found" });
+                }
+                return Ok(new { Status = 200, Message = "Successful" });
+            }
+            catch
+            {
+                return Ok(new { Status = 500, Message = "Internal Server Error " });
+            }
+
+        }
+
+        [HttpPost("RejectJyotishDocs")]
+        public IActionResult RejectJyotishDocs(EmailDocumentViewModel model)
+        {
+            try
+            {
+                var Result = _admin.RejectJyotishDocs(model);
+                if (Result == null)
+                {
+                    return Ok(new { Status = 400, Message = "Jyotish not found" });
+                }
+                return Ok(new { Status = 200, Message = "Successful" });
+            }
+            catch
+            {
+                return Ok(new { Status = 500, Message = "Internal Server Error " });
+            }
+
+        }
+
     }
 }

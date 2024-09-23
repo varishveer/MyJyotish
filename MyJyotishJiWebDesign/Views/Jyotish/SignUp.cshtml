@@ -171,7 +171,9 @@
 
 <script>
     $(document).ready(function () {
+        
         $("#getOtp").click(function () {
+            debugger;
             var email = $("#email").val(); // Use jQuery to get the value
 
             $.ajax({
@@ -179,9 +181,16 @@
                 type: 'POST',
                 contentType: 'application/json',
 
-                success: function () {
-                    alert("OTP sent successfully.");
-                    $("#otpLabel, #verifyOtp, #otp").show();
+                success: function (response) {
+                    if (response.status === 200) {
+                        alert("OTP sent successfully.");
+                        $("#otpLabel, #verifyOtp, #otp").show();
+                    }
+                    else if (response.status === 409)
+                    {
+                        alert("Email Already Existed");
+                    }
+                   
                 },
                 error: function (xhr) {
                     alert("Error: " + xhr.status + " - " + xhr.statusText);
