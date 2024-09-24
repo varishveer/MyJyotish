@@ -240,8 +240,8 @@ namespace BusinessAccessLayer.Implementation
                         record.Status = "Verified";
                     }
                     else { return "Email already Verified"; }
-
-                    record.Password= (new Random().Next(10000000, 100000000)).ToString();
+                   
+                    record.Password= Guid.NewGuid().ToString("N").Substring(0, 8);
                     _context.JyotishRecords.Update(record);
 
                     var result = _context.SaveChanges();
@@ -357,7 +357,7 @@ namespace BusinessAccessLayer.Implementation
             Jyotish.Country = CountryName.Name;
             Jyotish.State = StateName.Name;
             Jyotish.City = CityName.Name;
-            Jyotish.Password = Guid.NewGuid().ToString("N").Substring(0, 8);
+         
 
 
             Jyotish.Role = "Pending";
@@ -395,7 +395,7 @@ namespace BusinessAccessLayer.Implementation
             {
                 if (_pJyotish.Password == password)
                 {
-                    return "Login Successful";
+                    return _pJyotish.Role;
                 }
                 else
                 {
@@ -951,6 +951,11 @@ namespace BusinessAccessLayer.Implementation
                             .ToList();
 
             return Records;
+        }
+        public List<string> LanguageList()
+        {
+            var Languages = _context.Languages.Select(l => l.Name).ToList();
+            return Languages;
         }
 
 

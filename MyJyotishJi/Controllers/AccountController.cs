@@ -126,7 +126,7 @@ namespace MyJyotishJiApi.Controllers
             { return Ok( new { Status = 500, Message = "Internal Server Error", Error = ex }); }
         }
         [HttpPost("SignUpJyotish")]
-        public IActionResult SignUpJyotish(JyotishViewModel jyotishViewModel) 
+        public IActionResult SignUpJyotish( JyotishViewModel jyotishViewModel) 
         {
             try
             {
@@ -152,19 +152,13 @@ namespace MyJyotishJiApi.Controllers
             
         }
         [HttpPost("LoginJyotish")]
-        public IActionResult LoginJyotish([FromBody] LoginModel jyotishLogin)
+        public IActionResult LoginJyotish( LoginModel jyotishLogin)
         {
             try
             {
                 string result = _account.SignInJyotish(jyotishLogin.Email, jyotishLogin.Password);
-                if (result == "Login Successful")
-                {
-                    var JyotishName = _account.JUserName(jyotishLogin.Email);
-                    var UName = JyotishName;
-                    var token = GenerateJwtToken(jyotishLogin.Email, "Scheme2");
-                    return Ok(new { Status = 200, Message = result, Token = token, User = jyotishLogin.Email, UserName = UName });
-                }
-                else if (result == "Invalid Email")
+               
+                 if (result == "Invalid Email")
                 {
                     return Ok(new { status = 409, Message = "Invalid Email" });
                 }
@@ -173,7 +167,22 @@ namespace MyJyotishJiApi.Controllers
                     return Ok(new { status = 409, Message = "Incorrect Password" });
                 }
                 else
-                return Ok(new { status = 401, Message = "Unauthorized" });
+                {
+                    var JyotishName = _account.JUserName(jyotishLogin.Email);
+                    var UName = JyotishName;
+                    if(result == "Jyotish")
+                    { 
+                        var token = GenerateJwtToken(jyotishLogin.Email, "Scheme2");
+                        return Ok(new { Status = 200, Message = result, Token = token, User = jyotishLogin.Email, UserName = UName,Role = result });
+                    }
+                    else { 
+                        var token = GenerateJwtToken(jyotishLogin.Email, "Scheme3");
+                        return Ok(new { Status = 200, Message = result, Token = token, User = jyotishLogin.Email, UserName = UName, Role = result });
+                    }
+                   
+                   
+                }
+               
             }
             catch(Exception ex)
             {
@@ -382,6 +391,27 @@ namespace MyJyotishJiApi.Controllers
 
         }
 
+        [AllowAnonymous]
+        [HttpGet("Languages")]
+        public IActionResult Languages()
+        {
+            try
+            {
+                var Records = _account.LanguageList();
+                if (Records == null)
+                {
+                    return Ok(new { Status = 500, Message = "Internal Server Error" });
+                }
+                else
+                {
+                    return Ok(new { Status = 200, Data = Records, Message = "Successful" });
+                }
+            }
+            catch
+            {
+                return StatusCode(500, new { Status = 500, Message = "Internal Server Error" });
+            }
+        }
 
 
     }

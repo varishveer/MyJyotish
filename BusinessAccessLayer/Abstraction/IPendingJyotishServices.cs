@@ -11,9 +11,10 @@ namespace BusinessAccessLayer.Abstraction
     public interface IPendingJyotishServices
     {
 
-       /* public  Task<bool> UploadDocumentAsync(DocumentViewModel model);
+        public  Task<bool> UploadDocumentAsync(DocumentViewModel model);
         public  DocumentModel Documents(string email);
-        public  Task<PendingJyotishModel> Profile(string email);
-        public bool UpdateProfile(PendingJyotishViewModel model , string path);*/
+        public  Task<JyotishModel> Profile(string email);
+        public bool UpdateProfile(JyotishViewModel model , string path);
+        public string Role(string Email);
     }
 }

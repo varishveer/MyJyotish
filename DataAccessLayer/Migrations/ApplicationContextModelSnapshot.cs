@@ -355,6 +355,23 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("JyotishRecords");
                 });
 
+            modelBuilder.Entity("ModelAccessLayer.Models.LanguageModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Languages");
+                });
+
             modelBuilder.Entity("ModelAccessLayer.Models.PoojaCategoryModel", b =>
                 {
                     b.Property<int>("Id")

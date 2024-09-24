@@ -32,16 +32,15 @@ namespace BusinessAccessLayer.Implementation
         }
 
 
-
-
-      /*  public async Task<bool> UploadDocumentAsync(DocumentViewModel model)
+       
+        public async Task<bool> UploadDocumentAsync(DocumentViewModel model)
         {
-            var isJyotishValid = _context.PendingJyotishRecords.Where(x=>x.Email == model.JyotishEmail).FirstOrDefault();
+            var isJyotishValid = _context.JyotishRecords.Where(x=>x.Email == model.JyotishEmail).FirstOrDefault();
             if(isJyotishValid == null)
             { return false; }
             var document = new DocumentModel
             {
-                JyotishId = isJyotishValid.Id
+                JId = isJyotishValid.Id
             };
 
             try
@@ -121,7 +120,7 @@ namespace BusinessAccessLayer.Implementation
 
                 // Save document data to database
 
-                var IsRecordExist = _context.Documents.Where(X => X.JyotishId == document.JyotishId).FirstOrDefault();
+                var IsRecordExist = _context.Documents.Where(X => X.JId == document.JId).FirstOrDefault();
                 if (IsRecordExist == null)
                 { _context.Documents.Add(document); }
                 else
@@ -143,9 +142,9 @@ namespace BusinessAccessLayer.Implementation
 
         public DocumentModel Documents(string email)
         {
-            var isEmailValid =  _context.PendingJyotishRecords.Where(x => x.Email == email).FirstOrDefault();
+            var isEmailValid =  _context.JyotishRecords.Where(x => x.Email == email).FirstOrDefault();
             if (isEmailValid == null) { return null; }
-            var isDocumentAvailable =  _context.Documents.Where(x=>x.JyotishId == isEmailValid.Id).FirstOrDefault();
+            var isDocumentAvailable =  _context.Documents.Where(x=>x.JId == isEmailValid.Id).FirstOrDefault();
             if (isDocumentAvailable == null) { return null; }
             else {
                 DocumentModel model = new DocumentModel() 
@@ -158,22 +157,22 @@ namespace BusinessAccessLayer.Implementation
                 };    
                 return model; 
             }
-        }*/
+        }
 
-       /* public async Task<PendingJyotishModel> Profile(string email)
+        public async Task<JyotishModel> Profile(string email)
         {
             if (email == null) { return null; }
-            var result = await _context.PendingJyotishRecords.Where(x => x.Email == email).FirstOrDefaultAsync();
+            var result = await _context.JyotishRecords.Where(x => x.Email == email).FirstOrDefaultAsync();
             if (result == null) { return null; }
             return result;
         }
 
-        public bool UpdateProfile(PendingJyotishViewModel model, string? path)
+        public bool UpdateProfile(JyotishViewModel model, string? path)
         {
             if (model == null) return false;
 
             // Find the existing record
-            var existingRecord = _context.PendingJyotishRecords
+            var existingRecord = _context.JyotishRecords
                 .FirstOrDefault(x => x.Email == model.Email);
 
             if (existingRecord == null) return false;
@@ -221,7 +220,7 @@ namespace BusinessAccessLayer.Implementation
             existingRecord.Status = "Pending";
             existingRecord.ProfileImageUrl = filePath;
 
-            _context.PendingJyotishRecords.Update(existingRecord);
+            _context.JyotishRecords.Update(existingRecord);
             if(_context.SaveChanges() > 0)
             {
                 return true;
@@ -237,7 +236,14 @@ namespace BusinessAccessLayer.Implementation
             file.CopyTo(stream);
             
         }
-       */
+
+        public string Role(string Email)
+        {
+            var Jyotish = _context.JyotishRecords.Where(x => x.Email == Email).FirstOrDefault();
+            if (Jyotish == null) { return null; }
+            string Role = Jyotish.Role;
+            return Role;
+        }
 
     }
 }

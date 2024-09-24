@@ -8,7 +8,7 @@ namespace MyJyotishGWeb.Controllers
         {
             return View();
         }
-        public IActionResult Register() { return View(); }
+       
         public IActionResult Login() { return View(); }
         public IActionResult Documents() { return View(); }
         public IActionResult UploadDocument() { return View(); }

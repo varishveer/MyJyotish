@@ -1,4 +1,4 @@
-﻿/*using BusinessAccessLayer.Abstraction;
+﻿using BusinessAccessLayer.Abstraction;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,11 +21,19 @@ namespace MyJyotishGApi.Controllers
         }
 
         [HttpGet("Dashboard")]
-        public IActionResult Dashboard() 
+        public IActionResult Dashboard(string Email) 
         {
-            return Ok();
+            var result = _pendingJyotishServices.Role(Email);
+            if(result == null)
+            {
+                result = "Jyotish Not Found";
+            }
+            return Ok(new { Status = 200 , data  = result , Message = "Successful"});
         }
-        *//*[HttpGet("Documents")]
+
+
+
+        [HttpGet("Documents")]
         public IActionResult Documents(string Email)
         {
             try {
@@ -37,8 +45,8 @@ namespace MyJyotishGApi.Controllers
             }
             catch { return BadRequest(); }
             
-        }*/
-       /* [AllowAnonymous]
+        }
+       [AllowAnonymous]
         [HttpPost("UploadDocument")]
         public async Task<IActionResult> UploadDocument(DocumentViewModel model)
         {
@@ -53,7 +61,7 @@ namespace MyJyotishGApi.Controllers
                 return StatusCode(500, "An error occurred while processing files.");
             }
         }
-*//*
+
         [HttpGet("Profile")]
         public async Task<IActionResult> Profile(string Email)
         {
@@ -63,7 +71,7 @@ namespace MyJyotishGApi.Controllers
         }
 
         [HttpPost("UpdateProfile")]
-        public IActionResult UpdateProfile(PendingJyotishViewModel model)
+        public IActionResult UpdateProfile(JyotishViewModel model)
         {
             string path = _webHostEnvironment.ContentRootPath;
             var result = _pendingJyotishServices.UpdateProfile(model,path);
@@ -98,4 +106,3 @@ namespace MyJyotishGApi.Controllers
 
     }
 }
-*/

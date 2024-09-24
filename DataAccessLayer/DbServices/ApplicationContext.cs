@@ -29,7 +29,7 @@ namespace DataAccessLayer.DbServices
         public DbSet<City> Cities { get; set; }
         public DbSet<DocumentModel> Documents { get; set; }
         public DbSet<SliderImagesModel> Sliders { get; set; }
-
+        public DbSet<LanguageModel> Languages { get; set; }
 
 
 

@@ -83,27 +83,31 @@
             }
 </style>
 <div class="outerDiv col-md-6">
-    <h1 class="text-center mb-4">Registration Form</h1>
+    <h3 class="text-center mb-4">Registration Form</h3>
     <form id="registrationForm" enctype="multipart/form-data">
         <div class="form-group">
             <label for="name">Name:</label>
-            <input type="text" id="name" name="name" class="form-control" required>
+            <input type="text" id="name" name="name" class="form-control">
         </div>
         <div class="form-group">
             <label for="email">Email:</label>
-            <input type="email" id="email" name="email" class="form-control" required>
-            <button type="button" id="getOtp" class="btn btn-primary">Get Otp</button>
+            <input type="email" id="email" name="email" class="form-control">
+            <button id="getOtp">Get Otp</button>
         </div>
         <div class="form-group">
             <label id="otpLabel" for="otp" style="display:none">Verification</label>
             <input type="number" id="otp" name="otp" class="form-control" style="display:none">
-            <button type="button" id="verifyOtp" class="btn btn-success" style="display:none">Verify</button>
+            <button id="verifyOtp" style="display:none">Verify</button>
         </div>
 
         <div class="form-group">
             <label for="mobile">Phone Number:</label>
-            <input type="text" id="mobile" name="mobile" class="form-control" required>
+            <input type="text" id="mobile" name="mobile" class="form-control">
+
         </div>
+
+
+
 
         <div class="form-group">
             <label for="gender">Gender:</label>
@@ -151,12 +155,11 @@
             </select>
         </div>
 
-        <div class="form-group">
-            <label for="image">Upload Image:</label>
-            <input type="file" id="image" name="image" class="form-control" accept="image/*">
-        </div>
+
         <div class="text-center">
-            <button type="submit" class="btn btn-success">Submit</button>
+            <button type="submit" class="btn btn-success">
+                Submit
+            </button>
         </div>
     </form>
 
@@ -164,46 +167,49 @@
         <p>By submitting this form, you agree to our <a href="#">Privacy Policy</a> and <a href="#">Terms of Service</a>.</p>
     </div>
     <div class="d-flex justify-content-center"><p>Already Have an Account!</p></div>
+
     <div class="d-flex justify-content-center">
+
         <a href="/PendingJyotish/Login" class="btn btn-info">Login</a>
     </div>
 </div>
 
+
+
+
+
 <script>
     $(document).ready(function () {
-        
+
         $("#getOtp").click(function () {
-            debugger;
-            var email = $("#email").val(); // Use jQuery to get the value
+            var email = document.getElementById("email").value;
+            // Use jQuery to get the value
 
             $.ajax({
                 url: `https://localhost:7118/Api/Account/RegisterJyotish?email=${encodeURIComponent(email)}`,
                 type: 'POST',
-                contentType: 'application/json',
+                contentType: 'application/json', // Set content type to JSON
 
-                success: function (response) {
-                    if (response.status === 200) {
-                        alert("OTP sent successfully.");
-                        $("#otpLabel, #verifyOtp, #otp").show();
-                    }
-                    else if (response.status === 409)
-                    {
-                        alert("Email Already Existed");
-                    }
-                   
+                success: function () {
+                    alert("OTP send successful.");
+                    $("#otpLabel").show();
+                    $("#verifyOtp").show();
+                    $('#otp').show();
                 },
                 error: function (xhr) {
-                    alert("Error: " + xhr.status + " - " + xhr.statusText);
+                    alert("Error: " + xhr.status + " - " + xhr.statusText + " - OTP Incorrect");
                 }
             });
         });
 
-        $("#verifyOtp").click(function () {
-            var email = $("#email").val(); // Get the email
-            var otp = $("#otp").val(); // Get the OTP
 
+        $("#verifyOtp").click(function () {
+            var mobile = document.getElementById("email").value;
+            var otp = document.getElementById("otp").value;
+
+            // Create the data object to send
             var data = {
-                Email: email,
+                Email: mobile, // Match the property name in the model
                 Otp: otp
             };
 
@@ -211,20 +217,26 @@
                 url: `https://localhost:7118/Api/Account/VerifyJyotish`,
                 type: 'POST',
                 contentType: 'application/json',
-                data: JSON.stringify(data),
-               
+                data: JSON.stringify(data), // Send the data as a JSON string
+
                 success: function (response) {
-                    debugger;
-                    if (response.status === 200) {
-                        alert("OTP Check successful: " + response.message);
-                    } else if (response.Status === 409) {
-                        alert("Conflict: " + response.Message);
-                    } else if (response.status === 400) {
-                        alert("Bad Request: " + response.message);
-                    } else if (response.status === 500) {
-                        alert("Internal Server Error: " + response.message);
-                    } else {
-                        alert("Unexpected response: " + response.message);
+                    // Handle different status messages based on the response
+                    switch (response.Status) {
+                        case 200:
+                            alert("OTP Check successful: " + response.Message);
+                            break;
+                        case 409:
+                            alert("Conflict: " + response.Message);
+                            break;
+                        case 400:
+                            alert("Bad Request: " + response.Message);
+                            break;
+                        case 500:
+                            alert("Internal Server Error: " + response.Message);
+                            break;
+                        default:
+                            alert("Unexpected response: " + response.Message);
+                            break;
                     }
                 },
                 error: function (xhr) {
@@ -232,6 +244,10 @@
                 }
             });
         });
+
+
+
+
 
         const $countryDropdown = $('#country');
         const $stateDropdown = $('#state');
@@ -322,34 +338,23 @@
 
         $('#registrationForm').on("submit", function (event) {
             event.preventDefault();
-
-            // Create a FormData object
-            var formData = new FormData(this);
-
-            // Append any additional data if needed
-            // formData.append('ProfileImageUrl', ''); // Set this if you have a predefined URL
-            // formData.append('DateOfBirth', ''); // Set this if you have a DateOfBirth field
+            debugger
+            const formData = $(this).serialize();
 
             $.ajax({
-                url: 'https://localhost:7118/Api/Account/SignUpJyotish',
+                url: 'https://localhost:7118/Api/Account/registerPendingJyotish',
                 type: 'POST',
                 data: formData,
-                contentType: false, // Tell jQuery not to set contentType
-                processData: false, // Tell jQuery not to process the data
                 success: function (response) {
-                    if (response.status === 200) {
-                        alert('Sign-up successful: ' + response.message);
-                        $('#registrationForm')[0].reset(); // Reset the form
-                    } else if (response.status === 409) {
-                        alert('Conflict: ' + response.message);
-                    } else if (response.status === 500) {
-                        alert('Internal Server Error: ' + response.message);
-                    } else {
-                        alert('Unexpected response: ' + response.message);
-                    }
+                    console.log('Success:', response);
+                    // localStorage.setItem('PendingEmail', document.getElementById('email'));
+                    alert('Form submitted successfully!');
+                    $('#registrationForm')[0].reset(); // Reset the form
                 },
                 error: function (xhr, status, error) {
+                    debugger
                     console.error('Error:', error);
+                    console.log('XHR:', xhr.statusCode);
                     alert('There was an error submitting the form.');
                 }
             });
