@@ -48,10 +48,10 @@
                        
                        
                         <div class="d-flex align-items-center justify-content-between mb-1">
-                            <a href="/PendingJyotish/ForgotPasswordRequest">Forgot Password</a>
+                            <a href="/Jyotish/ForgotPasswordRequest">Forgot Password</a>
                             <button type="submit" class="btn btn-primary  mb-4">Sign In</button>
                         </div>
-                        <p class="text-center mb-0">Don't have an Account? <a href="/PendingJyotish/Register">Sign Up</a></p>
+                        <p class="text-center mb-0">Don't have an Account? <a href="Signup">Sign Up</a></p>
                     </form>
                 </div>
             </div>
@@ -91,18 +91,20 @@
                 }),
                 success: function (response) {
                     if (response.status === 200) {
+                       
                         // Successful login
                         localStorage.setItem('Username', response.userName);
                         localStorage.setItem('userEmail', response.user);
                        
                         
                         alert("Login Successful! Redirecting to dashboard...");
-                        if(response.Role == "Pending")
+                       
+                        if(response.role == "Pending")
                         {
                             localStorage.setItem("Token3", response.token);
                             window.location.href = "/PendingJyotish/Dashboard";
                         }
-                        else
+                        else if(response.role == "Jyotish")
                         {
                             localStorage.setItem("Token2", response.token);
                             window.location.href = "/Jyotish/Dashboard";

@@ -10,8 +10,15 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- Include DataTables JS -->
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+
+<style>
+    td th {
+        white-space: nowrap; /* Prevent text from wrapping */
+    }
+</style>
 <div class="container">
-    <h1>Chatting Records</h1>
+    <h3 style="font-weight:300;">Chatting Records</h3>
     <table id="DataTable" class="display">
         <thead>
             <tr>

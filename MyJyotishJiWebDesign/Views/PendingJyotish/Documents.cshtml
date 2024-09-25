@@ -17,6 +17,11 @@
             max-width: 100%;
             height: auto;
         }
+
+
+
+
+
 </style>
 <div class="container mt-5">
     
@@ -27,38 +32,38 @@
         <div class="col-md-6 col-lg-4 mb-4">
             <div class="image-container bg-light rounded">
                 <label for="idProof" class="form-label">ID Proof:</label>
-                <img id="idProof" alt="ID Proof" src="">
+                <img id="idProof" alt="ID Proof" class="img-fluid" src="https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp">
             </div>
         </div>
         <div class="col-md-6 col-lg-4 mb-4">
             <div class="image-container bg-light rounded">
                 <label for="addressProof" class="form-label">Address Proof:</label>
-                <img id="addressProof" alt="Address Proof" src="">
+                <img id="addressProof" alt="Address Proof"  src="https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp">
             </div>
         </div>
         <div class="col-md-6 col-lg-4 mb-4">
             <div class="image-container bg-light rounded">
                 <label for="tenthCertificate" class="form-label">Tenth Certificate:</label>
-                <img id="tenthCertificate" alt="Tenth Certificate" src="">
+                <img id="tenthCertificate" alt="Tenth Certificate" src="https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp">
             </div>
         </div>
         <div class="col-md-6 col-lg-4 mb-4">
             <div class="image-container bg-light rounded">
                 <label for="twelveCertificate" class="form-label">Twelve Certificate:</label>
-                <img id="twelveCertificate" alt="Twelve Certificate" src="">
+                <img id="twelveCertificate" alt="Twelve Certificate" src="https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp">
             </div>
         </div>
         <div class="col-md-6 col-lg-4 mb-4">
             <div class="image-container bg-light rounded">
                 <label for="professionalCertificate" class="form-label">Professional Certificate:</label>
-                <img id="professionalCertificate" alt="Professional Certificate" src="">
+                <img id="professionalCertificate" alt="Professional Certificate" src="https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp">
             </div>
         </div>
     </div>
 </div>
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
 <script>
-    // Function to fetch document images and send an email
+    
     $(document).ready(function () {
         async function fetchDocuments() {
             const email = localStorage.getItem('userEmail');
@@ -68,36 +73,38 @@
             }
 
             try {
-                // Fetch document images
+              
                 const token = localStorage.getItem('Token3');
                 const imageApiUrl = `https://localhost:7118/Api/PendingJyotish/Documents?email=${encodeURIComponent(email)}`; // Replace with your API endpoint for images
 
                 const response = await $.ajax({
                     url: imageApiUrl,
                     method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${token}`, // Add the Authorization header
-                        'Content-Type': 'application/json'
-                    }
+                    //headers: {
+                    //    'Authorization': `Bearer ${token}`,
+                    //    'Content-Type': 'application/json'
+                   // }
                 });
+                debugger;
                 var path = "https://localhost:7118";
-                // Set the image sources
-                $('#idProof').attr('src', path + response.data.idProof || 'placeholder.png');
-                $('#addressProof').attr('src', path + response.data.addressProof || 'placeholder.png');
-                $('#tenthCertificate').attr('src', path + response.data.tenthCertificate || 'placeholder.png');
-                $('#twelveCertificate').attr('src', path + response.data.twelveCertificate || 'placeholder.png');
-                $('#professionalCertificate').attr('src', path + response.data.professionalCertificate || 'placeholder.png');
 
-                // Hide the loading message
+               
+                $('#idProof').attr('src', response.data.idProof ? path + response.data.idProof : 'https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp');
+                $('#addressProof').attr('src', response.data.addressProof ? path + response.data.addressProof : 'https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp');
+                $('#tenthCertificate').attr('src', response.data.tenthCertificate ? path + response.data.tenthCertificate : 'https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp');
+                $('#twelveCertificate').attr('src', response.data.twelveCertificate ? path + response.data.twelveCertificate : 'https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp');
+                $('#professionalCertificate').attr('src', response.data.professionalCertificate ? path + response.data.professionalCertificate : 'https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp');
+
+              
                 $('#loading').hide();
 
             } catch (error) {
                 console.error('Error:', error);
                 $('#statusMessage').text(`Error: ${error.message}`);
             }
+
         }
 
-        // Fetch documents and send email on page load
         fetchDocuments();
     });
 

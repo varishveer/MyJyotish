@@ -16,5 +16,6 @@ namespace BusinessAccessLayer.Abstraction
         public  Task<JyotishModel> Profile(string email);
         public bool UpdateProfile(JyotishViewModel model , string path);
         public string Role(string Email);
+        public string ProfileImage(string Email);
     }
 }

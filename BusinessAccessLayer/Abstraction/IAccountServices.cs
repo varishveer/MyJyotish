@@ -15,7 +15,7 @@ namespace BusinessAccessLayer.Abstraction
         public string VerifyJOtp(string Email, int Otp);
         public string SignUpJyotish(JyotishViewModel jyotishView, string path );
         public string SignInJyotish(string Email, string password);
-        public string JUserName(string Mobile);
+        public string JUserName(string Email);
         public string JForgotPasswordOtpRequest(string Email);
         public string JForgotPasswordOtpCheck(string Email, int Otp);
         public string JSavePassword(string Email, int Otp, string Password);

@@ -7,7 +7,7 @@ using ModelAccessLayer.ViewModels;
 
 namespace MyJyotishGApi.Controllers
 {
-    [Authorize(Policy = "Policy3")]
+   
     [Route("api/[controller]")]
     [ApiController]
     public class PendingJyotishController : ControllerBase
@@ -32,34 +32,38 @@ namespace MyJyotishGApi.Controllers
         }
 
 
-
+        [AllowAnonymous]
         [HttpGet("Documents")]
         public IActionResult Documents(string Email)
         {
             try {
                 DocumentModel Records = _pendingJyotishServices.Documents(Email);
                 if(Records == null)
-                { return BadRequest(); }
-                else { return Ok(new { data = Records }); }
+                { return Ok(new { Status = 409, Message = "Not Found" }); }
+                else { return Ok(new { Status= 200, data = Records }); }
                 
             }
-            catch { return BadRequest(); }
+            catch { return StatusCode(500, new { Message = "Internal Server Error" }); }
             
         }
        [AllowAnonymous]
         [HttpPost("UploadDocument")]
         public async Task<IActionResult> UploadDocument(DocumentViewModel model)
         {
-            var success = await _pendingJyotishServices.UploadDocumentAsync(model);
+            try
+            {
+                var success = await _pendingJyotishServices.UploadDocumentAsync(model);
 
-            if (success)
-            {
-                return Ok(new { Message = "Files and data uploaded successfully." });
+                if (success)
+                {
+                    return Ok(new { Status = 200, Message = "Files and data uploaded successfully." });
+                }
+                else
+                {
+                    return StatusCode(500, new { Message = "Internal Server Error" });
+                }
             }
-            else
-            {
-                return StatusCode(500, "An error occurred while processing files.");
-            }
+            catch { return StatusCode(500, new { Message = "Internal Server Error" }); }
         }
 
         [HttpGet("Profile")]
@@ -83,7 +87,7 @@ namespace MyJyotishGApi.Controllers
             else { return BadRequest(); }
         }
 
-        [AllowAnonymous]
+       /* [AllowAnonymous]
         [HttpGet("GetProfileImage")]
         public IActionResult GetProfileImage(string fileName)
         {
@@ -101,8 +105,24 @@ namespace MyJyotishGApi.Controllers
 
             // Return the file as a response with the appropriate content type
             return File(System.IO.File.ReadAllBytes(path), contentType);
-        }
+        }*/
 
+        [HttpGet("ProfileImage")]
+        public IActionResult GetProfileImage(string Email)
+        {
+            try
+            {
+                var Image = _pendingJyotishServices.ProfileImage(Email);
+                if(Image == null)
+                { return Ok(new { Status = 200, data = "Images/Placeholder/ProfileImage.jpg", Message = "PlaceHolderImage" }); }
+                else { return Ok(new {Status = 200, data = Image, Message= "Jyotish Image" }); }
+            }
+            catch
+            {
+                return StatusCode(500, new { Message = "Internal Server Error" });
+            }
+
+        }
 
     }
 }

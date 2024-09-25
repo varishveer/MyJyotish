@@ -53,8 +53,9 @@ namespace ModelAccessLayer.Models
         public DocumentModel DocumentModel { get; set; }
         public ICollection<CallingModel> CallingModelRecord { get; set; } = new List<CallingModel>();
         public ICollection<ChattingModel> ChattingModelRecord { get; set; } = new List<ChattingModel>();
-        
-        
+        public ICollection<SlotBookingModel> Slots { get; set; }
+
+
     }
 
 }

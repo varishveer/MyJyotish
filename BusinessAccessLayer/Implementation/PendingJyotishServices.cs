@@ -11,6 +11,7 @@ using System.Net.Mail;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Reflection.Metadata;
 
 namespace BusinessAccessLayer.Implementation
 {
@@ -38,10 +39,21 @@ namespace BusinessAccessLayer.Implementation
             var isJyotishValid = _context.JyotishRecords.Where(x=>x.Email == model.JyotishEmail).FirstOrDefault();
             if(isJyotishValid == null)
             { return false; }
-            var document = new DocumentModel
+            
+            var IsJyotishDocs = _context.Documents.Where(x=>x.JId == isJyotishValid.Id).FirstOrDefault();
+            var document = new DocumentModel();
+            if (IsJyotishDocs == null) {
+
+
+                document.JId = isJyotishValid.Id;
+               
+            }
+            else
             {
-                JId = isJyotishValid.Id
-            };
+              
+                document = IsJyotishDocs;
+            }
+
 
             try
             {
@@ -49,34 +61,37 @@ namespace BusinessAccessLayer.Implementation
                 if (model.IdProof != null)
                 {
                     var idProofGuid = Guid.NewGuid().ToString();
-                    var SqlPath = "/PendingJyotish/Document/" + idProofGuid + model.IdProof.FileName;
+                    var SqlPath = "wwwroot/PendingJyotish/Document/" + idProofGuid + model.IdProof.FileName;
                     var idProofPath = Path.Combine(_uploadDirectory,SqlPath );
                     using (var stream = new FileStream(idProofPath, FileMode.Create))
                     {
                         await model.IdProof.CopyToAsync(stream);
                     }
-                    document.IdProof = "/"+SqlPath;
+                    document.IdProof = "/PendingJyotish/Document/" + idProofGuid + model.IdProof.FileName;
+                    document.IdProofStatus = "Unverified";
                 }
+               
 
                 // Process AddressProof file
                 if (model.AddressProof != null)
                 {
                     var addressProofGuid = Guid.NewGuid().ToString();
-                    var SqlPath = "/PendingJyotish/Document/" + addressProofGuid + model.AddressProof.FileName;
+                    var SqlPath = "wwwroot/PendingJyotish/Document/" + addressProofGuid + model.AddressProof.FileName;
                     var addressProofPath = Path.Combine(_uploadDirectory, SqlPath);
                    
                     using (var stream = new FileStream(addressProofPath, FileMode.Create))
                     {
                         await model.AddressProof.CopyToAsync(stream);
                     }
-                    document.AddressProof = "/" + SqlPath;
+                    document.AddressProof = "/PendingJyotish/Document/" + addressProofGuid + model.AddressProof.FileName;
+                    document.AddressProofStatus = "Unverified";
                 }
 
                 // Process TenthCertificate file
                 if (model.TenthCertificate != null)
                 {
                     var tenthCertificateGuid = Guid.NewGuid().ToString();
-                    var SqlPath = "/PendingJyotish/Document/" + tenthCertificateGuid + model.TenthCertificate.FileName;
+                    var SqlPath = "wwwroot/PendingJyotish/Document/" + tenthCertificateGuid + model.TenthCertificate.FileName;
                     var tenthCertificatePath = Path.Combine(_uploadDirectory, SqlPath);
 
                   
@@ -84,14 +99,15 @@ namespace BusinessAccessLayer.Implementation
                     {
                         await model.TenthCertificate.CopyToAsync(stream);
                     }
-                    document.TenthCertificate = "/" + SqlPath;
+                    document.TenthCertificate = "/PendingJyotish/Document/" + tenthCertificateGuid + model.TenthCertificate.FileName;
+                    document.AddressProofStatus = "Unverified";
                 }
 
                 // Process TwelveCertificate file
                 if (model.TwelveCertificate != null)
                 {
                     var twelveCertificateGuid = Guid.NewGuid().ToString();
-                    var SqlPath = "/PendingJyotish/Document/" + twelveCertificateGuid + model.TwelveCertificate.FileName;
+                    var SqlPath = "wwwroot/PendingJyotish/Document/" + twelveCertificateGuid + model.TwelveCertificate.FileName;
                     var twelveCertificatePath = Path.Combine(_uploadDirectory, SqlPath);
 
                   
@@ -99,14 +115,15 @@ namespace BusinessAccessLayer.Implementation
                     {
                         await model.TwelveCertificate.CopyToAsync(stream);
                     }
-                    document.TwelveCertificate = "/" + SqlPath;
+                    document.TwelveCertificate = "/PendingJyotish/Document/" + twelveCertificateGuid + model.TwelveCertificate.FileName;
+                    document.TwelveCertificateStatus = "Unverified";
                 }
 
                 // Process ProfessionalCertificate file
                 if (model.ProfessionalCertificate != null)
                 {
                     var professionalCertificateGuid = Guid.NewGuid().ToString();
-                    var SqlPath = "/PendingJyotish/Document/" + professionalCertificateGuid + model.ProfessionalCertificate.FileName;
+                    var SqlPath = "wwwroot/PendingJyotish/Document/" + professionalCertificateGuid + model.ProfessionalCertificate.FileName;
                     var professionalCertificatePath = Path.Combine(_uploadDirectory, SqlPath);
 
 
@@ -115,7 +132,8 @@ namespace BusinessAccessLayer.Implementation
                     {
                         await model.ProfessionalCertificate.CopyToAsync(stream);
                     }
-                    document.ProfessionalCertificate = "/" + SqlPath;
+                    document.ProfessionalCertificate = "/PendingJyotish/Document/" + professionalCertificateGuid + model.ProfessionalCertificate.FileName;
+                    document.ProfessionalCertificateStatus = "Unverified";
                 }
 
                 // Save document data to database
@@ -147,15 +165,8 @@ namespace BusinessAccessLayer.Implementation
             var isDocumentAvailable =  _context.Documents.Where(x=>x.JId == isEmailValid.Id).FirstOrDefault();
             if (isDocumentAvailable == null) { return null; }
             else {
-                DocumentModel model = new DocumentModel() 
-                {
-                    IdProof = isDocumentAvailable.IdProof,
-                    AddressProof = isDocumentAvailable.AddressProof,
-                    TenthCertificate=isDocumentAvailable.TenthCertificate,
-                    TwelveCertificate = isDocumentAvailable.TwelveCertificate,
-                    ProfessionalCertificate =isDocumentAvailable.ProfessionalCertificate
-                };    
-                return model; 
+                isDocumentAvailable.Jyotish = null;
+                return isDocumentAvailable; 
             }
         }
 
@@ -244,6 +255,12 @@ namespace BusinessAccessLayer.Implementation
             string Role = Jyotish.Role;
             return Role;
         }
-
+        public string ProfileImage(string Email)
+        {
+            var Jyotish = _context.JyotishRecords.Where(x => x.Email == Email).FirstOrDefault();
+            if (Jyotish == null) { return null; }
+           
+            return Jyotish.ProfileImageUrl;
+        }
     }
 }

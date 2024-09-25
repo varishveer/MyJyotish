@@ -4,6 +4,7 @@ using DataAccessLayer.DbServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20240925055913_Slot")]
+    partial class Slot
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -496,13 +499,16 @@ namespace DataAccessLayer.Migrations
                     b.Property<int>("JyotishId")
                         .HasColumnType("int");
 
+                    b.Property<int>("JyotishRecordsId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Time")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("JyotishId");
+                    b.HasIndex("JyotishRecordsId");
 
                     b.ToTable("SlotBooking");
                 });
@@ -519,11 +525,16 @@ namespace DataAccessLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("JyotishModelId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Time")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("JyotishModelId");
 
                     b.ToTable("Slots");
                 });
@@ -709,12 +720,19 @@ namespace DataAccessLayer.Migrations
             modelBuilder.Entity("ModelAccessLayer.Models.SlotBookingModel", b =>
                 {
                     b.HasOne("ModelAccessLayer.Models.JyotishModel", "JyotishRecords")
-                        .WithMany("Slots")
-                        .HasForeignKey("JyotishId")
+                        .WithMany()
+                        .HasForeignKey("JyotishRecordsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("JyotishRecords");
+                });
+
+            modelBuilder.Entity("ModelAccessLayer.Models.SlotModel", b =>
+                {
+                    b.HasOne("ModelAccessLayer.Models.JyotishModel", null)
+                        .WithMany("Slots")
+                        .HasForeignKey("JyotishModelId");
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.JyotishModel", b =>

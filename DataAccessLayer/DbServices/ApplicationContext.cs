@@ -30,7 +30,8 @@ namespace DataAccessLayer.DbServices
         public DbSet<DocumentModel> Documents { get; set; }
         public DbSet<SliderImagesModel> Sliders { get; set; }
         public DbSet<LanguageModel> Languages { get; set; }
-
+        public DbSet<SlotModel> Slots { get; set; }
+        public DbSet<SlotBookingModel> SlotBooking { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -48,8 +49,12 @@ namespace DataAccessLayer.DbServices
             /* modelBuilder.Entity<PoojaCategoryModel>().HasOne(j => j.PoojaListModel).WithOne(d => d.PoojaCategoryModel).HasForeignKey<PoojaListModel>(d => d.PoojaCategoryId);*/
 
             modelBuilder.Entity<PoojaCategoryModel>().HasMany(p =>p.PoojaRecordModel).WithOne(pl => pl.PoojaCategoryModel).HasForeignKey(pl => pl.PoojaCategoryId);
-           
-            
+            modelBuilder.Entity<SlotBookingModel>()
+     .HasOne(c => c.JyotishRecords)
+     .WithMany(j => j.Slots)
+     .HasForeignKey(c => c.JyotishId);
+
+
         }
 
 

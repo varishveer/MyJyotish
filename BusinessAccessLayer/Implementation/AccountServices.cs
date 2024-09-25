@@ -364,7 +364,7 @@ namespace BusinessAccessLayer.Implementation
             Jyotish.Status = "Offline";
             string uploadFolder = path + "/wwwroot/Images/Jyotish";
             string imageName = Guid.NewGuid().ToString("N").Substring(0, 8) + jyotishView.Image.FileName  ;
-            Jyotish.ProfileImageUrl = imageName;
+            Jyotish.ProfileImageUrl = "/Images/Jyotish/" + imageName;
 
             var filePath = Path.Combine(uploadFolder,imageName);
            
@@ -406,9 +406,9 @@ namespace BusinessAccessLayer.Implementation
             { return "Invalid Email"; }
         }
 
-        public string JUserName(string Mobile)
+        public string JUserName(string Email)
         {
-            var model = _context.JyotishRecords.Where(x => x.Mobile == Mobile).FirstOrDefault();
+            var model = _context.JyotishRecords.Where(x => x.Email == Email).FirstOrDefault();
             if (model == null)
             { return null; }
             else { return model.Name; }
