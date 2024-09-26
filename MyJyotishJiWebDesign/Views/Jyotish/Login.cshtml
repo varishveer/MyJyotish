@@ -73,6 +73,7 @@
 
 <!-- Template Javascript -->
 <script src="~/js/main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     $(document).ready(function () {
         $('#loginForm').submit(function (e) {
@@ -93,11 +94,17 @@
                     if (response.status === 200) {
                        
                         // Successful login
+                        debugger;
                         localStorage.setItem('Username', response.userName);
                         localStorage.setItem('userEmail', response.user);
+                        localStorage.setItem('userRole', response.role);
                        
-                        
-                        alert("Login Successful! Redirecting to dashboard...");
+                         Swal.fire({
+                            title: "Login Successful!",
+                            text: "Redirecting to dashboard...",
+                            icon: "success"
+                        });
+                      
                        
                         if(response.role == "Pending")
                         {

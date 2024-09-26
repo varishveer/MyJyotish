@@ -17,23 +17,29 @@
         white-space: nowrap; /* Prevent text from wrapping */
     }
 </style>
-<div class="container">
-    <h3 style="font-weight:300;">Chatting Records</h3>
-    <table id="DataTable" class="display">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>DateTime</th>
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-light text-center rounded p-4">
+
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <h6 class="mb-0">Chatting Records</h6>
+
+        </div>   
+        <table id="DataTable" class="display">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>DateTime</th>
               
-                <th>Message</th>
-                <th>UserId</th>
-                <th>JyotishId</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Data will be populated here by JavaScript -->
-        </tbody>
-    </table>
+                    <th>Message</th>
+                    <th>UserId</th>
+                    <th>JyotishId</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data will be populated here by JavaScript -->
+            </tbody>
+        </table>
+    </div>
 </div>
 <script>
     $(document).ready(function () {

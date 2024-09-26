@@ -563,5 +563,104 @@ namespace BusinessAccessLayer.Implementation
             return "Successful";
         }
 
+        public List<SlotModel> SlotList()
+        {
+            DateTime today = DateTime.Today;
+            var Slots = _context.Slots.AsEnumerable().Where(slot => DateTime.Parse(slot.Date) >= today).ToList();
+            return Slots;
+        }
+        public string AddSlot(SlotModel slot)
+        { 
+           if(slot == null)
+           { return "Invalid Data"; }
+            else
+            {
+                _context.Slots.Add(slot);
+                var result = _context.SaveChanges();
+                if (result > 0) { return "Successful"; }
+                else { return "Internal Server Error"; }
+            }
+        }
+
+        public string ApproveDocument(DocUpdateViewModel model)
+        {
+            var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
+
+            if (Jyotish == null) { return "Jyotish Not Found"; }
+            var Records = _context.Documents.Where(x => x.JId == Jyotish.Id).FirstOrDefault();
+            if (Records == null) { return "Docs Not Found"; }
+
+            
+
+            switch (model.ImageStatus)
+            {
+                case "IdProofStatus":
+                    Records.IdProofStatus = "Verified";
+                    break;
+                case "AddressProofStatus":
+                    Records.AddressProofStatus = "Verified";
+                    break;
+                case "ProfessionalCertificateStatus":
+                    Records.ProfessionalCertificateStatus = "Verified";
+                    break;
+                case "TenthCertificateStatus":
+                    Records.TenthCertificateStatus = "Verified";
+                    break;
+                case "TwelveCertificateStatus":
+                    Records.TwelveCertificateStatus = "Verified";
+                    break;
+                default:
+                    return "Invalid ImageStatus";
+                    break;
+            }
+
+            _context.Documents.Update(Records);
+            var Result = _context.SaveChanges();
+            if(Result > 0 )
+            { return "Successful"; }
+            else
+            { return "Data Not Saved"; }
+        }
+
+
+        public string RejectDocument(DocUpdateViewModel model)
+        {
+            var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
+
+            if (Jyotish == null) { return "Jyotish Not Found"; }
+            var Records = _context.Documents.Where(x => x.JId == Jyotish.Id).FirstOrDefault();
+            if (Records == null) { return "Docs Not Found"; }
+
+
+
+            switch (model.ImageStatus)
+            {
+                case "IdProofStatus":
+                    Records.IdProofStatus = "Reject";
+                    break;
+                case "AddressProofStatus":
+                    Records.AddressProofStatus = "Reject";
+                    break;
+                case "ProfessionalCertificateStatus":
+                    Records.ProfessionalCertificateStatus = "Reject";
+                    break;
+                case "TenthCertificateStatus":
+                    Records.TenthCertificateStatus = "Reject";
+                    break;
+                case "TwelveCertificateStatus":
+                    Records.TwelveCertificateStatus = "Reject";
+                    break;
+                default:
+                    return "Invalid ImageStatus";
+                    break;
+            }
+
+            _context.Documents.Update(Records);
+            var Result = _context.SaveChanges();
+            if (Result > 0)
+            { return "Successful"; }
+            else
+            { return "Data Not Saved"; }
+        }
     }
 }

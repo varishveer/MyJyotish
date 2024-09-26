@@ -334,7 +334,7 @@ namespace MyJyotishJiApi.Controllers
             catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
         }
 
-        [AllowAnonymous]
+
         [HttpGet("GetJyotishCalls")]
         public IActionResult GetJyotishCalls(int id)
         {
@@ -363,7 +363,7 @@ namespace MyJyotishJiApi.Controllers
             }
             catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
         }
-        [AllowAnonymous]
+        
         [HttpGet("GetJyotishDocs")]
         public IActionResult GetJyotishDocs(int id)
         {
@@ -448,6 +448,88 @@ namespace MyJyotishJiApi.Controllers
             }
 
         }
+        [HttpPost("AddSlot")]
+        public IActionResult AddSlot(SlotModel slot)
+        {
+            try
+            {
+                var Result = _admin.AddSlot(slot);
+                if (Result == "Successful")
+                {
+                    return Ok(new { status = 200, message = "Successful" });
+                }
+                else if (Result == "Invalid Data")
+                { return Ok(new { status = 400, message = Result }); }
+                else
+                {
+                    return Ok(new { Status = 500, Message = "Internal Server Error " });
+                }
+            }
+            catch
+            {
+                return StatusCode(500, new { Status = 500, Message = "Internal Server Error " });
+            }
+        }
 
+        [HttpPost("SlotList")]
+        public IActionResult SlotList()
+        { try
+            {
+                var Records = _admin.SlotList();
+                 if(Records == null)
+                {
+                    return Ok(new { Status =400, Message = "Invalid Data"});
+                }
+                 else 
+                {
+                    return Ok(new { Status = 200, data = Records, Message = "Successful" });
+                }
+                
+            }
+            catch { return StatusCode(500, new { Status = 500, Message = "Internal Server Error " }); }
+        }
+        [HttpPost("ApproveDocument")]
+        public IActionResult ApproveDocument(DocUpdateViewModel model)
+        {
+            try 
+            {
+                var Result = _admin.ApproveDocument(model);
+                if(Result == "Jyotish Not Found")
+                { return Ok(new { Status = 409, Message = Result }); }
+                if(Result == "Docs Not Found")
+                { return Ok(new { Status = 409, Message = Result }); }
+                if(Result == "Successful")
+                { return Ok(new { Status = 200, Message = Result }); }
+                else
+                { return Ok(new { Status = 500, Message = Result }); } 
+
+
+            }
+
+            catch { return StatusCode(500, new { Status = 500, Message = "Internal Server Error " }); }
+
+        }
+
+        [HttpPost("RejectDocument")]
+        public IActionResult RejectDocument(DocUpdateViewModel model)
+        {
+            try
+            {
+                var Result = _admin.RejectDocument(model);
+                if (Result == "Jyotish Not Found")
+                { return Ok(new { Status = 409, Message = Result }); }
+                if (Result == "Docs Not Found")
+                { return Ok(new { Status = 409, Message = Result }); }
+                if (Result == "Successful")
+                { return Ok(new { Status = 200, Message = Result }); }
+                else
+                { return Ok(new { Status = 500, Message = Result }); }
+
+
+            }
+
+            catch { return StatusCode(500, new { Status = 500, Message = "Internal Server Error " }); }
+
+        }
     }
 }

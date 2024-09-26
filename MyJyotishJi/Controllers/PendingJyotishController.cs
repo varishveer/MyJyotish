@@ -9,6 +9,7 @@ namespace MyJyotishGApi.Controllers
 {
    
     [Route("api/[controller]")]
+    [Authorize(Policy = "Policy3")]
     [ApiController]
     public class PendingJyotishController : ControllerBase
     {
@@ -32,7 +33,6 @@ namespace MyJyotishGApi.Controllers
         }
 
 
-        [AllowAnonymous]
         [HttpGet("Documents")]
         public IActionResult Documents(string Email)
         {
@@ -46,7 +46,7 @@ namespace MyJyotishGApi.Controllers
             catch { return StatusCode(500, new { Message = "Internal Server Error" }); }
             
         }
-       [AllowAnonymous]
+     
         [HttpPost("UploadDocument")]
         public async Task<IActionResult> UploadDocument(DocumentViewModel model)
         {

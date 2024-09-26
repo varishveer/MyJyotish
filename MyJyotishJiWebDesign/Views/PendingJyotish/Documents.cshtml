@@ -11,6 +11,8 @@
         border-radius: 0.25rem;
         padding: 1rem;
         margin-bottom: 1rem;
+        height:300px;
+        width:300px;
     }
 
         .image-container img {
@@ -32,7 +34,7 @@
         <div class="col-md-6 col-lg-4 mb-4">
             <div class="image-container bg-light rounded">
                 <label for="idProof" class="form-label">ID Proof:</label>
-                <img id="idProof" alt="ID Proof" class="img-fluid" src="https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp">
+                <img id="idProof" alt="ID Proof" class="img-fluid" src="https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp" >
             </div>
         </div>
         <div class="col-md-6 col-lg-4 mb-4">
@@ -80,10 +82,10 @@
                 const response = await $.ajax({
                     url: imageApiUrl,
                     method: 'GET',
-                    //headers: {
-                    //    'Authorization': `Bearer ${token}`,
-                    //    'Content-Type': 'application/json'
-                   // }
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                       'Content-Type': 'application/json'
+                   }
                 });
                 debugger;
                 var path = "https://localhost:7118";

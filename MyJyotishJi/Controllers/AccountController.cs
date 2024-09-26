@@ -368,28 +368,7 @@ namespace MyJyotishJiApi.Controllers
             }
         }
         #endregion
-        [AllowAnonymous]
-        [HttpGet("PlaceOfBirthList")]
-        public IActionResult PlaceOfBirthList(string City)
-        {
-            try
-            {
-                var Records = _account.PlaceOfBirthList(City);
-                if (Records== null)
-                {
-                    return Ok(new { Status =500, Message= "Internal Server Error"  });
-                }
-                else
-                {
-                    return Ok(new { Status = 200,Data = Records, Message = "Successful" });
-                }
-            }
-            catch
-            {
-                return StatusCode(500, new { Status = 500, Message = "Internal Server Error" });
-            }
-
-        }
+       
 
         [AllowAnonymous]
         [HttpGet("Languages")]
@@ -413,6 +392,27 @@ namespace MyJyotishJiApi.Controllers
             }
         }
 
+        [AllowAnonymous]
+        [HttpGet("PlaceOfBirthList")]
+        public IActionResult PlaceOfBirthList(string City)
+        {
+            try
+            {
+                var Records = _account.PlaceOfBirthList(City);
+                if (Records == null)
+                {
+                    return Ok(new { Status = 500, Message = "Internal Server Error" });
+                }
+                else
+                {
+                    return Ok(new { Status = 200, Data = Records, Message = "Successful" });
+                }
+            }
+            catch
+            {
+                return StatusCode(500, new { Status = 500, Message = "Internal Server Error" });
+            }
 
+        }
     }
 }
