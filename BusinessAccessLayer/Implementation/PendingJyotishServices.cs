@@ -262,5 +262,7 @@ namespace BusinessAccessLayer.Implementation
            
             return Jyotish.ProfileImageUrl;
         }
+
+
     }
 }
