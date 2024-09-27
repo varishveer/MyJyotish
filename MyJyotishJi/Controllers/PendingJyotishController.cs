@@ -1,6 +1,7 @@
 ﻿using BusinessAccessLayer.Abstraction;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using ModelAccessLayer.Models;
 using ModelAccessLayer.ViewModels;
@@ -77,14 +78,23 @@ namespace MyJyotishGApi.Controllers
         [HttpPost("UpdateProfile")]
         public IActionResult UpdateProfile(JyotishViewModel model)
         {
-            string path = _webHostEnvironment.ContentRootPath;
-            var result = _pendingJyotishServices.UpdateProfile(model,path);
+            try
+            {
+                string path = _webHostEnvironment.ContentRootPath;
+                var result = _pendingJyotishServices.UpdateProfile(model, path);
+                if (result == "Successful")
+                { return Ok(new { Status = 200, Message = "Successful" }); }
+                if (result == "Invalid Data")
+                { return Ok(new { Status = 400, Message = result }); }
+                if (result == "Jyotish Not Found")
+                { return Ok(new { Status = 400, Message = result }); }
+                else { return Ok(new { Status = 400, Message = result }); }
+            }
+            catch
+            {
+                return StatusCode(500,new { Status = 500, Message = "Internal Server Error" });
+            }
 
-            
-            
-            if (result == true)
-            { return Ok(); }
-            else { return BadRequest(); }
         }
 
        /* [AllowAnonymous]
@@ -123,6 +133,27 @@ namespace MyJyotishGApi.Controllers
             }
 
         }
-
+        [HttpPost("AddSlotBooking")]
+        public IActionResult AddSlotBooking(SlotBookingViewModel model)
+        {
+            try
+            {
+                var Result = _pendingJyotishServices.AddSlotBooking(model);
+                if (Result == "Successful")
+                {
+                    return Ok(new { status = 200, message = Result });
+                }
+                else if (Result == "Jyotish Not Found")
+                { return Ok(new { status = 400, message = Result }); }
+                else
+                {
+                    return Ok(new { Status = 500, Message = Result });
+                }
+            }
+            catch
+            {
+                return StatusCode(500, new { Status = 500, Message = "Internal Server Error " });
+            }
+        }
     }
 }

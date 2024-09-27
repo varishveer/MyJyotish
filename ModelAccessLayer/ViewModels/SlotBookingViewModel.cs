@@ -5,15 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ModelAccessLayer.Models
+namespace ModelAccessLayer.ViewModels
 {
-    public class SlotModel
+    public class SlotBookingViewModel
     {
-        [Key]
-        public int Id { get; set; }
+    
         [Required]
         public string Time { get; set; }
         [Required]
+       
         public string Date { get; set; }
+        [Required]
+        public int JyotishId { get; set; }
     }
 }

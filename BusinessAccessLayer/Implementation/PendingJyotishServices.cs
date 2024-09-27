@@ -178,15 +178,15 @@ namespace BusinessAccessLayer.Implementation
             return result;
         }
 
-        public bool UpdateProfile(JyotishViewModel model, string? path)
+        public string UpdateProfile(JyotishViewModel model, string? path)
         {
-            if (model == null) return false;
+            if (model == null) return "Invalid Data";
 
             // Find the existing record
             var existingRecord = _context.JyotishRecords
                 .FirstOrDefault(x => x.Email == model.Email);
 
-            if (existingRecord == null) return false;
+            if (existingRecord == null) return "Jyotish Not Found";
 
             // Fetch related entities only if necessary
             var countryName = _context.Countries
@@ -206,12 +206,13 @@ namespace BusinessAccessLayer.Implementation
 
             // Handle file upload
             string filePath = string.Empty;
+            string ImageUrl = string.Empty;
             if (model.Image != null)
             {
                 // Generate a unique file name
                 var uniqueFileName = $"{Guid.NewGuid()}_{model.Image.FileName}";
-                filePath = $"/Images/Jyotish/{uniqueFileName}";
-
+                filePath = $"wwwroot/Images/Jyotish/{uniqueFileName}";
+                ImageUrl = $"Images/Jyotish/{uniqueFileName}";
                 var fullPath = path + "/"+filePath;
                 UploadFile(model.Image, fullPath);
             }
@@ -226,19 +227,23 @@ namespace BusinessAccessLayer.Implementation
             existingRecord.Country = countryName;
             existingRecord.State = stateName;
             existingRecord.City = cityName;
-            existingRecord.Role = "Jyotish";
-           
-            existingRecord.Status = "Pending";
-            existingRecord.ProfileImageUrl = filePath;
+            existingRecord.ProfileImageUrl = ImageUrl;
 
             _context.JyotishRecords.Update(existingRecord);
             if(_context.SaveChanges() > 0)
             {
-                return true;
+                return "Successful";
             }
             // Save changes
-            return false;
+            return "Data Not Saved";
         }
+
+
+
+
+
+
+
 
 
         public void UploadFile(IFormFile file, string fullPath)
@@ -263,6 +268,18 @@ namespace BusinessAccessLayer.Implementation
             return Jyotish.ProfileImageUrl;
         }
 
+        public string AddSlotBooking(SlotBookingViewModel model)
+        {
+            var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
+            if (Jyotish == null) { return "Jyotish Not Found"; }
+            SlotBookingModel NewRecord = new SlotBookingModel();
+            NewRecord.Time = model.Time;
+            NewRecord.Date = model.Date;
+            NewRecord.JyotishId = model.JyotishId;
+            _context.SlotBooking.Add(NewRecord);
+            if (_context.SaveChanges() > 0) { return "Successful"; }
+            else { return "Data Not Saved"; }
+        }
 
     }
 }

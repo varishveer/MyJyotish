@@ -361,7 +361,7 @@ namespace BusinessAccessLayer.Implementation
 
 
             Jyotish.Role = "Pending";
-            Jyotish.Status = "Offline";
+            Jyotish.Status = "Pending";
             string uploadFolder = path + "/wwwroot/Images/Jyotish";
             string imageName = Guid.NewGuid().ToString("N").Substring(0, 8) + jyotishView.Image.FileName  ;
             Jyotish.ProfileImageUrl = "/Images/Jyotish/" + imageName;

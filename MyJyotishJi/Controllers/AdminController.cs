@@ -1,4 +1,5 @@
 ﻿using BusinessAccessLayer.Abstraction;
+using DataAccessLayer.Migrations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -471,7 +472,7 @@ namespace MyJyotishJiApi.Controllers
             }
         }
 
-        [HttpPost("SlotList")]
+        [HttpGet("SlotList")]
         public IActionResult SlotList()
         { try
             {
@@ -531,5 +532,7 @@ namespace MyJyotishJiApi.Controllers
             catch { return StatusCode(500, new { Status = 500, Message = "Internal Server Error " }); }
 
         }
+
+        
     }
 }

@@ -47,6 +47,6 @@ namespace BusinessAccessLayer.Abstraction
         public List<SlotModel> SlotList();
         public string ApproveDocument(DocUpdateViewModel model);
         public string RejectDocument(DocUpdateViewModel model);
-
+      
     }
 }
