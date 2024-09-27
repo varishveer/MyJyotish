@@ -280,6 +280,11 @@ namespace BusinessAccessLayer.Implementation
             if (_context.SaveChanges() > 0) { return "Successful"; }
             else { return "Data Not Saved"; }
         }
-
+        public List<SlotModel> SlotList()
+        {
+            DateTime today = DateTime.Today;
+            var Slots = _context.Slots.AsEnumerable().Where(slot => DateTime.Parse(slot.Date) >= today).ToList();
+            return Slots;
+        }
     }
 }

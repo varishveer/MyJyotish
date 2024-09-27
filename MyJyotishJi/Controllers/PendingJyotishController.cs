@@ -71,8 +71,8 @@ namespace MyJyotishGApi.Controllers
         public async Task<IActionResult> Profile(string Email)
         {
             var result = await _pendingJyotishServices.Profile(Email);
-            if(result == null) { return BadRequest(); }
-            else { return Ok(new { data = result }); }
+            if(result == null) { return Ok(new {Status =400 , Message ="No User Found"}); }
+            else { return Ok(new { Status =200, data = result }); }
         }
 
         [HttpPost("UpdateProfile")]
@@ -154,6 +154,25 @@ namespace MyJyotishGApi.Controllers
             {
                 return StatusCode(500, new { Status = 500, Message = "Internal Server Error " });
             }
+        }
+
+        [HttpGet("SlotList")]
+        public IActionResult SlotList()
+        {
+            try
+            {
+                var Records = _pendingJyotishServices.SlotList();
+                if (Records == null)
+                {
+                    return Ok(new { Status = 400, Message = "Invalid Data" });
+                }
+                else
+                {
+                    return Ok(new { Status = 200, data = Records, Message = "Successful" });
+                }
+
+            }
+            catch { return StatusCode(500, new { Status = 500, Message = "Internal Server Error " }); }
         }
     }
 }

@@ -18,6 +18,7 @@ namespace BusinessAccessLayer.Abstraction
         public string Role(string Email);
         public string ProfileImage(string Email);
         public string AddSlotBooking(SlotBookingViewModel model);
+        public List<SlotModel> SlotList();
 
     }
 }
