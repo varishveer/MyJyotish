@@ -32,8 +32,6 @@ namespace BusinessAccessLayer.Implementation
             }
         }
 
-
-       
         public async Task<bool> UploadDocumentAsync(DocumentViewModel model)
         {
             var isJyotishValid = _context.JyotishRecords.Where(x=>x.Email == model.JyotishEmail).FirstOrDefault();

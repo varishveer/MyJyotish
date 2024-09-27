@@ -27,8 +27,8 @@
      
         <div class="dates">
                 <div class="date">
-                <span class="day">11</span>
-                <span class="month">Sep</span>
+                        <span class="day">11</span>
+                        <span class="month">Sep</span>
             </div>
             <div class="date">
                 <span class="day">12</span>
@@ -129,9 +129,11 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding: 5px;
+     
         border-radius: 5px;
         color: #7F56D9;
+        background-color: #f0f0f0;
+        padding: 10px 20px;
     }
 
         .date.active {
@@ -186,7 +188,10 @@
         border-radius: 5px;
         cursor: pointer;
         color: #7F56D9;
+        flex-wrap: wrap;
     }
+
+    
 
         .time-button:hover {
             background-color: #e0e0e0;

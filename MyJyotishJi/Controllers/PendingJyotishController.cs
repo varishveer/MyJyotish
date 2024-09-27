@@ -174,5 +174,6 @@ namespace MyJyotishGApi.Controllers
             }
             catch { return StatusCode(500, new { Status = 500, Message = "Internal Server Error " }); }
         }
+
     }
 }
