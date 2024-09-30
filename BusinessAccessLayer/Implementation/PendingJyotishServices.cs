@@ -266,23 +266,44 @@ namespace BusinessAccessLayer.Implementation
             return Jyotish.ProfileImageUrl;
         }
 
-        public string AddSlotBooking(SlotBookingViewModel model)
+       /* public string AddSlotBooking(SlotBookingViewModel model)
         {
             var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
             if (Jyotish == null) { return "Jyotish Not Found"; }
+            DateTime today = DateTime.Today;
+            var Slot = _context.SlotBooking.AsEnumerable().Where(slot => DateTime.Parse(slot.Date) >= today).Where(x=>x.JyotishId == model.JyotishId).FirstOrDefault();
+            if( Slot != null)
+            { return "Already Booked"; }
             SlotBookingModel NewRecord = new SlotBookingModel();
             NewRecord.Time = model.Time;
             NewRecord.Date = model.Date;
             NewRecord.JyotishId = model.JyotishId;
             _context.SlotBooking.Add(NewRecord);
-            if (_context.SaveChanges() > 0) { return "Successful"; }
+            if (_context.SaveChanges() > 0) 
+            {
+                string message = $@"Dear {Jyotish.Name}, \n
+
+We are pleased to inform you that your interview has been scheduled. Below are the details for your upcoming virtual interview:\n
+
+Date: {model.Date}\n
+Time: {model.Time}\n
+The meeting link and further instructions will be shared with you closer to the interview date.\n
+
+If you have any questions or need to reschedule, feel free to reply to this email or contact us at myjyotishG@gmail.com.\n
+
+We look forward to speaking with you!";
+                string subject = " Interview Scheduled – MyJyotishG";
+                AccountServices.SendEmail(message, Jyotish.Email, subject);
+                return "Successful";
+            }
             else { return "Data Not Saved"; }
         }
+        
         public List<SlotModel> SlotList()
         {
             DateTime today = DateTime.Today;
             var Slots = _context.Slots.AsEnumerable().Where(slot => DateTime.Parse(slot.Date) >= today).ToList();
             return Slots;
-        }
+        }*/
     }
 }

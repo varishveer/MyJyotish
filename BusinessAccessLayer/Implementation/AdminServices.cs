@@ -553,6 +553,7 @@ namespace BusinessAccessLayer.Implementation
             var jyotish = _context.JyotishRecords.Where(x => x.Id == model.Id).FirstOrDefault();
             if (jyotish == null) { return null; }
             AccountServices.SendEmail(model.Message, jyotish.Email, model.Subject);
+           
             return "Successful";
         }
         public string RejectJyotishDocs(EmailDocumentViewModel model)
@@ -566,7 +567,7 @@ namespace BusinessAccessLayer.Implementation
         public List<SlotModel> SlotList()
         {
             DateTime today = DateTime.Today;
-            var Slots = _context.Slots.AsEnumerable().Where(slot => DateTime.Parse(slot.Date) >= today).ToList();
+            var Slots = _context.Slots.Where(slot => slot.Date >= today).ToList();
             return Slots;
         }
         public string AddSlot(SlotModel slot)
@@ -617,7 +618,11 @@ namespace BusinessAccessLayer.Implementation
             _context.Documents.Update(Records);
             var Result = _context.SaveChanges();
             if(Result > 0 )
-            { return "Successful"; }
+            {
+                string message = @$"{model.ImageStatus} is Approved";
+                string subject = "Docs Approved";
+                AccountServices.SendEmail(message, Jyotish.Email, subject);
+                return "Successful"; }
             else
             { return "Data Not Saved"; }
         }
@@ -658,7 +663,11 @@ namespace BusinessAccessLayer.Implementation
             _context.Documents.Update(Records);
             var Result = _context.SaveChanges();
             if (Result > 0)
-            { return "Successful"; }
+            {
+                string message = @$"{model.ImageStatus} is Rejected";
+                string subject = "Docs Rejected";
+                AccountServices.SendEmail(message, Jyotish.Email, subject);
+                return "Successful"; }
             else
             { return "Data Not Saved"; }
         }

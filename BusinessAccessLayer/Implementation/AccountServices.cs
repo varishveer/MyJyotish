@@ -390,12 +390,20 @@ namespace BusinessAccessLayer.Implementation
 
         public string SignInJyotish(string Email, string password)
         {
-            var _pJyotish = _context.JyotishRecords.Where(x => x.Email == Email).FirstOrDefault();
-            if (_pJyotish != null)
+            var _Jyotish = _context.JyotishRecords.Where(x => x.Email == Email).FirstOrDefault();
+            if (_Jyotish != null)
             {
-                if (_pJyotish.Password == password)
+                if (_Jyotish.Password == password)
                 {
-                    return _pJyotish.Role;
+                   
+                    return JsonConvert.SerializeObject(new JyotishModel
+                    {
+                       Id=  _Jyotish.Id,
+                       Name = _Jyotish.Name,
+                       Email =  _Jyotish.Email,
+                       Role = _Jyotish.Role
+
+                    });
                 }
                 else
                 {
