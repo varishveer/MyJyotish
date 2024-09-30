@@ -266,12 +266,12 @@ namespace BusinessAccessLayer.Implementation
             return Jyotish.ProfileImageUrl;
         }
 
-       /* public string AddSlotBooking(SlotBookingViewModel model)
+       public string AddSlotBooking(SlotBookingViewModel model)
         {
             var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
             if (Jyotish == null) { return "Jyotish Not Found"; }
             DateTime today = DateTime.Today;
-            var Slot = _context.SlotBooking.AsEnumerable().Where(slot => DateTime.Parse(slot.Date) >= today).Where(x=>x.JyotishId == model.JyotishId).FirstOrDefault();
+            var Slot = _context.SlotBooking.Where(slot => slot.Date >= today).Where(x=>x.JyotishId == model.JyotishId).FirstOrDefault();
             if( Slot != null)
             { return "Already Booked"; }
             SlotBookingModel NewRecord = new SlotBookingModel();
@@ -302,8 +302,8 @@ We look forward to speaking with you!";
         public List<SlotModel> SlotList()
         {
             DateTime today = DateTime.Today;
-            var Slots = _context.Slots.AsEnumerable().Where(slot => DateTime.Parse(slot.Date) >= today).ToList();
+            var Slots = _context.Slots.Where(slot => slot.Date >= today).ToList();
             return Slots;
-        }*/
+        }
     }
 }

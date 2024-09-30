@@ -17,8 +17,8 @@ namespace BusinessAccessLayer.Abstraction
         public string UpdateProfile(JyotishViewModel model , string path);
         public string Role(string Email);
         public string ProfileImage(string Email);
-       /* public string AddSlotBooking(SlotBookingViewModel model);
-        public List<SlotModel> SlotList();*/
+        public string AddSlotBooking(SlotBookingViewModel model);
+        public List<SlotModel> SlotList();
 
     }
 }

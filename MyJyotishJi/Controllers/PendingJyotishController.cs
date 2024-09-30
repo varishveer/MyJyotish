@@ -133,7 +133,7 @@ namespace MyJyotishGApi.Controllers
             }
 
         }
-      /*  [AllowAnonymous]
+       [AllowAnonymous]
         [HttpPost("AddSlotBooking")]
         public IActionResult AddSlotBooking(SlotBookingViewModel model)
         {
@@ -159,13 +159,8 @@ namespace MyJyotishGApi.Controllers
                 {
                     Status = 500,
                     Message = "Internal Server Error ",
-                    ErrorMessage = ex.Message,
-                    StackTrace = ex.StackTrace,       // Stack trace to determine the point of failure
-                    Source = ex.Source,               // The name of the object or application that caused the error
-                    TargetSite = ex.TargetSite?.Name, // Method or property name where the error occurred
-                    InnerException = ex.InnerException?.Message,  // The message of the inner exception, if any
-                    HResult = ex.HResult,             // Numerical value associated with the error
-                    AdditionalData = ex.Data
+                    ErrorMessage = ex
+                  
                 });
             }
         }
@@ -189,15 +184,9 @@ namespace MyJyotishGApi.Controllers
             catch(Exception ex) { return StatusCode(500, new { 
                 Status = 500, 
                 Message = "Internal Server Error, No Data Found",
-                ErrorMessage = ex.Message,
-                StackTrace = ex.StackTrace,       // Stack trace to determine the point of failure
-                Source = ex.Source,               // The name of the object or application that caused the error
-                TargetSite = ex.TargetSite?.Name, // Method or property name where the error occurred
-                InnerException = ex.InnerException?.Message,  // The message of the inner exception, if any
-                HResult = ex.HResult,             // Numerical value associated with the error
-                AdditionalData = ex.Data
+                ErrorMessage = ex
             }); }
-        }*/
+        }
 
     }
 }

@@ -449,7 +449,7 @@ namespace MyJyotishJiApi.Controllers
             }
 
         }
-     /*   [HttpPost("AddSlot")]
+        [HttpPost("AddSlot")]
         public IActionResult AddSlot(SlotModel slot)
         {
             try
@@ -470,9 +470,9 @@ namespace MyJyotishJiApi.Controllers
             {
                 return StatusCode(500, new { Status = 500, Message = "Internal Server Error " });
             }
-        }*/
+        }
 
-       /* [HttpGet("SlotList")]
+        [HttpGet("SlotList")]
         public IActionResult SlotList()
         { try
             {
@@ -488,7 +488,7 @@ namespace MyJyotishJiApi.Controllers
                 
             }
             catch { return StatusCode(500, new { Status = 500, Message = "Internal Server Error " }); }
-        }*/
+        }
         [HttpPost("ApproveDocument")]
         public IActionResult ApproveDocument(DocUpdateViewModel model)
         {
