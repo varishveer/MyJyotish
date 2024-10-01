@@ -22,7 +22,7 @@ namespace BusinessAccessLayer.Abstraction
         public List<JyotishModel> AllAstrologer();
         public JyotishModel AstrologerProfile(int Id);
         public List<JyotishModel> SearchAstrologer(string keyword);
-        public List<SliderImagesModel> SliderImageList();
+        public List<SliderImagesModel> SliderImageList(string keyword);
 
     }
 }
