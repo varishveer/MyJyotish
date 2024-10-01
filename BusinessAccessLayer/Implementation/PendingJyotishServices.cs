@@ -236,14 +236,6 @@ namespace BusinessAccessLayer.Implementation
             return "Data Not Saved";
         }
 
-
-
-
-
-
-
-
-
         public void UploadFile(IFormFile file, string fullPath)
         {
             FileStream stream = new FileStream(fullPath, FileMode.Create);
@@ -266,44 +258,68 @@ namespace BusinessAccessLayer.Implementation
             return Jyotish.ProfileImageUrl;
         }
 
-       public string AddSlotBooking(SlotBookingViewModel model)
+        public string AddSlotBooking(SlotBookingViewModel model)
+           {
+               var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
+               if (Jyotish == null) { return "Jyotish Not Found"; }
+               DateTime today = DateTime.Today;
+               var Slot = _context.SlotBooking.Where(slot => slot.Date >= today).Where(x=>x.JyotishId == model.JyotishId).FirstOrDefault();
+               if( Slot != null)
+               { return "Already Booked"; }
+               SlotBookingModel NewRecord = new SlotBookingModel();
+               NewRecord.Time = model.Time;
+               NewRecord.Date = model.Date;
+               NewRecord.JyotishId = model.JyotishId;
+               _context.SlotBooking.Add(NewRecord);
+               if (_context.SaveChanges() > 0) 
+               {
+                   string message = $@"Dear {Jyotish.Name}, \n
+
+   We are pleased to inform you that your interview has been scheduled. Below are the details for your upcoming virtual interview:\n
+
+   Date: {model.Date}\n
+   Time: {model.Time}\n
+   The meeting link and further instructions will be shared with you closer to the interview date.\n
+
+   If you have any questions or need to reschedule, feel free to reply to this email or contact us at myjyotishG@gmail.com.\n
+
+   We look forward to speaking with you!";
+                   string subject = " Interview Scheduled – MyJyotishG";
+                   AccountServices.SendEmail(message, Jyotish.Email, subject);
+                   return "Successful";
+               }
+               else { return "Data Not Saved"; }
+           }
+        public List<SlotListViewModel> SlotList()
         {
-            var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
-            if (Jyotish == null) { return "Jyotish Not Found"; }
             DateTime today = DateTime.Today;
-            var Slot = _context.SlotBooking.Where(slot => slot.Date >= today).Where(x=>x.JyotishId == model.JyotishId).FirstOrDefault();
-            if( Slot != null)
-            { return "Already Booked"; }
-            SlotBookingModel NewRecord = new SlotBookingModel();
-            NewRecord.Time = model.Time;
-            NewRecord.Date = model.Date;
-            NewRecord.JyotishId = model.JyotishId;
-            _context.SlotBooking.Add(NewRecord);
-            if (_context.SaveChanges() > 0) 
-            {
-                string message = $@"Dear {Jyotish.Name}, \n
+            var slots = _context.Slots
+                .Where(slot => slot.Date >= today)
+                .ToList();
 
-We are pleased to inform you that your interview has been scheduled. Below are the details for your upcoming virtual interview:\n
+            var groupedSlots = slots
+                .GroupBy(slot => slot.Date)
+                .Select(group => new SlotListViewModel
+                {
+                    Date = group.Key,
+                    Times = group.Select(slot => slot.Time).ToList() // Assuming Time is a string
+                })
+                .ToList();
 
-Date: {model.Date}\n
-Time: {model.Time}\n
-The meeting link and further instructions will be shared with you closer to the interview date.\n
-
-If you have any questions or need to reschedule, feel free to reply to this email or contact us at myjyotishG@gmail.com.\n
-
-We look forward to speaking with you!";
-                string subject = " Interview Scheduled – MyJyotishG";
-                AccountServices.SendEmail(message, Jyotish.Email, subject);
-                return "Successful";
-            }
-            else { return "Data Not Saved"; }
+            return groupedSlots;
         }
-        
-        public List<SlotModel> SlotList()
+        public SlotBookingModel JyotishSlotDetails(int id)
         {
-            DateTime today = DateTime.Today;
-            var Slots = _context.Slots.Where(slot => slot.Date >= today).ToList();
-            return Slots;
+            var Jyotish = _context.JyotishRecords.Where(x => x.Id == id).FirstOrDefault();
+            if (Jyotish == null) { return null; }
+            var record = _context.SlotBooking
+                .Where(x => x.JyotishId == id && x.Date >= DateTime.Today)
+                .FirstOrDefault();
+            if (record != null)
+            {
+                record.JyotishRecords = null;
+            }
+            return record;
         }
     }
 }

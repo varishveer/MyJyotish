@@ -11,6 +11,7 @@ using ModelAccessLayer.ViewModels;
 using System.Net.Mail;
 using System.Net;
 using System.Reflection.Metadata;
+using DataAccessLayer.Migrations;
 
 
 namespace BusinessAccessLayer.Implementation
@@ -46,7 +47,7 @@ namespace BusinessAccessLayer.Implementation
                              .ToList();
             return Records;
         }
-        public List<UserModel> GetAllUser()
+        public List<ModelAccessLayer.Models.UserModel> GetAllUser()
         {
             var Records = _context.Users.ToList();
             return Records;
@@ -413,6 +414,14 @@ namespace BusinessAccessLayer.Implementation
             { return true; }
             else { return false; }
             
+        }
+
+        public List<SliderImagesModel> SliderImageList()
+        {
+            var Records = _context.Sliders.ToList();
+            if(Records.Count == 0)
+            { return null; }
+            return Records;
         }
 
         public bool AddPoojaDetail(PoojaRecordViewModel model)

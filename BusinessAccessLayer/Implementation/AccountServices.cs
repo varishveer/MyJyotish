@@ -414,14 +414,7 @@ namespace BusinessAccessLayer.Implementation
             { return "Invalid Email"; }
         }
 
-        public string JUserName(string Email)
-        {
-            var model = _context.JyotishRecords.Where(x => x.Email == Email).FirstOrDefault();
-            if (model == null)
-            { return null; }
-            else { return model.Name; }
-
-        }
+   
 
         public string JForgotPasswordOtpRequest(string Email)
         {

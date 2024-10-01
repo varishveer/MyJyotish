@@ -133,7 +133,7 @@ namespace MyJyotishGApi.Controllers
             }
 
         }
-       [AllowAnonymous]
+       
         [HttpPost("AddSlotBooking")]
         public IActionResult AddSlotBooking(SlotBookingViewModel model)
         {
@@ -164,7 +164,7 @@ namespace MyJyotishGApi.Controllers
                 });
             }
         }
-        [AllowAnonymous]
+        
         [HttpGet("SlotList")]
         public IActionResult SlotList()
         {
@@ -186,6 +186,33 @@ namespace MyJyotishGApi.Controllers
                 Message = "Internal Server Error, No Data Found",
                 ErrorMessage = ex
             }); }
+        }
+       
+        [HttpGet("JyotishSlotDetails")]
+        public IActionResult JyotishSlotDetails(int Id)
+        {
+            try
+            {
+                var Records = _pendingJyotishServices.JyotishSlotDetails(Id);
+                if (Records == null)
+                {
+                    return Ok(new { Status = 400, Message = "No Data Found" });
+                }
+                else
+                {
+                    return Ok(new { Status = 200, data = Records, Message = "Successful" });
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    Status = 500,
+                    Message = "Internal Server Error, No Data Found",
+                    ErrorMessage = ex
+                });
+            }
         }
 
     }

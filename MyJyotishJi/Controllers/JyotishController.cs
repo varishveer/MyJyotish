@@ -17,27 +17,27 @@ namespace MyJyotishGApi.Controllers
     {
         private readonly IJyotishServices _jyotish;
         private readonly IWebHostEnvironment _environment;
-        public JyotishController( IJyotishServices jyotish, IWebHostEnvironment environment)
+        public JyotishController(IJyotishServices jyotish, IWebHostEnvironment environment)
         {
             _jyotish = jyotish;
             _environment = environment;
         }
         [HttpGet("Appointment")]
-        public IActionResult Appointment(string JyotishEmail) 
+        public IActionResult Appointment(string JyotishEmail)
         {
-            var records = _jyotish.Appointment( JyotishEmail);
-            return Ok(new { data = records });        
+            var records = _jyotish.Appointment(JyotishEmail);
+            return Ok(new { data = records });
         }
         [HttpGet("UpcomingAppointment")]
         public IActionResult UpcomingAppointment(string JyotishEmail)
         {
-            var records = _jyotish.UpcomingAppointment( JyotishEmail);
+            var records = _jyotish.UpcomingAppointment(JyotishEmail);
             return Ok(new { data = records });
         }
         [HttpPost("AddAppointment")]
         public IActionResult AddAppointment(AppointmentViewModel appointment)
         {
-            var result =_jyotish.AddAppointment(appointment);
+            var result = _jyotish.AddAppointment(appointment);
             return Ok(new { data = result });
         }
 
@@ -69,11 +69,11 @@ namespace MyJyotishGApi.Controllers
         public IActionResult TeamMember(string JyotishEmail)
         {
             var records = _jyotish.TeamMember(JyotishEmail);
-            return Ok( records );
+            return Ok(records);
         }
         [AllowAnonymous]
         [HttpGet("Country")]
-        public IActionResult Country() 
+        public IActionResult Country()
         {
             var Record = _jyotish.CountryList();
             return Ok(new { data = Record });
@@ -110,7 +110,23 @@ namespace MyJyotishGApi.Controllers
             }
             catch { return BadRequest(); }
         }
-        
 
+        [HttpGet("UpdateProfile")]
+        public IActionResult UpdateProfile(JyotishCompleteViewModel model)
+        {
+            try
+            {
+                var Result = _jyotish.UpdateProfile(model);
+                if (Result == "Jyotish Not Found") { return Ok(new { Status = 404, Message = Result }); }
+                else if (Result == "Invalid Email") { return Ok(new { Status = 404, Message = Result }); }
+                else if (Result == "Successful") { return Ok(new { Status = 200, Message = Result }); }
+                else { return Ok(new { Status = 500, Message = Result }); }
+
+
+            }
+            catch (Exception ex) {
+                return StatusCode(500, new { Status = 500, Message = ex.Message, Error = ex });
+            }
+        }
     }
 }

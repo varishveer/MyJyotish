@@ -18,7 +18,8 @@ namespace BusinessAccessLayer.Abstraction
         public string Role(string Email);
         public string ProfileImage(string Email);
         public string AddSlotBooking(SlotBookingViewModel model);
-        public List<SlotModel> SlotList();
+        public List<SlotListViewModel> SlotList();
+        public SlotBookingModel JyotishSlotDetails(int id);
 
     }
 }

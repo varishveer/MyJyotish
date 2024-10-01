@@ -21,11 +21,7 @@ namespace BusinessAccessLayer.Implementation
             var record = _context.Sliders.Select(x => x.HomePage).ToList();
             return record;
         }
-        public List<JyotishModel> OurAstrologer()
-        {
-            List<JyotishModel> record = _context.JyotishRecords.ToList();
-            return record;
-        }
+       
         
 
         public List<string> BAPCategorySlider()
@@ -80,12 +76,45 @@ namespace BusinessAccessLayer.Implementation
 
         public List<JyotishModel> TopAstrologer(string City)
         {
-            var records = _context.JyotishRecords.Where(a=>a.Role== "Jyotish").Where(x => x.City == City).ToList();
-            if (records == null)
+            var records = _context.JyotishRecords.Where(a=>a.Status== "Complete").Where(x => x.City.Contains(City)).ToList();
+            if (records.Count ==0)
             {
-                records = _context.JyotishRecords.Where(x => x.Role == "Jyotish").Where(x => x.Country == "India").ToList();
+                records = _context.JyotishRecords.Where(x => x.Role == "Jyotish").Where(x => x.Country.Contains("India")).ToList();
             }
             return records;
+        }
+        public List<JyotishModel> AllAstrologer()
+        {
+            List<JyotishModel> record = _context.JyotishRecords.Where(x=>x.Status == "Complete").ToList();
+            return record;
+        }
+
+        public JyotishModel AstrologerProfile(int Id)
+        {
+            var record = _context.JyotishRecords.Where(x => x.Status == "Complete").Where(x=>x.Id== Id).FirstOrDefault();
+            return record;
+        }
+        public List<JyotishModel> SearchAstrologer(string keyword)
+        {
+            var result =  _context.JyotishRecords.Where(x => x.Status == "Complete")
+           .Where(record => record.Name.Contains(keyword) ||
+                            record.Expertise.Contains(keyword) ||
+                            record.Language.Contains(keyword) ||
+                            record.Country.Contains(keyword) ||
+                            record.State.Contains(keyword) ||
+                            record.City.Contains(keyword))
+           .ToList();
+
+            return result;
+        }
+
+
+        public List<SliderImagesModel> SliderImageList(string keyword)
+        {
+            var Records = _context.Sliders.ToList();
+            if (Records.Count == 0)
+            { return null; }
+            return Records;
         }
     }
 }

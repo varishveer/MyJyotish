@@ -1,4 +1,5 @@
 ﻿using BusinessAccessLayer.Abstraction;
+using DataAccessLayer.Migrations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,13 +19,98 @@ namespace MyJyotishGApi.Controllers
             _services = services;
         }
 
-
+        [AllowAnonymous]
         [HttpGet("TopAstrologer")]
         public IActionResult TopAstrologer(string city)
         {
             try
+            {
+                var records = _services.TopAstrologer(city);
+                if(records == null)
+                {
+                    return Ok(new { Status = 404, Message = "Jyotish not found" });
+                }
+                else
+                {
+                    return Ok(new {Status = 200 , Data = records, Message = "Jyotish List"});
+                }
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, new { Message =  ex.Message, Error = ex });
+            }
 
         }
+        [AllowAnonymous]
+        [HttpGet("AllAstrologer")]
+        public IActionResult AllAstrologer()
+        {
+            try
+            {
+                var records = _services.AllAstrologer();
+                if (records == null)
+                {
+                    return Ok(new { Status = 404, Message = "Jyotish not found" });
+                }
+                else
+                {
+                    return Ok(new { Status = 200, Data = records, Message = "Jyotish List" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Message = ex.Message, Error = ex });
+            }
+
+        }
+
+        [AllowAnonymous]
+        [HttpGet("AstrologerProfile")]
+        public IActionResult AstrologerProfile(int Id)
+        {
+            try
+            {
+                var record = _services.AstrologerProfile(Id);
+                if (record == null)
+                {
+                    return Ok(new { Status = 404, Message = "Jyotish not found" });
+                }
+                else
+                {
+                    return Ok(new { Status = 200, Data = record, Message = "Jyotish Profile" });
+                }
+            } 
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Message = ex.Message, Error = ex });
+            }
+
+        }
+
+        [AllowAnonymous]
+        [HttpGet("SearchAstrologer")]
+        public IActionResult SearchAstrologer(string keyword)
+        {
+            try
+            {
+                var record = _services.SearchAstrologer(keyword);
+                if (record == null)
+                {
+                    return Ok(new { Status = 404, Message = "Jyotish not found" });
+                }
+                else
+                {
+                    return Ok(new { Status = 200, Data = record, Message = "Jyotish List" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Message = ex.Message, Error = ex });
+            }
+
+        }
+
+
 
 
         [AllowAnonymous]
@@ -39,18 +125,7 @@ namespace MyJyotishGApi.Controllers
             catch(Exception ex) { return StatusCode(500, new {Status = 500, Message = "Internal Server Error", Error = ex }); }
         }
 
-        [AllowAnonymous]
-        [HttpGet("OurAstrologer")]
-        public IActionResult OurAstrologer()
-        {
-            try
-            {
-                var result = _services.OurAstrologer();
-                var record = result.Select(j => new {j.Id, j.Name, j.ProfileImageUrl, j.Expertise, j.Language,j.Address,j.Experience }).ToList();
-                return Ok(new { data = record, Status = 200, Message = "List Of Astrologer (Name, Profile Image , Expertise)" });
-            }
-            catch(Exception ex) { return StatusCode(500,new { Status = 500, Message = "Internal Server Error" , Error = ex  }); }
-        }
+       
        
 
         [AllowAnonymous]
