@@ -18,6 +18,15 @@ namespace MyJyotishGApi.Controllers
             _services = services;
         }
 
+
+        [HttpGet("TopAstrologer")]
+        public IActionResult TopAstrologer(string city)
+        {
+            try
+
+        }
+
+
         [AllowAnonymous]
         [HttpGet("HomePageSlider")]
         public IActionResult HomaPageSlider()
@@ -98,6 +107,9 @@ namespace MyJyotishGApi.Controllers
             }
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
         }
+
+        
+
 
         /* [HttpGet("PoojaListSlider")]
          public IActionResult PoojaListSlider()

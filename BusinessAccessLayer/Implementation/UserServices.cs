@@ -77,5 +77,15 @@ namespace BusinessAccessLayer.Implementation
             else { return record; }
         }
 
+
+        public List<JyotishModel> TopAstrologer(string City)
+        {
+            var records = _context.JyotishRecords.Where(a=>a.Role== "Jyotish").Where(x => x.City == City).ToList();
+            if (records == null)
+            {
+                records = _context.JyotishRecords.Where(x => x.Role == "Jyotish").Where(x => x.Country == "India").ToList();
+            }
+            return records;
+        }
     }
 }
