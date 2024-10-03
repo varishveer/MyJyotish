@@ -1,5 +1,6 @@
 ﻿@{
     Layout = "Extra";
+    string BaseUrl = "https://api.myjyotishg.in/";
 }
 <link href="~/Img/" rel="icon">
 
@@ -168,14 +169,17 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     $(document).ready(function () {
+
         $('#loginForm').submit(function (e) {
+            
             e.preventDefault(); // Prevent the form from submitting normally
 
             var email = $('#email').val();
             var password = $('#password').val();
-
+           
             $.ajax({
-                url:  @BaseUrl + "Api/Account/LoginJyotish",
+               
+                url:   "@BaseUrl" + "Api/Account/LoginJyotish",
                 type: 'POST',
                 contentType: 'application/json', // Specify that the content type is JSON
                 data: JSON.stringify({
@@ -186,7 +190,7 @@
                     if (response.status === 200) {
                        
                         // Successful login
-                        debugger;
+                      
                         localStorage.setItem('Username', response.userName);
                         localStorage.setItem('userEmail', response.user);
                         localStorage.setItem('userRole', response.role);

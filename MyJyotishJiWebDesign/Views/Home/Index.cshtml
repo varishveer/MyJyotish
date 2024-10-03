@@ -1,6 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
     Layout = null;
+    string BaseUrl = "https://api.myjyotishg.in/";
 }
 <html>
     <head>
@@ -12,6 +13,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
     <link href="~/css/index.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
 </head>
     <body>
@@ -161,7 +163,7 @@
     </style>
 
     <!-- Add this script to handle the show/hide functionality -->
-    <script>
+    <@* script>
         document.addEventListener('DOMContentLoaded', function () {
             var toggleButton = document.getElementById('astroBookPoojaToggle');
             var section = document.getElementById('astroBookPoojacontainer-fluid');
@@ -177,12 +179,12 @@
             });
         });
     </script>
- 
+  *@
 
     <!-- Banners (Carousel) -->
     <div id="bannerCarousel" class="carousel slide"  data-bs-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
+        <div class="carousel-inner" id="SliderImageHomePage">
+          @*   <div class="carousel-item active">
                 <img src="https://api.myjyotishg.in/Images/HomeBanner1.jpg" class="d-block w-100" alt="Banner 1">
             </div>
             <div class="carousel-item">
@@ -193,7 +195,7 @@
             </div>
             <div class="carousel-item">
                 <img src="https://api.myjyotishg.in/Images/HomeBanner4.jpg" class="d-block w-100" alt="Banner 4">
-            </div>
+            </div> *@
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -940,7 +942,49 @@
         }
     </style>
 
+    <script>
+        $(document).ready(function () {
+            function fetchSliderImages() {
+                $.ajax({
+                    url: "@BaseUrl" +`Api/user/SliderImageList?Keyword=HomePage`,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        debugger;
+                        displayImages(data.data);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                          debugger;
+                        console.error("Error:", jqXHR.responseJSON.Message || textStatus);
+                    }
+                });
+            }
 
+            function displayImages(image) {
+                const container = $('#SliderImageHomePage');
+                container.empty(); // Clear any existing content
+                  debugger;
+                if (!image || image.length === 0) {
+                    container.append('<p>No images found.</p>');
+                    return;
+                }
+                  debugger;
+            images.forEach((image, index) => {
+                    const isActive = index === 0 ? 'active' : ''; // Set the first image as active
+                    const carouselItem = `
+                        <div class="carousel-item ${isActive}">
+                            <img src="${image.ImageUrl}" class="d-block w-100" alt="Banner ${index + 1}">
+                        </div>
+                    `;
+                    container.append(carouselItem); // Append image to the container
+                });
+            }
+
+            // Call the function with the keyword "HomePage"
+            fetchSliderImages('HomePage');
+        });
+
+    </script>
 
  
 
@@ -948,3 +992,5 @@
 
     </body>
 </html>
+
+
