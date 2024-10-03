@@ -11,7 +11,7 @@ namespace BusinessAccessLayer.Abstraction
     public interface IPendingJyotishServices
     {
 
-        public  Task<bool> UploadDocumentAsync(DocumentViewModel model);
+        public  Task<string> UploadDocumentAsync(DocumentViewModel model);
         public  DocumentModel Documents(string email);
         public  Task<JyotishModel> Profile(string email);
         public string UpdateProfile(JyotishViewModel model , string path);

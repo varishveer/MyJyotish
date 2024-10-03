@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace ModelAccessLayer.ViewModels
 {
-    public class SlotListViewModel
+    public  class TimeStatusViewModel
     {
-        public DateTime Date { get; set; }
-        public List<TimeStatusViewModel> Times { get; set; }
-
-       
+        public string Time { get; set; }    // Assuming Time is a string
+        public string Status { get; set; }
     }
 }

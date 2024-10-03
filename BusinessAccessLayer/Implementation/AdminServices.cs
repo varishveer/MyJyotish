@@ -579,12 +579,19 @@ namespace BusinessAccessLayer.Implementation
             var Slots = _context.Slots.Where(slot => slot.Date >= today).ToList();
             return Slots;
         }
-        public string AddSlot(SlotModel slot)
+        public string AddSlot(SlotViewModel model)
         { 
-           if(slot == null)
+           if(model == null)
            { return "Invalid Data"; }
             else
             {
+                SlotModel slot = new SlotModel
+                {
+                    Time = model.Time,
+                    Date = model.Date,
+                    Status = "Vacant"
+                };
+                
                 _context.Slots.Add(slot);
                 var result = _context.SaveChanges();
                 if (result > 0) { return "Successful"; }

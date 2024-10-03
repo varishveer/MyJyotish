@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using ModelAccessLayer.Models;
 using ModelAccessLayer.ViewModels;
+using NuGet.Protocol.Plugins;
 
 namespace MyJyotishGApi.Controllers
 {
@@ -53,15 +54,23 @@ namespace MyJyotishGApi.Controllers
         {
             try
             {
-                var success = await _pendingJyotishServices.UploadDocumentAsync(model);
+                var result = await _pendingJyotishServices.UploadDocumentAsync(model);
 
-                if (success)
+                if (result == "Invalid Jyotish")
+                {
+                    return Ok(new { Status = 404, Message = result });
+                }
+                else if (result == "Invalid File Extension or Size")
+                {
+                    return Ok( new {Status = 400, Message = result });
+                }
+                else if(result == "Successful")
                 {
                     return Ok(new { Status = 200, Message = "Files and data uploaded successfully." });
                 }
                 else
                 {
-                    return StatusCode(500, new { Message = "Internal Server Error" });
+                    return Ok(new { Status = 500, Message = result });
                 }
             }
             catch { return StatusCode(500, new { Message = "Internal Server Error" }); }

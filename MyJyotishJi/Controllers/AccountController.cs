@@ -262,7 +262,7 @@ namespace MyJyotishJiApi.Controllers
                 issuer: _configuration[$"Jwt:{scheme}:Issuer"],
                 audience: _configuration[$"Jwt:{scheme}:Audience"],
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(30),
+                expires: DateTime.UtcNow.AddYears(100),
                 signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);

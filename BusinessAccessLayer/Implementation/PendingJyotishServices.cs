@@ -158,9 +158,9 @@ namespace BusinessAccessLayer.Implementation
 
 
 
-        public async Task<bool> UploadDocumentAsync(DocumentViewModel model)
+        public async Task<string> UploadDocumentAsync(DocumentViewModel model)
         {
-            const long MaxFileSize = 2 * 1024 * 1024; // 2 MB
+            const long MaxFileSize = 5 * 1024 * 1024; // 5 MB
             var allowedExtensions = new[] { ".pdf", ".jpg", ".jpeg", ".png" };
 
             var isJyotishValid = await _context.JyotishRecords
@@ -168,7 +168,7 @@ namespace BusinessAccessLayer.Implementation
 
             if (isJyotishValid == null)
             {
-                return false;
+                return "Invalid Jyotish";
             }
 
             var existingDocument = await _context.Documents
@@ -189,27 +189,64 @@ namespace BusinessAccessLayer.Implementation
 
                 foreach (var (file, setPath) in documentsToUpload)
                 {
-                    if (file != null && ValidateFile(file, MaxFileSize, allowedExtensions))
-                    {
-                        var filePath = await SaveFileAsync(file);
-                        setPath(filePath);
+                    
+
 
                         // Update the corresponding status property
-                        if (file == model.IdProof)
-                            document.IdProofStatus = "Unverified";
-                        else if (file == model.AddressProof)
-                            document.AddressProofStatus = "Unverified";
-                        else if (file == model.TenthCertificate)
-                            document.TenthCertificateStatus = "Unverified";
-                        else if (file == model.TwelveCertificate)
-                            document.TwelveCertificateStatus = "Unverified";
-                        else if (file == model.ProfessionalCertificate)
-                            document.ProfessionalCertificateStatus = "Unverified";
-                    }
-                    else if (file != null)
-                    {
-                        return false; // Invalid file
-                    }
+                        if (file != null && file == model.IdProof )
+                        {
+                            if(ValidateFile(file, MaxFileSize, allowedExtensions))
+                           { document.IdProofStatus = "Unverified";
+                            var filePath = await SaveFileAsync(file);
+                            setPath(filePath);
+                            }
+                            else { return "Invalid File Extension or Size"; }
+                        }
+                        else if (file != null && file == model.AddressProof)
+                        {
+                            if (ValidateFile(file, MaxFileSize, allowedExtensions))
+                               { document.AddressProofStatus = "Unverified";
+                                var filePath = await SaveFileAsync(file);
+                                setPath(filePath);
+                                }
+                            else { return "Invalid File Extension or Size"; }
+                        }
+
+                        else if (file != null && file == model.TenthCertificate)
+                         {
+                            if (ValidateFile(file, MaxFileSize, allowedExtensions))
+                            {
+                                document.TenthCertificateStatus = "Unverified";
+                                var filePath = await SaveFileAsync(file);
+                                setPath(filePath);
+                            }
+                            else { return "Invalid File Extension or Size"; }
+
+                        }
+                        else if (file != null && file == model.TwelveCertificate)
+                        {
+                            if (ValidateFile(file, MaxFileSize, allowedExtensions))
+                            {
+                                document.TwelveCertificateStatus = "Unverified";
+                                var filePath = await SaveFileAsync(file);
+                                setPath(filePath);
+                            }
+                            else { return "Invalid File Extension or Size"; }
+                       
+                        }
+                        else if (file != null && file == model.ProfessionalCertificate)
+                        {
+
+                            if (ValidateFile(file, MaxFileSize, allowedExtensions))
+                            {
+                                document.ProfessionalCertificateStatus = "Unverified";
+                                var filePath = await SaveFileAsync(file);
+                                setPath(filePath);
+                            }
+                            else { return "Invalid File Extension or Size"; }
+                       
+                        }
+                    
                 }
 
                 if (existingDocument == null)
@@ -220,13 +257,15 @@ namespace BusinessAccessLayer.Implementation
                 {
                     _context.Documents.Update(document);
                 }
-
-                return await _context.SaveChangesAsync() > 0;
+                if(await _context.SaveChangesAsync() > 0)
+                { return "Successful"; }
+                else { return "Internal server DB error"; }
+                
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred: {ex.Message}");
-                return false;
+               
+                return $"Internal server EX error = {ex.Message}";
             }
         }
 
@@ -360,7 +399,11 @@ namespace BusinessAccessLayer.Implementation
                var Slot = _context.SlotBooking.Where(slot => slot.Date >= today).Where(x=>x.JyotishId == model.JyotishId).FirstOrDefault();
                if( Slot != null)
                { return "Already Booked"; }
-               SlotBookingModel NewRecord = new SlotBookingModel();
+
+                var slot = _context.Slots.Where(y => y.Date == model.Date).Where(x => x.Time == model.Time).FirstOrDefault();
+                slot.Status = "Booked";
+
+            SlotBookingModel NewRecord = new SlotBookingModel();
                NewRecord.Time = model.Time;
                NewRecord.Date = model.Date;
                NewRecord.JyotishId = model.JyotishId;
@@ -380,6 +423,7 @@ namespace BusinessAccessLayer.Implementation
    We look forward to speaking with you!";
                    string subject = " Interview Scheduled – MyJyotishG";
                    AccountServices.SendEmail(message, Jyotish.Email, subject);
+                    
                    return "Successful";
                }
                else { return "Data Not Saved"; }
@@ -387,16 +431,18 @@ namespace BusinessAccessLayer.Implementation
         public List<SlotListViewModel> SlotList()
         {
             DateTime today = DateTime.Today;
-            var slots = _context.Slots
-                .Where(slot => slot.Date >= today)
-                .ToList();
 
-            var groupedSlots = slots
+            var groupedSlots = _context.Slots
+                .Where(slot => slot.Date >= today)
                 .GroupBy(slot => slot.Date)
                 .Select(group => new SlotListViewModel
                 {
                     Date = group.Key,
-                    Times = group.Select(slot => slot.Time).ToList() // Assuming Time is a string
+                    Times = group.Select(slot => new TimeStatusViewModel
+                    {
+                        Time = slot.Time,    
+                        Status = slot.Status  
+                    }).ToList()
                 })
                 .ToList();
 

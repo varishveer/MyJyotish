@@ -466,7 +466,7 @@ namespace MyJyotishJiApi.Controllers
 
         }
         [HttpPost("AddSlot")]
-        public IActionResult AddSlot(SlotModel slot)
+        public IActionResult AddSlot(SlotViewModel slot)
         {
             try
             {

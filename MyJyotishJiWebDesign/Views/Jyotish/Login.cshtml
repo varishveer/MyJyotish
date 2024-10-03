@@ -108,7 +108,7 @@
 
                     </div>@*
                     <h2 class="mb-3 d-flex justify-content-center">Login</h2> *@
-                    <form>
+                    <form id="loginForm">
                         <div class="form-row">
                             <div class="form-group col-md-12 mb-3">
                                 <label for="name" class="form-label">Email:</label>
@@ -175,7 +175,7 @@
             var password = $('#password').val();
 
             $.ajax({
-                url: "https://api.myjyotishg.in/Api/Account/LoginJyotish",
+                url:  @BaseUrl + "Api/Account/LoginJyotish",
                 type: 'POST',
                 contentType: 'application/json', // Specify that the content type is JSON
                 data: JSON.stringify({
