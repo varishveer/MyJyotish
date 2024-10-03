@@ -168,16 +168,16 @@ namespace MyJyotishJiApi.Controllers
                 }
                 else
                 {
-                    var JyotishName = _account.JUserName(jyotishLogin.Email);
-                    var UName = JyotishName;
-                    if(result == "Jyotish")
+                    var Response = JsonConvert.DeserializeObject<JyotishModel>(result);
+                    
+                    if (Response.Role == "Jyotish")
                     { 
                         var token = GenerateJwtToken(jyotishLogin.Email, "Scheme2");
-                        return Ok(new { Status = 200, Message = result, Token = token, User = jyotishLogin.Email, UserName = UName,Role = result });
+                        return Ok(new { Status = 200, Message = Response.Role, Token = token, User = Response.Email, UserName = Response.Name, Role = Response.Role , Id = Response.Id});
                     }
                     else { 
                         var token = GenerateJwtToken(jyotishLogin.Email, "Scheme3");
-                        return Ok(new { Status = 200, Message = result, Token = token, User = jyotishLogin.Email, UserName = UName, Role = result });
+                        return Ok(new { Status = 200, Message = Response.Role, Token = token, User = Response.Email, UserName = Response.Name, Role = Response.Role, Id = Response.Id });
                     }
                    
                    

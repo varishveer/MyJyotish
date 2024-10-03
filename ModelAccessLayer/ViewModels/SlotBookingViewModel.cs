@@ -14,7 +14,7 @@ namespace ModelAccessLayer.ViewModels
         public string Time { get; set; }
         [Required]
        
-        public string Date { get; set; }
+        public DateTime Date { get; set; }
         [Required]
         public int JyotishId { get; set; }
     }

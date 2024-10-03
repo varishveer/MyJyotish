@@ -295,7 +295,7 @@ namespace MyJyotishJiApi.Controllers
             catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
 
         }*/
-        [AllowAnonymous]
+       
         [HttpPost("AddSlider")]
         public IActionResult AddSlider(SliderImagesViewModel model)
         {
@@ -308,7 +308,23 @@ namespace MyJyotishJiApi.Controllers
                     return Ok(new { Status = 400, Message = "Bad Request" });
                 }
             }
-            catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
+            catch(Exception ex) { return Ok(new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+        }
+        [HttpGet("SliderImageList")]
+        public IActionResult SliderImageList()
+        {
+            try
+            {
+                var result = _admin.SliderImageList();
+                if (result == null)
+                { return Ok(new { Status = 400, Message = "No Data Found" }); }
+                else
+                {
+                    return Ok(new { Status = 200,Data = result, Message = "Successful" });
+                   
+                }
+            }
+            catch (Exception ex) { return Ok(new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
         }
 
         [AllowAnonymous]

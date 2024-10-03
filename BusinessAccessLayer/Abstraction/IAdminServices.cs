@@ -34,6 +34,7 @@ namespace BusinessAccessLayer.Abstraction
         public bool AddState(State _state);
         public bool AddCity(City _city);
         public bool AddSlider(SliderImagesViewModel model);
+        public List<SliderImagesModel> SliderImageList();
         public bool AddPoojaDetail(PoojaRecordViewModel model);
         public List<DocumentModel> GetAllJyotishDocument();
         public List<CallingModel> GetJyotishCalls(int id);

@@ -133,6 +133,7 @@ namespace MyJyotishGApi.Controllers
             }
 
         }
+       
         [HttpPost("AddSlotBooking")]
         public IActionResult AddSlotBooking(SlotBookingViewModel model)
         {
@@ -145,17 +146,25 @@ namespace MyJyotishGApi.Controllers
                 }
                 else if (Result == "Jyotish Not Found")
                 { return Ok(new { status = 400, message = Result }); }
+                else if(Result == "Already Booked")
+                { return Ok(new { status = 409, message = Result }); }
                 else
                 {
                     return Ok(new { Status = 500, Message = Result });
                 }
             }
-            catch
+            catch(Exception ex)
             {
-                return StatusCode(500, new { Status = 500, Message = "Internal Server Error " });
+                return StatusCode(500, new
+                {
+                    Status = 500,
+                    Message = "Internal Server Error ",
+                    ErrorMessage = ex
+                  
+                });
             }
         }
-
+        
         [HttpGet("SlotList")]
         public IActionResult SlotList()
         {
@@ -172,7 +181,38 @@ namespace MyJyotishGApi.Controllers
                 }
 
             }
-            catch { return StatusCode(500, new { Status = 500, Message = "Internal Server Error " }); }
+            catch(Exception ex) { return StatusCode(500, new { 
+                Status = 500, 
+                Message = "Internal Server Error, No Data Found",
+                ErrorMessage = ex
+            }); }
+        }
+       
+        [HttpGet("JyotishSlotDetails")]
+        public IActionResult JyotishSlotDetails(int Id)
+        {
+            try
+            {
+                var Records = _pendingJyotishServices.JyotishSlotDetails(Id);
+                if (Records == null)
+                {
+                    return Ok(new { Status = 400, Message = "No Data Found" });
+                }
+                else
+                {
+                    return Ok(new { Status = 200, data = Records, Message = "Successful" });
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    Status = 500,
+                    Message = "Internal Server Error, No Data Found",
+                    ErrorMessage = ex
+                });
+            }
         }
 
     }

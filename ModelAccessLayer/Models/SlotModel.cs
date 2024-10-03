@@ -14,6 +14,6 @@ namespace ModelAccessLayer.Models
         [Required]
         public string Time { get; set; }
         [Required]
-        public string Date { get; set; }
+        public DateTime Date { get; set; }
     }
 }

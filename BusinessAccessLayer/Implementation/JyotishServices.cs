@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,10 +18,86 @@ namespace BusinessAccessLayer.Implementation
     public class JyotishServices:IJyotishServices
     {
         private readonly ApplicationContext _context;
+        private readonly string _uploadDirectory;
         public JyotishServices(ApplicationContext context)
         {
             _context = context;
+            _uploadDirectory = Directory.GetCurrentDirectory();
+
+            // Ensure directory exists
+            if (!Directory.Exists(_uploadDirectory))
+            {
+                Directory.CreateDirectory(_uploadDirectory);
+            }
         }
+
+        public string UpdateProfile(JyotishCompleteViewModel model)
+        {
+            // Fetch the existing record from the database
+            var existingRecord = _context.JyotishRecords.FirstOrDefault(x => x.Id == model.Id);
+            if (existingRecord == null)
+            {
+                return "Jyotish Not Found";
+            }
+
+            // Validate email
+            if (existingRecord.Email != model.Email)
+            {
+                return "Invalid Email";
+            }
+
+            // Update properties from the model
+            existingRecord.Role = "Jyotish";
+            existingRecord.Status = "Complete";
+
+            if (model.ProfileImageUrl != null) {
+
+                var ProfileGuid = Guid.NewGuid().ToString();
+                var SqlPath = "wwwroot/PendingJyotish/Document/" + ProfileGuid + model.ProfileImageUrl.FileName;
+                var ProfilePath = Path.Combine(_uploadDirectory, SqlPath);
+                using (var stream = new FileStream(ProfilePath, FileMode.Create))
+                {
+                     model.ProfileImageUrl.CopyTo(stream);
+                }
+                existingRecord.ProfileImageUrl = "/Images/Jyotish/" + ProfileGuid + model.ProfileImageUrl.FileName;
+           
+            }
+
+            // Update other properties as needed
+            existingRecord.Mobile = model.Mobile;
+            existingRecord.Name = model.Name;
+            existingRecord.Gender = model.Gender;
+            existingRecord.Language = model.Language;
+            existingRecord.Expertise = model.Expertise;
+            existingRecord.Country = model.Country;
+            existingRecord.State = model.State;
+            existingRecord.City = model.City;
+            existingRecord.Password = model.Password;
+            existingRecord.DateOfBirth = model.DateOfBirth;
+           
+            existingRecord.Otp = model.Otp;
+            existingRecord.Experience = model.Experience;
+            existingRecord.Pooja = model.Pooja;
+            existingRecord.Call = model.Call;
+            existingRecord.CallCharges = model.CallCharges;
+            existingRecord.Chat = model.Chat;
+            existingRecord.ChatCharges = model.ChatCharges;
+            existingRecord.Address = model.Address;
+            existingRecord.TimeTo = model.TimeTo;
+            existingRecord.TimeFrom = model.TimeFrom;
+
+            // Save changes to the database
+            if (_context.SaveChanges() > 0)
+            {
+                return "Successful";
+            }
+            else
+            {
+                return "Data Not Saved";
+            }
+        }
+
+
         public List<AppointmentModel> Appointment(string JyotishEmail) 
         {
             var Jyotish = _context.JyotishRecords.Where(x => x.Email == JyotishEmail).FirstOrDefault();
