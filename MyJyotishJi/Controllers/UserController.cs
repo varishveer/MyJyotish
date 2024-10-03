@@ -109,24 +109,32 @@ namespace MyJyotishGApi.Controllers
             }
 
         }
-
-
-
-
         [AllowAnonymous]
-        [HttpGet("HomePageSlider")]
-        public IActionResult HomaPageSlider()
+        [HttpGet("SliderImageList")]
+        public IActionResult SliderImageList(string Keyword)
         {
             try {
-                var record = _services.HomaPageSlider();
-                if (record == null) { return BadRequest(); }
-                return Ok(new {  Status =200, message = "Succussfull", data = record });
+                var records = _services.SliderImageList(Keyword);
+                if (records == null)
+                {
+                    return Ok(new { Status = 404, Message = "No Image found" });
+                }
+                else
+                {
+                    return Ok(new { Status = 200, Data = records, Message = Keyword });
+                }
             }
-            catch(Exception ex) { return StatusCode(500, new {Status = 500, Message = "Internal Server Error", Error = ex }); }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Message = ex.Message, Error = ex });
+            }
+
         }
 
-       
-       
+
+
+
+
 
         [AllowAnonymous]
         [HttpGet("GetAstroListCallChat")]
@@ -144,18 +152,7 @@ namespace MyJyotishGApi.Controllers
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
         }
 
-        [AllowAnonymous]
-        [HttpGet("BAPCategorySlider")]
-        public IActionResult BAPCategorySlider()
-        {
-            try
-            {
-                var record = _services.PoojaListSlider();
-                if (record == null) { return BadRequest(); }
-                return Ok(new { Status = 200, message = "Succussfull", data = record });
-            }
-            catch(Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
-        }
+       
         [AllowAnonymous]
         [HttpGet("GetPoojaList")]
         public IActionResult GetPoojaList(int Id)

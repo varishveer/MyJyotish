@@ -32,129 +32,223 @@ namespace BusinessAccessLayer.Implementation
             }
         }
 
+        /*   public async Task<bool> UploadDocumentAsync(DocumentViewModel model)
+           {
+               var isJyotishValid = _context.JyotishRecords.Where(x=>x.Email == model.JyotishEmail).FirstOrDefault();
+               if(isJyotishValid == null)
+               { return false; }
+
+               var IsJyotishDocs = _context.Documents.Where(x=>x.JId == isJyotishValid.Id).FirstOrDefault();
+               var document = new DocumentModel();
+               if (IsJyotishDocs == null) {
+
+
+                   document.JId = isJyotishValid.Id;
+
+               }
+               else
+               {
+
+                   document = IsJyotishDocs;
+               }
+
+
+               try
+               {
+                   // Process IdProof file
+                   if (model.IdProof != null)
+                   {
+                       var idProofGuid = Guid.NewGuid().ToString();
+                       var SqlPath = "wwwroot/PendingJyotish/Document/" + idProofGuid + model.IdProof.FileName;
+                       var idProofPath = Path.Combine(_uploadDirectory,SqlPath );
+                       using (var stream = new FileStream(idProofPath, FileMode.Create))
+                       {
+                           await model.IdProof.CopyToAsync(stream);
+                       }
+                       document.IdProof = "/PendingJyotish/Document/" + idProofGuid + model.IdProof.FileName;
+                       document.IdProofStatus = "Unverified";
+                   }
+
+
+                   // Process AddressProof file
+                   if (model.AddressProof != null)
+                   {
+                       var addressProofGuid = Guid.NewGuid().ToString();
+                       var SqlPath = "wwwroot/PendingJyotish/Document/" + addressProofGuid + model.AddressProof.FileName;
+                       var addressProofPath = Path.Combine(_uploadDirectory, SqlPath);
+
+                       using (var stream = new FileStream(addressProofPath, FileMode.Create))
+                       {
+                           await model.AddressProof.CopyToAsync(stream);
+                       }
+                       document.AddressProof = "/PendingJyotish/Document/" + addressProofGuid + model.AddressProof.FileName;
+                       document.AddressProofStatus = "Unverified";
+                   }
+
+                   // Process TenthCertificate file
+                   if (model.TenthCertificate != null)
+                   {
+                       var tenthCertificateGuid = Guid.NewGuid().ToString();
+                       var SqlPath = "wwwroot/PendingJyotish/Document/" + tenthCertificateGuid + model.TenthCertificate.FileName;
+                       var tenthCertificatePath = Path.Combine(_uploadDirectory, SqlPath);
+
+
+                       using (var stream = new FileStream(tenthCertificatePath, FileMode.Create))
+                       {
+                           await model.TenthCertificate.CopyToAsync(stream);
+                       }
+                       document.TenthCertificate = "/PendingJyotish/Document/" + tenthCertificateGuid + model.TenthCertificate.FileName;
+                       document.AddressProofStatus = "Unverified";
+                   }
+
+                   // Process TwelveCertificate file
+                   if (model.TwelveCertificate != null)
+                   {
+                       var twelveCertificateGuid = Guid.NewGuid().ToString();
+                       var SqlPath = "wwwroot/PendingJyotish/Document/" + twelveCertificateGuid + model.TwelveCertificate.FileName;
+                       var twelveCertificatePath = Path.Combine(_uploadDirectory, SqlPath);
+
+
+                       using (var stream = new FileStream(twelveCertificatePath, FileMode.Create))
+                       {
+                           await model.TwelveCertificate.CopyToAsync(stream);
+                       }
+                       document.TwelveCertificate = "/PendingJyotish/Document/" + twelveCertificateGuid + model.TwelveCertificate.FileName;
+                       document.TwelveCertificateStatus = "Unverified";
+                   }
+
+                   // Process ProfessionalCertificate file
+                   if (model.ProfessionalCertificate != null)
+                   {
+                       var professionalCertificateGuid = Guid.NewGuid().ToString();
+                       var SqlPath = "wwwroot/PendingJyotish/Document/" + professionalCertificateGuid + model.ProfessionalCertificate.FileName;
+                       var professionalCertificatePath = Path.Combine(_uploadDirectory, SqlPath);
+
+
+
+                       using (var stream = new FileStream(professionalCertificatePath, FileMode.Create))
+                       {
+                           await model.ProfessionalCertificate.CopyToAsync(stream);
+                       }
+                       document.ProfessionalCertificate = "/PendingJyotish/Document/" + professionalCertificateGuid + model.ProfessionalCertificate.FileName;
+                       document.ProfessionalCertificateStatus = "Unverified";
+                   }
+
+                   // Save document data to database
+
+                   var IsRecordExist = _context.Documents.Where(X => X.JId == document.JId).FirstOrDefault();
+                   if (IsRecordExist == null)
+                   { _context.Documents.Add(document); }
+                   else
+                   { _context.Documents.Update(document); }
+
+                    var result = await _context.SaveChangesAsync();
+                   if(result> 0)
+                   { return true; }
+                   else { return false; }
+
+               }
+               catch (Exception ex)
+               {
+                   // Log the exception if necessary
+                   Console.WriteLine($"An error occurred: {ex.Message}");
+                   return false; // Failure in processing files or saving to the database
+               }
+           }*/
+
+
+
         public async Task<bool> UploadDocumentAsync(DocumentViewModel model)
         {
-            var isJyotishValid = _context.JyotishRecords.Where(x=>x.Email == model.JyotishEmail).FirstOrDefault();
-            if(isJyotishValid == null)
-            { return false; }
-            
-            var IsJyotishDocs = _context.Documents.Where(x=>x.JId == isJyotishValid.Id).FirstOrDefault();
-            var document = new DocumentModel();
-            if (IsJyotishDocs == null) {
+            const long MaxFileSize = 2 * 1024 * 1024; // 2 MB
+            var allowedExtensions = new[] { ".pdf", ".jpg", ".jpeg", ".png" };
 
+            var isJyotishValid = await _context.JyotishRecords
+                .FirstOrDefaultAsync(x => x.Email == model.JyotishEmail);
 
-                document.JId = isJyotishValid.Id;
-               
-            }
-            else
+            if (isJyotishValid == null)
             {
-              
-                document = IsJyotishDocs;
+                return false;
             }
 
+            var existingDocument = await _context.Documents
+                .FirstOrDefaultAsync(x => x.JId == isJyotishValid.Id);
+
+            var document = existingDocument ?? new DocumentModel { JId = isJyotishValid.Id };
 
             try
             {
-                // Process IdProof file
-                if (model.IdProof != null)
+                var documentsToUpload = new[]
                 {
-                    var idProofGuid = Guid.NewGuid().ToString();
-                    var SqlPath = "wwwroot/PendingJyotish/Document/" + idProofGuid + model.IdProof.FileName;
-                    var idProofPath = Path.Combine(_uploadDirectory,SqlPath );
-                    using (var stream = new FileStream(idProofPath, FileMode.Create))
-                    {
-                        await model.IdProof.CopyToAsync(stream);
-                    }
-                    document.IdProof = "/PendingJyotish/Document/" + idProofGuid + model.IdProof.FileName;
-                    document.IdProofStatus = "Unverified";
-                }
-               
+            (model.IdProof, (Action<string>)(path => document.IdProof = path)),
+            (model.AddressProof, (Action<string>)(path => document.AddressProof = path)),
+            (model.TenthCertificate, (Action<string>)(path => document.TenthCertificate = path)),
+            (model.TwelveCertificate, (Action<string>)(path => document.TwelveCertificate = path)),
+            (model.ProfessionalCertificate, (Action<string>)(path => document.ProfessionalCertificate = path)),
+        };
 
-                // Process AddressProof file
-                if (model.AddressProof != null)
+                foreach (var (file, setPath) in documentsToUpload)
                 {
-                    var addressProofGuid = Guid.NewGuid().ToString();
-                    var SqlPath = "wwwroot/PendingJyotish/Document/" + addressProofGuid + model.AddressProof.FileName;
-                    var addressProofPath = Path.Combine(_uploadDirectory, SqlPath);
-                   
-                    using (var stream = new FileStream(addressProofPath, FileMode.Create))
+                    if (file != null && ValidateFile(file, MaxFileSize, allowedExtensions))
                     {
-                        await model.AddressProof.CopyToAsync(stream);
+                        var filePath = await SaveFileAsync(file);
+                        setPath(filePath);
+
+                        // Update the corresponding status property
+                        if (file == model.IdProof)
+                            document.IdProofStatus = "Unverified";
+                        else if (file == model.AddressProof)
+                            document.AddressProofStatus = "Unverified";
+                        else if (file == model.TenthCertificate)
+                            document.TenthCertificateStatus = "Unverified";
+                        else if (file == model.TwelveCertificate)
+                            document.TwelveCertificateStatus = "Unverified";
+                        else if (file == model.ProfessionalCertificate)
+                            document.ProfessionalCertificateStatus = "Unverified";
                     }
-                    document.AddressProof = "/PendingJyotish/Document/" + addressProofGuid + model.AddressProof.FileName;
-                    document.AddressProofStatus = "Unverified";
-                }
-
-                // Process TenthCertificate file
-                if (model.TenthCertificate != null)
-                {
-                    var tenthCertificateGuid = Guid.NewGuid().ToString();
-                    var SqlPath = "wwwroot/PendingJyotish/Document/" + tenthCertificateGuid + model.TenthCertificate.FileName;
-                    var tenthCertificatePath = Path.Combine(_uploadDirectory, SqlPath);
-
-                  
-                    using (var stream = new FileStream(tenthCertificatePath, FileMode.Create))
+                    else if (file != null)
                     {
-                        await model.TenthCertificate.CopyToAsync(stream);
+                        return false; // Invalid file
                     }
-                    document.TenthCertificate = "/PendingJyotish/Document/" + tenthCertificateGuid + model.TenthCertificate.FileName;
-                    document.AddressProofStatus = "Unverified";
                 }
 
-                // Process TwelveCertificate file
-                if (model.TwelveCertificate != null)
+                if (existingDocument == null)
                 {
-                    var twelveCertificateGuid = Guid.NewGuid().ToString();
-                    var SqlPath = "wwwroot/PendingJyotish/Document/" + twelveCertificateGuid + model.TwelveCertificate.FileName;
-                    var twelveCertificatePath = Path.Combine(_uploadDirectory, SqlPath);
-
-                  
-                    using (var stream = new FileStream(twelveCertificatePath, FileMode.Create))
-                    {
-                        await model.TwelveCertificate.CopyToAsync(stream);
-                    }
-                    document.TwelveCertificate = "/PendingJyotish/Document/" + twelveCertificateGuid + model.TwelveCertificate.FileName;
-                    document.TwelveCertificateStatus = "Unverified";
+                    await _context.Documents.AddAsync(document);
                 }
-
-                // Process ProfessionalCertificate file
-                if (model.ProfessionalCertificate != null)
-                {
-                    var professionalCertificateGuid = Guid.NewGuid().ToString();
-                    var SqlPath = "wwwroot/PendingJyotish/Document/" + professionalCertificateGuid + model.ProfessionalCertificate.FileName;
-                    var professionalCertificatePath = Path.Combine(_uploadDirectory, SqlPath);
-
-
-                   
-                    using (var stream = new FileStream(professionalCertificatePath, FileMode.Create))
-                    {
-                        await model.ProfessionalCertificate.CopyToAsync(stream);
-                    }
-                    document.ProfessionalCertificate = "/PendingJyotish/Document/" + professionalCertificateGuid + model.ProfessionalCertificate.FileName;
-                    document.ProfessionalCertificateStatus = "Unverified";
-                }
-
-                // Save document data to database
-
-                var IsRecordExist = _context.Documents.Where(X => X.JId == document.JId).FirstOrDefault();
-                if (IsRecordExist == null)
-                { _context.Documents.Add(document); }
                 else
-                { _context.Documents.Update(document); }
-                
-                 var result = await _context.SaveChangesAsync();
-                if(result> 0)
-                { return true; }
-                else { return false; }
-                 
+                {
+                    _context.Documents.Update(document);
+                }
+
+                return await _context.SaveChangesAsync() > 0;
             }
             catch (Exception ex)
             {
-                // Log the exception if necessary
                 Console.WriteLine($"An error occurred: {ex.Message}");
-                return false; // Failure in processing files or saving to the database
+                return false;
             }
         }
+
+        private async Task<string> SaveFileAsync(IFormFile file)
+        {
+            var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+            var relativePath = Path.Combine("PendingJyotish", "Document", uniqueFileName);
+            var fullPath = Path.Combine(_uploadDirectory, "wwwroot", relativePath);
+
+            using (var stream = new FileStream(fullPath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            return "/" + relativePath; // Return relative URL
+        }
+
+        private bool ValidateFile(IFormFile file, long maxSize, string[] allowedExtensions)
+        {
+            return file.Length <= maxSize && allowedExtensions.Contains(Path.GetExtension(file.FileName).ToLower());
+        }
+
 
         public DocumentModel Documents(string email)
         {

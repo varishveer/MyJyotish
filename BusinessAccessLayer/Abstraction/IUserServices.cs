@@ -1,4 +1,5 @@
 ﻿using ModelAccessLayer.Models;
+using ModelAccessLayer.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,8 @@ namespace BusinessAccessLayer.Abstraction
 {
     public interface IUserServices
     {
-        public List<string> HomaPageSlider();
+      
        
-        public List<string> BAPCategorySlider();
-        public List<string> PoojaListSlider();
        
         public List<JyotishModel> GetAstroListCallChat(string ListName);
         public List<PoojaCategoryModel> GetAllPoojaCategory();
@@ -22,7 +21,7 @@ namespace BusinessAccessLayer.Abstraction
         public List<JyotishModel> AllAstrologer();
         public JyotishModel AstrologerProfile(int Id);
         public List<JyotishModel> SearchAstrologer(string keyword);
-        public List<SliderImagesModel> SliderImageList(string keyword);
+        public List<IdImageViewModel> SliderImageList(string keyword);
 
     }
 }
