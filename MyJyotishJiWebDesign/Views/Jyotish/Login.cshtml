@@ -21,44 +21,136 @@
 
 <!-- Template Stylesheet -->
 <!-- <link href="~/css/style.css" rel="stylesheet"> -->
-<div class="container-xxl position-relative d-flex p-0">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-    <!-- Sign In Start -->
-    <div class="container-fluid">
-        <div class="row h-100 align-items-center justify-content-center" style="min-height: 100vh;">
-            <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4">
-                <div class="bg-light rounded p-3 px-5  my-4 mx-3">
-                    <div class="d-flex align-items-center justify-content-center mb-3">
-                        <a href="/Admin/Login" class="">
-                          <img src="~/Img/Logo.png" width="150" height="125" />
-                        </a>
-                        
-                    </div>
-                    <form id="loginForm">
-                        <div class=" mb-3">
-                            <label for="email">Email address</label>
-                            <input type="email" name="email" class="form-control" id="email" placeholder="name@example.com" required>
-                           
+<style>
+    .container {
+        margin-top: 50px;
+        margin-bottom: 50px;
+    }
+
+
+    .left-part {
+        border-radius:10px 0px 0px 10px;
+        box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.2);
+        padding: 15px;
+    }
+
+    .right-part {
+        border-radius: 0px 10px 10px 0px;
+        box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.2);
+        padding: 30px;
+        background-color: white;
+    }
+
+    .responsive-image {
+        max-width: 100%;
+        height: auto;
+        border-radius: 10px;
+    }
+
+    h2 {
+        margin-bottom: 20px;
+        color: black;
+    }
+
+    .btn-primary {
+        border-radius: 6px;
+    }
+
+    .form-group {
+        margin-bottom: 0.5rem; /* Adjust this value as needed */
+    }
+
+    .form-label {
+        margin-bottom: 0.2rem; /* Reduce space between label and input */
+        font-size: 16px;
+    }
+
+    .input-group {
+        margin-bottom: 0.5rem; /* Reduce space between input groups */
+    }
+
+    .form-control {
+        font-size: 14px;
+    }
+
+    .btn:not(:disabled):not(.disabled) {
+        font-size: 13px;
+    }
+
+    #button-addon2 {
+        color: white;
+        background-color: lightslategray;
+    }
+
+</style>
+
+
+<div class="container h-100 w-100">
+    <div class="row w-100  ">
+        <div class="col-md-12 d-flex ">
+            <div class="row justify-content-center ">
+                <div class="col-md-4 left-part d-flex justify-content-center align-items-center">
+                    <img src="/Img/mobile-login.jpg" alt="Sign Up Image" class="responsive-image">
+                </div>
+                <div class="col-md-5 right-part">
+
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <div class="d-flex align-items-center justify-content-center mb-2">
+                                <a href="/Admin/Login" class="">
+                                    <img src="~/Img/Logo.png" width="150" height="125" />
+                                </a>
+
+                            </div>
                         </div>
-                        <div class=" mb-4">
-                            <label for="password">Password</label>
-                            <input type="password" name="password" class="form-control" id="password" placeholder="Password" required>
-                           
+
+                    </div>@*
+                    <h2 class="mb-3 d-flex justify-content-center">Login</h2> *@
+                    <form>
+                        <div class="form-row">
+                            <div class="form-group col-md-12 mb-3">
+                                <label for="name" class="form-label">Email:</label>
+                                <input type="email" id="email" name="name" placeholder="Enter your email" class="form-control" required>
+                            </div>
+
                         </div>
-                       
-                       
-                        <div class="d-flex align-items-center justify-content-between mb-1">
-                            <a href="/Jyotish/ForgotPasswordRequest">Forgot Password</a>
-                            <button type="submit" class="btn btn-primary  mb-4">Sign In</button>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-12 mb-3">
+                                <label for="name" class="form-label">Password:</label>
+                                <input type="password" id="password" name="password" placeholder="Enter your password" class="form-control" required>
+                            </div>
+
                         </div>
-                        <p class="text-center mb-0">Don't have an Account? <a href="Signup">Sign Up</a></p>
+                        <div class="form-row">
+                          
+                            <div class="d-flex justify-content-center">
+                                <button type="submit" class="btn btn-info">Sign In</button>
+                                <a href="/Jyotish/ForgotPasswordRequest">&nbsp;&nbsp; Forgot Password</a>
+                            </div>
+                        </div>
+               
+
+                        <div class="form-row mt-3">
+
+                            <div class="d-flex justify-content-center">
+                                <p class="mb-0">Don't have an account ?</p>
+                                <a href="/Jyotish/SignUp">&nbsp; Sign Up</a>
+                            </div>
+                        </div>
                     </form>
                 </div>
+
+
             </div>
         </div>
+  
     </div>
-    <!-- Sign In End -->
 </div>
+
+
 
 <!-- JavaScript Libraries -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -83,7 +175,7 @@
             var password = $('#password').val();
 
             $.ajax({
-                url: "https://localhost:7118/Api/Account/LoginJyotish",
+                url: "https://api.myjyotishg.in/Api/Account/LoginJyotish",
                 type: 'POST',
                 contentType: 'application/json', // Specify that the content type is JSON
                 data: JSON.stringify({
