@@ -1,52 +1,102 @@
 ﻿@{
     ViewData["Title"] = "Login";
     Layout = "Extra";
-    string BaseUrl = "https://api.myjyotishg.in/";
 }
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<style>
+    .main-container {
+        overflow: hidden;
+        padding: 20px;
+        border-radius: 0px 10px 10px 0px;
+        box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.3);
+    }
 
-<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    .left-part img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 10px;
+        border-radius: 10px 0px 0px 10px;
+    }
 
-<div class="container-xxl position-relative d-flex p-0">
+    .right-part form input, .right-part form button {
+        font-size: 13px;
+    }
 
-    <!-- Sign In Start -->
-    <div class="container-fluid">
-        <div class="row h-100 align-items-center justify-content-center" style="min-height: 100vh;">
-            <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4">
-                <div class="bg-light rounded p-3 px-5  my-4 mx-3">
-                    <div class="d-flex align-items-center justify-content-center mb-3">
-                        <a href="/Admin/Login" class="">
-                          <img src="~/Img/Logo.png" width="150" height="125" />
-                        </a>
-                        
-                    </div>
-                    <form id="loginForm">
-                        <div class=" mb-3">
-                            <label for="email">Email address</label>
-                            <input type="email" name="email" class="form-control" id="email" placeholder="name@example.com" required>
-                           
-                        </div>
-                        <div class=" mb-4">
-                            <label for="password">Password</label>
-                            <input type="password" name="password" class="form-control" id="password" placeholder="Password" required>
-                           
-                        </div>
-                       
-                       
-                        <div class="d-flex align-items-center justify-content-between mb-1">
-                            <a href="/Jyotish/ForgotPasswordRequest">Forgot Password</a>
-                            <button type="submit" class="btn btn-primary  mb-4">Sign In</button>
-                        </div>
-                      
-                    </form>
-                </div>
+    .right-part button {
+        background-color: #138496;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+        .right-part button:hover {
+            background-color: #138496;
+            color: white;
+        }
+</style>
+
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="main-container row w-75 rounded-3">
+        <!-- Left part for image -->
+        <div class="col-md-6 left-part d-flex justify-content-center align-items-center">
+            <img src="/Img/mobile-login.jpg" alt="Sign Up Image" class="responsive-image">
+        </div>
+
+        <!-- Right part for the signup form -->
+        <div class="col-lg-6 col-md-12 p-4 bg-white right-part ">
+            <div class="d-flex align-items-center justify-content-center mb-2">
+                <a href="/Admin/Login" class="">
+                    <img src="~/Img/Logo.png" width="150" height="125" />
+                </a>
+
             </div>
+            <form id="loginForm">
+                <div class="form-row">
+                    <div class="form-group col-md-12 mb-3">
+                        <label for="name" class="form-label">Email:</label>
+                        <input type="email" id="email" name="name" placeholder="Enter your email" class="form-control" required>
+                    </div>
+
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-12 mb-3">
+                        <label for="name" class="form-label">Password:</label>
+                        <input type="password" id="password" name="password" placeholder="Enter your password" class="form-control" required>
+                    </div>
+
+                </div>
+                <div class="form-row">
+
+                    <div class="d-flex justify-content-start">
+                        <button type="submit" class="btn btn-info">Sign In</button>
+                        <a href="/Jyotish/ForgotPasswordRequest">&nbsp;&nbsp; Forgot Password</a>
+                    </div>
+                </div>
+
+
+                <div class="form-row mt-3">
+
+                    <div class="d-flex justify-content-start">
+                        <p class="mb-0">Don't have an account ?</p>
+                        <a href="/Jyotish/SignUp">&nbsp; Sign Up</a>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
+</div>
 
-<!-- JavaScript Libraries -->
+<!-- Include Bootstrap JS and Popper.js -->
+<script src="https://cdn.jsdelivr.net/npm/@@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
 
 <script>
     $(document).ready(function () {
@@ -64,12 +114,12 @@
 
             // Perform the AJAX request
             $.ajax({
-                    url: "@BaseUrl" + "api/Account/LoginAdmin",
+                url: "https://api.myjyotishg.in/api/Account/LoginAdmin",
                 type: 'POST',
                 contentType: 'application/json', // Specify that the content type is JSON
                 data: JSON.stringify(data),
                 success: function (response) {
-                   
+
                     if (response.status === 200) {
                         // Store the token and user email in local storage
                         localStorage.setItem("Token", response.token);
