@@ -163,7 +163,7 @@
     </style>
 
     <!-- Add this script to handle the show/hide functionality -->
-    <@* script>
+    @*<script>
         document.addEventListener('DOMContentLoaded', function () {
             var toggleButton = document.getElementById('astroBookPoojaToggle');
             var section = document.getElementById('astroBookPoojacontainer-fluid');
@@ -942,49 +942,49 @@
         }
     </style>
 
-    <script>
-        $(document).ready(function () {
-            function fetchSliderImages() {
-                $.ajax({
-                    url: "@BaseUrl" +`Api/user/SliderImageList?Keyword=HomePage`,
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function (data) {
-                        debugger;
-                        displayImages(data.data);
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                          debugger;
-                        console.error("Error:", jqXHR.responseJSON.Message || textStatus);
-                    }
-                });
+   <script>
+$(document).ready(function () {
+    function fetchSliderImages() {
+        $.ajax({
+            url: "@BaseUrl" + `Api/user/SliderImageList?Keyword=HomePage`,
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                debugger;
+                displayImages(data.data);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                debugger;
+                console.error("Error:", jqXHR.responseJSON.Message || textStatus);
             }
-
-            function displayImages(image) {
-                const container = $('#SliderImageHomePage');
-                container.empty(); // Clear any existing content
-                  debugger;
-                if (!image || image.length === 0) {
-                    container.append('<p>No images found.</p>');
-                    return;
-                }
-                  debugger;
-            images.forEach((image, index) => {
-                    const isActive = index === 0 ? 'active' : ''; // Set the first image as active
-                    const carouselItem = `
-                        <div class="carousel-item ${isActive}">
-                            <img src="${image.ImageUrl}" class="d-block w-100" alt="Banner ${index + 1}">
-                        </div>
-                    `;
-                    container.append(carouselItem); // Append image to the container
-                });
-            }
-
-            // Call the function with the keyword "HomePage"
-            fetchSliderImages('HomePage');
         });
+    }
 
-    </script>
+    function displayImages(images) {
+        const container = $('#SliderImageHomePage');
+        container.empty(); // Clear any existing content
+        debugger;
+        if (!images || images.length === 0) {
+            container.append('<p>No images found.</p>');
+            return;
+        }
+        debugger;
+        images.forEach((image, index) => {
+            debugger;
+            const isActive = index === 0 ? 'active' : ''; // Set the first image as active
+            const carouselItem = `
+                    <div class="carousel-item ${isActive}">
+                        <img src="${"@BaseUrl" + image.imageUrl}" class="d-block w-100" alt="Banner ${index + 1}">
+                    </div>
+                `;
+            container.append(carouselItem); // Append image to the container
+        });
+    }
+
+    // Call the function with the keyword "HomePage"
+    fetchSliderImages('HomePage');
+});
+</script>
 
  
 
