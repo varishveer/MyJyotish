@@ -11,19 +11,14 @@
 <!-- Include DataTables JS -->
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 
-
 <style>
-    td th {
+    td, th {
         white-space: nowrap; /* Prevent text from wrapping */
     }
 
-    thead, th {
-        background-color: rgba(63, 175, 165, 0.85);
-        color: white;
-        font-weight: 300 !important;
-        text-align: center !important;
-    }
+  
 </style>
+
 <div class="container-fluid pt-4 px-4">
     <div class="bg-light text-center rounded p-4">
 
@@ -31,7 +26,7 @@
             <h6 class="mb-0">Chatting Records</h6>
 
         </div>   
-        <table id="DataTable" class="display">
+        <table id="DataTable" class="table table-striped text-start align-middle table-bordered table-hover mb-0" style="width:100%;" ">
             <thead>
                 <tr>
                     <th>Id</th>

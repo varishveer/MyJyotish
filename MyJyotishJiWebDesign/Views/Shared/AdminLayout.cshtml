@@ -29,6 +29,42 @@
 
     <!-- Template Stylesheet -->
     <link href="~/css/style.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/2.1.3/css/dataTables.dataTables.min.css" rel="stylesheet" />
+
+    <style>
+        td th {
+            white-space: nowrap; /* Prevent text from wrapping */
+        }
+
+        thead, th {
+            background-color: #009cff;
+            color: white;
+            font-weight: 300 !important;
+            text-align: center !important;
+            font-size: 14px !important;
+        }
+
+        .table > thead {
+            vertical-align: bottom;
+            background: #009cff;
+            color: white;
+        }
+        table.dataTable > tbody > tr > th, table.dataTable > tbody > tr > td {
+            font-size: 14px;
+        }
+
+        table.dataTable > thead > tr > th, table.dataTable > thead > tr > td {
+            padding: 10px !important;
+        }
+
+        table.dataTable > tbody > tr > th, table.dataTable > tbody > tr > td {
+            padding: 8px !important;
+        }
+    </style>
+
+
+    <script src="https://cdn.datatables.net/2.1.3/js/dataTables.min.js"></script>
+
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/chart/chart.min.js"></script>
@@ -219,8 +255,50 @@
     </div>
 
     <!-- JavaScript Libraries -->
+@* 
+    <script>
+        $(document).ready(function () {
+            $(".sidebar").mouseenter(function () {
+                $(this).addClass("sidebar2")
+                $(".logo").html('<i class="fa fa-hashtag me-2"></i> Vakil Uncle');
+                setTimeout(function () {
+                    $(".nav-menus").removeClass("d-none")
+                    $(".sidebar-nav").removeClass("d-none")
+                    $(".sidebar-nav").css({ opacity: "1", transition: '1s' })
+                    $(".dropdown-toggle").addClass("adddropdown-toggle")
+
+                }, 200)
+
+            }).mouseleave(function () {
+                $(this).removeClass("sidebar2")
+
+                $(".logo").html('<i class="fa fa-hashtag me-2"></i>');
+                $(".nav-menus").addClass("d-none")
+                $(".sidebar-nav").addClass("d-none")
+                $(".dropdown-toggle").removeClass("adddropdown-toggle")
 
 
+
+            })
+
+
+            $(".table").dataTable();
+            $(".textEditor").summernote();
+            $(".select").select2({
+                placeholde: "--Select Option--"
+            });
+
+            $("a").each(function (i, d) {
+                if (d.href.toLowerCase() == window.location.href.toLocaleLowerCase()) {
+                    d.classList.add("active")
+                    let element = d.parentElement.previousElementSibling;
+                    if (element)
+                        element.classList.add("active")
+
+                }
+            })
+        })
+    </script> *@
 
 </body>
 

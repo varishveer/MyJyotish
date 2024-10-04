@@ -4,18 +4,6 @@
 @{
     Layout = "AdminLayout";
 }
-<style>
-    td th{
-        white-space: nowrap; /* Prevent text from wrapping */
-    }
-
-    thead, th {
-        background-color: rgba(63, 175, 165, 0.85);
-        color: white;
-        font-weight: 300 !important;
-        text-align: center !important;
-    }
-</style>
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <link href="https://cdn.datatables.net/2.1.3/css/dataTables.dataTables.min.css" rel="stylesheet" />
@@ -25,11 +13,11 @@
         <div class="d-flex align-items-center justify-content-between mb-4">
             <h6 class="mb-0">Pooja Category</h6>
             <a href="/Admin/AddPoojaCategory">
-                <button class="btn btn-success">Add New Category</button>
+                <button class="btn btn-primary">Add New Category</button>
             </a>
         </div>
        
-        <table id="DataTable" class="table table-bordered">
+        <table id="DataTable" class="table table-bordered table-striped">
         </table>
     </div>
 
