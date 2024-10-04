@@ -11,7 +11,7 @@ namespace ModelAccessLayer.ViewModels
         public int Id { get; set; }
         public string? Subject { get; set; }
         public string? Message { get; set; }
-        public string? Image { get; set; }
+        public string? ImageStatus { get; set; }
 
 
     }

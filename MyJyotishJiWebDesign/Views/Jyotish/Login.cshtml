@@ -25,131 +25,90 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
 <style>
-    .container {
-        margin-top: 50px;
-        margin-bottom: 50px;
-    }
-
-
-    .left-part {
-        border-radius:10px 0px 0px 10px;
-        box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.2);
-        padding: 15px;
-    }
-
-    .right-part {
+    .main-container {
+        overflow: hidden;
+        padding: 20px;
         border-radius: 0px 10px 10px 0px;
-        box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.2);
-        padding: 30px;
-        background-color: white;
+        box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.3);
     }
 
-    .responsive-image {
+    .left-part img {
         max-width: 100%;
         height: auto;
         border-radius: 10px;
+        border-radius: 10px 0px 0px 10px;
     }
 
-    h2 {
-        margin-bottom: 20px;
-        color: black;
-    }
-
-    .btn-primary {
-        border-radius: 6px;
-    }
-
-    .form-group {
-        margin-bottom: 0.5rem; /* Adjust this value as needed */
-    }
-
-    .form-label {
-        margin-bottom: 0.2rem; /* Reduce space between label and input */
-        font-size: 16px;
-    }
-
-    .input-group {
-        margin-bottom: 0.5rem; /* Reduce space between input groups */
-    }
-
-    .form-control {
-        font-size: 14px;
-    }
-
-    .btn:not(:disabled):not(.disabled) {
+    .right-part form input, .right-part form button {
         font-size: 13px;
     }
 
-    #button-addon2 {
+    .right-part button {
+        background-color: #138496;
         color: white;
-        background-color: lightslategray;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
     }
 
+        .right-part button:hover {
+            background-color: #138496;
+            color: white;
+        }
 </style>
 
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="main-container row w-75 rounded-3">
+        <!-- Left part for image -->
+        <div class="col-md-6 left-part d-flex justify-content-center align-items-center">
+            <img src="/Img/mobile-login.jpg" alt="Sign Up Image" class="responsive-image">
+        </div>
 
-<div class="container h-100 w-100">
-    <div class="row w-100  ">
-        <div class="col-md-12 d-flex ">
-            <div class="row justify-content-center ">
-                <div class="col-md-4 left-part d-flex justify-content-center align-items-center">
-                    <img src="/Img/mobile-login.jpg" alt="Sign Up Image" class="responsive-image">
-                </div>
-                <div class="col-md-5 right-part">
-
-                    <div class="form-row">
-                        <div class="form-group col-md-12">
-                            <div class="d-flex align-items-center justify-content-center mb-2">
-                                <a href="/Admin/Login" class="">
-                                    <img src="~/Img/Logo.png" width="150" height="125" />
-                                </a>
-
-                            </div>
-                        </div>
-
-                    </div>@*
-                    <h2 class="mb-3 d-flex justify-content-center">Login</h2> *@
-                    <form id="loginForm">
-                        <div class="form-row">
-                            <div class="form-group col-md-12 mb-3">
-                                <label for="name" class="form-label">Email:</label>
-                                <input type="email" id="email" name="name" placeholder="Enter your email" class="form-control" required>
-                            </div>
-
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group col-md-12 mb-3">
-                                <label for="name" class="form-label">Password:</label>
-                                <input type="password" id="password" name="password" placeholder="Enter your password" class="form-control" required>
-                            </div>
-
-                        </div>
-                        <div class="form-row">
-                          
-                            <div class="d-flex justify-content-center">
-                                <button type="submit" class="btn btn-info">Sign In</button>
-                                <a href="/Jyotish/ForgotPasswordRequest">&nbsp;&nbsp; Forgot Password</a>
-                            </div>
-                        </div>
-               
-
-                        <div class="form-row mt-3">
-
-                            <div class="d-flex justify-content-center">
-                                <p class="mb-0">Don't have an account ?</p>
-                                <a href="/Jyotish/SignUp">&nbsp; Sign Up</a>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-
+        <!-- Right part for the signup form -->
+        <div class="col-lg-6 col-md-12 p-4 bg-white right-part ">
+            <div class="d-flex align-items-center justify-content-center mb-2">
+                <a href="/Admin/Login" class="">
+                    <img src="~/Img/Logo.png" width="150" height="125" />
+                </a>
 
             </div>
+            <form id="loginForm">
+                <div class="form-row">
+                    <div class="form-group col-md-12 mb-3">
+                        <label for="name" class="form-label">Email:</label>
+                        <input type="email" id="email" name="name" placeholder="Enter your email" class="form-control" required>
+                    </div>
+
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-12 mb-3">
+                        <label for="name" class="form-label">Password:</label>
+                        <input type="password" id="password" name="password" placeholder="Enter your password" class="form-control" required>
+                    </div>
+
+                </div>
+                <div class="form-row">
+
+                    <div class="d-flex justify-content-start">
+                        <button type="submit" class="btn btn-info">Sign In</button>
+                        <a href="/Jyotish/ForgotPasswordRequest">&nbsp;&nbsp; Forgot Password</a>
+                    </div>
+                </div>
+
+
+                <div class="form-row mt-3">
+
+                    <div class="d-flex justify-content-start">
+                        <p class="mb-0">Don't have an account ?</p>
+                        <a href="/Jyotish/SignUp">&nbsp; Sign Up</a>
+                    </div>
+                </div>
+            </form>
         </div>
-  
     </div>
 </div>
+
 
 
 

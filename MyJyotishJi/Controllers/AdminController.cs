@@ -506,14 +506,14 @@ namespace MyJyotishJiApi.Controllers
             catch { return StatusCode(500, new { Status = 500, Message = "Internal Server Error " }); }
         }
         [HttpPost("ApproveDocument")]
-        public IActionResult ApproveDocument(DocUpdateViewModel model)
+        public IActionResult ApproveDocument(EmailDocumentViewModel model)
         {
             try 
             {
-                var Result = _admin.ApproveDocument(model);
-                if(Result == "Jyotish Not Found")
+                var Result = _admin.ApproveJyotishDocs(model);
+                if(Result == "Jyotish not found")
                 { return Ok(new { Status = 409, Message = Result }); }
-                if(Result == "Docs Not Found")
+                if(Result == "documents not found")
                 { return Ok(new { Status = 409, Message = Result }); }
                 if(Result == "Successful")
                 { return Ok(new { Status = 200, Message = Result }); }
@@ -528,14 +528,14 @@ namespace MyJyotishJiApi.Controllers
         }
 
         [HttpPost("RejectDocument")]
-        public IActionResult RejectDocument(DocUpdateViewModel model)
+        public IActionResult RejectDocument(EmailDocumentViewModel model)
         {
             try
             {
-                var Result = _admin.RejectDocument(model);
-                if (Result == "Jyotish Not Found")
+                var Result = _admin.RejectJyotishDocs(model);
+                if (Result == "Jyotish not found")
                 { return Ok(new { Status = 409, Message = Result }); }
-                if (Result == "Docs Not Found")
+                if (Result == "documents not found")
                 { return Ok(new { Status = 409, Message = Result }); }
                 if (Result == "Successful")
                 { return Ok(new { Status = 200, Message = Result }); }

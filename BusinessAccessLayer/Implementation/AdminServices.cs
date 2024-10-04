@@ -12,6 +12,7 @@ using System.Net.Mail;
 using System.Net;
 using System.Reflection.Metadata;
 using DataAccessLayer.Migrations;
+using System.Xml.Linq;
 
 
 namespace BusinessAccessLayer.Implementation
@@ -560,7 +561,39 @@ namespace BusinessAccessLayer.Implementation
         public string ApproveJyotishDocs(EmailDocumentViewModel model)
         {
             var jyotish = _context.JyotishRecords.Where(x => x.Id == model.Id).FirstOrDefault();
-            if (jyotish == null) { return null; }
+            if (jyotish == null) { return "Jyotish not found"; }
+            var record = _context.Documents.Where(x => x.JId == jyotish.Id).FirstOrDefault();
+            if(record == null) { return "documents not found"; }
+
+            switch (model.ImageStatus)
+            {
+                case "IdProofStatus":
+                    record.IdProofStatus = "Verified";
+                   
+                    break;
+
+                case "AddressProofStatus":
+                    record.AddressProofStatus = "Verified";
+                    break;
+
+                case "TenthCertificateStatus":
+                    record.TenthCertificateStatus = "Verified";
+                    break;
+
+                case "TwelveCertificateStatus":
+                    record.TwelveCertificateStatus = "Verified";
+                    break;
+
+                case "ProfessionalCertificateStatus":
+                    record.ProfessionalCertificateStatus = "Verified";
+                    break;
+
+                default:
+                    return "invalid data";
+                    break;
+            }
+            _context.Documents.Update(record);
+            _context.SaveChanges();
             AccountServices.SendEmail(model.Message, jyotish.Email, model.Subject);
            
             return "Successful";
@@ -568,7 +601,41 @@ namespace BusinessAccessLayer.Implementation
         public string RejectJyotishDocs(EmailDocumentViewModel model)
         {
             var jyotish = _context.JyotishRecords.Where(x => x.Id == model.Id).FirstOrDefault();
-            if (jyotish == null) { return null; }
+            if (jyotish == null) { return "Jyotish not found"; }
+            var record = _context.Documents.Where(x => x.JId == jyotish.Id).FirstOrDefault();
+            if (record == null) { return "documents not found"; }
+
+            switch (model.ImageStatus)
+            {
+                case "IdProofStatus":
+                    record.IdProofStatus = "Rejected";
+
+                    break;
+
+                case "AddressProofStatus":
+                    record.AddressProofStatus = "Rejected";
+                    break;
+
+                case "TenthCertificateStatus":
+                    record.TenthCertificateStatus = "Rejected";
+                    break;
+
+                case "TwelveCertificateStatus":
+                    record.TwelveCertificateStatus = "Rejected";
+                    break;
+
+                case "ProfessionalCertificateStatus":
+                    record.ProfessionalCertificateStatus = "Rejected";
+                    break;
+
+                default:
+                    return "invalid data";
+                    break;
+            }
+            _context.Documents.Update(record);
+            _context.SaveChanges();
+
+
             AccountServices.SendEmail(model.Message, jyotish.Email, model.Subject);
             return "Successful";
         }
@@ -599,7 +666,7 @@ namespace BusinessAccessLayer.Implementation
             }
         }
 
-        public string ApproveDocument(DocUpdateViewModel model)
+      /*  public string ApproveDocument(DocUpdateViewModel model)
         {
             var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
 
@@ -686,7 +753,7 @@ namespace BusinessAccessLayer.Implementation
                 return "Successful"; }
             else
             { return "Data Not Saved"; }
-        }
+        }*/
 
       
     }
