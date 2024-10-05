@@ -156,54 +156,114 @@
     <div class="row">
         <div class="col-md-3 col-lg-2 mb-4 increased-width">
             <div class="image-container bg-light rounded">
-                <a href="https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp" target="_blank"> <img id="idProof" alt="ID Proof" class="img-fluid" src="https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp"></a>
+                <a href="" target="_blank" id="idProofLink"> <img id="idProof" alt="ID Proof" class="img-fluid" src=""></a>
             </div>
             <div class="img-text">
                 <span style="font-weight:bold">Status:&nbsp; </span>
-                <span>Verified</span>
+                <span id="idProofStatus"></span>
             </div>
         </div>
         <div class="col-md-3 col-lg-2 mb-4 increased-width">
             <div class="image-container bg-light rounded">
-                <img id="addressProof" alt="Address Proof" src="https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp">
+                <a id="addressProofLink" href=""><img id="addressProof" alt="Address Proof" src=""></a>
             </div>
             <div class="img-text">
                 <span style="font-weight:bold">Status:&nbsp; </span>
-                <span>Verified</span>
+                <span id="addressProofStatus"></span>
             </div>
         </div>
         <div class="col-md-3 col-lg-2 mb-4 increased-width">
             <div class="image-container bg-light rounded">
-                <img id="tenthCertificate" alt="Tenth Certificate" src="https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp">
+                <a href="" id="tenthCertificateLink"><img id="tenthCertificate" alt="Tenth Certificate" src=""></a>
             </div>
             <div class="img-text">
                 <span style="font-weight:bold">Status:&nbsp; </span>
-                <span>Verified</span>
+                <span id="tenthCertificateStatus"></span>
             </div>
         </div>
         <div class="col-md-3 col-lg-2 mb-4 increased-width">
             <div class="image-container bg-light rounded">
-                <img id="twelveCertificate" alt="Twelve Certificate" src="https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp">
+                <a id="twelveCertificateLink" href=""><img id="twelveCertificate" alt="Twelve Certificate" src=""></a>
             </div>
             <div class="img-text">
                 <span style="font-weight:bold">Status:&nbsp; </span>
-                <span>Verified</span>
+                <span id="twelveCertificateStatus"></span>
             </div>
         </div>
         <div class="col-md-3 col-lg-2 mb-4 increased-width">
             <div class="image-container bg-light rounded">
-                <img id="professionalCertificate" alt="Professional Certificate" src="https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp">
+                <a href="" id="professionalCertificateLink"><img id="professionalCertificate" alt="Professional Certificate" src=""></a>
             </div>
             <div class="img-text">
                 <span style="font-weight:bold">Status:&nbsp; </span>
-                <span>Verified</span>
+                <span id="professionalCertificateStatus"></span>
             </div>
         </div>
     </div>
 </div>
 
 
+
 <script>
+    $(document).ready(function () {
+        debugger;
+        async function fetchDocuments() {
+            debugger;
+            const email = localStorage.getItem('userEmail');
+            if (!email) {
+                $('#statusMessage').text('No email address found in localStorage.');
+                return;
+            }
+            debugger;
+            try {
+                // Assuming you have a base URL defined somewhere
+             
+                const token = localStorage.getItem('Token3');
+                const imageApiUrl = "@BaseUrl" + `Api/PendingJyotish/Documents?email=${encodeURIComponent(email)}`;
+
+                const response = await $.ajax({
+                    url: imageApiUrl,
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                // Fallback image URL in case the file is missing
+                const placeholderImage = 'https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp';
+
+                $('#idProof').attr('src', response.data.idProof ? "@BaseUrl" + `${response.data.idProof}` : placeholderImage);
+                $('#idProofLink').attr('href', response.data.idProof ? '@BaseUrl' + response.data.idProof : '#');
+                $('#idProofStatus').text(response.data.idProofStatus ? response.data.idProofStatus : 'Unverified');
+
+                $('#addressProof').attr('src', response.data.addressProof ? "@BaseUrl"+`${response.data.addressProof}` : placeholderImage);
+                    $('#addressProofLink').attr('href', response.data.addressProof ? '@BaseUrl' + response.data.addressProof : '#');
+                $('#addressProofStatus').text(response.data.addressProofStatus ? response.data.addressProofStatus : 'Unverified');
+
+                $('#tenthCertificate').attr('src', response.data.tenthCertificate ? "@BaseUrl"+ `${response.data.tenthCertificate}` : placeholderImage);
+                $('#tenthCertificateLink').attr('href', response.data.tenthCertificate ? '@BaseUrl' + response.data.tenthCertificate : '#');
+                $('#tenthCertificateStatus').text(response.data.tenthCertificateStatus ? response.data.tenthCertificateStatus : 'Unverified');
+
+                $('#twelveCertificate').attr('src', response.data.twelveCertificate ? "@BaseUrl"+`${response.data.twelveCertificate}` : placeholderImage);
+                $('#twelveCertificateLink').attr('href', response.data.twelveCertificate ? '@BaseUrl' + response.data.twelveCertificate : '#');
+                $('#twelveCertificateStatus').text(response.data.twelveCertificateStatus ? response.data.twelveCertificateStatus : 'Unverified');
+
+                $('#professionalCertificate').attr('src', response.data.professionalCertificate ? "@BaseUrl" + `${response.data.professionalCertificate}` : placeholderImage);
+                $('#professionalCertificateLink').attr('href', response.data.professionalCertificate ? '@BaseUrl' + response.data.professionalCertificate : '#');
+                $('#professionalCertificateStatus').text(response.data.professionalCertificateStatus ? response.data.professionalCertificateStatus : 'Unverified');
+
+            } catch (error) {
+                console.error('Error:', error);
+                $('#statusMessage').text(`Error: ${error.message}`);
+            }
+        }
+
+        fetchDocuments();
+    });
+
+</script>
+
+@* <script>
     
     $(document).ready(function () {
         async function fetchDocuments() {
@@ -216,7 +276,7 @@
             try {
                 debugger;
                 const token = localStorage.getItem('Token3');
-                const imageApiUrl ="@BaseUrl"+ `Api/PendingJyotish/Documents?email=${encodeURIComponent(email)}`; // Replace with your API endpoint for images
+                const imageApiUrl = "@BaseUrl" + `Api/PendingJyotish/Documents?email=${encodeURIComponent(email)}`;
 
                 const response = await $.ajax({
                     url: imageApiUrl,
@@ -237,9 +297,10 @@
                 $('#professionalCertificate').attr('src', response.data.professionalCertificate ? @BaseUrl + response.data.professionalCertificate : 'https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp');
 
               
-                $('#loading').hide();
+               // $('#loading').hide();
 
             } catch (error) {
+                debugger;
                 console.error('Error:', error);
                 $('#statusMessage').text(`Error: ${error.message}`);
             }
@@ -249,4 +310,4 @@
         fetchDocuments();
     });
 
-</script>
+</script> *@

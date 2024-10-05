@@ -105,7 +105,7 @@
             debugger;
             // Send the data via AJAX
             $.ajax({
-                url: 'https://localhost:7118/Api/PendingJyotish/UploadDocument',
+                url: "@BaseUrl"+'Api/PendingJyotish/UploadDocument',
                 type: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`

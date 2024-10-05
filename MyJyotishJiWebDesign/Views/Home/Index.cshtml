@@ -276,8 +276,8 @@
     <!-- Top Astrologers -->
     <div class="container-fluid my-5">
         <h3 class="text-center mb-5">Top Astrologers</h3>
-        <div class="row d-flex justify-content-between">
-            <div class="col-12 col-sm-2 col-md-2 col-lg-2 mb-2 p-1">
+        <div id="astrologers-container" class="row d-flex justify-content-between">
+           @*  <div class="col-12 col-sm-2 col-md-2 col-lg-2 mb-2 p-1">
                 <div class="card astrologer-card shadow">
                     <img src="https://api.myjyotishg.in/Images/Astro/Astro6.jpg" class="card-img-top rounded" alt="Astrologer 1">
                     <div class="card-body p-0 pt-2">
@@ -360,7 +360,7 @@
                         </p>
                     </div>
                 </div>
-            </div>
+            </div> *@
         </div>
     </div>
 
@@ -986,7 +986,49 @@ $(document).ready(function () {
 });
 </script>
 
- 
+ <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: "@BaseUrl"+'Api/User/TopAstrologer?City=NewDelhi', // Adjust the URL as necessary
+                method: 'GET',
+                success: function (response) {
+                    debugger;
+                    if (response.status === 200) {
+                        const records = response.data.slice(0, 5); // Get only the first 5 records
+                        records.forEach(function (astrologer) {
+                            $('#astrologers-container').append(`
+                                <div class="col-12 col-sm-2 col-md-2 col-lg-2 mb-2 p-1">
+                                    <div class="card astrologer-card shadow">
+                                        <img src="${astrologer.imageUrl}" class="card-img-top rounded" alt="${astrologer.name}">
+                                        <div class="card-body p-0 pt-2">
+                                            <h5 class="card-title">${astrologer.name}</h5>
+                                            <p class="card-text px-auto" >
+                                                Expertise: ${astrologer.expertise} <br />
+                                                City: ${astrologer.city} <br />
+                                                Experience: ${astrologer.experience} Years <br />
+                                                Rating: ${generateFullStars()}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            `);
+                        });
+                    } else {
+                        alert(response.Message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                    alert('An error occurred while fetching data.');
+                }
+            });
+
+            function generateFullStars() {
+                return '<i class="fa fa-star"></i>'.repeat(5); // Return 5 filled stars
+            }
+        });
+
+ </script>
 
   
 
