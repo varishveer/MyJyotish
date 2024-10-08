@@ -180,7 +180,7 @@ namespace BusinessAccessLayer.Implementation
             { return false; }
 
         }
-        public bool AddPoojaCategory(PoojaCategoryViewModel _pooja)
+      /*  public bool AddPoojaCategory(PoojaCategoryViewModel _pooja)
         {
             var isPoojaValid = _context.PoojaCategory.Where(x => x.Name == _pooja.Name).FirstOrDefault();
             if (isPoojaValid != null) { return false; }
@@ -194,12 +194,12 @@ namespace BusinessAccessLayer.Implementation
             else
             { return false; }
 
-        }
-        public List<PoojaCategoryModel> GetAllPoojaCategory()
+        }*/
+      /*  public List<PoojaCategoryModel> GetAllPoojaCategory()
         {
             var records = _context.PoojaCategory.ToList();
             return records;
-        }
+        }*/
 
       /*  public bool AddNewPoojaList(PoojaListViewModel model)
         {

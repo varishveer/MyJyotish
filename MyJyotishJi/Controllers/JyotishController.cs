@@ -35,10 +35,21 @@ namespace MyJyotishGApi.Controllers
             return Ok(new { data = records });
         }
         [HttpPost("AddAppointment")]
-        public IActionResult AddAppointment(AppointmentViewModel appointment)
+        public IActionResult AddAppointment(AppointmentViewModel model)
         {
-            var result = _jyotish.AddAppointment(appointment);
-            return Ok(new { data = result });
+            try
+            {
+                var result = _jyotish.AddAppointment(model);
+                if (result == "invalid Data")
+                {
+                    return Ok(new { Status = 400, Message = result });
+                }
+
+                else if (result == "Successful") { return Ok(new { Status = 200, message = result }); }
+                else if (result == "internal Server Error.") { return Ok(new { Status = 500, message = result }); }
+                else { return Ok(new { Status = 500, message = result }); }
+            }
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
         }
 
         [AllowAnonymous]
@@ -94,11 +105,58 @@ namespace MyJyotishGApi.Controllers
         }
         [AllowAnonymous]
         [HttpGet("Expertise")]
-        public IActionResult Expertise()
+        public IActionResult GetExpertise()
         {
-            var Records = _jyotish.ExpertiseList();
-            return Ok(new { data = Records });
+            try
+            {
+                var records = _jyotish.ExpertiseList();
+                return Ok(new { Status = 200, Data = records });
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                return StatusCode(500, new { Status = 500, Message = "An error occurred while fetching expertise.", Error = ex.Message });
+            }
         }
+
+        [AllowAnonymous]
+        [HttpGet("GetPoojaList")]
+        public IActionResult GetPoojaList()
+        {
+            try
+            {
+                var records = _jyotish.GetPoojaList();
+                return Ok(new { Status = 200, Data = records });
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                return StatusCode(500, new { Status = 500, Message = "An error occurred while fetching pooja list.", Error = ex.Message });
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpGet("GetSpecializationList")]
+        public IActionResult GetSpecializationList()
+        {
+            try
+            {
+                var records = _jyotish.GetSpecializationList();
+                return Ok(new { Status = 200, Data = records });
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                return StatusCode(500, new { Status = 500, Message = "An error occurred while fetching specialization list.", Error = ex.Message });
+            }
+        }
+
+
+
+
+
+
+
         [HttpGet("Dashboard")]
         public IActionResult DashBoard(string email)
         {
@@ -110,9 +168,9 @@ namespace MyJyotishGApi.Controllers
             }
             catch { return BadRequest(); }
         }
-
-        [HttpGet("UpdateProfile")]
-        public IActionResult UpdateProfile(JyotishCompleteViewModel model)
+       
+        [HttpPost("UpdateProfile")]
+        public IActionResult UpdateProfile( JyotishCompleteViewModel model)
         {
             try
             {
@@ -128,5 +186,79 @@ namespace MyJyotishGApi.Controllers
                 return StatusCode(500, new { Status = 500, Message = ex.Message, Error = ex });
             }
         }
+
+
+
+
+
+
+
+
+
+        [HttpPost("AddJyotishVideo")]
+        public IActionResult AddJyotishVideo([FromBody] JyotishVideosViewModel model)
+        {
+            try
+            {
+                var result = _jyotish.AddJyotishVideo(model);
+                if (result == "invalid data") return BadRequest(new { Status = 400, Message = result });
+                else if (result == "Successful") return Ok(new { Status = 200, Message = result });
+                else return StatusCode(500, new { Status = 500, Message = result });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Status = 500, Message = ex.Message, Error = ex });
+            }
+        }
+
+        // Method to add Jyotish gallery
+        [HttpPost("AddJyotishGallery")]
+        public IActionResult AddJyotishGallery([FromForm] JyotishGalleryViewModel model)
+        {
+            try
+            {
+                var result = _jyotish.AddJyotishGallery(model);
+                if (result == "invalid data") return BadRequest(new { Status = 400, Message = result });
+                else if (result == "Successful") return Ok(new { Status = 200, Message = result });
+                else return StatusCode(500, new { Status = 500, Message = result });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Status = 500, Message = ex.Message, Error = ex });
+            }
+        }
+
+        // Method to fetch Jyotish videos by Jyotish ID
+        [HttpGet("JyotishVideos/{id}")]
+        public IActionResult GetJyotishVideos(int id)
+        {
+            try
+            {
+                var videos = _jyotish.JyotishVideos(id);
+                return Ok(new { Status = 200, Data = videos });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Status = 500, Message = ex.Message, Error = ex });
+            }
+        }
+
+        // Method to fetch Jyotish gallery images by Jyotish ID
+        [HttpGet("JyotishGallery/{id}")]
+        public IActionResult GetJyotishGallery(int id)
+        {
+            try
+            {
+                var gallery = _jyotish.JyotishGallery(id);
+                return Ok(new { Status = 200, Data = gallery });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Status = 500, Message = ex.Message, Error = ex });
+            }
+        }
+
+
+
     }
 }

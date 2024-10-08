@@ -12,7 +12,7 @@ namespace ModelAccessLayer.Models
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
-      //  public int PoojaCategoryId { get; set; }
+    
       
        
     }

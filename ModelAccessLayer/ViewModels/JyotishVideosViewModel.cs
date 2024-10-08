@@ -7,15 +7,12 @@ using System.Threading.Tasks;
 
 namespace ModelAccessLayer.ViewModels
 {
-    public class AppointmentViewModel
+    public class JyotishVideosViewModel
     {
-        public int UserId { get; set; }
+        [Key]
+        public int Id { get; set; }
+        public string VideoTitle { get; set; }
+        public string VideoUrl { get; set; }
         public int JyotishId { get; set; }
-      
-        [Required]
-        public DateTime DateTime { get; set; }
-        [Required]
-        public string Problem { get; set; }
-        
     }
 }

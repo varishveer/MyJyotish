@@ -1,20 +1,19 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ModelAccessLayer.Models
+namespace ModelAccessLayer.ViewModels
 {
-    public class JyotishGalleryModel
+    public class JyotishGalleryViewModel
     {
-        [Key]
+        [AllowNull]
         public int Id { get; set; }
         public string ImageTitle { get; set; }
-        public string ImageUrl { get; set; }
+        public IFormFile ImageUrl { get; set; }
         public int JyotishId { get; set; }
-        public JyotishModel Jyotish { get; set; }
-
     }
 }

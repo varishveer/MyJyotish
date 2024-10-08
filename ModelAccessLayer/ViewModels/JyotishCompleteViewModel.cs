@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using ModelAccessLayer.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -13,7 +14,7 @@ namespace ModelAccessLayer.ViewModels
 
         [Key]
         public int Id { get; set; }
-        [Required]
+       
         public string Email { get; set; }
         public string? Mobile { get; set; }
 
@@ -46,9 +47,13 @@ namespace ModelAccessLayer.ViewModels
         public int? CallCharges { get; set; }
         public bool? Chat { get; set; }
         public int? ChatCharges { get; set; }
-
+        public int? AppointmentCharges { get; set; }
         public string? Address { get; set; }
         public TimeOnly? TimeTo { get; set; }
         public TimeOnly? TimeFrom { get; set; }
+        public string About { get; set; }
+        public string AwordsAndAchievement { get; set; }
+        public string Specialization { get; set; }
+
     }
 }

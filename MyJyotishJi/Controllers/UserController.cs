@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Host.Mef;
 using ModelAccessLayer.Models;
+using ModelAccessLayer.ViewModels;
 
 namespace MyJyotishGApi.Controllers
 {
@@ -151,8 +152,24 @@ namespace MyJyotishGApi.Controllers
             }
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
         }
+      
+        [HttpPost("BookAppointment")]
+        public IActionResult BookAppointment(AppointmentViewModel model)
+        {
+            try {
+                var result = _services.BookAppointment(model);
+                if (result == "invalid Data")
+                {
+                    return Ok( new { Status = 400, Message = result });
+                }
 
-       
+                 else  if(result == "Successful") { return Ok(new { Status = 200, message = result}); }
+                else if(result =="internal Server Error.") { return Ok(new { Status = 500, message = result }); }
+                else { return Ok(new { Status = 500, message = result }); }
+            }
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
+        }
+
        /* [AllowAnonymous]
         [HttpGet("GetPoojaList")]
         public IActionResult GetPoojaList(int Id)
@@ -180,7 +197,7 @@ namespace MyJyotishGApi.Controllers
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
         }
 */
-        
+
 
 
         /* [HttpGet("PoojaListSlider")]

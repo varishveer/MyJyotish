@@ -18,7 +18,7 @@ namespace DataAccessLayer.DbServices
         //public DbSet<UserTempModel> TempUser { get; set;  }
         public DbSet<AppointmentModel> AppointmentRecords { get; set; }
         public DbSet<TeamMemberModel> TeamMemberRecords { get; set; }
-        public DbSet<PoojaCategoryModel> PoojaCategory { get; set; }
+        public DbSet<PoojaListModel> PoojaList { get; set; }
         public DbSet<ExpertiseModel> ExpertiseRecords { get; set; } 
         public DbSet<CallingModel> CallingRecords { get; set; }
         public DbSet<ChattingModel> ChatingRecords { get; set; }
@@ -32,6 +32,9 @@ namespace DataAccessLayer.DbServices
         public DbSet<LanguageModel> Languages { get; set; }
         public DbSet<SlotModel> Slots { get; set; }
         public DbSet<SlotBookingModel> SlotBooking { get; set; }
+        public DbSet<SpecializationListModel> SpecializationList { get; set; }
+        public DbSet<JyotishGalleryModel> JyotishGallery { get; set; }
+        public DbSet<JyotishVideosModel> JyotishVideos { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -46,9 +49,7 @@ namespace DataAccessLayer.DbServices
 
             modelBuilder.Entity<JyotishModel>().HasOne(j => j.DocumentModel).WithOne(d => d.Jyotish).HasForeignKey<DocumentModel>(d => d.JId);
 
-            /* modelBuilder.Entity<PoojaCategoryModel>().HasOne(j => j.PoojaListModel).WithOne(d => d.PoojaCategoryModel).HasForeignKey<PoojaListModel>(d => d.PoojaCategoryId);*/
-
-            /* modelBuilder.Entity<PoojaCategoryModel>().HasMany(p =>p.PoojaRecordModel).WithOne(pl => pl.PoojaCategoryModel).HasForeignKey(pl => pl.PoojaCategoryId);*/
+          
             modelBuilder.Entity<SlotBookingModel>()
      .HasOne(c => c.JyotishRecords)
      .WithMany(j => j.Slots)

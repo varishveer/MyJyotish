@@ -37,13 +37,13 @@ namespace BusinessAccessLayer.Implementation
             else { return null; }
         }
 
-        public List<PoojaCategoryModel> GetAllPoojaCategory()
+      /*  public List<PoojaCategoryModel> GetAllPoojaCategory()
         {
             var record = _context.PoojaCategory.ToList();
             if (record == null)
             { return null; }
             else { return record; }
-        }
+        }*/
 
        /* public List<PoojaRecordModel> GetPoojaList(int id)
         {
@@ -135,6 +135,28 @@ namespace BusinessAccessLayer.Implementation
 
             var records = query.ToList();
             return records.Count > 0 ? records : null;
+        }
+
+        public string BookAppointment(AppointmentViewModel model)
+        {
+            var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
+            var User = _context.Users.Where(x => x.Id == model.UserId).FirstOrDefault();
+            if (User == null || Jyotish == null) { return "invalid Data"; }
+            AppointmentModel appointment = new AppointmentModel();
+            appointment.Name = User.Name;
+            appointment.Mobile = User.Mobile;
+            appointment.DateTime = model.DateTime;
+            appointment.Email = User.Email;
+            appointment.JyotishId = Jyotish.Id;
+            appointment.UserId = User.Id;
+            appointment.Problem = model.Problem;
+            appointment.Amount = Jyotish.AppointmentCharges;
+            appointment.Status = "Upcomming";
+            _context.AppointmentRecords.Add(appointment);
+            var result = _context.SaveChanges();
+            if (result > 0) { return "Successful"; }
+            return "internal Server Error.";
+
         }
 
     }

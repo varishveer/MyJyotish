@@ -16,13 +16,18 @@ namespace BusinessAccessLayer.Abstraction
         public string AddAppointment(AppointmentViewModel appointment);
         public List<TeamMemberModel> TeamMember(string JyotishEmail);
         public string AddTeamMember(TeamMemberViewModel teamMember, string Path);
-        public bool CreateAPooja(PoojaRecordModel model);
+   /*     public bool CreateAPooja(PoojaRecordModel model);*/
         public List<Country> CountryList();
         public List<State> StateList(int Id);
         public List<City> CityList(int Id);
         public List<ExpertiseModel> ExpertiseList();
+        public List<PoojaListModel> GetPoojaList();
+        public List<SpecializationListModel> GetSpecializationList();
         public JyotishDocumentViewModel DashBoard(string email);
-      
 
+        public string AddJyotishVideo(JyotishVideosViewModel model);
+        public string AddJyotishGallery(JyotishGalleryViewModel model);
+        public List<JyotishGalleryModel> JyotishGallery(int Id);
+        public List<JyotishVideosModel> JyotishVideos(int Id);
     }
 }

@@ -4,6 +4,7 @@ using DataAccessLayer.DbServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20241008091247_08-10")]
+    partial class _0810
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -85,6 +88,7 @@ namespace DataAccessLayer.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Solution")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")
@@ -305,7 +309,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("JyotishId");
 
-                    b.ToTable("JyotishGallery");
+                    b.ToTable("JyotishGalleryModel");
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.JyotishModel", b =>
@@ -433,7 +437,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("JyotishId");
 
-                    b.ToTable("JyotishVideos");
+                    b.ToTable("JyotishVideosModel");
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.LanguageModel", b =>

@@ -137,7 +137,7 @@ namespace MyJyotishJiApi.Controllers
             catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
         }
 
-        [HttpPost("AddPoojaCategory")]
+       /* [HttpPost("AddPoojaCategory")]
         public IActionResult AddPoojaCategory(PoojaCategoryViewModel pooja)
         {
             try
@@ -149,7 +149,7 @@ namespace MyJyotishJiApi.Controllers
                 else { return Ok(new { Status = 400, Message = "Bad Request" }); }
             }
             catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
-        }
+        }*/
        /* [AllowAnonymous]
         [HttpPost("AddPoojaList")]
         public IActionResult AddPoojaList(PoojaListViewModel pooja)
@@ -178,7 +178,7 @@ namespace MyJyotishJiApi.Controllers
             catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
         }
 
-        [HttpGet("PoojaCategoryList")]
+      /*  [HttpGet("PoojaCategoryList")]
         public IActionResult PoojaCategoryList()
         {
             try
@@ -187,7 +187,7 @@ namespace MyJyotishJiApi.Controllers
                 return Ok(new { Status = 200, data = Records, Message = "Success" });
             }
             catch {return Ok(new { Status = 500, Message = "Internal Server Error " }); }
-        }
+        }*/
         [HttpGet("ExpertiseList")]
         public IActionResult ExpertiseList()
         {
