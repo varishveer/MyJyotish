@@ -54,7 +54,7 @@ namespace DataAccessLayer.DbServices
      .WithMany(j => j.Slots)
      .HasForeignKey(c => c.JyotishId);
 
-
+            /*modelBuilder.Entity<JyotishVideosModel>().HasOne(c => c.Jyotish).WithMany(j => j.JyotishGallery).HasForeignKey(c => c.JyotishId);*/
         }
 
 
