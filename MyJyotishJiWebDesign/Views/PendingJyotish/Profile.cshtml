@@ -7,69 +7,191 @@
 <style>
     body {
         background-color: #f8f9fa;
+        font-family: Arial, sans-serif;
+        padding-top: 50px;
     }
 
-    .profile-header {
-        background-color: #007bff;
-        color: white;
-        padding: 30px 0;
-        border-radius: 5px;
-        height: 100%;
+    .profile-container {
+        max-width: 1170px;
+        margin: 0 auto;
     }
 
-    .profile-image {
-        width: 150px;
-        height: 150px;
-        object-fit: cover;
-        border-radius: 50%;
-        border: 4px solid white;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .profile-card {
+    .profile-sidebar {
         background-color: white;
-        border-radius: 10px;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 50px;
+    }
+
+        .profile-sidebar .profile-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 5px solid #fff;
+            margin-bottom: 20px;
+            object-fit: cover;
+        }
+
+        .profile-sidebar a {
+            color: #333;
+            text-decoration: none;
+            margin: 10px 0;
+            display: block;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+            .profile-sidebar a:hover {
+                text-decoration: underline;
+            }
+
+    .profile-main {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
-        .profile-card .card-body {
-            padding: 30px;
-        }
-
-        .profile-card h4 {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-
-        .profile-card .list-group-item {
-            border: none;
-            padding-left: 0;
-            padding-right: 0;
-            font-size:15px;
-        }
-
-    .btn-edit {
-        color: #007bff;
-        font-weight: bold;
+    .section-title {
+        font-size: 16px;
+        margin-bottom: 15px;
+        font-weight: 600;
+        color: #333;
     }
 
-        .btn-edit:hover {
+    .row {
+        margin-bottom: 15px;
+    }
+
+    .detail-label {
+        font-weight: 500;
+        color: #6c757d;
+        font-size: 14px;
+    }
+
+    .detail-value {
+        font-weight: 600;
+        color: #495057;
+        font-size: 14px;
+    }
+
+    .action-btns a {
+        display: inline-block;
+        margin-right: 10px;
+        font-size: 14px;
+        color: #007bff;
+        transition: color 0.3s;
+    }
+
+        .action-btns a:hover {
             text-decoration: underline;
+            color: #0056b3;
         }
 
-    .social-icons i {
-        font-size: 1.5rem;
-        margin-right: 15px;
+    .left-part img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 10px;
+        object-fit: cover;
+    }
+
+    .left-part {
+        text-align: center;
+        padding: 20px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
+        .left-part button {
+            margin-top: 10px;
+        }
+
+        .left-part h6 {
+            margin-top: 20px;
+            font-weight: 600;
+        }
+
+    .form-check-label {
+        font-size: 13px;
+    }
+
+    .form-check-input {
+        margin-top: 3px;
+    }
+
+    .mb-3 button {
+        margin-top: 10px;
+        width: 100%;
+    }
+
+    .btn-outline-danger {
+        border-color: #dc3545;
+        color: #dc3545;
+    }
+
+        .btn-outline-danger:hover {
+            background-color: #dc3545;
+            color: white;
+        }
+
+    .btn-outline-primary {
+        border-color: #007bff;
         color: #007bff;
     }
+
+        .btn-outline-primary:hover {
+            background-color: #007bff;
+            color: white;
+        }
+
+    .btn-outline-info {
+        border-color: #17a2b8;
+        color: #17a2b8;
+    }
+
+        .btn-outline-info:hover {
+            background-color: #17a2b8;
+            color: white;
+        }
+
+    .btn-outline-secondary {
+        border-color: #6c757d;
+        color: #6c757d;
+    }
+
+        .btn-outline-secondary:hover {
+            background-color: #6c757d;
+            color: white;
+        }
+
+    .mb-3 button {
+        font-size: 14px;
+    }
+
+    .laguage {
+        font-size: 15px;
+    }
+
+    .profile-image {
+        width: 170px; /* Adjust the size as needed */
+        height: 170px; /* Adjust the size as needed */
+        border-radius: 50%;
+        object-fit: cover; /* Ensures the image covers the circular area */
+    }
+
+  
 </style>
 
-
-<div class="container my-4">
+<div class="container profile-container mt-4">
     <div class="row">
-        <div class="col-md-4">
-            <!-- Profile Header with Image and Name -->
+        <!-- Left Sidebar -->
+        <!-- Left Sidebar -->
+        <div class="col-md-3 left-part">
             <div class="profile-header text-center">
+
                 <img src="https://via.placeholder.com/300" alt="Profile Image" class="profile-image">
                 <h2 class="mt-3">John Doe</h2>
                 <p>Software Engineer</p>
@@ -80,61 +202,102 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-8">
-
-            <!-- Profile Details -->
-            <div class="profile-card card">
-                <div class="card-body">
-                    <h5>Personal Information</h5>
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <strong>Name:</strong> January 1, 1990
-                        </li>
-                        <li class="list-group-item">
-                            <strong>Gender:</strong> Male
-                        </li>
-                        <li class="list-group-item">
-                            <strong>Date of Birth:</strong> January 1, 1990
-                        </li>
-                        <li class="list-group-item">
-                            <strong>Email:</strong> johndoe@example.com
-
-                        </li>
-                        <li class="list-group-item">
-                            <strong>Phone:</strong> (123) 456-7890
-                        </li>
-                        <li class="list-group-item">
-                            <strong>Country:</strong> India
-                        </li>
-                        <li class="list-group-item">
-                            <strong>State:</strong> Uttar Pradesh
-                        </li>
-                        <li class="list-group-item">
-                            <strong>City:</strong> Noida
-                        </li>
-                        <li class="list-group-item">
-                            <strong>Language:</strong> English,Hindi
-                        </li>
-                        <li class="list-group-item">
-                            <strong>Experties:</strong> Astrology
-                        </li>
-                    </ul>
 
 
-
-                    <div class="mt-4 text-end">
-                        <a href="UpdateProfile">
-                            <button class="btn btn-outline-primary btn-sm btn-edit">
-
-                                <i class="fas fa-edit"></i>Update Profile
-                            </button>
-                        </a>
+        <!-- Right Profile Details -->
+        <div class="col-md-9">
+            <div class="profile-main">
+                <div class="section-title">Personal Details</div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="detail-label">Full Name</div>
+                        <div class="detail-value">John Doe</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="detail-label">Email</div>
+                        <div class="detail-value">smns@hgmail.com</div>
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="detail-label">Phone</div>
+                        <div class="detail-value">(123) 456-7890</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="detail-label">Gender</div>
+                        <div class="detail-value">Male</div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="detail-label">Languages</div>
+                        <div class="detail-value">Hindi,English</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="detail-label">Morning Time</div>
+                        <div class="detail-value">7:00 AM</div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="detail-label">Evening Time</div>
+                        <div class="detail-value">8:00 PM</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="detail-label">Online Consultation Fee</div>
+                        <div class="detail-value">$1200</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="detail-label">Professional Experience</div>
+                        <div class="detail-value">5 Years</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="detail-label">Pooja (Multiple Select)</div>
+                        <div class="detail-value">1. Pooja One 2. Pooja Two ...</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="detail-label">Password</div>
+                        <div class="detail-value">sdfgdsg342</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="detail-label">Chat Availability</div>
+                        <div class="detail-value">Yes/No</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="detail-label">Chat Price</div>
+                        <div class="detail-value">$2048</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="detail-label">Call Price</div>
+                        <div class="detail-value">10 / Minute</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="detail-label">Calls</div>
+                        <div class="detail-value">Yes/No</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="detail-label">Address</div>
+                        <div class="detail-value">Sector 66, Noida</div>
+                    </div>
+                </div>
+
+
             </div>
         </div>
     </div>
 </div>
+
 
 
 

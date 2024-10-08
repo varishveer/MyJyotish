@@ -5,13 +5,90 @@
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <style>
-    .main-container {
-        overflow: hidden;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        background-color: #ffffff;
+    body {
+        background-color: #f8f9fa;
+        font-family: Arial, sans-serif;
+        padding-top: 50px;
     }
+
+    .profile-container {
+        max-width: 1170px;
+        margin: 0 auto;
+    }
+
+    .profile-sidebar {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 50px;
+    }
+
+        .profile-sidebar .profile-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 5px solid #fff;
+            margin-bottom: 20px;
+            object-fit: cover;
+        }
+
+     .profile-sidebar a {
+         color: #333;
+         text-decoration: none;
+         margin: 10px 0;
+         display: block;
+         font-size: 16px;
+         font-weight: 500;
+     }
+
+    .profile-sidebar a:hover {
+        text-decoration: underline;
+    }
+
+    .profile-main {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .section-title {
+        font-size: 16px;
+        margin-bottom: 15px;
+        font-weight: 600;
+        color: #333;
+    }
+
+    .row {
+        margin-bottom: 15px;
+    }
+
+    .detail-label {
+        font-weight: 500;
+        color: #6c757d;
+        font-size:14px;
+    }
+
+    .detail-value {
+        font-weight: 600;
+        color: #495057;
+        font-size: 14px;
+    }
+
+    .action-btns a {
+        display: inline-block;
+        margin-right: 10px;
+        font-size: 14px;
+        color: #007bff;
+        transition: color 0.3s;
+    }
+
+        .action-btns a:hover {
+            text-decoration: underline;
+            color: #0056b3;
+        }
 
     .left-part img {
         max-width: 100%;
@@ -23,103 +100,98 @@
     .left-part {
         text-align: center;
         padding: 20px;
-        background-color: #f8f9fa;
-        border-radius: 10px 0 0 10px;
-        box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.1);
+        background-color:white;
+        border-radius: 10px;
+        box-shadow:  0px 0px 10px rgba(0, 0, 0, 0.1);
     }
 
-    .right-part {
-        padding: 20px;
+        .left-part button {
+            margin-top: 10px;
+        }
+
+        .left-part h6 {
+            margin-top: 20px;
+            font-weight: 600;
+        }
+
+    .form-check-label {
+        font-size: 13px;
     }
 
-    .profile-heading {
-        font-size: 24px;
-        font-weight: bold;
-        color: #333;
-        margin-bottom: 20px;
-        text-align: center;
+    .form-check-input {
+        margin-top: 3px;
     }
 
-    .form-label {
-        font-weight: 500;
-        color: #555;
-    }
-
-    .form-group {
-        margin-bottom: 15px;
-    }
-
-    .form-row {
-        margin-bottom: 20px;
-    }
-
-    .right-part button {
-        background-color: #138496;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        padding: 10px 15px;
-        cursor: pointer;
+    .mb-3 button {
+        margin-top: 10px;
         width: 100%;
     }
 
-    .right-part button:hover {
-        background-color: #0c6c73;
+    .btn-outline-danger {
+        border-color: #dc3545;
+        color: #dc3545;
     }
 
-    .right-part .btn-link {
+        .btn-outline-danger:hover {
+            background-color: #dc3545;
+            color: white;
+        }
+
+    .btn-outline-primary {
+        border-color: #007bff;
         color: #007bff;
     }
 
-    .notification-btn {
-        background-color: transparent;
-        border: none;
-        position: relative;
-        padding: 5px;
-    }
-
-    .notification-btn i {
-        font-size: 1.5rem;
-        color: #138496;
-    }
-
-    .notification-btn .badge {
-        position: absolute;
-        top: -5px;
-        right: -5px;
-        background-color: red;
-        color: white;
-        font-size: 0.8rem;
-    }
-
-    /* Responsive Styles */
-    @@media (max-width: 768px) {
-        .main-container {
-            padding: 15px;
+        .btn-outline-primary:hover {
+            background-color: #007bff;
+            color: white;
         }
 
-        .left-part {
-            padding: 15px;
+    .btn-outline-info {
+        border-color: #17a2b8;
+        color: #17a2b8;
+    }
+
+        .btn-outline-info:hover {
+            background-color: #17a2b8;
+            color: white;
         }
+
+    .btn-outline-secondary {
+        border-color: #6c757d;
+        color: #6c757d;
+    }
+
+        .btn-outline-secondary:hover {
+            background-color: #6c757d;
+            color: white;
+        }
+
+    .mb-3 button{
+        font-size:14px;
+    }
+
+    .laguage{
+        font-size:15px;
     }
 </style>
 
-<div class="container d-flex justify-content-center align-items-center min-vh-90 mt-4">
-    <div class="main-container row w-100 rounded-3 shadow">
-        <!-- Left part for image and actions -->
-        <div class="col-md-4 left-part">
+<div class="container profile-container mt-4">
+    <div class="row">
+        <!-- Left Sidebar -->
+        <div class="col-md-3 left-part">
             <div class="mb-3">
-                <img src="~/Img/Astrologer.jpg" alt="Profile Image" class="rounded-circle" style="width: 120px; height: 120px;">
+                <img src="~/Img/Astrologer.jpg" alt="Profile Image" class="profile-photo">
             </div>
-            <div class="mb-4">
+            <div >
                 <span>Notifications</span>
-                <button class="notification-btn">
+                <button class="notification-btn btn btn-light">
                     <i class="bi bi-bell"></i>
-                    <span class="badge rounded-pill">3</span>
+                    <span class="badge rounded-pill bg-danger">3</span>
                 </button>
             </div>
-            <div class="mb-4">
-                <h6><strong>Settings</strong></h6>
+            <div class="mb-3">
+                <div><strong>Settings</strong></div>
                 <div class="form-check">
                     <input type="checkbox" id="chats" class="form-check-input" checked>
                     <label class="form-check-label" for="chats">Chats</label>
@@ -131,191 +203,111 @@
             </div>
 
             <div class="mb-3">
-                <strong>Language</strong>
-                <div>English</div>
+                <div><strong>Language</strong></div>
+                <label class="laguage" for="lang">English</label>
             </div>
             <div class="mb-3 d-flex justify-content-between flex-row">
-                <button class="btn btn-outline-danger">Delete Account</button>
-                <button class="btn btn-outline-primary">Forgot Password?</button>
+                <button class="btn btn-outline-info mx-1">Edit Profile</button>
+                <button class="btn btn-outline-primary ">Logout</button>
             </div>
 
             <div class="mb-3 d-flex justify-content-between flex-row">
-                <button class="btn btn-outline-info" >Edit Profile</button>
-                <button class="btn btn-outline-secondary ">Logout</button>
-        
+                <button class="btn btn-outline-danger  mx-1">Delete Profile</button>
+                <button class="btn btn-outline-secondary ">Forgot </button>
             </div>
-         
-
         </div>
 
-        <!-- Right part for the user details -->
-        <div class="col-md-8 right-part">
-            <h5 class="profile-heading">User Details</h5>
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="name" class="form-label">Name</label>
-                    <div>John Doe</div>
+        <!-- Right Profile Details -->
+        <div class="col-md-9">
+            <div class="profile-main">
+                <div class="section-title">Personal Details</div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="detail-label">Full Name</div>
+                        <div class="detail-value">John Doe</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="detail-label">Email</div>
+                        <div class="detail-value">smns@hgmail.com</div>
+                    </div>
                 </div>
-                <div class="form-group col-md-6">
-                    <label for="email" class="form-label">Email</label>
-                    <div>smns@hgmail.com</div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="detail-label">Phone</div>
+                        <div class="detail-value">(123) 456-7890</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="detail-label">Gender</div>
+                        <div class="detail-value">Male</div>
+                    </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="detail-label">Languages</div>
+                        <div class="detail-value">Hindi,English</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="detail-label">Morning Time</div>
+                        <div class="detail-value">7:00 AM</div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="detail-label">Evening Time</div>
+                        <div class="detail-value">8:00 PM</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="detail-label">Online Consultation Fee</div>
+                        <div class="detail-value">$1200</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="detail-label">Professional Experience</div>
+                        <div class="detail-value">5 Years</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="detail-label">Pooja (Multiple Select)</div>
+                        <div class="detail-value">1. Pooja One 2. Pooja Two ...</div>
+                    </div>
+                </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                        <div class="detail-label">Password</div>
+                        <div class="detail-value">sdfgdsg342</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="detail-label">Chat Availability</div>
+                        <div class="detail-value">Yes/No</div>
+                    </div>
+                </div>    
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="detail-label">Chat Price</div>
+                        <div class="detail-value">$2048</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="detail-label">Call Price</div>
+                        <div class="detail-value">10 / Minute</div>
+                    </div>
+                </div>   
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="detail-label">Calls</div>
+                        <div class="detail-value">Yes/No</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="detail-label">Address</div>
+                        <div class="detail-value">Sector 66, Noida</div>
+                    </div>
+                </div>
+
+            
             </div>
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="phone" class="form-label">Phone</label>
-                    <div>(123) 456-7890</div>
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="address" class="form-label">Address</label>
-                    <div>123 Main St, City, Country</div>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="dob" class="form-label">Date of Birth</label>
-                    <div>January 1, 1990</div>
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="status" class="form-label">Status</label>
-                    <div>Active</div>
-                </div>
-            </div>
-             <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="dob" class="form-label">Date of Birth</label>
-                    <div>January 1, 1990</div>
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="status" class="form-label">Status</label>
-                    <div>Active</div>
-                </div>
-            </div>
-         
         </div>
     </div>
 </div>
 
-
-
-@* <div class="outerDiv">
-    <div class="profile-settings">
-        <h2>Profile Settings</h2>
-        <div class="notifications">
-            <div>
-                <h3>Notifications</h3>
-                <div>
-                    <label for="astromall-chat"> chat</label>
-                    <input type="checkbox" id="astromall-chat" checked>
-                </div>
-                <div>
-                    <label for="live-events">Live Events</label>
-                    <input type="checkbox" id="live-events" checked>
-                </div>
-            </div>
-        </div>
-        <div class="language">
-            <h3>My Language</h3>
-            <span class="edit-language">Edit your languages</span>
-        </div>
-        <div class="actions">
-            <a href="/Jyotish/EditProfile">
-                <button class="edit-profile">Edit Profile</button>
-            </a>
-            <button class="logout">Logout from all other devices</button>
-            <button class="delete-account">Delete My Account</button>
-        </div>
-
-        <!-- User Details -->
-        <div class="user-details">
-            <h3>User Details</h3>
-            <table>
-                <tr>
-                    <th>Key</th>
-                    <th>Value</th>
-                </tr>
-                <tr>
-                    <td>Profile Picture</td>
-                    <td><img src="~/Img/Astrologer.jpg" alt="Profile Picture" /></td>
-                </tr>
-                <tr>
-                    <td>Name</td>
-                    <td>My Jyotish</td>
-                </tr>
-                <tr>
-                    <td>Email</td>
-                    <td>email@gmail.com</td>
-                </tr>
-                <tr>
-                    <td>Phone Number</td>
-                    <td>7985738573</td>
-                </tr>
-                <tr>
-                    <td>Gender</td>
-                    <td>Male</td>
-                </tr>
-                <tr>
-                    <td>Languages</td>
-                    <td>Hindi, English</td>
-                </tr>
-
-                <tr>
-                    <td>Expertise</td>
-                    <td>Horoscope</td>
-                </tr>
-                <tr>
-                    <td>Morning Time</td>
-                    <td>07:00 AM</td>
-                </tr>
-                <tr>
-                    <td>Evening Time</td>
-                    <td>07:00 PM</td>
-                </tr>
-                <tr>
-                    <td>Online Consultation Fee</td>
-                    <td>RS : 1000</td>
-                </tr>
-                <tr>
-                    <td>Professional Experience</td>
-                    <td>5 Year</td>
-                </tr>
-                <tr>
-                    <td>Pooja(multiple Select)</td>
-                    <td>1. Pooja One 2. Pooja Two ...</td>
-                </tr>
-                <tr>
-                    <td>Password</td>
-                    <td>Password</td>
-                </tr>
-                <tr>
-                    <td>Chat</td>
-                    <td>Yes/No</td>
-                </tr>
-                <tr>
-                    <td>Chat Price</td>
-                    <td>10 / Minute</td>
-                </tr>
-                <tr>
-                    <td>Call</td>
-                    <td>Yes/No</td>
-                </tr>
-                <tr>
-                    <td>call Price</td>
-                    <td>10/Minute</td>
-                </tr>
-
-
-                <tr>
-                    <td>Address</td>
-                    <td>Sector 66, Noida</td>
-                </tr>
-                <tr>
-                    <td>Date of Birth</td>
-                    <td>19/10/1995</td>
-                </tr>
-
-            </table>
-        </div>
-    </div>
-</div>
- *@
