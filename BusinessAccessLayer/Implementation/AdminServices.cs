@@ -201,7 +201,7 @@ namespace BusinessAccessLayer.Implementation
             return records;
         }
 
-        public bool AddNewPoojaList(PoojaListViewModel model)
+      /*  public bool AddNewPoojaList(PoojaListViewModel model)
         {
             if(model == null)
             { return false; }
@@ -225,7 +225,7 @@ namespace BusinessAccessLayer.Implementation
             {
                 return false;
             }
-        }
+        }*/
         public List<PoojaRecordModel> PoojaRecord()
         {
             var Records = _context.PoojaRecord.ToList();
@@ -425,7 +425,7 @@ namespace BusinessAccessLayer.Implementation
             return Records;
         }
 
-        public bool AddPoojaDetail(PoojaRecordViewModel model)
+      /*  public bool AddPoojaDetail(PoojaRecordViewModel model)
         {
             if (model == null)
             {
@@ -458,7 +458,7 @@ namespace BusinessAccessLayer.Implementation
                 { return true; }
                 else { return false; }
             }
-        }
+        }*/
 
         public List<DocumentModel> GetAllJyotishDocument()
         {

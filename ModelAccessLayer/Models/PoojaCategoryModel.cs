@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ModelAccessLayer.Models
 {
-    public class PoojaCategoryModel
+   public class PoojaCategoryModel
     {
         [Key]
         public int Id { get; set; }
@@ -15,6 +15,6 @@ namespace ModelAccessLayer.Models
         public string Name { get; set; }
         public DateTime DateAdded { get; set; }
         
-        public ICollection<PoojaRecordModel> PoojaRecordModel { get; set; }
+       // public ICollection<PoojaRecordModel> PoojaRecordModel { get; set; }
     }
 }

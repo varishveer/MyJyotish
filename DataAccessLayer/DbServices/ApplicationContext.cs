@@ -48,13 +48,14 @@ namespace DataAccessLayer.DbServices
 
             /* modelBuilder.Entity<PoojaCategoryModel>().HasOne(j => j.PoojaListModel).WithOne(d => d.PoojaCategoryModel).HasForeignKey<PoojaListModel>(d => d.PoojaCategoryId);*/
 
-            modelBuilder.Entity<PoojaCategoryModel>().HasMany(p =>p.PoojaRecordModel).WithOne(pl => pl.PoojaCategoryModel).HasForeignKey(pl => pl.PoojaCategoryId);
+            /* modelBuilder.Entity<PoojaCategoryModel>().HasMany(p =>p.PoojaRecordModel).WithOne(pl => pl.PoojaCategoryModel).HasForeignKey(pl => pl.PoojaCategoryId);*/
             modelBuilder.Entity<SlotBookingModel>()
      .HasOne(c => c.JyotishRecords)
      .WithMany(j => j.Slots)
      .HasForeignKey(c => c.JyotishId);
 
-            /*modelBuilder.Entity<JyotishVideosModel>().HasOne(c => c.Jyotish).WithMany(j => j.JyotishGallery).HasForeignKey(c => c.JyotishId);*/
+            modelBuilder.Entity<JyotishVideosModel>().HasOne(c => c.Jyotish).WithMany(j => j.JyotishVideos).HasForeignKey(c => c.JyotishId);
+            modelBuilder.Entity<JyotishGalleryModel>().HasOne(c => c.Jyotish).WithMany(j => j.JyotishGallery).HasForeignKey(c => c.JyotishId);
         }
 
 

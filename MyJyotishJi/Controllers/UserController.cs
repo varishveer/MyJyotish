@@ -153,7 +153,7 @@ namespace MyJyotishGApi.Controllers
         }
 
        
-        [AllowAnonymous]
+       /* [AllowAnonymous]
         [HttpGet("GetPoojaList")]
         public IActionResult GetPoojaList(int Id)
         {
@@ -179,7 +179,7 @@ namespace MyJyotishGApi.Controllers
             }
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
         }
-
+*/
         
 
 

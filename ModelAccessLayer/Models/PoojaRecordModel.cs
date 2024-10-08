@@ -11,11 +11,11 @@ namespace ModelAccessLayer.Models
     {
         [Key]
         public int Id { get; set; }
-        [Required]
-        public string Category { get; set; }
+      /*  [Required]
+        public string Category { get; set; }*/
        
-        [Required]
-        public int PoojaCategoryId { get; set; } 
+       /* [Required]
+        public int PoojaCategoryId { get; set; } */
         [Required]
         public DateTime DateTime{ get; set; }
         [Required]
@@ -29,6 +29,6 @@ namespace ModelAccessLayer.Models
         public string AboutGod { get; set; }
         public string? Reviews { get; set; }
 
-        public PoojaCategoryModel PoojaCategoryModel { get; set; }
+        //public PoojaCategoryModel PoojaCategoryModel { get; set; }
     }
 }

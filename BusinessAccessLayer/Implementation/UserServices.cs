@@ -45,13 +45,13 @@ namespace BusinessAccessLayer.Implementation
             else { return record; }
         }
 
-        public List<PoojaRecordModel> GetPoojaList(int id)
+       /* public List<PoojaRecordModel> GetPoojaList(int id)
         {
             var record = _context.PoojaRecord.Where(x => x.PoojaCategoryId == id).ToList();
             if (record == null)
             { return null; }
             else { return record; }
-        }
+        }*/
 
         public PoojaRecordModel GetPoojaDetail(int PoojaId)
         {

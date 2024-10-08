@@ -15,7 +15,7 @@ namespace BusinessAccessLayer.Abstraction
        
         public List<JyotishModel> GetAstroListCallChat(string ListName);
         public List<PoojaCategoryModel> GetAllPoojaCategory();
-        public List<PoojaRecordModel> GetPoojaList(int id);
+      /*  public List<PoojaRecordModel> GetPoojaList(int id);*/
         public PoojaRecordModel GetPoojaDetail(int PoojaId);
         public List<JyotishModel> TopAstrologer(string City);
         public List<JyotishModel> AllAstrologer();
