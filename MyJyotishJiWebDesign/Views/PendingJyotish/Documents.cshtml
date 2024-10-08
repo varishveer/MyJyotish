@@ -4,65 +4,255 @@
 @{
     Layout = "PendingJyotishLayout";
 }
-
 <style>
     .image-container {
         border: 1px solid #ddd;
-        border-radius: 0.25rem;
-        padding: 1rem;
+        border-radius: 0.5rem;
+        padding: 0.75rem;
         margin-bottom: 1rem;
-        height:300px;
-        width:300px;
+        height: 140px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s ease, transform 0.3s ease;
+        background-color:white !important;
     }
 
-        .image-container img {
-            max-width: 100%;
-            height: auto;
+    .image-container img {
+        max-width: 100%;
+        max-height: 120px; /* Limit image height */
+        object-fit: cover;
+    }
+
+    .image-container:hover {
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+        transform: translateY(-5px);
+    }
+
+    .image-container label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 0.5rem;
+        text-align: center;
+        font-size: 0.9rem;
+    }
+
+    #loading {
+        display: none;
+        margin-bottom: 1rem;
+        text-align: center;
+        font-size: 1.2rem;
+    }
+
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+
+    .col-md-6,
+    .col-lg-4 {
+        flex: 1 0 30%;
+        max-width: 30%;
+        margin-bottom: 1rem;
+    }
+
+    .col-md-6.increased-width,
+    .col-lg-4.increased-width {
+        flex: 1 0 35%;
+        max-width: 45%;
+    }
+
+    @@media (max-width: 768px) {
+        .col-md-6 {
+            flex: 1 0 45%;
+            max-width: 45%;
         }
+        .col-md-6.increased-width {
+            flex: 1 0 50%;
+            max-width: 50%;
+        }
+    }
 
+    @@media (max-width: 576px) {
+        .col-md-6 {
+            flex: 1 0 100%;
+            max-width: 100%;
+        }
+        .col-md-6.increased-width {
+            flex: 1 0 100%;
+            max-width: 100%;
+        }
+    }
 
+    .main-container {
+        background-color: #f8f9fa;
+        padding:20px;
+        border-radius:10px;
+   
+    }
 
-
-
+    .img-text{
+        display:flex;
+        justify-content:center;
+    }
 </style>
-<div class="container mt-5">
-    
-    <div id="loading" class="alert alert-info" role="alert">
-        Documents
-    </div>
-    <div class="row">
-        <div class="col-md-6 col-lg-4 mb-4">
-            <div class="image-container bg-light rounded">
-                <label for="idProof" class="form-label">ID Proof:</label>
-                <img id="idProof" alt="ID Proof" class="img-fluid" src="https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp" >
+<style>
+    /* For screens smaller than 576px (mobile) */
+    @@media (max-width: 575.98px) {
+        .container {
+            padding: 0 15px;
+        }
+        .row {
+            display: block;
+        }
+        .col-md-3 {
+            width: 100% !important;
+            margin-bottom: 15px;
+        }
+        .img-text {
+            font-size: 14px;
+        }
+    }
+
+    /* For screens between 576px and 768px (tablets) */
+    @@media (min-width: 576px) and (max-width: 767.98px) {
+        .col-md-3 {
+            width: 50% !important;
+            margin-bottom: 15px;
+        }
+    }
+
+    /* For screens between 768px and 991px (medium to large tablets or small laptops) */
+    @@media (min-width: 768px) and (max-width: 991.98px) {
+        .col-md-3 {
+            width: 33.33% !important;
+        }
+    }
+
+    /* For screens above 992px (desktop) */
+    @@media (min-width: 992px) {
+        .col-md-3 {
+            width: 20% !important;
+        }
+    }
+</style>
+@{
+    int status = 1;
+}
+<div class="container-fluid pt-4 px-4">
+    <div class=" text-center  border border-1 rounded p-3">
+
+        <div class="row">
+            <div class="col-md-12 d-flex justify-content-center mb-3 fw-bold fs-2 text-primary">
+                <div>Uploaded Documents</div>
             </div>
         </div>
-        <div class="col-md-6 col-lg-4 mb-4">
-            <div class="image-container bg-light rounded">
-                <label for="addressProof" class="form-label">Address Proof:</label>
-                <img id="addressProof" alt="Address Proof"  src="https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp">
+
+        <div class="row">
+            <div class="col-md-3 col-lg-2 mb-4 increased-width">
+                <div class="image-container bg-light rounded">
+                    <img id="idProof" alt="ID Proof" class="img-fluid" src="https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp">
+                </div>
+                <div class="img-text">
+                    <span style="font-weight:bold">Status:&nbsp; </span>
+                    @if (status == 1)
+                    {
+                        <span style="color:green">Verified</span>
+                    }@if (status == 2)
+                    {
+                        <span style="color:red">Reject</span>
+                    }
+                    @if (status == 3)
+                    {
+                        <span style="color:green">Pending</span>
+                    }
+                </div>
             </div>
-        </div>
-        <div class="col-md-6 col-lg-4 mb-4">
-            <div class="image-container bg-light rounded">
-                <label for="tenthCertificate" class="form-label">Tenth Certificate:</label>
-                <img id="tenthCertificate" alt="Tenth Certificate" src="https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp">
+            <div class="col-md-3 col-lg-2 mb-4 increased-width">
+                <div class="image-container bg-light rounded">
+                    <img id="addressProof" alt="Address Proof" src="https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp">
+                </div>
+                <div class="img-text">
+                    <span style="font-weight:bold">Status:&nbsp; </span>
+                    @if (status == 1)
+                    {
+                        <span style="color:green">Verified</span>
+                    }@if(status == 2){
+                    <span style="color:red">Reject</span>
+                    }
+                    @if(status == 3){
+                        <span style="color:green">Pending</span>
+                    }
+                
+
+                </div>
             </div>
-        </div>
-        <div class="col-md-6 col-lg-4 mb-4">
-            <div class="image-container bg-light rounded">
-                <label for="twelveCertificate" class="form-label">Twelve Certificate:</label>
-                <img id="twelveCertificate" alt="Twelve Certificate" src="https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp">
+            <div class="col-md-3 col-lg-2 mb-4 increased-width">
+                <div class="image-container bg-light rounded">
+                    <img id="tenthCertificate" alt="Tenth Certificate" src="https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp">
+                </div>
+                <div class="img-text">
+                    <span style="font-weight:bold">Status:&nbsp; </span>
+                    @if (status == 1)
+                    {
+                        <span style="color:green">Verified</span>
+                    }@if (status == 2)
+                    {
+                        <span style="color:red">Reject</span>
+                    }
+                    @if (status == 3)
+                    {
+                        <span style="color:green">Pending</span>
+                    }
+                </div>
             </div>
-        </div>
-        <div class="col-md-6 col-lg-4 mb-4">
-            <div class="image-container bg-light rounded">
-                <label for="professionalCertificate" class="form-label">Professional Certificate:</label>
-                <img id="professionalCertificate" alt="Professional Certificate" src="https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp">
+            <div class="col-md-3 col-lg-2 mb-4 increased-width">
+                <div class="image-container bg-light rounded">
+                    <img id="twelveCertificate" alt="Twelve Certificate" src="https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp">
+                </div>
+                <div class="img-text">
+                    <span style="font-weight:bold">Status:&nbsp; </span>
+                    @if (status == 1)
+                    {
+                        <span style="color:green">Verified</span>
+                    }@if (status == 2)
+                    {
+                        <span style="color:red">Reject</span>
+                    }
+                    @if (status == 3)
+                    {
+                        <span style="color:green">Pending</span>
+                    }
+                </div>
+            </div>
+            <div class="col-md-3 col-lg-2 mb-4 increased-width">
+                <div class="image-container bg-light rounded">
+                    <img id="professionalCertificate" alt="Professional Certificate" src="https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp">
+                </div>
+                <div class="img-text">
+                    <span style="font-weight:bold">Status:&nbsp; </span>
+                    @if (status == 1)
+                    {
+                        <span style="color:green">Verified</span>
+                    }@if (status == 2)
+                    {
+                        <span style="color:red">Reject</span>
+                    }
+                    @if (status == 3)
+                    {
+                        <span style="color:green">Pending</span>
+                    }
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+
+
 
 <script>
     

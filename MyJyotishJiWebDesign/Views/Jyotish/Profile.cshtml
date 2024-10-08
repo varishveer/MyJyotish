@@ -1,102 +1,204 @@
 ﻿@{
     Layout = "JyotishLayout";
 }
+
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <style>
-    .outerDiv {
-        font-family: Arial, sans-serif;
-        background-color: #f5f5f5;
-       
-        
-        padding: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-       
-    }
-
-    .profile-settings {
-        background-color: white;
+    .main-container {
+        overflow: hidden;
         padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        width: 600px;
-        max-width: 90%;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        background-color: #ffffff;
     }
 
-        .profile-settings h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+    .left-part img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 10px;
+        object-fit: cover;
+    }
 
-    .notifications, .language, .actions {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+    .left-part {
+        text-align: center;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 10px 0 0 10px;
+        box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .right-part {
+        padding: 20px;
+    }
+
+    .profile-heading {
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .form-label {
+        font-weight: 500;
+        color: #555;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-row {
         margin-bottom: 20px;
     }
 
-    .actions {
-        justify-content: space-around;
-    }
-
-    button {
-        padding: 10px 20px;
+    .right-part button {
+        background-color: #138496;
+        color: white;
         border: none;
         border-radius: 5px;
+        padding: 10px 15px;
         cursor: pointer;
+        width: 100%;
     }
 
-    .edit-profile {
-        background-color: #007bff;
+    .right-part button:hover {
+        background-color: #0c6c73;
+    }
+
+    .right-part .btn-link {
+        color: #007bff;
+    }
+
+    .notification-btn {
+        background-color: transparent;
+        border: none;
+        position: relative;
+        padding: 5px;
+    }
+
+    .notification-btn i {
+        font-size: 1.5rem;
+        color: #138496;
+    }
+
+    .notification-btn .badge {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background-color: red;
         color: white;
+        font-size: 0.8rem;
     }
 
-    .logout {
-        background-color: #ff4d4d;
-        color: white;
-    }
-
-    .delete-account {
-        background-color: #dc3545;
-        color: white;
-    }
-
-    input[type="checkbox"] {
-        width: 20px;
-        height: 20px;
-    }
-
-    .edit-language {
-        color: #28a745;
-        cursor: pointer;
-    }
-
-    .user-details {
-        margin-top: 20px;
-    }
-
-        .user-details h3 {
-            text-align: center;
-            margin-bottom: 20px;
+    /* Responsive Styles */
+    @@media (max-width: 768px) {
+        .main-container {
+            padding: 15px;
         }
 
-        .user-details table {
-            width: 100%;
-            border-collapse: collapse;
+        .left-part {
+            padding: 15px;
         }
-
-        .user-details th, .user-details td {
-            text-align: left;
-            padding: 10px;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .user-details th {
-            background-color: #f2f2f2;
-        }
+    }
 </style>
 
-<div class="outerDiv">
+<div class="container d-flex justify-content-center align-items-center min-vh-90 mt-4">
+    <div class="main-container row w-100 rounded-3 shadow">
+        <!-- Left part for image and actions -->
+        <div class="col-md-4 left-part">
+            <div class="mb-3">
+                <img src="~/Img/Astrologer.jpg" alt="Profile Image" class="rounded-circle" style="width: 120px; height: 120px;">
+            </div>
+            <div class="mb-4">
+                <span>Notifications</span>
+                <button class="notification-btn">
+                    <i class="bi bi-bell"></i>
+                    <span class="badge rounded-pill">3</span>
+                </button>
+            </div>
+            <div class="mb-4">
+                <h6><strong>Settings</strong></h6>
+                <div class="form-check">
+                    <input type="checkbox" id="chats" class="form-check-input" checked>
+                    <label class="form-check-label" for="chats">Chats</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" id="live-chats" class="form-check-input" checked>
+                    <label class="form-check-label" for="live-chats">Live Chats</label>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <strong>Language</strong>
+                <div>English</div>
+            </div>
+            <div class="mb-3 d-flex justify-content-between flex-row">
+                <button class="btn btn-outline-danger">Delete Account</button>
+                <button class="btn btn-outline-primary">Forgot Password?</button>
+            </div>
+
+            <div class="mb-3 d-flex justify-content-between flex-row">
+                <button class="btn btn-outline-info" >Edit Profile</button>
+                <button class="btn btn-outline-secondary ">Logout</button>
+        
+            </div>
+         
+
+        </div>
+
+        <!-- Right part for the user details -->
+        <div class="col-md-8 right-part">
+            <h5 class="profile-heading">User Details</h5>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="name" class="form-label">Name</label>
+                    <div>John Doe</div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="email" class="form-label">Email</label>
+                    <div>smns@hgmail.com</div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="phone" class="form-label">Phone</label>
+                    <div>(123) 456-7890</div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="address" class="form-label">Address</label>
+                    <div>123 Main St, City, Country</div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="dob" class="form-label">Date of Birth</label>
+                    <div>January 1, 1990</div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="status" class="form-label">Status</label>
+                    <div>Active</div>
+                </div>
+            </div>
+             <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="dob" class="form-label">Date of Birth</label>
+                    <div>January 1, 1990</div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="status" class="form-label">Status</label>
+                    <div>Active</div>
+                </div>
+            </div>
+         
+        </div>
+    </div>
+</div>
+
+
+
+@* <div class="outerDiv">
     <div class="profile-settings">
         <h2>Profile Settings</h2>
         <div class="notifications">
@@ -156,7 +258,7 @@
                     <td>Languages</td>
                     <td>Hindi, English</td>
                 </tr>
-                
+
                 <tr>
                     <td>Expertise</td>
                     <td>Horoscope</td>
@@ -172,7 +274,7 @@
                 <tr>
                     <td>Online Consultation Fee</td>
                     <td>RS : 1000</td>
-                </tr> 
+                </tr>
                 <tr>
                     <td>Professional Experience</td>
                     <td>5 Year</td>
@@ -211,8 +313,9 @@
                     <td>Date of Birth</td>
                     <td>19/10/1995</td>
                 </tr>
-               
+
             </table>
         </div>
     </div>
 </div>
+ *@

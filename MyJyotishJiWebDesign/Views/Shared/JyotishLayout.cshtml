@@ -7,7 +7,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Favicon -->
     <link href="img/favicon.ico" rel="icon">
     <!-- Google Web Fonts -->
@@ -29,6 +29,177 @@
     <!-- Template Stylesheet -->
     <link href="~/css/style.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <style>
+
+        .sidebar1 {
+            width: 40px;
+            height: 40px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #FFFFFF;
+            border-radius: 40px;
+        }
+
+        /* If you want to control spacing or alignment more specifically */
+        td {
+            padding-left: 5px !important;
+            padding-righ: 5px !important;
+            text-align: left !important;
+        }
+
+        /* Example for table headers, if needed */
+        th {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        debar .navbar .dropdown-item {
+            padding-left: 70px;
+            border-radius: 0 30px 30px 0;
+        }
+
+        .dropdown-item {
+            padding: .50rem 1rem;
+        }
+
+        table.dataTable td.dt-type-numeric {
+            text-align: left;
+        }
+
+        table.dataTable th.dt-type-numeric {
+            text-align: left;
+        }
+
+        .table > thead {
+            vertical-align: bottom;
+            background: #009cff;
+            color: white;
+        }
+
+        .table {
+            font-size: 12px !important;
+        }
+
+        .sidebar {
+            width: 100px;
+        }
+
+        .sidebar2 {
+            width: 250px;
+            z-index: 10000;
+        }
+
+        .content {
+            margin-left: 100px;
+        }
+
+
+        .content2 {
+            margin-left: 250px !important;
+        }
+
+        .sidebar1 {
+            margin-left: 10px !important;
+        }
+
+
+
+        .disable_link {
+            color: gray;
+        }
+
+        @@media (min-width: 992px) {
+            .sidebar.open {
+                margin-left: -100px;
+            }
+
+            .content {
+                width: calc(100% - 100px) !important;
+            }
+        }
+
+        @@media (max-width: 991.98px) {
+            /*       .sidebar {
+                                margin-left: -40px;
+                            }
+                         */ .sidebar-toggler2 {
+                margin-left: 170px !important;
+            }
+
+            .sidebar3 {
+                margin-left: -10px;
+            }
+
+            .content {
+                margin-left: 0 !important;
+            }
+        }
+
+        .uplogo {
+            height: 0px !important;
+            text-align: center;
+            line-height: 40px;
+        }
+
+
+        .Platinum {
+            color: white !important;
+            background-color: #00DBDE;
+            background-image: linear-gradient(90deg, #00DBDE 0%, #FC00FF 100%);
+        }
+
+        .Gold {
+            color: white !important;
+            background-color: #FBAB7E;
+            background-image: linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%);
+        }
+
+        .Silver {
+            color: white !important;
+            background-color: #8BC6EC;
+            background-image: linear-gradient(135deg, #8BC6EC 0%, #9599E2 100%);
+        }
+
+        .alert {
+            z-index: 10000;
+        }
+
+        .plan-desc-btn:hover {
+            color: gray !important;
+            cursor: pointer;
+        }
+
+        .plan-desc-box {
+            z-index: 20000;
+            right: -100%;
+            width: 30%;
+            min-width: 300px;
+            border-radius: 0 0 0 6px;
+        }
+
+        .dropdown-toggle::after {
+            content: "" !important;
+        }
+
+        .adddropdown-toggle::after {
+            position: absolute;
+            top: 17px;
+            right: 15px;
+            border: none;
+            content: "\f107" !important;
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            transition: .5s;
+        }
+
+        .sidebar-nav {
+            opacity: 0;
+            transition: 1s;
+            font-size: 15px;
+        }
+    </style>
 </head>
 
 <body>
@@ -43,27 +214,30 @@
         <!-- Sidebar Start -->
         <div class="sidebar pe-4 pb-3">
             <nav class="navbar bg-light navbar-light">
+             @*    <span class="sidebar-nav d-none">
                 <a href="/Jyotish/Dashboard" class="navbar-brand mx-4 mb-3">
                     <h3 class="text-primary"><img src="~/Img/Logo.png" width="100" height="50" /></h3>
                 </a>
+                </span> *@
                 <div class="d-flex align-items-center ms-4 mb-4">
                     <div class="position-relative">
                         <svg xmlns="http://www.w3.org/2000/svg" width="3em" height="3em" viewBox="0 0 24 24"><path fill="currentColor" d="M12 19.2c-2.5 0-4.71-1.28-6-3.2c.03-2 4-3.1 6-3.1s5.97 1.1 6 3.1a7.23 7.23 0 0 1-6 3.2M12 5a3 3 0 0 1 3 3a3 3 0 0 1-3 3a3 3 0 0 1-3-3a3 3 0 0 1 3-3m0-3A10 10 0 0 0 2 12a10 10 0 0 0 10 10a10 10 0 0 0 10-10c0-5.53-4.5-10-10-10" /></svg>
                         <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
                     </div>`
                     <div class="ms-3">
-                        <h6 id="userName"  class="mb-0"></h6>
-                        <span >Jyotish</span>
+                        <span class="sidebar-nav d-none"><h6 id="userName" class="mb-0"></h6> </span>
+                  
+                        <span class="sidebar-nav d-none">Jyotish </span>
                     </div>
                 </div>
                 <div class="navbar-nav w-100">
-                    <a href="/Jyotish/Dashboard" class="nav-item nav-link active p-0"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+                    <a href="/Jyotish/Dashboard" class="nav-item nav-link active py-1 mb-2"><i class="fa fa-tachometer-alt me-2"></i><span class="sidebar-nav d-none">Dashboard</span></a>
                    
-                    <a href="/Jyotish/Appointments" class="nav-item nav-link p-0"><i class="fa fa-th me-2"></i>Appointments</a>
-                    <a href="/Jyotish/UpcomingAppointment" class="nav-item nav-link p-0 "><i class="fa fa-keyboard me-2"></i>Upcoming Appointments</a>
-                    <a href="/Jyotish/AddAppointment" class="nav-item nav-link p-0"><i class="fa fa-keyboard me-2"></i>Add Appointments</a>
-                    <a href="/Jyotish/AddTeamMember" class="nav-item nav-link p-0"><i class="fa fa-keyboard me-2"></i>Add Team Member</a>
-                    <a href="/Jyotish/TeamMembers" class="nav-item nav-link p-0"><i class="fa fa-keyboard me-2"></i> Team Member</a>
+                    <a href="/Jyotish/Appointments" class="nav-item nav-link py-1 mb-2"><i class="fa fa-th me-2"></i><span class="sidebar-nav d-none">Appointments </span></a>
+                    <a href="/Jyotish/UpcomingAppointment" class="nav-item nav-link py-1 mb-2 "><i class="fa fa-keyboard me-2"></i><span class="sidebar-nav d-none">Upcoming Appoint </span></a>
+                    <a href="/Jyotish/AddAppointment" class="nav-item nav-link py-1 mb-2"><i class="fa fa-keyboard me-2"></i><span class="sidebar-nav d-none">Add Appointments </span></a>
+                    <a href="/Jyotish/AddTeamMember" class="nav-item nav-link py-1 mb-2"><i class="fa fa-keyboard me-2"></i><span class="sidebar-nav d-none">Add Team Member </span> </a>
+                    <a href="/Jyotish/TeamMembers" class="nav-item nav-link py-1 mb-2"><i class="fa fa-keyboard me-2"></i><span class="sidebar-nav d-none">Team Member </span></a>
                    
                 </div>
             </nav>
@@ -76,7 +250,7 @@
                 <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
                     <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
                 </a>
-                <a href="#" class="sidebar-toggler flex-shrink-0">
+                <a href="#" class="sidebar1 flex-shrink-0">
                     <i class="fa fa-bars"></i>
                 </a>
                 <form class="d-none d-md-flex ms-4">
@@ -201,6 +375,93 @@
             alert("Logout");
             localStorage.clear();
             window.location.replace("https://localhost:44324/Jyotish/Login");
+        })
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+
+    <script>
+        $(document).ready(function () {
+
+            // Sidebar Toggler
+            let hide = true;
+            $('.sidebar1').click(function (e) {
+                e.preventDefault();  // Prevent the default behavior
+                if (hide) {
+                    hide = false
+                    // $('.sidebar, .content').toggleClass("open");
+                    $(".sidebar1").toggleClass("sidebar-toggler2");
+                    $(".content").toggleClass("content2");
+                    $(".sidebar").toggleClass("sidebar2");
+                    $(".sidebar").toggleClass("sidebar3");
+                    $(".nav-menus").removeClass("d-none")
+                    $(".sidebar-nav").removeClass("d-none")
+                    $(".sidebar-nav").css({ opacity: "1", transition: '1s' })
+                    $(".sidebar-toggler").css({ opacity: "1", transition: '1s' })
+                    $(".dropdown-toggle").addClass("adddropdown-toggle")
+                    $(".content").addClass("content2")
+                } else {
+                    hide = true
+                    $(".sidebar").toggleClass("sidebar2");
+                    $(".sidebar").toggleClass("sidebar3");
+                    $(".sidebar1").removeClass("sidebar-toggler2");
+                    $(".logo").html('<i class="fa fa-hashtag me-2"></i>');
+                    $(".nav-menus").addClass("d-none")
+                    $(".sidebar-nav").addClass("d-none")
+                    $(".dropdown-toggle").removeClass("adddropdown-toggle")
+                    $(".content").removeClass("content2")
+                }
+
+            });
+
+            // Logout
+            $("#logout").click(function () {
+                if (confirm("Are you sure you want to logout?")) {  // Confirm logout
+                    localStorage.clear();
+                    window.location.replace("https://localhost:44324/Admin/Login");
+                }
+            });
+
+
+            $(".sidebar").mouseenter(function () {
+
+                if (hide) {
+
+                    $(this).addClass("sidebar2")
+                    $(".logo").html('<i class="fa fa-hashtag me-2"></i>DASHMIN');
+                    setTimeout(function () {
+                        $(".nav-menus").removeClass("d-none")
+                        $(".sidebar-nav").removeClass("d-none")
+                        $(".sidebar-nav").css({ opacity: "1", transition: '1s' })
+                        $(".sidebar1").css({ opacity: "1", transition: '1s' })
+                        $(".dropdown-toggle").addClass("adddropdown-toggle")
+                        $(".content").addClass("content2")
+                    }, 200)
+                }
+            }).mouseleave(function () {
+                if (hide) {
+                    $(this).removeClass("sidebar2")
+
+                    $(".logo").html('<i class="fa fa-hashtag me-2"></i>');
+                    $(".nav-menus").addClass("d-none")
+                    $(".sidebar-nav").addClass("d-none")
+                    $(".dropdown-toggle").removeClass("adddropdown-toggle")
+                    $(".content").removeClass("content2")
+                }
+            })
+
+
+            $("a").each(function (i, d) {
+
+                if (d.href.toLowerCase() == window.location.href.toLocaleLowerCase()) {
+                    d.classList.add("active")
+                    let element = d.parentElement.previousElementSibling;
+                    if (element)
+                        element.classList.add("active")
+
+                }
+            })
         })
     </script>
 </body>

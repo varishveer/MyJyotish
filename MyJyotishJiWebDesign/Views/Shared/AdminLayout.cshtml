@@ -31,17 +31,36 @@
     <link href="~/css/style.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/2.1.3/css/dataTables.dataTables.min.css" rel="stylesheet" />
 
+
     <style>
-        td th {
-            white-space: nowrap; /* Prevent text from wrapping */
+      
+        td {
+            padding-left: 5px !important;
+            padding-right: 5px !important;
+            text-align: left !important;
         }
 
-        thead, th {
-            background-color: #009cff;
-            color: white;
-            font-weight: 300 !important;
-            text-align: center !important;
-            font-size: 14px !important;
+        /* Example for table headers, if needed */
+        th {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        debar .navbar .dropdown-item {
+            padding-left: 70px;
+            border-radius: 0 30px 30px 0;
+        }
+
+        .dropdown-item {
+            padding: .50rem 1rem;
+        }
+
+        table.dataTable td.dt-type-numeric {
+            text-align: left;
+        }
+
+        table.dataTable th.dt-type-numeric {
+            text-align: left;
         }
 
         .table > thead {
@@ -49,19 +68,127 @@
             background: #009cff;
             color: white;
         }
-        table.dataTable > tbody > tr > th, table.dataTable > tbody > tr > td {
-            font-size: 14px;
+
+        .table {
+            font-size: 12px !important;
         }
 
-        table.dataTable > thead > tr > th, table.dataTable > thead > tr > td {
-            padding: 10px !important;
+        .sidebar {
+            width: 100px;
         }
 
-        table.dataTable > tbody > tr > th, table.dataTable > tbody > tr > td {
-            padding: 8px !important;
+        .sidebar2 {
+            width: 250px;
+            z-index: 10000;
+        }
+
+        .content {
+            margin-left:100px;
+        }
+
+        
+        .content2{
+            margin-left: 250px !important;
+        }
+        .sidebar-toggler{
+            margin-left: 10px !important;
+        }
+
+      
+
+        .disable_link {
+            color: gray;
+        }
+
+        @@media (min-width: 992px) {
+            .sidebar.open {
+                margin-left: -100px;
+            }
+
+            .content {
+                width: calc(100% - 100px) !important;
+            }
+
+        }
+
+        @@media (max-width: 991.98px) {
+      /*       .sidebar {
+                margin-left: -40px;
+            }
+         */ .sidebar-toggler2 {
+                margin-left: 170px !important;
+            }
+            .sidebar3 {
+                margin-left: -10px;
+            }
+            .content {
+                margin-left: 0 !important;
+            }
+
+        }
+
+        .uplogo {
+            height: 0px !important;
+            text-align: center;
+            line-height: 40px;
+        }
+
+
+        .Platinum {
+            color: white !important;
+            background-color: #00DBDE;
+            background-image: linear-gradient(90deg, #00DBDE 0%, #FC00FF 100%);
+        }
+
+        .Gold {
+            color: white !important;
+            background-color: #FBAB7E;
+            background-image: linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%);
+        }
+
+        .Silver {
+            color: white !important;
+            background-color: #8BC6EC;
+            background-image: linear-gradient(135deg, #8BC6EC 0%, #9599E2 100%);
+        }
+
+        .alert {
+            z-index: 10000;
+        }
+
+        .plan-desc-btn:hover {
+            color: gray !important;
+            cursor: pointer;
+        }
+
+        .plan-desc-box {
+            z-index: 20000;
+            right: -100%;
+            width: 30%;
+            min-width: 300px;
+            border-radius: 0 0 0 6px;
+        }
+
+        .dropdown-toggle::after {
+            content: "" !important;
+        }
+
+        .adddropdown-toggle::after {
+            position: absolute;
+            top: 17px;
+            right: 15px;
+            border: none;
+            content: "\f107" !important;
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            transition: .5s;
+        }
+
+        .sidebar-nav {
+            opacity: 0;
+            transition: 1s;
         }
     </style>
-
 
     <script src="https://cdn.datatables.net/2.1.3/js/dataTables.min.js"></script>
 
@@ -77,22 +204,6 @@
 
     <!-- Template Javascript -->
     <script src="~/js/main.js"></script>
-    <script>
-        $(document).ready(function () {
-            // Sidebar Toggler
-            $('.sidebar-toggler').click(function () {
-                $('.sidebar, .content').toggleClass("open");
-                return false;
-            });
-
-            // Logout
-            $("#logout").click(function () {
-                alert("Logout");
-                localStorage.clear();
-                window.location.replace("https://localhost:44324/Admin/Login");
-            });
-        });
-    </script>
 
 
 </head>
@@ -110,44 +221,35 @@
         <div class="sidebar pe-4 pb-3">
             <nav class="navbar bg-light navbar-light">
                 <a href="index.html" class="navbar-brand mx-4 mb-3">
-                    <h3 class="text-primary" style="color: rgba(63, 175, 165, 0.85) !important;"><i class="fa fa-hashtag me-2"></i>DASHMIN</h3>
+                    <h3 class="text-primary logo" style="color: rgba(63, 175, 165, 0.85) !important;"><i class="fa fa-hashtag me-2"></i></h3>
                 </a>
-               @*  <div class="d-flex align-items-center ms-4 mb-4">
-                    <div class="position-relative">
-                        <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                        <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
-                    </div>
-                    <div class="ms-3">
-                        <h6 class="mb-0">Jhon Doe</h6>
-                        <span>Admin</span>
-                    </div>
-                </div> *@
+        
                 <div class="navbar-nav w-100">
-                    <a href="/Admin/Dashboard" class="nav-item nav-link active py-0" style="font-weight:300;"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+                    <a href="/Admin/Dashboard" class="nav-item nav-link py-1 mb-2" style="font-weight:300;"><i class="fa fa-tachometer-alt me-2"></i><span class="sidebar-nav d-none">Dashboard</span></a>
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle py-0" data-bs-toggle="dropdown" style="font-weight:300;"><i class="fa fa-laptop me-2"></i>Master Data</a>
-                        <div class="dropdown-menu bg-transparent border-0">
-                            <a href="/Admin/PoojaCategoryList" class="dropdown-item px-5 py-1">Pooja List</a>
-                            <a href="/Admin/ExpertiseList" class="dropdown-item px-5 py-1">Expertise List</a>
+                        <a href="#" class="nav-link dropdown-toggle py-1  mb-2" data-bs-toggle="dropdown" style="font-weight:300;"><i class="fa fa-laptop me-2"></i><span class="sidebar-nav d-none">Master Data</span></a>
+                        <div class="dropdown-menu nav-menus d-none bg-transparent border-0">
+                            <a href="/Admin/PoojaCategoryList" class="dropdown-item px-5 py-1">Pooja List </a>
+                            <a href="/Admin/ExpertiseList" class="dropdown-item px-5 py-1">Expertiese List</a>
                             <a href="/Admin/SlotList" class="dropdown-item px-5 py-1">Slot List</a>
                             <a href="element.html" class="dropdown-item px-5 py-1">Other Elements</a>
                         </div>
                     </div>
-                    <a href="/Admin/Appointments" class="nav-item nav-link py-0" style="font-weight:300;"><i class="fa fa-th me-2"></i>Appointments</a>
-                    <a href="/Admin/PendingJyotish" class="nav-item nav-link py-0" style="font-weight:300;"><i class="fa fa-keyboard me-2"></i>Pending Jyotish</a>
-                    <a href="/Admin/JyotishList" class="nav-item nav-link py-0" style="font-weight:300;"><i class="fa fa-table me-2"></i>Jyotish List</a>
-                    <a href="/Admin/UserList" class="nav-item nav-link py-0" style="font-weight:300;"><i class="fa fa-chart-bar me-2"></i>User List</a>
-                    <a href="/Admin/CallingRecord" class="nav-item nav-link py-0" style="font-weight:300;"><i class="fa fa-chart-bar me-2"></i>Calling Records</a>
-                    <a href="/Admin/ChattingRecord" class="nav-item nav-link py-0" style="font-weight:300;"><i class="fa fa-chart-bar me-2"></i>Chatting Records</a>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" style="font-weight:300;"><i class="far fa-file-alt me-2"></i>Pages</a>
-                        <div class="dropdown-menu bg-transparent border-0">
+                    <a href="/Admin/Appointments" class="nav-item nav-link py-1 mb-2" style="font-weight:300;"><i class="fa fa-th me-2"></i><span class="sidebar-nav d-none">Appointments</span></a>
+                    <a href="/Admin/PendingJyotish" class="nav-item nav-link py-1  mb-2" style="font-weight:300;"><i class="fa fa-keyboard me-2"></i><span class="sidebar-nav d-none">Pending Jyotish</span> </a>
+                    <a href="/Admin/JyotishList" class="nav-item nav-link py-1  mb-2" style="font-weight:300;"><i class="fa fa-table me-2"></i><span class="sidebar-nav d-none">Jyotish List</span></a>
+                    <a href="/Admin/UserList" class="nav-item nav-link py-1 mb-2" style="font-weight:300;"><i class="fa fa-chart-bar me-2"></i><span class="sidebar-nav d-none">User List</span></a>
+                    <a href="/Admin/CallingRecord" class="nav-item nav-link py-1 mb-2" style="font-weight:300;"><i class="fa fa-chart-bar me-2"></i><span class="sidebar-nav d-none">Calling Records</span> </a>
+                    <a href="/Admin/ChattingRecord" class="nav-item nav-link py-1 " style="font-weight:300;"><i class="fa fa-chart-bar me-2"></i><span class="sidebar-nav d-none">Chatting Records</span></a>
+        @*             <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" style="font-weight:300;"><i class="far fa-file-alt me-2"></i><span class="sidebar-nav d-none">Pages</span></a>
+                        <div class="dropdown-menu nav-menus d-none bg-transparent border-0">
                             <a href="signin.html" class="dropdown-item">Sign In</a>
                             <a href="signup.html" class="dropdown-item">Sign Up</a>
                             <a href="404.html" class="dropdown-item">404 Error</a>
                             <a href="blank.html" class="dropdown-item">Blank Page</a>
                         </div>
-                    </div>
+                    </div> *@
                 </div>
             </nav>
         </div>
@@ -162,73 +264,9 @@
                 <a href="#" class="sidebar-toggler flex-shrink-0">
                     <i class="fa fa-bars"></i>
                 </a>
-              @*   <form class="d-none d-md-flex ms-4">
-                    <input class="form-control border-0" type="search" placeholder="Search">
-                </form> *@
+         
                 <div class="navbar-nav align-items-center ms-auto">
-                   @*  <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <i class="fa fa-envelope me-lg-2"></i>
-                            <span class="d-none d-lg-inline-flex">Message</span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                            <a href="#" class="dropdown-item">
-                                <div class="d-flex align-items-center">
-                                    <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                    <div class="ms-2">
-                                        <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                </div>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item">
-                                <div class="d-flex align-items-center">
-                                    <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                    <div class="ms-2">
-                                        <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                </div>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item">
-                                <div class="d-flex align-items-center">
-                                    <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                    <div class="ms-2">
-                                        <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                </div>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item text-center">See all message</a>
-                        </div>
-                    </div> *@
-                  @*   <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <i class="fa fa-bell me-lg-2"></i>
-                            <span class="d-none d-lg-inline-flex">Notificatin</span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                            <a href="#" class="dropdown-item">
-                                <h6 class="fw-normal mb-0">Profile updated</h6>
-                                <small>15 minutes ago</small>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item">
-                                <h6 class="fw-normal mb-0">New user added</h6>
-                                <small>15 minutes ago</small>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item">
-                                <h6 class="fw-normal mb-0">Password changed</h6>
-                                <small>15 minutes ago</small>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item text-center">See all notifications</a>
-                        </div>
-                    </div> *@
+          
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                             <img class="rounded-circle me-lg-2" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
@@ -254,41 +292,83 @@
         <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
     </div>
 
-    <!-- JavaScript Libraries -->
-@* 
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
     <script>
         $(document).ready(function () {
-            $(".sidebar").mouseenter(function () {
-                $(this).addClass("sidebar2")
-                $(".logo").html('<i class="fa fa-hashtag me-2"></i> Vakil Uncle');
-                setTimeout(function () {
+        
+              // Sidebar Toggler
+              let hide = true;
+              $('.sidebar-toggler').click(function (e) {
+                  e.preventDefault();  // Prevent the default behavior
+                  if(hide){
+                      hide=false
+                    // $('.sidebar, .content').toggleClass("open");
+                    $(".sidebar-toggler").toggleClass("sidebar-toggler2");
+                    $(".content").toggleClass("content2"); 
+                    $(".sidebar").toggleClass("sidebar2"); 
+                    $(".sidebar").toggleClass("sidebar3"); 
                     $(".nav-menus").removeClass("d-none")
                     $(".sidebar-nav").removeClass("d-none")
                     $(".sidebar-nav").css({ opacity: "1", transition: '1s' })
+                    $(".sidebar-toggler").css({ opacity: "1", transition: '1s' })
                     $(".dropdown-toggle").addClass("adddropdown-toggle")
+                    $(".content").addClass("content2")
+                  }else{
+                  hide=true
+                    $(".sidebar").toggleClass("sidebar2");
+                    $(".sidebar").toggleClass("sidebar3");
+                    $(".sidebar-toggler").removeClass("sidebar-toggler2");
+                    $(".logo").html('<i class="fa fa-hashtag me-2"></i>');
+                    $(".nav-menus").addClass("d-none")
+                    $(".sidebar-nav").addClass("d-none")
+                    $(".dropdown-toggle").removeClass("adddropdown-toggle")
+                    $(".content").removeClass("content2")
+                  }
+                
+              });
+              
+              // Logout
+              $("#logout").click(function () {
+                  if (confirm("Are you sure you want to logout?")) {  // Confirm logout
+                      localStorage.clear();
+                      window.location.replace("https://localhost:44324/Admin/Login");
+                  }
+             });
+     
 
-                }, 200)
+            $(".sidebar").mouseenter(function () {
 
+                if (hide) {
+
+                    $(this).addClass("sidebar2")
+                    $(".logo").html('<i class="fa fa-hashtag me-2"></i>DASHMIN');
+                    setTimeout(function () {
+                        $(".nav-menus").removeClass("d-none")
+                        $(".sidebar-nav").removeClass("d-none")
+                        $(".sidebar-nav").css({ opacity: "1", transition: '1s' })
+                        $(".sidebar-toggler").css({ opacity: "1", transition: '1s' })
+                        $(".dropdown-toggle").addClass("adddropdown-toggle")
+                        $(".content").addClass("content2")
+                    }, 200)
+                }
             }).mouseleave(function () {
-                $(this).removeClass("sidebar2")
+                if (hide) {
+                    $(this).removeClass("sidebar2")
 
-                $(".logo").html('<i class="fa fa-hashtag me-2"></i>');
-                $(".nav-menus").addClass("d-none")
-                $(".sidebar-nav").addClass("d-none")
-                $(".dropdown-toggle").removeClass("adddropdown-toggle")
-
-
-
+                    $(".logo").html('<i class="fa fa-hashtag me-2"></i>');
+                    $(".nav-menus").addClass("d-none")
+                    $(".sidebar-nav").addClass("d-none")
+                    $(".dropdown-toggle").removeClass("adddropdown-toggle")
+                    $(".content").removeClass("content2")
+                }
             })
 
 
-            $(".table").dataTable();
-            $(".textEditor").summernote();
-            $(".select").select2({
-                placeholde: "--Select Option--"
-            });
-
             $("a").each(function (i, d) {
+                
                 if (d.href.toLowerCase() == window.location.href.toLocaleLowerCase()) {
                     d.classList.add("active")
                     let element = d.parentElement.previousElementSibling;
@@ -298,8 +378,7 @@
                 }
             })
         })
-    </script> *@
-
+    </script>
 </body>
 
 </html>
