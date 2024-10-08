@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -48,6 +49,9 @@ namespace ModelAccessLayer.Models
         public string? Address { get; set; }
         public TimeOnly? TimeTo { get; set; }
         public TimeOnly? TimeFrom { get; set; }
+        public string About { get; set; }
+        public string AwordsAndAchievement { get; set; }
+        public string Specialization { get; set; }
 
 
         public DocumentModel DocumentModel { get; set; }
