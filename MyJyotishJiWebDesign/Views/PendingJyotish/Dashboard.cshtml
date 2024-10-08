@@ -3,6 +3,7 @@
 *@
 @{
     Layout = "PendingJyotishLayout";
+    string BaseUrl = "https://api.myjyotishg.in/";
 }
 
 
@@ -270,6 +271,7 @@
     }
 }
 
+<<<<<<< HEAD
  </style>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -281,6 +283,237 @@
             <div class="col-md-6 offset-md-3">
                 <div class="alert" role="alert">
                     <span class="font-weight-boldx">Status:</span>
+=======
+    .location {
+        font-size: 0.9em;
+        color: #666;
+    }
+
+    .duration {
+        font-size: 0.9em;
+        color: #666;
+    }
+
+    .time-buttons {
+        justify-content: center;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        color: #7F56D9;
+    }
+
+    .time-button {
+        border: none;
+        background-color: #f0f0f0;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        color: #7F56D9;
+        flex-wrap: wrap;
+    }
+
+
+
+        .time-button:hover {
+            background-color: #e0e0e0;
+        }
+
+        .time-button.active {
+            background-color: #007bff;
+            color: white;
+        }
+
+    .footer {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+        .footer span {
+            font-size: 0.8em;
+            color: #666;
+        }
+</style>
+
+
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<style>
+    /* Container for the date picker */
+    .date-picker-container {
+        display: flex;
+        align-items: center;
+        overflow-x: auto;
+        padding: 10px;
+        position: relative;
+    }
+
+    /* Date item styles */
+    .date-item {
+        cursor: pointer;
+        text-align: center;
+        padding: 8px;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+        flex-shrink: 0;
+        width: 70px;
+        text-align: center;
+    }
+
+
+        /* Selected date */
+        .date-item.selected {
+            background-color: #007bff !imp;
+            color: white;
+        }
+
+    /* Scroll buttons for left and right */
+    .scroll-button {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1.5rem;
+        background-color: rgba(0,0,0,0.1);
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+    }
+
+    .scroll-button-left {
+        left: 0;
+    }
+
+    .scroll-button-right {
+        right: 0;
+    }
+
+    /* Time slot container */
+    .time-slot-container {
+        margin-top: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+
+    .time-slot {
+        padding: 5px 5px;
+        background-color: #ffffff;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+        .time-slot:hover {
+            background-color: #e2e6ea;
+        }
+
+        .time-slot.selected {
+            background-color: #007bff !important;
+            color: white;
+        }
+
+    .h2, h2 {
+        font-size: 21px !important;
+    }
+
+    #slots-title {
+        font-size: 18px;
+        font-weight: 200;
+        color: #007bff !important;
+    }
+</style>
+
+<style>
+    .dates {
+        display: flex;
+        overflow: hidden;
+        scroll-behavior: smooth;
+    }
+
+        .dates::-webkit-scrollbar {
+            display: none;
+        }
+
+    .dates {
+        -ms-overflow-style: none;
+    }
+
+    .btn {
+        border-radius: 0;
+    }
+
+
+    .btn {
+        font-size: 14px !important;
+        border-radius: 5px !important;
+    }
+
+
+    .btn-outline-secondary:hover {
+        background-color: white !important;
+        cursor: pointer !important;
+        text-decoration: none !important;
+    }
+
+    .selected-date {
+        background-color: #f84464 !important;
+        color: white !important;
+    }
+
+    .date-btn div {
+        margin: 0;
+        padding: 0;
+        line-height: 1.2;
+        width: 35px !important;
+        border-radius: 10px !important;
+        font-size: 14px;
+    }
+
+    .day {
+        font-weight: 300 !important;
+        font-size: 16px !important;
+    }
+
+    #time-slot-container {
+        width: 100%; /* Ensures the parent takes full width of its container */
+        display: flex;
+        justify-content: center;
+    }
+
+    #time-slots {
+        width: 70%; /* Ensures the child div takes full width of its parent */
+        display: flex; /* Enable flexbox */
+        justify-content: center;
+        /* Optional: space out time slots evenly */
+        flex-wrap: wrap;
+        flex-direction: row;
+        gap: 8px; /* Vertical gap between each time slot */
+    }
+
+    .time-slot {
+        padding: 10px;
+        background-color: #f0f0f0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        text-align: center;
+    }
+</style>
+
+<!-- Script to handle dynamic date selection and time slots -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js" integrity="sha512-+k1pnlgt4F1H8L7t3z95o3/KO+o78INEcXTbnoJQ/F2VqDVhWoaiVml/OEHv9HsVgxUaVW+IbiZPUJQfF/YxZw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+@* <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script> *@
+<script src="https://cdn.jsdelivr.net/npm/@@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-light text-center rounded p-3">
+        <!-- Status Alert -->
+        <div class="row mb-2">
+            <div class="col-md-6 offset-md-3">
+                <div class="alert alert-secondary" role="alert">
+                    <span class="font-weight-bold">Status:</span>
+>>>>>>> cbc52c54f79890b96b1ef13a5bbdf9dd90dc1b23
                     <span id="status" class="ml-2"></span>
                 </div>
             </div>
@@ -288,15 +521,24 @@
 
         <!-- Slot Booking Section -->
         <div class="slotBookingDiv">
+<<<<<<< HEAD
             <div class="container">
                 <div id="slots-title">Select a Date and Time</div>
 
                 <!-- Date Picker Container -->
                 <div class="d-flex align-items-center justify-content-center">
+=======
+            <div class="container mt-2">
+                <div id="slots-title">Select a Date and Time</div>
+
+                <!-- Date Picker Container -->
+                <div class="d-flex align-items-center justify-content-center ">
+>>>>>>> cbc52c54f79890b96b1ef13a5bbdf9dd90dc1b23
                     <!-- Left Scroll Button -->
                     <button class="btn btn-outline-primary" id="scroll-left">&#8592;</button>
 
                     <!-- Dates -->
+<<<<<<< HEAD
                     <div class="dates">
                         <!-- Updated date items -->
                         <div class="date-item" data-date="2024-10-03">
@@ -371,11 +613,18 @@
                         </div> 
                  
                         <!-- More date items as needed -->
+=======
+                    <div class="dates d-flex g-0">
+                    
+                       
+                        <!-- Add  date items as needed -->
+>>>>>>> cbc52c54f79890b96b1ef13a5bbdf9dd90dc1b23
                     </div>
 
                     <!-- Right Scroll Button -->
                     <button class="btn btn-outline-primary" id="scroll-right">&#8594;</button>
                 </div>
+<<<<<<< HEAD
 
                 <!-- Time Slot Selection -->
                 <div class="time-slot-container " id="time-slot-container">
@@ -392,10 +641,31 @@
                 <button class="btn btn-primary rounded-2">Book Now</button>
             </div>
         </div>
+=======
+                <!-- Time Slot Selection -->
+                <div class="time-slot-container mt-4" id="time-slot-container">
+                    <div class="row mt-2 " id="time-slots">
+                        <!-- Time slots will be populated here dynamically -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row mt-4">
+            <div class="col-md-12 d-flex justify-content-center ">
+
+                <button class="btn btn-primary rounded-2 submitButton">Book Now</button>
+
+            </div>
+        </div>
+
+>>>>>>> cbc52c54f79890b96b1ef13a5bbdf9dd90dc1b23
     </div>
 </div>
 
 
+<<<<<<< HEAD
 <!-- Script to handle dynamic date selection and time slots -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
@@ -523,6 +793,12 @@
 </script>
 
 @* Slot Booking End *@
+=======
+
+
+
+
+>>>>>>> cbc52c54f79890b96b1ef13a5bbdf9dd90dc1b23
 
 
 <script>
@@ -545,9 +821,9 @@
 
 <script>
     $(document).ready(function () {
-        const apiUrl = `https://localhost:7118/Api/PendingJyotish/SlotList`;
+        const apiUrl = "@BaseUrl" + `Api/PendingJyotish/SlotList`;
         const token = localStorage.getItem('Token3');
-        const userId = localStorage.getItem('Id'); // Assuming this is the Jyotish ID
+        const userId = localStorage.getItem('Id');
 
         let selectedDate = null;
         let selectedTime = null;
@@ -564,42 +840,52 @@
                 // Grouping dates and times from the API response
                 const dateTimeMap = {};
                 response.data.forEach(item => {
-                    if (!dateTimeMap[item.date]) {
-                        dateTimeMap[item.date] = [];
-                    }
-                    dateTimeMap[item.date].push(item.time);
+                  
+                    const date = item.date;
+                    item.times.forEach(timeSlot => {
+                        // Only add vacant time slots to the dateTimeMap
+
+                        debugger;
+                            if (!dateTimeMap[date]) {
+                                dateTimeMap[date] = [];
+                            }
+                            dateTimeMap[date].push(timeSlot.time);
+                        
+                    });
                 });
 
                 // Display dates on the webpage
                 const $dateContainer = $('.dates');
-                const $timeContainer = $('.time-buttons');
-
                 for (const date in dateTimeMap) {
+                    debugger;
                     // Create date element
-                    const $dateElement = $(`<div class='date' data-date='${date}'> <span class="day">${date}</span></div>`);
+                    const $dateElement = $(`<div class='date-item text-center' data-date='${date}'>
+                            <button class="btn btn-light date-btn" data-date="${date}">
+                                <div>${new Date(date).toLocaleString('en-US', { weekday: 'short' })}</div>
+                                <div class="day">${new Date(date).getDate()}</div>
+                                <div>${new Date(date).toLocaleString('en-US', { month: 'short' })}</div>
+                            </button>
+                        </div>`);
                     $dateContainer.append($dateElement);
                 }
 
                 // Click event to show/hide times when a date is clicked
-                $('.date').on('click', function () {
+                $('.date-btn').on('click', function () {
+                    debugger;
                     // Clear previous times
-                    $timeContainer.empty();
-
-                    // Retrieve the clicked date and update `selectedDate`
+                    $('#time-slots').empty();
                     selectedDate = $(this).data('date');
 
                     // Create corresponding time buttons for the selected date
                     dateTimeMap[selectedDate].forEach(time => {
-                        const $timeElement = $(`<button class="time-button" data-date='${selectedDate}' data-time='${time}'>${time}</button>`);
-                        $timeContainer.append($timeElement);
+                        const $timeElement = $(`<button class="btn btn-outline-secondary time-button" data-time='${time}'>${time}</button>`);
+                        debugger;
+                        $('#time-slots').append($timeElement);
                     });
 
                     // Attach event listener for each new time button
                     $('.time-button').on('click', function () {
-                        // Update `selectedTime` when a time button is clicked
                         selectedTime = $(this).data('time');
-
-                        // Highlight selected time button
                         $('.time-button').removeClass('selected');
                         $(this).addClass('selected');
                     });
@@ -611,57 +897,86 @@
         });
 
         // Click event for the "Book Now" button
-        $('.submitButton button').on('click', function () {
+        $('.submitButton ').on('click', function () {
             if (!selectedDate || !selectedTime) {
                 alert("Please select both a date and a time slot before booking.");
                 return;
             }
 
-            // Define the payload to send to the API
             const postData = {
                 Date: selectedDate,
                 Time: selectedTime,
                 JyotishId: userId
             };
 
-            // Make an AJAX POST request to send the selected date and time
             $.ajax({
-                url: 'https://localhost:7118/Api/PendingJyotish/AddSlotBooking', // Replace with your API endpoint
+                url: "@BaseUrl" + 'Api/PendingJyotish/AddSlotBooking',
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
-                data: JSON.stringify(postData), // Convert JS object to JSON string
+                data: JSON.stringify(postData),
                 success: function (response) {
+                    debugger;
                     if (response.status == 200) {
-                      
                         Swal.fire({
                             title: "Slot successfully booked",
                             text: `Slot successfully booked for: ${selectedDate} at ${selectedTime}`,
                             icon: "success"
                         });
-                    }
-                    else if(response.status == 400) {
+                    } else if (response.status == 400) {
                         Swal.fire({
                             title: "Invalid User",
                             text: ``,
                             icon: "error"
                         });
-                    }
-                    else if (response.status == 409) {
+                    } else if (response.status == 409) {
                         Swal.fire({
                             title: "Already Booked",
                             text: ``,
                             icon: "warning"
                         });
                     }
-                                    },
+                },
                 error: function (error) {
+                    debugger;
                     console.error('Error booking slot:', error);
                 }
             });
         });
+
+        // Optional: Scroll functionality for date selection
+        const scrollLeftButton = document.getElementById('scroll-left');
+        const scrollRightButton = document.getElementById('scroll-right');
+        const dateContainer = document.querySelector('.dates');
+
+        const scrollAmount = 200;
+
+        scrollLeftButton.addEventListener('click', () => {
+            dateContainer.scrollBy({
+                left: -scrollAmount,
+                behavior: 'smooth',
+            });
+        });
+
+        scrollRightButton.addEventListener('click', () => {
+            dateContainer.scrollBy({
+                left: scrollAmount,
+                behavior: 'smooth',
+            });
+        });
+
+        function checkScrollButtons() {
+            const isAtStart = dateContainer.scrollLeft === 0;
+            const isAtEnd = dateContainer.scrollLeft + dateContainer.offsetWidth === dateContainer.scrollWidth;
+
+            scrollLeftButton.disabled = isAtStart;
+            scrollRightButton.disabled = isAtEnd;
+        }
+
+        checkScrollButtons();
+        dateContainer.addEventListener('scroll', checkScrollButtons);
     });
 
 </script>

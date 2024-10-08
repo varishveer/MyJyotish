@@ -3,7 +3,9 @@
 *@
 @{
     Layout = "PendingJyotishLayout";
+    string BaseUrl = "https://api.myjyotishg.in/";
 }
+<<<<<<< HEAD
 
 <style>
     .image-container {
@@ -194,6 +196,63 @@
             </div>
             <div class="text-center">
                 <button type="submit" class="btn btn-primary px-4">Upload</button>
+=======
+<style>
+     .form-control-sm {
+         font-size: 13px;
+     }
+
+     .form-label {
+         font-size: 14px;
+     }
+</style>
+
+
+<div class="mt-4">
+    <div class="row justify-content-center">
+        <div class="col-sm-6 col-md-5 col-lg-5">
+            <div class="bg-light rounded shadow-sm p-4">
+                <h6 class="mb-2 text-center fs-3 text-primary">Upload Documents</h6>
+                <form id="uploadForm">
+                    <!-- ID Proof -->
+                    <div class="mb-3">
+                        <label for="idProof" class="form-label text-dark">ID Proof:</label>
+                        <input class="form-control form-control-sm" type="file" id="idProof" name="IdProof">
+                    </div>
+
+                    <!-- Address Proof -->
+                    <div class="mb-3">
+                        <label for="addressProof" class="form-label text-dark">Address Proof:</label>
+                        <input class="form-control form-control-sm" type="file" id="addressProof" name="AddressProof">
+                    </div>
+
+                    <!-- Tenth Certificate -->
+                    <div class="mb-3">
+                        <label for="tenthCertificate" class="form-label text-dark">Tenth Certificate:</label>
+                        <input class="form-control form-control-sm" type="file" id="tenthCertificate" name="TenthCertificate">
+                    </div>
+
+                    <!-- Twelve Certificate -->
+                    <div class="mb-3">
+                        <label for="twelveCertificate" class="form-label text-dark">Twelve Certificate:</label>
+                        <input class="form-control form-control-sm" type="file" id="twelveCertificate" name="TwelveCertificate">
+                    </div>
+
+                    <!-- Professional Certificate -->
+                    <div class="mb-3">
+                        <label for="professionalCertificate" class="form-label text-dark">Professional Certificate:</label>
+                        <input class="form-control form-control-sm" type="file" id="professionalCertificate" name="ProfessionalCertificate">
+                    </div>
+
+                    <!-- Hidden field for JyotishEmail -->
+                    <input type="hidden" id="jyotishEmail" name="JyotishEmail" value="">
+
+                    <!-- Submit Button -->
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">Upload</button>
+                    </div>
+                </form>
+>>>>>>> cbc52c54f79890b96b1ef13a5bbdf9dd90dc1b23
             </div>
         </div>
     </div>
@@ -251,7 +310,7 @@
             debugger;
             // Send the data via AJAX
             $.ajax({
-                url: 'https://localhost:7118/Api/PendingJyotish/UploadDocument',
+                url: "@BaseUrl"+'Api/PendingJyotish/UploadDocument',
                 type: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`

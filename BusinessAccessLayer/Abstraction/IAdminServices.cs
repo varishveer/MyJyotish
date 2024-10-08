@@ -46,8 +46,8 @@ namespace BusinessAccessLayer.Abstraction
         public string RejectJyotishDocs(EmailDocumentViewModel model);
         public string AddSlot(SlotViewModel slot);
         public List<SlotModel> SlotList();
-        public string ApproveDocument(DocUpdateViewModel model);
+      /*  public string ApproveDocument(DocUpdateViewModel model);
         public string RejectDocument(DocUpdateViewModel model);
-      
+      */
     }
 }

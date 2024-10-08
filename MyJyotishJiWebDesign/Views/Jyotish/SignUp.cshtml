@@ -80,7 +80,7 @@
         </div>
          <div class="col-md-7 right-part">
     <h2 class="mb-3 d-flex justify-content-center">Sign Up</h2>
-    <form>
+            <form id="registrationForm">
         <div class="form-row">
                     <div class="form-group col-md-6" style="margin-bottom: 0.2rem;">
                         <label for="name" class="form-label" style="margin-bottom: 0.2rem;">Name:</label>
@@ -136,6 +136,7 @@
                 </select>
             </div>
         </div>
+<<<<<<< HEAD
         
         <div class="form-row">
              <div class="form-group col-md-6" style="margin-bottom: 0.2rem;">
@@ -150,6 +151,22 @@
                 <input type="file" class="form-control"/>
             </div>
         </div>    
+=======
+
+                <div class="form-row">
+                    <div class="form-group col-md-6" style="margin-bottom: 0.2rem;">
+                        <label for="country" class="form-label">Country:</label>
+                        <select id="country" name="country" class="form-select" required>
+                            <option value="">Select Country</option>
+                            <!-- Add country options here -->
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6" style="margin-bottom: 0.2rem;">
+                        <label for="Image" class="form-label">Profile Images:</label>
+                        <input type="file" id="Image"  class="form-control" />
+                    </div>
+                </div>
+>>>>>>> cbc52c54f79890b96b1ef13a5bbdf9dd90dc1b23
         
         <div class="form-row">
               <div class="form-group col-md-6" style="margin-bottom: 0.6rem;">
@@ -191,17 +208,17 @@
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 
-    <script src="index.js"></script>
+
 
 
 <script>
     $(document).ready(function () {
-
+       
         $("#getOtp").click(function () {
             var email = document.getElementById("email").value;
             // Use jQuery to get the value
@@ -212,28 +229,30 @@
                 contentType: 'application/json', // Set content type to JSON
 
                 success: function () {
+               
                     alert("OTP send successful.");
                     $("#otpLabel").show();
                     $("#verifyOtp").show();
                     $('#otp').show();
                 },
                 error: function (xhr) {
-                    alert("Error: " + xhr.status + " - " + xhr.statusText + " - OTP Incorrect");
+                   
+                    alert("Error: " + xhr.status + " - " + xhr.statusText );
                 }
             });
         });
 
 
         $("#verifyOtp").click(function () {
-            var mobile = document.getElementById("email").value;
+            var email = document.getElementById("email").value;
             var otp = document.getElementById("otp").value;
 
             // Create the data object to send
             var data = {
-                Email: mobile, // Match the property name in the model
+                Email: email, // Match the property name in the model
                 Otp: otp
             };
-
+            debugger;
             $.ajax({
                 url: "@BaseUrl"+`Api/Account/VerifyJyotish`,
                 type: 'POST',
@@ -241,26 +260,28 @@
                 data: JSON.stringify(data), // Send the data as a JSON string
 
                 success: function (response) {
+                    debugger;
                     // Handle different status messages based on the response
-                    switch (response.Status) {
+                    switch (response.status) {
                         case 200:
-                            alert("OTP Check successful: " + response.Message);
+                            alert("OTP Check successful: " + response.message);
                             break;
                         case 409:
-                            alert("Conflict: " + response.Message);
+                            alert("Conflict: " + response.message);
                             break;
                         case 400:
-                            alert("Bad Request: " + response.Message);
+                            alert("Bad Request: " + response.message);
                             break;
                         case 500:
-                            alert("Internal Server Error: " + response.Message);
+                            alert("Internal Server Error: " + response.message);
                             break;
                         default:
-                            alert("Unexpected response: " + response.Message);
+                            alert("Unexpected response: " + response.message);
                             break;
                     }
                 },
                 error: function (xhr) {
+                    debugger;
                     alert("Error: " + xhr.status + " - " + xhr.statusText);
                 }
             });
@@ -372,21 +393,23 @@
 
         $('#registrationForm').on("submit", function (event) {
             event.preventDefault();
-            debugger
-            const formData = $(this).serialize();
+            debugger;
+            const formData = new FormData(this); // Use FormData for file uploads
 
             $.ajax({
-                url: "@BaseUrl"+'Api/Account/registerPendingJyotish',
+                url: "@BaseUrl" + 'Api/Account/SignUpJyotish',
                 type: 'POST',
                 data: formData,
+                processData: false, // Important for file uploads
+                contentType: false, // Important for file uploads
                 success: function (response) {
+                    debugger;
                     console.log('Success:', response);
-                    // localStorage.setItem('PendingEmail', document.getElementById('email'));
                     alert('Form submitted successfully!');
                     $('#registrationForm')[0].reset(); // Reset the form
                 },
                 error: function (xhr, status, error) {
-                    debugger
+                    debugger;
                     console.error('Error:', error);
                     console.log('XHR:', xhr.statusCode);
                     alert('There was an error submitting the form.');
