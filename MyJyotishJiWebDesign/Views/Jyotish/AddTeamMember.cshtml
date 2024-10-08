@@ -4,36 +4,100 @@
 @{
     Layout = "JyotishLayout";
 }
-<div class="container mt-5">
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">Member Information</h5>
-            <form id="TeamMemberRegistrationForm">
-                <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" class="form-control" id="name" placeholder="Enter your name">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+
+<style>
+    .main-container {
+        overflow: hidden;
+        padding: 15px;
+        border-radius: 0px 10px 10px 0px;
+        box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.3);
+    }
+
+    .left-part img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 10px;
+        border-radius: 10px 0px 0px 10px;
+    }
+
+    .right-part form input, .right-part form button {
+        font-size: 13px;
+    }
+
+    .right-part button {
+        background-color: #138496;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+        .right-part button:hover {
+            background-color: #138496;
+            color: white;
+        }
+</style>
+
+<div class="container d-flex justify-content-center align-items-center min-vh-90 mt-4">
+    <div class="main-container row w-75 rounded-3">
+        <!-- Left part for image -->
+        <div class="col-md-5 left-part d-flex justify-content-center align-items-center">
+
+            <img src="~/gif/orguvc-l_bus-09_single-10.jpg" alt="member image" class="responsive-image" />
+        </div>
+
+        <!-- Right part for the signup form -->
+        <div class="col-lg-7 col-md-12 p-2 bg-white right-part ">
+            <h5 class="mb-3 text-center">Member Information</h5>
+            <form id="loginForm">
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="name" placeholder="Enter your name">
+                    </div>
+
                 </div>
-                <div class="form-group">
-                    <label for="mobile">Mobile Number</label>
-                    <input type="number" class="form-control" id="mobile" placeholder="Enter your mobile number">
+
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="mobile" class="form-label">Mobile Number</label>
+                        <input type="number" class="form-control" id="mobile" placeholder="Enter your mobile number">
+                    </div>
+
                 </div>
-                <div class="form-group">
-                    <label for="image">Image</label>
-                    <input type="file" class="form-control-file" id="profilePicture">
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="profilePicture" class="form-label">Profile Picture</label>
+                        <input type="file" class="form-control" id="profilePicture">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" class="form-control" id="email" placeholder="Enter your email">
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" placeholder="Enter your email">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="email" hidden>JyotishEmail</label>
-                    <input type="email" class="form-control" id="jyotishEmail" hidden>
+                 <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="jyotishEmail" class="form-label" hidden>Jyotish Email</label>
+                        <input type="email" class="form-control" id="jyotishEmail" hidden>
+                    </div>
                 </div>
-                <button  class="btn btn-primary">Submit</button>
+                
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <button type="submit" class="btn btn-primary px-3">Submit</button>
+                    </div>
+                </div>
+
+
             </form>
         </div>
     </div>
 </div>
+
 
 
 

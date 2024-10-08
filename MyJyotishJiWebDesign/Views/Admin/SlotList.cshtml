@@ -1,39 +1,39 @@
 ﻿@{
     Layout = "AdminLayout";
     }
-
 <style>
-    td {
-        white-space: nowrap; 
-    }
-
-    thead, th {
-        background-color: rgba(63, 175, 165, 0.85);
-        color: white;
-        font-weight: 300 !important;
-        text-align: center !important;
+    .card-body {
+        padding-left: 15px !important;
+        padding-right: 15px !important;
     }
 </style>
 
-<!-- Include DataTables CSS and jQuery libraries -->
-<link href="https://cdn.datatables.net/2.1.3/css/dataTables.dataTables.min.css" rel="stylesheet" />
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<link href="https://cdn.datatables.net/2.1.3/css/dataTables.dataTables.min.css" rel="stylesheet" />
 <script src="https://cdn.datatables.net/2.1.3/js/dataTables.min.js"></script>
 
-<div class="container-fluid pt-4 px-4">
-    <div class="bg-light text-center rounded p-4">
-        <div class="d-flex align-items-center justify-content-between mb-4">
-            <h6 class="mb-0">Slot List</h6>
-            <a href="/Admin/AddSlot">
-               
-                <button class="btn btn-success">Add New Slot</button>
-            </a>
+<div class="container-fluid mt-4">
+    <div class="card">
+     
+            <div class="d-flex flex-row justify-content-between align-items-center pt-2 px-4">
+                <h5 class="text-primary">Pooja Category</h5>
+                <a href="/Admin/AddSlot">
+                    <button class="btn btn-primary">Add New Slot</button>
+                </a>
+            </div>
+            <hr />
+     
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="DataTable" class="table table-bordered table-striped">
+                    <!-- Table content goes here -->
+                </table>
+            </div>
         </div>
-
-        <table id="DataTable" class="table table-bordered">
-        </table>
     </div>
 </div>
+
+
 
 <script>
     $(document).ready(function () {

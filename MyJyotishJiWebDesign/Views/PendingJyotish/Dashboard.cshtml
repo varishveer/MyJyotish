@@ -5,93 +5,285 @@
     Layout = "PendingJyotishLayout";
     string BaseUrl = "https://api.myjyotishg.in/";
 }
+
+
+
 <style>
+    .dates {
+        display: flex;
+        overflow: hidden;
+        scroll-behavior: smooth;
+    }
+
+        .dates::-webkit-scrollbar {
+            display: none;
+        }
+
+    .dates {
+        -ms-overflow-style: none;
+    }
+
+    .btn {
+        border-radius: 0;
+    }
+
+
+   .btn{
+        font-size:14px !important;
+        border-radius:5px !important;
+    }
+
+  
+    .btn-outline-secondary:hover{
+        background-color:white !important;
+        cursor:pointer !important;
+        text-decoration:none !important;
+
+    }
+
+    .selected-date {
+        background-color: #f84464 !important;
+        color: white !important;
+    }
+
+    .date-btn div {
+        margin: 0;
+        padding: 0;
+        line-height: 1.2;
+        width:35px !important;
+        border-radius:10px !important;
+           font-size: 14px;
+    }
+    .day{
+        font-weight:300 !important;
+        font-size:16px !important;
+    }
+
+    #time-slot-container {
+        width: 100%; /* Ensures the parent takes full width of its container */
+        display:flex;
+        justify-content:center;
+        flex:wrap;
+    }
+    #time-slots {
+        width: 70%; /* Ensures the child div takes full width of its parent */
+        display: flex; /* Enable flexbox */
+        justify-content: center;
+        /* Optional: space out time slots evenly */
+        flex-wrap: wrap;
+        flex-direction:row;
+        gap: 8px; /* Vertical gap between each time slot */
+    }
+
+    .time-slot {
+        padding: 10px;
+        background-color: #f0f0f0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        text-align: center;
+    }
+</style>
+
+ <style>
+
     .container {
         font-family: sans-serif;
         border-radius: 10px;
-        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-        padding: 20px;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+        padding-left: 60px;
+        padding-right: 60px;
+        padding-top: 20px;
+        padding-bottom: 20px;
         background-color: white;
     }
+     /* Global styles */
+.container-fluid {
+/*     padding-top: 20px; */
+    padding-bottom: 20px;
+}
 
-    .header {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-bottom: 20px;
+.slotBookingDiv {
+    max-width: 100%;
+    margin: 0 auto;
+
+}
+
+/* Header */
+#slots-title {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #007bff;
+    text-align: center;
+}
+
+/* Date Picker Container */
+.dates {
+    display: flex;
+    overflow-x: auto;
+    padding: 10px;
+    gap: 5px;
+}
+
+.dates::-webkit-scrollbar {
+    display: none;
+}
+
+.dates {
+    -ms-overflow-style: none; /* For IE */
+}
+
+.date-item {
+    cursor: pointer !important;
+    text-align: center;
+    padding: 8px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    flex-shrink: 0;
+    min-width: 70px;
+    max-width: 100px;
+}
+
+.date-item.selected {
+    background-color: #007bff !important;
+    color: white;
+}
+
+.btn {
+    border-radius: 5px !important;
+    font-size: 14px;
+}
+
+/* Scroll Buttons */
+.scroll-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.5rem;
+    background-color: rgba(0, 0, 0, 0.1);
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.scroll-button-left {
+    left: 0;
+}
+
+.scroll-button-right {
+    right: 0;
+}
+
+/* Time Slot Container */
+.time-slot-container {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+}
+
+.time-slot {
+    padding: 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.time-slot:hover {
+    background-color: #e2e6ea;
+}
+
+.time-slot.selected {
+    background-color: #007bff !important;
+    color: white;
+}
+
+/* Responsive adjustments */
+@@media (max-width: 768px) {
+    /* Stack elements on smaller screens */
+    .slotBookingDiv {
+        padding: 10px;
     }
 
-        .header h1 {
-            font-size: 1.2em;
-            font-weight: bold;
-            margin: 0;
-        }
-
-    .close-button {
-        border: none;
-        background-color: transparent;
-        font-size: 1.2em;
-        cursor: pointer;
-    }
-
-    .calendar {
-        display: flex;
-        align-items: center;
-        margin-bottom: 20px;
-        justify-content: center;
-    }
-
-    .arrow {
-        border: none;
-        background-color: transparent;
-        font-size: 1.2em;
-        cursor: pointer;
-        margin: 0 10px;
+    #slots-title {
+        font-size: 1em;
     }
 
     .dates {
-        display: flex;
-        align-items: center;
+        flex-wrap: wrap;
+        justify-content: center;
         gap: 10px;
     }
 
-    .date {
-        display: flex;
+    .date-item {
+        min-width: 60px;
+        max-width: 90px;
+        padding: 8px;
+    }
+
+    .scroll-button {
+        font-size: 1.2rem;
+    }
+
+    .time-slot-container {
+        gap: 5px;
+        justify-content: flex-start;
+    }
+
+    .time-slot {
+        padding: 8px;
+    }
+
+    .btn {
+        font-size: 14px;
+    }
+}
+
+@@media (max-width: 576px) {
+    /* More mobile-specific tweaks */
+    .slotBookingDiv {
+        padding: 5px;
+    }
+
+    .dates {
+        gap: 5px;
+    }
+
+    .time-slot-container {
         flex-direction: column;
         align-items: center;
-        border-radius: 5px;
-        color: #7F56D9;
-        background-color: #f0f0f0;
-        padding: 10px 20px;
-        cursor: pointer;
     }
 
-        .date.active {
-            background-color: #f0f0f0;
-        }
-
-    .day {
-        font-weight: bold;
+    .time-slot {
+        padding: 8px;
+        width: 100%;
     }
 
-    .time-selector {
-        justify-content: center;
-        margin-bottom: 20px;
+    .scroll-button {
+        font-size: 1rem;
     }
 
-        .time-selector h2 {
-            font-size: 1em;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-    .time-zone {
-        justify-content: center;
-        display: flex;
-        align-items: center;
-        margin-bottom: 10px;
+    .btn {
+        font-size: 12px;
     }
+}
 
+<<<<<<< HEAD
+ </style>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<div class="container-fluid pt-4 px-4">
+    <div class="text-center border border-1 rounded p-3">
+        <!-- Status Alert -->
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="alert" role="alert">
+                    <span class="font-weight-boldx">Status:</span>
+=======
     .location {
         font-size: 0.9em;
         color: #666;
@@ -321,6 +513,7 @@
             <div class="col-md-6 offset-md-3">
                 <div class="alert alert-secondary" role="alert">
                     <span class="font-weight-bold">Status:</span>
+>>>>>>> cbc52c54f79890b96b1ef13a5bbdf9dd90dc1b23
                     <span id="status" class="ml-2"></span>
                 </div>
             </div>
@@ -328,24 +521,127 @@
 
         <!-- Slot Booking Section -->
         <div class="slotBookingDiv">
+<<<<<<< HEAD
+            <div class="container">
+                <div id="slots-title">Select a Date and Time</div>
+
+                <!-- Date Picker Container -->
+                <div class="d-flex align-items-center justify-content-center">
+=======
             <div class="container mt-2">
                 <div id="slots-title">Select a Date and Time</div>
 
                 <!-- Date Picker Container -->
                 <div class="d-flex align-items-center justify-content-center ">
+>>>>>>> cbc52c54f79890b96b1ef13a5bbdf9dd90dc1b23
                     <!-- Left Scroll Button -->
                     <button class="btn btn-outline-primary" id="scroll-left">&#8592;</button>
 
                     <!-- Dates -->
+<<<<<<< HEAD
+                    <div class="dates">
+                        <!-- Updated date items -->
+                        <div class="date-item" data-date="2024-10-03">
+                            <button class="btn btn-light date-btn" data-date="2024-10-03">
+                                <div>Thu</div>
+                                <div class="day">3</div>
+                                <div>Oct</div>
+                            </button>
+                        </div>
+                        <div class="date-item" data-date="2024-10-04">
+                            <button class="btn btn-light date-btn" data-date="2024-10-04">
+                                <div>Fri</div>
+                                <div class="day">4</div>
+                                <div>Oct</div>
+                            </button>
+                        </div>
+                        <div class="date-item" data-date="2024-10-05">
+                            <button class="btn btn-light date-btn" data-date="2024-10-05">
+                                <div>Sat</div>
+                                <div class="day">5</div>
+                                <div>Oct</div>
+                            </button>
+                        </div>
+                        <div class="date-item" data-date="2024-10-06">
+                            <button class="btn btn-light date-btn" data-date="2024-10-06">
+                                <div>Sun</div>
+                                <div class="day">6</div>
+                                <div>Oct</div>
+                            </button>
+                        </div>
+                        <div class="date-item" data-date="2024-10-07">
+                            <button class="btn btn-light date-btn" data-date="2024-10-07">
+                                <div>Mon</div>
+                                <div class="day">7</div>
+                                <div>Oct</div>
+                            </button>
+                        </div>
+                        <div class="date-item" data-date="2024-10-08">
+                            <button class="btn btn-light date-btn" data-date="2024-10-08">
+                                <div>Tue</div>
+                                <div class="day">8</div>
+                                <div>Oct</div>
+                            </button>
+                        </div>
+                        <div class="date-item" data-date="2024-10-09">
+                            <button class="btn btn-light date-btn" data-date="2024-10-09">
+                                <div>Wed</div>
+                                <div class="day">9</div>
+                                <div>Oct</div>
+                            </button>
+                        </div>
+                        <div class="date-item" data-date="2024-10-10">
+                            <button class="btn btn-light date-btn" data-date="2024-10-10">
+                                <div>Thu</div>
+                                <div class="day">10</div>
+                                <div>Oct</div>
+                            </button>
+                        </div>
+                        <div class="date-item" data-date="2024-10-11">
+                            <button class="btn btn-light date-btn" data-date="2024-10-11">
+                                <div>Fri</div>
+                                <div class="day">11</div>
+                                <div>Oct</div>
+                            </button>
+                        </div>
+                        <div class="date-item" data-date="2024-10-12">
+                            <button class="btn btn-light date-btn" data-date="2024-10-12">
+                                <div>Sat</div>
+                                <div class="day">12</div>
+                                <div>Oct</div>
+                            </button>
+                        </div> 
+                 
+                        <!-- More date items as needed -->
+=======
                     <div class="dates d-flex g-0">
                     
                        
                         <!-- Add  date items as needed -->
+>>>>>>> cbc52c54f79890b96b1ef13a5bbdf9dd90dc1b23
                     </div>
 
                     <!-- Right Scroll Button -->
                     <button class="btn btn-outline-primary" id="scroll-right">&#8594;</button>
                 </div>
+<<<<<<< HEAD
+
+                <!-- Time Slot Selection -->
+                <div class="time-slot-container " id="time-slot-container">
+                    <div class="row " id="time-slots">
+                        <!-- Time slots will be populated dynamically -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row mt-4">
+            <div class="col-md-12 d-flex justify-content-center">
+                <button class="btn btn-primary rounded-2">Book Now</button>
+            </div>
+        </div>
+=======
                 <!-- Time Slot Selection -->
                 <div class="time-slot-container mt-4" id="time-slot-container">
                     <div class="row mt-2 " id="time-slots">
@@ -364,14 +660,145 @@
             </div>
         </div>
 
+>>>>>>> cbc52c54f79890b96b1ef13a5bbdf9dd90dc1b23
     </div>
 </div>
 
 
+<<<<<<< HEAD
+<!-- Script to handle dynamic date selection and time slots -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    const scrollLeftButton = document.getElementById('scroll-left');
+    const scrollRightButton = document.getElementById('scroll-right');
+    const dateContainer = document.querySelector('.dates');
+
+    const scrollAmount = 200;
+
+    scrollLeftButton.addEventListener('click', () => {
+        dateContainer.scrollBy({
+            left: -scrollAmount,
+            behavior: 'smooth',
+            
+        });
+    });
+
+    scrollRightButton.addEventListener('click', () => {
+        dateContainer.scrollBy({
+            left: scrollAmount,
+            behavior: 'smooth',
+        });
+    });
+
+    function checkScrollButtons() {
+        const isAtStart = dateContainer.scrollLeft === 0;
+        const isAtEnd = dateContainer.scrollLeft + dateContainer.offsetWidth === dateContainer.scrollWidth;
+
+        scrollLeftButton.disabled = isAtStart;
+        scrollRightButton.disabled = isAtEnd;
+    }
+
+    checkScrollButtons();
+    dateContainer.addEventListener('scroll', checkScrollButtons);
+</script>
+
+<script>
+    const timeSlots = {
+        "2024-10-03": ["9:00 AM", "10:00 AM", "11:00 AM", "1:00 PM", "2:00 PM"],
+        "2024-10-04": ["9:30 AM", "10:30 AM", "11:30 AM", "1:30 PM", "2:00 PM"],
+        "2024-10-05": ["9:15 AM", "10:15 AM", "11:15 AM", "12:00 PM", "2:15 PM"],
+        "2024-10-06": ["8:00 AM", "10:00 AM", "12:00 PM", "3:00 PM", "12:00 PM", "12:00 PM", "12:00 PM", "12:00 PM"],
+        "2024-10-07": ["7:00 AM", "9:00 AM", "11:00 AM", "12:30 PM", "12:00 PM"],
+        "2024-10-08": ["8:30 AM", "10:30 AM", "12:30 PM", "2:00 PM", "12:00 PM"]
+    };
+
+    // Array to keep track of selected time slots
+    let selectedTimeSlots = [];
+
+    function updateTimeSlots(date) {
+        const timeSlotContainer = document.getElementById('time-slots');
+        timeSlotContainer.innerHTML = ''; 
+
+        const slots = timeSlots[date];
+
+        if (!slots) {
+            timeSlotContainer.innerHTML = '<div class="col-12">No time slots available for this date.</div>';
+            return;
+        }
+
+        let rowDiv;
+        slots.forEach((time, index) => {
+            if (index % 5 === 0) {
+                rowDiv = document.createElement('div');
+                rowDiv.classList.add('row');
+                timeSlotContainer.appendChild(rowDiv);
+            }
+
+            const colDiv = document.createElement('div');
+            colDiv.classList.add('col-md');
+            const button = document.createElement('button');
+            button.classList.add('btn', 'btn-outline-secondary', 'rounded-3', 'text-success');
+            button.textContent = time;
+
+            if (selectedTimeSlots.includes(time)) {
+                button.classList.add('btn-success');
+            }
+            button.addEventListener('click', () => {
+                // Toggle the selected time slot
+                if (selectedTimeSlots.includes(time)) {
+                    selectedTimeSlots = selectedTimeSlots.filter(slot => slot !== time);
+                    button.classList.remove('btn-success','text-light');
+                    button.classList.add('btn-outline-secondary'); // Reset style
+                } else {
+                    // If not selected, add it to the array and update button style
+                    selectedTimeSlots.push(time);
+                    button.classList.add('btn-success','text-light');
+                    button.classList.remove('btn-outline-secondary');
+                }
+            });
+
+            colDiv.appendChild(button);
+            rowDiv.appendChild(colDiv); // Append the column to the current row
+        });
+    }
+
+    // Add click event listeners to each date button
+    document.querySelectorAll('.date-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            const selectedDate = button.getAttribute('data-date');
+            updateTimeSlots(selectedDate);
+        });
+    });
+
+
+</script>
+
+
+
+<script>
+    const dateButtons = document.querySelectorAll('.date-btn');
+
+    dateButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            // Remove the 'selected-date' class from all buttons
+            dateButtons.forEach(b => b.classList.remove('selected-date'));
+
+            button.classList.add('selected-date');
+        });
+    });
+
+</script>
+
+@* Slot Booking End *@
+=======
 
 
 
 
+>>>>>>> cbc52c54f79890b96b1ef13a5bbdf9dd90dc1b23
 
 
 <script>

@@ -5,6 +5,198 @@
     Layout = "PendingJyotishLayout";
     string BaseUrl = "https://api.myjyotishg.in/";
 }
+<<<<<<< HEAD
+
+<style>
+    .image-container {
+        margin-bottom: 1rem;
+        height: 150px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: box-shadow 0.3s ease, transform 0.3s ease;
+    background-color:white !important;
+    }
+
+    #loading {
+        display: none;
+        margin-bottom: 1rem;
+        text-align: center;
+        font-size: 1.2rem;
+    }
+
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+
+    .col-md-6,
+    .col-lg-4 {
+        flex: 1 0 30%;
+        max-width: 30%;
+        margin-bottom: 1rem;
+    }
+
+        .col-md-6.increased-width,
+        .col-lg-4.increased-width {
+            flex: 1 0 35%;
+            max-width: 45%;
+        }
+
+    @@media (max-width: 768px) {
+        .col-md-6 {
+            flex: 1 0 45%;
+            max-width: 45%;
+        }
+
+            .col-md-6.increased-width {
+                flex: 1 0 50%;
+                max-width: 50%;
+            }
+    }
+
+    @@media (max-width: 576px) {
+        .col-md-6 {
+            flex: 1 0 100%;
+            max-width: 100%;
+        }
+
+            .col-md-6.increased-width {
+                flex: 1 0 100%;
+                max-width: 100%;
+            }
+    }
+
+    .main-container {
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    .img-text {
+        display: flex;
+        justify-content: center;
+    }
+
+
+</style>
+<style>
+    /* For screens smaller than 576px (mobile) */
+    @@media (max-width: 575.98px) {
+        .container {
+            padding: 0 15px;
+        }
+
+        .row {
+            display: block;
+        }
+
+        .col-md-3 {
+            width: 100% !important;
+            margin-bottom: 15px;
+        }
+
+        .img-text {
+            font-size: 14px;
+        }
+    }
+
+    /* For screens between 576px and 768px (tablets) */
+    @@media (min-width: 576px) and (max-width: 767.98px) {
+        .col-md-3 {
+            width: 50% !important;
+            margin-bottom: 15px;
+        }
+    }
+
+    /* For screens between 768px and 991px (medium to large tablets or small laptops) */
+    @@media (min-width: 768px) and (max-width: 991.98px) {
+        .col-md-3 {
+            width: 33.33% !important;
+        }
+    }
+
+    /* For screens above 992px (desktop) */
+    @@media (min-width: 992px) {
+        .col-md-3 {
+            width: 20% !important;
+        }
+    }
+</style>
+<style>
+    .dropify {
+        border-radius: 20px;
+    }
+
+    .dropify-wrapper {
+        border-radius: 20px; 
+    }
+
+    .dropify-clear {
+        border-radius: 50%; 
+    }
+</style>
+
+<div class="container-fluid  pt-4 px-4">
+    <div class="text-center  border border-1 rounded p-3">
+
+        <div class="row">
+            <div class="col-md-12 d-flex justify-content-center mb-3 fw-bold fs-2 text-primary">
+                <div>Upload Documents</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 col-lg-2 mb-4 increased-width">
+                <div class="img-text">
+                    <span>ID Proof</span>
+                </div>
+                <div class="image-container bg-light rounded">
+                    <input name="file1" type="file" class="dropify" data-height="120" />
+                </div>
+
+        
+            </div>
+            <div class="col-md-3 col-lg-2 mb-4 increased-width">
+                <div class="img-text">
+                    <span>Address Proof</span>
+                </div>
+                <div class="image-container bg-light rounded">
+                    <input name="file1" type="file" class="dropify" data-height="120" />
+                </div>
+            
+            </div>
+            <div class="col-md-3 col-lg-2 mb-4 increased-width">
+                <div class="img-text">
+                    <span>10th Certificate</span>
+                </div>
+                <div class="image-container bg-light rounded">
+                    <input name="file1" type="file" class="dropify" data-height="120" />
+                </div>
+               
+            </div>
+            <div class="col-md-3 col-lg-2 mb-4 increased-width">
+                <div class="img-text">
+                    <span>12th Certificate</span>
+                </div>
+                <div class="image-container bg-light rounded">
+                    <input name="file1" type="file" class="dropify" data-height="120" />
+                </div>
+             
+            </div>
+            <div class="col-md-3 col-lg-2  increased-width">
+                <div class="img-text">
+                    <span>Professional Certificate</span>
+                </div>
+                <div class="image-container bg-light rounded">
+                    <input name="file1" type="file" class="dropify" data-height="120" />
+                </div>
+           
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary px-4">Upload</button>
+=======
 <style>
      .form-control-sm {
          font-size: 13px;
@@ -60,12 +252,25 @@
                         <button type="submit" class="btn btn-primary">Upload</button>
                     </div>
                 </form>
+>>>>>>> cbc52c54f79890b96b1ef13a5bbdf9dd90dc1b23
             </div>
         </div>
     </div>
 </div>
 
+
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://jeremyfagis.github.io/dropify/dist/js/dropify.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://jeremyfagis.github.io/dropify/dist/css/dropify.min.css">
+<script>
+
+     $('.dropify').dropify();
+
+</script>
+
+
 <script>
     $(document).ready(function () {
         const email = localStorage.getItem('userEmail');
