@@ -229,7 +229,7 @@ namespace MyJyotishGApi.Controllers
         }
 
         // Method to fetch Jyotish videos by Jyotish ID
-        [HttpGet("JyotishVideos/{id}")]
+        [HttpGet("JyotishVideos")]
         public IActionResult GetJyotishVideos(int id)
         {
             try
@@ -244,7 +244,7 @@ namespace MyJyotishGApi.Controllers
         }
 
         // Method to fetch Jyotish gallery images by Jyotish ID
-        [HttpGet("JyotishGallery/{id}")]
+        [HttpGet("JyotishGallery")]
         public IActionResult GetJyotishGallery(int id)
         {
             try
