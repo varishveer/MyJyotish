@@ -58,6 +58,9 @@ namespace ModelAccessLayer.Models
         public ICollection<CallingModel> CallingModelRecord { get; set; } = new List<CallingModel>();
         public ICollection<ChattingModel> ChattingModelRecord { get; set; } = new List<ChattingModel>();
         public ICollection<SlotBookingModel> Slots { get; set; }
+        public ICollection<JyotishGalleryModel> JyotishGallery { get; set; }
+        public ICollection<JyotishVideosModel> JyotishVideos { get; set; }
+
 
 
     }
