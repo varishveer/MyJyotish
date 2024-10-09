@@ -256,9 +256,39 @@ namespace MyJyotishGApi.Controllers
             {
                 return StatusCode(500, new { Status = 500, Message = ex.Message, Error = ex });
             }
-        }  
+        }
+
+        [HttpGet("GetProfile")]
+        public IActionResult GetProfile(int Id)
+        {
+            try
+            {
+                var record = _jyotish.GetProfile(Id);
+                return Ok(new { Status = 200, Data = record });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Status = 500, Message = ex.Message, Error = ex });
+            }
+        }
+
+        [HttpGet("GetAllSubscription")]
+        public IActionResult GetAllSubscription()
+        {
+            try
+            {
+                var Result = _jyotish.GetAllSubscription();
+                if (Result == null)
+                { return Ok(new { Status = 404, Message = "Data Not Found" }); }
+
+                else
+                { return Ok(new { Status = 500, Data = Result, Message = "Successful" }); }
 
 
+            }
+
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+        }
 
     }
 }

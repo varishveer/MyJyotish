@@ -29,5 +29,7 @@ namespace BusinessAccessLayer.Abstraction
         public string AddJyotishGallery(JyotishGalleryViewModel model);
         public List<JyotishGalleryModel> JyotishGallery(int Id);
         public List<JyotishVideosModel> JyotishVideos(int Id);
+        public JyotishModel GetProfile(int Id);
+        public List<SubscriptionGetViewModel> GetAllSubscription();
     }
 }

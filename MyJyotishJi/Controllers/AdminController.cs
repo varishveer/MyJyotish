@@ -549,6 +549,161 @@ namespace MyJyotishJiApi.Controllers
 
         }
 
-        
+        [HttpPost("AddFeature")]
+        public IActionResult AddFeature(SubscriptionFeaturesModel model)
+        {
+            try
+            {
+                var Result = _admin.AddFeature(model);
+                if (Result == "Invalid Data")
+                { return Ok(new { Status = 409, Message = Result }); }
+                if (Result == "Successful")
+                { return Ok(new { Status = 200, Message = Result }); }
+                else
+                { return Ok(new { Status = 500, Message = Result }); }
+
+
+            }
+
+            catch { return StatusCode(500, new { Status = 500, Message = "Internal Server Error " }); }
+
+        }
+
+        [HttpGet("GetAllFeatures")]
+        public IActionResult GetAllFeatures()
+        {
+            try
+            {
+                var Result = _admin.GetAllFeatures();
+                if (Result == null)
+                { return Ok(new { Status = 404, Message = "Data Not Found" }); }
+               
+                else
+                { return Ok(new { Status = 200, Data = Result , Message = "Successful" }); }
+
+
+            }
+
+            catch { return StatusCode(500, new { Status = 500, Message = "Internal Server Error " }); }
+
+        }
+
+        [HttpGet("DeleteFeature")]
+        public IActionResult DeleteFeature(int Id)
+        {
+            try
+            {
+                var Result = _admin.DeleteFeature(Id);
+                if (Result == "Invalid Data")
+                { return Ok(new { Status = 409, Message = Result }); }
+                if (Result == "Successful")
+                { return Ok(new { Status = 200, Message = Result }); }
+                else
+                { return Ok(new { Status = 500, Message = Result }); }
+
+
+            }
+
+            catch { return StatusCode(500, new { Status = 500, Message = "Internal Server Error " }); }
+
+        }
+        [HttpPost("UpdateFeature")]
+        public IActionResult UpdateFeature(SubscriptionFeaturesModel model)
+        {
+            try
+            {
+                var Result = _admin.UpdateFeature(model);
+                if (Result == "Invalid Data")
+                { return Ok(new { Status = 409, Message = Result }); }
+                if (Result == "Successful")
+                { return Ok(new { Status = 200, Message = Result }); }
+                else
+                { return Ok(new { Status = 500, Message = Result }); }
+
+
+            }
+
+            catch { return StatusCode(500, new { Status = 500, Message = "Internal Server Error " }); }
+
+        }
+
+        [HttpPost("AddSubscription")]
+        public IActionResult AddSubscription(SubscriptionViewModel model)
+        {
+            try
+            {
+                var Result = _admin.AddSubscription(model);
+                if (Result == "Invalid Data")
+                { return Ok(new { Status = 409, Message = Result }); }
+                if (Result == "Successful")
+                { return Ok(new { Status = 200, Message = Result }); }
+                else
+                { return Ok(new { Status = 500, Message = Result }); }
+
+
+            }
+
+            catch { return StatusCode(500, new { Status = 500, Message = "Internal Server Error " }); }
+        }
+
+
+        [HttpPost("UpdateSubscription")]
+        public IActionResult UpdateSubscription(SubscriptionViewModel model)
+        {
+            try
+            {
+                var Result = _admin.UpdateSubscription(model);
+                if (Result == "Invalid Data")
+                { return Ok(new { Status = 409, Message = Result }); }
+                if (Result == "Subscription Not Found")
+                { return Ok(new { Status = 404, Message = Result }); }
+                if (Result == "Successful")
+                { return Ok(new { Status = 200, Message = Result }); }
+                else
+                { return Ok(new { Status = 500, Message = Result }); }
+
+
+            }
+
+            catch(Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error " ,Error = ex}); }
+        }
+
+        [HttpGet("GetAllSubscription")]
+        public IActionResult GetAllSubscription()
+        {
+            try
+            {
+                var Result = _admin.GetAllSubscription();
+                if (Result == null)
+                { return Ok(new { Status = 404, Message = "Data Not Found" }); }
+               
+                else
+                { return Ok(new { Status = 500, Data = Result  , Message = "Successful"}); }
+
+
+            }
+
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+        }
+
+        [HttpDelete("DeleteSubsciption")]
+        public IActionResult DeleteSubsciption( int Id)
+        {
+            try
+            {
+                var Result = _admin.DeleteSubsciption(Id);
+                if (Result == "Data Not Found")
+                { return Ok(new { Status = 404, Message = Result }); }
+                if (Result == "Successful")
+                { return Ok(new { Status = 200, Message = Result }); }
+                else
+                { return Ok(new { Status = 500, Message = Result }); }
+
+
+            }
+
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+        }
+
     }
 }

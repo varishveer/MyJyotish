@@ -382,5 +382,41 @@ namespace BusinessAccessLayer.Implementation
             var records = _context.JyotishGallery.Where(x => x.JyotishId == Id).ToList();
             return records;
         }
+
+        public JyotishModel GetProfile(int Id)
+        {
+            var record = _context.JyotishRecords.Where(x => x.Id == Id).FirstOrDefault();
+            return record;
+        }
+
+        public List<SubscriptionGetViewModel> GetAllSubscription()
+        {
+            var records = _context.Subscriptions
+                                  .Select(subscription => new SubscriptionGetViewModel
+                                  {
+                                      SubscriptionId = subscription.SubscriptionId,
+                                      Name = subscription.Name,
+                                      OldPrice = subscription.OldPrice,
+                                      NewPrice = subscription.NewPrice,
+                                      Discount = subscription.Discount,
+                                      Gst = subscription.Gst,
+                                      DiscountAmount = subscription.DiscountAmount,
+                                      PlanType = subscription.PlanType,
+                                      description = subscription.description,
+                                      Status = subscription.Status,
+
+                                      Features = _context.ManageSubscriptionModels
+                                            .Where(ms => ms.SubscriptionId == subscription.SubscriptionId)
+                                            .Select(ms => ms.FeatureId)
+                                            .Join(_context.SubscriptionFeatures,
+                                                  featureId => featureId,
+                                                  feature => feature.FeatureId,
+                                                  (featureId, feature) => feature.Name)
+                                            .ToArray()
+                                  })
+                                  .ToList();
+
+            return records;
+        }
     }
 }

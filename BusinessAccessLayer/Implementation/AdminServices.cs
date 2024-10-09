@@ -755,6 +755,207 @@ namespace BusinessAccessLayer.Implementation
             { return "Data Not Saved"; }
         }*/
 
-      
+      public string AddFeature(SubscriptionFeaturesModel model)
+        {
+            if(model ==null)
+            { return "Invalid Data"; }
+            _context.Add(model);
+            if(_context.SaveChanges() >0)
+            { return "Successful"; }
+            else
+            {
+                return "Internal Server Error.";
+            }
+
+        }
+        public List<SubscriptionFeaturesModel> GetAllFeatures()
+        {
+            var record = _context.SubscriptionFeatures.ToList();
+           
+                
+            return record;
+        }
+
+        public string DeleteFeature(int Id)
+        {
+            var record = _context.SubscriptionFeatures.Where(x => x.FeatureId == Id).FirstOrDefault();
+            if(record==null)
+            { return "Invalid Data"; }
+            _context.SubscriptionFeatures.Remove(record);
+            if (_context.SaveChanges() > 0) { return "Successful"; }
+            else { return "Internal Server Error."; }
+        }
+
+        public string UpdateFeature(SubscriptionFeaturesModel model)
+        {
+            var record = _context.SubscriptionFeatures.Where(x => x.FeatureId == model.FeatureId).FirstOrDefault();
+            if (record == null)
+            { return "Invalid Data"; }
+            record.Name = model.Name;
+            _context.SubscriptionFeatures.Update(record);
+            if (_context.SaveChanges() > 0) { return "Successful"; }
+            else { return "Internal Server Error."; }
+        }
+
+        public string AddSubscription(SubscriptionViewModel model)
+        {
+         
+            if (model == null)
+            {
+                return "Invalid Data";
+            }
+
+            var subscriptionData = new SubscriptionModel
+            {
+                Name = model.Name,
+                OldPrice = model.OldPrice,
+                NewPrice = model.NewPrice,
+                Discount = model.Discount,
+                Gst = model.Gst,
+                DiscountAmount = model.DiscountAmount,
+                PlanType = model.PlanType,
+                description = model.description,
+                Status = model.Status
+            };
+
+            _context.Subscriptions.Add(subscriptionData);
+
+          
+            _context.SaveChanges();
+
+       
+            int newSubscriptionId = subscriptionData.SubscriptionId;
+
+            
+            foreach (var featureId in model.Features)
+            {
+                var manageSubscriptionData = new ManageSubscriptionModel
+                {
+                    FeatureId = featureId,
+                    SubscriptionId = newSubscriptionId
+                };
+
+                _context.ManageSubscriptionModels.Add(manageSubscriptionData);
+            }
+
+            
+            if (_context.SaveChanges() > 0)
+            {
+                return "Successful";
+            }
+            else
+            {
+                return "Internal Server Error.";
+            }
+        }
+
+
+        public string UpdateSubscription(SubscriptionViewModel model)
+        {
+            if (model == null)
+            {
+                return "Invalid Data";
+            }
+
+            var record = _context.Subscriptions
+                                 .FirstOrDefault(x => x.SubscriptionId == model.SubscriptionId);
+
+            if (record == null)
+            {
+                return "Subscription Not Found";
+            }
+
+            // Update fields
+            record.Name = model.Name;
+            record.OldPrice = model.OldPrice;
+            record.NewPrice = model.NewPrice;
+            record.Discount = model.Discount;
+            record.Gst = model.Gst;
+            record.DiscountAmount = model.DiscountAmount;
+            record.PlanType = model.PlanType;
+            record.description = model.description; 
+            record.Status = model.Status;
+
+            _context.Subscriptions.Update(record);
+
+          
+            var existingFeatures = _context.ManageSubscriptionModels
+                                            .Where(x => x.SubscriptionId == record.SubscriptionId);
+
+            _context.ManageSubscriptionModels.RemoveRange(existingFeatures);
+
+           
+            foreach (var featureId in model.Features)
+            {
+                var manageSubscriptionData = new ManageSubscriptionModel
+                {
+                    FeatureId = featureId,
+                    SubscriptionId = record.SubscriptionId
+                };
+
+                _context.ManageSubscriptionModels.Add(manageSubscriptionData);
+            }
+
+       
+            using (var transaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    _context.SaveChanges();
+                    transaction.Commit();
+                    return "Successful";
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                
+                    return $"Internal Server Error: {ex.Message}";
+                }
+            }
+        }
+
+        public List<SubscriptionGetViewModel> GetAllSubscription()
+        {
+            var records = _context.Subscriptions
+                                  .Select(subscription => new SubscriptionGetViewModel
+                                  {
+                                      SubscriptionId = subscription.SubscriptionId,
+                                      Name = subscription.Name,
+                                      OldPrice = subscription.OldPrice,
+                                      NewPrice = subscription.NewPrice,
+                                      Discount = subscription.Discount,
+                                      Gst = subscription.Gst,
+                                      DiscountAmount = subscription.DiscountAmount,
+                                      PlanType = subscription.PlanType,
+                                      description = subscription.description,
+                                      Status = subscription.Status,
+
+                                       Features = _context.ManageSubscriptionModels
+                                            .Where(ms => ms.SubscriptionId == subscription.SubscriptionId)
+                                            .Select(ms => ms.FeatureId)
+                                            .Join(_context.SubscriptionFeatures,
+                                                  featureId => featureId,                     
+                                                  feature => feature.FeatureId,              
+                                                  (featureId, feature) => feature.Name)       
+                                            .ToArray()
+                                  })
+                                  .ToList();
+
+            return records;
+        }
+
+        public string DeleteSubsciption(int Id)
+        {
+            var Subscription = _context.Subscriptions.Where(x => x.SubscriptionId == Id).FirstOrDefault();
+            if(Subscription == null) { return "Data Not Found"; }
+            _context.Subscriptions.Remove(Subscription);
+            var Feature = _context.ManageSubscriptionModels.Where(x => x.SubscriptionId == Id).ToList();
+
+            _context.ManageSubscriptionModels.RemoveRange(Feature);
+            if (_context.SaveChanges() > 0) { return "Successful"; }
+            else { return "internal Server Error."; }
+        }
+
+
     }
 }

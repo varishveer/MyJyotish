@@ -4,6 +4,7 @@ using DataAccessLayer.DbServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20241009061029_jyotishmodelAbout")]
+    partial class jyotishmodelAbout
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -450,29 +453,6 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("Languages");
                 });
 
-            modelBuilder.Entity("ModelAccessLayer.Models.ManageSubscriptionModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("FeatureId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SubscriptionId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FeatureId");
-
-                    b.HasIndex("SubscriptionId");
-
-                    b.ToTable("ManageSubscriptionModels");
-                });
-
             modelBuilder.Entity("ModelAccessLayer.Models.PoojaListModel", b =>
                 {
                     b.Property<int>("Id")
@@ -639,66 +619,6 @@ namespace DataAccessLayer.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("States");
-                });
-
-            modelBuilder.Entity("ModelAccessLayer.Models.SubscriptionFeaturesModel", b =>
-                {
-                    b.Property<int>("FeatureId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FeatureId"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("FeatureId");
-
-                    b.ToTable("SubscriptionFeatures");
-                });
-
-            modelBuilder.Entity("ModelAccessLayer.Models.SubscriptionModel", b =>
-                {
-                    b.Property<int>("SubscriptionId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SubscriptionId"));
-
-                    b.Property<double>("Discount")
-                        .HasColumnType("float");
-
-                    b.Property<double>("DiscountAmount")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Gst")
-                        .HasColumnType("float");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("NewPrice")
-                        .HasColumnType("float");
-
-                    b.Property<double>("OldPrice")
-                        .HasColumnType("float");
-
-                    b.Property<string>("PlanType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Status")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("SubscriptionId");
-
-                    b.ToTable("Subscriptions");
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.TeamMemberModel", b =>
@@ -870,25 +790,6 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("Jyotish");
                 });
 
-            modelBuilder.Entity("ModelAccessLayer.Models.ManageSubscriptionModel", b =>
-                {
-                    b.HasOne("ModelAccessLayer.Models.SubscriptionFeaturesModel", "Feature")
-                        .WithMany("ManageSubscription")
-                        .HasForeignKey("FeatureId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ModelAccessLayer.Models.SubscriptionModel", "Subscription")
-                        .WithMany("ManageSubscription")
-                        .HasForeignKey("SubscriptionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Feature");
-
-                    b.Navigation("Subscription");
-                });
-
             modelBuilder.Entity("ModelAccessLayer.Models.SlotBookingModel", b =>
                 {
                     b.HasOne("ModelAccessLayer.Models.JyotishModel", "JyotishRecords")
@@ -914,16 +815,6 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("JyotishVideos");
 
                     b.Navigation("Slots");
-                });
-
-            modelBuilder.Entity("ModelAccessLayer.Models.SubscriptionFeaturesModel", b =>
-                {
-                    b.Navigation("ManageSubscription");
-                });
-
-            modelBuilder.Entity("ModelAccessLayer.Models.SubscriptionModel", b =>
-                {
-                    b.Navigation("ManageSubscription");
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.UserModel", b =>

@@ -35,6 +35,9 @@ namespace DataAccessLayer.DbServices
         public DbSet<SpecializationListModel> SpecializationList { get; set; }
         public DbSet<JyotishGalleryModel> JyotishGallery { get; set; }
         public DbSet<JyotishVideosModel> JyotishVideos { get; set; }
+        public DbSet<SubscriptionFeaturesModel> SubscriptionFeatures { get; set; }
+        public DbSet<SubscriptionModel> Subscriptions { get; set; }
+        public DbSet<ManageSubscriptionModel> ManageSubscriptionModels { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -57,6 +60,9 @@ namespace DataAccessLayer.DbServices
 
             modelBuilder.Entity<JyotishVideosModel>().HasOne(c => c.Jyotish).WithMany(j => j.JyotishVideos).HasForeignKey(c => c.JyotishId);
             modelBuilder.Entity<JyotishGalleryModel>().HasOne(c => c.Jyotish).WithMany(j => j.JyotishGallery).HasForeignKey(c => c.JyotishId);
+            modelBuilder.Entity<ManageSubscriptionModel>().HasOne(c => c.Feature).WithMany(j => j.ManageSubscription).HasForeignKey(c => c.FeatureId);
+
+            modelBuilder.Entity<ManageSubscriptionModel>().HasOne(c => c.Subscription).WithMany(j => j.ManageSubscription).HasForeignKey(c => c.SubscriptionId);
         }
 
 

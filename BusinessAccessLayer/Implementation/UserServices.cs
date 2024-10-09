@@ -77,11 +77,95 @@ namespace BusinessAccessLayer.Implementation
             return record;
         }
 
-        public JyotishModel AstrologerProfile(int Id)
+        /*public JyotishProfileViewModel AstrologerProfile(int Id)
         {
-            var record = _context.JyotishRecords.Where(x => x.Status == "Complete").Where(x => x.Id == Id).FirstOrDefault();
+            var Jyotish = _context.JyotishRecords.Where(x => x.Status == "Complete").Where(x => x.Id == Id).FirstOrDefault();
+            var videos = _context.JyotishVideos.Where(x=>x.JyotishId == Id).ToArray();
+            var gallery = _context.JyotishGallery.Where(x => x.JyotishId == Id).ToArray();
+
             return record;
+        }*/
+
+
+        public JyotishProfileViewModel AstrologerProfile(int Id)
+        {
+            // Fetch the Jyotish record based on the provided Id and status
+            var jyotishRecord = _context.JyotishRecords
+                                         .Where(x => x.Status == "Complete" && x.Id == Id)
+                                         .FirstOrDefault();
+
+            // Return null if no record found
+            if (jyotishRecord == null)
+            {
+                return null;
+            }
+
+            // Fetch videos and gallery related to the Jyotish record
+            var videos = _context.JyotishVideos
+                                 .Where(x => x.JyotishId == Id)
+                                 .Select(video => new JyotishVideosViewModel
+                                 {
+                                     
+                                     Id = video.Id,
+                                     VideoUrl = video.VideoUrl ,
+                                     VideoTitle = video.VideoTitle
+                                 })
+                                 .ToArray();
+
+            var gallery = _context.JyotishGallery
+                                  .Where(x => x.JyotishId == Id)
+                                  .Select(image => new JyotishGalleryModel
+                                  {
+                                      Id = image.Id,
+                                      ImageUrl = image.ImageUrl,
+                                      ImageTitle = image.ImageTitle
+                                  })
+                                  .ToArray();
+            var achievementsArray = jyotishRecord.AwordsAndAchievement?.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                                                  .Select(a => a.Trim())
+                                                  .ToArray();
+
+            var specializationArray = jyotishRecord.Specialization?.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                                                 .Select(a => a.Trim())
+                                                 .ToArray();
+            var profileViewModel = new JyotishProfileViewModel
+            {
+                Id = jyotishRecord.Id,
+                Email = jyotishRecord.Email,
+                Mobile = jyotishRecord.Mobile,
+                Role = jyotishRecord.Role,
+                Name = jyotishRecord.Name,
+                Gender = jyotishRecord.Gender,
+                Language = jyotishRecord.Language,
+                Expertise = jyotishRecord.Expertise,
+                Country = jyotishRecord.Country,
+                State = jyotishRecord.State,
+                City = jyotishRecord.City,
+                Password = jyotishRecord.Password,
+                DateOfBirth = jyotishRecord.DateOfBirth,
+                ProfileImageUrl = jyotishRecord.ProfileImageUrl,
+                Status = jyotishRecord.Status,
+                Otp = jyotishRecord.Otp,
+                Experience = jyotishRecord.Experience,
+                Pooja = jyotishRecord.Pooja,
+                Call = jyotishRecord.Call,
+                CallCharges = jyotishRecord.CallCharges,
+                Chat = jyotishRecord.Chat,
+                ChatCharges = jyotishRecord.ChatCharges,
+                AppointmentCharges = jyotishRecord.AppointmentCharges,
+                Address = jyotishRecord.Address,
+                TimeTo = jyotishRecord.TimeTo,
+                TimeFrom = jyotishRecord.TimeFrom,
+                About = jyotishRecord.About,
+                AwordsAndAchievement = achievementsArray,
+                Specialization = specializationArray,
+                Videos = videos,
+                Gallery = gallery
+            };
+
+            return profileViewModel;
         }
+
         public List<JyotishModel> SearchAstrologer(string keyword)
         {
             var result = _context.JyotishRecords.Where(x => x.Status == "Complete")
@@ -90,7 +174,8 @@ namespace BusinessAccessLayer.Implementation
                             record.Language.Contains(keyword) ||
                             record.Country.Contains(keyword) ||
                             record.State.Contains(keyword) ||
-                            record.City.Contains(keyword))
+                            record.City.Contains(keyword) || record.Specialization.Contains(keyword) || record.Pooja.Contains(keyword))
+
            .ToList();
 
             return result;
