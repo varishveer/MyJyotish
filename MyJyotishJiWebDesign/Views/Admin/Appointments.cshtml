@@ -13,9 +13,6 @@
     }
 </style>
 
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<link href="https://cdn.datatables.net/2.1.3/css/dataTables.dataTables.min.css" rel="stylesheet" />
-<script src="https://cdn.datatables.net/2.1.3/js/dataTables.min.js"></script>
 
 <div class="container-fluid mt-4">
     <div class="card">
@@ -35,10 +32,6 @@
         </div>
     </div>
 </div>
-
-
-
-
 
 <script>
     $(document).ready(function () {
@@ -87,7 +80,13 @@
 
                     htmls += '</tbody>';
                     $('#DataTable').html(htmls);
-                    $('#DataTable').DataTable(); // Initialize after setting the HTML
+                    // Initialize DataTable after the data is loaded
+                    $('#DataTable').DataTable({
+                        "paging": true,
+                        "searching": true,
+                        "ordering": true,
+                        "info": true
+                    });
                 },
                 error: function (errormessage) {
                     console.error('Error fetching data:', errormessage.responseText);
@@ -103,147 +102,3 @@
 
 
 
-
-@* 
-<!-- Modal Structure -->
-<div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="updateModalLabel">Update Appointment</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="requestForm">
-                    <div class="form-group">
-                        <label for="Id">Id:</label>
-                        <input type="text" class="form-control" id="Id" readonly>
-                    </div>
-                   
-                    <div class="form-group">
-                        <label for="Name">Name:</label>
-                        <input type="text" class="form-control" id="Name">
-                    </div>
-                    <div class="form-group">
-                        <label for="Mobile">Mobile:</label>
-                        <input type="text" class="form-control" id="Mobile">
-                    </div>
-                    <div class="form-group">
-                        <label for="DateTime">DateTime:</label>
-                        <input type="text" class="form-control" id="DateTime">
-                    </div>
-                    <div class="form-group">
-                        <label for="Email">Email:</label>
-                        <input type="text" class="form-control" id="Email">
-                    </div>
-                    <div class="form-group">
-                        <label for="JyotishId">JyotishId:</label>
-                        <input type="text" class="form-control" id="JyotishId">
-                    </div>
-                    <div class="form-group">
-                        <label for="UserId">UserId:</label>
-                        <input type="text" class="form-control" id="UserId">
-                    </div>
-                    <div class="form-group">
-                        <label for="Problem">Problem:</label>
-                        <input type="text" class="form-control" id="Problem">
-                    </div>
-                    <div class="form-group">
-                        <label for="Solution">Solution:</label>
-                        <input type="text" class="form-control" id="Solution">
-                    </div>
-                    <div class="form-group">
-                        <label for="Status">Status:</label>
-                        <input type="text" class="form-control" id="Status">
-                    </div>
-                    <div class="form-group">
-                        <label for="Amount">Amount:</label>
-                        <input type="number" class="form-control" id="Amount">
-                    </div>
-                    <button type="button" class="btn btn-primary" id="updateButton">Update</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
- *@
-@* <script>
-
-    $(document).on('click', '.open-modal', function () {
-        // Get the closest row that contains the SVG
-        const row = $(this).closest('tr');
-        const id = row.data('id');
-     
-        const name = row.data('name');
-        const mobile = row.data('mobile');
-        const datetime = row.data('datetime');
-        const email = row.data('email');
-        const jyotishId = row.data('jyotishid');
-        const userId = row.data('userid');
-        const problem = row.data('problem');
-        const solution = row.data('solution');
-        const status = row.data('status');
-        const amount = row.data('amount');
-
-        // Populate modal fields
-        $('#Id').val(id);
-     
-        $('#Name').val(name);
-        $('#Mobile').val(mobile);
-        $('#DateTime').val(datetime);
-        $('#Email').val(email);
-        $('#JyotishId').val(jyotishId);
-        $('#UserId').val(userId);
-        $('#Problem').val(problem);
-        $('#Solution').val(solution);
-        $('#Status').val(status);
-        $('#Amount').val(amount);
-    });
-
-
-
-
-    document.getElementById('updateButton').addEventListener('click', async function () {
-        // Get form data
-        const formData = {
-            Id: parseInt(document.getElementById('Id').value, 10),
-          
-            Name: document.getElementById('Name').value,
-            Mobile: document.getElementById('Mobile').value,
-            DateTime: new Date(document.getElementById('DateTime').value).toISOString(), // Convert to ISO string
-            Email: document.getElementById('Email').value,
-            JyotishId: parseInt(document.getElementById('JyotishId').value, 10),
-            UserId: parseInt(document.getElementById('UserId').value, 10),
-            Problem: document.getElementById('Problem').value,
-            Solution: document.getElementById('Solution').value,
-            Status: document.getElementById('Status').value,
-            Amount: parseInt(document.getElementById('Amount').value, 10)
-        };
-
-        try {
-            const response = await fetch('https://api.myjyotishg.in/api/Admin/UpdateAppointment', {
-                method: 'POST', // Use 'PUT' if updating an existing resource
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Example authorization header
-                    'Content-Type': 'application/json' // Header indicating JSON payload
-                },
-                body: JSON.stringify(formData) // Convert form data to JSON
-            });
-
-            if (response.status === 200) {
-                const result = await response.json();
-                alert('Request updated successfully!');
-                console.log(result);
-                $('#updateModal').modal('hide'); // Close the modal
-                window.location.reload();
-
-            } else {
-                alert('Failed to update request.');
-                console.error('Error:', response.statusText);
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            alert('An error occurred while updating the request.');
-        }
-    });
-</script> *@
