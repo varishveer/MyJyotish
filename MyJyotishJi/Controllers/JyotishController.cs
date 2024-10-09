@@ -256,7 +256,7 @@ namespace MyJyotishGApi.Controllers
             {
                 return StatusCode(500, new { Status = 500, Message = ex.Message, Error = ex });
             }
-        }
+        }  
 
 
 
