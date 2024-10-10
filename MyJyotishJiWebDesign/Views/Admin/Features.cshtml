@@ -1,0 +1,365 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "AdminLayout";
+}
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+ 
+
+<style>
+    /* Main Container Styling */
+    .main-container {
+        overflow: hidden;
+        padding: 15px;
+        border-radius: 0px 10px 10px 0px;
+        box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Left Part Image Styling */
+    .left-part img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 10px 0px 0px 10px;
+    }
+
+    /* Form Select Styling */
+    .form-select {
+        font-size: 13px;
+    }
+
+    /* Right Part Form Input and Button Styling */
+    .right-part form input, .right-part form button {
+        font-size: 13px;
+    }
+
+    /* Right Part Button Styling */
+    .right-part button {
+        background-color: #138496;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+        /* Right Part Button Hover Effect */
+        .right-part button:hover {
+            background-color: #117a88;
+        }
+
+    /* Horizontal Rule Styling */
+    hr:not([size]) {
+        height: 0.02125rem !important;
+    }
+</style>
+
+<!-- Feature Form Section -->
+<div class="container d-flex justify-content-center align-items-center min-vh-90 mt-4">
+    <div class="main-container row w-75 rounded-3">
+        <!-- Form Section -->
+        <div class="col-lg-12 col-md-12 p-2 bg-white right-part">
+            <h5 class="mb-3 text-primary">Add Feature</h5>
+            <hr />
+            <form >
+                <div class="form-group">
+                    <label for="feature" class="form-label">Feature</label>
+                    <input type="text" class="form-control" id="Name" name="Name" placeholder="Enter feature">
+                    <input type="hidden" class="form-control" id="featureId">
+                </div>
+                <div class="form-group">
+
+                    <button id="btnupdate" class="btn btn-success px-3" style="display:none;">Update</button>
+                    <button id="btnsubmit" class="btn btn-success px-3" >Submit</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- Features List Section -->
+<div class="container mt-4">
+    <div class="card">
+        <div class="d-flex flex-row justify-content-between align-items-center pt-2 px-4">
+            <h5 class="text-primary">Features List</h5>
+        </div>
+        <hr />
+
+        <div class="card-body ">
+            <div class="table-responsive">
+                <table id="DataTable" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Features</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Dynamic Data goes here -->
+                      
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Optional: Initialize DataTable -->
+<script>
+    $(document).ready(function () {
+        $('#DataTable').DataTable();
+    });
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        $("#btnsubmit").on('click', function (e) { 
+            e.preventDefault();
+
+            var featureName = $("#Name").val(); 
+            if (!featureName) {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Feature name cannot be empty.',
+                    icon: 'error',
+                    confirmButtonText: 'Close'
+                });
+                return;
+            }
+            $.ajax({
+                url: 'https://api.myjyotishg.in/api/Admin/AddFeature',
+                type: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                    'Content-Type': 'application/json', 
+
+                },
+                contentType: 'application/json',
+                data: JSON.stringify({ 
+                    Name: featureName
+                }),
+                success: function (response) {
+                    if (response.status === 200) {
+                        Swal.fire({
+                            title: 'Success!',
+                            text: 'Feature successfully added.',
+                            icon: 'success',
+                            confirmButtonText: 'Ok'
+                        }).then(() => {
+                            window.location.href = "/Admin/Features";
+                        });
+                    } 
+                    else if (response.status === 400) {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: response.message,
+                            icon: 'error',
+                            confirmButtonText: 'Close'
+                        });
+                    } 
+                    else {
+                        console.error("Unexpected response status:", response.status);
+                        alert("An unexpected error occurred.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error:", xhr.responseText);
+                    alert("An error occurred while processing the request.");
+                }
+            });
+        });
+    });
+</script>
+
+
+<script>
+    $(document).ready(function () {
+
+        $.ajax({
+            url: 'https://api.myjyotishg.in/api/Admin/GetAllFeatures',
+            type: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                'Content-Type': 'application/json',
+            },
+            success: function (res) {
+                $('#DataTable tbody').empty(); 
+
+                $.each(res.data, function (index, item) {
+
+                   let rows = `<tr>
+                                    <td>${index+1}</td>
+                                    <td class='featureName'>${item.name}</td>
+                                    <td style='cursor:pointer;'>
+                                    <a class="deletefeature" data-id="${item.featureId}">
+                                       <i class="fa-solid fa-trash-can text-danger"></i>
+                                   </a>
+                                    <a class="editfeature" data-id="${item.featureId} ">
+                                          <i class="fa-solid fa-pen-to-square text-success"></i>
+                                   </a>
+
+                                    </td>
+                                </tr>`;
+
+                    $('#DataTable tbody').append(rows);
+
+                });
+
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        });
+    });
+</script>
+
+ <script>
+    $(document).ready(function () {
+
+        // Use event delegation to handle dynamically added elements
+        $(document).on('click', '.deletefeature', function () {
+            var id = $(this).attr("data-id");
+         
+            if (!id) {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Feature ID is missing.',
+                    icon: 'error',
+                    confirmButtonText: 'Ok'
+                });
+                return;
+            }
+
+            $.ajax({
+                url: 'https://api.myjyotishg.in/api/Admin/DeleteFeature',
+                type: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                    'Content-Type': 'application/json',
+                },
+                data: { Id: id },
+                success: function (response) {
+                    Swal.fire({
+                        title: 'Success!',
+                        text: 'Feature deleted successfully.',
+                        icon: 'success',
+                        confirmButtonText: 'Ok'
+                    }).then(() => {
+                        window.location.href = "/Admin/Features";
+                    });
+                },
+                error: function (error) {
+                    console.error(error);
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'There was an error deleting the feature. Please try again.',
+                        icon: 'error',
+                        confirmButtonText: 'Ok'
+                    });
+                }
+            });
+        });
+
+    });
+
+</script>
+
+<script>
+    $(document).ready(function () {
+        $(document).on('click', '.editfeature', function () {
+            var Id = $(this).attr('data-id');
+            var fieldValue = $(this).closest('tr').find('.featureName').text();
+
+            $('#Name').val(fieldValue);
+            $('#featureId').val(Id);
+            debugger
+            if (Id) {
+                $('#btnupdate').show();
+                $('#btnsubmit').hide();
+            } else {
+                $('#btnsubmit').show();
+                $('#btnupdate').hide();
+            }
+        });
+    });
+
+</script>
+
+<script>
+    $(document).ready(function () {
+        $("#btnupdate").on('click', function (e) {
+            e.preventDefault();
+
+            const featureName = $("#Name").val();
+            const featureId = $("#featureId").val().trim();
+           
+            if (!featureName) {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Feature name cannot be empty.',
+                    icon: 'error',
+                    confirmButtonText: 'Close'
+                });
+                return;
+            }
+            $.ajax({
+                url: 'https://api.myjyotishg.in/api/Admin/UpdateFeature',
+                type: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                    'Content-Type': 'application/json',
+
+                },
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    FeatureId: featureId,
+                    Name: featureName
+                }),
+                success: function (response) {
+                
+                    if (response.status === 200) {
+                        Swal.fire({
+                            title: 'Success!',
+                            text: 'Feature updated successfully.',
+                            icon: 'success',
+                            confirmButtonText: 'Ok'
+                        }).then(() => {
+                            window.location.href = "/Admin/Features";
+                        });
+                    } else if (response.status === 400) {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: response.message || 'Bad request.',
+                            icon: 'error',
+                            confirmButtonText: 'Close'
+                        });
+                    } else {
+                        // Handle unexpected response status
+                        console.error("Unexpected response status:", response.status);
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'An unexpected error occurred.',
+                            icon: 'error',
+                            confirmButtonText: 'Close'
+                        });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("AJAX Error:", error);
+                    console.error("Response Text:", xhr.responseText);
+
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'An error occurred while processing the request. Please try again.',
+                        icon: 'error',
+                        confirmButtonText: 'Close'
+                    });
+                }
+            });
+        });
+    });
+</script>

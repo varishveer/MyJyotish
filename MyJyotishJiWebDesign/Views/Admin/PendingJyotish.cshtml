@@ -41,7 +41,7 @@
     $(document).ready(function () {
         function fetchData() {
             $.ajax({
-                url: "https://api.myjyotishg.in/api/Admin/PendingJyotish",
+                url: 'https://api.myjyotishg.in/api/Admin/PendingJyotish',
                 type: 'GET',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Example of an authorization header
