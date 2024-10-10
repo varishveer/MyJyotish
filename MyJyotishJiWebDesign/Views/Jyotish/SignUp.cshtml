@@ -82,11 +82,11 @@
     <h2 class="mb-3 d-flex justify-content-center">Sign Up</h2>
             <form id="registrationForm">
         <div class="form-row">
-                    <div class="form-group col-md-6" style="margin-bottom: 0.2rem;">
+            <div class="form-group col-md-6" style="margin-bottom: 0.2rem;">
                         <label for="name" class="form-label" style="margin-bottom: 0.2rem;">Name:</label>
                 <input type="text" id="name" name="name" placeholder="Enter your name" class="form-control" required>
             </div>
-                    <div class="form-group col-md-6" style="margin-bottom: 0.2rem;">
+             <div class="form-group col-md-6" style="margin-bottom: 0.2rem;">
                 <label for="email" class="form-label">Email:</label>
                 <div class="input-group">
                     <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email" aria-label="Recipient's username" required>
@@ -107,17 +107,18 @@
 
         <div class="form-row">
                     <div class="form-group col-md-6" style="margin-bottom: 0.2rem;">
-                <label for="mobile" class="form-label">Number:</label>
+                        <label for="gender" class="form-label">Gender:</label>
+                        <select id="gender" name="gender" class="form-select" required>
+                            <option value="Male" selected>Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+            <div class="form-group col-md-6" style="margin-bottom: 0.2rem;">
+                <label for="mobile" class="form-label">Mobile:</label>
                         <input type="tel" id="mobile" name="mobile" class="form-control" placeholder="Mobile Number" required>
             </div>
-                    <div class="form-group col-md-6" style="margin-bottom: 0.2rem;">
-                <label for="gender" class="form-label">Gender:</label>
-                <select id="gender" name="gender" class="form-select" required>
-                    <option value="Male" selected>Male</option>
-                    <option value="Female">Female</option>
-                    <option value="Other">Other</option>
-                </select>
-            </div>
+          
         </div>
 
         <div class="form-row">
@@ -136,21 +137,6 @@
                 </select>
             </div>
         </div>
-
-        
-        <div class="form-row">
-             
-            <div class="form-group col-md-6" style="margin-bottom: 0.2rem;">
-                <label for="country" class="form-label">Image:</label>
-                <input type="file" class="form-control"/>
-            </div>
-
-                    <div class="form-group col-md-6" style="margin-bottom: 0.2rem;">
-                        <label for="Image" class="form-label">Profile Images:</label>
-                        <input type="file" id="Image" class="form-control" />
-                    </div>
-        </div>    
-             
         <div class="form-row">
              <div class="form-group col-md-12" style="margin-bottom: 0.2rem;">
                 <label for="country" class="form-label">Country:</label>
@@ -179,6 +165,18 @@
                 </select>
             </div>
          
+        </div>
+
+        <div class="form-row">
+              <div class="form-group col-md-6" style="margin-bottom: 0.6rem;">
+                  <label for="city" class="form-label">Date Of Birth:</label>
+                  <input type="text" class="form-control" id="DateOfBirth" name="DateOfBirth" placeholder="Enter DOB" />
+              </div>
+              <div class="form-group col-md-6" style="margin-bottom: 0.6rem;">
+                    <label for="country" class="form-label">Image:</label>
+                    <input type="file" class="form-control" />
+              </div>
+           
         </div>
 
         <button type="submit" class="btn btn-info">Sign Up</button>
