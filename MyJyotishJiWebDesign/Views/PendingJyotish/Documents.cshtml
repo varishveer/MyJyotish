@@ -3,6 +3,7 @@
 *@
 @{
     Layout = "PendingJyotishLayout";
+    var BaseUrl = "https://api.myjyotishg.in/";
 }
 <style>
     .image-container {
@@ -273,7 +274,7 @@
             try {
 
                 const token = localStorage.getItem('Token3');
-                const imageApiUrl = `https://localhost:7118/Api/PendingJyotish/Documents?email=${encodeURIComponent(email)}`; // Replace with your API endpoint for images
+                const imageApiUrl = "@BaseUrl" + `Api/PendingJyotish/Documents?email=${encodeURIComponent(email)}`; // Replace with your API endpoint for images
 
                 const response = await $.ajax({
                     url: imageApiUrl,
@@ -284,14 +285,14 @@
                     }
                 });
                 debugger;
-                var path = "https://localhost:7118";
+             
 
 
-                $('#idProof').attr('src', response.data.idProof ? path + response.data.idProof : 'https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp');
-                $('#addressProof').attr('src', response.data.addressProof ? path + response.data.addressProof : 'https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp');
-                $('#tenthCertificate').attr('src', response.data.tenthCertificate ? path + response.data.tenthCertificate : 'https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp');
-                $('#twelveCertificate').attr('src', response.data.twelveCertificate ? path + response.data.twelveCertificate : 'https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp');
-                $('#professionalCertificate').attr('src', response.data.professionalCertificate ? path + response.data.professionalCertificate : 'https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp');
+                $('#idProof').attr('src', response.data.idProof ? "@BaseUrl" + response.data.idProof :  '/Img/SampleDoc.jpeg');
+                $('#addressProof').attr('src', response.data.addressProof ? "@BaseUrl" + response.data.addressProof : '/Img/SampleDoc.jpeg');
+                $('#tenthCertificate').attr('src', response.data.tenthCertificate ? "@BaseUrl" + response.data.tenthCertificate :  '/Img/SampleDoc.jpeg');
+                $('#twelveCertificate').attr('src', response.data.twelveCertificate ? "@BaseUrl" + response.data.twelveCertificate :  '/Img/SampleDoc.jpeg');
+                $('#professionalCertificate').attr('src', response.data.professionalCertificate ? "@BaseUrl" + response.data.professionalCertificate :   '/Img/SampleDoc.jpeg');
 
 
                 $('#loading').hide();

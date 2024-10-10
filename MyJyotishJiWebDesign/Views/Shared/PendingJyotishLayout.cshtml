@@ -30,7 +30,7 @@
 
     <!-- Template Stylesheet -->
     <link href="~/css/style.css" rel="stylesheet">
-
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <style>
         #docoument1:hover{
             color:#007bff
@@ -334,9 +334,10 @@
                     </div>
                 </div>
             </nav>
-            <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+           
             <!-- Navbar End -->
             @{
+
                 // var BaseUrl = "https://localhost:7118/";
                 var BaseUrl = "https://api.myjyotishg.in/";
             }
@@ -374,7 +375,7 @@
         $("#logout").click(function () {
             alert("Logout");
             localStorage.clear();
-            window.location.replace("https://localhost:44324/Jyotish/Login");
+            window.location.replace("/Jyotish/Login");
         })
 
 
@@ -405,7 +406,7 @@
         });
     </script> *@
 
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
 
     <script>
         $(document).ready(function () {
@@ -445,7 +446,7 @@
             $("#logout").click(function () {
                 if (confirm("Are you sure you want to logout?")) {  // Confirm logout
                     localStorage.clear();
-                    window.location.replace("https://localhost:44324/Admin/Login");
+                    window.location.replace("/Admin/Login");
                 }
             });
 

@@ -3,6 +3,7 @@
 *@
 @{
     Layout = "PendingJyotishLayout";
+    var BaseUrl = "https://api.myjyotishg.in/";
 }
 
 <style>
@@ -150,7 +151,7 @@
                     <span>ID Proof</span>
                 </div>
                 <div class="image-container bg-light rounded">
-                    <input name="file1" type="file" class="dropify" data-height="120" />
+                    <input id="idProof" name="file1" type="file" class="dropify" data-height="120" />
                 </div>
 
 
@@ -160,7 +161,7 @@
                     <span>Address Proof</span>
                 </div>
                 <div class="image-container bg-light rounded">
-                    <input name="file1" type="file" class="dropify" data-height="120" />
+                    <input id="addressProof" name="file1" type="file" class="dropify" data-height="120" />
                 </div>
 
             </div>
@@ -169,7 +170,7 @@
                     <span>10th Certificate</span>
                 </div>
                 <div class="image-container bg-light rounded">
-                    <input name="file1" type="file" class="dropify" data-height="120" />
+                    <input id="tenthCertificate" name="file1" type="file" class="dropify" data-height="120" />
                 </div>
 
             </div>
@@ -178,7 +179,7 @@
                     <span>12th Certificate</span>
                 </div>
                 <div class="image-container bg-light rounded">
-                    <input name="file1" type="file" class="dropify" data-height="120" />
+                    <input id="twelveCertificate" name="file1" type="file" class="dropify" data-height="120" />
                 </div>
 
             </div>
@@ -187,19 +188,18 @@
                     <span>Professional Certificate</span>
                 </div>
                 <div class="image-container bg-light rounded">
-                    <input name="file1" type="file" class="dropify" data-height="120" />
+                    <input id="professionalCertificate" name="file1" type="file" class="dropify" data-height="120" />
                 </div>
 
             </div>
             <div class="text-center">
-                <button type="submit" class="btn btn-primary px-4">Upload</button>
+                <button id="uploadBtn" type="submit" class="btn btn-primary px-4">Upload</button>
             </div>
         </div>
     </div>
 </div>
 
 
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script type="text/javascript" src="https://jeremyfagis.github.io/dropify/dist/js/dropify.min.js"></script>
@@ -215,8 +215,8 @@
     $(document).ready(function () {
         const email = localStorage.getItem('userEmail');
         $('#jyotishEmail').val(email);
-
-        $('#uploadForm').submit(function (event) {
+       
+        $('#uploadBtn').click(function (event) {
             event.preventDefault(); // Prevent the default form submission
 
             // Check if at least one image file is selected
@@ -234,8 +234,8 @@
             }
 
             // Create a FormData object from the form
-            const formData = new FormData($(this)[0]);
-
+            const formData = new FormData();
+            debugger;
             // Append files to FormData
             if (idProofFile) formData.append('IdProof', document.getElementById('idProof').files[0]);
             if (addressProofFile) formData.append('AddressProof', document.getElementById('addressProof').files[0]);
@@ -247,10 +247,10 @@
             formData.append('JyotishEmail', email);
 
             const token = localStorage.getItem('Token3');
-            debugger;
+           
             // Send the data via AJAX
             $.ajax({
-                url: 'https://localhost:7118/Api/PendingJyotish/UploadDocument',
+                url: "@BaseUrl" + 'Api/PendingJyotish/UploadDocument',
                 type: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -259,11 +259,13 @@
                 processData: false, // Prevent jQuery from automatically processing the data
                 contentType: false, // Prevent jQuery from setting content type, as it is handled by FormData
                 success: function (result) {
+                    debugger;
                     // Handle success
                     console.log('Success:', result);
                     alert('Files and data uploaded successfully!');
                 },
                 error: function (xhr, status, message) {
+                    debugger;
                     // Handle errors
                     console.error('Error:');
                     console.error(status);

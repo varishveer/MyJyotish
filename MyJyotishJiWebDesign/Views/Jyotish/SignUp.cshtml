@@ -80,7 +80,7 @@
         </div>
          <div class="col-md-7 right-part">
     <h2 class="mb-3 d-flex justify-content-center">Sign Up</h2>
-            <form id="registrationForm">
+      <form id="registrationForm">
         <div class="form-row">
             <div class="form-group col-md-6" style="margin-bottom: 0.2rem;">
                         <label for="name" class="form-label" style="margin-bottom: 0.2rem;">Name:</label>
@@ -170,7 +170,7 @@
         <div class="form-row">
               <div class="form-group col-md-6" style="margin-bottom: 0.6rem;">
                   <label for="city" class="form-label">Date Of Birth:</label>
-                  <input type="text" class="form-control" id="DateOfBirth" name="DateOfBirth" placeholder="Enter DOB" />
+                  <input type="date" class="form-control" id="DateOfBirth" name="DateOfBirth" placeholder="Enter DOB" />
               </div>
               <div class="form-group col-md-6" style="margin-bottom: 0.6rem;">
                     <label for="country" class="form-label">Image:</label>
@@ -201,7 +201,6 @@
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
@@ -384,31 +383,78 @@
             }
         });
 
+        // $('#registrationForm').on("submit", function (event) {
+        //     event.preventDefault();
+          
+        //     const formData = new FormData(); // Use FormData for file uploads
+        //    var name=$('')
+
+        //     $.ajax({
+        //         url: "@BaseUrl" + 'Api/Account/SignUpJyotish',
+        //         type: 'POST',
+        //         data: formData,
+        //         processData: false, // Important for file uploads
+        //         contentType: false, // Important for file uploads
+        //         success: function (response) {
+        //             debugger;
+        //             console.log('Success:', response);
+        //             alert('Form submitted successfully!');
+        //             $('#registrationForm')[0].reset(); // Reset the form
+        //         },
+        //         error: function (xhr, status, error) {
+        //             debugger;
+        //             console.error('Error:', error);
+        //             console.log('XHR:', xhr.statusCode);
+        //             alert('There was an error submitting the form.');
+        //         }
+        //     });
+        // });
+
+
         $('#registrationForm').on("submit", function (event) {
             event.preventDefault();
-            debugger;
-            const formData = new FormData(this); // Use FormData for file uploads
 
+           
+            const formData = new FormData();
+
+         
+            formData.append('name', $('#name').val());
+            formData.append('email', $('#email').val());
+            formData.append('gender', $('#gender').val());
+            formData.append('mobile', $('#mobile').val());
+            formData.append('language', $('#language').val());
+            formData.append('expertise', $('#expertise').val());
+            formData.append('country', $('#country').val());
+            formData.append('state', $('#state').val());
+            formData.append('city', $('#city').val());
+            formData.append('DateOfBirth', $('#DateOfBirth').val());
+
+           
+            const fileInput = document.querySelector('input[type="file"]');
+            if (fileInput && fileInput.files.length > 0) {
+                formData.append('image', fileInput.files[0]);
+            }
+
+          
             $.ajax({
                 url: "@BaseUrl" + 'Api/Account/SignUpJyotish',
                 type: 'POST',
                 data: formData,
-                processData: false, // Important for file uploads
-                contentType: false, // Important for file uploads
+                processData: false,
+                contentType: false, 
                 success: function (response) {
-                    debugger;
                     console.log('Success:', response);
                     alert('Form submitted successfully!');
-                    $('#registrationForm')[0].reset(); // Reset the form
+                    $('#registrationForm')[0].reset();
                 },
                 error: function (xhr, status, error) {
-                    debugger;
                     console.error('Error:', error);
-                    console.log('XHR:', xhr.statusCode);
-                    alert('There was an error submitting the form.');
+                    console.log('XHR:', xhr);
+                    alert('There was an error submitting the form: ' + xhr.responseText);
                 }
             });
         });
+
     });
 </script>
 
