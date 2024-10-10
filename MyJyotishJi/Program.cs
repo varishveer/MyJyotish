@@ -4,6 +4,7 @@ using DataAccessLayer.DbServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using MyJyotishGApi.RazorPay;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -17,11 +18,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationContext>(options => { options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")); });
+builder.Services.Configure<RazorpaySettings>(builder.Configuration.GetSection("Razorpay"));
 builder.Services.AddScoped<IAdminServices, AdminServices>();
 builder.Services.AddScoped<IAccountServices, AccountServices>();
 builder.Services.AddScoped<IJyotishServices, JyotishServices>();
 builder.Services.AddScoped<IPendingJyotishServices, PendingJyotishServices>();
 builder.Services.AddScoped<IUserServices, UserServices>();
+builder.Services.AddScoped<RazorpayService>();
 
 
 builder.Services.AddAuthentication(options =>
