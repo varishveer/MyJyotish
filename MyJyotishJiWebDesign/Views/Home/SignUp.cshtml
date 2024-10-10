@@ -1,0 +1,163 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@{
+    Layout = "Extra";
+
+}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<style>
+    .container {
+        margin-top: 50px;
+        margin-bottom: 50px;
+    }
+
+
+    .left-part {
+        border-radius: 10px 0px 0px 10px;
+        box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.2);
+        padding: 15px;
+    }
+
+    .right-part {
+        border-radius: 0px 10px 10px 0px;
+        box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.2);
+        padding: 30px;
+        background-color: white;
+    }
+
+    .responsive-image {
+        max-width: 100%;
+        height: auto;
+        border-radius: 10px;
+    }
+
+    h2 {
+        margin-bottom: 20px;
+        color: black;
+    }
+
+    .btn-primary {
+        border-radius: 6px;
+    }
+
+    .form-group {
+        margin-bottom: 0.5rem; /* Adjust this value as needed */
+    }
+
+    .form-label {
+        margin-bottom: 0.2rem; /* Reduce space between label and input */
+        font-size: 16px;
+    }
+
+    .input-group {
+        margin-bottom: 0.5rem; /* Reduce space between input groups */
+    }
+
+    .form-control {
+        font-size: 12px;
+    }
+
+    .form-select {
+        font-size: 12px;
+    }
+
+    .btn:not(:disabled):not(.disabled) {
+        font-size: 12px;
+    }
+
+    .otpcolour {
+        color: white;
+        background-color: lightslategray;
+    }
+
+</style>
+
+<div class="container h-80 ">
+    <div class="row w-70">
+        <div class="col-md-5 left-part d-flex justify-content-center align-items-center">
+            <img src="~/gif/6300830.jpg" alt="Sign Up Image" class="responsive-image" />
+        </div>
+        <div class="col-md-7 right-part">
+            <h2 class="mb-3 d-flex justify-content-center">Sign Up</h2>
+            <form id="registrationForm">
+                <div class="form-row">
+                    <div class="form-group col-md-6" style="margin-bottom: 0.2rem;">
+                        <label for="name" class="form-label" style="margin-bottom: 0.2rem;">Name:</label>
+                        <input type="text" id="name" name="name" placeholder="Enter your name" class="form-control" required>
+                    </div>
+                    <div class="form-group col-md-6" style="margin-bottom: 0.2rem;">
+                        <label for="email" class="form-label">Email:</label>
+                        <div class="input-group">
+                            <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email" aria-label="Recipient's username" required>
+                            <button class="btn btn-outline-secondary otpcolour" type="button" id="getOtp">Get OTP</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-12" style="margin-bottom: 0.2rem;">
+                        <label for="otp" class="form-label" style="display:none">Verification:</label>
+                        <div class="input-group">
+                            <input type="number" id="otp" name="otp" class="form-control" style="display:none" placeholder="Enter OTP" required>
+                            <button class="btn btn-outline-secondary" type="button" id="verifyOtp" style="display:none">Verify OTP</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6" style="margin-bottom: 0.2rem;">
+                        <label for="gender" class="form-label">Gender:</label>
+                        <select id="gender" name="gender" class="form-select" required>
+                            <option value="Male" selected>Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6" style="margin-bottom: 0.2rem;">
+                        <label for="mobile" class="form-label">Mobile:</label>
+                        <input type="tel" id="mobile" name="mobile" class="form-control" placeholder="Mobile Number" required>
+                    </div>
+
+                </div>
+
+
+
+                <div class="form-row">
+                    <div class="form-group col-md-6" style="margin-bottom: 0.6rem;">
+                        <label for="city" class="form-label">Date Of Birth:</label>
+                        <input type="text" class="form-control" id="DoB" name="DoB" placeholder="Enter DOB" />
+                    </div>  
+                    <div class="form-group col-md-6" style="margin-bottom: 0.6rem;">
+                        <label for="expertise" class="form-label">Place of Birth:</label>
+                        <select id="PlaceOfBirth" name="PlaceOfBirth" class="form-select" required>
+                            <option value="">Select Place Of Birth</option>
+                            <!-- Add expertise options here -->
+                        </select>
+                    </div>
+                 
+                </div>
+
+                <button type="submit" class="btn btn-info">Sign Up</button>
+
+                <div class="form-row mt-3" style="margin-bottom: 0.2rem;">
+                    <div class="form-group col-md-12" style="margin-bottom: 0.2rem;">
+                        <p>
+                            By submitting this form, you agree to our
+                            <a href="#" class="text-info">Privacy Policy</a> and
+                            <a href="#" class="text-info">Terms of Service</a>.
+                        </p>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <p class="mb-0">Already have an account?</p>
+                        <a href="/Jyotish/Login">Login</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+
+    </div>
+</div>

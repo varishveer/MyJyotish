@@ -14,7 +14,6 @@ namespace MyJyotishJiWebDesign.Controllers
         }
 
        
-
         public IActionResult Privacy()
         {
             return View();
@@ -53,6 +52,7 @@ namespace MyJyotishJiWebDesign.Controllers
         public IActionResult Compatibility() { return View(); }
         public IActionResult IndianCalendarFestivals() { return View(); }
         public IActionResult BlogDetails() { return View(); }
+        public IActionResult SignUp() { return View(); }
 
 
     }
