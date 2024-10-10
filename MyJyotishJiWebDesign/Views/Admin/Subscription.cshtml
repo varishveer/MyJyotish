@@ -1,0 +1,183 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "AdminLayout";
+}
+<!-- Link to DataTables CSS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+<!-- Link to Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<style>
+    .main-container {
+        overflow: hidden;
+        padding: 15px;
+        border-radius: 0px 10px 10px 0px;
+        box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.3);
+    }
+
+    .left-part img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 10px;
+        border-radius: 10px 0px 0px 10px;
+    }
+
+    .form-select {
+        font-size: 13px;
+    }
+
+    .right-part form input, .right-part form button {
+        font-size: 13px;
+    }
+
+    .right-part button {
+        background-color: #138496;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+        .right-part button:hover {
+            background-color: #138496;
+            color: white;
+        }
+
+    hr:not([size]){
+        height: 0.02125rem !important;
+    }
+
+</style>
+
+
+<div class="container d-flex justify-content-center align-items-center min-vh-90 mt-4">
+    <div class="main-container row w-75 rounded-3">
+
+        <div class="col-lg-12 col-md-12 p-2 bg-white right-part ">
+            <h5 class="mb-3  text-primary">Subscription</h5>
+            <hr />
+            <form id="loginForm">
+               
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="username" class="form-label">Subscription Name</label>
+                        <input type="text" class="form-control" id="Name" name="Name" placeholder="Enter name">
+                    </div>
+                     <div class="form-group col-md-6">
+                        <label for="username" class="form-label">Type</label>
+                        <input type="text" class="form-control" id="PlanType" name="PlanType" placeholder="Enter plan type">
+                    </div>
+                   
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="mobile" class="form-label">Old Price</label>
+                        <input type="number" class="form-control" id="OldPrice" name="OldPrice" placeholder="Enter old price">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="date" class="form-label">New Price</label>
+                        <input type="text" id="NewPrice" name="NewPrice" class="form-control" placeholder="Enter discount" id="date">
+                    </div>
+               
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="email" class="form-label">Discount</label>
+                        <input type="text" name="Discount" id="Discount" class="form-control" placeholder="Enter discount">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="problems" class="form-label">GST</label>
+                        <input type="text" id="Gst" name="Gst" class="form-control" placeholder="Enter GST">
+                    </div>
+                
+                </div>    
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="email" class="form-label">DiscountAmount</label>
+                        <input type="text" name="DiscountAmount" id="DiscountAmount" class="form-control" placeholder="Enter discount amount">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="mode" class="form-label">Feature</label>
+                        <select id="Features" name="Features" class="form-select" required>
+                            <option value="Online">Basic</option>
+                            <option value="Offline">Premium</option>
+                        </select>
+                    </div>
+                 
+                
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="problems" class="form-label">Description</label>
+                        <textarea id="description" name="description" class="form-control" placeholder="Enter Description">
+
+                        </textarea>
+                    </div>
+
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <input type="submit" class="btn btn-success px-4 text-decoration-none" value="Create" />
+                    </div>
+                    
+                </div>
+
+              
+
+             
+                
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Include DataTables JS -->
+<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+
+
+<div class="container-fluid mt-4">
+    <div class="card">
+
+        <div class="d-flex flex-row justify-content-between align-items-center pt-2 px-4">
+            <h5 class="text-primary">Subscription List</h5>
+            <a href="/Admin/AddPoojaCategory">
+            </a>
+
+        </div>
+        <hr />
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="DataTable" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Title</th>
+                            <th>Feature</th>
+                            <th>Amount</th>
+                            <th>Discount</th>
+                            <th>Final Price</th>
+                            <th>Duration</th>
+                           
+                        </tr>
+                    </thead>
+                    <tbody>
+                      
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Optional: Initialize DataTable -->
+<script>
+    $(document).ready(function () {
+        $('#DataTable').DataTable();
+    });
+</script>

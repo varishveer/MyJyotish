@@ -7,6 +7,11 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
+
+    <!---Swal fire--->
+    <!-- Include SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.9/dist/sweetalert2.min.css">
+
     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
 
     <!---Font Awesome-->
@@ -32,15 +37,20 @@
 
     <!-- Template Stylesheet -->
     <link href="~/css/style.css" rel="stylesheet">
-<<<<<<< HEAD
 
-=======
+
     <link href="https://cdn.datatables.net/2.1.3/css/dataTables.dataTables.min.css" rel="stylesheet" />
+    <!-- Your script that uses Swal.fire() -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.9/dist/sweetalert2.all.min.js"></script>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
->>>>>>> c286deaef828afd7f0335d59b6af55f91350e3f6
-    <style>
+    <script src="https://cdn.datatables.net/2.1.3/js/dataTables.min.js"></script>
 
+    <style>
+        .sidebar .navbar .dropdown-item {
+            font-size:14px !important;
+            font-weight:300 !important;
+        }
           td {
               padding-left: 5px !important;
               padding-right: 5px !important;
@@ -57,6 +67,7 @@
               padding-left: 70px;
               border-radius: 0 30px 30px 0;
           }
+
 
           .dropdown-item {
               padding: .50rem 1rem;
@@ -199,15 +210,10 @@
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<<<<<<< HEAD
+
     <!-- Include DataTables JS -->
     <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 
-=======
-  
-
-   
->>>>>>> c286deaef828afd7f0335d59b6af55f91350e3f6
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/chart/chart.min.js"></script>
     <script src="~/lib/easing/easing.min.js"></script>
@@ -249,23 +255,23 @@
                             <a href="/Admin/SlotList" class="dropdown-item px-5 py-1">Slot List</a>
                             <a href="element.html" class="dropdown-item px-5 py-1">Other Elements</a>
                         </div>
-                    </div>
+                    </div>  
+                  
                     <a href="/Admin/Appointments" class="nav-item nav-link py-1 mb-2" style="font-weight:300;"><i class="fa fa-th me-2"></i><span class="sidebar-nav d-none">Appointments</span></a>
                     <a href="/Admin/PendingJyotish" class="nav-item nav-link py-1  mb-2" style="font-weight:300;"><i class="fa-solid fa-clock"></i> <span class="sidebar-nav d-none">Pending Jyotish</span> </a>
                     <a href="/Admin/JyotishList" class="nav-item nav-link py-1  mb-2" style="font-weight:300;"><i class="fa-solid fa-table-list"></i> <span class="sidebar-nav d-none">Jyotish List</span></a>
                     <a href="/Admin/UserList" class="nav-item nav-link py-1 mb-2" style="font-weight:300;"><i class="fa-solid fa-list-check"></i> <span class="sidebar-nav d-none">User List</span></a>
                     <a href="/Admin/CallingRecord" class="nav-item nav-link py-1 mb-2" style="font-weight:300;"><i class="fa-solid fa-book-medical"></i> <span class="sidebar-nav d-none">Calling Records</span> </a>
-                    <a href="/Admin/ChattingRecord" class="nav-item nav-link py-1 " style="font-weight:300;"><i class="fa-brands fa-rocketchat"></i> <span class="sidebar-nav d-none">Chatting Records</span></a>
-                    @*             <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" style="font-weight:300;"><i class="far fa-file-alt me-2"></i><span class="sidebar-nav d-none">Pages</span></a>
-                    <div class="dropdown-menu nav-menus d-none bg-transparent border-0">
-                    <a href="signin.html" class="dropdown-item">Sign In</a>
-                    <a href="signup.html" class="dropdown-item">Sign Up</a>
-                    <a href="404.html" class="dropdown-item">404 Error</a>
-                    <a href="blank.html" class="dropdown-item">Blank Page</a>
+                    <a href="/Admin/ChattingRecord" class="nav-item nav-link py-1 mb-2 " style="font-weight:300;"><i class="fa-brands fa-rocketchat"></i> <span class="sidebar-nav d-none">Chatting Records</span></a>
+@*                     <a href="/Admin/Subscription" class="nav-item nav-link py-1 mb-2" style="font-weight:300;"><i class="fa-solid fa-coins"></i> <span class="sidebar-nav d-none">Subscription Plan</span></a> *@
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle py-1  mb-2" data-bs-toggle="dropdown" style="font-weight:300;"><i class="fa fa-laptop me-2"></i><span class="sidebar-nav d-none">Subscription Plan</span></a>
+                        <div class="dropdown-menu nav-menus d-none bg-transparent border-0">
+                            <a href="/Admin/Features" class="dropdown-item px-5 py-1">Add Features </a>
+                            <a href="/Admin/Subscription" class="dropdown-item px-5 py-1">Add Subscription </a>
+           
+                        </div>
                     </div>
-                    </div> *@
-                </div>
             </nav>
         </div>
         <!-- Sidebar End -->
@@ -308,12 +314,7 @@
     </div>
 
 
-<<<<<<< HEAD
-=======
 
-  
-
->>>>>>> c286deaef828afd7f0335d59b6af55f91350e3f6
     <script>
         $(document).ready(function () {
 
@@ -356,33 +357,36 @@
                   }
              });
 
-
             $(".sidebar").mouseenter(function () {
-
-                if (hide) {
-
-                    $(this).addClass("sidebar2")
+                if (typeof hide !== "undefined" && hide) {
+                    // Add sidebar class and update logo
+                    $(this).addClass("sidebar2");
                     $(".logo").html('<i class="fa fa-hashtag me-2"></i>DASHMIN');
+
+                    // Show and animate elements after a short delay
                     setTimeout(function () {
-                        $(".nav-menus").removeClass("d-none")
-                        $(".sidebar-nav").removeClass("d-none")
-                        $(".sidebar-nav").css({ opacity: "1", transition: '1s' })
-                        $(".sidebar-toggler").css({ opacity: "1", transition: '1s' })
-                        $(".dropdown-toggle").addClass("adddropdown-toggle")
-                        $(".content").addClass("content2")
-                    }, 200)
+                        $(".nav-menus").removeClass("d-none");
+                        $(".sidebar-nav").removeClass("d-none").css({ opacity: "1", transition: '0.2s' });
+                        $(".sidebar-toggler").css({ opacity: "1", transition: '0.2s' });
+
+                        $(".dropdown-toggle").addClass("adddropdown-toggle");
+                        $(".content").addClass("content2");
+                    }, 200);
                 }
             }).mouseleave(function () {
-                if (hide) {
-                    $(this).removeClass("sidebar2")
-
+                if (typeof hide !== "undefined" && hide) {
+                    // Remove sidebar class and reset logo
+                    $(this).removeClass("sidebar2");
                     $(".logo").html('<i class="fa fa-hashtag me-2"></i>');
-                    $(".nav-menus").addClass("d-none")
-                    $(".sidebar-nav").addClass("d-none")
-                    $(".dropdown-toggle").removeClass("adddropdown-toggle")
-                    $(".content").removeClass("content2")
+
+                    // Hide and reset elements
+                    $(".nav-menus").addClass("d-none");
+                    $(".sidebar-nav").addClass("d-none").css({ opacity: "0", transition: '0.2s' });
+                    $(".dropdown-toggle").removeClass("adddropdown-toggle");
+                    $(".content").removeClass("content2");
                 }
-            })
+            });
+
 
 
             $("a").each(function (i, d) {

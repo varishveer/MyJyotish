@@ -32,7 +32,9 @@ namespace MyJyotishJiWebDesign.Controllers
         public IActionResult CallingRecord() { return View(); }
         public IActionResult AllJyotishDocument() { return View(); }
         public IActionResult AllTeamMember() { return View(); }
-        public IActionResult SlotList() { return View(); } 
+        public IActionResult SlotList() { return View(); }
+        public IActionResult Subscription() { return View(); }
+        public IActionResult Features() { return View(); }
 
 
 
