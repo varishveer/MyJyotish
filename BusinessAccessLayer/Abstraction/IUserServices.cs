@@ -23,6 +23,7 @@ namespace BusinessAccessLayer.Abstraction
         public List<JyotishModel> SearchAstrologer(string keyword);
         public List<IdImageViewModel> SliderImageList(string keyword);
         public string BookAppointment(AppointmentViewModel model);
+        public List<JyotishModel> SpecializationFilter(string Keyword);
 
     }
 }

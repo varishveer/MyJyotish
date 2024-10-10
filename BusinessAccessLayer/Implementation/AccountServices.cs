@@ -928,7 +928,7 @@ namespace BusinessAccessLayer.Implementation
 
         public List<string> PlaceOfBirthList(string CityName)
         {
-           
+            CityName = char.ToUpper(CityName[0]) + CityName.Substring(1).ToLower();
             var Countries = _context.Countries.ToList();
             var States = _context.States.ToList();
             var Cities = _context.Cities.ToList();

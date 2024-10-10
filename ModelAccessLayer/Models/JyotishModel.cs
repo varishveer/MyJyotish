@@ -52,6 +52,8 @@ namespace ModelAccessLayer.Models
         public string? About { get; set; }
         public string? AwordsAndAchievement { get; set; }
         public string? Specialization { get; set; }
+        public string? Rating { get; set; }
+        public string? SuccessRate { get; set; }
 
 
         public DocumentModel DocumentModel { get; set; }

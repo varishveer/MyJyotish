@@ -64,7 +64,8 @@ namespace BusinessAccessLayer.Implementation
 
         public List<JyotishModel> TopAstrologer(string City)
         {
-            var records = _context.JyotishRecords.Where(a => a.Status == "Complete").Where(x => x.City.Contains(City)).ToList();
+
+            var records = _context.JyotishRecords.Where(a => a.Role == "Jyotish").Where(x => x.City.Contains(City)).ToList();
             if (records.Count == 0)
             {
                 records = _context.JyotishRecords.Where(x => x.Role == "Jyotish").Where(x => x.Country.Contains("India")).ToList();
@@ -73,25 +74,18 @@ namespace BusinessAccessLayer.Implementation
         }
         public List<JyotishModel> AllAstrologer()
         {
-            List<JyotishModel> record = _context.JyotishRecords.Where(x => x.Status == "Complete").ToList();
+            List<JyotishModel> record = _context.JyotishRecords.Where(x => x.Role == "Jyotish").ToList();
             return record;
         }
 
-        /*public JyotishProfileViewModel AstrologerProfile(int Id)
-        {
-            var Jyotish = _context.JyotishRecords.Where(x => x.Status == "Complete").Where(x => x.Id == Id).FirstOrDefault();
-            var videos = _context.JyotishVideos.Where(x=>x.JyotishId == Id).ToArray();
-            var gallery = _context.JyotishGallery.Where(x => x.JyotishId == Id).ToArray();
-
-            return record;
-        }*/
+      
 
 
         public JyotishProfileViewModel AstrologerProfile(int Id)
         {
             // Fetch the Jyotish record based on the provided Id and status
             var jyotishRecord = _context.JyotishRecords
-                                         .Where(x => x.Status == "Complete" && x.Id == Id)
+                                         .Where(x => x.Role == "Jyotish" && x.Id == Id)
                                          .FirstOrDefault();
 
             // Return null if no record found
@@ -168,18 +162,67 @@ namespace BusinessAccessLayer.Implementation
 
         public List<JyotishModel> SearchAstrologer(string keyword)
         {
-            var result = _context.JyotishRecords.Where(x => x.Status == "Complete")
-           .Where(record => record.Name.Contains(keyword) ||
-                            record.Expertise.Contains(keyword) ||
-                            record.Language.Contains(keyword) ||
-                            record.Country.Contains(keyword) ||
-                            record.State.Contains(keyword) ||
-                            record.City.Contains(keyword) || record.Specialization.Contains(keyword) || record.Pooja.Contains(keyword))
 
-           .ToList();
 
-            return result;
+            var ignoredWords = new HashSet<string> { "best", "top", "in", "the", "a" };
+
+
+            var keywords = keyword.Split(new[] {" " }, StringSplitOptions.RemoveEmptyEntries)
+                                  .Where(k => !ignoredWords.Contains(k.ToLower()))
+                                  .ToList();
+
+            List<JyotishModel> RecordList = new List<JyotishModel>();
+
+            foreach (var it in keywords)
+            {
+                var word = char.ToUpper(it[0]) + it.Substring(1).ToLower();
+
+                var result = _context.JyotishRecords.Where(x => x.Role == "Jyotish")
+              .Where(record => record.Name.Contains(word) ||
+                               record.Expertise.Contains(word) ||
+                               record.Language.Contains(word) ||
+                               record.Country.Contains(word) ||
+                               record.State.Contains(word) ||
+                               record.City.Contains(word) || record.Specialization.Contains(word) || record.Pooja.Contains(word))
+
+              .ToList();
+                RecordList.AddRange(result);
+            }
+           
+
+            return RecordList;
         }
+
+        /* public List<JyotishModel> SearchAstrologer(string keyword)
+         {
+
+             var ignoredWords = new HashSet<string> { "best", "top", "in", "the", "a" };
+
+
+             var keywords = keyword.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+                                   .Where(k => !ignoredWords.Contains(k.ToLower()))
+                                   .ToList();
+
+
+             var query = _context.JyotishRecords.Where(x => x.Role == "Jyotish");
+
+             foreach (var word in keywords)
+             {
+                 query = query.Where(record => record.Name.Contains(word) ||
+                                               record.Expertise.Contains(word) ||
+                                               record.Language.Contains(word) ||
+                                               record.Specialization.Contains(word) ||
+                                               record.Pooja.Contains(word) ||
+                                               record.City.Contains(word) ||
+                                               record.State.Contains(word) ||
+                                               record.Country.Contains(word));
+             }
+
+
+             return query.ToList();
+         }*/
+
+
 
 
         public List<IdImageViewModel> SliderImageList(string keyword)
@@ -243,6 +286,12 @@ namespace BusinessAccessLayer.Implementation
             return "internal Server Error.";
 
         }
-
+        
+        public List<JyotishModel> SpecializationFilter(string Keyword)
+        {
+            Keyword = char.ToUpper(Keyword[0]) + Keyword.Substring(1).ToLower();
+            var record = _context.JyotishRecords.Where(x => x.Specialization == Keyword).ToList();
+            return record;
+        }
     }
 }

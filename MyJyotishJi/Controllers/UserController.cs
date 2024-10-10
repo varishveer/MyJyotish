@@ -131,12 +131,6 @@ namespace MyJyotishGApi.Controllers
             }
 
         }
-
-
-
-
-
-
         [AllowAnonymous]
         [HttpGet("GetAstroListCallChat")]
         public IActionResult GetAstroListCallChat(string ListName)
@@ -144,15 +138,33 @@ namespace MyJyotishGApi.Controllers
             try
             {
                 var record = _services.GetAstroListCallChat(ListName);
-                if (record == null)
+                if (record.Count == 0)
                 {
-                    return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = "List is empty" });
+                    return StatusCode(500, new { Status = 400, Message = "List is empty" });
                 }
                 else { return Ok(new { Status = 200, message = "Succussfull", data = record }); }
             }
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
         }
-      
+
+        [AllowAnonymous]
+        [HttpGet("SpecializationFilter")]
+        public IActionResult SpecializationFilter(string Keyword)
+        {
+            try
+            {
+                var record = _services.SpecializationFilter(Keyword);
+                if (record.Count == 0)
+                {
+                    return StatusCode(500, new { Status = 400, Message = "List is empty" });
+                }
+                else { return Ok(new { Status = 200, message = "Succussfull", data = record }); }
+            }
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
+        }
+
+
+
         [HttpPost("BookAppointment")]
         public IActionResult BookAppointment(AppointmentViewModel model)
         {
@@ -169,6 +181,9 @@ namespace MyJyotishGApi.Controllers
             }
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
         }
+
+
+
 
        /* [AllowAnonymous]
         [HttpGet("GetPoojaList")]
