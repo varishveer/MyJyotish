@@ -398,15 +398,22 @@ namespace BusinessAccessLayer.Implementation
                DateTime today = DateTime.Today;
                var Slot = _context.SlotBooking.Where(slot => slot.Date >= today).Where(x=>x.JyotishId == model.JyotishId).FirstOrDefault();
                if( Slot != null)
-               { return "Already Booked"; }
+               { return "Your Slot Already Booked"; }
+
+
 
                 var slot = _context.Slots.Where(y => y.Date == model.Date).Where(x => x.Time == model.Time).FirstOrDefault();
-                slot.Status = "Booked";
+            if(slot.Status == "Booked")
+            {
+                return "This Slot Already Booked";
+            }
+            slot.Status = "Booked";
 
             SlotBookingModel NewRecord = new SlotBookingModel();
                NewRecord.Time = model.Time;
                NewRecord.Date = model.Date;
                NewRecord.JyotishId = model.JyotishId;
+                _context.Slots.Update(slot);
                _context.SlotBooking.Add(NewRecord);
                if (_context.SaveChanges() > 0) 
                {

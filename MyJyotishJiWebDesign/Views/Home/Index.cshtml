@@ -989,17 +989,17 @@ $(document).ready(function () {
  <script>
         $(document).ready(function () {
             $.ajax({
-                url: "@BaseUrl"+'Api/User/TopAstrologer?City=NewDelhi', // Adjust the URL as necessary
+                url: "@BaseUrl"+'Api/User/TopAstrologer?City=NewDelhi', 
                 method: 'GET',
                 success: function (response) {
                     debugger;
                     if (response.status === 200) {
-                        const records = response.data.slice(0, 5); // Get only the first 5 records
+                        const records = response.data.slice(0, 5); 
                         records.forEach(function (astrologer) {
                             $('#astrologers-container').append(`
                                 <div class="col-12 col-sm-2 col-md-2 col-lg-2 mb-2 p-1">
                                     <div class="card astrologer-card shadow">
-                                        <img src="${astrologer.imageUrl}" class="card-img-top rounded" alt="${astrologer.name}">
+                                        <img src= "${astrologer.profileImageUrl}" class="card-img-top rounded" alt="${astrologer.name}">
                                         <div class="card-body p-0 pt-2">
                                             <h5 class="card-title">${astrologer.name}</h5>
                                             <p class="card-text px-auto" >

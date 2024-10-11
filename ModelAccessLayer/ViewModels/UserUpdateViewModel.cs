@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
@@ -8,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace ModelAccessLayer.ViewModels
 {
-    public class UserViewModel
+    public class UserUpdateViewModel
     {
         [Required]
-        public string? Email { get; set; }
-        [AllowNull]
+        public int Id { get; set; }
+   
         public string? Mobile { get; set; }
         [AllowNull]
         public string? Name { get; set; }
@@ -23,17 +24,19 @@ namespace ModelAccessLayer.ViewModels
         [AllowNull]
         public string? PlaceOfBirth { get; set; }
         [AllowNull]
-        public int? Otp { get; set; }
-
+        public TimeOnly? TimeOfBirth { get; set; }
         [AllowNull]
-        public string? Password { get; set; }
-
+        public string? CurrentAddress { get; set; }
         [AllowNull]
-        public string? Status { get; set; }
-
+        public int? Country { get; set; }
         [AllowNull]
-        public int? Id { get; set; } 
-      
-    
+        public int? State { get; set; }
+        [AllowNull]
+        public int? City { get; set; }
+        [AllowNull]
+        public int? Pincode { get; set; }
+        [AllowNull]
+        public IFormFile? ProfilePictureUrl { get; set; }
+     
     }
 }

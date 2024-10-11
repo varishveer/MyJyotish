@@ -3,12 +3,13 @@
 *@
 @{
     Layout = "PendingJyotishLayout";
+    var BaseUrl = "https://api.myjyotishg.in/";
 }
 <style>
     body {
         background-color: #f8f9fa;
         font-family: Arial, sans-serif;
-        padding-top: 50px;
+        
     }
 
     .profile-container {
@@ -192,9 +193,9 @@
         <div class="col-md-3 left-part">
             <div class="profile-header text-center">
 
-                <img src="https://via.placeholder.com/300" alt="Profile Image" class="profile-image">
-                <h2 class="mt-3">John Doe</h2>
-                <p>Software Engineer</p>
+                <img id="profileImageUrl" src="" alt="Profile Image" class="profile-image">
+                <h2 class="mt-3 name"></h2>
+                <p>Jyotish</p>
                 <div class="social-icons">
                     <i class="fab fa-facebook"></i>
                     <i class="fab fa-twitter"></i>
@@ -211,86 +212,56 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="detail-label">Full Name</div>
-                        <div class="detail-value">John Doe</div>
+                        <div id="name" class="detail-value"></div>
                     </div>
                     <div class="col-md-6">
                         <div class="detail-label">Email</div>
-                        <div class="detail-value">smns@hgmail.com</div>
+                        <div id="email" class="detail-value"></div>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-6">
                         <div class="detail-label">Phone</div>
-                        <div class="detail-value">(123) 456-7890</div>
+                        <div id="mobile" class="detail-value"></div>
                     </div>
                     <div class="col-md-6">
                         <div class="detail-label">Gender</div>
-                        <div class="detail-value">Male</div>
+                        <div id="gender" class="detail-value"></div>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-6">
                         <div class="detail-label">Languages</div>
-                        <div class="detail-value">Hindi,English</div>
+                        <div id="language" class="detail-value"></div>
                     </div>
                     <div class="col-md-6">
-                        <div class="detail-label">Morning Time</div>
-                        <div class="detail-value">7:00 AM</div>
+                        <div class="detail-label">Expertise</div>
+                        <div id="expertise" class="detail-value"></div>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="detail-label">Evening Time</div>
-                        <div class="detail-value">8:00 PM</div>
+                        <div class="detail-label">Country</div>
+                        <div id="country" class="detail-value"></div>
                     </div>
                     <div class="col-md-6">
-                        <div class="detail-label">Online Consultation Fee</div>
-                        <div class="detail-value">$1200</div>
+                        <div class="detail-label">State</div>
+                        <div id="state" class="detail-value"></div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="detail-label">Professional Experience</div>
-                        <div class="detail-value">5 Years</div>
+                        <div class="detail-label">City</div>
+                        <div id="city" class="detail-value"></div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="detail-label">Pooja (Multiple Select)</div>
-                        <div class="detail-value">1. Pooja One 2. Pooja Two ...</div>
-                    </div>
+                  
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="detail-label">Password</div>
-                        <div class="detail-value">sdfgdsg342</div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="detail-label">Chat Availability</div>
-                        <div class="detail-value">Yes/No</div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="detail-label">Chat Price</div>
-                        <div class="detail-value">$2048</div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="detail-label">Call Price</div>
-                        <div class="detail-value">10 / Minute</div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="detail-label">Calls</div>
-                        <div class="detail-value">Yes/No</div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="detail-label">Address</div>
-                        <div class="detail-value">Sector 66, Noida</div>
-                    </div>
-                </div>
+
+               
+              
 
 
             </div>
@@ -301,49 +272,6 @@
 
 
 
-@* <div class="outerdiv">
-    <div class="container custom-container">
-    
-        <div class="row align-items-center">
-            <div class="col-4 p-5 text-center">
-                <img src="https://via.placeholder.com/300" alt="Profile Picture" />
-            </div>
-            <div class="col-8">
-                <h4 class="my-3">Personal Information <a href="UpdateProfile" class="ms-5 btn btn-success ">Update</a></h4> 
-                <div class="row">
-                    <div class="col-6">
-                        <p><strong>Name:</strong></p>
-                        <p><strong>Gender:</strong> </p>
-                        <p><strong>Date of Birth:</strong> </p>
-                        <p><strong>Email:</strong> </p>
-                        <p><strong>Mobile:</strong> </p>
-                        <p><strong>Country:</strong> </p>
-                        <p><strong>State:</strong></p>
-                        <p><strong>City:</strong> </p>
-                        <p><strong>Language:</strong> </p>
-                        <p><strong>Expertise:</strong> </p>
-                    </div>
-                    <div class="col-6">
-                        <p><span id="name"></span></p>
-                        <p><span id="gender"></span></p>
-                        <p><span id="dateOfBirth"></span></p>
-                        <p><span id="email"></span></p>
-                        <p><span id="mobile"></span></p>
-                        <p><span id="country"></span></p>
-                        <p><span id="state"></span></p>
-                        <p><span id="city"></span></p>
-                        <p><span id="language"></span></p>
-                        <p><span id="expertise"></span></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-</div>
-
- *@
 
 
 
@@ -363,7 +291,7 @@
         }
 
         // Construct the API URL with the email as a query parameter
-        const apiUrl = `https://localhost:7118/Api/PendingJyotish/Profile?email=${encodeURIComponent(email)}`;
+        const apiUrl = "@BaseUrl"+`Api/PendingJyotish/Profile?email=${encodeURIComponent(email)}`;
 
         // Get the token from local storage
         const token = localStorage.getItem('Token3');
@@ -377,9 +305,11 @@
                 'Content-Type': 'application/json'
             },
             success: function (response) {
-                // Update the HTML elements with the fetched data
+              
+              
                 const data = response.data;
                 $('#name').text(data.name || 'N/A');
+                $('.name').text(data.name || 'N/A');
                 $('#gender').text(data.gender || 'N/A');
                 $('#dateOfBirth').text(new Date(data.dateOfBirth).toLocaleDateString() || 'N/A');
                 $('#email').text(data.email || 'N/A');
@@ -390,7 +320,7 @@
                 $('#language').text(data.language || 'N/A');
                 $('#expertise').text(data.expertise || 'N/A');
                 if (data.profileImageUrl) {
-                    $('#profileImageUrl').attr('src', "https://localhost:7118" + data.profileImageUrl);
+                    $('#profileImageUrl').attr('src', "@BaseUrl" + data.profileImageUrl);
                 } else {
                     $('#profileImageUrl').attr('src', "https://via.placeholder.com/300");
                 }

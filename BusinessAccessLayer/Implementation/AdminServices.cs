@@ -955,7 +955,7 @@ namespace BusinessAccessLayer.Implementation
             if (_context.SaveChanges() > 0) { return "Successful"; }
             else { return "internal Server Error."; }
         }
-
+        /*public SubscriptionViewModel GetSubscription(int Id)*/
 
     }
 }

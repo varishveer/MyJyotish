@@ -859,7 +859,8 @@ namespace BusinessAccessLayer.Implementation
                             Name = record.Name,
                             Email = record.Email,
                             Mobile = record.Mobile,
-                            Status = record.Status
+                            Status = record.Status,
+                            Id = record.Id
                         });
                     }
                     else
@@ -878,8 +879,8 @@ namespace BusinessAccessLayer.Implementation
             try
             {
                 // Sender's email address and app-specific password
-                string senderEmail = "variveersingh123@gmail.com";
-                string senderPassword = "htjp emoj tahk qqaj"; // Ensure this is an app-specific password if 2FA is enabled
+                string senderEmail = "varishveer123@gmail.com";
+                string senderPassword = "yngh qauy rtkg zxzy"; // Ensure this is an app-specific password if 2FA is enabled
 
                 // Recipient's email address
                 string recipientEmail = Mail;

@@ -138,14 +138,17 @@
             </div>
         </div>
         <div class="form-row">
-             <div class="form-group col-md-12" style="margin-bottom: 0.2rem;">
+             <div class="form-group col-md-6" style="margin-bottom: 0.2rem;">
                 <label for="country" class="form-label">Country:</label>
                 <select id="country" name="country" class="form-select" required>
                     <option value="">Select Country</option>
                     <!-- Add country options here -->
                 </select>
-            </div>   
-           
+            </div>
+                    <div class="form-group col-md-6" style="margin-bottom: 0.6rem;">
+                        <label for="country" class="form-label">Image:</label>
+                        <input type="file" class="form-control" />
+                    </div>
         </div>    
 
         
@@ -167,17 +170,7 @@
          
         </div>
 
-        <div class="form-row">
-              <div class="form-group col-md-6" style="margin-bottom: 0.6rem;">
-                  <label for="city" class="form-label">Date Of Birth:</label>
-                  <input type="date" class="form-control" id="DateOfBirth" name="DateOfBirth" placeholder="Enter DOB" />
-              </div>
-              <div class="form-group col-md-6" style="margin-bottom: 0.6rem;">
-                    <label for="country" class="form-label">Image:</label>
-                    <input type="file" class="form-control" />
-              </div>
-           
-        </div>
+        
 
         <button type="submit" class="btn btn-info">Sign Up</button>
 
@@ -427,7 +420,7 @@
             formData.append('country', $('#country').val());
             formData.append('state', $('#state').val());
             formData.append('city', $('#city').val());
-            formData.append('DateOfBirth', $('#DateOfBirth').val());
+       
 
            
             const fileInput = document.querySelector('input[type="file"]');

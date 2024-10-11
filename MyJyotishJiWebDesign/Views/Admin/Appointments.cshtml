@@ -3,6 +3,7 @@
 *@
 @{
     Layout = "AdminLayout";
+    var BaseUrl = "https://api.myjyotishg.in/";
 }
 
 
@@ -37,7 +38,7 @@
     $(document).ready(function () {
         function fetchData() {
             $.ajax({
-                url: "https://api.myjyotishg.in/api/Admin/Appointment",
+                url:  "@BaseUrl"+"api/Admin/Appointment",
                 type: 'GET',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("Token")}`,

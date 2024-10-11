@@ -1,12 +1,15 @@
 ﻿using BusinessAccessLayer.Abstraction;
 using DataAccessLayer.DbServices;
+using DataAccessLayer.Migrations;
 using ModelAccessLayer.Models;
 using ModelAccessLayer.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UserModel = ModelAccessLayer.Models.UserModel;
 
 namespace BusinessAccessLayer.Implementation
 {
@@ -292,6 +295,100 @@ namespace BusinessAccessLayer.Implementation
             Keyword = char.ToUpper(Keyword[0]) + Keyword.Substring(1).ToLower();
             var record = _context.JyotishRecords.Where(x => x.Specialization == Keyword).ToList();
             return record;
+        }
+
+        public UserModel GetUserProfile(int Id)
+        {
+            var user = _context.Users.Where(x => x.Id == Id).FirstOrDefault();
+            if (user == null)
+            { return null; }
+            user.CallingModelRecord = null;
+            user.ChattingModelRecord = null;
+            return user;
+        }
+        public string UpdateProfile(UserUpdateViewModel model, string path)
+        {
+            if(model ==  null)
+            { return "Invalid Data"; }
+
+            var userModel = _context.Users.Where(x => x.Id == model.Id).FirstOrDefault();
+           
+
+            if (!string.IsNullOrEmpty(model.Mobile))
+            {
+                userModel.Mobile = model.Mobile;
+            }
+
+            if (!string.IsNullOrEmpty(model.Name))
+            {
+                userModel.Name = model.Name;
+            }
+
+            if (!string.IsNullOrEmpty(model.Gender))
+            {
+                userModel.Gender = model.Gender;
+            }
+
+            if (!string.IsNullOrEmpty(model.DoB))
+            {
+                userModel.DoB = model.DoB;
+            }
+
+            if (!string.IsNullOrEmpty(model.PlaceOfBirth))
+            {
+                userModel.PlaceOfBirth = model.PlaceOfBirth;
+            }
+
+            if (model.TimeOfBirth.HasValue)
+            {
+                userModel.TimeOfBirth = model.TimeOfBirth;
+            }
+
+            if (!string.IsNullOrEmpty(model.CurrentAddress))
+            {
+                userModel.CurrentAddress = model.CurrentAddress;
+            }
+
+            if (model.Pincode.HasValue)
+            {
+                userModel.Pincode = model.Pincode;
+            }
+            var CountryName = _context.Countries.Where(x => x.Id == model.Country).FirstOrDefault();
+            var StateName = _context.States.Where(x => x.Id == model.State).FirstOrDefault();
+            var CityName = _context.Cities.Where(x => x.Id == model.City).FirstOrDefault();
+
+            if (CountryName != null)
+            {
+               
+                userModel.Country = CountryName.Name; 
+            }
+
+            if (StateName !=null)
+            {
+                userModel.State = StateName.Name; 
+            }
+
+            if (model.City.HasValue)
+            {
+                userModel.City = CityName.Name;
+            }
+            if (model.ProfilePictureUrl != null)
+            {
+                string uploadFolder = path + "/wwwroot/Images/User";
+                string imageName = Guid.NewGuid().ToString("N").Substring(0, 8) + model.ProfilePictureUrl.FileName;
+                userModel.ProfilePictureUrl = "/Images/User/" + imageName;
+
+                var filePath = Path.Combine(uploadFolder, imageName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    model.ProfilePictureUrl.CopyTo(stream);
+                }
+            }
+            _context.Users.Update(userModel);
+            if (_context.SaveChanges() > 0) { return "Successful"; }
+            else { return "Internal Server Error"; }
+  
         }
     }
 }
