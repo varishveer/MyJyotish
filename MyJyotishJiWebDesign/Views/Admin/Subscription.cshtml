@@ -8,8 +8,23 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
 <!-- Link to Bootstrap CSS -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+
 <style>
+    body {
+        margin: 0;
+        font-family: "Heebo", sans-serif;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #757575;
+        background-color: #F3F6F9;
+        -webkit-text-size-adjust: 100%;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    }
+    label{
+        font-size:14px;
+    }
     .main-container {
         overflow: hidden;
         padding: 15px;
@@ -49,6 +64,12 @@
         height: 0.02125rem !important;
     }
 
+    #btnCreate {
+        background-color: #28a745
+    } 
+    #btnupdate{
+        background-color: #28a745
+    }
 </style>
 
 
@@ -56,63 +77,88 @@
     <div class="main-container row w-75 rounded-3">
 
         <div class="col-lg-12 col-md-12 p-2 bg-white right-part ">
-            <h5 class="mb-3  text-primary">Subscription</h5>
+            <h4 class="mb-3  text-primary font-weight-bold">Create Plan</h4>
             <hr />
-            <form id="loginForm">
+            <form method="post">
                
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="username" class="form-label">Subscription Name</label>
+                <div class="form-row ">
+                    <div class="form-group col-md-2">
+                        <label for="username" class="form-label">Plan Name :</label>
+                    </div> 
+                    <div class="form-group col-md-4">
                         <input type="text" class="form-control" id="Name" name="Name" placeholder="Enter name">
                     </div>
-                     <div class="form-group col-md-6">
-                        <label for="username" class="form-label">Type</label>
-                        <input type="text" class="form-control" id="PlanType" name="PlanType" placeholder="Enter plan type">
+                     <div class="form-group col-md-2">
+                        <label for="username" class="form-label">Plan Type :</label>
+                    </div> 
+                    <div class="form-group col-md-4">
+                        <select id="PlanType" name="PlanType" class="form-select" required>
+                          <option disabled>--Select Plan Type--</option>
+                          <option value="Yearly">Yearly</option>
+                          <option value="Monthly">Monthly</option>
+                        </select>
                     </div>
                    
                 </div>
                 <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="mobile" class="form-label">Old Price</label>
+                    <div class="form-group col-md-2">
+                        <label for="mobile" class="form-label">Amount :</label>
+                    </div>
+                    <div class="form-group col-md-4">
                         <input type="number" class="form-control" id="OldPrice" name="OldPrice" placeholder="Enter old price">
                     </div>
-                    <div class="form-group col-md-6">
-                        <label for="date" class="form-label">New Price</label>
-                        <input type="text" id="NewPrice" name="NewPrice" class="form-control" placeholder="Enter discount" id="date">
+                    <div class="form-group col-md-2">
+                        <label for="email" class="form-label">Discount :</label>
                     </div>
-               
+                    <div class="form-group col-md-4">
+                        <input type="number" name="Discount" id="Discount" class="form-control" placeholder="Enter discount" value="" step="any" autocomplete="off">
+                    </div>
+
                 </div>
                 <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="email" class="form-label">Discount</label>
-                        <input type="text" name="Discount" id="Discount" class="form-control" placeholder="Enter discount">
+                    <div class="form-group col-md-2">
+                        <label for="problems" class="form-label">GST :</label>
                     </div>
-                    <div class="form-group col-md-6">
-                        <label for="problems" class="form-label">GST</label>
-                        <input type="text" id="Gst" name="Gst" class="form-control" placeholder="Enter GST">
+                    <div class="form-group col-md-4">
+                        <input type="number" id="Gst" name="Gst" class="form-control" placeholder="Enter GST">
                     </div>
-                
+                   
+                    <div class="form-group col-md-2">
+                        <label for="email" class="form-label">Discount Amount :</label>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <input type="number" name="DiscountAmount" id="DiscountAmount" class="form-control" placeholder="Discount amount" value="" step="any" autocomplete="off" readonly>
+                    </div>
+
                 </div>    
+
                 <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="email" class="form-label">DiscountAmount</label>
-                        <input type="text" name="DiscountAmount" id="DiscountAmount" class="form-control" placeholder="Enter discount amount">
+
+                    <div class="form-group col-md-2">
+                        <label for="date" class="form-label">New Amount :</label>
                     </div>
-                    <div class="form-group col-md-6">
-                        <label for="mode" class="form-label">Feature</label>
-                        <select id="Features" name="Features" class="form-select" required>
-                            <option value="Online">Basic</option>
-                            <option value="Offline">Premium</option>
+                    <div class="form-group col-md-4">
+                        <input type="number" id="NewPrice" name="NewPrice" class="form-control" placeholder="New amount"  value="" autocomplete="off" readonly step="any">
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="mode" class="form-label">Feature :</label>
+                    </div>  
+                    <div class="form-group col-md-4">
+                        <select id="Features" name="Features" class="form-select form-select-sm select" multiple="multiple" required>
+                           <!---Dynamic Data Loaded-->
+                     
                         </select>
                     </div>
                  
                 
                 </div>
                 <div class="form-row">
-                    <div class="form-group col-md-12">
-                        <label for="problems" class="form-label">Description</label>
-                        <textarea id="description" name="description" class="form-control" placeholder="Enter Description">
-
+                    <div class="form-group col-md-2">
+                        <label for="problems" class="form-label">Description :</label>
+                    </div>
+                    <div class="form-group col-md-10">
+                        <textarea id="description" name="description" class="form-control" placeholder="Enter Description" style="resize:none;">
+                           
                         </textarea>
                     </div>
 
@@ -120,22 +166,18 @@
 
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <input type="submit" class="btn btn-success px-4 text-decoration-none" value="Create" />
+                        <button id="btnUpdate" class="btn btn-success px-3" style="display:none;">Update</button>
+                        <button id="btnCreate" class="btn btn-success px-3">Create</button>
                     </div>
+
                     
                 </div>
 
-              
-
-             
-                
             </form>
         </div>
     </div>
 </div>
 
-<!-- Include DataTables JS -->
-<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 
 
 <div class="container-fluid mt-4">
@@ -154,13 +196,17 @@
                 <table id="DataTable" class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th>Id</th>
-                            <th>Title</th>
-                            <th>Feature</th>
+                            <th>Sr</th>
+                            <th>Plan Name</th>
+                            <th>Plan Type</th>
                             <th>Amount</th>
                             <th>Discount</th>
-                            <th>Final Price</th>
-                            <th>Duration</th>
+                            <th>GST </th>
+                            <th>Discount Amount</th>
+                            <th>New Amount</th>
+                            <th>Features</th>
+                            <th>Description</th>
+                            <th>Action</th>
                            
                         </tr>
                     </thead>
@@ -174,10 +220,340 @@
 </div>
 
 
-
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
 <!-- Optional: Initialize DataTable -->
 <script>
     $(document).ready(function () {
-        $('#DataTable').DataTable();
+        
+        // Initialize Select2
+        $(".select").select2({
+            placeholder: "--Select Option--"
+        });
+    });
+</script>
+
+
+
+<!----Dynamic Feature List Load--->
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: 'https://api.myjyotishg.in/api/Admin/GetAllFeatures',
+            type: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                'Content-Type': 'application/json',
+            },
+            success: function (res) {
+                $('#Features').empty();
+
+                $.each(res.data, function (index, item) {
+                    var row = `<option value='${item.featureId}'>${item.name}</option>`;
+              
+                    $('#Features').append(row);
+                });
+            },
+            error: function (error) {
+                console.error('An error occurred while loading data list:', error);
+            }
+        });
+    });
+</script>
+
+
+<!----Discount Calculation------>
+
+<script>
+   
+    function GetPrice(){
+      
+        if ($("#OldPrice").val() == "" || $("#OldPrice")==null){
+            $("#OldPrice").focus();
+            return 0;
+        }
+
+        if ($("#Discount").val() == "" || $("#Discount")==null){
+            $(this).focus();
+            return 0;
+        }
+
+        let percentage = parseFloat($("#Discount").val());
+        let oldPrice = parseFloat($("#OldPrice").val());
+
+        if ($("#Gst").val() > 0){
+           
+            let gstValue = parseFloat($("#Gst").val());
+            oldPrice = (oldPrice * (gstValue / 100)) + oldPrice;
+
+        }
+
+        let newPrice = parseFloat((percentage / 100) * oldPrice);
+        let rem = parseFloat(oldPrice - newPrice);
+        $("#DiscountAmount").val(newPrice.toFixed(2));
+        $("#NewPrice").val(rem.toFixed(2));
+
+    
+    }
+
+    $("#OldPrice").on("input", function () {
+        GetPrice();
+    });
+  
+    $("#Discount").on("input", function () {
+        GetPrice();
+    });
+ 
+    $("#Gst").on("input", function (e) {
+        
+        let gstVal = e.target.value;
+        if (gstVal < 0 || !gstVal > 0) {
+            GetPrice();
+        }
+
+        if ($("#OldPrice").val() == "" || $("#OldPrice").val() == null) {
+            $("#OldPrice").focus();
+            return;
+        }
+
+        let finalPrice = parseFloat($("#OldPrice").val());
+        let newPrice = 0;
+
+        let discount = parseFloat($("#Discount").val());
+        let afterDiscountPrice = parseFloat($("#NewPrice").val());
+
+        if (discount > 0) {
+            newPrice = finalPrice - ((discount / 100) * finalPrice);
+            newPrice = ((gstVal / 100) * newPrice) + newPrice;
+
+        }else{
+            newPrice = ((gstVal / 100) * finalPrice) + finalPrice;
+        }
+
+        $("#NewPrice").val(newPrice.toFixed(2));
+    })
+
+</script>
+<script>
+    $(document).ready(function () {
+
+        $(document).on('click', '#btnCreate', function (e) {
+            e.preventDefault();
+
+            var featureName = $('#Name').val();
+            let Amount = $('#OldPrice').val();
+            let newAmount = $('#NewPrice').val();
+            let discount = $('#Discount').val();
+            let gst = $('#Gst').val();
+            let discountAmount = $('#DiscountAmount').val();
+            let planType = $('#PlanType').val();
+            let description = $('#description').val();
+            var Features = $('#Features').val();
+            let Status = true;
+            debugger
+            $.ajax({
+                url: 'https://api.myjyotishg.in/api/Admin/AddSubscription',
+                type: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                    'Content-Type': 'application/json',
+
+                },
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    Name: featureName,
+                    OldPrice: Amount,
+                    NewPrice: newAmount,
+                    Discount: discount,
+                    Gst: gst,
+                    DiscountAmount: discountAmount,
+                    PlanType: planType,
+                    description: description,
+                    Status: Status,
+                    Features: Features
+                }),
+               
+                    success: function(response) {
+                    if (response.status === 200) {
+                        Swal.fire({
+                            title: 'Success!',
+                            text: 'Plan successfully created.',
+                            icon: 'success',
+                            confirmButtonText: 'Ok'
+                        }).then(() => {
+                            window.location.href = "/Admin/Subscription";
+                        });
+                    } else if (response.status === 400) {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: response.message,
+                            icon: 'error',
+                            confirmButtonText: 'Close'
+                        });
+                    }
+                    else {
+                        console.error("Unexpected response status:", response.status);
+                        alert("An unexpected error occurred.");
+                    }
+                },
+                error: function (error) {
+                    console.error('Error');
+                }
+            });
+        })
+    })
+</script>
+
+
+<script>
+    $(document).ready(function () {
+
+        $.ajax({
+            url: 'https://api.myjyotishg.in/api/Admin/GetAllSubscription',
+            type: 'GET',  
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                'Content-Type': 'application/json',
+            },
+            success: function (res) {
+      
+                $.each(res.data, function (index, item) {
+                  
+                    $('tbody').append(`<tr>
+                                       <td>${index + 1}</td>
+                                        <td class='name'>${item.name}</td>
+                                        <td class='planType'>${item.planType}</td>
+                                        <td class='oldPrice'>${item.oldPrice}</td>
+                                        <td class='discount'>${item.discount}</td>
+                                        <td class='gst'>${item.gst}</td>
+                                        <td class='discountAmount'>${item.discountAmount}</td>
+                                        <td class='newPrice'>${item.newPrice}</td>
+                                        <td class='features'>${item.features}</td>
+                                        <td class='description'>${item.description}</td>
+                                        <td style='cursor:pointer;'>
+                                           <a class="deletePlan" data-id="${item.subscriptionId}">
+                                               <i class="fa-solid fa-trash-can text-danger"></i>
+                                           </a>
+                                            <a class="editPlan" data-id="${item.subscriptionId} ">
+                                                <i class="fa-solid fa-pen-to-square text-success"></i>
+                                           </a>
+                                        </td>
+                                    </tr>`);
+                });
+                $('#DataTable').DataTable();
+            },
+            error: function (error) {
+                console.error('An error occurred', error);  // Log actual error for better debugging
+            }
+        });
+    });
+</script>
+
+
+
+<script>
+    $(document).ready(function () {
+
+        $(document).on('click', '.deletePlan', function () {
+
+            var planId = $(this).attr('data-id');
+
+            if (!planId) {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Invalid plan ID.',
+                    icon: 'error',
+                    confirmButtonText: 'Ok'
+                });
+                return;
+            }
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'This plan will be permanently deleted. Do you want to continue?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    $.ajax({
+                        url: `https://api.myjyotishg.in/api/Admin/DeleteSubsciption?Id=${planId}`,
+                        type: 'DELETE',
+                        headers: {
+                            'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                            'Content-Type': 'application/json',
+                        },
+
+                        success: function (response) {
+                            Swal.fire({
+                                title: 'Success!',
+                                text: 'Plan deleted successfully.',
+                                icon: 'success',
+                                confirmButtonText: 'Ok'
+                            }).then(() => {
+                                window.location.href = "/Admin/Subscription";
+                            });
+                        },
+                        error: function (error) {
+                            console.error('An error occurred:', error);
+                            Swal.fire({
+                                title: 'Error',
+                                text: 'There was an error deleting the plan. Please try again.',
+                                icon: 'error',
+                                confirmButtonText: 'Ok'
+                            });
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Cancelled',
+                        text: 'The plan was not deleted.',
+                        icon: 'info',
+                        confirmButtonText: 'Ok'
+                    });
+                }
+            });
+
+        });
+
+    });
+</script>
+
+
+<script>
+    $(document).ready(function() {
+        $(document).on('click', '.editPlan', function () {
+            var Id = $(this).attr('data-id');
+            var name = $(this).closest('tr').find('.name').text();
+            var amount = $(this).closest('tr').find('.oldPrice').text();
+            var planType = $(this).closest('tr').find('.planType').text();
+            var discount = $(this).closest('tr').find('.discount').text();
+            var gst = $(this).closest('tr').find('.gst').text();
+            var discountAmount = $(this).closest('tr').find('.discountAmount').text();
+            var newAmount = $(this).closest('tr').find('.newPrice').text();
+            var features = $(this).closest('tr').find('.features').text();
+            var description = $(this).closest('tr').find('.description').text();
+
+        
+            $('#Name').val(name);
+            $('#Amount').val(amount);
+            $('#Discount').val(discount);
+            $('#PlanType').val(planType);
+            $('#Gst').val(gst);
+            $('#DiscountAmount').val(discountAmount);
+            $('#NewPrice').val(newAmount);
+            $('#description').val(description);
+
+            // Show or hide the appropriate buttons
+            if (Id) {
+                $('#btnUpdate').show();
+                $('#btnCreate').hide();  // Corrected selector from 'btnCreate' to '#btnCreate'
+            } else {
+                $('#btnUpdate').hide();
+                $('#btnCreate').show();  // Corrected selector from 'btnCreate' to '#btnCreate'
+            }
+        });
     });
 </script>
