@@ -1,5 +1,6 @@
 ﻿@{
     Layout = "JyotishLayout";
+    var BaseUrl = "https://api.myjyotishg.in/";
 }
 
 
@@ -15,7 +16,7 @@
     <div class="card">
         
         <div class="d-flex flex-row justify-content-between align-items-center pt-2 px-4" >
-            <h5 class="text-primary">Pooja Category</h5>
+            <h5 class="text-primary">Appointments</h5>
       @*       <a href="/Admin/AddPoojaCategory">
                 <button class="btn btn-primary">Add New Category</button>
             </a> *@
@@ -39,7 +40,7 @@
         function fetchData() {
             var email = localStorage.getItem('userEmail');
             $.ajax({
-                url: `https://localhost:7118/api/Jyotish/Appointment?JyotishEmail=${encodeURIComponent(email)}`,
+                url: "@BaseUrl"+`api/Jyotish/Appointment?JyotishEmail=${encodeURIComponent(email)}`,
                 type: 'GET',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("Token2")}`, // Example of an authorization header

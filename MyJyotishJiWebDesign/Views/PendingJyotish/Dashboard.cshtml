@@ -3,6 +3,7 @@
 *@
 @{
     Layout = "PendingJyotishLayout";
+    var BaseUrl = "https://api.myjyotishg.in/";
 }
 
 
@@ -299,76 +300,7 @@
                     <!-- Dates -->
                     <div class="dates">
                         <!-- Updated date items -->
-                        <div class="date-item" data-date="2024-10-03">
-                            <button class="btn btn-light date-btn" data-date="2024-10-03">
-                                <div>Thu</div>
-                                <div class="day">3</div>
-                                <div>Oct</div>
-                            </button>
-                        </div>
-                        <div class="date-item" data-date="2024-10-04">
-                            <button class="btn btn-light date-btn" data-date="2024-10-04">
-                                <div>Fri</div>
-                                <div class="day">4</div>
-                                <div>Oct</div>
-                            </button>
-                        </div>
-                        <div class="date-item" data-date="2024-10-05">
-                            <button class="btn btn-light date-btn" data-date="2024-10-05">
-                                <div>Sat</div>
-                                <div class="day">5</div>
-                                <div>Oct</div>
-                            </button>
-                        </div>
-                        <div class="date-item" data-date="2024-10-06">
-                            <button class="btn btn-light date-btn" data-date="2024-10-06">
-                                <div>Sun</div>
-                                <div class="day">6</div>
-                                <div>Oct</div>
-                            </button>
-                        </div>
-                        <div class="date-item" data-date="2024-10-07">
-                            <button class="btn btn-light date-btn" data-date="2024-10-07">
-                                <div>Mon</div>
-                                <div class="day">7</div>
-                                <div>Oct</div>
-                            </button>
-                        </div>
-                        <div class="date-item" data-date="2024-10-08">
-                            <button class="btn btn-light date-btn" data-date="2024-10-08">
-                                <div>Tue</div>
-                                <div class="day">8</div>
-                                <div>Oct</div>
-                            </button>
-                        </div>
-                        <div class="date-item" data-date="2024-10-09">
-                            <button class="btn btn-light date-btn" data-date="2024-10-09">
-                                <div>Wed</div>
-                                <div class="day">9</div>
-                                <div>Oct</div>
-                            </button>
-                        </div>
-                        <div class="date-item" data-date="2024-10-10">
-                            <button class="btn btn-light date-btn" data-date="2024-10-10">
-                                <div>Thu</div>
-                                <div class="day">10</div>
-                                <div>Oct</div>
-                            </button>
-                        </div>
-                        <div class="date-item" data-date="2024-10-11">
-                            <button class="btn btn-light date-btn" data-date="2024-10-11">
-                                <div>Fri</div>
-                                <div class="day">11</div>
-                                <div>Oct</div>
-                            </button>
-                        </div>
-                        <div class="date-item" data-date="2024-10-12">
-                            <button class="btn btn-light date-btn" data-date="2024-10-12">
-                                <div>Sat</div>
-                                <div class="day">12</div>
-                                <div>Oct</div>
-                            </button>
-                        </div>
+                     
 
                         <!-- More date items as needed -->
                     </div>
@@ -379,8 +311,11 @@
 
                 <!-- Time Slot Selection -->
                 <div class="time-slot-container " id="time-slot-container">
-                    <div class="row " id="time-slots">
-                        <!-- Time slots will be populated dynamically -->
+                    <div class="row " >
+                        <div class="row d-inline-flex" id="time-slots">
+                            <!-- Time slots will be populated dynamically -->
+                        </div>
+                       
                     </div>
                 </div>
             </div>
@@ -389,7 +324,7 @@
 
         <div class="row mt-4">
             <div class="col-md-12 d-flex justify-content-center">
-                <button class="btn btn-primary rounded-2">Book Now</button>
+                <button id="book-now" class="btn btn-primary rounded-2">Book Now</button>
             </div>
         </div>
     </div>
@@ -397,7 +332,7 @@
 
 
 <!-- Script to handle dynamic date selection and time slots -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/@@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
@@ -522,7 +457,7 @@
 
 </script>
 
-@* Slot Booking End *@
+
 
 
 <script>
@@ -545,9 +480,9 @@
 
 <script>
     $(document).ready(function () {
-        const apiUrl = `https://localhost:7118/Api/PendingJyotish/SlotList`;
+        const apiUrl = "@BaseUrl" + `Api/PendingJyotish/SlotList`;
         const token = localStorage.getItem('Token3');
-        const userId = localStorage.getItem('Id'); // Assuming this is the Jyotish ID
+        const userId = localStorage.getItem('Id');
 
         let selectedDate = null;
         let selectedTime = null;
@@ -561,22 +496,44 @@
                 'Content-Type': 'application/json'
             },
             success: function (response) {
-                // Grouping dates and times from the API response
+                // Parse the API response
                 const dateTimeMap = {};
+
                 response.data.forEach(item => {
-                    if (!dateTimeMap[item.date]) {
-                        dateTimeMap[item.date] = [];
+                    const dateKey = new Date(item.date).toISOString().split('T')[0]; // Extract only the date part
+
+                    if (!dateTimeMap[dateKey]) {
+                        dateTimeMap[dateKey] = [];
                     }
-                    dateTimeMap[item.date].push(item.time);
+
+                    item.times.forEach(timeSlot => {
+                        dateTimeMap[dateKey].push({
+                            time: timeSlot.time,
+                            status: timeSlot.status
+                        });
+                    });
                 });
 
                 // Display dates on the webpage
                 const $dateContainer = $('.dates');
-                const $timeContainer = $('.time-buttons');
+                const $timeContainer = $('#time-slots');
 
                 for (const date in dateTimeMap) {
+                    const dateObject = new Date(date);
+                    const dayName = dateObject.toLocaleString('en-US', { weekday: 'short' }); // E.g., "Sun"
+                    const dayNumber = dateObject.getDate(); // E.g., 6
+                    const monthName = dateObject.toLocaleString('en-US', { month: 'short' }); // E.g., "Oct"
+
                     // Create date element
-                    const $dateElement = $(`<div class='date' data-date='${date}'> <span class="day">${date}</span></div>`);
+                    const $dateElement = $(`
+                        <div class="date-item date" data-date='${date}'>
+                            <button class="btn btn-light date-btn" data-date="${date}">
+                                <div>${dayName}</div>
+                                <div class="day">${dayNumber}</div>
+                                <div>${monthName}</div>
+                            </button>
+                        </div>
+                    `);
                     $dateContainer.append($dateElement);
                 }
 
@@ -589,14 +546,25 @@
                     selectedDate = $(this).data('date');
 
                     // Create corresponding time buttons for the selected date
-                    dateTimeMap[selectedDate].forEach(time => {
-                        const $timeElement = $(`<button class="time-button" data-date='${selectedDate}' data-time='${time}'>${time}</button>`);
+                    dateTimeMap[selectedDate].forEach(slot => {
+                        const { time, status } = slot;
+                        const slotStatusClass = status === 'Booked' ? 'btn-danger' : 'btn-success';
+
+                        const $timeElement = $(`
+                            <div class="col-md">
+                                <button class="btn btn-outline-secondary rounded-3 text-success time-button"
+                                        data-date='${selectedDate}'
+                                        data-time='${time}'
+                                        ${status === 'Booked' ? 'disabled' : ''}>
+                                    ${time}
+                                </button>
+                            </div>
+                        `);
                         $timeContainer.append($timeElement);
                     });
 
                     // Attach event listener for each new time button
                     $('.time-button').on('click', function () {
-                        // Update `selectedTime` when a time button is clicked
                         selectedTime = $(this).data('time');
 
                         // Highlight selected time button
@@ -611,7 +579,7 @@
         });
 
         // Click event for the "Book Now" button
-        $('.submitButton button').on('click', function () {
+        $('#book-now').on('click', function () {
             if (!selectedDate || !selectedTime) {
                 alert("Please select both a date and a time slot before booking.");
                 return;
@@ -626,7 +594,7 @@
 
             // Make an AJAX POST request to send the selected date and time
             $.ajax({
-                url: 'https://localhost:7118/Api/PendingJyotish/AddSlotBooking', // Replace with your API endpoint
+                url:   "@BaseUrl" +'Api/PendingJyotish/AddSlotBooking', // Replace with your API endpoint
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -634,30 +602,27 @@
                 },
                 data: JSON.stringify(postData), // Convert JS object to JSON string
                 success: function (response) {
-                    if (response.status == 200) {
-
+                    debugger;
+                    if (response.status === 200) {
                         Swal.fire({
                             title: "Slot successfully booked",
                             text: `Slot successfully booked for: ${selectedDate} at ${selectedTime}`,
                             icon: "success"
                         });
-                    }
-                    else if (response.status == 400) {
+                    } else if (response.status === 400) {
                         Swal.fire({
-                            title: "Invalid User",
-                            text: ``,
+                            title: `${response.message}`,
                             icon: "error"
                         });
-                    }
-                    else if (response.status == 409) {
+                    } else if (response.status === 409) {
                         Swal.fire({
-                            title: "Already Booked",
-                            text: ``,
+                            title: `${response.message}`,
                             icon: "warning"
                         });
                     }
                 },
                 error: function (error) {
+                    debugger;
                     console.error('Error booking slot:', error);
                 }
             });
@@ -665,3 +630,6 @@
     });
 
 </script>
+
+
+

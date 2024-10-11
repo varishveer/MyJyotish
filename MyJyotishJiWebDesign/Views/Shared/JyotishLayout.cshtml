@@ -32,7 +32,7 @@
     <!-- Template Stylesheet -->
     <link href="~/css/style.css" rel="stylesheet">
 
-
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <style>
 
         .sidebar1 {
@@ -204,7 +204,9 @@
         }
     </style>
 </head>
-
+@{
+    var Url = "https://myjyotishg.in/";
+}
 <body>
     <div class="container-xxl position-relative bg-white d-flex p-0">
         <!-- Spinner Start -->
@@ -378,14 +380,14 @@
         const profileSpan = document.getElementById('profileName');
         profileSpan.textContent = name;
 
-        $("#logout").click(function () {
-            alert("Logout");
-            localStorage.clear();
-            window.location.replace("https://localhost:44324/Jyotish/Login");
-        })
+       // $("#logout").click(function () {
+        //    alert("Logout");
+       //     localStorage.clear();
+       //     window.location.replace("https:localhost:44324/Jyotish/Login");
+       // })
     </script>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    
 
 
     <script>
@@ -426,7 +428,7 @@
             $("#logout").click(function () {
                 if (confirm("Are you sure you want to logout?")) {  // Confirm logout
                     localStorage.clear();
-                    window.location.replace("https://localhost:44324/Admin/Login");
+                    window.location.replace("@Url"+"Jyotish/Login");
                 }
             });
 

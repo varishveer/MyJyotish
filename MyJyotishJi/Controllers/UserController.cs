@@ -15,9 +15,11 @@ namespace MyJyotishGApi.Controllers
     {
 
         private readonly IUserServices _services;
-        public UserController(IUserServices services)
+        private readonly IWebHostEnvironment _environment;
+        public UserController(IUserServices services, IWebHostEnvironment environment)
         {
             _services = services;
+            _environment = environment;
         }
 
         [AllowAnonymous]
@@ -182,36 +184,72 @@ namespace MyJyotishGApi.Controllers
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
         }
 
-
-
-
-       /* [AllowAnonymous]
-        [HttpGet("GetPoojaList")]
-        public IActionResult GetPoojaList(int Id)
-        {
-            try
-            {
-                var record = _services.GetPoojaList(Id);
-                if (record == null)
-                { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = "List is empty" }); }
-                else { return Ok(new { Status = 200, message = "Succussfull", data = record }); }
-            }
-            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
-        }
         [AllowAnonymous]
-        [HttpGet("GetPoojaDetail")]
-        public IActionResult GetPoojaDetail(int PoojaId)
+        [HttpGet("GetUserProfile")]
+        public IActionResult GetUserProfile(int Id)
         {
             try
             {
-                var record = _services.GetPoojaDetail(PoojaId);
-                if (record == null)
-                { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = "List is empty" }); }
-                else { return Ok(new { Status = 200, message = "Succussfull", data = record }); }
+                var result = _services.GetUserProfile(Id);
+                if (result == null)
+                {
+                    return Ok(new { Status = 404, Message = "User Not Found" });
+                }
+
+                else { return Ok(new { Status = 200, Data = result }); }
+               
             }
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
         }
-*/
+
+
+        [AllowAnonymous]
+        [HttpPost("UpdateProfile")]
+        public IActionResult UpdateProfile(UserUpdateViewModel model)
+        {
+            try
+            {
+                string? path = _environment.ContentRootPath;
+                var result = _services.UpdateProfile(model, path);
+                if (result == null)
+                {
+                    return Ok(new { Status = 404, Message = "User Not Found" });
+                }
+
+                else { return Ok(new { Status = 200, Data = result }); }
+
+            }
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
+        }
+
+
+        /* [AllowAnonymous]
+         [HttpGet("GetPoojaList")]
+         public IActionResult GetPoojaList(int Id)
+         {
+             try
+             {
+                 var record = _services.GetPoojaList(Id);
+                 if (record == null)
+                 { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = "List is empty" }); }
+                 else { return Ok(new { Status = 200, message = "Succussfull", data = record }); }
+             }
+             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
+         }
+         [AllowAnonymous]
+         [HttpGet("GetPoojaDetail")]
+         public IActionResult GetPoojaDetail(int PoojaId)
+         {
+             try
+             {
+                 var record = _services.GetPoojaDetail(PoojaId);
+                 if (record == null)
+                 { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = "List is empty" }); }
+                 else { return Ok(new { Status = 200, message = "Succussfull", data = record }); }
+             }
+             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
+         }
+ */
 
 
 

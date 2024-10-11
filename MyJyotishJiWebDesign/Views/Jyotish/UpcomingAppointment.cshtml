@@ -1,5 +1,6 @@
 ﻿@{
     Layout = "JyotishLayout";
+    var BaseUrl = "https://api.myjyotishg.in/";
 }
 
 
@@ -36,7 +37,7 @@
         function fetchData() {
             var email = localStorage.getItem('userEmail');
             $.ajax({
-                url: `https://localhost:7118/api/Jyotish/UpcomingAppointment?JyotishEmail=${encodeURIComponent(email)}`,
+                url: "@BaseUrl"+`api/Jyotish/UpcomingAppointment?JyotishEmail=${encodeURIComponent(email)}`,
                 type: 'GET',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("Token2")}`, // Example of an authorization header

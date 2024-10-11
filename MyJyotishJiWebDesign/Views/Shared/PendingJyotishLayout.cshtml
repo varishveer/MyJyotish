@@ -30,7 +30,7 @@
 
     <!-- Template Stylesheet -->
     <link href="~/css/style.css" rel="stylesheet">
-
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <style>
         #docoument1:hover{
             color:#007bff
@@ -211,6 +211,7 @@
 </head>
 
 <body>
+   
     <div class="container-xxl position-relative bg-white d-flex p-0">
         <!-- Spinner Start -->
         <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
@@ -334,9 +335,10 @@
                     </div>
                 </div>
             </nav>
-            <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+           
             <!-- Navbar End -->
             @{
+
                 // var BaseUrl = "https://localhost:7118/";
                 var BaseUrl = "https://api.myjyotishg.in/";
             }
@@ -374,38 +376,13 @@
         $("#logout").click(function () {
             alert("Logout");
             localStorage.clear();
-            window.location.replace("https://localhost:44324/Jyotish/Login");
+            window.location.replace("/Jyotish/Login");
         })
 
 
     </script>
-   @*  <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            debugger;
-            const email =  localStorage.getItem("userEmail");
-            const imageElement = document.getElementById('#ProfileImage');
+  
 
-            fetch(`https://localhost:7118/api/PendingJyotish/ProfileImage?Email=${encodeURIComponent(email)}`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error("Network response was not ok");
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    debugger;
-                    if (data.status === 200) {
-                        imageElement.src = "https://localhost:7118"+data.data; // Set the image source to the fetched data
-                    } 
-                })
-                .catch(error => {
-                    console.error('There was a problem with the fetch operation:', error);
-                    imageElement.src = "Images/Placeholder/ProfileImage.jpg"; // Placeholder on error
-                });
-        });
-    </script> *@
-
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
     <script>
         $(document).ready(function () {
@@ -445,7 +422,7 @@
             $("#logout").click(function () {
                 if (confirm("Are you sure you want to logout?")) {  // Confirm logout
                     localStorage.clear();
-                    window.location.replace("https://localhost:44324/Admin/Login");
+                    window.location.replace("/Jyotish/Login");
                 }
             });
 

@@ -1,4 +1,6 @@
-﻿
+﻿@{
+    var BaseUrl = "https://api.myjyotishg.in/";
+}
 <div class="container-fluid pt-4 px-4">
     <div class="bg-light text-center rounded p-4">
 
@@ -47,6 +49,9 @@
                 <label for="Amount">Amount:</label>
                 <input type="number" class="form-control" id="Amount">
             </div>
+            <button type="submit">
+                Submit 
+            </button>
         </form>
 
     
@@ -74,7 +79,7 @@
         // Make AJAX call only if 'Id' is present
         if (id) {
             $.ajax({
-                url: 'https://your-api-endpoint/AppointmentDetail', // Replace with your API endpoint
+                url:"@BaseUrl" + 'Admin/AppointmentDetail', // Replace with your API endpoint
                 type: 'GET',
                 data: { Id: id }, // Pass the Id as a query parameter
                 success: function (response) {

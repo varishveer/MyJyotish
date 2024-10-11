@@ -155,7 +155,9 @@ namespace MyJyotishGApi.Controllers
                 }
                 else if (Result == "Jyotish Not Found")
                 { return Ok(new { status = 400, message = Result }); }
-                else if(Result == "Already Booked")
+                else if(Result == "Your Slot Already Booked")
+                { return Ok(new { status = 409, message = Result }); }
+                else if (Result == "This Slot Already Booked")
                 { return Ok(new { status = 409, message = Result }); }
                 else
                 {
