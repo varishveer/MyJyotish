@@ -35,6 +35,7 @@ namespace MyJyotishJiWebDesign.Controllers
         public IActionResult SlotList() { return View(); }
         public IActionResult Subscription() { return View(); }
         public IActionResult Features() { return View(); }
+        public IActionResult Documents() { return View(); }
 
 
 
