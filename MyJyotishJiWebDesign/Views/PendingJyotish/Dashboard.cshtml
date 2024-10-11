@@ -579,7 +579,7 @@
 
         // Click event for the "Book Now" button
         $('#book-now').on('click', function () {
-            if (!selectedDate || !selectedTime) {
+            if (!selectedDate || !time) {
                 alert("Please select both a date and a time slot before booking.");
                 return;
             }
@@ -587,7 +587,7 @@
             // Define the payload to send to the API
             const postData = {
                 Date: selectedDate,
-                Time: selectedTime,
+                Time: time,
                 JyotishId: userId
             };
 
@@ -605,7 +605,7 @@
                     if (response.status === 200) {
                         Swal.fire({
                             title: "Slot successfully booked",
-                            text: `Slot successfully booked for: ${selectedDate} at ${selectedTime}`,
+                            text: `Slot successfully booked for: ${selectedDate} at ${time}`,
                             icon: "success"
                         });
                     } else if (response.status === 400) {
