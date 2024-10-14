@@ -202,6 +202,31 @@
             transition: 1s;
            font-size:14px;
         }
+        /* Remove the "Show" and "entries" text */
+        .dataTables_length label {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0; /* Hide the label text */
+        }
+
+            .dataTables_length label::before {
+                content: ''; /* No content before label */
+            }
+
+        .dataTables_length select {
+            margin-left: 0;
+            font-size: 16px; /* Optional: Adjust font size for select */
+            padding: 5px; /* Optional: Adjust padding for select */
+        }
+
+        /* Optional: If you want to remove the border around the select */
+        .dataTables_length select {
+            border: none;
+            outline: none;
+            box-shadow: none;
+        }
+
     </style>
 </head>
 @{

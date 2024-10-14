@@ -188,7 +188,7 @@
                 </div>
                 <div class="flex-row">
                     <i class="fas fa-check-circle approved" data-toggle="modal" data-target="#exampleModal" data-whatever="John Doe"  title="Approved"></i>&nbsp;
-                    <i class="fas fa-times-circle rejected" data-toggle="modal" data-target="#exampleModal" data-whatever="John Doe" title="Rejected"></i>
+                    <i class="fas fa-times-circle rejected" data-toggle="modal" data-target="#rejectedModal" title="Rejected"></i>
                 </div>
 
             </div>
@@ -213,7 +213,7 @@
                 </div>
                 <div class="flex-row">
                     <i class="fas fa-check-circle approved" data-toggle="modal" data-target="#exampleModal" data-whatever="John Doe"  title="Approved"></i>&nbsp;
-                    <i class="fas fa-times-circle rejected" data-toggle="modal" data-target="#exampleModal" data-whatever="John Doe" title="Rejected"></i>
+                    <i class="fas fa-times-circle rejected" data-toggle="modal" data-target="#rejectedModal" title="Rejected"></i>
                 </div>
             </div>
             <div class="col-md-3 col-lg-2 mb-4 increased-width">
@@ -236,7 +236,7 @@
                 </div>
                 <div class="flex-row">
                     <i class="fas fa-check-circle approved" data-toggle="modal" data-target="#exampleModal" data-whatever="John Doe"  title="Approved"></i>&nbsp;
-                    <i class="fas fa-times-circle rejected" data-toggle="modal" data-target="#exampleModal" data-whatever="John Doe" title="Rejected"></i>
+                    <i class="fas fa-times-circle rejected" data-toggle="modal" data-target="#rejectedModal" title="Rejected"></i>
                 </div>
             </div>
             <div class="col-md-3 col-lg-2 mb-4 increased-width">
@@ -259,7 +259,7 @@
                 </div>
                 <div class="flex-row">
                     <i class="fas fa-check-circle approved" data-toggle="modal" data-target="#exampleModal" data-whatever="John Doe"  title="Approved"></i>&nbsp;
-                    <i class="fas fa-times-circle rejected" data-toggle="modal" data-target="#exampleModal" data-whatever="John Doe" title="Rejected"></i>
+                    <i class="fas fa-times-circle rejected" data-toggle="modal" data-target="#rejectedModal" title="Rejected"></i>
                 </div>
             </div>
             <div class="col-md-3 col-lg-2 mb-4 increased-width">
@@ -282,7 +282,9 @@
                 </div>
                 <div class="flex-row">
                     <i class="fas fa-check-circle approved" data-toggle="modal" data-target="#exampleModal" data-whatever="John Doe"  title="Approved"></i>&nbsp;
-                    <i class="fas fa-times-circle rejected" data-toggle="modal" data-target="#exampleModal" data-whatever="John Doe" title="Rejected"></i>
+                @*     <i class="fas fa-times-circle rejected" title="Rejected"></i> *@
+                    <i class="fas fa-times-circle rejected" data-toggle="modal" data-target="#rejectedModal"title="Rejected"></i>
+
                 </div>
             </div>
         </div>
@@ -334,12 +336,11 @@
 </script>
 <!--Approved Modal End -->
 
-<!--Reject Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="rejectedModal" tabindex="-1" role="dialog" aria-labelledby="rejectedModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Reject message</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Rejected message</h5>
                 <button type="button" class="close btn text-danger" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -363,17 +364,3 @@
         </div>
     </div>
 </div>
-
-
-<script>
-
-    $('#exampleModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget);
-        var recipient = button.data('whatever');
-
-        var modal = $(this);
-        modal.find('.modal-title').text('New message to ' + recipient); // Update modal title
-        modal.find('.modal-body input').val(recipient); // Update recipient input field
-    });
-</script>
-<!--Reject Modal End -->
