@@ -4,8 +4,185 @@
 @{
     Layout = "AdminLayout";
 }
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<style>
+    body {
+        margin: 0;
+        font-family: "Heebo", sans-serif;
 
-<div class="container mt-5">
+        color: #757575;
+        background-color: #F3F6F9;
+        -webkit-text-size-adjust: 100%;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    }
+    .container {
+        margin-top: 30px;
+        margin-bottom: 50px;
+    }
+
+    .right-part {
+        border-radius: 10px;
+        box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.2);
+        padding: 30px;
+        background-color: white;
+    }
+
+    .responsive-image {
+        max-width: 100%;
+        height: auto;
+        border-radius: 10px;
+    }
+
+    h2 {
+        margin-bottom: 20px;
+        color: #007BFF;
+        text-align: center;
+    }
+
+    .btn-primary {
+        border-radius: 6px;
+    }
+
+
+    .form-label {
+        margin-bottom: 0.1rem;
+        font-size: 15px;
+    }
+
+    .form-control {
+        font-size: 12px;
+    }
+
+    .form-select {
+        font-size: 12px;
+    }
+
+    .btn:not(:disabled):not(.disabled) {
+        font-size: 12px;
+    }
+
+    .otpcolour {
+        color: white;
+        background-color: lightslategray;
+    }
+
+    /* Ensuring all form elements are consistently spaced */
+    .form-row {
+        margin-bottom: 1rem;
+    }
+
+    .col-md-6 {
+        padding: 0 1rem;
+    }
+
+
+    .form-group {
+        margin-bottom: 0;
+    }
+
+</style>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 right-part">
+            <h2>Update Jyotish</h2>
+            <form id="registrationForm">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="jyotishId" class="form-label">ID:</label>
+                        <input type="text" class="form-control" id="id" readonly>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="jyotishName" class="form-label">Name:</label>
+                        <input type="text" class="form-control" id="name">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="jyotishEmail" class="form-label">Email:</label>
+                        <input type="email" class="form-control" id="email">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="jyotishMobile" class="form-label">Mobile:</label>
+                        <input type="text" class="form-control" id="mobile">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="jyotishExpertise" class="form-label">Expertise:</label>
+                        <input type="text" class="form-control" id="expertise">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="jyotishCountry" class="form-label">Country:</label>
+                        <input type="text" class="form-control" id="country">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="jyotishState" class="form-label">State:</label>
+                        <input type="text" class="form-control" id="state">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="jyotishCity" class="form-label">City:</label>
+                        <input type="text" class="form-control" id="city">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="jyotishAddress" class="form-label">Address:</label>
+                        <input type="text" class="form-control" id="address">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="jyotishDateOfBirth" class="form-label">Date of Birth:</label>
+                        <input type="date" class="form-control" id="dateOfBirth">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="jyotishStatus" class="form-label">Status:</label>
+                        <input type="text" class="form-control" id="status">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="jyotishExperience" class="form-label">Experience:</label>
+                        <input type="number" class="form-control" id="experience">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="jyotishChatCharges" class="form-label">Chat Charges:</label>
+                        <input type="number" class="form-control" id="chatCharges">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="jyotishPooja" class="form-label">Pooja:</label>
+                        <input type="text" class="form-control" id="pooja">
+                    </div>
+                </div>
+
+                <div class="form-row">
+               
+                    <div class="form-group col-md-6">
+                        <label for="jyotishCall" class="form-label">Call Service:</label>&nbsp;
+                        <input type="checkbox" id="call">&nbsp;
+                        <label for="jyotishChat" class="form-label">Chat Service:</label>&nbsp;
+                        <input type="checkbox" id="chat">
+                    </div>
+                </div>
+
+             
+
+                <button type="submit" id="updateJyotishButton" class="btn btn-primary px-4">Update</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@* <div class="container mt-5">
     <h1 class="mb-4">Update Jyotish Information</h1>
     <form id="jyotishUpdateForm">
         <div class="form-group mb-3">
@@ -94,7 +271,7 @@
         </div>
         <button type="submit" class="btn btn-primary" id="updateJyotishButton">Update</button>
     </form>
-</div>
+</div> *@
 
 <script>
     $(document).ready(function () {

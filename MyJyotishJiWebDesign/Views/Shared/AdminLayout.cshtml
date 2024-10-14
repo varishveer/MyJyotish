@@ -50,6 +50,7 @@
 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <style>
+
         .sidebar .navbar .dropdown-item {
             font-size:14px !important;
             font-weight:300 !important;
@@ -295,20 +296,10 @@
                             <a href="/Admin/PoojaCategoryList" class="dropdown-item px-5 py-1">Pooja List </a>
                             <a href="/Admin/ExpertiseList" class="dropdown-item px-5 py-1">Expertiese List</a>
                             <a href="/Admin/SlotList" class="dropdown-item px-5 py-1">Slot List</a>
-                            <a href="element.html" class="dropdown-item px-5 py-1">Other Elements</a>
+                @*             <a href="element.html" class="dropdown-item px-5 py-1">Other Elements</a> *@
                         </div>
                     </div>
-                @*     <a href="/Admin/Dashboard" class="nav-item nav-link py-1 mb-2" style="font-weight:300;"><i class="fa fa-tachometer-alt me-2"></i><span class="sidebar-nav d-none">Dashboard</span></a>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle py-1  mb-2" data-bs-toggle="dropdown" style="font-weight:300;"><i class="fa fa-laptop me-2"></i><span class="sidebar-nav d-none">Master Data</span></a>
-                        <div class="dropdown-menu nav-menus d-none bg-transparent border-0">
-                            <a href="/Admin/PoojaCategoryList" class="dropdown-item px-5 py-1">Pooja List </a>
-                            <a href="/Admin/ExpertiseList" class="dropdown-item px-5 py-1">Expertiese List</a>
-                            <a href="/Admin/SlotList" class="dropdown-item px-5 py-1">Slot List</a>
-                            <a href="element.html" class="dropdown-item px-5 py-1">Other Elements</a>
-                        </div>
-                    </div>
- *@
+  
                     <a href="/Admin/Appointments" class="nav-item nav-link py-1 mb-2" style="font-weight:300;"><i class="fa fa-th me-2"></i><span class="sidebar-nav d-none">Appointments</span></a>
                     <a href="/Admin/PendingJyotish" class="nav-item nav-link py-1  mb-2" style="font-weight:300;"><i class="fa-solid fa-clock"></i> <span class="sidebar-nav d-none">Pending Jyotish</span> </a>
                     <a href="/Admin/JyotishList" class="nav-item nav-link py-1  mb-2" style="font-weight:300;"><i class="fa-solid fa-table-list"></i> <span class="sidebar-nav d-none">Jyotish List</span></a>
@@ -346,20 +337,7 @@
                 <div class="navbar-nav align-items-center ms-auto">
 
                     <div class="nav-item dropdown">
-                     @*    <a href="#" class="nav-link dropdown-toggle py-1 mb-2" data-toggle="dropdown" style="font-weight:300;">
-                            <img class="rounded-circle me-lg-2" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                            <span class="d-none d-lg-inline-flex">John Doe</span>
-                        </a> *@
-                      @*   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <img class="rounded-circle me-lg-2" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                            <span class="d-none d-lg-inline-flex">John Doe</span>
-                        </a>
-                     
-                        <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                            <a href="/Admin/AdminProfile" class="dropdown-item">My Profile</a>
-                            <a href="/Admin/CustomerSupport" class="dropdown-item">Settings</a>
-                            <a href="#" id="logout" class="dropdown-item">Log Out</a>
-                        </div> *@
+                
                         <!-- Dropdown Toggle -->
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img class="rounded-circle me-lg-2" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
@@ -389,93 +367,86 @@
     </div>
 
 
-
     <script>
         $(document).ready(function () {
+            // Sidebar Toggler
+            let hide = true;
 
-              // Sidebar Toggler
-              let hide = true;
-              $('.sidebar-toggler').click(function (e) {
-                  e.preventDefault();  // Prevent the default behavior
-                  if(hide){
-                      hide=false
-                    // $('.sidebar, .content').toggleClass("open");
+            $('.sidebar-toggler').click(function (e) {
+                e.preventDefault();  // Prevent the default behavior
+                if (hide) {
+                    hide = false;
                     $(".sidebar-toggler").toggleClass("sidebar-toggler2");
                     $(".content").toggleClass("content2");
                     $(".sidebar").toggleClass("sidebar2");
                     $(".sidebar").toggleClass("sidebar3");
-                    $(".nav-menus").removeClass("d-none")
-                    $(".sidebar-nav").removeClass("d-none")
-                    $(".sidebar-nav").css({ opacity: "1", transition: '1s' })
-                    $(".sidebar-toggler").css({ opacity: "1", transition: '1s' })
-                    $(".dropdown-toggle").addClass("adddropdown-toggle")
-                    $(".content").addClass("content2")
-                  }else{
-                  hide=true
+                    $(".nav-menus").removeClass("d-none");
+                    $(".sidebar-nav").removeClass("d-none");
+                    $(".sidebar-nav").css({ opacity: "1", transition: '1s' });
+                    $(".sidebar-toggler").css({ opacity: "1", transition: '1s' });
+                    $(".dropdown-toggle").addClass("adddropdown-toggle");
+                    $(".content").addClass("content2");
+                } else {
+                    hide = true;
                     $(".sidebar").toggleClass("sidebar2");
                     $(".sidebar").toggleClass("sidebar3");
                     $(".sidebar-toggler").removeClass("sidebar-toggler2");
                     $(".logo").html('<i class="fa fa-hashtag me-2"></i>');
-                    $(".nav-menus").addClass("d-none")
-                    $(".sidebar-nav").addClass("d-none")
-                    $(".dropdown-toggle").removeClass("adddropdown-toggle")
-                    $(".content").removeClass("content2")
-                  }
-
-              });
-
-              // Logout
-              $("#logout").click(function () {
-                  if (confirm("Are you sure you want to logout?")) {  // Confirm logout
-                      localStorage.clear();
-                      window.location.replace("https://localhost:44324/Admin/Login");
-                  }
-             });
-
-            $(".sidebar").mouseenter(function () {
-                if (typeof hide !== "undefined" && hide) {
-                    // Add sidebar class and update logo
-                    $(this).addClass("sidebar2");
-                    $(".logo").html('<i class="fa fa-hashtag me-2"></i>DASHMIN');
-
-                    // Show and animate elements after a short delay
-                    setTimeout(function () {
-                        $(".nav-menus").removeClass("d-none");
-                        $(".sidebar-nav").removeClass("d-none").css({ opacity: "1", transition: '0.2s' });
-                        $(".sidebar-toggler").css({ opacity: "1", transition: '0.2s' });
-
-                        $(".dropdown-toggle").addClass("adddropdown-toggle");
-                        $(".content").addClass("content2");
-                    }, 200);
-                }
-            }).mouseleave(function () {
-                if (typeof hide !== "undefined" && hide) {
-                    // Remove sidebar class and reset logo
-                    $(this).removeClass("sidebar2");
-                    $(".logo").html('<i class="fa fa-hashtag me-2"></i>');
-
-                    // Hide and reset elements
                     $(".nav-menus").addClass("d-none");
-                    $(".sidebar-nav").addClass("d-none").css({ opacity: "0", transition: '0.2s' });
+                    $(".sidebar-nav").addClass("d-none");
                     $(".dropdown-toggle").removeClass("adddropdown-toggle");
                     $(".content").removeClass("content2");
                 }
             });
 
-
-
-            $("a").each(function (i, d) {
-
-                if (d.href.toLowerCase() == window.location.href.toLocaleLowerCase()) {
-                    d.classList.add("active")
-                    let element = d.parentElement.previousElementSibling;
-                    if (element)
-                        element.classList.add("active")
-
+            // Logout
+            $("#logout").click(function () {
+                if (confirm("Are you sure you want to logout?")) {  // Confirm logout
+                    localStorage.clear();
+                    window.location.replace("https://localhost:44324/Admin/Login");
                 }
-            })
-        })
+            });
+
+            // Use hover to handle mouse enter and leave
+            $(".sidebar").hover(
+                function () {
+                    if (hide) {
+                        // Add sidebar class and update logo
+                        $(".sidebar").addClass("sidebar2");
+                        $(".logo").html('<i class="fa fa-hashtag me-2"></i>DASHMIN');
+
+                        $(".nav-menus").removeClass("d-none");
+                        $(".sidebar-nav").removeClass("d-none").css({ opacity: "1", transition: '0.2s' });
+                        $(".sidebar-toggler").css({ opacity: "1", transition: '0.2s' });
+                        $(".dropdown-toggle").addClass("adddropdown-toggle");
+                        $(".content").addClass("content2");
+                    }
+                },
+                function () {
+                    if (hide) {
+            
+                        $(".sidebar").removeClass("sidebar2");
+                        $(".logo").html('<i class="fa fa-hashtag me-2"></i>');
+
+                        $(".nav-menus").addClass("d-none");
+                        $(".sidebar-nav").addClass("d-none").css({ opacity: "0", transition: '0.2s' });
+                        $(".dropdown-toggle").removeClass("adddropdown-toggle");
+                        $(".content").removeClass("content2");
+                    }
+                }
+            );
+
+            // Highlight the active link
+            $("a").each(function (i, d) {
+                if (d.href.toLowerCase() === window.location.href.toLowerCase()) {
+                    d.classList.add("active");
+                    let element = d.parentElement.previousElementSibling;
+                    if (element) element.classList.add("active");
+                }
+            });
+        });
     </script>
+
 </body>
 
 </html>
