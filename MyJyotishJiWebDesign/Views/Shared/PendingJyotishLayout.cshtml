@@ -411,87 +411,84 @@
 
     <script>
         $(document).ready(function () {
-
             // Sidebar Toggler
             let hide = true;
-            $('.sidebar1').click(function (e) {
+
+            $('.sidebar-toggler').click(function (e) {
                 e.preventDefault();  // Prevent the default behavior
                 if (hide) {
-                    hide = false
-                    // $('.sidebar, .content').toggleClass("open");
-                    $(".sidebar1").toggleClass("sidebar-toggler2");
+                    hide = false;
+                    $(".sidebar-toggler").toggleClass("sidebar-toggler2");
                     $(".content").toggleClass("content2");
                     $(".sidebar").toggleClass("sidebar2");
                     $(".sidebar").toggleClass("sidebar3");
-                    $(".nav-menus").removeClass("d-none")
-                    $(".sidebar-nav").removeClass("d-none")
-                    $(".sidebar-nav").css({ opacity: "1", transition: '1s' })
-                    $(".sidebar-toggler").css({ opacity: "1", transition: '1s' })
-                    $(".dropdown-toggle").addClass("adddropdown-toggle")
-                    $(".content").addClass("content2")
+                    $(".nav-menus").removeClass("d-none");
+                    $(".sidebar-nav").removeClass("d-none");
+                    $(".sidebar-nav").css({ opacity: "1", transition: '1s' });
+                    $(".sidebar-toggler").css({ opacity: "1", transition: '1s' });
+                    $(".dropdown-toggle").addClass("adddropdown-toggle");
+                    $(".content").addClass("content2");
                 } else {
-                    hide = true
+                    hide = true;
                     $(".sidebar").toggleClass("sidebar2");
                     $(".sidebar").toggleClass("sidebar3");
-                    $(".sidebar1").removeClass("sidebar-toggler2");
+                    $(".sidebar-toggler").removeClass("sidebar-toggler2");
                     $(".logo").html('<i class="fa fa-hashtag me-2"></i>');
-                    $(".nav-menus").addClass("d-none")
-                    $(".sidebar-nav").addClass("d-none")
-                    $(".dropdown-toggle").removeClass("adddropdown-toggle")
-                    $(".content").removeClass("content2")
+                    $(".nav-menus").addClass("d-none");
+                    $(".sidebar-nav").addClass("d-none");
+                    $(".dropdown-toggle").removeClass("adddropdown-toggle");
+                    $(".content").removeClass("content2");
                 }
-
             });
 
             // Logout
             $("#logout").click(function () {
                 if (confirm("Are you sure you want to logout?")) {  // Confirm logout
                     localStorage.clear();
-                    window.location.replace("/Jyotish/Login");
+                    window.location.replace("https://localhost:44324/Admin/Login");
                 }
             });
 
+            // Use hover to handle mouse enter and leave
+            $(".sidebar").hover(
+                function () {
+                    if (hide) {
+                        // Add sidebar class and update logo
+                        $(".sidebar").addClass("sidebar2");
+                        $(".logo").html('<i class="fa fa-hashtag me-2"></i>DASHMIN');
 
-            $(".sidebar").mouseenter(function () {
+                        $(".nav-menus").removeClass("d-none");
+                        $(".sidebar-nav").removeClass("d-none").css({ opacity: "1", transition: '0.2s' });
+                        $(".sidebar-toggler").css({ opacity: "1", transition: '0.2s' });
+                        $(".dropdown-toggle").addClass("adddropdown-toggle");
+                        $(".content").addClass("content2");
+                    }
+                },
+                function () {
+                    if (hide) {
 
-                if (hide) {
+                        $(".sidebar").removeClass("sidebar2");
+                        $(".logo").html('<i class="fa fa-hashtag me-2"></i>');
 
-                    $(this).addClass("sidebar2")
-                    $(".logo").html('<i class="fa fa-hashtag me-2"></i>DASHMIN');
-                    setTimeout(function () {
-                        $(".nav-menus").removeClass("d-none")
-                        $(".sidebar-nav").removeClass("d-none")
-                        $(".sidebar-nav").css({ opacity: "1", transition: '1s' })
-                        $(".sidebar1").css({ opacity: "1", transition: '1s' })
-                        $(".dropdown-toggle").addClass("adddropdown-toggle")
-                        $(".content").addClass("content2")
-                    }, 200)
+                        $(".nav-menus").addClass("d-none");
+                        $(".sidebar-nav").addClass("d-none").css({ opacity: "0", transition: '0.2s' });
+                        $(".dropdown-toggle").removeClass("adddropdown-toggle");
+                        $(".content").removeClass("content2");
+                    }
                 }
-            }).mouseleave(function () {
-                if (hide) {
-                    $(this).removeClass("sidebar2")
+            );
 
-                    $(".logo").html('<i class="fa fa-hashtag me-2"></i>');
-                    $(".nav-menus").addClass("d-none")
-                    $(".sidebar-nav").addClass("d-none")
-                    $(".dropdown-toggle").removeClass("adddropdown-toggle")
-                    $(".content").removeClass("content2")
-                }
-            })
-
-
+            // Highlight the active link
             $("a").each(function (i, d) {
-
-                if (d.href.toLowerCase() == window.location.href.toLocaleLowerCase()) {
-                    d.classList.add("active")
+                if (d.href.toLowerCase() === window.location.href.toLowerCase()) {
+                    d.classList.add("active");
                     let element = d.parentElement.previousElementSibling;
-                    if (element)
-                        element.classList.add("active")
-
+                    if (element) element.classList.add("active");
                 }
-            })
-        })
+            });
+        });
     </script>
+
 </body>
 
 </html>
