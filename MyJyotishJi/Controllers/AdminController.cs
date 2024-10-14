@@ -705,5 +705,22 @@ namespace MyJyotishJiApi.Controllers
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
         }
 
+        [HttpGet("GetSubscription")]
+        public IActionResult GetSubscription(int Id)
+        {
+            try
+            {
+                var Result = _admin.GetSubscription(Id);
+                if (Result == null)
+                { return Ok(new { Status = 404, Message = "Data Not Found" }); }
+
+                else
+                { return Ok(new { Status = 500, Data = Result, Message = "Successful" }); }
+
+
+            }
+
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+        }
     }
 }

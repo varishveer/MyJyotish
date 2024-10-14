@@ -955,7 +955,37 @@ namespace BusinessAccessLayer.Implementation
             if (_context.SaveChanges() > 0) { return "Successful"; }
             else { return "internal Server Error."; }
         }
-        /*public SubscriptionViewModel GetSubscription(int Id)*/
+        public SubscriptionGetViewModel GetSubscription(int Id)
+        {
+            var records = _context.Subscriptions.Where(x=>x.SubscriptionId == Id)
+                                 .Select(subscription => new SubscriptionGetViewModel
+                                 {
+                                     SubscriptionId = subscription.SubscriptionId,
+                                     Name = subscription.Name,
+                                     OldPrice = subscription.OldPrice,
+                                     NewPrice = subscription.NewPrice,
+                                     Discount = subscription.Discount,
+                                     Gst = subscription.Gst,
+                                     DiscountAmount = subscription.DiscountAmount,
+                                     PlanType = subscription.PlanType,
+                                     description = subscription.description,
+                                     Status = subscription.Status,
+
+                                     Features = _context.ManageSubscriptionModels
+                                           .Where(ms => ms.SubscriptionId == subscription.SubscriptionId)
+                                           .Select(ms => ms.FeatureId)
+                                           .Join(_context.SubscriptionFeatures,
+                                                 featureId => featureId,
+                                                 feature => feature.FeatureId,
+                                                 (featureId, feature) => feature.Name)
+                                           .ToArray()
+                                 })
+                                 .FirstOrDefault();
+
+            return records ?? null;
+        }
+
+
 
     }
 }

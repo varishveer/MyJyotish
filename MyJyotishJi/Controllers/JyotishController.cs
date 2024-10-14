@@ -170,7 +170,7 @@ namespace MyJyotishGApi.Controllers
         }
        
         [HttpPost("UpdateProfile")]
-        public IActionResult UpdateProfile( JyotishCompleteViewModel model)
+        public IActionResult UpdateProfile(JyotishUpdateViewModel model)
         {
             try
             {

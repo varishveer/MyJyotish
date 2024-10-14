@@ -32,7 +32,7 @@ namespace BusinessAccessLayer.Implementation
             }
         }
 
-        public string UpdateProfile(JyotishCompleteViewModel model)
+        public string UpdateProfile(JyotishUpdateViewModel model)
         {
             // Fetch the existing record from the database
             var existingRecord = _context.JyotishRecords.FirstOrDefault(x => x.Id == model.Id);
@@ -51,6 +51,8 @@ namespace BusinessAccessLayer.Implementation
             existingRecord.Role = "Jyotish";
             existingRecord.Status = "Complete";
 
+
+
             if (model.ProfileImageUrl != null)
             {
 
@@ -65,15 +67,20 @@ namespace BusinessAccessLayer.Implementation
 
             }
 
+
+
+            var CountryName = _context.Countries.Where(x => x.Id == model.Country).FirstOrDefault();
+            var StateName = _context.States.Where(x => x.Id == model.State).FirstOrDefault();
+            var CityName = _context.Cities.Where(x => x.Id == model.City).FirstOrDefault();
             // Update other properties as needed
             existingRecord.Mobile = model.Mobile;
             existingRecord.Name = model.Name;
             existingRecord.Gender = model.Gender;
             existingRecord.Language = model.Language;
             existingRecord.Expertise = model.Expertise;
-            existingRecord.Country = model.Country;
-            existingRecord.State = model.State;
-            existingRecord.City = model.City;
+            existingRecord.Country = CountryName.Name;
+            existingRecord.State = StateName.Name;
+            existingRecord.City = CityName.Name;
             existingRecord.Password = model.Password;
             existingRecord.DateOfBirth = model.DateOfBirth;
 

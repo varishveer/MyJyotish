@@ -352,7 +352,8 @@ namespace MyJyotishJiApi.Controllers
                         UserName = userResponse.Name,
                         UserEmail = userResponse.Email,
                         UserStatus = userResponse.Status,
-                        UserMobile = userResponse.Mobile
+                        UserMobile = userResponse.Mobile,
+                        UserId = userResponse.Id
 
                     });
                 }

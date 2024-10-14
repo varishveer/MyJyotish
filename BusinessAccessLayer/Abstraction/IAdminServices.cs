@@ -55,6 +55,7 @@ namespace BusinessAccessLayer.Abstraction
         public string UpdateSubscription(SubscriptionViewModel model);
         public List<SubscriptionGetViewModel> GetAllSubscription();
         public string DeleteSubsciption(int Id);
+        public SubscriptionGetViewModel GetSubscription(int Id);
       /*  public string ApproveDocument(DocUpdateViewModel model);
         public string RejectDocument(DocUpdateViewModel model);
       */
