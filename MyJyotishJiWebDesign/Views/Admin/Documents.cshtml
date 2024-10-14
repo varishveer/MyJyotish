@@ -3,6 +3,7 @@
 *@
 @{
     Layout = "AdminLayout";
+    var BaseUrl = "https://api.myjyotishg.in/";
 }
 
 <style>
@@ -156,7 +157,7 @@
     }
 </style>
 @{
-    int status = 1;
+   
 }
 <div class="container-fluid pt-4 px-4">
     <div class=" text-center  border border-1 rounded p-3">
@@ -170,21 +171,13 @@
         <div class="row">
             <div class="col-md-3 col-lg-2 mb-4 increased-width">
                 <div class="image-container bg-light rounded">
-                    <img id="idProof" alt="ID Proof" class="img-fluid" src="https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp">
+                    <img id="idProof" alt="ID Proof" class="img-fluid" src="">
                 </div>
                 <div class="img-text mb-2">
                     <span style="font-weight:bold">Status:&nbsp; </span>
-                    @if (status == 1)
-                    {
-                        <span style="color:green">Verified</span>
-                    }@if (status == 2)
-                    {
-                        <span style="color:red">Reject</span>
-                    }
-                    @if (status == 3)
-                    {
-                        <span style="color:#ffc107">Pending</span>
-                    }
+
+                    <span id="idProofStatus"> </span>
+
                 </div>
                 <div class="flex-row">
                     <i class="fas fa-check-circle approved" data-toggle="modal" data-target="#exampleModal" data-whatever="John Doe"  title="Approved"></i>&nbsp;
@@ -194,21 +187,13 @@
             </div>
             <div class="col-md-3 col-lg-2 mb-4 increased-width">
                 <div class="image-container bg-light rounded">
-                    <img id="addressProof" alt="Address Proof" src="https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp">
+                    <img id="addressProof" alt="Address Proof" src="">
                 </div>
                 <div class="img-text mb-2">
                     <span style="font-weight:bold">Status:&nbsp; </span>
-                    @if (status == 1)
-                    {
-                        <span style="color:green">Verified</span>
-                    }@if (status == 2)
-                    {
-                        <span style="color:red">Reject</span>
-                    }
-                    @if (status == 3)
-                    {
-                        <span style="color:green">Pending</span>
-                    }
+
+                    <span  id="addressProofStatus"> </span>
+                    
 
                 </div>
                 <div class="flex-row">
@@ -218,21 +203,12 @@
             </div>
             <div class="col-md-3 col-lg-2 mb-4 increased-width">
                 <div class="image-container bg-light rounded">
-                    <img id="tenthCertificate" alt="Tenth Certificate" src="https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp">
+                    <img id="tenthCertificate" alt="Tenth Certificate" src="">
                 </div>
                 <div class="img-text mb-2">
                     <span style="font-weight:bold">Status:&nbsp; </span>
-                    @if (status == 1)
-                    {
-                        <span style="color:green">Verified</span>
-                    }@if (status == 2)
-                    {
-                        <span style="color:red">Reject</span>
-                    }
-                    @if (status == 3)
-                    {
-                        <span style="color:green">Pending</span>
-                    }
+
+                    <span id="tenthCertificateStatus"> </span>
                 </div>
                 <div class="flex-row">
                     <i class="fas fa-check-circle approved" data-toggle="modal" data-target="#exampleModal" data-whatever="John Doe"  title="Approved"></i>&nbsp;
@@ -241,21 +217,12 @@
             </div>
             <div class="col-md-3 col-lg-2 mb-4 increased-width">
                 <div class="image-container bg-light rounded">
-                    <img id="twelveCertificate" alt="Twelve Certificate" src="https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp">
+                    <img id="twelveCertificate" alt="Twelve Certificate" src="">
                 </div>
                 <div class="img-text mb-2">
                     <span style="font-weight:bold">Status:&nbsp; </span>
-                    @if (status == 1)
-                    {
-                        <span style="color:green">Verified</span>
-                    }@if (status == 2)
-                    {
-                        <span style="color:red">Reject</span>
-                    }
-                    @if (status == 3)
-                    {
-                        <span style="color:green">Pending</span>
-                    }
+
+                    <span id="twelveCertificateStatus"> </span>
                 </div>
                 <div class="flex-row">
                     <i class="fas fa-check-circle approved" data-toggle="modal" data-target="#exampleModal" data-whatever="John Doe"  title="Approved"></i>&nbsp;
@@ -264,21 +231,12 @@
             </div>
             <div class="col-md-3 col-lg-2 mb-4 increased-width">
                 <div class="image-container bg-light rounded">
-                    <img id="professionalCertificate" alt="Professional Certificate" src="https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp">
+                    <img id="professionalCertificate" alt="Professional Certificate" src="">
                 </div>
                 <div class="img-text mb-2">
                     <span style="font-weight:bold">Status:&nbsp; </span>
-                    @if (status == 1)
-                    {
-                        <span style="color:green">Verified</span>
-                    }@if (status == 2)
-                    {
-                        <span style="color:red">Reject</span>
-                    }
-                    @if (status == 3)
-                    {
-                        <span style="color:green">Pending</span>
-                    }
+
+                    <span id="professionalCertificateStatus"> </span>
                 </div>
                 <div class="flex-row">
                     <i class="fas fa-check-circle approved" data-toggle="modal" data-target="#exampleModal" data-whatever="John Doe"  title="Approved"></i>&nbsp;
@@ -316,7 +274,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Send message</button>
+                <button id="approvedBtn" type="button" class="btn btn-primary">Send message</button>
             </div>
         </div>
     </div>
@@ -359,8 +317,164 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Send message</button>
+                <button id="rejectBtn" type="button" class="btn btn-primary">Send message</button>
             </div>
         </div>
     </div>
 </div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
+<script>
+    $(document).ready(function () {
+
+        // Function to get 'id' from the URL parameters
+        function getIdFromUrl() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('id'); // Get the value of 'id' param
+        }
+
+        var id = getIdFromUrl(); // Get the ID from the URL
+
+        if (id) {
+            // Function to get Jyotish documents using Ajax
+            function getJyotishDocs(id) {
+                $.ajax({
+                    url: "@BaseUrl" + `Api/Admin/GetJyotishDocs?Id=${id}`,
+                    type: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem("Token")}`
+                    },
+                    success: function (response) {
+                        if (response.status === 200) {
+                            updateDocumentStatus(response.data); // Call function to update document status
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function () {
+                        alert('Error fetching Jyotish documents.');
+                    }
+                });
+            }
+
+            // Function to update document status in the UI
+            function updateDocumentStatus(docs) {
+                $("#idProof").attr("src", "@BaseUrl" + docs.idProof || 'placeholder.png');
+                updateStatus("idProofStatus", docs.idProofStatus, "idProof");
+
+                $("#addressProof").attr("src", "@BaseUrl" + docs.addressProof || 'placeholder.png');
+                updateStatus("addressProofStatus", docs.addressProofStatus, "addressProof");
+
+                $("#tenthCertificate").attr("src", "@BaseUrl" + docs.tenthCertificate || 'placeholder.png');
+                updateStatus("tenthCertificateStatus", docs.tenthCertificateStatus, "tenthCertificate");
+
+                $("#twelveCertificate").attr("src", "@BaseUrl" + docs.twelveCertificate || 'placeholder.png');
+                updateStatus("twelveCertificateStatus", docs.twelveCertificateStatus, "twelveCertificate");
+
+                $("#professionalCertificate").attr("src", "@BaseUrl" + docs.professionalCertificate || 'placeholder.png');
+                updateStatus("professionalCertificateStatus", docs.professionalCertificateStatus, "professionalCertificate");
+            }
+
+            // Function to update status text and assign data-status to the buttons
+            function updateStatus(elementId, status, docType) {
+                $("#" + elementId).text(status);
+
+                $("#" + docType).data('status', status); // Store status in data attribute for use later
+            }
+
+            // Call the function to get Jyotish Docs when the page loads
+            getJyotishDocs(id);
+
+            // Event listener for Approve button (open modal)
+            $(document).on("click", ".approved", function () {
+                var imageContainer = $(this).closest('.col-md-3, .col-lg-2');
+                var docType = imageContainer.find('img').attr('id'); // Get the ID from the image element
+                var status = $("#" + docType + "Status").text(); // Get the status from the span element
+                openModal('Approved', docType, status); // Open the modal with the correct values
+            });
+
+            // Event listener for Reject button (open modal)
+            $(document).on("click", ".rejected", function () {
+                var imageContainer = $(this).closest('.col-md-3, .col-lg-2');
+                var docType = imageContainer.find('img').attr('id'); // Get the ID from the image element
+                var status = $("#" + docType + "Status").text(); // Get the status from the span element
+                openModal('Rejected', docType, status); // Open the modal with the correct values
+            });
+
+            // Function to open the modal and set data
+            function openModal(action, docType, status) {
+                var modal = action === 'Approved' ? $('#exampleModal') : $('#rejectedModal');
+                modal.find('.modal-title').text(`${action} message for ${docType}`);
+                modal.find('.modal-body input').val(`${docType} ${action}`); // Set the subject
+                modal.modal('show'); // Show the modal
+            }
+
+            // Use event delegation for the approve button inside the modal
+            $(document).on('click', '#approvedBtn', function () {
+                var modal = $('#exampleModal');
+                var docType = modal.find('.modal-title').text().split(' ')[3]; // Extract the document type from the modal title
+                var subject = modal.find('#recipient-name').val(); // Get subject
+                var message = modal.find('#message-text').val(); // Get message
+
+                // Call API to update status
+                sendStatusUpdate(docType, 'Approved', subject, message);
+            });
+
+            // Use event delegation for the reject button inside the modal
+            $(document).on('click', '#rejectBtn', function () {
+                var modal = $('#rejectedModal');
+                var docType = modal.find('.modal-title').text().split(' ')[3]; // Extract the document type from the modal title
+                var subject = modal.find('#recipient-name').val(); // Get subject
+                var message = modal.find('#message-text').val(); // Get message
+
+                // Call API to update status
+                sendStatusUpdate(docType, 'Rejected', subject, message);
+            });
+
+            // Function to send status update to the API
+            function sendStatusUpdate(docType, status, subject, message) {
+                var payload = {
+                    ImageStatus: docType + "Status",
+                    subject: subject,
+                    message: message,
+                    id: id // Send the user ID as well
+                };
+                var ApiUrl
+                if (status == 'Rejected') { ApiUrl = "@BaseUrl" + 'Api/Admin/RejectJyotishDocs' }
+                else { ApiUrl = "@BaseUrl" + 'Api/Admin/ApproveJyotishDocs' }
+               
+                $.ajax({
+                    url: ApiUrl,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(payload),
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem("Token")}`
+                    },
+                    success: function (response) {
+                       
+                        if (response.status === 200) {
+                            alert('Status updated successfully!');
+                            // Optionally close the modal
+                            location.reload();
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function () {
+                       
+                        alert('Error updating document status.');
+                    }
+                });
+            }
+        } else {
+            alert('ID parameter is missing in the URL.');
+        }
+    });
+
+</script>
+

@@ -505,6 +505,7 @@ namespace BusinessAccessLayer.Implementation
                 return null;
             }
             var Docs = _context.Documents.Where(x => x.JId == id).FirstOrDefault();
+            if(Docs == null) { return null; }
             Docs.Jyotish = null;
            
             return Docs;
