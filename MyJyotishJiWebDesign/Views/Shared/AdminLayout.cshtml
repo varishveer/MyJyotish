@@ -39,12 +39,13 @@
     <!-- Template Stylesheet -->
     <link href="~/css/style.css" rel="stylesheet">
 
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
 
     <link href="https://cdn.datatables.net/2.1.3/css/dataTables.dataTables.min.css" rel="stylesheet" />
     <!-- Your script that uses Swal.fire() -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.9/dist/sweetalert2.all.min.js"></script>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/2.1.3/js/dataTables.min.js"></script>
 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
@@ -209,6 +210,39 @@
               transition: 1s;
               font-size:14px;
           }
+/* 
+        .dropdown-item.active, .dropdown-item:active {
+            color: #272b2f !important ;
+            text-decoration: none;
+            background-color: #009cff !important;
+        } */
+
+
+        /* Remove the "Show" and "entries" text */
+        .dataTables_length label {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0; /* Hide the label text */
+        }
+
+            .dataTables_length label::before {
+                content: ''; /* No content before label */
+            }
+
+        .dataTables_length select {
+            margin-left: 0;
+            font-size: 16px; /* Optional: Adjust font size for select */
+            padding: 5px; /* Optional: Adjust padding for select */
+        }
+
+        /* Optional: If you want to remove the border around the select */
+        .dataTables_length select {
+            border: none;
+            outline: none;
+            box-shadow: none;
+        }
+
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -252,6 +286,20 @@
                 <div class="navbar-nav w-100">
                     <a href="/Admin/Dashboard" class="nav-item nav-link py-1 mb-2" style="font-weight:300;"><i class="fa fa-tachometer-alt me-2"></i><span class="sidebar-nav d-none">Dashboard</span></a>
                     <div class="nav-item dropdown">
+@*                         <a href="#" class="nav-link dropdown-toggle py-1  mb-2" data-bs-toggle="dropdown" style="font-weight:300;"><i class="fa fa-laptop me-2"></i><span class="sidebar-nav d-none">Master Data</span></a> *@
+                        <a href="#" class="nav-link dropdown-toggle py-1 mb-2" data-toggle="dropdown" style="font-weight:300;">
+                            <i class="fa fa-laptop me-2"></i><span class="sidebar-nav d-none">Master Data</span>
+                        </a>
+
+                        <div class="dropdown-menu nav-menus d-none bg-transparent border-0">
+                            <a href="/Admin/PoojaCategoryList" class="dropdown-item px-5 py-1">Pooja List </a>
+                            <a href="/Admin/ExpertiseList" class="dropdown-item px-5 py-1">Expertiese List</a>
+                            <a href="/Admin/SlotList" class="dropdown-item px-5 py-1">Slot List</a>
+                            <a href="element.html" class="dropdown-item px-5 py-1">Other Elements</a>
+                        </div>
+                    </div>
+                @*     <a href="/Admin/Dashboard" class="nav-item nav-link py-1 mb-2" style="font-weight:300;"><i class="fa fa-tachometer-alt me-2"></i><span class="sidebar-nav d-none">Dashboard</span></a>
+                    <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle py-1  mb-2" data-bs-toggle="dropdown" style="font-weight:300;"><i class="fa fa-laptop me-2"></i><span class="sidebar-nav d-none">Master Data</span></a>
                         <div class="dropdown-menu nav-menus d-none bg-transparent border-0">
                             <a href="/Admin/PoojaCategoryList" class="dropdown-item px-5 py-1">Pooja List </a>
@@ -259,8 +307,8 @@
                             <a href="/Admin/SlotList" class="dropdown-item px-5 py-1">Slot List</a>
                             <a href="element.html" class="dropdown-item px-5 py-1">Other Elements</a>
                         </div>
-                    </div>  
-                  
+                    </div>
+ *@
                     <a href="/Admin/Appointments" class="nav-item nav-link py-1 mb-2" style="font-weight:300;"><i class="fa fa-th me-2"></i><span class="sidebar-nav d-none">Appointments</span></a>
                     <a href="/Admin/PendingJyotish" class="nav-item nav-link py-1  mb-2" style="font-weight:300;"><i class="fa-solid fa-clock"></i> <span class="sidebar-nav d-none">Pending Jyotish</span> </a>
                     <a href="/Admin/JyotishList" class="nav-item nav-link py-1  mb-2" style="font-weight:300;"><i class="fa-solid fa-table-list"></i> <span class="sidebar-nav d-none">Jyotish List</span></a>
@@ -268,8 +316,13 @@
                     <a href="/Admin/CallingRecord" class="nav-item nav-link py-1 mb-2" style="font-weight:300;"><i class="fa-solid fa-book-medical"></i> <span class="sidebar-nav d-none">Calling Records</span> </a>
                     <a href="/Admin/ChattingRecord" class="nav-item nav-link py-1 mb-2 " style="font-weight:300;"><i class="fa-brands fa-rocketchat"></i> <span class="sidebar-nav d-none">Chatting Records</span></a>
 @*                     <a href="/Admin/Subscription" class="nav-item nav-link py-1 mb-2" style="font-weight:300;"><i class="fa-solid fa-coins"></i> <span class="sidebar-nav d-none">Subscription Plan</span></a> *@
+             
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle py-1  mb-2" data-bs-toggle="dropdown" style="font-weight:300;"><i class="fa fa-laptop me-2"></i><span class="sidebar-nav d-none">Subscription Plan</span></a>
+          @*               <a href="#" class="nav-link dropdown-toggle py-1  mb-2" data-bs-toggle="dropdown" style="font-weight:300;"><i class="fa fa-laptop me-2"></i><span class="sidebar-nav d-none">Subscription Plan</span></a> *@
+                        <a href="#" class="nav-link dropdown-toggle py-1 mb-2" data-toggle="dropdown" style="font-weight:300;">
+                            <i class="fa fa-laptop me-2"></i><span class="sidebar-nav d-none">Subscription Plan</span>
+                        </a>
+
                         <div class="dropdown-menu nav-menus d-none bg-transparent border-0">
                             <a href="/Admin/Features" class="dropdown-item px-5 py-1">Add Features </a>
                             <a href="/Admin/Subscription" class="dropdown-item px-5 py-1">Add Subscription </a>
@@ -293,15 +346,33 @@
                 <div class="navbar-nav align-items-center ms-auto">
 
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                     @*    <a href="#" class="nav-link dropdown-toggle py-1 mb-2" data-toggle="dropdown" style="font-weight:300;">
+                            <img class="rounded-circle me-lg-2" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                            <span class="d-none d-lg-inline-flex">John Doe</span>
+                        </a> *@
+                      @*   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                             <img class="rounded-circle me-lg-2" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
                             <span class="d-none d-lg-inline-flex">John Doe</span>
                         </a>
+                     
+                        <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                            <a href="/Admin/AdminProfile" class="dropdown-item">My Profile</a>
+                            <a href="/Admin/CustomerSupport" class="dropdown-item">Settings</a>
+                            <a href="#" id="logout" class="dropdown-item">Log Out</a>
+                        </div> *@
+                        <!-- Dropdown Toggle -->
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img class="rounded-circle me-lg-2" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                            <span class="d-none d-lg-inline-flex">John Doe</span>
+                        </a>
+
+                        <!-- Dropdown Menu -->
                         <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
                             <a href="/Admin/AdminProfile" class="dropdown-item">My Profile</a>
                             <a href="/Admin/CustomerSupport" class="dropdown-item">Settings</a>
                             <a href="#" id="logout" class="dropdown-item">Log Out</a>
                         </div>
+
                     </div>
                 </div>
             </nav>

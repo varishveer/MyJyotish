@@ -1,0 +1,149 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "AdminLayout";
+
+}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+
+<style>
+    .profile-card {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
+        border-radius: 15px;
+        padding: 20px;
+        background-color: #fff;
+        max-width: 550px;
+        margin: auto;
+        text-align: center;
+    }
+
+        .profile-card img {
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border: 3px solid #007bff;
+        }
+
+        .profile-card h2 {
+            font-size: 1.8rem;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+
+        .profile-card p {
+            color: #555;
+            font-size: 1rem;
+            margin: 8px 0;
+        }
+
+        .profile-card .info {
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+
+        .profile-card .info {
+            display: flex;
+            flex-direction: column;
+        }
+
+    .row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+
+    .col {
+        flex: 1;
+        margin-right: 10px;
+    }
+
+        .col:last-child {
+            margin-right: 0;
+        }
+
+    .profile-card .info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+
+    .col {
+        flex: 1;
+        margin-right: 2px;
+    }
+
+        .col:last-child {
+            margin-right: 0;
+        }
+
+    p {
+        display: flex;
+        align-items: baseline; /* Align text vertically with the strong tag */
+    }
+
+    strong {
+        width: 100px; /* Fixed width for strong tags */
+        text-align: left; /* Align text in the strong tag to the left */
+        margin-right: 10px; /* Space between strong and the text */
+    }
+
+</style>
+
+<div class="container mt-5">
+    <div class="profile-card">
+        <img src="https://via.placeholder.com/120" alt="User Profile Picture">
+        <div class="info">
+            <h2>John Doe</h2>
+            <p class="text-muted">Web Developer</p>
+
+            <div class="row">
+                <div class="col">
+                    <p><strong>Gender:</strong> Male</p>
+                </div>
+                <div class="col">
+                    <p><strong>Age:</strong> 29</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <p><strong>Location:</strong> New York, USA</p>
+                </div>
+                <div class="col">
+                    <p><strong>City:</strong> New York</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <p><strong>Email:</strong> john.doe@example.com</p>
+                </div>
+                <div class="col">
+                    <p><strong>Phone:</strong> +1 234 567 890</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <p><strong>Website:</strong> www.johndoe.dev</p>
+                </div>
+                <div class="col">
+                    <p><strong>Nationality:</strong> American</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <p><strong>Language:</strong> English, Spanish</p>
+                </div>
+                <div class="col">
+                    <p><strong>Occupation:</strong> Front-end Developer</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
