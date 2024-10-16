@@ -26,7 +26,7 @@ namespace MyJyotishGApi.Controllers
         public IActionResult GetAllAppointment(int Id)
         {
             var records = _jyotish.GetAllAppointment(Id);
-            return Ok(new { data = records });
+            return Ok(new { Status =200,data = records });
         }
         [HttpGet("UpcomingAppointment")]
         public IActionResult UpcomingAppointment(int Id)
@@ -287,7 +287,7 @@ namespace MyJyotishGApi.Controllers
                 { return Ok(new { Status = 404, Message = "Data Not Found" }); }
 
                 else
-                { return Ok(new { Status = 500, Data = Result, Message = "Successful" }); }
+                { return Ok(new { Status = 200, Data = Result, Message = "Successful" }); }
 
 
             }
@@ -300,33 +300,36 @@ namespace MyJyotishGApi.Controllers
 
 
         [HttpPost("AddTeamMember")]
-        public IActionResult AddTeamMember()
+        public IActionResult AddTeamMember(TeamMemberViewModel team)
         {
-            var name = Request.Form["name"];
-            var mobile = Request.Form["mobile"];
-            var email = Request.Form["email"];
-            var jyotishEmail = Request.Form["jyotishEmail"];
-            var profilePicture = Request.Form.Files["profilePicture"];
 
-            TeamMemberViewModel team = new TeamMemberViewModel()
+            try
             {
-                Name = name,
-                Mobile = mobile,
-                Email = email,
-                JyotishEmail = jyotishEmail,
-                ProfilePicture = profilePicture
-            };
+                string? path = _environment.ContentRootPath;
+                var records = _jyotish.AddTeamMember(team, path);
+                return Ok(new { status = 200, message = records });
 
-            string? path = _environment.ContentRootPath;
-            var records = _jyotish.AddTeamMember(team, path);
-            return Ok(new { data = records });
+
+            }
+
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+
         }
 
         [HttpGet("TeamMember")]
-        public IActionResult TeamMember(string JyotishEmail)
+        public IActionResult TeamMember(int Id)
         {
-            var records = _jyotish.TeamMember(JyotishEmail);
-            return Ok(records);
+
+
+            try
+            {
+                var records = _jyotish.TeamMember(Id);
+                return Ok(new { status = 200, data =records });
+
+            }
+
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+           
         }
 
         [HttpGet("JyotishPaymentrecords")]

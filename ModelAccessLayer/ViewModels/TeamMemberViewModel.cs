@@ -19,7 +19,7 @@ namespace ModelAccessLayer.ViewModels
         [Required]
         public string Email {  get; set; }
         [Required]
-        public string JyotishEmail { get; set; }
+        public int Id { get; set; }
 
     }
 }

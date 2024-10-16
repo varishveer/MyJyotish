@@ -3,6 +3,8 @@
 *@
 @{
     Layout = "JyotishLayout";
+    // var BaseUrl = "https://api.myjyotishg.in/";
+    var BaseUrl = "https://localhost:7118/";
 }
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
@@ -51,7 +53,7 @@
         <!-- Right part for the signup form -->
         <div class="col-lg-7 col-md-12 p-2 bg-white right-part ">
             <h5 class="mb-3 text-center">Member Information</h5>
-            <form id="loginForm">
+            <form id="TeamMemberRegistrationForm">
                 <div class="form-row">
                     <div class="form-group col-md-12">
                         <label for="name" class="form-label">Name</label>
@@ -79,12 +81,7 @@
                         <input type="email" class="form-control" id="email" placeholder="Enter your email">
                     </div>
                 </div>
-                 <div class="form-row">
-                    <div class="form-group col-md-12">
-                        <label for="jyotishEmail" class="form-label" hidden>Jyotish Email</label>
-                        <input type="email" class="form-control" id="jyotishEmail" hidden>
-                    </div>
-                </div>
+                 
                 
                 <div class="form-row">
                     <div class="form-group col-md-6">
@@ -106,19 +103,19 @@
         event.preventDefault();
         debugger;
         // Set JyotishEmail from localStorage
-        document.getElementById("jyotishEmail").value = localStorage.getItem('userEmail');
+       
 
         // Create a new FormData object to handle file uploads and other form data
         const formData = new FormData();
         formData.append('Name', document.getElementById("name").value);
         formData.append('Mobile', document.getElementById("mobile").value);
         formData.append('Email', document.getElementById("email").value);
-        formData.append('JyotishEmail', document.getElementById("jyotishEmail").value);
+            formData.append('Id', localStorage.getItem("Id")); 
         formData.append('ProfilePicture', document.getElementById("profilePicture").files[0]);
 
         console.log(formData);
         $.ajax({
-            url: `https://localhost:7118/api/Jyotish/AddTeamMember`, // API endpoint to fetch data
+            url: "@BaseUrl" +`api/Jyotish/AddTeamMember`, // API endpoint to fetch data
             type: 'POST',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("Token2")}` // Example of an authorization header
@@ -127,11 +124,13 @@
             processData: false, // Important: Prevent jQuery from processing the data
             contentType: false, // Important: Let the browser set the content type
             success: function (response) {
+                debugger;
                 console.log('Success:', response);
                 alert('Form submitted successfully!');
                 $('#TeamMemberRegistrationForm')[0].reset(); // Reset the form
             },
             error: function (xhr, status, error) {
+                debugger;
                 console.error('Error:', error);
                 console.log('XHR:', xhr.statusCode);
                 alert('There was an error submitting the form.');
@@ -142,70 +141,3 @@
 
 
 
-@* <script>
-    $('#TeamMemberRegistrationForm').on("submit", function (event) {
-        event.preventDefault();
-        debugger
-        //var email = localStorage.getItem('userEmail');
-        document.getElementById("jyotishEmail").value = localStorage.getItem('userEmail');
-
-        const formData = $(this).serialize();
-
-        $.ajax({
-            url: `https://localhost:7118/api/Jyotish/AddTeamMember`, // API endpoint to fetch data
-            type: 'POST',
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem("Token2")}`, // Example of an authorization header
-                'Content-Type': 'application/json', // Example of a content type header
-
-            },
-            data: formData,
-            success: function (response) {
-                console.log('Success:', response);
-                // localStorage.setItem('PendingEmail', document.getElementById('email'));
-                alert('Form submitted successfully!');
-                $('#registrationForm')[0].reset(); // Reset the form
-            },
-            error: function (xhr, status, error) {
-                debugger
-                console.error('Error:', error);
-                console.log('XHR:', xhr.statusCode);
-                alert('There was an error submitting the form.');
-            }
-        });
-    });
-</script> *@
-
-@* <script>
-    $('#TeamMemberRegistrationForm').on("submit", function (event) {
-        event.preventDefault();
-        debugger;
-        // Set JyotishEmail from localStorage
-        document.getElementById("jyotishEmail").value = localStorage.getItem('userEmail');
-
-        // Create a new FormData object to handle file uploads and other form data
-        const formData = new FormData(this);
-
-        $.ajax({
-            url: `https://localhost:7118/api/Jyotish/AddTeamMember`, // API endpoint to fetch data
-            type: 'POST',
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem("Token2")}` // Example of an authorization header
-            },
-            data: formData,
-            processData: false, // Important: Prevent jQuery from processing the data
-            contentType: false, // Important: Let the browser set the content type
-            success: function (response) {
-                console.log('Success:', response);
-                alert('Form submitted successfully!');
-                $('#TeamMemberRegistrationForm')[0].reset(); // Reset the form
-            },
-            error: function (xhr, status, error) {
-                console.error('Error:', error);
-                console.log('XHR:', xhr.statusCode);
-                alert('There was an error submitting the form.');
-            }
-        });
-    });
-
-</script> *@

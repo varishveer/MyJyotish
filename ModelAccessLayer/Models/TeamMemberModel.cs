@@ -24,6 +24,7 @@ namespace ModelAccessLayer.Models
         public int JyotishId {  get; set; }
         [Required]
         public string Role { get; set; }
-
+        
+        public string? Password { get; set; }
     }
 }

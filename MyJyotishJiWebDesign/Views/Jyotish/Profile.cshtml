@@ -1,5 +1,6 @@
 ﻿@{
     Layout = "JyotishLayout";
+    var BaseUrl = "https://api.myjyotishg.in/";
 }
 
 
@@ -176,7 +177,7 @@
         <!-- Left Sidebar -->
         <div class="col-md-4 left-part">
             <div class="mb-3">
-                <img src="~/Img/Astrologer.jpg" alt="Profile Image" class="profile-photo">
+                <img id="profileImage" src="~/Img/Astrologer.jpg" alt="Profile Image" class="profile-photo">
             </div>
             <div >
                 <span>Notifications</span>
@@ -219,90 +220,199 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="detail-label">Full Name</div>
-                        <div class="detail-value">John Doe</div>
+                        <div class="detail-value" id="name"></div>
                     </div>
                     <div class="col-md-6">
                         <div class="detail-label">Email</div>
-                        <div class="detail-value">smns@hgmail.com</div>
+                        <div class="detail-value" id="email"></div>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-6">
                         <div class="detail-label">Phone</div>
-                        <div class="detail-value">(123) 456-7890</div>
+                        <div class="detail-value" id="mobile"></div>
                     </div>
                     <div class="col-md-6">
                         <div class="detail-label">Gender</div>
-                        <div class="detail-value">Male</div>
+                        <div class="detail-value" id="gender"></div>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-6">
                         <div class="detail-label">Languages</div>
-                        <div class="detail-value">Hindi,English</div>
+                        <div class="detail-value" id="language"></div>
                     </div>
                     <div class="col-md-6">
-                        <div class="detail-label">Morning Time</div>
-                        <div class="detail-value">7:00 AM</div>
+                        <div class="detail-label">Appointment Time from</div>
+                        <div class="detail-value" id="timeFrom"></div>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="detail-label">Evening Time</div>
-                        <div class="detail-value">8:00 PM</div>
+                        <div class="detail-label">Appointment Time To</div>
+                        <div class="detail-value" id="timeTo"></div>
                     </div>
                     <div class="col-md-6">
-                        <div class="detail-label">Online Consultation Fee</div>
-                        <div class="detail-value">$1200</div>
+                        <div class="detail-label">Appointment Charges</div>
+                        <div class="detail-value" id="appointmentCharges"></div>
                     </div>
                 </div>
+
                 <div class="row">
                     <div class="col-md-6">
                         <div class="detail-label">Professional Experience</div>
-                        <div class="detail-value">5 Years</div>
+                        <div class="detail-value" id="experience"></div>
                     </div>
                     <div class="col-md-6">
-                        <div class="detail-label">Pooja (Multiple Select)</div>
-                        <div class="detail-value">1. Pooja One 2. Pooja Two ...</div>
-                    </div>
-                </div>
-                  <div class="row">
-                    <div class="col-md-6">
-                        <div class="detail-label">Password</div>
-                        <div class="detail-value">sdfgdsg342</div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="detail-label">Chat Availability</div>
-                        <div class="detail-value">Yes/No</div>
-                    </div>
-                </div>    
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="detail-label">Chat Price</div>
-                        <div class="detail-value">$2048</div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="detail-label">Call Price</div>
-                        <div class="detail-value">10 / Minute</div>
-                    </div>
-                </div>   
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="detail-label">Calls</div>
-                        <div class="detail-value">Yes/No</div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="detail-label">Address</div>
-                        <div class="detail-value">Sector 66, Noida</div>
+                        <div class="detail-label">Pooja</div>
+                        <div class="detail-value" id="pooja"></div>
                     </div>
                 </div>
 
-            
+               
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="detail-label">Chat Price</div>
+                        <div class="detail-value" id="chatCharges"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="detail-label">Call Price</div>
+                        <div class="detail-value" id="callCharges"></div>
+                    </div>
+                </div>
+
+                <div class="row">
+                  
+                    <div class="col-md-6">
+                        <div class="detail-label">Address</div>
+                        <div class="detail-value" id="address"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="detail-label">Date Of Birth</div>
+                        <div class="detail-value" id="dateOfBirth"></div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="detail-label">City</div>
+                        <div class="detail-value" id="city"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="detail-label">State</div>
+                        <div class="detail-value" id="state"></div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="detail-label">Country</div>
+                        <div class="detail-value" id="country"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="detail-label">Expertise</div>
+                        <div class="detail-value" id="expertise"></div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="detail-label">Specialization</div>
+                        <div class="detail-value" id="specialization"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="detail-label">Awards and Achievements</div>
+                        <div class="detail-value" id="awardsAndAchievement"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="detail-label">Rating</div>
+                        <div class="detail-value" id="rating"></div>
+                    </div>
+                   
+                    <div class="col-md-6">
+                        <div class="detail-label">Experience</div>
+                        <div class="detail-value" id="experience"></div>
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <div class="detail-label">successRate</div>
+                        <div class="detail-value" id="successRate"></div>
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="col-md-12">
+                        <div class="detail-label">About</div>
+                        <div class="detail-value" id="about"></div>
+                    </div>
+                </div>
+               
             </div>
+
         </div>
     </div>
 </div>
 
+<script>
+    $(document).ready(function () {
+        var Id = localStorage.getItem('Id'); // Assuming Id is stored in localStorage
+
+        $.ajax({
+            url: "@BaseUrl" + `api/Jyotish/GetProfile?Id=${encodeURIComponent(Id)}`,
+            type: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+                'Content-Type': 'application/json',
+            },
+            success: function (response) {
+                if (response.status === 200) {
+                    var profile = response.data;
+
+                    // Fill in the data fields
+                    $('#profileImage').attr('src', profile.profileImageUrl ? profile.profileImageUrl : 'default-image.jpg');
+                    $('#name').text(profile.name);
+                    $('#email').text(profile.email);
+                    $('#mobile').text(profile.mobile);
+                    $('#role').text(profile.role);
+                    $('#gender').text(profile.gender);
+                    $('#expertise').text(profile.expertise);
+                    $('#city').text(profile.city);
+                    $('#state').text(profile.state);
+                    $('#country').text(profile.country);
+                    $('#language').text(profile.language);
+                    $('#experience').text(profile.experience);
+                    $('#specialization').text(profile.specialization);
+                    $('#about').text(profile.about);
+                    $('#awardsAndAchievement').text(profile.awordsAndAchievement || 'N/A');
+                    $('#callCharges').text(profile.callCharges);
+                    $('#chatCharges').text(profile.chatCharges);
+                    $('#dateOfBirth').text(profile.dateOfBirth);
+                    $('#pooja').text(profile.pooja);
+                    $('#appointmentCharges').text(profile.appointmentCharges);
+                    $('#address').text(profile.address);
+                    $('#timeTo').text(profile.timeTo);
+                    $('#rating').text(profile.rating);
+                    $('#successRate').text(profile.successRate);
+                    $('#timeFrom').text(profile.timeFrom);
+
+                    // Handle timeFrom and timeTo if necessary
+                } else {
+                    alert('Error: Could not load profile.');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+                alert('There was an error fetching the profile data.');
+            }
+        });
+    });
+
+</script>

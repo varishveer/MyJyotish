@@ -16,7 +16,7 @@ namespace BusinessAccessLayer.Abstraction
         public string AddAppointment(AddAppointmentJyotishModel model);
         public AppointmentModel GetAppointment(int Id);
         public string UpdateAppointment(UpdateAppointmentJyotishViewModel model);
-        public List<TeamMemberModel> TeamMember(string JyotishEmail);
+        public List<TeamMemberModel> TeamMember(int Id);
         public string AddTeamMember(TeamMemberViewModel teamMember, string Path);
    /*     public bool CreateAPooja(PoojaRecordModel model);*/
         public List<Country> CountryList();

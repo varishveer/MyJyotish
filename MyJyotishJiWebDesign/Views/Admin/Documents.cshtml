@@ -349,40 +349,45 @@
                         'Authorization': `Bearer ${localStorage.getItem("Token")}`
                     },
                     success: function (response) {
+                        debugger;
                         if (response.status === 200) {
                             updateDocumentStatus(response.data); // Call function to update document status
                         } else {
-                            alert(response.message);
+                            alert("No Record Found");
+                            window.location.replace("/Admin/PendingJyotish");
                         }
                     },
                     error: function () {
                         alert('Error fetching Jyotish documents.');
+                        window.location.replace("/Admin/PendingJyotish");
                     }
                 });
             }
 
             // Function to update document status in the UI
             function updateDocumentStatus(docs) {
-                $("#idProof").attr("src", "@BaseUrl" + docs.idProof || 'placeholder.png');
+                $("#idProof").attr("src", docs.idProof? "@BaseUrl" + docs.idProof : '/Img/SampleDoc.jpeg');
                 updateStatus("idProofStatus", docs.idProofStatus, "idProof");
 
-                $("#addressProof").attr("src", "@BaseUrl" + docs.addressProof || 'placeholder.png');
+                $("#addressProof").attr("src",docs.addressProof? "@BaseUrl" + docs.addressProof : '/Img/SampleDoc.jpeg');
                 updateStatus("addressProofStatus", docs.addressProofStatus, "addressProof");
 
-                $("#tenthCertificate").attr("src", "@BaseUrl" + docs.tenthCertificate || 'placeholder.png');
+                $("#tenthCertificate").attr("src", docs.tenthCertificate? "@BaseUrl" + docs.tenthCertificate : '/Img/SampleDoc.jpeg');
                 updateStatus("tenthCertificateStatus", docs.tenthCertificateStatus, "tenthCertificate");
 
-                $("#twelveCertificate").attr("src", "@BaseUrl" + docs.twelveCertificate || 'placeholder.png');
+                $("#twelveCertificate").attr("src", docs.twelveCertificate ? "@BaseUrl" + docs.twelveCertificate : '/Img/SampleDoc.jpeg');
                 updateStatus("twelveCertificateStatus", docs.twelveCertificateStatus, "twelveCertificate");
 
-                $("#professionalCertificate").attr("src", "@BaseUrl" + docs.professionalCertificate || 'placeholder.png');
+                $("#professionalCertificate").attr("src", docs.professionalCertificate ? "@BaseUrl" + docs.professionalCertificate : '/Img/SampleDoc.jpeg');
                 updateStatus("professionalCertificateStatus", docs.professionalCertificateStatus, "professionalCertificate");
             }
 
             // Function to update status text and assign data-status to the buttons
             function updateStatus(elementId, status, docType) {
+             
+                if (status == null) { status = "Not Uploaded Yet"; }
                 $("#" + elementId).text(status);
-
+               
                 $("#" + docType).data('status', status); // Store status in data attribute for use later
             }
 

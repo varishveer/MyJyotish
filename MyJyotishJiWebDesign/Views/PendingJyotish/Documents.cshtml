@@ -144,9 +144,7 @@
         }
     }
 </style>
-@{
-    int status = 1;
-}
+
 <div class="container-fluid pt-4 px-4">
     <div class=" text-center  border border-1 rounded p-3">
 
@@ -163,17 +161,9 @@
                 </div>
                 <div class="img-text">
                     <span style="font-weight:bold">Status:&nbsp; </span>
-                    @if (status == 1)
-                    {
-                        <span style="color:green">Verified</span>
-                    }@if (status == 2)
-                    {
-                        <span style="color:red">Reject</span>
-                    }
-                    @if (status == 3)
-                    {
-                        <span style="color:green">Pending</span>
-                    }
+                   
+                        <span id="idProofStatus" ></span>
+                  
                 </div>
             </div>
             <div class="col-md-3 col-lg-2 mb-4 increased-width">
@@ -182,17 +172,7 @@
                 </div>
                 <div class="img-text">
                     <span style="font-weight:bold">Status:&nbsp; </span>
-                    @if (status == 1)
-                    {
-                        <span style="color:green">Verified</span>
-                    }@if (status == 2)
-                    {
-                        <span style="color:red">Reject</span>
-                    }
-                    @if (status == 3)
-                    {
-                        <span style="color:green">Pending</span>
-                    }
+                    <span id="addressProofStatus"></span>
 
 
                 </div>
@@ -203,17 +183,7 @@
                 </div>
                 <div class="img-text">
                     <span style="font-weight:bold">Status:&nbsp; </span>
-                    @if (status == 1)
-                    {
-                        <span style="color:green">Verified</span>
-                    }@if (status == 2)
-                    {
-                        <span style="color:red">Reject</span>
-                    }
-                    @if (status == 3)
-                    {
-                        <span style="color:green">Pending</span>
-                    }
+                    <span id="tenthCertificateStatus"></span>
                 </div>
             </div>
             <div class="col-md-3 col-lg-2 mb-4 increased-width">
@@ -222,17 +192,7 @@
                 </div>
                 <div class="img-text">
                     <span style="font-weight:bold">Status:&nbsp; </span>
-                    @if (status == 1)
-                    {
-                        <span style="color:green">Verified</span>
-                    }@if (status == 2)
-                    {
-                        <span style="color:red">Reject</span>
-                    }
-                    @if (status == 3)
-                    {
-                        <span style="color:green">Pending</span>
-                    }
+                    <span id="twelveCertificateStatus"></span>
                 </div>
             </div>
             <div class="col-md-3 col-lg-2 mb-4 increased-width">
@@ -241,17 +201,7 @@
                 </div>
                 <div class="img-text">
                     <span style="font-weight:bold">Status:&nbsp; </span>
-                    @if (status == 1)
-                    {
-                        <span style="color:green">Verified</span>
-                    }@if (status == 2)
-                    {
-                        <span style="color:red">Reject</span>
-                    }
-                    @if (status == 3)
-                    {
-                        <span style="color:green">Pending</span>
-                    }
+                    <span id="professionalCertificateStatus"></span>
                 </div>
             </div>
         </div>
@@ -289,10 +239,19 @@
 
 
                 $('#idProof').attr('src', response.data.idProof ? "@BaseUrl" + response.data.idProof :  '/Img/SampleDoc.jpeg');
+                document.getElementById("idProofStatus").textContent = response.data.idProofStatus ? response.data.idProofStatus : "Upload Document" ;
+
                 $('#addressProof').attr('src', response.data.addressProof ? "@BaseUrl" + response.data.addressProof : '/Img/SampleDoc.jpeg');
+                document.getElementById("addressProofStatus").textContent = response.data.addressProofStatus ? response.data.addressProofStatus : "Upload Document";
+
                 $('#tenthCertificate').attr('src', response.data.tenthCertificate ? "@BaseUrl" + response.data.tenthCertificate :  '/Img/SampleDoc.jpeg');
+                document.getElementById("tenthCertificateStatus").textContent = response.data.tenthCertificateStatus ? response.data.tenthCertificateStatus : "Upload Document";
+
                 $('#twelveCertificate').attr('src', response.data.twelveCertificate ? "@BaseUrl" + response.data.twelveCertificate :  '/Img/SampleDoc.jpeg');
+                document.getElementById("twelveCertificateStatus").textContent = response.data.twelveCertificateStatus ? response.data.twelveCertificateStatus : "Upload Document";
+
                 $('#professionalCertificate').attr('src', response.data.professionalCertificate ? "@BaseUrl" + response.data.professionalCertificate :   '/Img/SampleDoc.jpeg');
+                document.getElementById("professionalCertificateStatus").textContent = response.data.professionalCertificateStatus ? response.data.professionalCertificateStatus : "Upload Document";
 
 
                 $('#loading').hide();

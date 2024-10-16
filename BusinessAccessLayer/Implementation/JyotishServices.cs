@@ -252,9 +252,9 @@ namespace BusinessAccessLayer.Implementation
             if (appointment == null) { return null; }
             else { return appointment; }
         }
-        public List<TeamMemberModel> TeamMember(string JyotishEmail)
+        public List<TeamMemberModel> TeamMember(int Id)
         {
-            var Jyotish = _context.JyotishRecords.Where(x => x.Email == JyotishEmail).FirstOrDefault();
+            var Jyotish = _context.JyotishRecords.Where(x => x.Id == Id).FirstOrDefault();
             if(Jyotish == null)
             { return null; }
             else
@@ -271,31 +271,36 @@ namespace BusinessAccessLayer.Implementation
             if (IsEmailValid != null || IsMobileValid != null)
             { return "Email or Mobile no. Already Exist"; }
 
-            var IsJyotishValid = _context.JyotishRecords.Where(x => x.Email == teamMember.JyotishEmail).FirstOrDefault();
+            var IsJyotishValid = _context.JyotishRecords.Where(x => x.Id == teamMember.Id).FirstOrDefault();
             if (IsJyotishValid == null) 
             { return "Jyotish Not found";}
 
             Random random = new Random();
             // Generate a random number between 1000000000 and 9999999999
             long randomNumber = (long)(random.NextDouble() * 9000000000) + 1000000000;
-            var filePath = "/Assets/Images/TeamMember/" + randomNumber + teamMember.ProfilePicture.FileName;
+            var filePath = "/Images/TeamMember/" + randomNumber + teamMember.ProfilePicture.FileName;
+            var realPath = "/wwwroot/Images/TeamMember/" + randomNumber + teamMember.ProfilePicture.FileName;
 
-            var fullPath = path + filePath;
+            var fullPath = path + realPath;
             UploadFile(teamMember.ProfilePicture, fullPath);
+            string newPassword = ((random.NextDouble() * 90000000) + 10000000).ToString();
 
-            TeamMemberModel model = new TeamMemberModel() 
+            TeamMemberModel model = new TeamMemberModel()
             {
-                Name= teamMember.Name,
+                Name = teamMember.Name,
                 Mobile = teamMember.Mobile,
                 ProfilePictureUrl = filePath,
                 Email = teamMember.Email,
-                Role= "TeamMember",
+                Role = "TeamMember",
                 JyotishId = IsJyotishValid.Id,
+                Password =newPassword
             };
+
             _context.TeamMemberRecords.Add(model);
              var result = _context.SaveChanges();
             if (result > 0)
             {
+                AccountServices.SendEmail(newPassword, teamMember.Email, "Password");
                 return "Record Saved Successfully";
             }
             else 
@@ -464,10 +469,9 @@ namespace BusinessAccessLayer.Implementation
         }
         public JyotishPaymentRecordModel JyotishPaymentDetail(int Id)
         {
-            var Jyotish = _context.JyotishRecords.Where(x => x.Id == Id).FirstOrDefault();
-            if (Jyotish == null) { return null; }
-            var record = _context.JyotishPaymentRecord.Where(x => x.JyotishId == Id).FirstOrDefault();
-            if (record == null) { return record; }
+           
+            var record = _context.JyotishPaymentRecord.Where(x => x.Id == Id).FirstOrDefault();
+            if (record != null) { return record; }
             else { return null; }
         }
     }

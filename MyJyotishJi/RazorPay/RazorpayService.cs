@@ -46,20 +46,7 @@ namespace MyJyotishGApi.RazorPay
             else { return null; }
         }
 
-        // Method to capture payment
-        /*  public Payment CapturePayment(PaymentCaptureModel model)
-          {
-              RazorpayClient client = new RazorpayClient(_razorpaySettings.Key, _razorpaySettings.Secret);
-
-              // Capture the payment
-              Payment payment = client.Payment.Fetch(model.PaymentId);
-              Dictionary<string, object> options = new Dictionary<string, object>
-              {
-                  { "amount", (int)(model.Amount * 100) } // Amount in paise
-              };
-              return payment.Capture(options);
-          }*/
-
+        
         public bool VerifyPaymentStatus(string orderId, string paymentId, string signature)
         {
             Dictionary<string, string> attributes = new Dictionary<string, string> {

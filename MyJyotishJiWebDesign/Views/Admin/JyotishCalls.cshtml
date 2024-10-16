@@ -73,6 +73,7 @@
                     'Content-Type': 'application/json'
                 },
                 success: function (result) {
+                    debugger;
                     $('#loading').hide(); // Hide loading indicator
                    
                     if (!result.data || result.data.length === 0) {
@@ -102,6 +103,7 @@
                     });
                 },
                 error: function (errormessage) {
+                    debugger;
                     $('#loading').hide(); // Hide loading indicator
                     console.error('Error fetching data:', errormessage.responseText);
                     alert('An error occurred while fetching data. Please try again later.');
