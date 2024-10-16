@@ -56,6 +56,10 @@ namespace BusinessAccessLayer.Abstraction
         public List<SubscriptionGetViewModel> GetAllSubscription();
         public string DeleteSubsciption(int Id);
         public SubscriptionGetViewModel GetSubscription(int Id);
+        public List<JyotishPaymentRecordModel> JyotishPaymentrecords();
+        public JyotishPaymentRecordModel JyotishPaymentDetail(int Id);
+        public List<UserPaymentRecordModel> UserPaymentrecords();
+        public UserPaymentRecordModel UserPaymentDetail(int Id);
       /*  public string ApproveDocument(DocUpdateViewModel model);
         public string RejectDocument(DocUpdateViewModel model);
       */

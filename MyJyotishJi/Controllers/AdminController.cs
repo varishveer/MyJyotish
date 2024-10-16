@@ -678,7 +678,7 @@ namespace MyJyotishJiApi.Controllers
                 { return Ok(new { Status = 404, Message = "Data Not Found" }); }
                
                 else
-                { return Ok(new { Status = 500, Data = Result  , Message = "Successful"}); }
+                { return Ok(new { Status = 200, Data = Result  , Message = "Successful"}); }
 
 
             }
@@ -715,12 +715,76 @@ namespace MyJyotishJiApi.Controllers
                 { return Ok(new { Status = 404, Message = "Data Not Found" }); }
 
                 else
-                { return Ok(new { Status = 500, Data = Result, Message = "Successful" }); }
+                { return Ok(new { Status = 200, Data = Result, Message = "Successful" }); }
 
 
             }
 
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+        }
+
+        [HttpGet("JyotishPaymentrecords")]
+        public IActionResult JyotishPaymentrecords()
+        {
+            try
+            {
+                var Result = _admin.JyotishPaymentrecords();
+                if (Result == null)
+                { return Ok(new { Status = 404, Message = "Data Not Found" }); }
+
+                else
+                { return Ok(new { Status = 200, Data = Result, Message = "Successful" }); }
+            }
+            catch (Exception ex) 
+            { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+        }
+
+        [HttpGet("JyotishPaymentDetail")]
+        public IActionResult JyotishPaymentDetail(int Id)
+        {
+            try
+            {
+                var Result = _admin.JyotishPaymentDetail(Id);
+                if (Result == null)
+                { return Ok(new { Status = 404, Message = "Data Not Found" }); }
+
+                else
+                { return Ok(new { Status = 200, Data = Result, Message = "Successful" }); }
+            }
+            catch (Exception ex)
+            { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+        }
+
+        [HttpGet("UserPaymentrecords")]
+        public IActionResult UserPaymentrecords()
+        {
+            try
+            {
+                var Result = _admin.UserPaymentrecords();
+                if (Result == null)
+                { return Ok(new { Status = 404, Message = "Data Not Found" }); }
+
+                else
+                { return Ok(new { Status = 200, Data = Result, Message = "Successful" }); }
+            }
+            catch (Exception ex)
+            { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+        }
+
+        [HttpGet("UserPaymentDetail")]
+        public IActionResult UserPaymentDetail(int Id)
+        {
+            try
+            {
+                var Result = _admin.UserPaymentDetail(Id);
+                if (Result == null)
+                { return Ok(new { Status = 404, Message = "Data Not Found" }); }
+
+                else
+                { return Ok(new { Status = 200, Data = Result, Message = "Successful" }); }
+            }
+            catch (Exception ex)
+            { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
         }
     }
 }

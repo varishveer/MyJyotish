@@ -985,8 +985,36 @@ namespace BusinessAccessLayer.Implementation
 
             return records ?? null;
         }
-
-
+        public List<JyotishPaymentRecordModel> JyotishPaymentrecords()
+        {
+            
+            var record = _context.JyotishPaymentRecord.ToList();
+            if (record.Count > 0) { return record; }
+            else { return null; }
+        }
+        public JyotishPaymentRecordModel JyotishPaymentDetail(int Id)
+        {
+            var Jyotish = _context.JyotishRecords.Where(x => x.Id == Id).FirstOrDefault();
+            if (Jyotish == null) { return null; }
+            var record = _context.JyotishPaymentRecord.Where(x => x.JyotishId == Id).FirstOrDefault();
+            if (record == null) { return record; }
+            else { return null; }
+        }
+        public List<UserPaymentRecordModel> UserPaymentrecords()
+        {
+            
+            var record = _context.UserPaymentRecord.ToList();
+            if (record.Count > 0) { return record; }
+            else { return null; }
+        }
+        public UserPaymentRecordModel UserPaymentDetail(int Id)
+        {
+            var User = _context.Users.Where(x => x.Id == Id).FirstOrDefault();
+            if (User == null) { return null; }
+            var record = _context.UserPaymentRecord.Where(x => x.UserId == Id).FirstOrDefault();
+            if (record == null) { return record; }
+            else { return null; }
+        }
 
     }
 }

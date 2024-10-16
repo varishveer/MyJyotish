@@ -11,9 +11,11 @@ namespace BusinessAccessLayer.Abstraction
     public interface IJyotishServices
     {
         public string UpdateProfile(JyotishUpdateViewModel model);
-        public List<AppointmentModel> Appointment(string JyotishEmail);
-        public List<AppointmentModel> UpcomingAppointment(string JyotishEmail);
-        public string AddAppointment(AppointmentViewModel appointment);
+        public List<AppointmentModel> GetAllAppointment(int Id);
+        public List<AppointmentModel> UpcomingAppointment(int Id);
+        public string AddAppointment(AddAppointmentJyotishModel model);
+        public AppointmentModel GetAppointment(int Id);
+        public string UpdateAppointment(UpdateAppointmentJyotishViewModel model);
         public List<TeamMemberModel> TeamMember(string JyotishEmail);
         public string AddTeamMember(TeamMemberViewModel teamMember, string Path);
    /*     public bool CreateAPooja(PoojaRecordModel model);*/
@@ -31,5 +33,7 @@ namespace BusinessAccessLayer.Abstraction
         public List<JyotishVideosModel> JyotishVideos(int Id);
         public JyotishModel GetProfile(int Id);
         public List<SubscriptionGetViewModel> GetAllSubscription();
+        public List<JyotishPaymentRecordModel> JyotishPaymentrecords(int Id);
+        public JyotishPaymentRecordModel JyotishPaymentDetail(int Id);
     }
 }

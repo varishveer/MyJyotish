@@ -26,6 +26,10 @@ namespace BusinessAccessLayer.Abstraction
         public List<JyotishModel> SpecializationFilter(string Keyword);
         public UserModel GetUserProfile(int Id);
         public string UpdateProfile(UserUpdateViewModel model, string path);
+        public AppointmentModel GetAppointmentDetails(int Id);
+        public List<AppointmentModel> getAllAppointment(int Id);
+        public List<UserPaymentRecordModel> UserPaymentrecords(int Id);
+        public UserPaymentRecordModel UserPaymentDetail(int Id);
 
     }
 }

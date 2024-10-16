@@ -1,6 +1,7 @@
 ﻿using BusinessAccessLayer.Abstraction;
 using DataAccessLayer.DbServices;
 using DataAccessLayer.Migrations;
+using Microsoft.EntityFrameworkCore;
 using ModelAccessLayer.Models;
 using ModelAccessLayer.ViewModels;
 using System;
@@ -389,6 +390,36 @@ namespace BusinessAccessLayer.Implementation
             if (_context.SaveChanges() > 0) { return "Successful"; }
             else { return "Internal Server Error"; }
   
+        }
+
+        public List<AppointmentModel> getAllAppointment(int Id)
+        {
+            var User = _context.Users.Where(x => x.Id == Id).FirstOrDefault();
+            if(User == null) { return null; }
+            var records = _context.AppointmentRecords.Where(x => x.UserId == Id).ToList();
+             return records; 
+        }
+        public AppointmentModel GetAppointmentDetails(int Id)
+        {
+            var records = _context.AppointmentRecords.Where(x => x.Id == Id).FirstOrDefault();
+            return records;
+        }
+
+        public List<UserPaymentRecordModel> UserPaymentrecords(int Id)
+        {
+            var User = _context.Users.Where(x => x.Id == Id).FirstOrDefault();
+            if(User == null) { return null; }
+            var record = _context.UserPaymentRecord.Where(x => x.UserId == Id).ToList();
+            if (record.Count > 0) { return record; }
+            else { return null; }
+        }
+        public UserPaymentRecordModel UserPaymentDetail(int Id)
+        {
+            var User = _context.Users.Where(x => x.Id == Id).FirstOrDefault();
+            if (User == null) { return null; }
+            var record = _context.UserPaymentRecord.Where(x => x.UserId == Id).FirstOrDefault();
+            if (record==null) { return record; }
+            else { return null; }
         }
     }
 }

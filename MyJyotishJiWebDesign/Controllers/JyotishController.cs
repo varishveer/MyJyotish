@@ -23,6 +23,8 @@ namespace MyJyotishJiWebDesign.Controllers
         public ActionResult EditUpcomingAppointment() { return View(); }
         public ActionResult Login() { return View(); }
 
+        public ActionResult Payment() { return View(); }
+
 
     }
 }

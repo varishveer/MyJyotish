@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using BusinessAccessLayer.Abstraction;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ModelAccessLayer.Models;
+using ModelAccessLayer.ViewModels;
 using MyJyotishGApi.RazorPay;
 using Razorpay.Api;
 
@@ -11,21 +14,43 @@ namespace MyJyotishGApi.Controllers
     {
 
         private readonly RazorpayService _razorpayService;
-
-        public PaymentsController(RazorpayService razorpayService)
+        private readonly IRazorPayServices _services;
+        public PaymentsController(RazorpayService razorpayService, IRazorPayServices services)
         {
             _razorpayService = razorpayService;
+            _services = services;
         }
 
         // Create an order
         [HttpPost("create-order")]
-        public IActionResult CreateOrder([FromBody] decimal amount)
+        public IActionResult CreateOrder(PaymentCreateOrderViewModel model)
         {
             try
             {
-                Order order = _razorpayService.CreateOrder(amount);
-                return Ok(new { orderId = order["id"], amount = order["amount"], currency = order["currency"] });
-            }
+                Order order = _razorpayService.CreateOrder(model);
+
+               // return Ok(new { orderId = order["id"], amount = order["amount"], currency = order["currency"] });
+               if(order == null)
+                {
+                    return Ok(new { status = 404, message = "User not found" });
+                }
+                var response = new
+                {
+                    id = order["id"].ToString(),
+                    entity = order["entity"].ToString(),
+                    amount = Convert.ToInt32(order["amount"]),
+                    amount_paid = Convert.ToInt32(order["amount_paid"]),
+                    amount_due = Convert.ToInt32(order["amount_due"]),
+                    currency = order["currency"].ToString(),
+                    receipt = order["receipt"]?.ToString(),
+                    status = order["status"].ToString(),
+                    attempts = Convert.ToInt32(order["attempts"]),
+                    created_at = Convert.ToInt64(order["created_at"]),
+                    offer_id = order["offer_id"]?.ToString(),
+                    notes = order["notes"] as List<object>
+                };
+                return Ok(new {status =200, data =response });
+            }       
             catch (Exception ex)
             {
                 return BadRequest(new { message = ex.Message });
@@ -36,20 +61,40 @@ namespace MyJyotishGApi.Controllers
         [HttpPost("capture-payment")]
         public IActionResult CapturePayment([FromBody] PaymentCaptureModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             try
             {
-                var payment = _razorpayService.CapturePayment(model.PaymentId, model.Amount);
-                return Ok(payment);
+                // Handle successful payments
+                if (model.Status == "success")
+                {
+                    var payment = _razorpayService.CapturePayment(model); // Capture and log success
+                    return Ok(new { message = "Payment captured and recorded.", payment });
+                }
+
+                // Handle failed payments
+                if (model.Status == "failed")
+                {
+                    var isLogged = _services.LogFailedPayment(model); // Log failure
+                    if (isLogged)
+                    {
+                        return Ok(new { message = "Payment failed and logged." });
+                    }
+                    return StatusCode(500, new { message = "Failed to log the payment failure." });
+                }
+
+                return BadRequest(new { message = "Invalid payment status." });
             }
             catch (Exception ex)
             {
-                return BadRequest(new { message = ex.Message });
+                // Handle any unexpected exceptions
+                return StatusCode(500, new { message = "An unexpected error occurred.", Error = ex.Message });
             }
         }
+
     }
-    public class PaymentCaptureModel
-    {
-        public string PaymentId { get; set; }
-        public decimal Amount { get; set; }
-    }
+    
 }

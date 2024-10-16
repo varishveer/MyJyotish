@@ -22,20 +22,20 @@ namespace MyJyotishGApi.Controllers
             _jyotish = jyotish;
             _environment = environment;
         }
-        [HttpGet("Appointment")]
-        public IActionResult Appointment(string JyotishEmail)
+        [HttpGet("GetAllAppointment")]
+        public IActionResult GetAllAppointment(int Id)
         {
-            var records = _jyotish.Appointment(JyotishEmail);
+            var records = _jyotish.GetAllAppointment(Id);
             return Ok(new { data = records });
         }
         [HttpGet("UpcomingAppointment")]
-        public IActionResult UpcomingAppointment(string JyotishEmail)
+        public IActionResult UpcomingAppointment(int Id)
         {
-            var records = _jyotish.UpcomingAppointment(JyotishEmail);
+            var records = _jyotish.UpcomingAppointment(Id);
             return Ok(new { data = records });
         }
         [HttpPost("AddAppointment")]
-        public IActionResult AddAppointment(AppointmentViewModel model)
+        public IActionResult AddAppointment(AddAppointmentJyotishModel model)
         {
             try
             {
@@ -52,36 +52,41 @@ namespace MyJyotishGApi.Controllers
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
         }
 
-        [AllowAnonymous]
-        [HttpPost("AddTeamMember")]
-        public IActionResult AddTeamMember()
+        [HttpGet("GetAppointment")]
+        public IActionResult GetAppointment(int Id)
         {
-            var name = Request.Form["name"];
-            var mobile = Request.Form["mobile"];
-            var email = Request.Form["email"];
-            var jyotishEmail = Request.Form["jyotishEmail"];
-            var profilePicture = Request.Form.Files["profilePicture"];
-
-            TeamMemberViewModel team = new TeamMemberViewModel()
+            try
             {
-                Name = name,
-                Mobile = mobile,
-                Email = email,
-                JyotishEmail = jyotishEmail,
-                ProfilePicture = profilePicture
-            };
-
-            string? path = _environment.ContentRootPath;
-            var records = _jyotish.AddTeamMember(team, path);
-            return Ok(new { data = records });
+                var result = _jyotish.GetAppointment(Id);
+                if (result == null)
+                {
+                    return Ok(new { Status = 400, Message = "Appointment Not Found" });
+                }
+                else { return Ok(new { Status = 200, Data = result ,message = "Successful" }); }
+            }
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
         }
 
-        [HttpGet("TeamMember")]
-        public IActionResult TeamMember(string JyotishEmail)
+        [HttpPost("UpdateAppointment")]
+        public IActionResult UpdateAppointment(UpdateAppointmentJyotishViewModel model)
         {
-            var records = _jyotish.TeamMember(JyotishEmail);
-            return Ok(records);
+            try
+            {
+                var result = _jyotish.UpdateAppointment(model);
+                if (result == "invalid Data")
+                {
+                    return Ok(new { Status = 400, Message = result });
+                }
+
+                else if (result == "Successful") { return Ok(new { Status = 200, message = result }); }
+                else if (result == "internal Server Error.") { return Ok(new { Status = 500, message = result }); }
+                else { return Ok(new { Status = 500, message = result }); }
+            }
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
         }
+
+
+        
         [AllowAnonymous]
         [HttpGet("Country")]
         public IActionResult Country()
@@ -290,5 +295,70 @@ namespace MyJyotishGApi.Controllers
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
         }
 
+
+
+
+
+        [HttpPost("AddTeamMember")]
+        public IActionResult AddTeamMember()
+        {
+            var name = Request.Form["name"];
+            var mobile = Request.Form["mobile"];
+            var email = Request.Form["email"];
+            var jyotishEmail = Request.Form["jyotishEmail"];
+            var profilePicture = Request.Form.Files["profilePicture"];
+
+            TeamMemberViewModel team = new TeamMemberViewModel()
+            {
+                Name = name,
+                Mobile = mobile,
+                Email = email,
+                JyotishEmail = jyotishEmail,
+                ProfilePicture = profilePicture
+            };
+
+            string? path = _environment.ContentRootPath;
+            var records = _jyotish.AddTeamMember(team, path);
+            return Ok(new { data = records });
+        }
+
+        [HttpGet("TeamMember")]
+        public IActionResult TeamMember(string JyotishEmail)
+        {
+            var records = _jyotish.TeamMember(JyotishEmail);
+            return Ok(records);
+        }
+
+        [HttpGet("JyotishPaymentrecords")]
+        public IActionResult JyotishPaymentrecords(int Id)
+        {
+            try
+            {
+                var Result = _jyotish.JyotishPaymentrecords(Id);
+                if (Result == null)
+                { return Ok(new { Status = 404, Message = "Data Not Found" }); }
+
+                else
+                { return Ok(new { Status = 200, Data = Result, Message = "Successful" }); }
+            }
+            catch (Exception ex)
+            { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+        }
+
+        [HttpGet("JyotishPaymentDetail")]
+        public IActionResult JyotishPaymentDetail(int Id)
+        {
+            try
+            {
+                var Result = _jyotish.JyotishPaymentDetail(Id);
+                if (Result == null)
+                { return Ok(new { Status = 404, Message = "Data Not Found" }); }
+
+                else
+                { return Ok(new { Status = 200, Data = Result, Message = "Successful" }); }
+            }
+            catch (Exception ex)
+            { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+        }
     }
 }

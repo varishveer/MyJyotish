@@ -189,24 +189,24 @@ namespace BusinessAccessLayer.Implementation
           }
   */
 
-        public List<AppointmentModel> Appointment(string JyotishEmail) 
+        public List<AppointmentModel> GetAllAppointment(int Id) 
         {
-            var Jyotish = _context.JyotishRecords.Where(x => x.Email == JyotishEmail).FirstOrDefault();
+            var Jyotish = _context.JyotishRecords.Where(x => x.Id == Id).FirstOrDefault();
             var Records = _context.AppointmentRecords.Where(x=>x.JyotishId == Jyotish.Id).ToList();
             return Records;
         }
-        public List<AppointmentModel> UpcomingAppointment(string JyotishEmail)
+        public List<AppointmentModel> UpcomingAppointment(int Id)
         {
-            var Jyotish = _context.JyotishRecords.Where(x => x.Email == JyotishEmail).FirstOrDefault();
+            var Jyotish = _context.JyotishRecords.Where(x => x.Id == Id).FirstOrDefault();
             DateTime Today =DateTime.Now;
             var Records = _context.AppointmentRecords.Where(e => e.DateTime > Today).Where(x=> x.JyotishId == Jyotish.Id).ToList();
             return Records;
         }
-        public string AddAppointment(AppointmentViewModel model) 
+        public string AddAppointment(AddAppointmentJyotishModel model) 
         {
             var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
-            var User = _context.Users.Where(x => x.Id == model.UserId).FirstOrDefault();
-            if (User != null || Jyotish != null) { return "invalid Data"; }
+            var User = _context.Users.Where(x => x.Email == model.Email).FirstOrDefault();
+            if (User == null || Jyotish == null) { return "invalid Data"; }
             AppointmentModel appointment = new AppointmentModel();
             appointment.Name = User.Name;
             appointment.Mobile = User.Mobile;
@@ -218,12 +218,40 @@ namespace BusinessAccessLayer.Implementation
             appointment.Amount = Jyotish.AppointmentCharges;
             appointment.Status = "Upcomming";
             _context.AppointmentRecords.Add(appointment);
-            var result = _context.SaveChanges();
             if (_context.SaveChanges() > 0) { return "Successful"; }
             return "internal Server Error.";
 
         }
 
+        public string UpdateAppointment(UpdateAppointmentJyotishViewModel model) 
+        {
+            var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
+            var User = _context.Users.Where(x => x.Email == model.Email).FirstOrDefault();
+            var appointment = _context.AppointmentRecords.Where(x => x.Id == model.Id).FirstOrDefault();
+            if (User == null || Jyotish == null || appointment == null) { return "invalid Data"; }
+           
+           
+            appointment.Name = User.Name;
+            appointment.Mobile = User.Mobile;
+            appointment.DateTime = model.DateTime;
+            appointment.Email = User.Email;
+            appointment.JyotishId = Jyotish.Id;
+            appointment.UserId = User.Id;
+            appointment.Problem = model.Problem;
+            appointment.Amount = Jyotish.AppointmentCharges;
+            appointment.Status = "Upcomming";
+            _context.AppointmentRecords.Update(appointment);
+           
+            if (_context.SaveChanges() > 0) { return "Successful"; }
+            return "internal Server Error.";
+        }
+
+        public AppointmentModel GetAppointment(int Id)
+        {
+           var appointment = _context.AppointmentRecords.Where(x => x.Id == Id).FirstOrDefault();
+            if (appointment == null) { return null; }
+            else { return appointment; }
+        }
         public List<TeamMemberModel> TeamMember(string JyotishEmail)
         {
             var Jyotish = _context.JyotishRecords.Where(x => x.Email == JyotishEmail).FirstOrDefault();
@@ -424,6 +452,23 @@ namespace BusinessAccessLayer.Implementation
                                   .ToList();
 
             return records;
+        }
+
+        public List<JyotishPaymentRecordModel> JyotishPaymentrecords(int Id)
+        {
+            var Jyotish = _context.JyotishRecords.Where(x => x.Id == Id).FirstOrDefault();
+            if (Jyotish == null) { return null; }
+            var record = _context.JyotishPaymentRecord.Where(x => x.JyotishId == Id).ToList();
+            if (record.Count > 0) { return record; }
+            else { return null; }
+        }
+        public JyotishPaymentRecordModel JyotishPaymentDetail(int Id)
+        {
+            var Jyotish = _context.JyotishRecords.Where(x => x.Id == Id).FirstOrDefault();
+            if (Jyotish == null) { return null; }
+            var record = _context.JyotishPaymentRecord.Where(x => x.JyotishId == Id).FirstOrDefault();
+            if (record == null) { return record; }
+            else { return null; }
         }
     }
 }

@@ -1,0 +1,177 @@
+﻿using BusinessAccessLayer.Abstraction;
+using DataAccessLayer.DbServices;
+using ModelAccessLayer.Models;
+using ModelAccessLayer.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace BusinessAccessLayer.Implementation
+{
+    public class RazorPayServices:IRazorPayServices
+    {
+        private readonly ApplicationContext _context;
+
+        public RazorPayServices(ApplicationContext context)
+        {
+            _context = context;
+        }
+        public bool Order(PaymentCreateOrderViewModel model)
+        {
+            var jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
+            var user = _context.Users.Where(x => x.Id == model.UserId).FirstOrDefault();
+            if (jyotish != null)
+            {
+                JyotishPaymentRecordModel record = new JyotishPaymentRecordModel();
+                record.JyotishId = model.JyotishId;
+                record.Amount = model.Amount.ToString();
+                record.JyotishName = jyotish.Name;
+                record.DateTime = DateTime.Now;
+                record.Status = "Pending";
+                record.OrderId = model.OrderId;
+
+                _context.JyotishPaymentRecord.Add(record);
+                if (_context.SaveChanges() > 0) { return true; }
+                else { return false; }
+
+            }
+            else if (user != null) 
+            {
+                UserPaymentRecordModel record = new UserPaymentRecordModel();
+                record.UserId = model.UserId;
+                record.Amount = model.Amount.ToString();
+                record.UserName = user.Name;
+                record.DateTime = DateTime.Now;
+                record.Status = "Pending";
+                record.OrderId = model.OrderId;
+
+                _context.UserPaymentRecord.Add(record);
+                if (_context.SaveChanges() > 0) { return true; }
+                else { return false; }
+            }
+            else
+            {
+                return false;
+            }
+           
+        }
+
+        /*public bool CapturePayment(PaymentCreateOrderViewModel model)
+        {
+            var jyotish = _context.JyotishPaymentRecord.Where(x => x.OrderId == model.OrderId).FirstOrDefault();
+            var user = _context.UserPaymentRecord.Where(x => x.OrderId == model.OrderId).FirstOrDefault();
+            if (jyotish != null)
+            {
+
+                jyotish.Status = "Pending";
+                jyotish.OrderId = model.OrderId;
+                jyotish.PaymentId = model.PaymentId;
+                if (model.Signature != null) {
+                    jyotish.Signature = model.Signature;
+                }
+
+                _context.JyotishPaymentRecord.Update(jyotish);
+                if (_context.SaveChanges() > 0) { return true; }
+                else { return false; }
+
+            }
+            else if (user != null)
+            {
+
+                user.Status = "Pending";
+                user.OrderId = model.OrderId;
+                user.PaymentId = model.PaymentId;
+                if (model.Signature != null)
+                {
+                    user.Signature = model.Signature;
+                }
+
+                _context.UserPaymentRecord.Update(user);
+                if (_context.SaveChanges() > 0) { return true; }
+                else { return false; }
+            }
+            else
+            {
+                return false;
+            }
+
+        }*/
+
+        public bool LogPayment(PaymentCaptureModel model, string status)
+        {
+            // Find the payment record in Jyotish or User payment records
+            var jyotish = _context.JyotishPaymentRecord.FirstOrDefault(x => x.OrderId == model.OrderId);
+            var user = _context.UserPaymentRecord.FirstOrDefault(x => x.OrderId == model.OrderId);
+
+            if (jyotish != null)
+            {
+                // Update Jyotish payment record with the new status and payment details
+                jyotish.Status = status; // "success" or "failed"
+                jyotish.OrderId = model.OrderId;
+                jyotish.PaymentId = model.PaymentId;
+                if (!string.IsNullOrEmpty(model.Signature))
+                {
+                    jyotish.Signature = model.Signature;
+                }
+
+                _context.JyotishPaymentRecord.Update(jyotish); // Update the Jyotish payment record
+                return _context.SaveChanges() > 0; // Save changes and return true if successful
+            }
+            else if (user != null)
+            {
+                // Update User payment record with the new status and payment details
+                user.Status = status; // "success" or "failed"
+                user.OrderId = model.OrderId;
+                user.PaymentId = model.PaymentId;
+                if (!string.IsNullOrEmpty(model.Signature))
+                {
+                    user.Signature = model.Signature;
+                }
+
+                _context.UserPaymentRecord.Update(user); // Update the User payment record
+                return _context.SaveChanges() > 0; // Save changes and return true if successful
+            }
+            else
+            {
+                // No matching record found
+                return false;
+            }
+        }
+
+
+
+        public bool LogFailedPayment(PaymentCaptureModel model)
+        {
+            // Attempt to find payment record in Jyotish or User tables
+            var jyotish = _context.JyotishPaymentRecord.FirstOrDefault(x => x.OrderId == model.OrderId);
+            var user = _context.UserPaymentRecord.FirstOrDefault(x => x.OrderId == model.OrderId);
+
+            if (jyotish != null)
+            {
+                jyotish.Status = "failed";
+                jyotish.OrderId = model.OrderId;
+                jyotish.PaymentId = model.PaymentId;
+               
+
+                _context.JyotishPaymentRecord.Update(jyotish);
+                return _context.SaveChanges() > 0;
+            }
+            else if (user != null)
+            {
+                user.Status = "failed";
+                user.OrderId = model.OrderId;
+                user.PaymentId = model.PaymentId;
+             
+
+                _context.UserPaymentRecord.Update(user);
+                return _context.SaveChanges() > 0;
+            }
+            else
+            {
+                return false; // No matching record found
+            }
+        }
+    }
+}

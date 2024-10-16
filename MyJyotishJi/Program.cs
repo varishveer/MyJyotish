@@ -25,6 +25,7 @@ builder.Services.AddScoped<IJyotishServices, JyotishServices>();
 builder.Services.AddScoped<IPendingJyotishServices, PendingJyotishServices>();
 builder.Services.AddScoped<IUserServices, UserServices>();
 builder.Services.AddScoped<RazorpayService>();
+builder.Services.AddScoped<IRazorPayServices,RazorPayServices>();
 
 
 builder.Services.AddAuthentication(options =>

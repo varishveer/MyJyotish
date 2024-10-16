@@ -203,7 +203,7 @@ namespace MyJyotishGApi.Controllers
         }
 
 
-        [AllowAnonymous]
+        
         [HttpPost("UpdateProfile")]
         public IActionResult UpdateProfile(UserUpdateViewModel model)
         {
@@ -222,6 +222,75 @@ namespace MyJyotishGApi.Controllers
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
         }
 
+        [HttpGet("getAllAppointment")]
+        public IActionResult getAllAppointment(int Id)
+        {
+            try
+            {
+                var result = _services.getAllAppointment(Id);
+                if (result == null)
+                {
+                    return Ok(new { Status = 404, Message = "User Not Found" });
+                }
+
+                else { return Ok(new { Status = 200, Data = result }); }
+
+            }
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
+
+        }
+
+
+        [HttpGet("GetAppointmentDetails")]
+        public IActionResult GetAppointmentDetails(int Id)
+        {
+            try
+            {
+                var result = _services.GetAppointmentDetails(Id);
+                if (result == null)
+                {
+                    return Ok(new { Status = 404, Message = "Not Found" });
+                }
+
+                else { return Ok(new { Status = 200, Data = result }); }
+
+            }
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
+
+        }
+
+
+        [HttpGet("UserPaymentrecords")]
+        public IActionResult UserPaymentrecords(int Id)
+        {
+            try
+            {
+                var Result = _services.UserPaymentrecords(Id);
+                if (Result == null)
+                { return Ok(new { Status = 404, Message = "Data Not Found" }); }
+
+                else
+                { return Ok(new { Status = 200, Data = Result, Message = "Successful" }); }
+            }
+            catch (Exception ex)
+            { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+        }
+
+        [HttpGet("UserPaymentDetail")]
+        public IActionResult UserPaymentDetail(int Id)
+        {
+            try
+            {
+                var Result = _services.UserPaymentDetail(Id);
+                if (Result == null)
+                { return Ok(new { Status = 404, Message = "Data Not Found" }); }
+
+                else
+                { return Ok(new { Status = 200, Data = Result, Message = "Successful" }); }
+            }
+            catch (Exception ex)
+            { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+        }
 
         /* [AllowAnonymous]
          [HttpGet("GetPoojaList")]
