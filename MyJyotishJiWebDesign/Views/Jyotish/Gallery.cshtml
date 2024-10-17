@@ -1,0 +1,88 @@
+﻿@{
+    Layout = "AdminLayout";
+    var BaseUrl = "https://api.myjyotishg.in/";
+}
+<!-- Link to Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<style>
+    body {
+        margin: 0;
+        font-family: "Heebo", sans-serif;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #757575;
+        background-color: #F3F6F9;
+    }
+    .gallery-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+    .gallery-item {
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    .gallery-item img {
+        width: 100%;
+        height: auto;
+    }
+    .gallery-title {
+        padding: 10px;
+        text-align: center;
+        font-weight: bold;
+    }
+</style>
+
+<div class="container mt-4">
+    <h4 class="text-primary font-weight-bold">Gallery</h4>
+    <hr />
+    <div class="gallery-container" id="galleryContainer">
+        <!-- Images will be dynamically loaded here -->
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Get the ID from the URL
+       
+        debugger;
+        var ApiUrl = "https://localhost:7118/" + "Api/Jyotish/JyotishGallery?Id=" + `${localStorage.getItem("Id")}`;
+        console.log(ApiUrl);
+        // Fetch gallery data based on the ID
+        $.ajax({
+            url: ApiUrl,
+            type: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+                'Content-Type': 'application/json',
+            },
+            success: function (res) {
+                debugger;
+                if (res.status === 200) {
+                    const galleryData = res.data;
+                    galleryData.forEach(item => {
+                        $('#galleryContainer').append(`
+                            <div class="gallery-item col-md-3">
+                                <img src="${item.imageUrl}" alt="${item.imageTitle}">
+                                <div class="gallery-title">${item.imageTitle}</div>
+                            </div>
+                        `);
+                    });
+                } else {
+                    debugger;
+                    console.error("Failed to load gallery data:", res.message);
+                }
+            },
+            error: function (error) {
+                debugger;
+                console.error('An error occurred while loading gallery data:', error);
+            }
+        });
+    });
+</script>

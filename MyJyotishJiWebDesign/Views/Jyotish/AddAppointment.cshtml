@@ -205,6 +205,7 @@
 <script>
     $(document).ready(function () {
         $('#appointmentForm').on('submit', function (event) {
+            debugger;
             event.preventDefault(); // Prevent default form submission
           
 
@@ -216,7 +217,7 @@
                 email: $('#email').val(),
                 jyotishId: localStorage.getItem('Id'),
                 problem: $('#problems').val(),
-                amount: $('#amount').val()
+              
             };
           
             // Send data using AJAX
@@ -233,8 +234,15 @@
                 dataType: 'json',
                
                 success: function (response) {
-                    console.log('Form submitted successfully:', response.data);
-                    alert('Appointment booked successfully!');
+                    if (response.status === 200) { alert('Appointment booked successfully!'); }
+                    else if (response.status === 400) {
+
+                        alert('Invalid Data');
+                    }
+                    else {
+                        alert(`${response.message}`);
+                    }
+
                 },
                 error: function (xhr, status, error) {
                     console.error('Error submitting form:', error, status, xhr);

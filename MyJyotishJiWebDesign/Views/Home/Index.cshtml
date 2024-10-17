@@ -2,6 +2,7 @@
     ViewData["Title"] = "Home Page";
     Layout = null;
     string BaseUrl = "https://api.myjyotishg.in/";
+    string Url = "";
 }
 <html>
     <head>
@@ -162,40 +163,11 @@
         }
     </style>
 
-    <!-- Add this script to handle the show/hide functionality -->
-    @*<script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var toggleButton = document.getElementById('astroBookPoojaToggle');
-            var section = document.getElementById('astroBookPoojacontainer-fluid');
-
-            toggleButton.addEventListener('click', function () {
-                if (section.classList.contains('hidden')) {
-                    section.classList.remove('hidden');
-                    toggleButton.textContent = 'Hide';
-                } else {
-                    section.classList.add('hidden');
-                    toggleButton.textContent = 'Show';
-                }
-            });
-        });
-    </script>
-  *@
 
     <!-- Banners (Carousel) -->
     <div id="bannerCarousel" class="carousel slide"  data-bs-ride="carousel">
         <div class="carousel-inner" id="SliderImageHomePage">
-          @*   <div class="carousel-item active">
-                <img src="https://api.myjyotishg.in/Images/HomeBanner1.jpg" class="d-block w-100" alt="Banner 1">
-            </div>
-            <div class="carousel-item">
-                <img src="https://api.myjyotishg.in/Images/HomeBanner2.jpg" class="d-block w-100" alt="Banner 2">
-            </div>
-            <div class="carousel-item">
-                <img src="https://api.myjyotishg.in/Images/HomeBanner3.jpg" class="d-block w-100" alt="Banner 3">
-            </div>
-            <div class="carousel-item">
-                <img src="https://api.myjyotishg.in/Images/HomeBanner4.jpg" class="d-block w-100" alt="Banner 4">
-            </div> *@
+         
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -256,8 +228,8 @@
         .service-card {
             padding-top: 20px;
             padding-bottom:20px;
-            perspective: 1000px; /* Add perspective to create a 3D effect */
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Add a shadow effect to the card */
+            perspective: 1000px; 
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); 
         }
 
     
@@ -277,90 +249,7 @@
     <div class="container-fluid my-5">
         <h3 class="text-center mb-5">Top Astrologers</h3>
         <div id="astrologers-container" class="row d-flex justify-content-between">
-           @*  <div class="col-12 col-sm-2 col-md-2 col-lg-2 mb-2 p-1">
-                <div class="card astrologer-card shadow">
-                    <img src="https://api.myjyotishg.in/Images/Astro/Astro6.jpg" class="card-img-top rounded" alt="Astrologer 1">
-                    <div class="card-body p-0 pt-2">
-                        <h5 class="card-title">Khushi</h5>
-                        <p class="card-text px-auto" style="text-align:left">
-                            Expertise: Vastu <br />City: Delhi <br />Experience: 10 Years <br /> Rating:
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-12 col-sm-2 col-md-2 col-lg-2 mb-2 p-1">
-                <div class="card astrologer-card shadow">
-                    <img src="https://api.myjyotishg.in/Images/Astro/Astro8.jpg" class="card-img-top rounded" alt="Astrologer 2">
-                    <div class="card-body p-0 pt-2">
-                        <h5 class="card-title">Muskan</h5>
-                        <p class="card-text">
-                            Expertise: Palmistry <br />City: Delhi <br />Experience: 10 Years <br /> Rating:
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-12 col-sm-2 col-md-2 col-lg-2 mb-2 p-1">
-                <div class="card astrologer-card shadow">
-                    <img src="https://api.myjyotishg.in/Images/Astro/Astro9.jpg" class="card-img-top rounded" alt="Astrologer 3">
-                    <div class="card-body p-0 pt-2">
-                        <h5 class="card-title">Mahek</h5>
-                        <p class="card-text">
-                            Expertise: Face Reading <br />City: Delhi <br />Experience: 10 Years <br /> Rating:
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-12 col-sm-2 col-md-2 col-lg-2 mb-2 p-1">
-                <div class="card astrologer-card shadow">
-                    <img src="https://api.myjyotishg.in/Images/Astro/Astro10.jpg" class="card-img-top rounded" alt="Astrologer 4">
-                    <div class="card-body p-0 pt-2">
-                        <h5 class="card-title">Sakshi</h5>
-                        <p class="card-text">
-                            Expertise: Tarot <br />City: Delhi <br />Experience: 10 Years <br /> Rating:
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-12 col-sm-2 col-md-2 col-lg-2 mb-2 p-1">
-                <div class="card astrologer-card shadow">
-                    <img src="https://api.myjyotishg.in/Images/Astro/Astro11.jpg" class="card-img-top rounded" alt="Astrologer 5">
-                    <div class="card-body p-0 pt-2">
-                        <h5 class="card-title">Alisha</h5>
-                        <p class="card-text">
-                            Expertise: Vastu <br />City: Delhi <br />Experience: 10 Years <br /> Rating:
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                        </p>
-                    </div>
-                </div>
-            </div> *@
+          
         </div>
     </div>
 
@@ -368,7 +257,7 @@
     <!-- Small Banner -->
     <div class="container-fluid my-3">
     <div class="row">
-            <img src="https://api.myjyotishg.in/Images/HomeBanner12.jpg" class="img-fluid" alt="Small Banner">
+            <img src="@BaseUrl" + "Images/HomeBanner12.jpg" class="img-fluid" alt="Small Banner">
     </div>
     </div>
 
@@ -996,21 +885,27 @@ $(document).ready(function () {
                     if (response.status === 200) {
                         const records = response.data.slice(0, 5); 
                         records.forEach(function (astrologer) {
+                            var src = "@BaseUrl" + `${astrologer.profileImageUrl}`;
                             $('#astrologers-container').append(`
-                                <div class="col-12 col-sm-2 col-md-2 col-lg-2 mb-2 p-1">
-                                    <div class="card astrologer-card shadow">
-                                        <img src= "${astrologer.profileImageUrl}" class="card-img-top rounded" alt="${astrologer.name}">
-                                        <div class="card-body p-0 pt-2">
-                                            <h5 class="card-title">${astrologer.name}</h5>
-                                            <p class="card-text px-auto" >
-                                                Expertise: ${astrologer.expertise} <br />
-                                                City: ${astrologer.city} <br />
-                                                Experience: ${astrologer.experience} Years <br />
-                                                Rating: ${generateFullStars()}
-                                            </p>
+                               
+                                     <div class="col-12 col-sm-2 col-md-2 col-lg-2 mb-2 p-1">
+                                        <div class="card astrologer-card shadow">
+                                             <a href= "/Home/JyotishProfile?Id=${astrologer.id}">
+                                                <img src=  "${src}" class="card-img-top rounded" alt="${astrologer.name}">
+                                                <div class="card-body p-0 pt-2">
+                                                    <h5 class="card-title">${astrologer.name}</h5>
+                                                    <p class="card-text px-auto" >
+                                                        Expertise: ${astrologer.expertise} <br />
+                                                        City: ${astrologer.city} <br />
+                                                        Experience: ${astrologer.experience} Years <br />
+                                                        Rating: ${generateFullStars()}
+                                                    </p>
+                                                </div>
+                                            </a>
                                         </div>
                                     </div>
-                                </div>
+                               
+                               
                             `);
                         });
                     } else {

@@ -15,10 +15,12 @@ namespace MyJyotishGApi.Controllers
 
         private readonly RazorpayService _razorpayService;
         private readonly IRazorPayServices _services;
-        public PaymentsController(RazorpayService razorpayService, IRazorPayServices services)
+        private readonly IConfiguration _configuration;
+        public PaymentsController(RazorpayService razorpayService, IRazorPayServices services, IConfiguration configuration)
         {
             _razorpayService = razorpayService;
             _services = services;
+            _configuration = configuration;
         }
 
         // Create an order
@@ -47,8 +49,9 @@ namespace MyJyotishGApi.Controllers
                     attempts = Convert.ToInt32(order["attempts"]),
                     created_at = Convert.ToInt64(order["created_at"]),
                     offer_id = order["offer_id"]?.ToString(),
-                    notes = order["notes"] as List<object>
-                };
+                    notes = order["notes"] as List<object>,
+                    secretKey=_configuration["Razorpay:Key"]
+            };
                 return Ok(new {status =200, data =response });
             }       
             catch (Exception ex)

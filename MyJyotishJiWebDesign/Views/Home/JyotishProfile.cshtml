@@ -1,8 +1,9 @@
-﻿
+﻿@{
+    string BaseUrl = "https://api.myjyotishg.in/";
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-
-
-<div class="container" style="margin-top:100px; background-color: #f7f7f7; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+@* <div class="container" style="margin-top:100px; background-color: #f7f7f7; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
     <div class="card shadow-sm" style="background-color: #ffffff; padding: 20px; border-radius: 10px;">
         <div class="card-body">
             <div class="row align-items-center mb-4">
@@ -94,5 +95,125 @@
     </div>
 </div> 
 
+ *@
 
 
+<div class="container" style="margin-top:100px; background-color: #f7f7f7; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+    <div class="card shadow-sm" style="background-color: #ffffff; padding: 20px; border-radius: 10px;">
+        <div class="card-body">
+            <div class="row align-items-center mb-4">
+                <div class="col-md-3 text-center text-md-start">
+                    <img id="profilePicture" src="~/Img/JyotishProfile.jpg" alt="Profile Picture" class="rounded-circle img-thumbnail" style="width: 100%; max-width: 120px; border: 2px solid #ffffff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);">
+                </div>
+                <div class="col-md-9">
+                    <h2 id="profileName" class="h4 mb-1" style="color: #333333;">Prashant <span class="text-success">&#10004;</span></h2>
+                    <p id="profileExpertise" class="text-muted mb-1" style="font-size: 14px;"></p>
+                    <p id="profileLanguage" class="text-muted mb-1" style="font-size: 14px;"></p>
+                    <p id="profileExperience" class="text-muted mb-1" style="font-size: 14px;"></p>
+                    <p id="profileCharges" class="text-danger fw-bold mb-1" style="font-size: 18px;"></p>
+                    <div class="mt-3">
+                        <button class="btn btn-primary me-2 mb-2 mb-md-0" style="background-color: #4CAF50; border-color: #4CAF50;">Start Chat</button>
+                        <button class="btn btn-primary" style="background-color: #4CAF50; border-color: #4CAF50;">Start Call</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <h3 class="h5" style="color: #333333;">About me</h3>
+                <p id="aboutMe" class="text-justify" style="font-size: 14px;"></p>
+            </div>
+
+            <div class="mb-4" id="ratingSection">
+                <h3 class="h5">Rating & Reviews</h3>
+                <div class="d-flex align-items-center">
+                    <span id="rating" class="h4 mb-0 me-2">4.99</span>
+                    <span class="text-warning me-2">★★★★★</span>
+                    <span id="totalReviews" class="text-muted">(6587 total)</span>
+                </div>
+                <div class="mt-3" id="reviewsSection">
+                    <!-- Add reviews here -->
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <h3 class="h5" style="color: #333333;">Gallery</h3>
+                <div class="row g-2" id="gallerySection">
+                    <!-- Gallery images will be dynamically loaded here -->
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <h3 class="h5" style="color: #333333;">Videos</h3>
+                <div id="videosSection">
+                    <!-- Videos will be dynamically loaded here -->
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <h3 class="h5" style="color: #333333;">Check Similar Consultants</h3>
+                <div class="row g-2">
+                    <!-- Similar consultants section -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+       
+        function getIdFromUrl() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('id'); // Adjust 'Id' based on your actual URL parameter
+        }
+        const astrologerId = getIdFromUrl();
+        var apiUrl = "@BaseUrl" + `Api/User/AstrologerProfile?Id=${astrologerId}`;
+        $.ajax({
+            url: apiUrl,
+            method: 'GET',
+            success: function (response) {
+                if (response.status === 200) {
+                    var data = response.data;
+
+                    // Update Profile Section
+                    $('#profilePicture').attr('src', data.profileImageUrl);
+                    $('#profileName').text(data.name + ' ✅');
+                    $('#profileExpertise').text(data.expertise);
+                    $('#profileLanguage').text(data.language);
+                    $('#profileExperience').text('Experience: ' + data.experience + ' Years');
+                    $('#profileCharges').text('₹ ' + data.chatCharges + ' / 20 min');
+
+                    // Update About Section
+                    $('#aboutMe').text(data.about);
+
+                    // Update Gallery Section
+                    var galleryHtml = '';
+                    $.each(data.gallery, function (index, item) {
+                        galleryHtml += '<div class="col-6 col-md-3">';
+                        galleryHtml += '<img src="' + item.imageUrl + '" alt="Gallery Image" class="img-fluid rounded-4 img-thumbnail border-0" style="border: 2px solid #ffffff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);">';
+                        galleryHtml += '</div>';
+                    });
+                    $('#gallerySection').html(galleryHtml);
+
+                    // Update Videos Section
+                    var videosHtml = '';
+                    $.each(data.videos, function (index, video) {
+                        videosHtml += '<iframe width="560" height="315" src="' + video.videoUrl + '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+                    });
+                    $('#videosSection').html(videosHtml);
+
+                    // Update Rating & Reviews Section
+                    $('#rating').text(data.rating || '4.99'); // Placeholder for rating
+                    $('#totalReviews').text('(6587 total)'); // Placeholder for total reviews
+                    // Add reviews dynamically if you have review data
+                } else {
+                    console.error('Error fetching data: ', response.message);
+                }
+            },
+            error: function (error) {
+                console.error('AJAX Error: ', error);
+            }
+        });
+    });
+
+</script>

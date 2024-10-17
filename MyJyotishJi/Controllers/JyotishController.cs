@@ -46,7 +46,7 @@ namespace MyJyotishGApi.Controllers
                 }
 
                 else if (result == "Successful") { return Ok(new { Status = 200, message = result }); }
-                else if (result == "internal Server Error.") { return Ok(new { Status = 500, message = result }); }
+             
                 else { return Ok(new { Status = 500, message = result }); }
             }
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
