@@ -2,6 +2,212 @@
     Layout = "JyotishLayout";
     var BaseUrl = "https://api.myjyotishg.in/";
 }
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Bootstrap CSS -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<style>
+    .card-body {
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+    }
+</style>
+
+<div class="container-fluid mt-4">
+    <div class="card">
+        <div class="d-flex flex-row justify-content-between align-items-center pt-2 px-4">
+            <h5 class="text-primary">Appointments</h5>
+        </div>
+        <hr />
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="DataTable" class="table table-bordered table-striped">
+                    <!-- Table content will be inserted here dynamically -->
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap Modal -->
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateModalLabel">Update Appointment</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="requestForm">
+
+                    <div class="form-group">
+                        <label for="DateTime">Id:</label>
+                        <input type="datetime" class="form-control" id="Id" readonly>
+                    </div>
+                   
+                    <div class="form-group">
+                        <label for="DateTime">DateTime:</label>
+                        <input type="datetime" class="form-control" id="DateTime">
+                    </div>
+                    <div class="form-group">
+                        <label for="Email">Email:</label>
+                        <input type="text" class="form-control" id="Email">
+                    </div>
+                   
+                   
+                    <div class="form-group">
+                        <label for="Problem">Problem:</label>
+                        <input type="text" class="form-control" id="Problem">
+                    </div>
+                    <div class="form-group">
+                        <label for="Solution">Solution:</label>
+                        <input type="text" class="form-control" id="Solution">
+                    </div>
+                  
+                   
+                    <button type="button" class="btn btn-primary" id="updateButton">Update</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        // Fetch and display all appointments on page load
+        function fetchData() {
+            var Id = localStorage.getItem('Id');
+            $.ajax({
+                url: "@BaseUrl" + `api/Jyotish/GetAllAppointment?Id=${encodeURIComponent(Id)}`,
+                type: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+                    'Content-Type': 'application/json'
+                },
+                success: function (result) {
+                    let htmls = '<thead><tr><th>Date Time</th><th>Name</th><th>Amount</th><th>Problem</th><th>Solution</th><th>Action</th></tr></thead><tbody>';
+                    $.each(result.data, function (key, item) {
+                        htmls += '<tr>';
+                        htmls += `<td class="text-center">${item.dateTime}</td>`;
+                        htmls += `<td class="text-center">${item.name}</td>`;
+                        htmls += `<td class="text-center">${item.amount}</td>`;
+                        htmls += `<td class="text-center">${item.problem}</td>`;
+                        htmls += `<td class="text-center">${item.solution}</td>`;
+                        htmls += `<td class="text-center">
+                                       <svg data-id="${item.id}" class="edit-appointment" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24" data-toggle="modal" data-target="#updateModal">
+                                            <path fill="currentColor" d="M13.654 21v-2.21l5.96-5.934l2.19 2.204l-5.94 5.94zm6.885-5.94l-.926-.945zm-6 5.056h.95l3.467-3.474l-.45-.494l-.475-.47l-3.493 3.488zM5 21V3h9.5L19 7.5v2.596h-1V8h-4V4H6v16h5.27v1zm13.506-4.852l-.475-.47l.925.964z"/>
+                                        </svg>
+                                      </td>`;
+                        htmls += '</tr>';
+                    });
+                    htmls += '</tbody>';
+                    $('#DataTable').html(htmls);
+                    $('#DataTable').DataTable();
+                },
+                error: function (errormessage) {
+                    console.error('Error fetching data:', errormessage.responseText);
+                }
+            });
+        }
+
+        // Fetch and populate modal form with appointment data
+        $(document).on('click', '.edit-appointment', function () {
+             
+            const appointmentId = $(this).attr('data-id');
+            $.ajax({
+                url: "@BaseUrl" + `api/Jyotish/GetAppointment?Id=${appointmentId}`,
+                type: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+                    'Content-Type': 'application/json'
+                },
+                success: function (result) {
+                     
+                    const appointment = result.data;
+
+                    // Populate modal fields with fetched data
+                    $('#Id').val(appointment.id);       
+                   
+                    $('#DateTime').val(new Date(appointment.dateTime).toISOString().slice(0, 16)); // Format to fit datetime-local input
+                    $('#Email').val(appointment.email);
+                  
+                  
+                    $('#Problem').val(appointment.problem);
+                    $('#Solution').val(appointment.solution);
+                },
+                error: function (errormessage) {
+                    console.error('Error loading appointment details:', errormessage.responseText);
+                }
+            });
+        });
+
+        // Update the appointment with new data
+        document.getElementById('updateButton').addEventListener('click', async function () {
+             
+            const formData = {
+                Id: parseInt(document.getElementById('Id').value, 10),
+        
+                DateTime: new Date(document.getElementById('DateTime').value).toISOString(),
+                Email: document.getElementById('Email').value,
+                JyotishId: localStorage.getItem('Id'),
+            
+                Problem: document.getElementById('Problem').value,
+                Solution: document.getElementById('Solution').value
+              
+            };
+
+            try {
+                const response = await fetch("@BaseUrl" + 'api/Jyotish/UpdateAppointment', {
+                    method: 'POST', // Use 'PUT' for updates if needed
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                if (response.ok) {
+                    alert('Appointment updated successfully!');
+                    $('#updateModal').modal('hide');
+                    fetchData();  // Refresh table after update
+                    $('#updateModal').modal('hide');
+                } else {
+                    alert('Failed to update appointment.');
+                    console.error('Error:', response.statusText);
+                    $('#updateModal').modal('hide');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while updating the appointment.');
+                $('#updateModal').modal('hide');
+            }
+        });
+
+        // Load all records on page load
+        fetchData();
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+@* @{
+    Layout = "JyotishLayout";
+    var BaseUrl = "https://api.myjyotishg.in/";
+}
 
 
 <style>
@@ -17,9 +223,7 @@
         
         <div class="d-flex flex-row justify-content-between align-items-center pt-2 px-4" >
             <h5 class="text-primary">Appointments</h5>
-      @*       <a href="/Admin/AddPoojaCategory">
-                <button class="btn btn-primary">Add New Category</button>
-            </a> *@
+    
         </div>
         <hr />
         
@@ -58,7 +262,9 @@
                         htmls += `<td class="text-center">${item.problem}</td>`;
                         htmls += `<td class="text-center">${item.solution}</td>`;
                         htmls += `<td class="text-center">
-                                    <svg data-id="" data-toggle="modal" data-target="#updateModal" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M13.654 21v-2.21l5.96-5.934l2.19 2.204l-5.94 5.94zm6.885-5.94l-.926-.945zm-6 5.056h.95l3.467-3.474l-.45-.494l-.475-.47l-3.493 3.488zM5 21V3h9.5L19 7.5v2.596h-1V8h-4V4H6v16h5.27v1zm13.506-4.852l-.475-.47l.925.964z"/></svg>
+                                       <svg data-id="${item.id}" data-toggle="modal" data-target="#updateModal" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                            <path fill="currentColor" d="M13.654 21v-2.21l5.96-5.934l2.19 2.204l-5.94 5.94zm6.885-5.94l-.926-.945zm-6 5.056h.95l3.467-3.474l-.45-.494l-.475-.47l-3.493 3.488zM5 21V3h9.5L19 7.5v2.596h-1V8h-4V4H6v16h5.27v1zm13.506-4.852l-.475-.47l.925.964z"/>
+                                            </svg>
                                 </td>`;
 
                         htmls += '</tr>';
@@ -172,7 +378,7 @@
         };
 
         try {
-            const response = await fetch('https://localhost:7118/api/Jyotish/UpdateAppointment', {
+            const response = await fetch("@BaseUrl"+'api/Jyotish/UpdateAppointment', {
                 method: 'POST', // Use 'PUT' if updating an existing resource
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Example authorization header
@@ -195,4 +401,4 @@
             alert('An error occurred while updating the request.');
         }
     });
-</script>
+</script> *@

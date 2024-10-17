@@ -394,7 +394,7 @@ namespace BusinessAccessLayer.Implementation
             if (model.ImageUrl != null)
             {
                 var ProfileGuid = Guid.NewGuid().ToString();
-                var SqlPath = "wwwroot/PendingJyotish/Document/" + ProfileGuid + model.ImageUrl.FileName;
+                var SqlPath = "wwwroot/Images/Jyotish/" + ProfileGuid + model.ImageUrl.FileName;
                 var ProfilePath = Path.Combine(_uploadDirectory, SqlPath);
                 using (var stream = new FileStream(ProfilePath, FileMode.Create))
                 {

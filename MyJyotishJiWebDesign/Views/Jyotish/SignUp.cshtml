@@ -239,7 +239,7 @@
                 Email: email, // Match the property name in the model
                 Otp: otp
             };
-            debugger;
+             
             $.ajax({
                 url: "@BaseUrl"+`Api/Account/VerifyJyotish`,
                 type: 'POST',
@@ -247,7 +247,7 @@
                 data: JSON.stringify(data), // Send the data as a JSON string
 
                 success: function (response) {
-                    debugger;
+                     
                     // Handle different status messages based on the response
                     switch (response.status) {
                         case 200:
@@ -268,7 +268,7 @@
                     }
                 },
                 error: function (xhr) {
-                    debugger;
+                     
                     alert("Error: " + xhr.status + " - " + xhr.statusText);
                 }
             });
@@ -391,13 +391,13 @@
         //         processData: false, // Important for file uploads
         //         contentType: false, // Important for file uploads
         //         success: function (response) {
-        //             debugger;
+        //              
         //             console.log('Success:', response);
         //             alert('Form submitted successfully!');
         //             $('#registrationForm')[0].reset(); // Reset the form
         //         },
         //         error: function (xhr, status, error) {
-        //             debugger;
+        //              
         //             console.error('Error:', error);
         //             console.log('XHR:', xhr.statusCode);
         //             alert('There was an error submitting the form.');

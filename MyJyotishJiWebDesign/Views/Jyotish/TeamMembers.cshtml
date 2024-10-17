@@ -123,7 +123,7 @@
                             <th scope="col">Name</th>
                             <th scope="col">Mobile</th>
                             <th scope="col">Email</th>
-                            <th scope="col">Action</th>
+                           
                         </tr>
                     </thead>
                     <tbody>
@@ -155,20 +155,11 @@
                 { data: 'name' },
                 { data: 'mobile' },
                 { data: 'email' },
-                {
-                    data: null,
-                    render: function (data, type, row) {
-                        return `<button class="btn btn-primary view-btn" data-id="${row.id}">View</button>`;
-                    }
-                }
+               
             ]
         });
 
         // Handle click event for the View button
-        $(document).on('click', '.view-btn', function () {
-            var id = $(this).data('id');
-            alert('Viewing details for Team Member ID: ' + id);
-            // You can redirect or perform any action here
-        });
+       
     });
 </script>

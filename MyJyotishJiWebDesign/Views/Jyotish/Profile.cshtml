@@ -207,10 +207,7 @@
                 <button class="btn btn-outline-primary ">Logout Account</button>
             </div>
 
-            <div class="mb-3 d-flex justify-content-between flex-row">
-                <button class="btn btn-outline-danger  mx-1">Delete Profile</button>
-                <button class="btn btn-outline-secondary ">Forgot Password</button>
-            </div>
+           
         </div>
 
         <!-- Right Profile Details -->
@@ -377,7 +374,7 @@
                     var profile = response.data;
 
                     // Fill in the data fields
-                    $('#profileImage').attr('src', profile.profileImageUrl ? profile.profileImageUrl : 'default-image.jpg');
+                    $('#profileImage').attr('src', profile.profileImageUrl ?  "@BaseUrl"+profile.profileImageUrl : 'default-image.jpg');
                     $('#name').text(profile.name);
                     $('#email').text(profile.email);
                     $('#mobile').text(profile.mobile);
