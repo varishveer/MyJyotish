@@ -203,7 +203,7 @@
                 <label class="laguage" for="lang">English</label>
             </div>
             <div class="mb-3 d-flex justify-content-between flex-row">
-                <button class="btn btn-outline-info mx-1">Edit Profile</button>
+                <button class="btn btn-outline-info mx-1">  <a href="/Jyotish/UpdateProfile">Edit Profile</a></button>
                 <button class="btn btn-outline-primary ">Logout Account</button>
             </div>
 
@@ -372,7 +372,7 @@
             success: function (response) {
                 if (response.status === 200) {
                     var profile = response.data;
-
+                    debugger;
                     // Fill in the data fields
                     $('#profileImage').attr('src', profile.profileImageUrl ?  "@BaseUrl"+profile.profileImageUrl : 'default-image.jpg');
                     $('#name').text(profile.name);

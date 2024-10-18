@@ -350,6 +350,14 @@ namespace BusinessAccessLayer.Implementation
 
             Jyotish.Name = jyotishView.Name;
 
+
+          
+           
+                var JyotishMobile = _context.JyotishRecords.Where(x => x.Mobile == jyotishView.Mobile).FirstOrDefault();
+                if (JyotishMobile == null) { Jyotish.Mobile = jyotishView.Mobile; }
+                else { return "Invalid Number"; }
+
+            
             Jyotish.Mobile = jyotishView.Mobile;
             Jyotish.Gender = jyotishView.Gender;
             Jyotish.Language = jyotishView.Language;
@@ -821,7 +829,12 @@ namespace BusinessAccessLayer.Implementation
             if(record.Status != "Verified") { return "Unauthorized"; }
 
             if (_user.Mobile != null)
-            { record.Mobile = _user.Mobile; }
+            { 
+                var UserMobile = _context.Users.Where(x=>x.Mobile == record.Mobile).FirstOrDefault();
+                if (UserMobile == null) { record.Mobile = _user.Mobile; }
+                else { return "Invalid Number"; }
+                
+            }
             if (_user.Name != null)
             { record.Name = _user.Name; }
             if (_user.Gender != null)

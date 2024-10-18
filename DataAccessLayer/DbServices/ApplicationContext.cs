@@ -40,6 +40,7 @@ namespace DataAccessLayer.DbServices
         public DbSet<ManageSubscriptionModel> ManageSubscriptionModels { get; set; }
         public DbSet<UserPaymentRecordModel> UserPaymentRecord { get; set; }
         public DbSet<JyotishPaymentRecordModel> JyotishPaymentRecord { get; set; }
+        public DbSet<AppointmentSlotModel> AppointmentSlots { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

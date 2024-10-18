@@ -138,7 +138,9 @@ namespace MyJyotishJiApi.Controllers
                 { return Conflict(new { Status = 409, Message = result }); }
                 else if (result == "Not authorized to register")
                 { return Conflict(new { Status = 409, Message = result }); }
-                
+                else if (result == "Invalid Number")
+                { return Conflict(new { Status = 409, Message = result }); }
+
                 else if(result == "Data not saved") { return StatusCode(500, new { Status = 500, Message = "Internal Server Error" }); }
                 else
                 {
@@ -321,6 +323,7 @@ namespace MyJyotishJiApi.Controllers
                 
                 if (result == "Successful") { return Ok(new { Status = 200, Message = result }); }
                 else if (result== "Email Not Registered") { return Ok(new {Status = 409, Message = result }); }
+                else if (result == "Invalid Number") { return Ok(new { Status = 409, Message = result }); }
                 else if(result == "Unauthorized") { return Ok(new { Status = 401, Message = result }); }
                 else { return Ok( new { Status = 500, Message = result }); }
             }

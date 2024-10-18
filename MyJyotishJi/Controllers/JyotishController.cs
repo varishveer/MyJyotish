@@ -294,11 +294,6 @@ namespace MyJyotishGApi.Controllers
 
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
         }
-
-
-
-
-
         [HttpPost("AddTeamMember")]
         public IActionResult AddTeamMember(TeamMemberViewModel team)
         {
@@ -362,6 +357,92 @@ namespace MyJyotishGApi.Controllers
             }
             catch (Exception ex)
             { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+        }
+        [HttpPost("AddAppointmentSlot")]
+        public IActionResult AddAppointmentSlot(AppointmentSlotViewModel model)
+        {
+            try
+            {
+                var Result = _jyotish.AddAppointmentSlot(model);
+                if (Result == "Invalid Date")
+                { return Ok(new { Status = 400, Message = Result }); }
+
+                else if(Result == "Invalid Jyotish")
+                { return Ok(new { Status = 409,  Message =Result }); }
+                else if (Result == "Invalid Data")
+                { return Ok(new { Status = 409, Message = Result }); }
+                else if (Result == "Data Not Saved")
+                { return Ok(new { Status = 500, Message = Result }); }
+                else if (Result == "Successful")
+                { return Ok(new { Status = 200, Message = Result }); }
+                else 
+                { return Ok(new { Status = 500, Message = Result }); }
+            }
+            catch (Exception ex)
+            { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
+        }
+
+        [HttpPost("UpdateAppointmentSlot")]
+        public IActionResult UpdateAppointmentSlot(AppointmentSlotViewModel model)
+        {
+            try
+            {
+                var Result = _jyotish.UpdateAppointmentSlot(model);
+                if (Result == "Invalid Date")
+                { return Ok(new { Status = 400, Message = Result }); }
+
+                else if (Result == "Invalid Jyotish")
+                { return Ok(new { Status = 409, Message = Result }); }
+                else if (Result == "Invalid Data")
+                { return Ok(new { Status = 409, Message = Result }); }
+                else if (Result == "Data Not Saved")
+                { return Ok(new { Status = 500, Message = Result }); }
+                else if (Result == "Successful")
+                { return Ok(new { Status = 200, Message = Result }); }
+                else if(Result == "Slot Has Been Booked It Can't Be Updated.")
+                { return Ok(new { Status = 500, Message = Result }); }
+                else
+                { return Ok(new { Status = 500, Message = Result }); }
+            }
+            catch (Exception ex)
+            { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
+        }
+        [HttpDelete("DeleteAppointmentSlot")]
+        public IActionResult DeleteAppointmentSlot(int Id)
+        {
+            try
+            {
+                var Result = _jyotish.DeleteAppointmentSlot(Id);
+                if (Result == "Invalid Id")
+                { return Ok(new { Status = 400, Message = Result }); }
+
+                else if (Result == "Internal Server Error.")
+                { return Ok(new { Status = 500, Message = Result }); }
+                else if (Result == "Successful")
+                { return Ok(new { Status = 200, Message = Result }); }
+              
+                else
+                { return Ok(new { Status = 500, Message = Result }); }
+            }
+            catch (Exception ex)
+            { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
+        }
+
+        [HttpGet("GetAllAppointmentSlot")]
+        public IActionResult GetAllAppointmentSlot(int Id)
+        {
+            try
+            {
+                var Result = _jyotish.GetAllAppointmentSlot(Id);
+                if (Result == null)
+                { return Ok(new { Status = 400, Message = "Data Not Found" }); }
+
+               
+                else
+                { return Ok(new { Status = 500,data = Result, Message = "Successful" }); }
+            }
+            catch (Exception ex)
+            { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
         }
     }
 }

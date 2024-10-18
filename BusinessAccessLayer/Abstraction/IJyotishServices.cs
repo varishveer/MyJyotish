@@ -35,5 +35,9 @@ namespace BusinessAccessLayer.Abstraction
         public List<SubscriptionGetViewModel> GetAllSubscription();
         public List<JyotishPaymentRecordModel> JyotishPaymentrecords(int Id);
         public JyotishPaymentRecordModel JyotishPaymentDetail(int Id);
+        public string AddAppointmentSlot(AppointmentSlotViewModel model);
+        public string UpdateAppointmentSlot(AppointmentSlotViewModel model);
+        public string DeleteAppointmentSlot(int Id);
+        public List<AppointmentSlotModel> GetAllAppointmentSlot(int Id);
     }
 }

@@ -282,8 +282,14 @@
             <div class="col-md-6 offset-md-3">
                 <div class="alert" role="alert">
                     <span class="font-weight-boldx">Status:</span>
-                    <span id="status" class="ml-2"></span>
+                    <span id="status" class="ml-2">Pending</span>
                 </div>
+            </div>
+        </div>
+
+        <div class="row" id="BookingDetails">
+            <div class="col-md-6 offset-md-3">
+              
             </div>
         </div>
 
@@ -322,7 +328,7 @@
         </div>
 
 
-        <div class="row mt-4">
+        <div class="row mt-4" id="bookingbtn">
             <div class="col-md-12 d-flex justify-content-center">
                 <button id="book-now" class="btn btn-primary rounded-2">Book Now</button>
             </div>
@@ -341,10 +347,57 @@
 
 <script>
     $(document).ready(function () {
-         
-        const apiUrl = "@BaseUrl" + `Api/PendingJyotish/SlotList`;
+
         const token = localStorage.getItem('Token3');
         const userId = localStorage.getItem('Id');
+
+        function getJyotishSlotDetails() {
+            $.ajax({
+                url: "@BaseUrl" + `Api/PendingJyotish/JyotishSlotDetails?id=${userId}`, // Adjust the URL as needed
+                type: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                dataType: 'json',
+                success: function (response) {
+                    debugger;
+                    if (response.status === 200) {
+                        console.log("Data retrieved successfully:", response.data);
+                        const $detailsContainer = $('#BookingDetails');
+
+                        const dateObject = new Date(response.data.date);
+                        const formattedDate = dateObject.toLocaleDateString('en-CA');
+
+                        const $detailsElement = $(`
+                                <span class="font-weight-boldx">Interview Details</span>
+                                    <span  class="ml-2"> Date: ${formattedDate}</span>
+                                     <span  class="ml-2"> Time: ${response.data.time}</span>
+                                `);
+                        $detailsContainer.append($detailsElement);
+                        $('.slotBookingDiv').hide();
+                        $('#bookingbtn').hide();
+                        
+                    } else {
+                        console.log("Error:", response.Message);
+                        $('.BookingDetails').hide();
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error("AJAX error:", textStatus, errorThrown);
+                    // Handle AJAX error here
+                }
+            });
+        }
+
+        getJyotishSlotDetails();
+
+
+
+
+
+        const apiUrl = "@BaseUrl" + `Api/PendingJyotish/SlotList`;
+     
 
         let selectedDate = null;
         let selectedTime = null;

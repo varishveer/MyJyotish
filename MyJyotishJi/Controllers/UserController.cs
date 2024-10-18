@@ -112,6 +112,7 @@ namespace MyJyotishGApi.Controllers
             }
 
         }
+
         [AllowAnonymous]
         [HttpGet("SliderImageList")]
         public IActionResult SliderImageList(string Keyword)

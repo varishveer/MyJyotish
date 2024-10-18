@@ -92,12 +92,25 @@
     <div class="container-fluid" id="searchcontainer">
         <div class="container d-flex justify-content-center">
             <div id="searchForm" class=" justify-content-center align-items-center">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" style="height:30px">
+                <input id="searchInput" class="form-control me-2" type="search" placeholder="Search" aria-label="Search" style="height:30px">
                 <button id="SearchBoxIcon" style="margin-left:-30px" class="border-0"><i class="fa-solid fa-xmark"></i></button>
             </div>
         </div>
     </div>
 
+    <script>
+   
+    document.getElementById('searchInput').addEventListener('keypress', function(event) {
+       
+        if (event.key === 'Enter') {
+            event.preventDefault();  
+            var keyword = document.getElementById('searchInput').value;
+            if (keyword.trim() !== '') {
+                window.location.href = `/Home/Search?keyword=${keyword}`;
+            }
+        }
+    });
+</script>
  
      <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -839,11 +852,11 @@ $(document).ready(function () {
             type: 'GET',
             dataType: 'json',
             success: function (data) {
-                debugger;
+                 
                 displayImages(data.data);
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                debugger;
+                 
                 console.error("Error:", jqXHR.responseJSON.Message || textStatus);
             }
         });
@@ -852,14 +865,14 @@ $(document).ready(function () {
     function displayImages(images) {
         const container = $('#SliderImageHomePage');
         container.empty(); // Clear any existing content
-        debugger;
+         
         if (!images || images.length === 0) {
             container.append('<p>No images found.</p>');
             return;
         }
-        debugger;
+         
         images.forEach((image, index) => {
-            debugger;
+             
             const isActive = index === 0 ? 'active' : ''; // Set the first image as active
             const carouselItem = `
                     <div class="carousel-item ${isActive}">
@@ -881,7 +894,7 @@ $(document).ready(function () {
                 url: "@BaseUrl"+'Api/User/TopAstrologer?City=NewDelhi', 
                 method: 'GET',
                 success: function (response) {
-                    debugger;
+                     
                     if (response.status === 200) {
                         const records = response.data.slice(0, 5); 
                         records.forEach(function (astrologer) {

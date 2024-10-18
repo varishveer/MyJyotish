@@ -3,6 +3,7 @@ using DataAccessLayer.DbServices;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging.Abstractions;
 using ModelAccessLayer.Models;
 using ModelAccessLayer.ViewModels;
 using System;
@@ -98,8 +99,8 @@ namespace BusinessAccessLayer.Implementation
             existingRecord.About = model.About;
             existingRecord.Specialization = model.Specialization;
             existingRecord.AwordsAndAchievement = model.AwordsAndAchievement;
-            existingRecord.Pooja = model.Pooja;
-
+            
+            _context.JyotishRecords.Update(existingRecord);
             // Save changes to the database
             if (_context.SaveChanges() > 0)
             {
@@ -203,23 +204,36 @@ namespace BusinessAccessLayer.Implementation
             return Records;
         }
         public string AddAppointment(AddAppointmentJyotishModel model) 
-        {
+        {   
             var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
-            var User = _context.Users.Where(x => x.Email == model.Email).FirstOrDefault();
-            if (User == null || Jyotish == null) { return "invalid Data"; }
+            var User = _context.Users.FirstOrDefault(x => x.Email == model.Email || x.Mobile == model.Mobile);
+            if (Jyotish == null) { return "invalid Data"; }
+            
             AppointmentModel appointment = new AppointmentModel();
-            appointment.Name = User.Name;
-            appointment.Mobile = User.Mobile;
+            appointment.Name = model.Name;
+            appointment.Mobile = model.Mobile;
             appointment.DateTime = model.DateTime;
-            appointment.Email = User.Email;
-            appointment.JyotishId = Jyotish.Id;
-            appointment.UserId = User.Id;
+            appointment.Email = model.Email;
+            appointment.JyotishId = model.JyotishId;
+            if(User == null)
+            {
+                UserModel userModel = new UserModel();
+                userModel.Email = model.Email;
+                userModel.Mobile = model.Mobile;
+                userModel.Name = model.Name;
+                userModel.Password = (new Random().Next(10000000, 100000000)).ToString();
+                _context.Users.Add(userModel);
+                AccountServices.SendEmail("Password" + userModel.Password, model.Email, "MyJyotishG Password");
+            }
+            else { appointment.UserId = User.Id; }  
             appointment.Problem = model.Problem;
             appointment.Amount = Jyotish.AppointmentCharges;
             appointment.Status = "Upcomming";
             _context.AppointmentRecords.Add(appointment);
             if (_context.SaveChanges() > 0) { return "Successful"; }
             return "internal Server Error.";
+           
+            
 
         }
 
@@ -473,6 +487,78 @@ namespace BusinessAccessLayer.Implementation
             var record = _context.JyotishPaymentRecord.Where(x => x.Id == Id).FirstOrDefault();
             if (record != null) { return record; }
             else { return null; }
+        }
+
+        public string AddAppointmentSlot(AppointmentSlotViewModel model)
+        {
+            if(model.Date < DateTime.Now)
+            { return "Invalid Date"; }
+
+            var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
+            if (Jyotish == null) { return "Invalid Jyotish"; }
+
+            var slot = _context.AppointmentSlots.Where(x => x.Date == model.Date).FirstOrDefault();
+            if(slot != null)
+            {
+                return "Invalid Data";
+            }
+
+            AppointmentSlotModel data = new AppointmentSlotModel();
+            data.Date = model.Date;
+            data.TimeFrom = model.TimeFrom;
+            data.TimeTo = model.TimeTo;
+            data.JyotishId = model.JyotishId;
+            data.TimeDuration = model.TimeDuration;
+            data.Status = "Vacant";
+            _context.AppointmentSlots.Add(data);
+            if (_context.SaveChanges() > 0) { return "Successful"; }
+            else { return "Data Not Saved"; }
+        }
+
+        public string UpdateAppointmentSlot(AppointmentSlotViewModel model)
+        {
+            if (model.Date < DateTime.Now)
+            { return "Invalid Date"; }
+
+            var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
+            if (Jyotish == null) { return "Invalid Jyotish"; }
+
+            var slot = _context.AppointmentSlots.Where(y=>y.JyotishId == model.JyotishId).Where(x => x.Date == model.Date).FirstOrDefault();
+            if (slot == null)
+            {
+                return "Invalid Data";
+            }
+            if(slot.Status == "Booked")
+            { return "Slot Has Been Booked It Can't Be Updated."; }
+
+            slot.TimeFrom = model.TimeFrom;
+            slot.TimeTo = model.TimeTo;
+           
+            slot.TimeDuration = model.TimeDuration;
+            slot.Status = "Vacant";
+            _context.AppointmentSlots.Update(slot);
+            if (_context.SaveChanges() > 0) { return "Successful"; }
+            else { return "Data Not Saved"; }
+        }
+
+
+        public string DeleteAppointmentSlot(int Id )
+        {
+            var slot = _context.AppointmentSlots.Where(x => x.Id == Id).FirstOrDefault();
+            if(slot == null) { return "Invalid Id"; }
+
+            _context.AppointmentSlots.Remove(slot);
+            if (_context.SaveChanges() > 0) { return "Successful"; }
+            else { return "Internal Server Error."; }
+        }
+
+        public List<AppointmentSlotModel> GetAllAppointmentSlot(int Id)
+        {
+            var Jyotish = _context.JyotishRecords.Where(x => x.Id == Id).FirstOrDefault();
+            if (Jyotish == null) { return null; }
+
+            var slots = _context.AppointmentSlots.Where(x => x.JyotishId == Id).Where(y=>y.Date >= DateTime.Now).ToList();
+            return slots.Count > 0 ? slots : null;
         }
     }
 }
