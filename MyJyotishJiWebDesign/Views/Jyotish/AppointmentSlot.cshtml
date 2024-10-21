@@ -1,0 +1,319 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "JyotishLayout";
+}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.min.css">
+
+<style>
+    body {
+        margin: 0;
+        font-family: "Heebo", sans-serif;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #757575;
+        background-color: #F3F6F9;
+        -webkit-text-size-adjust: 100%;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    }
+    .main-container {
+        overflow: hidden;
+        padding: 15px;
+        border-radius: 0px 10px 10px 0px;
+        box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+    }
+
+
+    .left-part img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 10px 0px 0px 10px;
+    }
+
+    .form-select {
+        font-size: 13px;
+    }
+
+    .right-part form input, .right-part form button {
+        font-size: 13px;
+    }
+
+    .right-part button {
+        background-color: #138496;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+        .right-part button:hover {
+            background-color: #117a88;
+        }
+
+    hr:not([size]) {
+        height: 0.02125rem !important;
+    }
+
+
+</style>
+
+<!-- Feature Form Section -->
+<div class="container-fluid d-flex justify-content-center align-items-center min-vh-90 mt-4">
+    <div class="main-container row w-75 rounded-3">
+        <!-- Form Section -->
+        <div class="col-lg-12 col-md-12 p-2 bg-white right-part">
+            <h5 class="mb-3 text-primary">Add Slot</h5>
+            <hr />
+            <form>
+                <div class="form-row">
+                  
+                    <div class="form-group col-md-10 mb-3">
+                      
+                       
+                        <label for="date">Date:</label>
+                        <input type="date" class="form-control" id="date" name="date" >
+                        <label for="timeDuration">Time Duration:</label>
+                        <input type="text" class="form-control" id="timeDuration" name="timeDuration" placeholder="Enter timeDuration">
+                    </div>
+                    <div class="form-group col-md-10 mb-3">
+                        <label for="timeFrom">Time From:</label>
+                        <input type="time" class="form-control" id="timeFrom">
+                        <label for="timeTo">Time To:</label>
+                        <input type="time" class="form-control" id="timeTo">
+                    </div>
+                    <div class="form-group col-md-10 mb-3">
+
+                        <input type="hidden" class="form-control" id="id">
+                        <input type="hidden" class="form-control" id="jyotishId">
+                    </div>
+                </div>
+
+                <div class="form-group d-flex justify-content-center">
+
+                    <button id="btnupdate" class="btn btn-success px-3" style="display:none;">Update</button>
+                    <button id="btnsubmit" class="btn btn-success px-3">Submit</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- Features List Section -->
+<div class="container mt-4">
+    <div class="card">
+        <div class="d-flex flex-row justify-content-between align-items-center pt-2 px-4">
+            <h5 class="text-primary">Appointment Slot List</h5>
+        </div>
+        <hr />
+
+        <div class="card-body ">
+            <div class="table-responsive">
+                <table id="DataTable" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Date</th>
+                            <th>Time Duration</th>
+                            <th>Time From</th>
+                            <th>Time To</th>
+                            <th>Status</th>
+                           <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Dynamic Data goes here -->
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- The same form structure remains here, we'll focus on the script -->
+
+<script>
+    $(document).ready(function () {
+        // Add New Slot
+        $("#btnsubmit").on('click', function (e) {
+            e.preventDefault();
+
+            // Collect form data
+            const date = $("#date").val();
+            const timeFrom = $("#timeFrom").val();
+            const timeTo = $("#timeTo").val();
+            const timeDuration = $("#timeDuration").val();
+            const jyotishId = $("#jyotishId").val(); // Hidden field, assuming it's set from the session or fetched.
+
+            // Validate the form
+            if (!date || !timeFrom || !timeTo || !timeDuration) {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'All fields are required.',
+                    icon: 'error',
+                    confirmButtonText: 'Close'
+                });
+                return;
+            }
+            debugger;
+            // Make the API call to add the appointment slot
+            $.ajax({
+                url: 'https://api.myjyotishg.in/api/Jyotish/AddAppointmentSlot',
+                type: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+                    'Content-Type': 'application/json',
+                },
+                data: JSON.stringify({
+                    date: date,
+                    timeFrom: timeFrom,
+                    timeTo: timeTo,
+                    timeDuration: parseInt(timeDuration, 10),
+                    jyotishId: parseInt(jyotishId, 10)
+                }),
+                success: function (response) {
+                if (response.status == 200) {
+                    console.log(response);
+                }
+                debugger;
+                    Swal.fire({
+                        title: 'Success!',
+                        text: 'Appointment slot added successfully.',
+                        icon: 'success',
+                        confirmButtonText: 'Ok'
+                    }).then(() => {
+                        window.location.reload(); // Reload the page to show the new slot
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error:", xhr.responseText);
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'Failed to add appointment slot.',
+                        icon: 'error',
+                        confirmButtonText: 'Close'
+                    });
+                }
+            });
+        });
+
+        // Fetch and display the appointment slots
+        $.ajax({
+            url: `https://api.myjyotishg.in/api/Jyotish/GetAllAppointmentSlot?Id=${localStorage.getItem('Id')}`,
+            type: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+                'Content-Type': 'application/json',
+            },
+            success: function (res) {
+                $.each(res.data, function (index, item) {
+                    $('tbody').append(`<tr>
+                                            <td>${index + 1}</td>
+                                            <td>${item.date}</td>
+                                            <td>${item.timeDuration}</td>
+                                            <td>${item.timeFrom}</td>
+                                            <td>${item.timeTo}</td>
+                                            <td>${item.status}</td>
+                                            <td style='cursor:pointer;'>
+                                                <a class="editfeature" data-id="${item.id}" data-date="${item.date}" data-timefrom="${item.timeFrom}" data-timeto="${item.timeTo}" data-duration="${item.timeDuration}">
+                                                    <i class="fa-solid fa-pen-to-square text-success"></i>
+                                                </a>
+                                            </td>
+                                        </tr>`);
+                });
+                $('#DataTable').DataTable();
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        });
+
+        // Handle edit button click
+        $(document).on('click', '.editfeature', function () {
+            const id = $(this).data('id');
+            const date = $(this).data('date');
+            const timeFrom = $(this).data('timefrom');
+            const timeTo = $(this).data('timeto');
+            const timeDuration = $(this).data('duration');
+
+            // Fill the form fields with the selected slot data
+            $("#id").val(id);
+            $("#date").val(date);
+            $("#timeFrom").val(timeFrom);
+            $("#timeTo").val(timeTo);
+            $("#timeDuration").val(timeDuration);
+
+            // Show the update button and hide the submit button
+            $('#btnupdate').show();
+            $('#btnsubmit').hide();
+        });
+
+        // Update Appointment Slot
+        $("#btnupdate").on('click', function (e) {
+            e.preventDefault();
+
+            const id = $("#id").val();
+            const date = $("#date").val();
+            const timeFrom = $("#timeFrom").val();
+            const timeTo = $("#timeTo").val();
+            const timeDuration = $("#timeDuration").val();
+            const jyotishId = $("#jyotishId").val(); // Hidden field
+
+            if (!date || !timeFrom || !timeTo || !timeDuration) {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'All fields are required for updating.',
+                    icon: 'error',
+                    confirmButtonText: 'Close'
+                });
+                return;
+            }
+
+            // Update the appointment slot
+            $.ajax({
+                url: 'https://api.myjyotishg.in/api/Jyotish/UpdateAppointmentSlot',
+                type: 'PUT', // Change method to PUT for updates
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+                    'Content-Type': 'application/json',
+                },
+                data: JSON.stringify({
+                    id: id,
+                    date: date,
+                    timeFrom: timeFrom,
+                    timeTo: timeTo,
+                    timeDuration: parseInt(timeDuration, 10),
+                    jyotishId: parseInt(jyotishId, 10)
+                }),
+                success: function (response) {
+                    if (response.status == 200) {
+                        console.log(response);
+                    }
+                debugger;
+                    Swal.fire({
+                        title: 'Success!',
+                        text: 'Appointment slot updated successfully.',
+                        icon: 'success',
+                        confirmButtonText: 'Ok'
+                    }).then(() => {
+                        window.location.reload();
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error:", xhr.responseText);
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'Failed to update appointment slot.',
+                        icon: 'error',
+                        confirmButtonText: 'Close'
+                    });
+                }
+            });
+        });
+    });
+</script>
+

@@ -1,14 +1,12 @@
 ﻿@{
     Layout = "JyotishLayout";
-    var BaseUrl = "https://api.myjyotishg.in/";
+    //var BaseUrl = "https://api.myjyotishg.in/";
+    var BaseUrl = "https://localhost:7118/";
 }
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<!-- Bootstrap CSS -->
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
-
 <!-- Bootstrap JS -->
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
 <style>
     .card-body {
         padding-left: 15px !important;
@@ -19,14 +17,33 @@
 <div class="container-fluid mt-4">
     <div class="card">
         <div class="d-flex flex-row justify-content-between align-items-center pt-2 px-4">
-            <h5 class="text-primary">Appointments</h5>
+            <h6 class="text-primary">Appointments</h6>
+            <div id="buttonContainer1"></div>
         </div>
         <hr />
 
         <div class="card-body">
             <div class="table-responsive">
                 <table id="DataTable" class="table table-bordered table-striped">
-                    <!-- Table content will be inserted here dynamically -->
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Mobile</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Time Duration</th>
+                            <th>Email</th>
+                            <th>Problem</th>
+                            <th>Solution</th>
+                            <th>Status</th>
+                            <th>Amount</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Table content will be inserted here dynamically -->
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -45,22 +62,38 @@
             </div>
             <div class="modal-body">
                 <form id="requestForm">
-
                     <div class="form-group">
-                        <label for="DateTime">Id:</label>
-                        <input type="datetime" class="form-control" id="Id" readonly>
+                        <label for="Id">Id:</label>
+                        <input type="text" class="form-control" id="Id" readonly>
                     </div>
-                   
                     <div class="form-group">
-                        <label for="DateTime">DateTime:</label>
-                        <input type="datetime" class="form-control" id="DateTime">
+                        <label for="SlotId"> Slot Id:</label>
+                        <input type="text" class="form-control" id="SlotId" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="JyotishId">Jyotish Id:</label>
+                        <input type="text" class="form-control" id="JyotishId" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="Name">Name:</label>
+                        <input type="text" class="form-control" id="Name" readonly>
                     </div>
                     <div class="form-group">
                         <label for="Email">Email:</label>
-                        <input type="text" class="form-control" id="Email">
+                        <input type="email" class="form-control" id="Email">
                     </div>
-                   
-                   
+                    <div class="form-group">
+                        <label for="Mobile">Mobile:</label>
+                        <input type="text" class="form-control" id="Mobile" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="Date">Date:</label>
+                        <input type="date" class="form-control" id="Date">
+                    </div>
+                    <div class="form-group">
+                        <label for="Time">Time:</label>
+                        <input type="time" class="form-control" id="Time">
+                    </div>
                     <div class="form-group">
                         <label for="Problem">Problem:</label>
                         <input type="text" class="form-control" id="Problem">
@@ -69,8 +102,14 @@
                         <label for="Solution">Solution:</label>
                         <input type="text" class="form-control" id="Solution">
                     </div>
-                  
-                   
+                    <div class="form-group">
+                        <label for="TimeDuration">Time Duration (minutes):</label>
+                        <input type="number" class="form-control" id="TimeDuration" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="Amount">Amount:</label>
+                        <input type="number" class="form-control" id="Amount">
+                    </div>
                     <button type="button" class="btn btn-primary" id="updateButton">Update</button>
                 </form>
             </div>
@@ -91,23 +130,28 @@
                     'Content-Type': 'application/json'
                 },
                 success: function (result) {
-                    let htmls = '<thead><tr><th>Date Time</th><th>Name</th><th>Amount</th><th>Problem</th><th>Solution</th><th>Action</th></tr></thead><tbody>';
+                    let htmls = '';
                     $.each(result.data, function (key, item) {
                         htmls += '<tr>';
-                        htmls += `<td class="text-center">${item.dateTime}</td>`;
+                        htmls += `<td class="text-center">${item.id}</td>`;
                         htmls += `<td class="text-center">${item.name}</td>`;
-                        htmls += `<td class="text-center">${item.amount}</td>`;
+                        htmls += `<td class="text-center">${item.mobile}</td>`;
+                        htmls += `<td class="text-center">${new Date(item.date).toLocaleDateString()}</td>`;
+                        htmls += `<td class="text-center">${item.time}</td>`;
+                        htmls += `<td class="text-center">${item.timeDuration}</td>`;
+                        htmls += `<td class="text-center">${item.email}</td>`;
                         htmls += `<td class="text-center">${item.problem}</td>`;
-                        htmls += `<td class="text-center">${item.solution}</td>`;
+                        htmls += `<td class="text-center">${item.solution || 'N/A'}</td>`;
+                        htmls += `<td class="text-center">${item.status}</td>`;
+                        htmls += `<td class="text-center">${item.amount || 'N/A'}</td>`;
                         htmls += `<td class="text-center">
-                                       <svg data-id="${item.id}" class="edit-appointment" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24" data-toggle="modal" data-target="#updateModal">
-                                            <path fill="currentColor" d="M13.654 21v-2.21l5.96-5.934l2.19 2.204l-5.94 5.94zm6.885-5.94l-.926-.945zm-6 5.056h.95l3.467-3.474l-.45-.494l-.475-.47l-3.493 3.488zM5 21V3h9.5L19 7.5v2.596h-1V8h-4V4H6v16h5.27v1zm13.506-4.852l-.475-.47l.925.964z"/>
-                                        </svg>
-                                      </td>`;
+                                               <svg data-id="${item.id}" class="edit-appointment" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24" data-toggle="modal" data-target="#updateModal">
+                                                    <path fill="currentColor" d="M13.654 21v-2.21l5.96-5.934l2.19 2.204l-5.94 5.94zm6.885-5.94l-.926-.945zm-6 5.056h.95l3.467-3.474l-.45-.494l-.475-.47l-3.493 3.488zM5 21V3h9.5L19 7.5v2.596h-1V8h-4V4H6v16h5.27v1zm13.506-4.852l-.475-.47l.925.964z"/>
+                                                </svg>
+                                              </td>`;
                         htmls += '</tr>';
                     });
-                    htmls += '</tbody>';
-                    $('#DataTable').html(htmls);
+                    $('#DataTable tbody').html(htmls);
                     $('#DataTable').DataTable();
                 },
                 error: function (errormessage) {
@@ -118,7 +162,6 @@
 
         // Fetch and populate modal form with appointment data
         $(document).on('click', '.edit-appointment', function () {
-             
             const appointmentId = $(this).attr('data-id');
             $.ajax({
                 url: "@BaseUrl" + `api/Jyotish/GetAppointment?Id=${appointmentId}`,
@@ -128,18 +171,21 @@
                     'Content-Type': 'application/json'
                 },
                 success: function (result) {
-                     
                     const appointment = result.data;
 
                     // Populate modal fields with fetched data
-                    $('#Id').val(appointment.id);       
-                   
-                    $('#DateTime').val(new Date(appointment.dateTime).toISOString().slice(0, 16)); // Format to fit datetime-local input
+                    $('#Id').val(appointment.id);
+                    $('#SlotId').val(appointment.slotId);
+                    $('#JyotishId').val(appointment.jyotishId);
+                    $('#Name').val(appointment.name);
                     $('#Email').val(appointment.email);
-                  
-                  
+                    $('#Mobile').val(appointment.mobile);
+                    $('#Date').val(new Date(appointment.date).toISOString().split('T')[0]); // Format to fit date input
+                    $('#Time').val(appointment.time); // Use time from the response
                     $('#Problem').val(appointment.problem);
-                    $('#Solution').val(appointment.solution);
+                    $('#Solution').val(appointment.solution || '');
+                    $('#TimeDuration').val(appointment.timeDuration);
+                    $('#Amount').val(appointment.amount || ''); // Include amount
                 },
                 error: function (errormessage) {
                     console.error('Error loading appointment details:', errormessage.responseText);
@@ -147,258 +193,47 @@
             });
         });
 
-        // Update the appointment with new data
-        document.getElementById('updateButton').addEventListener('click', async function () {
-             
+        $('#updateButton').on('click', async function () {
             const formData = {
-                Id: parseInt(document.getElementById('Id').value, 10),
-        
-                DateTime: new Date(document.getElementById('DateTime').value).toISOString(),
-                Email: document.getElementById('Email').value,
-                JyotishId: localStorage.getItem('Id'),
-            
-                Problem: document.getElementById('Problem').value,
-                Solution: document.getElementById('Solution').value
-              
+                id: parseInt($('#Id').val(), 10),
+                name: $('#Name').val(),
+                email: $('#Email').val(),
+                mobile: $('#Mobile').val(),
+                jyotishId: parseInt($('#JyotishId').val(), 10),
+                slotId: parseInt($('#SlotId').val(), 10),
+                date: $('#Date').val(),
+                time: $('#Time').val(),
+                timeDuration: parseInt($('#TimeDuration').val(), 10),
+                problem: $('#Problem').val(),
+                solution: $('#Solution').val(),
+                amount: parseFloat($('#Amount').val())
             };
+
+            console.log('Form Data:', formData); // Check the form data
 
             try {
                 const response = await fetch("@BaseUrl" + 'api/Jyotish/UpdateAppointment', {
-                    method: 'POST', // Use 'PUT' for updates if needed
+                    method: 'POST', // Change this to 'PUT' if your API expects a PUT request for updates
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(formData)
+                    body: JSON.stringify(formData) // Stringify the formData object
                 });
-                
+
                 if (response.ok) {
                     alert('Appointment updated successfully!');
                     $('#updateModal').modal('hide');
-                    fetchData();  // Refresh table after update
-                    $('#updateModal').modal('hide');
+                    fetchData();  // Refresh the table data after update
                 } else {
-                    alert('Failed to update appointment.');
-                    console.error('Error:', response.statusText);
-                    $('#updateModal').modal('hide');
+                    const error = await response.json();
+                    alert('Error updating appointment: ' + error.message);
                 }
             } catch (error) {
-                console.error('Error:', error);
-                alert('An error occurred while updating the appointment.');
-                $('#updateModal').modal('hide');
+                console.error('Error updating appointment:', error);
             }
         });
 
-        // Load all records on page load
-        fetchData();
+        fetchData(); // Initial data fetch
     });
 </script>
-
-
-
-
-
-
-
-
-
-
-
-@* @{
-    Layout = "JyotishLayout";
-    var BaseUrl = "https://api.myjyotishg.in/";
-}
-
-
-<style>
-    .card-body{
-        padding-left:15px !important;
-        padding-right:15px !important;
-    }
-</style>
-
-
-<div class="container-fluid mt-4">
-    <div class="card">
-        
-        <div class="d-flex flex-row justify-content-between align-items-center pt-2 px-4" >
-            <h5 class="text-primary">Appointments</h5>
-    
-        </div>
-        <hr />
-        
-        <div class="card-body">
-            <div class="table-responsive">
-                <table id="DataTable" class="table table-bordered table-striped">
-                    <!-- Table content goes here -->
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-<script>
-    $(document).ready(function () {
-        function fetchData() {
-            var Id = localStorage.getItem('Id');
-            $.ajax({
-                url: "@BaseUrl" + `api/Jyotish/GetAllAppointment?Id=${encodeURIComponent(Id)}`,
-                type: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem("Token2")}`, // Example of an authorization header
-                    'Content-Type': 'application/json', // Example of a content type header
-
-                },
-                success: function (result) {
-                    let htmls = '<thead><tr><th>Date Time</th><th>Name</th><th>Amount</th><th>Problem</th><th>Solution</th><th>Action</th></tr></thead><tbody>';
-
-                    $.each(result.data, function (key, item) {
-                        htmls += '<tr>';
-                        htmls += `<td class="text-center">${item.dateTime}</td>`;
-                        htmls += `<td class="text-center">${item.name}</td>`;
-                        htmls += `<td class="text-center">${item.amount}</td>`;
-                        htmls += `<td class="text-center">${item.problem}</td>`;
-                        htmls += `<td class="text-center">${item.solution}</td>`;
-                        htmls += `<td class="text-center">
-                                       <svg data-id="${item.id}" data-toggle="modal" data-target="#updateModal" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                            <path fill="currentColor" d="M13.654 21v-2.21l5.96-5.934l2.19 2.204l-5.94 5.94zm6.885-5.94l-.926-.945zm-6 5.056h.95l3.467-3.474l-.45-.494l-.475-.47l-3.493 3.488zM5 21V3h9.5L19 7.5v2.596h-1V8h-4V4H6v16h5.27v1zm13.506-4.852l-.475-.47l.925.964z"/>
-                                            </svg>
-                                </td>`;
-
-                        htmls += '</tr>';
-                    });
-
-                    htmls += '</tbody>';
-                    $('#DataTable').html(htmls);
-                    $('#DataTable').DataTable();
-                },
-                error: function (errormessage) {
-                    console.error('Error fetching data:', errormessage.responseText);
-                }
-            });
-        }
-        // let table = new DataTable('#DataTable');
-        // Load all records by default
-        fetchData();
-    });
-</script>
-
-
-
-
-
-<!-- Bootstrap Modal -->
-<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="updateModalLabel">Update Appointment</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="requestForm">
-                    <div class="form-group">
-                        <label for="Id">Id:</label>
-                        <input type="text" class="form-control" id="Id" hidden>
-                    </div>
-                    <div class="form-group">
-                        <label for="Mode">Mode:</label>
-                        <input type="text" class="form-control" id="Mode">
-                    </div>
-                    <div class="form-group">
-                        <label for="Name">Name:</label>
-                        <input type="text" class="form-control" id="Name">
-                    </div>
-                    <div class="form-group">
-                        <label for="Mobile">Mobile:</label>
-                        <input type="text" class="form-control" id="Mobile">
-                    </div>
-                    <div class="form-group">
-                        <label for="DateTime">DateTime:</label>
-                        <input type="text" class="form-control" id="DateTime">
-                    </div>
-                    <div class="form-group">
-                        <label for="Email">Email:</label>
-                        <input type="text" class="form-control" id="Email">
-                    </div>
-                    <div class="form-group">
-                        <label for="JyotishId">JyotishId:</label>
-                        <input type="text" class="form-control" id="JyotishId">
-                    </div>
-                    <div class="form-group">
-                        <label for="UserId">UserId:</label>
-                        <input type="text" class="form-control" id="UserId">
-                    </div>
-                    <div class="form-group">
-                        <label for="Problem">Problem:</label>
-                        <input type="text" class="form-control" id="Problem">
-                    </div>
-                    <div class="form-group">
-                        <label for="Solution">Solution:</label>
-                        <input type="text" class="form-control" id="Solution">
-                    </div>
-                    <div class="form-group">
-                        <label for="Status">Status:</label>
-                        <input type="text" class="form-control" id="Status">
-                    </div>
-                    <div class="form-group">
-                        <label for="Amount">Amount:</label>
-                        <input type="number" class="form-control" id="Amount">
-                    </div>
-                    <button type="button" class="btn btn-primary" id="updateButton">Update</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-
-<script>
-    document.getElementById('updateButton').addEventListener('click', async function () {
-        // Get form data
-        const formData = {
-            Id: parseInt(document.getElementById('Id').value, 10),
-            Mode: document.getElementById('Mode').value,
-            Name: document.getElementById('Name').value,
-            Mobile: document.getElementById('Mobile').value,
-            DateTime: new Date(document.getElementById('DateTime').value).toISOString(), // Convert to ISO string
-            Email: document.getElementById('Email').value,
-            JyotishId: parseInt(document.getElementById('JyotishId').value, 10),
-            UserId: parseInt(document.getElementById('UserId').value, 10),
-            Problem: document.getElementById('Problem').value,
-            Solution: document.getElementById('Solution').value,
-            Status: document.getElementById('Status').value,
-            Amount: parseInt(document.getElementById('Amount').value, 10)
-        };
-
-        try {
-            const response = await fetch("@BaseUrl"+'api/Jyotish/UpdateAppointment', {
-                method: 'POST', // Use 'PUT' if updating an existing resource
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Example authorization header
-                    'Content-Type': 'application/json' // Header indicating JSON payload
-                },
-                body: JSON.stringify(formData) // Convert form data to JSON
-            });
-
-            if (response.ok) {
-                const result = await response.json();
-                alert('Request updated successfully!');
-                console.log(result);
-                $('#updateModal').modal('hide'); // Close the modal
-            } else {
-                alert('Failed to update request.');
-                console.error('Error:', response.statusText);
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            alert('An error occurred while updating the request.');
-        }
-    });
-</script> *@

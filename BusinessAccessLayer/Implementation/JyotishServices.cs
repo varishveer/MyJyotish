@@ -281,7 +281,7 @@ namespace BusinessAccessLayer.Implementation
             appointment.Date = slot.Date;
             appointment.TimeDuration = slot.TimeDuration;
             appointment.Time = slot.TimeFrom;
-            
+            appointment.Solution = model.Solution;
 
             appointment.Status = "Upcomming";
              _context.AppointmentRecords.Update(appointment);

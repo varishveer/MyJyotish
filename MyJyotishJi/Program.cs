@@ -26,6 +26,8 @@ builder.Services.AddScoped<IPendingJyotishServices, PendingJyotishServices>();
 builder.Services.AddScoped<IUserServices, UserServices>();
 builder.Services.AddScoped<RazorpayService>();
 builder.Services.AddScoped<IRazorPayServices,RazorPayServices>();
+builder.Services.AddScoped<ICallServices, CallServices>();
+builder.Services.AddSignalR();
 
 
 builder.Services.AddAuthentication(options =>
@@ -130,5 +132,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
+app.MapHub<CallHub>("/callHub");
 app.Run();

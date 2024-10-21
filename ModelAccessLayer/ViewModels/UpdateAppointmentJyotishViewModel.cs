@@ -23,5 +23,7 @@ namespace ModelAccessLayer.ViewModels
         public int TimeDuration { get; set; }
         [Required]
         public string Problem { get; set; }
+        [AllowNull]
+        public string? Solution { get; set; }
     }
 }

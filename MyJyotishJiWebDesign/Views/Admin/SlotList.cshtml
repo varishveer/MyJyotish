@@ -1,5 +1,7 @@
 ﻿@{
     Layout = "AdminLayout";
+    //var BaseUrl = "https://api.myjyotishg.in/";
+    var BaseUrl = "https://localhost:7118/";
     }
 <style>
     .card-body {
@@ -40,7 +42,7 @@
     $(document).ready(function () {
         function fetchData() {
             $.ajax({
-                url: "https://localhost:7118/api/Admin/SlotList", // Call the SlotList API method
+                url: "@BaseUrl"+"api/Admin/SlotList", // Call the SlotList API method
                 type: 'Get',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Include Authorization if required

@@ -27,7 +27,7 @@ namespace MyJyotishJiWebDesign.Controllers
         public ActionResult Payment() { return View(); }
         public ActionResult Subscription() { return View(); }
         public ActionResult Gallery() { return View(); }
-
+        public ActionResult AppointmentSlot() { return View(); }
 
     }
 }

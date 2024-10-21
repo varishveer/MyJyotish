@@ -1,9 +1,5 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-<style>
+﻿
+@* <style>
     .outerDiv {
         font-family: Arial, Helvetica, sans-serif;
     }
@@ -97,4 +93,73 @@
         </tr>
     </table>
 
-</div>
+</div> *@
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Call</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft.signalr/6.0.0/signalr.min.js"></script>
+</head>
+<body>
+    <h1>Live Call</h1>
+    <button id="joinCall">Join Call</button>
+    <button id="leaveCall">Leave Call</button>
+    <div id="messages"></div>
+
+    <script>
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/callHub")
+            .build();
+
+        connection.on("UserJoined", (userId) => {
+            const msg = `User ${userId} joined the call.`;
+            const div = document.createElement("div");
+            div.innerText = msg;
+            document.getElementById("messages").appendChild(div);
+        });
+
+        connection.on("UserLeft", (userId) => {
+            const msg = `User ${userId} left the call.`;
+            const div = document.createElement("div");
+            div.innerText = msg;
+            document.getElementById("messages").appendChild(div);
+        });
+
+        document.getElementById("joinCall").addEventListener("click", async () => {
+            await connection.start();
+            const userId = connection.connectionId; // Using connection ID as user ID
+            const roomName = "room1";
+
+            await fetch("/api/call/join", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ roomName, userId })
+            });
+        });
+
+        document.getElementById("leaveCall").addEventListener("click", async () => {
+            const userId = connection.connectionId;
+            const roomName = "room1";
+
+            await fetch("/api/call/leave", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ roomName, userId })
+            });
+
+            await connection.stop();
+        });
+    </script>
+</body>
+</html>
