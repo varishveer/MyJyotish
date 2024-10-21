@@ -248,9 +248,6 @@ namespace BusinessAccessLayer.Implementation
             { 
                 return "Successful"; }
              return "internal Server Error.";
-
-
-
          }
 
          public string UpdateAppointment(UpdateAppointmentJyotishViewModel model) 

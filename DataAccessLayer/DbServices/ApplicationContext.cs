@@ -41,6 +41,7 @@ namespace DataAccessLayer.DbServices
         public DbSet<UserPaymentRecordModel> UserPaymentRecord { get; set; }
         public DbSet<JyotishPaymentRecordModel> JyotishPaymentRecord { get; set; }
         public DbSet<AppointmentSlotModel> AppointmentSlots { get; set; }
+        public DbSet<ChatModel> Chat { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
