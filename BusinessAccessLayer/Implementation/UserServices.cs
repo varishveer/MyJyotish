@@ -273,17 +273,23 @@ namespace BusinessAccessLayer.Implementation
         {
             var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
             var User = _context.Users.Where(x => x.Id == model.UserId).FirstOrDefault();
+            var Slot = _context.AppointmentSlots.Where(x=>x.Id == model.SlotId).FirstOrDefault();
             if (User == null || Jyotish == null) { return "invalid Data"; }
             AppointmentModel appointment = new AppointmentModel();
             appointment.Name = User.Name;
             appointment.Mobile = User.Mobile;
-            appointment.DateTime = model.DateTime;
+            appointment.Date = model.Date;
+            appointment.Time = Slot.TimeFrom;
+            appointment.TimeDuration = Slot.TimeDuration;
+            appointment.SlotId = model.SlotId;
             appointment.Email = User.Email;
             appointment.JyotishId = Jyotish.Id;
             appointment.UserId = User.Id;
             appointment.Problem = model.Problem;
             appointment.Amount = Jyotish.AppointmentCharges;
             appointment.Status = "Upcomming";
+            Slot.Status = "Booked";
+            _context.AppointmentSlots.Update(Slot);
             _context.AppointmentRecords.Add(appointment);
             var result = _context.SaveChanges();
             if (result > 0) { return "Successful"; }

@@ -11,11 +11,11 @@ namespace BusinessAccessLayer.Abstraction
     public interface IJyotishServices
     {
         public string UpdateProfile(JyotishUpdateViewModel model);
-        public List<AppointmentModel> GetAllAppointment(int Id);
-        public List<AppointmentModel> UpcomingAppointment(int Id);
-        public string AddAppointment(AddAppointmentJyotishModel model);
-        public AppointmentModel GetAppointment(int Id);
-        public string UpdateAppointment(UpdateAppointmentJyotishViewModel model);
+           public List<AppointmentModel> GetAllAppointment(int Id);
+           public List<AppointmentModel> UpcomingAppointment(int Id);
+           public string AddAppointment(AddAppointmentJyotishModel model);
+           public AppointmentModel GetAppointment(int Id);
+           public string UpdateAppointment(UpdateAppointmentJyotishViewModel model); 
         public List<TeamMemberModel> TeamMember(int Id);
         public string AddTeamMember(TeamMemberViewModel teamMember, string Path);
    /*     public bool CreateAPooja(PoojaRecordModel model);*/
@@ -36,8 +36,8 @@ namespace BusinessAccessLayer.Abstraction
         public List<JyotishPaymentRecordModel> JyotishPaymentrecords(int Id);
         public JyotishPaymentRecordModel JyotishPaymentDetail(int Id);
         public string AddAppointmentSlot(AppointmentSlotViewModel model);
-        public string UpdateAppointmentSlot(AppointmentSlotViewModel model);
-        public string DeleteAppointmentSlot(int Id);
-        public List<AppointmentSlotModel> GetAllAppointmentSlot(int Id);
+         public string UpdateAppointmentSlot(AppointmentSlotViewModel model);
+         public string DeleteAppointmentSlot(int Id);
+         public List<AppointmentSlotModel> GetAllAppointmentSlot(int Id);
     }
 }

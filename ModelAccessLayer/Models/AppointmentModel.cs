@@ -15,11 +15,14 @@ namespace ModelAccessLayer.Models
         [AllowNull]
         public string Name { get; set; }
         public string Mobile { get; set; }
-        public DateTime DateTime { get; set; }
+        public DateTime Date { get; set; }
+        public TimeOnly Time { get; set; }
+        public int TimeDuration { get; set; }
         [AllowNull]
         public string Email { get; set; }
         public int JyotishId { get; set; } 
         public int UserId { get; set; }
+        public int SlotId { get; set; }
         public string Problem { get; set; }
         [AllowNull]
         public string? Solution { get; set; }

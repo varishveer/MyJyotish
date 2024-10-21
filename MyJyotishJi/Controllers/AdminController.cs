@@ -252,7 +252,7 @@ namespace MyJyotishJiApi.Controllers
                 if (Records == false)
                 { return Ok(new { Status = 400, Message = "Record Not Found" }); }
                 else
-                { return Ok(new { Status = 200, data = Records, Message = "Success" }); }
+                { return Ok(new { Status = 200, Message = "Success" }); }
             }
             catch {return Ok(new { Status = 500, Message = "Internal Server Error " }); }
         }

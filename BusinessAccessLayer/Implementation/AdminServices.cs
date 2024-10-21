@@ -301,16 +301,17 @@ namespace BusinessAccessLayer.Implementation
             { return false; }
             isDetailsValid.Name = model.Name;
             isDetailsValid.Mobile = model.Mobile;
-            isDetailsValid.DateTime = model.DateTime; 
+            isDetailsValid.Date = model.Date;
+            isDetailsValid.Time = model.Time;
+            isDetailsValid.TimeDuration = model.TimeDuration;
             isDetailsValid.Email = model.Email;
             isDetailsValid.JyotishId = model.JyotishId;
             isDetailsValid.UserId = model.UserId;
+            isDetailsValid.SlotId = model.SlotId;
             isDetailsValid.Problem = model.Problem;
             isDetailsValid.Solution = model.Solution;
             isDetailsValid.Status = model.Status;
             isDetailsValid.Amount = model.Amount;
-
-
 
             _context.AppointmentRecords.Update(isDetailsValid);
             var result = _context.SaveChanges();
