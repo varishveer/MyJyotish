@@ -1,6 +1,6 @@
 ﻿@{
     Layout = "AdminLayout";
-    var BaseUrl = "https://api.myjyotishg.in/";
+   
 }
 <!-- Link to Bootstrap CSS -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -52,7 +52,7 @@
         // Get the ID from the URL
        
         debugger;
-        var ApiUrl = "https://localhost:7118/" + "Api/Jyotish/JyotishGallery?Id=" + `${localStorage.getItem("Id")}`;
+        var ApiUrl = BaseUrl + "Api/Jyotish/JyotishGallery?Id=" + `${localStorage.getItem("Id")}`;
         console.log(ApiUrl);
         // Fetch gallery data based on the ID
         $.ajax({

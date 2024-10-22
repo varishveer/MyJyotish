@@ -62,7 +62,7 @@
             $('#loading').show(); // Show loading indicator
 
             $.ajax({
-                url: `https://api.myjyotishg.in/api/Admin/GetJyotishDocs?id=${id}`, // Use the extracted id
+                url: BaseUrl + `api/Admin/GetJyotishDocs?id=${id}`, // Use the extracted id
                 type: 'GET',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("Token")}`,
@@ -84,31 +84,31 @@
                     $('#DataTable tbody').append(`
                             <tr>
                                 <td>${record.id}</td>
-                                    <td><img src="https://localhost:7118/${record.idProof}" alt="Id Proof" style="max-width: 100px;"></td>
+                                        <td><img src= ${BaseUrl} +"${record.idProof}" alt="Id Proof" style="max-width: 100px;"></td>
                                     <td><p>${record.idProofStatus}</p>
                                             <svg class="approve" data-imageStatus="IdProofStatus" data-JyotishId="${record.jId}" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 48 48"><path fill="#2f88ff" fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M4 24L9 19L19 29L39 9L44 14L19 39L4 24Z" clip-rule="evenodd"/></svg>
 
                                                 <svg class="reject" data-imageStatus="IdProofStatus" data-JyotishId="${record.jId}" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M18.36 19.78L12 13.41l-6.36 6.37l-1.42-1.42L10.59 12L4.22 5.64l1.42-1.42L12 10.59l6.36-6.36l1.41 1.41L13.41 12l6.36 6.36z"/></svg>
                                     </td>
-                                    <td><img src="https://localhost:7118/${record.addressProof}" alt="Address Proof" style="max-width: 100px;"></td>
+                                        <td><img src= ${BaseUrl} +"${record.addressProof}" alt="Address Proof" style="max-width: 100px;"></td>
                                       <td><p>${record.addressProofStatus}</p>
                                             <svg class="approve" data-imageStatus="AddressProofStatus" data-JyotishId="${record.jId}" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 48 48"><path fill="#2f88ff" fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M4 24L9 19L19 29L39 9L44 14L19 39L4 24Z" clip-rule="evenodd"/></svg>
 
                                                 <svg class="reject" data-imageStatus="AddressProofStatus" data-JyotishId="${record.jId}" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M18.36 19.78L12 13.41l-6.36 6.37l-1.42-1.42L10.59 12L4.22 5.64l1.42-1.42L12 10.59l6.36-6.36l1.41 1.41L13.41 12l6.36 6.36z"/></svg>
                                     </td>
-                                    <td><img src="https://localhost:7118/${record.tenthCertificate}" alt="Tenth Certificate" style="max-width: 100px;"></td>
+                                        <td><img src= ${BaseUrl}+"${record.tenthCertificate}" alt="Tenth Certificate" style="max-width: 100px;"></td>
                                       <td><p>${record.tenthCertificateStatus}</p>
                                             <svg class="approve" data-imageStatus="TenthCertificateStatus" data-JyotishId="${record.jId}" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 48 48"><path fill="#2f88ff" fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M4 24L9 19L19 29L39 9L44 14L19 39L4 24Z" clip-rule="evenodd"/></svg>
 
                                                             <svg class="reject" data-imageStatus="TenthCertificateStatus" data-JyotishId="${record.jId}" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M18.36 19.78L12 13.41l-6.36 6.37l-1.42-1.42L10.59 12L4.22 5.64l1.42-1.42L12 10.59l6.36-6.36l1.41 1.41L13.41 12l6.36 6.36z"/></svg>
                                     </td>
-                                    <td><img src="https://localhost:7118/${record.twelveCertificate}" alt="Twelve Certificate" style="max-width: 100px;"></td>
+                                            <td><img src= "${BaseUrl}"+"${record.twelveCertificate}" alt="Twelve Certificate" style="max-width: 100px;"></td>
                                       <td><p>${record.twelveCertificateStatus}</p>
                                                         <svg class="approve" data-imageStatus="TwelveCertificateStatus" data-JyotishId="${record.jId}" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 48 48"><path fill="#2f88ff" fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M4 24L9 19L19 29L39 9L44 14L19 39L4 24Z" clip-rule="evenodd"/></svg>
 
                                                             <svg class="reject" data-imageStatus="TwelveCertificateStatus" data-JyotishId="${record.jId}" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M18.36 19.78L12 13.41l-6.36 6.37l-1.42-1.42L10.59 12L4.22 5.64l1.42-1.42L12 10.59l6.36-6.36l1.41 1.41L13.41 12l6.36 6.36z"/></svg>
                                         </td>
-                                    <td><img src="https://localhost:7118/${record.professionalCertificate}" alt="Professional Certificate" style="max-width: 100px;"></td>
+                                        <td><img src="${BaseUrl}"+"${record.professionalCertificate}" alt="Professional Certificate" style="max-width: 100px;"></td>
                                               <td><p>${record.professionalCertificateStatus}</p>
                                                         <svg class="approve" data-imageStatus="ProfessionalCertificateStatus" data-JyotishId="${record.jId}" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 48 48"><path fill="#2f88ff" fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M4 24L9 19L19 29L39 9L44 14L19 39L4 24Z" clip-rule="evenodd"/></svg>
 
@@ -150,7 +150,7 @@
             };
 
             // Send a POST request to the ApproveDocument API endpoint
-            fetch('https://localhost:7118/Api/Admin/ApproveDocument', { // Replace with your actual API endpoint
+            fetch(BaseUrl +'Api/Admin/ApproveDocument', { // Replace with your actual API endpoint
                 method: 'POST',
                 headers: {
                       'Authorization': `Bearer ${Token}`,
@@ -189,7 +189,7 @@
             };
 
             // Send a POST request to the RejectDocument API endpoint
-            fetch('https://localhost:7118/Api/Admin/RejectDocument', { // Replace with your actual API endpoint
+            fetch(BaseUrl + 'Api/Admin/RejectDocument', { // Replace with your actual API endpoint
                 method: 'POST',
                 headers: {
                       'Authorization': `Bearer ${Token}`,

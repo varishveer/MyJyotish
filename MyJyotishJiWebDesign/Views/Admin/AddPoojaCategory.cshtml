@@ -9,22 +9,6 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
 
-@* 
-<div class="container-fluid pt-4 px-4">
-    <div class="bg-light text-center rounded p-4">
-       
-        <form id="PoojaForm" class="pooja-form">
-            <div class="form-group">
-                <label for="pooja">Pooja Category:</label>
-                <textarea id="pooja" name="pooja" rows="6" placeholder="Enter Pooja Category here..."></textarea>
-            </div>
-            <div class=" justify-content-center">
-                <button type="submit">Save Changes</button>
-            </div>
-          
-        </form>
-    </div>
-</div>  *@
 
 <style>
        body {
@@ -118,7 +102,7 @@
 
 
             $.ajax({
-                url: "https://api.myjyotishg.in/api/Admin/AddPoojaCategory",
+                url: BaseUrl + "api/Admin/AddPoojaCategory",
                 type: 'POST',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Example of an authorization header

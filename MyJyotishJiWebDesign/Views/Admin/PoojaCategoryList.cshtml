@@ -40,7 +40,7 @@
         function fetchData() {
 
             $.ajax({
-                url: "https://api.myjyotishg.in/api/Admin/PoojaCategoryList",
+                url: BaseUrl  + "api/Admin/PoojaCategoryList",
                 type: 'GET',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Example of an authorization header

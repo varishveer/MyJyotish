@@ -241,7 +241,7 @@
 <script>
     $(document).ready(function () {
         $.ajax({
-            url: 'https://api.myjyotishg.in/api/Admin/GetAllFeatures',
+            url: BaseUrl+'api/Admin/GetAllFeatures',
             type: 'GET',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("Token")}`,
@@ -354,7 +354,7 @@
             let Status = true;
             debugger
             $.ajax({
-                url: 'https://api.myjyotishg.in/api/Admin/AddSubscription',
+                url: BaseUrl +'api/Admin/AddSubscription',
                 type: 'POST',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("Token")}`,
@@ -411,7 +411,7 @@
     $(document).ready(function () {
 
         $.ajax({
-            url: 'https://api.myjyotishg.in/api/Admin/GetAllSubscription',
+            url: BaseUrl +'api/Admin/GetAllSubscription',
             type: 'GET',  
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("Token")}`,
@@ -482,7 +482,7 @@
                 if (result.isConfirmed) {
 
                     $.ajax({
-                        url: `https://api.myjyotishg.in/api/Admin/DeleteSubsciption?Id=${planId}`,
+                        url:  BaseUrl+`api/Admin/DeleteSubsciption?Id=${planId}`,
                         type: 'DELETE',
                         headers: {
                             'Authorization': `Bearer ${localStorage.getItem("Token")}`,

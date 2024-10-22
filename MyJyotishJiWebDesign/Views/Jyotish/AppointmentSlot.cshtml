@@ -1,12 +1,11 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿
 @{
     Layout = "JyotishLayout";
 
 }
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <style>
     body {
@@ -144,10 +143,10 @@
 
             // Collect form data
             const date = $("#date").val();
-            const timeFrom = $("#timeFrom").val();
-            const timeTo = $("#timeTo").val();
+            const timeFrom = $("#timeFrom").val(); // Get time in HH:MM format
+            const timeTo = $("#timeTo").val(); // Get time in HH:MM format
             const timeDuration = $("#timeDuration").val();
-            const jyotishId = $("#jyotishId").val(); // Hidden field, assuming it's set from the session or fetched.
+            const jyotishId = localStorage.getItem('Id');
 
             // Validate the form
             if (!date || !timeFrom || !timeTo || !timeDuration) {
@@ -159,10 +158,16 @@
                 });
                 return;
             }
-            debugger;
-            // Make the API call to add the appointment slot
+
+            // Convert time to HH:MM:SS format
+            const timeFromFormatted = timeFrom + ':00'; // Append seconds
+            const timeToFormatted = timeTo + ':00'; // Append seconds
+
+            // Debug: Log the values before the AJAX call
+            console.log("Submitting:", { date, timeFromFormatted, timeToFormatted, timeDuration, jyotishId });
+
             $.ajax({
-                url: 'https://api.myjyotishg.in/api/Jyotish/AddAppointmentSlot',
+                url: BaseUrl + 'api/Jyotish/AddAppointmentSlot',
                 type: 'POST',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
@@ -170,30 +175,35 @@
                 },
                 data: JSON.stringify({
                     date: date,
-                    timeFrom: timeFrom,
-                    timeTo: timeTo,
+                    timeFrom: timeFromFormatted, // Use the formatted time
+                    timeTo: timeToFormatted, // Use the formatted time
                     timeDuration: parseInt(timeDuration, 10),
                     jyotishId: parseInt(jyotishId, 10)
                 }),
                 success: function (response) {
-                if (response.status == 200) {
-                    console.log(response);
-                }
-                debugger;
-                    Swal.fire({
-                        title: 'Success!',
-                        text: 'Appointment slot added successfully.',
-                        icon: 'success',
-                        confirmButtonText: 'Ok'
-                    }).then(() => {
-                        window.location.reload(); // Reload the page to show the new slot
-                    });
+                    if (response.status === 200) {
+                        Swal.fire({
+                            title: 'Success!',
+                            text: 'Appointment slot added successfully.',
+                            icon: 'success',
+                            confirmButtonText: 'Ok'
+                        }).then(() => {
+                            window.location.reload();
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: response.message || 'Failed to add appointment slot.',
+                            icon: 'error',
+                            confirmButtonText: 'Close'
+                        });
+                    }
                 },
-                error: function (xhr, status, error) {
+                error: function (xhr) {
                     console.error("Error:", xhr.responseText);
                     Swal.fire({
                         title: 'Error!',
-                        text: 'Failed to add appointment slot.',
+                        text: 'Failed to add appointment slot: ' + xhr.responseText,
                         icon: 'error',
                         confirmButtonText: 'Close'
                     });
@@ -201,31 +211,50 @@
             });
         });
 
+
+
         // Fetch and display the appointment slots
         $.ajax({
-            url: `https://api.myjyotishg.in/api/Jyotish/GetAllAppointmentSlot?Id=${localStorage.getItem('Id')}`,
+            url: BaseUrl +`api/Jyotish/GetAllAppointmentSlot?Id=${localStorage.getItem('Id')}`,
             type: 'GET',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
                 'Content-Type': 'application/json',
             },
             success: function (res) {
+                $('tbody').empty(); // Clear the table body first
+
                 $.each(res.data, function (index, item) {
-                    $('tbody').append(`<tr>
-                                            <td>${index + 1}</td>
-                                            <td>${item.date}</td>
-                                            <td>${item.timeDuration}</td>
-                                            <td>${item.timeFrom}</td>
-                                            <td>${item.timeTo}</td>
-                                            <td>${item.status}</td>
-                                            <td style='cursor:pointer;'>
-                                                <a class="editfeature" data-id="${item.id}" data-date="${item.date}" data-timefrom="${item.timeFrom}" data-timeto="${item.timeTo}" data-duration="${item.timeDuration}">
-                                                    <i class="fa-solid fa-pen-to-square text-success"></i>
-                                                </a>
-                                            </td>
-                                        </tr>`);
+                    const formattedDate = new Date(item.date).toLocaleDateString(); // Format the date
+
+                    // Loop through each slot in the slotList
+                    $.each(item.slotList, function (slotIndex, slot) {
+                        $('tbody').append(`<tr>
+                        <td>${index = index + 1}</td>
+                        <td>${formattedDate}</td>
+                        <td>${slot.timeDuration} minutes</td>
+                        <td>${slot.timeFrom}</td>
+                        <td>${slot.timeTo}</td>
+                        <td>${slot.status}</td>
+                        <td style='cursor:pointer;'>
+                            <a class="editfeature"
+                               data-id="${slot.id}"
+                               data-date="${formattedDate}"
+                               data-timefrom="${slot.timeFrom}"
+                               data-timeto="${slot.timeTo}"
+                               data-duration="${slot.timeDuration}">
+                                <i class="fa-solid fa-pen-to-square text-success"></i>
+                            </a>
+                                <a id="deletebtn"
+                                   data-id="${slot.id}">
+                                    <i class="fa-solid fa-trash text-success"></i>
+                                </a>
+                        </td>
+                    </tr>`);
+                    });
                 });
-                $('#DataTable').DataTable();
+
+                $('#DataTable').DataTable(); // Initialize the DataTable after adding all rows
             },
             error: function (error) {
                 console.error(error);
@@ -235,14 +264,18 @@
         // Handle edit button click
         $(document).on('click', '.editfeature', function () {
             const id = $(this).data('id');
-            const date = $(this).data('date');
+            const date = $(this).data('date'); // Assuming this is in MM/DD/YYYY format
             const timeFrom = $(this).data('timefrom');
             const timeTo = $(this).data('timeto');
             const timeDuration = $(this).data('duration');
+            debugger;
+            // Convert date from MM/DD/YYYY to YYYY-MM-DD
+            const dateParts = date.split('/');
+            const formattedDate = `${dateParts[2]}-${dateParts[0].padStart(2, '0')}-${dateParts[1].padStart(2, '0')}`; // YYYY-MM-DD
 
             // Fill the form fields with the selected slot data
             $("#id").val(id);
-            $("#date").val(date);
+            $("#date").val(formattedDate); // Set the formatted date
             $("#timeFrom").val(timeFrom);
             $("#timeTo").val(timeTo);
             $("#timeDuration").val(timeDuration);
@@ -253,16 +286,19 @@
         });
 
         // Update Appointment Slot
+        // Update Appointment Slot
+        // Update Appointment Slot
         $("#btnupdate").on('click', function (e) {
             e.preventDefault();
-
+            debugger;
             const id = $("#id").val();
-            const date = $("#date").val();
-            const timeFrom = $("#timeFrom").val();
-            const timeTo = $("#timeTo").val();
+            const date = $("#date").val(); // Ensure this is in YYYY-MM-DD format
+            const timeFrom = $("#timeFrom").val(); // Get the time value
+            const timeTo = $("#timeTo").val(); // Get the time value
             const timeDuration = $("#timeDuration").val();
-            const jyotishId = $("#jyotishId").val(); // Hidden field
+            const jyotishId = localStorage.getItem('Id'); // Hidden field
 
+            // Validate required fields
             if (!date || !timeFrom || !timeTo || !timeDuration) {
                 Swal.fire({
                     title: 'Error!',
@@ -273,35 +309,47 @@
                 return;
             }
 
+            // Ensure time is formatted correctly with seconds
+            const timeFromFormatted = timeFrom; // Append seconds for HH:mm:ss
+            const timeToFormatted = timeTo ; // Append seconds for HH:mm:ss
+
+            // Debugging: Log the values being sent
+            console.log('Sending data:', {
+                id: id,
+                date: date, // Ensure this is in YYYY-MM-DD format
+                timeFrom: timeFromFormatted, // Ensure this is in HH:mm:ss format
+                timeTo: timeToFormatted, // Ensure this is in HH:mm:ss format
+                timeDuration: parseInt(timeDuration, 10),
+                jyotishId: localStorage.getItem('Id')
+            });
+
             // Update the appointment slot
             $.ajax({
-                url: 'https://api.myjyotishg.in/api/Jyotish/UpdateAppointmentSlot',
-                type: 'PUT', // Change method to PUT for updates
+                url: BaseUrl +'api/Jyotish/UpdateAppointmentSlot',
+                type: 'POST', // Change method to PUT for updates
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
                     'Content-Type': 'application/json',
                 },
                 data: JSON.stringify({
                     id: id,
-                    date: date,
-                    timeFrom: timeFrom,
-                    timeTo: timeTo,
+                    date: date, // Ensure date is in YYYY-MM-DD format
+                    timeFrom: timeFromFormatted, // Ensure this is in HH:mm:ss format
+                    timeTo: timeToFormatted, // Ensure this is in HH:mm:ss format
                     timeDuration: parseInt(timeDuration, 10),
-                    jyotishId: parseInt(jyotishId, 10)
+                    jyotishId: jyotishId
                 }),
                 success: function (response) {
                     if (response.status == 200) {
-                        console.log(response);
+                        Swal.fire({
+                            title: 'Success!',
+                            text: 'Appointment slot updated successfully.',
+                            icon: 'success',
+                            confirmButtonText: 'Ok'
+                        }).then(() => {
+                            window.location.reload();
+                        });
                     }
-                debugger;
-                    Swal.fire({
-                        title: 'Success!',
-                        text: 'Appointment slot updated successfully.',
-                        icon: 'success',
-                        confirmButtonText: 'Ok'
-                    }).then(() => {
-                        window.location.reload();
-                    });
                 },
                 error: function (xhr, status, error) {
                     console.error("Error:", xhr.responseText);
@@ -314,6 +362,43 @@
                 }
             });
         });
+
+
+        $(document).on('click', '#deletebtn', function () {
+            const id = $(this).data('id'); // Get the data-id attribute
+            console.log('ID to delete:', id); // Debugging: Log the ID
+
+            $.ajax({
+                url: BaseUrl+`api/Jyotish/DeleteAppointmentSlot?Id=${id}`,
+                type: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+                },
+                success: function (response) {
+                    if (response.status == 200) {
+                        Swal.fire({
+                            title: 'Success!',
+                            text: 'Appointment slot DELETED successfully.',
+                            icon: 'success',
+                            confirmButtonText: 'Ok'
+                        }).then(() => {
+                            window.location.reload(); // Reload the page to reflect the deletion
+                        });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error:", xhr.responseText);
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'Failed to delete appointment slot.',
+                        icon: 'error',
+                        confirmButtonText: 'Close'
+                    });
+                }
+            });
+        });
+
+
     });
 </script>
 

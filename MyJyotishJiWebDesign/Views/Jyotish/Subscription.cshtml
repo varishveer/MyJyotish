@@ -1,6 +1,6 @@
 ﻿@{
     Layout = "JyotishLayout";
-    var BaseUrl = "https://localhost:7118/";
+ 
 }
 
 <!-- Razorpay Script -->
@@ -86,7 +86,7 @@
 <script>
     $(document).ready(function () {
         // API URL
-        var apiUrl = '@BaseUrl' + "Api/Jyotish/GetAllSubscription";
+        var apiUrl = BaseUrl + "Api/Jyotish/GetAllSubscription";
 
         // Make an AJAX request to get subscription plans
         $.ajax({
@@ -185,7 +185,7 @@
         var JId = localStorage.getItem("Id");
         // Make AJAX call to initiate payment
         $.ajax({
-            url: "@BaseUrl" + "Api/Payments/create-order",
+            url: BaseUrl + "Api/Payments/create-order",
             type: "POST",
             contentType: "application/json", // Set the content type to JSON
             data: JSON.stringify({ // Stringify the data to send as JSON
@@ -251,7 +251,7 @@
     function InsertPayment(pay_id, signature, order_id, planPrice) {
          
         $.ajax({
-            url: "@BaseUrl"+"Api/payments/capture-payment",
+            url: BaseUrl+"Api/payments/capture-payment",
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify({

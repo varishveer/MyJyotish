@@ -436,7 +436,7 @@ namespace MyJyotishGApi.Controllers
                     try
                     {
                         var Result = _jyotish.GetAllAppointmentSlot(Id);
-                        if (Result == null)
+                        if (Result.Count==0)
                         { return Ok(new { Status = 400, Message = "Data Not Found" }); }
 
 

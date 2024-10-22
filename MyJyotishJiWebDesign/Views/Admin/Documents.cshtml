@@ -3,7 +3,7 @@
 *@
 @{
     Layout = "AdminLayout";
-    var BaseUrl = "https://api.myjyotishg.in/";
+
 }
 
 <style>
@@ -343,7 +343,7 @@
             // Function to get Jyotish documents using Ajax
             function getJyotishDocs(id) {
                 $.ajax({
-                    url: "@BaseUrl" + `Api/Admin/GetJyotishDocs?Id=${id}`,
+                    url: BaseUrl + `Api/Admin/GetJyotishDocs?Id=${id}`,
                     type: 'GET',
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem("Token")}`
@@ -366,19 +366,19 @@
 
             // Function to update document status in the UI
             function updateDocumentStatus(docs) {
-                $("#idProof").attr("src", docs.idProof? "@BaseUrl" + docs.idProof : '/Img/SampleDoc.jpeg');
+                $("#idProof").attr("src", docs.idProof? BaseUrl + docs.idProof : '/Img/SampleDoc.jpeg');
                 updateStatus("idProofStatus", docs.idProofStatus, "idProof");
 
-                $("#addressProof").attr("src",docs.addressProof? "@BaseUrl" + docs.addressProof : '/Img/SampleDoc.jpeg');
+                $("#addressProof").attr("src",docs.addressProof? BaseUrl + docs.addressProof : '/Img/SampleDoc.jpeg');
                 updateStatus("addressProofStatus", docs.addressProofStatus, "addressProof");
 
-                $("#tenthCertificate").attr("src", docs.tenthCertificate? "@BaseUrl" + docs.tenthCertificate : '/Img/SampleDoc.jpeg');
+                $("#tenthCertificate").attr("src", docs.tenthCertificate? BaseUrl + docs.tenthCertificate : '/Img/SampleDoc.jpeg');
                 updateStatus("tenthCertificateStatus", docs.tenthCertificateStatus, "tenthCertificate");
 
-                $("#twelveCertificate").attr("src", docs.twelveCertificate ? "@BaseUrl" + docs.twelveCertificate : '/Img/SampleDoc.jpeg');
+                $("#twelveCertificate").attr("src", docs.twelveCertificate ? BaseUrl + docs.twelveCertificate : '/Img/SampleDoc.jpeg');
                 updateStatus("twelveCertificateStatus", docs.twelveCertificateStatus, "twelveCertificate");
 
-                $("#professionalCertificate").attr("src", docs.professionalCertificate ? "@BaseUrl" + docs.professionalCertificate : '/Img/SampleDoc.jpeg');
+                $("#professionalCertificate").attr("src", docs.professionalCertificate ? BaseUrl + docs.professionalCertificate : '/Img/SampleDoc.jpeg');
                 updateStatus("professionalCertificateStatus", docs.professionalCertificateStatus, "professionalCertificate");
             }
 
@@ -449,8 +449,8 @@
                     id: id // Send the user ID as well
                 };
                 var ApiUrl
-                if (status == 'Rejected') { ApiUrl = "@BaseUrl" + 'Api/Admin/RejectJyotishDocs' }
-                else { ApiUrl = "@BaseUrl" + 'Api/Admin/ApproveJyotishDocs' }
+                if (status == 'Rejected') { ApiUrl = BaseUrl + 'Api/Admin/RejectJyotishDocs' }
+                else { ApiUrl = BaseUrl + 'Api/Admin/ApproveJyotishDocs' }
                
                 $.ajax({
                     url: ApiUrl,

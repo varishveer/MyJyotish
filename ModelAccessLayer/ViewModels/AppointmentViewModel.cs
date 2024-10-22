@@ -13,10 +13,6 @@ namespace ModelAccessLayer.ViewModels
         public int JyotishId { get; set; }
         public int SlotId { get; set; }
 
-        
-        [Required]
-        public DateTime Date { get; set; }
-        public TimeOnly Time { get; set; }
         [Required]
         public string Problem { get; set; }
         

@@ -182,96 +182,7 @@
     </div>
 </div>
 
-@* <div class="container mt-5">
-    <h1 class="mb-4">Update Jyotish Information</h1>
-    <form id="jyotishUpdateForm">
-        <div class="form-group mb-3">
-            <label for="jyotishId">ID:</label>
-            <input type="text" class="form-control" id="id" readonly>
-        </div>
-        <div class="form-group mb-3">
-            <label for="jyotishName">Name:</label>
-            <input type="text" class="form-control" id="name">
-        </div>
-        <div class="form-group mb-3">
-            <label for="jyotishEmail">Email:</label>
-            <input type="email" class="form-control" id="email">
-        </div>
-        <div class="form-group mb-3">
-            <label for="jyotishMobile">Mobile:</label>
-            <input type="text" class="form-control" id="mobile">
-        </div>
-        <div class="form-group mb-3">
-            <label for="jyotishRole">Role:</label>
-            <input type="text" class="form-control" id="role">
-        </div>
-        <div class="form-group mb-3">
-            <label for="jyotishGender">Gender:</label>
-            <input type="text" class="form-control" id="gender">
-        </div>
-        <div class="form-group mb-3">
-            <label for="jyotishLanguage">Language:</label>
-            <input type="text" class="form-control" id="language">
-        </div>
-        <div class="form-group mb-3">
-            <label for="jyotishExpertise">Expertise:</label>
-            <input type="text" class="form-control" id="expertise">
-        </div>
-        <div class="form-group mb-3">
-            <label for="jyotishCountry">Country:</label>
-            <input type="text" class="form-control" id="country">
-        </div>
-        <div class="form-group mb-3">
-            <label for="jyotishState">State:</label>
-            <input type="text" class="form-control" id="state">
-        </div>
-        <div class="form-group mb-3">
-            <label for="jyotishCity">City:</label>
-            <input type="text" class="form-control" id="city">
-        </div>
-        <div class="form-group mb-3">
-            <label for="jyotishAddress">Address:</label>
-            <input type="text" class="form-control" id="address">
-        </div>
-        <div class="form-group mb-3">
-            <label for="jyotishDateOfBirth">Date of Birth:</label>
-            <input type="date" class="form-control" id="dateOfBirth">
-        </div>
-        <div class="form-group mb-3">
-            <label for="jyotishStatus">Status:</label>
-            <input type="text" class="form-control" id="status">
-        </div>
-        <div class="form-group mb-3">
-            <label for="jyotishExperience">Experience:</label>
-            <input type="number" class="form-control" id="experience">
-        </div>
-        <div class="form-group mb-3">
-            <label for="jyotishPooja">Pooja:</label>
-            <input type="text" class="form-control" id="pooja">
-        </div>
-        <div class="form-group mb-3">
-            <label for="jyotishCall">Call Service:</label>
-            <input type="checkbox" id="call">
-        </div>
-        <div class="form-group mb-3">
-            <label for="jyotishCallCharges">Call Charges:</label>
-            <input type="number" class="form-control" id="callCharges">
-        </div>
-        <div class="form-group mb-3">
-            <label for="jyotishChat">Chat Service:</label>
-            <input type="checkbox" id="chat">
-        </div>
-        <div class="form-group mb-3">
-            <label for="jyotishChatCharges">Chat Charges:</label>
-            <input type="number" class="form-control" id="chatCharges">
-        </div>
-        <div class="form-group mb-3">
-            <label for="jyotishProfileImageUrl">Profile Image URL:</label>
-            <input type="text" class="form-control" id="profileImageUrl">
-        </div>
-        <button type="submit" class="btn btn-primary" id="updateJyotishButton">Update</button>
-    </form>
-</div> *@
+
 
 <script>
     $(document).ready(function () {
@@ -287,7 +198,7 @@
 
         // Fetch Jyotish details
         $.ajax({
-            url: `https://localhost:7118/api/Admin/GetJyotishDetails?id=${id}`,
+            url: BaseUrl + `api/Admin/GetJyotishDetails?id=${id}`,
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${Token}` // Include JWT token in the headers
@@ -358,7 +269,7 @@
             
 
             $.ajax({
-                url: `https://localhost:7118/api/Admin/UpdateJyotishDetails`,
+                url: BaseUrl + `api/Admin/UpdateJyotishDetails`,
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${Token}`,

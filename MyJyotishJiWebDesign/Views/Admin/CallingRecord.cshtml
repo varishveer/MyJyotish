@@ -65,7 +65,7 @@
     $(document).ready(function () {
         function fetchData() {
             $.ajax({
-                url: "https://api.myjyotishg.in/api/Admin/CallingRecord",
+                url: BaseUrl + "api/Admin/CallingRecord",
                 type: 'GET',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Example of an authorization header

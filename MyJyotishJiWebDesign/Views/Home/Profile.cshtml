@@ -1,107 +1,154 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿
 
-
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <style>
-    .outerDiv {
-        font-family: Arial, sans-serif;
-        background-color: #f5f5f5;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
+    .profile-container {
+        max-width: 1170px;
+        margin: 0 auto;
     }
-
-    .profile-settings {
+    .profile-sidebar {
         background-color: white;
         padding: 20px;
         border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        width: 600px;
-        max-width: 90%;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 50px;
     }
-
-        .profile-settings h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-    .notifications, .language, .actions {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+    .profile-photo {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        border: 5px solid #fff;
         margin-bottom: 20px;
+        object-fit: cover;
     }
-
-    .actions {
-        justify-content: space-around;
+    .profile-main {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
-
-    button {
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
+    .section-title {
+        font-size: 16px;
+        margin-bottom: 15px;
+        font-weight: 600;
+        color: #333;
     }
-
-    .edit-profile {
-        background-color: #007bff;
-        color: white;
+    .detail-label {
+        font-weight: 500;
+        color: #6c757d;
+        font-size: 14px;
     }
-
-    .logout {
-        background-color: #ff4d4d;
-        color: white;
-    }
-
-    .delete-account {
-        background-color: #dc3545;
-        color: white;
-    }
-
-    input[type="checkbox"] {
-        width: 20px;
-        height: 20px;
-    }
-
-    .edit-language {
-        color: #28a745;
-        cursor: pointer;
+    .detail-value {
+        font-weight: 600;
+        color: #495057;
+        font-size: 14px;
     }
 </style>
-<div class="outerDiv">
-    <div class="profile-settings">
-        <h2>Profile Settings</h2>
-        <div class="notifications">
-            <div>
-                <h3>Notifications</h3>
-                <div>
-                    <label for="astromall-chat"> chat</label>
-                    <input type="checkbox" id="astromall-chat" checked>
-                </div>
-                <div>
-                    <label for="live-events">Live Events</label>
-                    <input type="checkbox" id="live-events" checked>
-                </div>
+
+<div class="container profile-container mt-4">
+    <div class="row">
+        <!-- Left Sidebar -->
+        <div class="col-md-4 left-part">
+            <div class="mb-3">
+                <img id="profileImage" src="~/Img/Astrologer.jpg" alt="Profile Image" class="profile-photo">
+            </div>
+            <div class="mb-3">
+                <button class="notification-btn btn btn-light">
+                    <i class="bi bi-bell"></i>
+                    <span class="badge rounded-pill bg-danger">3</span>
+                </button>
+            </div>
+            <div class="mb-3 d-flex justify-content-between flex-row">
+                <button class="btn btn-outline-info mx-1"><a href="/Jyotish/UpdateProfile">Edit Profile</a></button>
+                <button class="btn btn-outline-primary">Logout Account</button>
             </div>
         </div>
-        <div class="language">
-            <h3>My Language</h3>
-            <span class="edit-language">Edit your languages</span>
-        </div>
-        <div class="actions">
-            <a href="/Home/EditProfile">
-                <button class="edit-profile">Edit Profile</button>
-            </a>
-            <button class="logout">Logout from all other devices</button>
-            <button class="delete-account">Delete My Account</button>
+
+        <!-- Right Profile Details -->
+        <div class="col-md-8">
+            <div class="profile-main">
+                <div class="section-title">Personal Details</div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="detail-label">Full Name</div>
+                        <div class="detail-value" id="name"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="detail-label">Email</div>
+                        <div class="detail-value" id="email"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="detail-label">Phone</div>
+                        <div class="detail-value" id="mobile"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="detail-label">Gender</div>
+                        <div class="detail-value" id="gender"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="detail-label">Date of Birth</div>
+                        <div class="detail-value" id="dateOfBirth"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="detail-label">Country</div>
+                        <div class="detail-value" id="country"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="detail-label">State</div>
+                        <div class="detail-value" id="state"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="detail-label">City</div>
+                        <div class="detail-value" id="city"></div>
+                    </div>
+                </div>
+                
+            </div>
         </div>
     </div>
-
-
 </div>
+
+<script>
+    $(document).ready(function () {
+        var Id = localStorage.getItem('userId'); // Assuming Id is stored in localStorage
+        debugger;
+        $.ajax({
+            url: BaseUrl + `api/User/GetUserProfile?Id=${Id}`,
+            type: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                'Content-Type': 'application/json',
+            },
+            success: function (response) {
+                debugger;
+                if (response.status === 200) {
+                    var profile = response.data;
+                    // Fill in the data fields
+                    $('#profileImage').attr('src', profile.profilePictureUrl ? BaseUrl + profile.profilePictureUrl : '~/Img/Astrologer.jpg');
+                    $('#name').text(profile.name);
+                    $('#email').text(profile.email);
+                    $('#mobile').text(profile.mobile);
+                    $('#gender').text(profile.gender);
+                    $('#dateOfBirth').text(profile.doB !== "null" ? profile.doB : 'N/A');
+                    $('#country').text(profile.country);
+                    $('#state').text(profile.state);
+                    $('#city').text(profile.city);
+                } else {
+                    alert('Error: Could not load profile.');
+                }
+            },
+            error: function (xhr, status, error) {
+                debugger;
+                console.error('Error:', error);
+                alert('There was an error fetching the profile data.');
+            }
+        });
+    });
+</script>

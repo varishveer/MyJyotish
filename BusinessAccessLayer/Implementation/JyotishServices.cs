@@ -209,6 +209,7 @@ namespace BusinessAccessLayer.Implementation
          {   
              var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
              var User = _context.Users.FirstOrDefault(x => x.Email == model.Email || x.Mobile == model.Mobile);
+         
             var appointmentRecord = _context.AppointmentRecords.Where(x => x.SlotId == model.SlotId).FirstOrDefault();
 
             var Slot = _context.AppointmentSlots.Where(x => x.Id == model.SlotId).FirstOrDefault();
@@ -217,12 +218,12 @@ namespace BusinessAccessLayer.Implementation
              AppointmentModel appointment = new AppointmentModel();
              appointment.Name = model.Name;
              appointment.Mobile = model.Mobile;
-             appointment.Date = model.Date;
-            appointment.Time = model.Time;
+             appointment.Date = Slot.Date;
+            appointment.Time = Slot.TimeTo;
              appointment.Email = model.Email;
              appointment.JyotishId = model.JyotishId;
             appointment.SlotId = model.SlotId;
-            appointment.TimeDuration = model.TimeDuration;
+            appointment.TimeDuration = Slot.TimeDuration;
 
              if(User == null)
              {
@@ -584,7 +585,7 @@ namespace BusinessAccessLayer.Implementation
             }
             if(slot.Status == "Booked")
             { return "Slot Has Been Booked It Can't Be Updated."; }
-
+            slot.Date = model.Date;
             slot.TimeFrom = model.TimeFrom;
             slot.TimeTo = model.TimeTo;
            
@@ -606,13 +607,25 @@ namespace BusinessAccessLayer.Implementation
             else { return "Internal Server Error."; }
         }
 
-        public List<AppointmentSlotModel> GetAllAppointmentSlot(int Id)
+        public List<AppointmentSlotUserViewModel> GetAllAppointmentSlot(int id)
         {
-            var Jyotish = _context.JyotishRecords.Where(x => x.Id == Id).FirstOrDefault();
-            if (Jyotish == null) { return null; }
-
-            var slots = _context.AppointmentSlots.Where(x => x.JyotishId == Id).Where(y=>y.Date >= DateTime.Now).ToList();
-            return slots.Count > 0 ? slots : null;
+            var result = _context.AppointmentSlots.Where(x=>x.JyotishId == id)
+                    .GroupBy(x => x.Date)
+                    .Select(g => new AppointmentSlotUserViewModel
+                    {
+                        
+                        Date = g.Key, // Date is the grouping key
+                        SlotList = g.Select(x => new AppointmentSlotDateUserViewModel
+                        {   Id = x.Id,
+                            TimeDuration = x.TimeDuration,
+                            TimeFrom = x.TimeFrom,
+                            TimeTo = x.TimeTo,
+                            JyotishId = x.JyotishId,
+                            Status = x.Status
+                        }).ToList()
+                    })
+                    .ToList();
+            return result;
         }
     }
 }

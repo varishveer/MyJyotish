@@ -274,11 +274,11 @@ namespace BusinessAccessLayer.Implementation
             var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
             var User = _context.Users.Where(x => x.Id == model.UserId).FirstOrDefault();
             var Slot = _context.AppointmentSlots.Where(x=>x.Id == model.SlotId).FirstOrDefault();
-            if (User == null || Jyotish == null) { return "invalid Data"; }
+            if (User == null || Jyotish == null|| Slot==null ||Slot.Status == "Booked" ) { return "invalid Data"; }
             AppointmentModel appointment = new AppointmentModel();
             appointment.Name = User.Name;
             appointment.Mobile = User.Mobile;
-            appointment.Date = model.Date;
+            appointment.Date = Slot.Date;
             appointment.Time = Slot.TimeFrom;
             appointment.TimeDuration = Slot.TimeDuration;
             appointment.SlotId = model.SlotId;
@@ -426,5 +426,27 @@ namespace BusinessAccessLayer.Implementation
             if (record!=null) { return record; }
             else { return null; }
         }
+
+        public List<AppointmentSlotUserViewModel> GetAllAppointmentSlot(int id) 
+        {
+            var result = _context.AppointmentSlots.Where(x => x.JyotishId == id)
+                    .GroupBy(x => x.Date)
+                    .Select(g => new AppointmentSlotUserViewModel
+                    {
+                        
+                        Date = g.Key, // Date is the grouping key
+                        SlotList = g.Select(x => new AppointmentSlotDateUserViewModel
+                        {   Id =x.Id,
+                            TimeDuration = x.TimeDuration,
+                            TimeFrom = x.TimeFrom,
+                            TimeTo = x.TimeTo,
+                            JyotishId = x.JyotishId,
+                            Status = x.Status
+                        }).ToList()
+                    })
+                    .ToList();
+            return result;
+        }
+
     }
 }

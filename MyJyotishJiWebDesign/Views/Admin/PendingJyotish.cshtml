@@ -2,7 +2,7 @@
 
 @{
     Layout = "AdminLayout";
-    var BaseUrl = "https://api.myjyotishg.in/";
+  
 }
 <style>
     .card-body {
@@ -44,7 +44,7 @@
     $(document).ready(function () {
         function fetchData() {
             $.ajax({
-                url: "@BaseUrl"+'Api/Admin/PendingJyotish',
+                url: BaseUrl +'Api/Admin/PendingJyotish',
                 type: 'GET',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Example of an authorization header
@@ -174,7 +174,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: "@BaseUrl" +"api/Admin/RemoveJyotish",
+                    url: BaseUrl +"api/Admin/RemoveJyotish",
                     type: 'POST',
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Example of an authorization header
@@ -231,7 +231,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: "@BaseUrl"+"Api/Admin/RejectJyotish",
+                    url: BaseUrl +"Api/Admin/RejectJyotish",
                     type: 'POST',
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Example of an authorization header
@@ -285,7 +285,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: "@BaseUrl"+"Api/Admin/ApproveJyotish",
+                    url: BaseUrl +"Api/Admin/ApproveJyotish",
                     type: 'POST',
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Example of an authorization header

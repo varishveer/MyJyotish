@@ -1,6 +1,4 @@
-﻿@{
-    var BaseUrl = "https://api.myjyotishg.in/";
-}
+﻿
 @{
     Layout = "AdminLayout";
 }
@@ -160,65 +158,6 @@
 </div>
 
 
-@* 
-<div class="container-fluid pt-4 px-4">
-    <div class="bg-light text-center rounded p-4">
-
-        <form id="requestForm">
-            <div class="form-group mb-3">
-                <label for="Id">Id:</label>
-                <input type="text" class="form-control" id="Id" readonly>
-            </div>
-            <div class="form-group mb-3">
-                <label for="Name">Name:</label>
-                <input type="text" class="form-control" id="Name">
-            </div>
-            <div class="form-group mb-3">
-                <label for="Mobile">Mobile:</label>
-                <input type="text" class="form-control" id="Mobile">
-            </div>
-            <div class="form-group mb-3">
-                <label for="DateTime">DateTime:</label>
-                <input type="text" class="form-control" id="DateTime">
-            </div>
-            <div class="form-group mb-3">
-                <label for="Email">Email:</label>
-                <input type="text" class="form-control" id="Email">
-            </div>
-            <div class="form-group mb-3">
-                <label for="JyotishId">JyotishId:</label>
-                <input type="text" class="form-control" id="JyotishId">
-            </div>
-            <div class="form-group mb-3">
-                <label for="UserId">UserId:</label>
-                <input type="text" class="form-control" id="UserId">
-            </div>
-            <div class="form-group mb-3">
-                <label for="Problem">Problem:</label>
-                <input type="text" class="form-control" id="Problem">
-            </div>
-            <div class="form-group mb-3">
-                <label for="Solution">Solution:</label>
-                <input type="text" class="form-control" id="Solution">
-            </div>
-            <div class="form-group mb-3">
-                <label for="Status">Status:</label>
-                <input type="text" class="form-control" id="Status">
-            </div>
-            <div class="form-group mb-3">
-                <label for="Amount">Amount:</label>
-                <input type="number" class="form-control" id="Amount">
-            </div>
-            <button type="submit">
-                Submit 
-            </button>
-        </form>
-
-    
-    </div>
-</div>
-
- *@
 
 
 
@@ -239,7 +178,7 @@
         // Make AJAX call only if 'Id' is present
         if (id) {
             $.ajax({
-                url:"@BaseUrl" + 'Admin/AppointmentDetail', // Replace with your API endpoint
+                url:BaseUrl + 'Admin/AppointmentDetail', // Replace with your API endpoint
                 type: 'GET',
                 data: { Id: id }, // Pass the Id as a query parameter
                 success: function (response) {
@@ -290,7 +229,7 @@
         };
 
         try {
-            const response = await fetch('https://api.myjyotishg.in/api/Admin/UpdateAppointment', {
+            const response = await fetch( BaseUrl 'api/Admin/UpdateAppointment', {
                 method: 'POST', // Use 'PUT' if updating an existing resource
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Example authorization header

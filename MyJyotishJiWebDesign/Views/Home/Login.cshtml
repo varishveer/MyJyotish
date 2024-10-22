@@ -150,7 +150,10 @@
                         if (response.status === 200) {
                             // Store the token and user email in local storage
                             localStorage.setItem("Token", response.token);
-                            localStorage.setItem('userEmail', response.user);
+                        localStorage.setItem('userEmail', response.userEmail);
+                        localStorage.setItem("userName", response.userName);
+                        localStorage.setItem('userMobile', response.userMobile);
+                        localStorage.setItem('userId', response.userId);
 
                             // Redirect to the dashboard
                             window.location.href = "/Home/Index";

@@ -97,7 +97,7 @@
         var email = localStorage.getItem('userEmail');
         const token = localStorage.getItem('Token2');
         $.ajax({
-            url: `https://localhost:7118/Api/Jyotish/Dashboard?Email=${encodeURIComponent(email)}`,
+            url: BaseUrl + `Api/Jyotish/Dashboard?Email=${encodeURIComponent(email)}`,
             type: "GET",
             headers: {
                 'Authorization': `Bearer ${token}`, 

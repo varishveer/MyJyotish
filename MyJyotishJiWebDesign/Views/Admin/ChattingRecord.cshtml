@@ -98,7 +98,7 @@
     $(document).ready(function () {
         function fetchData() {
             $.ajax({
-                url: "https://api.myjyotishg.in/api/Admin/ChattingRecord",
+                url: BaseUrl + "api/Admin/ChattingRecord",
                 type: 'GET',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Example of an authorization header

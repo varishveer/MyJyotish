@@ -1,11 +1,4 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿
 
 @{
     Layout = "AdminLayout";
@@ -68,7 +61,7 @@
             $('#loading').show(); // Show loading indicator
 
             $.ajax({
-                url: `https://api.myjyotishg.in/api/Admin/GetJyotishChats?id=${id}`, // Use the extracted id
+                url: BaseUrl + `api/Admin/GetJyotishChats?id=${id}`, // Use the extracted id
                 type: 'GET',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("Token")}`,

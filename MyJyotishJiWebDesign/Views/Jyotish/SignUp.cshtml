@@ -1,6 +1,6 @@
 ﻿@{
     Layout = "Extra";
-     string BaseUrl = "https://api.myjyotishg.in/";
+   
 }
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
@@ -211,7 +211,7 @@
             // Use jQuery to get the value
 
             $.ajax({
-                url: "@BaseUrl" + `Api/Account/RegisterJyotish?email=${encodeURIComponent(email)}`,
+                url: BaseUrl + `Api/Account/RegisterJyotish?email=${encodeURIComponent(email)}`,
                 type: 'POST',
                 contentType: 'application/json', // Set content type to JSON
 
@@ -241,7 +241,7 @@
             };
              
             $.ajax({
-                url: "@BaseUrl"+`Api/Account/VerifyJyotish`,
+                url: BaseUrl+`Api/Account/VerifyJyotish`,
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(data), // Send the data as a JSON string
@@ -278,7 +278,7 @@
 
         async function loadLanguage() {
             try {
-                const response = await fetch("@BaseUrl"+'Api/Account/Languages');
+                const response = await fetch(BaseUrl+'Api/Account/Languages');
                 const data = await response.json();
                 const $languageDropdown = $('#language');
                 $languageDropdown.html('<option value="">Select Language</option>');
@@ -297,7 +297,7 @@
 
         async function loadExpertise() {
             try {
-                const response = await fetch("@BaseUrl"+'Api/Jyotish/Expertise');
+                const response = await fetch(BaseUrl+'Api/Jyotish/Expertise');
                 const data = await response.json();
                 const $expertiseDropdown = $('#expertise');
                 $expertiseDropdown.html('<option value="">Select Expertise</option>');
@@ -312,7 +312,7 @@
 
         async function loadCountries() {
             try {
-                const response = await fetch("@BaseUrl"+'Api/Jyotish/Country');
+                const response = await fetch(BaseUrl+'Api/Jyotish/Country');
                 const data = await response.json();
                 $countryDropdown.html('<option value="">Select Country</option>');
 
@@ -326,7 +326,7 @@
 
         async function loadStates(countryId) {
             try {
-                const response = await fetch("@BaseUrl"+`Api/Jyotish/State?Id=${countryId}`);
+                const response = await fetch(BaseUrl+`Api/Jyotish/State?Id=${countryId}`);
                 const data = await response.json();
                 $stateDropdown.html('<option value="">Select State</option>');
 
@@ -342,7 +342,7 @@
 
         async function loadCities(stateId) {
             try {
-                const response = await fetch("@BaseUrl"+`Api/Jyotish/City?Id=${stateId}`);
+                const response = await fetch(BaseUrl+`Api/Jyotish/City?Id=${stateId}`);
                 const data = await response.json();
                 $cityDropdown.html('<option value="">Select City</option>');
 
@@ -378,33 +378,7 @@
             }
         });
 
-        // $('#registrationForm').on("submit", function (event) {
-        //     event.preventDefault();
-          
-        //     const formData = new FormData(); // Use FormData for file uploads
-        //    var name=$('')
-
-        //     $.ajax({
-        //         url: "@BaseUrl" + 'Api/Account/SignUpJyotish',
-        //         type: 'POST',
-        //         data: formData,
-        //         processData: false, // Important for file uploads
-        //         contentType: false, // Important for file uploads
-        //         success: function (response) {
-        //              
-        //             console.log('Success:', response);
-        //             alert('Form submitted successfully!');
-        //             $('#registrationForm')[0].reset(); // Reset the form
-        //         },
-        //         error: function (xhr, status, error) {
-        //              
-        //             console.error('Error:', error);
-        //             console.log('XHR:', xhr.statusCode);
-        //             alert('There was an error submitting the form.');
-        //         }
-        //     });
-        // });
-
+        
 
         $('#registrationForm').on("submit", function (event) {
             event.preventDefault();
@@ -432,7 +406,7 @@
 
           
             $.ajax({
-                url: "@BaseUrl" + 'Api/Account/SignUpJyotish',
+                url: BaseUrl + 'Api/Account/SignUpJyotish',
                 type: 'POST',
                 data: formData,
                 processData: false,

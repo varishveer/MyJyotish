@@ -1,6 +1,4 @@
-﻿@{
-    string BaseUrl = "https://api.myjyotishg.in/";
-}
+﻿
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 
@@ -19,9 +17,16 @@
                     <p id="profileExperience" class="text-muted mb-1" style="font-size: 14px;"></p>
                     <p id="profileCharges" class="text-danger fw-bold mb-1" style="font-size: 18px;"></p>
                     <div class="mt-3">
+
                         <button class="btn btn-primary me-2 mb-2 mb-md-0" style="background-color: #4CAF50; border-color: #4CAF50;">Start Chat</button>
                         <button class="btn btn-primary" style="background-color: #4CAF50; border-color: #4CAF50;">Start Call</button>
                     </div>
+                    <div class="mt-1">
+
+                       
+                        <button class="btn btn-primary" style="background-color: #4CAF50; border-color: #4CAF50;"> <a id="bookAAppointment" href=""> </a>  Book A Appointmnet</button>
+                    </div>
+
                 </div>
             </div>
 
@@ -72,7 +77,7 @@
         debugger;
         const urlParams = new URLSearchParams(window.location.search);
         var astrologerId = urlParams.get('Id');
-        var apiUrl = "@BaseUrl" + `Api/User/AstrologerProfile?Id=${astrologerId}`;
+        var apiUrl = BaseUrl + `Api/User/AstrologerProfile?Id=${astrologerId}`;
         $.ajax({
             url: apiUrl,
             method: 'GET',
@@ -82,13 +87,13 @@
                     var data = response.data;
 
                     // Update Profile Section
-                    $('#profilePicture').attr('src', "@BaseUrl"+data.profileImageUrl);
+                    $('#profilePicture').attr('src', BaseUrl+data.profileImageUrl);
                     $('#profileName').text(data.name + ' ✅');
                     $('#profileExpertise').text(data.expertise);
                     $('#profileLanguage').text(data.language);
                     $('#profileExperience').text('Experience: ' + data.experience + ' Years');
                     $('#profileCharges').text('₹ ' + data.chatCharges + ' / 20 min');
-
+                    $('#bookAAppointment').attr('href', "/Home/JyotishProfile?Id=" + `${data.id}`);
                     // Update About Section
                     $('#aboutMe').text(data.about);
 
@@ -96,7 +101,7 @@
                     var galleryHtml = '';
                     $.each(data.gallery, function (index, item) {
                         galleryHtml += '<div class="col-6 col-md-3">';
-                        galleryHtml += '<img src="'  + "@BaseUrl"+ item.imageUrl + '" alt="Gallery Image" class="img-fluid rounded-4 img-thumbnail border-0" style="height:250px; width:250; border: 2px solid #ffffff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);">';
+                        galleryHtml += '<img src="'  + BaseUrl+ item.imageUrl + '" alt="Gallery Image" class="img-fluid rounded-4 img-thumbnail border-0" style="height:250px; width:250; border: 2px solid #ffffff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);">';
                         galleryHtml += '</div>';
                     });
                     $('#gallerySection').html(galleryHtml);
@@ -129,96 +134,3 @@
 
 
 
-@* <div class="container" style="margin-top:100px; background-color: #f7f7f7; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
-    <div class="card shadow-sm" style="background-color: #ffffff; padding: 20px; border-radius: 10px;">
-        <div class="card-body">
-            <div class="row align-items-center mb-4">
-                <div class="col-md-3 text-center text-md-start">
-                    <img src="~/Img/JyotishProfile.jpg" alt="Profile Picture" class="rounded-circle img-thumbnail" style="width: 100%; max-width: 120px; border: 2px solid #ffffff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);">
-                </div>
-                <div class="col-md-9">
-                    <h2 class="h4 mb-1" style="color: #333333;">Prashant <span class="text-success">&#10004;</span></h2>
-                    <p class="text-muted mb-1" style="font-size: 14px;">Vedic</p>
-                    <p class="text-muted mb-1" style="font-size: 14px;">Hindi</p>
-                    <p class="text-muted mb-1" style="font-size: 14px;">Experience: 3 Years</p>
-                    <p class="text-danger fw-bold mb-1" style="font-size: 18px;">₹ 500 / 20 min</p>
-
-                    <div class="mt-3">
-                        <button class="btn btn-primary me-2 mb-2 mb-md-0" style="background-color: #4CAF50; border-color: #4CAF50;">Start Chat</button>
-                        <button class="btn btn-primary" style="background-color: #4CAF50; border-color: #4CAF50;">Start Call</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row g-2 mb-4">
-                <div class="col-6 col-md-3">
-                    <img src="~/Img/JyotishProfile1.jpeg" alt="Gallery Image" class="img-fluid rounded-4 img-thumbnail border-0" style="border: 2px solid #ffffff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);">
-                </div>
-                <div class="col-6 col-md-3">
-                    <img src="~/Img/JyotishProfile2.jpeg" alt="Gallery Image" class="img-fluid rounded-4 img-thumbnail border-0" style="border: 2px solid #ffffff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);">
-                </div>
-                <div class="col-6 col-md-3">
-                    <img src="~/Img/JyotishProfile3.jpeg" alt="Gallery Image" class="img-fluid rounded-4 img-thumbnail border-0" style="border: 2px solid #ffffff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);">
-                </div>
-                <div class="col-6 col-md-3">
-                    <img src="~/Img/JyotishProfile4.jpeg" alt="Gallery Image" class="img-fluid rounded-4 img-thumbnail border-0" style="border: 2px solid #ffffff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);">
-                </div>
-            </div>
-
-            <div class="mb-4">
-                <h3 class="h5" style="color: #333333;">About me</h3>
-                <p class="text-justify" style="font-size: 14px;">Prashant, a proficient Vedic Astrologer, is committed to helping clients with spirit-guided readings. Upholding Astrology ethics, he strives to bring stability to lives. he offers clarity and insight, empowering clients with spiritual knowledge about surrounding energies. Services cover Marriage Consultation, Career and Business, Love and Relationship, Wealth and Property, and more, with proven and easy remedies.</p>
-            </div>
-
-            <div class="mb-4">
-                <h3 class="h5">Rating & Reviews</h3>
-                <div class="d-flex align-items-center">
-                    <span class="h4 mb-0 me-2">4.99</span>
-                    <span class="text-warning me-2">★★★★★</span>
-                    <span class="text-muted">(6587 total)</span>
-                </div>
-                <div class="mt-3">
-                    <div class="p-3 bg-light rounded mb-2">
-                        <p class="mb-1">radhey radhey 100% accuracy or bhut acha laga apse baat krke.. positive vibes aaye h thank you so much ji..🙏🙏🙏</p>
-                        <span class="text-muted">Anonymous</span>
-                    </div>
-                    <div class="p-3 bg-light rounded mb-2">
-                        <p class="mb-1">I feel happy to talk someone who told me the life is not stop, it's just beginning, thanks for all your suggestions..</p>
-                        <span class="text-muted">SURAJ</span>
-                    </div>
-                    <div class="p-3 bg-light rounded">
-                        <p class="mb-1">jai shree ram🙏 bahut acha laga apse bat krke apne bhavishya ke</p>
-                        <span class="text-muted">Praful</span>
-                    </div>
-                </div>
-            </div>
-            <div class="mb-4">
-                <h3 class="h5" style="color: #333333;">Check Similar Consultants</h3>
-                <div class="row g-2">
-                    <div class="col-4 col-md-2 text-center mb-3">
-                        <img src="~/Img/JyotishProfile5.jpg" alt="Consultant" class="rounded-circle img-thumbnail mb-2" style="width: 80px; height: 80px; border: 2px solid #ffffff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
-                        <p class="text-muted">Jamna ₹18/min</p>
-                    </div>
-                    <div class="col-4 col-md-2 text-center mb-3">
-                        <img src="~/Img/JyotishProfile6.jpg" alt="Consultant" class="rounded-circle img-thumbnail mb-2" style="width: 80px; height: 80px; border: 2px solid #ffffff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
-                        <p class="text-muted">Shainka ₹24/min</p>
-                    </div>
-                    <div class="col-4 col-md-2 text-center mb-3">
-                        <img src="~/Img/JyotishProfile7.jpg" alt="Consultant" class="rounded-circle img-thumbnail mb-2" style="width: 80px; height: 80px; border: 2px solid #ffffff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
-                        <p class="text-muted">NidhiA ₹26/min</p>
-                    </div>
-                    <div class="col-4 col-md-2 text-center mb-3">
-                        <img src="~/Img/JyotishProfile8.jpg" alt="Consultant" class="rounded-circle img-thumbnail mb-2" style="width: 80px; height: 80px; border: 2px solid #ffffff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
-                        <p class="text-muted">Priya ₹20/min</p>
-                    </div>
-                    <div class="col-4 col-md-2 text-center mb-3">
-                        <img src="~/Img/Astrologer.jpg" alt="Consultant" class="rounded-circle img-thumbnail mb-2" style="width: 80px; height: 80px; border: 2px solid #ffffff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
-                        <p class="text-muted">Riya ₹22/min</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
- *@

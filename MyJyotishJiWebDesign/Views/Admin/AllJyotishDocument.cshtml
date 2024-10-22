@@ -42,7 +42,7 @@
             const token = localStorage.getItem("Token");
             debugger;
             $.ajax({
-                url: 'https://api.myjyotishg.in/api/Admin/GetAllJyotishDocument',
+                url: BaseUrl+'api/Admin/GetAllJyotishDocument',
                 type: 'GET',
                 contentType: 'application/json',
                 headers: {
@@ -89,7 +89,7 @@
 
             // Call approve API
             $.ajax({
-                url: 'https://api.myjyotishg.in/api/Account/ApproveDocument', // Update with the correct API endpoint
+                url: BaseUrl +'api/Account/ApproveDocument', // Update with the correct API endpoint
                 type: 'POST',
                 contentType: 'application/json',
                 headers: {
@@ -127,7 +127,7 @@
 
             // Call reject API
             $.ajax({
-                url: 'https://api.myjyotishg.in/api/Account/RejectDocument', // Update with the correct API endpoint
+                url: BaseUrl + 'api/Account/RejectDocument', // Update with the correct API endpoint
                 type: 'POST',
                 contentType: 'application/json',
                 headers: {

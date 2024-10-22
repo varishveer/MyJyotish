@@ -1,367 +1,144 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-
-
+﻿
 <style>
-    .card-custom {
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        padding: 16px;
-        width: 300px;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        margin: 10px;
+    /* Background and container styling */
+    body {
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(135deg, #f0f4fd, #dae9f4);
+        margin: 0;
+        padding: 0;
     }
 
-    .card-img-wrapper {
+    .astrologer-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+        padding: 50px 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    /* Card styling */
+    .astrologer-card {
+        position: relative;
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
         text-align: center;
+        padding: 30px 20px;
+        transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     }
 
-    .card-img-top {
-        border-radius: 50%;
-        width: 100px;
-        height: 100px;
-    }
-
-    .card-title {
-        font-size: 1.2em;
-        margin: 16px 0 8px;
-    }
-
-    .card-text {
-        margin: 8px 0;
-        font-size: 0.9em;
-    }
-
-    .btn-primary {
-        display: inline-block;
-        padding: 10px 20px;
-        font-size: 0.9em;
-        color: #fff;
-        background-color: #007bff;
-        border: none;
-        border-radius: 4px;
-        text-decoration: none;
-        text-align: center;
-    }
-
-        .btn-primary:hover {
-            background-color: #0056b3;
+        .astrologer-card:hover {
+            transform: translateY(-20px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
         }
 
+        /* Avatar with unique animation and effect */
+        .astrologer-card img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 5px solid #f0f4fd;
+            transition: border-color 0.4s ease-in-out;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+        }
 
+        .astrologer-card:hover img {
+            border-color: #ffc107;
+            transform: rotate(360deg);
+        }
 
+        /* Card content styling */
+        .astrologer-card h4 {
+            font-size: 1.3em;
+            margin: 10px 0 5px;
+            color: #333;
+        }
 
+        .astrologer-card p {
+            font-size: 0.95em;
+            color: #666;
+            margin: 8px 0;
+        }
 
-    .astrologer-container {
-        display: flex;
-        align-items: center;
-        gap: 10px; /* Space between elements */
-    }
+            .astrologer-card p span {
+                color: #333;
+                font-weight: bold;
+            }
 
-    .header {
-        display: flex;
-        align-items: center;
-    }
+        /* Add a decorative icon for creativity */
+        .astrologer-card .decorative-icon {
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            font-size: 50px;
+            color: rgba(255, 193, 7, 0.1);
+            transition: transform 0.4s ease;
+        }
 
-    .heading {
-        margin: 0;
-    }
-
-    .balance-info {
-        display: flex;
-        align-items: center;
-    }
-
-    .available-balance {
-        display: flex;
-        align-items: center;
-    }
-
-    .actions {
-        display: flex;
-        align-items: center;
-    }
-
-    .recharge-link,
-    .filter-button,
-    .sort-button {
-        margin-right: 10px; /* Space between links and buttons */
-    }
-
-    .search-container {
-        display: flex;
-        align-items: center;
-    }
-
-    .search-input {
-        margin-right: 5px; /* Space between input and icon */
-    }
-
+        .astrologer-card:hover .decorative-icon {
+            transform: rotate(45deg);
+            color: rgba(255, 193, 7, 0.3);
+        }
 </style>
-
-<br />
-@* <div class="container bg-light text-center">
-    <div class="row">
-        <h5> Search Filters</h5>
-    </div>
-
-</div> *@
-<div class="astrologer-container">
-    <div class="header">
-        <h1 class="heading">Talk to Astrologer</h1>
-    </div>
-
-    <div class="balance-info">
-        <div class="available-balance">
-            Available balance:
-            <span class="balance-amount">₹ 0</span>
-        </div>
-    </div>
-
-    <div class="actions">
-        <a class="recharge-link">Recharge</a>
-
-        <button type="button"
-                data-bs-toggle="modal"
-                data-bs-target="#filterModal"
-                class="filter-button">
-            <i class="fa fa-filter"></i>
-            Filter
-        </button>
-
-        <button type="button"
-                data-bs-toggle="modal"
-                data-bs-target="#sortModal"
-                class="sort-button">
-            <i class="fa fa-sort-amount-desc"></i>
-            Sort by
-        </button>
-
-        <div class="search-container">
-            <input name="searchText"
-                   type="search"
-                   autocomplete="off"
-                   id="searchQuery"
-                   class="search-input"
-                   placeholder="Search name...">
-            <i class="fa fa-search"></i>
-        </div>
-    </div>
+<div class="astrologer-list mt-3" id="astrologerList">
+    <!-- Astrologer results will be injected here -->
 </div>
 
-<br />
-<div class="conatiner">
+<script>
+   
+    // Function to fetch astrologers for the chat
+    function GetAstroListCallChat() {
+        $.ajax({
+            url: BaseUrl + 'Api/User/GetAstroListCallChat?listName=Call',
+            type: 'GET',
+            success: function (response) {
+                debugger;
+                if (response.status === 200) {
+                    var astrologers = response.data;
+                    if (astrologers.length > 0) {
+                        displayAstrologers(astrologers);
+                    } else {
+                        $('#astrologerList').html('<p>No astrologers found.</p>');
+                    }
+                } else {
+                    $('#astrologerList').html('<p>No astrologers found.</p>');
+                }
+            },
+            error: function () {
+                debugger;
+                $('#astrologerList').html('<p>An error occurred while searching for astrologers.</p>');
+            }
+        });
+    }
 
-    <div class="row">
+    // Function to display astrologers dynamically
+    function displayAstrologers(astrologers) {
 
-        <div class="col-md-4">
-            <div class="card card-custom">
-                <div class="card-img-wrapper">
-                    
-                    <img src="~/img/astrologer.jpg" alt="Astrologer Image" class="card-img-top">
-                </div>
-                <div class="card-content">
-                    <a href="/Home/JyotishProfile"><h5 class="card-title">Charu34</h5></a>
-                    <p class="card-text"><strong>Area of Expertise:</strong> Vedic, Numerology, Tarot</p>
-                    <p class="card-text"><strong>Language:</strong> English, Hindi, Punjabi</p>
-                    <p class="card-text"><strong>Experience:</strong> 10 Years</p>
-                    <p class="card-text"><strong>Price:</strong> ₹ 5/min <s>₹ 84/min</s></p>
-                    <a href="#" class="btn btn-primary">Call</a>
-                </div>
-            </div>
-        </div>
+        var html = '';
+        astrologers.forEach(function (astrologer) {
+            var ImgSrc = BaseUrl + astrologer.profileImageUrl;
+            html += `
+                    <div class="astrologer-card">
+                        <a href="/Home/JyotishProfile?Id=${astrologer.id}">
+                            <i class="decorative-icon fa fa-star"></i>
+                            <img src="${ImgSrc}" alt="${astrologer.name}">
+                            <h4>${astrologer.name}</h4>
+                            <p><span>Expertise:</span> ${astrologer.expertise || 'N/A'}</p>
+                            <p><span>Experience:</span> ${astrologer.experience || 'N/A'} years</p>
+                            <p><span>Address:</span> ${astrologer.address || 'N/A'}</p>
+                                     <p><span>Call Charges:</span> ${astrologer.callCharges || 'N/A'}</p>
 
-        <div class="col-md-4">
-            <div class="card card-custom">
-                <div class="card-img-wrapper">
-                    <img src="~/img/astrologer.jpg" alt="Astrologer Image" class="card-img-top">
-                </div>
-                <div class="card-content">
-                    <h5 class="card-title">Charu34</h5>
-                    <p class="card-text"><strong>Area of Expertise:</strong> Vedic, Numerology, Tarot</p>
-                    <p class="card-text"><strong>Language:</strong> English, Hindi, Punjabi</p>
-                    <p class="card-text"><strong>Experience:</strong> 10 Years</p>
-                    <p class="card-text"><strong>Price:</strong> ₹ 5/min <s>₹ 84/min</s></p>
-                    <a href="#" class="btn btn-primary">Call</a>
-                </div>
-            </div>
-        </div>
+                        </a>
+                    </div>
+                `;
+        });
+        $('#astrologerList').html(html);
+    }
 
-        <div class="col-md-4">
-            <div class="card card-custom">
-                <div class="card-img-wrapper">
-                    <img src="~/img/astrologer.jpg" alt="Astrologer Image" class="card-img-top">
-                </div>
-                <div class="card-content">
-                    <h5 class="card-title">Charu34</h5>
-                    <p class="card-text"><strong>Area of Expertise:</strong> Vedic, Numerology, Tarot</p>
-                    <p class="card-text"><strong>Language:</strong> English, Hindi, Punjabi</p>
-                    <p class="card-text"><strong>Experience:</strong> 10 Years</p>
-                    <p class="card-text"><strong>Price:</strong> ₹ 5/min <s>₹ 84/min</s></p>
-                    <a href="#" class="btn btn-primary">Call</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card card-custom">
-                <div class="card-img-wrapper">
-                    <img src="~/img/astrologer.jpg" alt="Astrologer Image" class="card-img-top">
-                </div>
-                <div class="card-content">
-                    <h5 class="card-title">Charu34</h5>
-                    <p class="card-text"><strong>Area of Expertise:</strong> Vedic, Numerology, Tarot</p>
-                    <p class="card-text"><strong>Language:</strong> English, Hindi, Punjabi</p>
-                    <p class="card-text"><strong>Experience:</strong> 10 Years</p>
-                    <p class="card-text"><strong>Price:</strong> ₹ 5/min <s>₹ 84/min</s></p>
-                    <a href="#" class="btn btn-primary">Call</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card card-custom">
-                <div class="card-img-wrapper">
-                    <img src="~/img/astrologer.jpg" alt="Astrologer Image" class="card-img-top">
-                </div>
-                <div class="card-content">
-                    <h5 class="card-title">Charu34</h5>
-                    <p class="card-text"><strong>Area of Expertise:</strong> Vedic, Numerology, Tarot</p>
-                    <p class="card-text"><strong>Language:</strong> English, Hindi, Punjabi</p>
-                    <p class="card-text"><strong>Experience:</strong> 10 Years</p>
-                    <p class="card-text"><strong>Price:</strong> ₹ 5/min <s>₹ 84/min</s></p>
-                    <a href="#" class="btn btn-primary">Call</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card card-custom">
-                <div class="card-img-wrapper">
-                    <img src="~/img/astrologer.jpg" alt="Astrologer Image" class="card-img-top">
-                </div>
-                <div class="card-content">
-                    <h5 class="card-title">Charu34</h5>
-                    <p class="card-text"><strong>Area of Expertise:</strong> Vedic, Numerology, Tarot</p>
-                    <p class="card-text"><strong>Language:</strong> English, Hindi, Punjabi</p>
-                    <p class="card-text"><strong>Experience:</strong> 10 Years</p>
-                    <p class="card-text"><strong>Price:</strong> ₹ 5/min <s>₹ 84/min</s></p>
-                    <a href="#" class="btn btn-primary">Call</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card card-custom">
-                <div class="card-img-wrapper">
-                    <img src="~/img/astrologer.jpg" alt="Astrologer Image" class="card-img-top">
-                </div>
-                <div class="card-content">
-                    <h5 class="card-title">Charu34</h5>
-                    <p class="card-text"><strong>Area of Expertise:</strong> Vedic, Numerology, Tarot</p>
-                    <p class="card-text"><strong>Language:</strong> English, Hindi, Punjabi</p>
-                    <p class="card-text"><strong>Experience:</strong> 10 Years</p>
-                    <p class="card-text"><strong>Price:</strong> ₹ 5/min <s>₹ 84/min</s></p>
-                    <a href="#" class="btn btn-primary">Call</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card card-custom">
-                <div class="card-img-wrapper">
-                    <img src="~/img/astrologer.jpg" alt="Astrologer Image" class="card-img-top">
-                </div>
-                <div class="card-content">
-                    <h5 class="card-title">Charu34</h5>
-                    <p class="card-text"><strong>Area of Expertise:</strong> Vedic, Numerology, Tarot</p>
-                    <p class="card-text"><strong>Language:</strong> English, Hindi, Punjabi</p>
-                    <p class="card-text"><strong>Experience:</strong> 10 Years</p>
-                    <p class="card-text"><strong>Price:</strong> ₹ 5/min <s>₹ 84/min</s></p>
-                    <a href="#" class="btn btn-primary">Call</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card card-custom">
-                <div class="card-img-wrapper">
-                    <img src="~/img/astrologer.jpg" alt="Astrologer Image" class="card-img-top">
-                </div>
-                <div class="card-content">
-                    <h5 class="card-title">Charu34</h5>
-                    <p class="card-text"><strong>Area of Expertise:</strong> Vedic, Numerology, Tarot</p>
-                    <p class="card-text"><strong>Language:</strong> English, Hindi, Punjabi</p>
-                    <p class="card-text"><strong>Experience:</strong> 10 Years</p>
-                    <p class="card-text"><strong>Price:</strong> ₹ 5/min <s>₹ 84/min</s></p>
-                    <a href="#" class="btn btn-primary">Call</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card card-custom">
-                <div class="card-img-wrapper">
-                    <img src="~/img/astrologer.jpg" alt="Astrologer Image" class="card-img-top">
-                </div>
-                <div class="card-content">
-                    <h5 class="card-title">Charu34</h5>
-                    <p class="card-text"><strong>Area of Expertise:</strong> Vedic, Numerology, Tarot</p>
-                    <p class="card-text"><strong>Language:</strong> English, Hindi, Punjabi</p>
-                    <p class="card-text"><strong>Experience:</strong> 10 Years</p>
-                    <p class="card-text"><strong>Price:</strong> ₹ 5/min <s>₹ 84/min</s></p>
-                    <a href="#" class="btn btn-primary">Call</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card card-custom">
-                <div class="card-img-wrapper">
-                    <img src="~/img/astrologer.jpg" alt="Astrologer Image" class="card-img-top">
-                </div>
-                <div class="card-content">
-                    <h5 class="card-title">Charu34</h5>
-                    <p class="card-text"><strong>Area of Expertise:</strong> Vedic, Numerology, Tarot</p>
-                    <p class="card-text"><strong>Language:</strong> English, Hindi, Punjabi</p>
-                    <p class="card-text"><strong>Experience:</strong> 10 Years</p>
-                    <p class="card-text"><strong>Price:</strong> ₹ 5/min <s>₹ 84/min</s></p>
-                    <a href="#" class="btn btn-primary">Call</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card card-custom">
-                <div class="card-img-wrapper">
-                    <img src="~/img/astrologer.jpg" alt="Astrologer Image" class="card-img-top">
-                </div>
-                <div class="card-content">
-                    <h5 class="card-title">Charu34</h5>
-                    <p class="card-text"><strong>Area of Expertise:</strong> Vedic, Numerology, Tarot</p>
-                    <p class="card-text"><strong>Language:</strong> English, Hindi, Punjabi</p>
-                    <p class="card-text"><strong>Experience:</strong> 10 Years</p>
-                    <p class="card-text"><strong>Price:</strong> ₹ 5/min <s>₹ 84/min</s></p>
-                    <a href="#" class="btn btn-primary">Call</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card card-custom">
-                <div class="card-img-wrapper">
-                    <img src="~/img/astrologer.jpg" alt="Astrologer Image" class="card-img-top">
-                </div>
-                <div class="card-content">
-                    <h5 class="card-title">Charu34</h5>
-                    <p class="card-text"><strong>Area of Expertise:</strong> Vedic, Numerology, Tarot</p>
-                    <p class="card-text"><strong>Language:</strong> English, Hindi, Punjabi</p>
-                    <p class="card-text"><strong>Experience:</strong> 10 Years</p>
-                    <p class="card-text"><strong>Price:</strong> ₹ 5/min <s>₹ 84/min</s></p>
-                    <a href="#" class="btn btn-primary">Call</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+    // Initialize the function to get astrologers on page load
+    GetAstroListCallChat();
+</script>

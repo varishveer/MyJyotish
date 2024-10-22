@@ -1,9 +1,7 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿
 @{
     Layout = null;
-    string BaseUrl = "https://api.myjyotishg.in/";
+   
 }
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <button id="rzp-button1">Pay</button>
@@ -22,7 +20,7 @@
             console.log("Payment Successful: ", response);
             // Call your API to log the successful payment
             $.ajax({
-                url: "@BaseUrl" + 'api/Payments/capture-payment',
+                url: BaseUrl + 'api/Payments/capture-payment',
                 type: 'POST',
                 data: JSON.stringify({
                     PaymentId: response.razorpay_payment_id,
@@ -62,7 +60,7 @@
             console.log("Payment Failed: ", response);
             // Call your API to log the failed payment
             $.ajax({
-            url: "@BaseUrl" + 'api/Payments/capture-payment',
+            url: BaseUrl + 'api/Payments/capture-payment',
                 type: 'POST',
                 data: JSON.stringify({
                     PaymentId: response.error.metadata.payment_id,
@@ -83,96 +81,6 @@
 
 
 
-
-
-
-
-
-
-@* <script>
-    debugger;
-    var options = {
-        "key": "rzp_test_YGORtbwcCRzFxD", // Razorpay key ID
-        "amount": "100", // Amount in paise
-        "currency": "INR",
-        "name": "Your Company Name",
-        "description": "Test Transaction",
-        "order_id": "order_P9IaQ3hWwzu01B", // Order ID from backend
-        "handler": function (response){
-            debugger;
-            console.log(response);
-            alert(response);
-            // Call your API to capture the payment using this payment ID
-        },
-        "prefill": {
-            "name": "varish veer singh",
-            "email": "varishveer123@Gmail.com",
-            "contact": "7985738804"
-        },
-        "theme": {
-            "color": "#3399cc"
-        }
-    };
-    var rzp1 = new Razorpay(options);
-    document.getElementById('rzp-button1').onclick = function(e){
-        rzp1.open();
-        rzp1.payment(".failure", function(res){
-        console.log(res);
-        })
-        e.preventDefault();
-    }
-</script> *@
-
-
-
-@* <script>
-    debugger;
-    var options = {
-        "key": "rzp_test_YGORtbwcCRzFxD", // Razorpay key ID
-        "amount": "100", // Amount in paise
-        "currency": "INR",
-        "name": "Your Company Name",
-        "description": "Test Transaction",
-        "order_id": "order_P9JfgFLLvTZ1GQ", // Order ID from backend
-        "handler": function (response){
-            debugger;
-            // This is the success handler, called when the payment is successful
-            console.log("Payment successful:", response);
-            alert("Payment successful!\nPayment ID: " + response.razorpay_payment_id);
-            
-            // Call your API to capture the payment using this payment ID
-            // Example: make a POST request to capture the payment
-            // axios.post('/capture-payment', { paymentId: response.razorpay_payment_id })
-        },
-        "prefill": {
-            "name": "varish veer singh",
-            "email": "varishveer123@Gmail.com",
-            "contact": "7985738804"
-        },
-        "theme": {
-            "color": "#3399cc"
-        }
-    };
-
-    var rzp1 = new Razorpay(options);
-
-    // Handle button click to open Razorpay checkout
-    document.getElementById('rzp-button1').onclick = function(e){
-        rzp1.open();
-        e.preventDefault();
-    }
-
-    // Add a failure event listener
-    rzp1.on('payment.failed', function (response){
-        debugger;
-        // This is the failure handler, called when the payment fails
-        console.log("Payment failed:", response);
-        alert("Payment failed!\nError: " + response.error.description + "\nReason: " + response.error.reason);
-
-        // Optionally, you can make a call to your server to log or handle the failure
-        // Example: axios.post('/payment-failure', { error: response.error })
-    });
-</script> *@
 
 
 

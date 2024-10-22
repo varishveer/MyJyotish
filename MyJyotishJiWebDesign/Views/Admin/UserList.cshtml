@@ -47,7 +47,7 @@
             function fetchData() {
                 const token = localStorage.getItem("Token"); // Assuming Token is already set in localStorage
                 $.ajax({
-                    url: "https://api.myjyotishg.in/api/Admin/User", // Your API URL
+                url: BaseUrl + "api/Admin/User", // Your API URL
                     type: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`, // Authorization header with Bearer token

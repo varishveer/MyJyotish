@@ -112,7 +112,7 @@
 
             // Perform the AJAX request
             $.ajax({
-                url: "https://api.myjyotishg.in/api/Account/LoginAdmin",
+                url: BaseUrl  + "api/Account/LoginAdmin",
                 type: 'POST',
                 contentType: 'application/json', // Specify that the content type is JSON
                 data: JSON.stringify(data),

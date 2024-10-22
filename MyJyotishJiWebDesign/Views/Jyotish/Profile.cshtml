@@ -1,6 +1,6 @@
 ﻿@{
     Layout = "JyotishLayout";
-    var BaseUrl = "https://api.myjyotishg.in/";
+   
 }
 
 
@@ -363,7 +363,7 @@
         var Id = localStorage.getItem('Id'); // Assuming Id is stored in localStorage
 
         $.ajax({
-            url: "@BaseUrl" + `api/Jyotish/GetProfile?Id=${encodeURIComponent(Id)}`,
+            url: BaseUrl + `api/Jyotish/GetProfile?Id=${encodeURIComponent(Id)}`,
             type: 'GET',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
@@ -374,7 +374,7 @@
                     var profile = response.data;
                     debugger;
                     // Fill in the data fields
-                    $('#profileImage').attr('src', profile.profileImageUrl ?  "@BaseUrl"+profile.profileImageUrl : 'default-image.jpg');
+                    $('#profileImage').attr('src', profile.profileImageUrl ?  BaseUrl+profile.profileImageUrl : 'default-image.jpg');
                     $('#name').text(profile.name);
                     $('#email').text(profile.email);
                     $('#mobile').text(profile.mobile);

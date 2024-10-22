@@ -66,7 +66,7 @@
             $('#loading').show(); // Show loading indicator
 
             $.ajax({
-                url: `https://api.myjyotishg.in/api/Admin/GetJyotishCalls?id=${id}`, // Use the extracted id
+                url: BaseUrl + `api/Admin/GetJyotishCalls?id=${id}`, // Use the extracted id
                 type: 'GET',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("Token")}`,

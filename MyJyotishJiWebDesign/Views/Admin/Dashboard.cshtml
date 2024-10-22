@@ -114,7 +114,7 @@
         function fetchData() {
             const Token = localStorage.getItem("Token");
             $.ajax({
-                url: "https://api.myjyotishg.in/api/Admin/Appointment",
+                url: BaseUrl + "api/Admin/Appointment",
                 type: 'GET',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Example of an authorization header
@@ -149,7 +149,7 @@
         fetchData();
         function DashValues() {
             $.ajax({
-                url: "https://api.myjyotishg.in/api/Admin/Dashboard",
+                url: BaseUrl + "api/Admin/Dashboard",
                 type: 'GET',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Example of an authorization header

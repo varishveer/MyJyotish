@@ -138,7 +138,7 @@
                 return;
             }
             $.ajax({
-                url: 'https://api.myjyotishg.in/api/Admin/AddFeature',
+                url: BaseUrl + 'api/Admin/AddFeature',
                 type: 'POST',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("Token")}`,
@@ -187,7 +187,7 @@
     $(document).ready(function () {
 
         $.ajax({
-            url: 'https://api.myjyotishg.in/api/Admin/GetAllFeatures',
+            url: BaseUrl + 'api/Admin/GetAllFeatures',
             type: 'GET',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("Token")}`,
@@ -239,7 +239,7 @@
             }
 
             $.ajax({
-                url: 'https://api.myjyotishg.in/api/Admin/DeleteFeature',
+                url: BaseUrl + 'api/Admin/DeleteFeature',
                 type: 'GET',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("Token")}`,
@@ -311,7 +311,7 @@
                 return;
             }
             $.ajax({
-                url: 'https://api.myjyotishg.in/api/Admin/UpdateFeature',
+                url: BaseUrl + 'api/Admin/UpdateFeature',
                 type: 'POST',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("Token")}`,

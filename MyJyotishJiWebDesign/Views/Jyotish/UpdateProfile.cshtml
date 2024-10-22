@@ -1,6 +1,6 @@
 ﻿@{
     Layout = "JyotishLayout";
-    var BaseUrl = "https://api.myjyotishg.in/";
+  
 }
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <div class="container mt-2">
@@ -137,7 +137,7 @@
         // Load Profile Data on Page Load
         function loadProfileData() {
             $.ajax({
-                url: "@BaseUrl" + 'Api/Jyotish/GetProfile',
+                url: BaseUrl + 'Api/Jyotish/GetProfile',
                 type: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -171,7 +171,7 @@
                         $('#pooja').val(profile.pooja);
                         // Set the profile image preview if URL exists
                         if (profile.profileImageUrl) {
-                            $('#profileImagePreview').attr('src', "@BaseUrl" + profile.profileImageUrl);
+                            $('#profileImagePreview').attr('src', BaseUrl + profile.profileImageUrl);
                         } else {
                             $('#profileImagePreview').attr('src', 'default-image.jpg'); // Fallback image
                         }
@@ -192,7 +192,7 @@
         // Load Countries
         function loadCountries() {
             $.ajax({
-                url: "@BaseUrl" + 'Api/Jyotish/Country',
+                url: BaseUrl + 'Api/Jyotish/Country',
                 type: 'GET',
              
                 success: function (response) {
@@ -216,7 +216,7 @@
 
             if (countryId) {
                 $.ajax({
-                    url: "@BaseUrl" + 'Api/Jyotish/State',
+                    url: BaseUrl + 'Api/Jyotish/State',
                     type: 'GET',
                     data: { Id: countryId },
 
@@ -242,7 +242,7 @@
 
             if (stateId) {
                 $.ajax({
-                    url: "@BaseUrl" + 'Api/Jyotish/City',
+                    url: BaseUrl + 'Api/Jyotish/City',
                     type: 'GET',
                     data: { Id: stateId },
 
@@ -264,7 +264,7 @@
         // Load expertise options (mock data)
         function loadExpertise() {
             $.ajax({
-                url: "@BaseUrl" + 'Api/Jyotish/Expertise',
+                url: BaseUrl + 'Api/Jyotish/Expertise',
                 type: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -283,7 +283,7 @@
         }
         async function loadLanguage() {
             try {
-                const response = await fetch("@BaseUrl" + 'Api/Account/Languages');
+                const response = await fetch(BaseUrl + 'Api/Account/Languages');
                 const data = await response.json();
                 const $languageDropdown = $('#language');
                 $languageDropdown.html('<option value="">Select Language</option>');
@@ -348,7 +348,7 @@
             $('button[type="submit"]').prop('disabled', true);
 
             $.ajax({
-                url: "@BaseUrl" + "Api/Jyotish/UpdateProfile", // Your API endpoint
+                url: BaseUrl + "Api/Jyotish/UpdateProfile", // Your API endpoint
                 type: 'POST',
                 data: formData,
                 contentType: false,

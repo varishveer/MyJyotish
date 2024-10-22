@@ -38,6 +38,6 @@ namespace BusinessAccessLayer.Abstraction
         public string AddAppointmentSlot(AppointmentSlotViewModel model);
          public string UpdateAppointmentSlot(AppointmentSlotViewModel model);
          public string DeleteAppointmentSlot(int Id);
-         public List<AppointmentSlotModel> GetAllAppointmentSlot(int Id);
+        public List<AppointmentSlotUserViewModel> GetAllAppointmentSlot(int id);
     }
 }

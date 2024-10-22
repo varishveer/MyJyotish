@@ -30,6 +30,7 @@ namespace BusinessAccessLayer.Abstraction
         public List<AppointmentModel> getAllAppointment(int Id);
         public List<UserPaymentRecordModel> UserPaymentrecords(int Id);
         public UserPaymentRecordModel UserPaymentDetail(int Id);
+        public List<AppointmentSlotUserViewModel> GetAllAppointmentSlot(int id);
 
     }
 }
