@@ -56,8 +56,8 @@
                
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <label for="date" class="form-label">Date and Time</label>
-                        <input type="datetime-local" class="form-control" id="date">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="name">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="email" class="form-label">Email</label>
@@ -66,11 +66,27 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-12">
-                        <label for="problems" class="form-label">Problems</label>
-                        <input type="text" class="form-control" id="problems" placeholder="Describe your problems">
+                        <label for="mobile" class="form-label">Mobile</label>
+                        <input type="text" class="form-control" id="mobile" >
                     </div>
                    
                 </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="problem" class="form-label">Problem</label>
+                        <input type="text" class="form-control" id="problem">
+                    </div>
+
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="mobile" class="form-label">Mobile</label>
+                       
+                    </div>
+
+                </div>
+
            
                 <div class="form-row">
                     <div class="form-group col-md-6">
@@ -85,7 +101,104 @@
 </div>
 
 
-@* 
+
+
+<script>
+    $(document).ready(function () {
+
+        $.ajax({
+            url: `https://api.myjyotishg.in/api/Jyotish/GetAllAppointmentSlot?Id=${localStorage.getItem('Id')}`,
+            type: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+                'Content-Type': 'application/json',
+            },
+            success: function (res) {
+                $.each(res.data, function (index, item) {
+                    $('tbody').append(`<tr>
+                                                <td>${index + 1}</td>
+                                                <td>${item.date}</td>
+                                                <td>${item.timeDuration}</td>
+                                                <td>${item.timeFrom}</td>
+                                                <td>${item.timeTo}</td>
+                                                <td>${item.status}</td>
+                                                <td style='cursor:pointer;'>
+                                                    <a class="editfeature" data-id="${item.id}" data-date="${item.date}" data-timefrom="${item.timeFrom}" data-timeto="${item.timeTo}" data-duration="${item.timeDuration}">
+                                                        <i class="fa-solid fa-pen-to-square text-success"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>`);
+                });
+                $('#DataTable').DataTable();
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+        $('#appointmentForm').on('submit', function (event) {
+            debugger;
+            event.preventDefault(); // Prevent default form submission
+          
+
+            // Capture form data
+            var formData = {
+              
+               
+                dateTime: $('#date').val(),
+                email: $('#email').val(),
+                jyotishId: localStorage.getItem('Id'),
+                problem: $('#problems').val(),
+              
+            };
+          
+            // Send data using AJAX
+            $.ajax({
+                url: "@BaseUrl"+ 'Api/Jyotish/AddAppointment', // Replace with your API endpoint
+                type: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token2")}`, // Example of an authorization header
+                    'Content-Type': 'application/json', // Example of a content type header
+
+                },
+                data: JSON.stringify(formData),
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+               
+                success: function (response) {
+                    if (response.status === 200) { alert('Appointment booked successfully!'); }
+                    else if (response.status === 400) {
+
+                        alert('Invalid Data');
+                    }
+                    else {
+                        alert(`${response.message}`);
+                    }
+
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error submitting form:', error, status, xhr);
+                    alert('An error occurred while submitting the form. Please try again.');
+                }
+            });
+        });
+    });
+</script>
+
+
+
+@*
 <div class="container-fluid mt-4">
 
 
@@ -96,7 +209,7 @@
 
                 <img src="~/gif/3885914.jpg" alt="Sign Up Image" class="responsive-image" />
         </div>
-        
+
         <!-- Right Part (Form) -->
         <div class="col-md-9 right-part">
             <h5 class="mb-3 text-center">Schedule an Appointment</h5>
@@ -201,54 +314,3 @@
     </div>
 </div>
  *@
-
-<script>
-    $(document).ready(function () {
-        $('#appointmentForm').on('submit', function (event) {
-            debugger;
-            event.preventDefault(); // Prevent default form submission
-          
-
-            // Capture form data
-            var formData = {
-              
-               
-                dateTime: $('#date').val(),
-                email: $('#email').val(),
-                jyotishId: localStorage.getItem('Id'),
-                problem: $('#problems').val(),
-              
-            };
-          
-            // Send data using AJAX
-            $.ajax({
-                url: "@BaseUrl"+ 'Api/Jyotish/AddAppointment', // Replace with your API endpoint
-                type: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem("Token2")}`, // Example of an authorization header
-                    'Content-Type': 'application/json', // Example of a content type header
-
-                },
-                data: JSON.stringify(formData),
-                contentType: 'application/json; charset=utf-8',
-                dataType: 'json',
-               
-                success: function (response) {
-                    if (response.status === 200) { alert('Appointment booked successfully!'); }
-                    else if (response.status === 400) {
-
-                        alert('Invalid Data');
-                    }
-                    else {
-                        alert(`${response.message}`);
-                    }
-
-                },
-                error: function (xhr, status, error) {
-                    console.error('Error submitting form:', error, status, xhr);
-                    alert('An error occurred while submitting the form. Please try again.');
-                }
-            });
-        });
-    });
-</script>
