@@ -1,36 +1,29 @@
 ﻿@{
     Layout = "AdminLayout";
-   
+
 }
 <!-- Link to Bootstrap CSS -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
 <style>
-    body {
-        margin: 0;
-        font-family: "Heebo", sans-serif;
-        font-size: 1rem;
-        font-weight: 400;
-        line-height: 1.5;
-        color: #757575;
-        background-color: #F3F6F9;
-    }
     .gallery-container {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
         gap: 15px;
     }
+
     .gallery-item {
         border: 1px solid #ddd;
         border-radius: 10px;
         overflow: hidden;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
-    .gallery-item img {
-        width: 100%;
-        height: auto;
-    }
+
+        .gallery-item img {
+            width: 100%;
+            height: auto;
+        }
+
     .gallery-title {
         padding: 10px;
         text-align: center;
@@ -40,15 +33,13 @@
 
 <div class="container mt-4">
     <div class="row justify-content-around">
-        <h4 class="text-primary font-weight-bold">Gallery</h4>
+        <h4 class="text-primary font-weight-bold">Video</h4>
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#AddModal">
             Add
         </button>
     </div>
-   
+
     <hr />
-    <!-- Button to open the modal -->
-    
     <div class="gallery-container" id="galleryContainer">
         <!-- Images will be dynamically loaded here -->
     </div>
@@ -57,12 +48,8 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function () {
-        // Get the ID from the URL
-       
-        debugger;
-        var ApiUrl = BaseUrl + "Api/Jyotish/JyotishGallery?Id=" + `${localStorage.getItem("Id")}`;
-        console.log(ApiUrl);
-        // Fetch gallery data based on the ID
+        var ApiUrl = BaseUrl + "Api/Jyotish/JyotishVideos?Id=" + localStorage.getItem("Id");
+
         $.ajax({
             url: ApiUrl,
             type: 'GET',
@@ -71,27 +58,30 @@
                 'Content-Type': 'application/json',
             },
             success: function (res) {
-                debugger;
                 if (res.status === 200) {
                     const galleryData = res.data;
-                  
+
                     galleryData.forEach(item => {
-                        var src = BaseUrl + item.imageUrl
+                        if (item.imageUrl == "") { var src = BaseUrl + "Image/UserPlaceholder.png" }
+                        else { var src = BaseUrl + item.imageUrl; }
+                        
                         $('#galleryContainer').append(`
-                            <div class="gallery-item col-md-3">
-                                <img src= "${src}" alt="${item.imageTitle}">
-                                <div class="gallery-title">${item.imageTitle}</div>
-                            </div>
-                        `);
+                               <a href="${item.videoUrl}">
+                                   <div class="gallery-item col-md-3">
+                                        <img src="${src}" alt="${item.videoTitle}" width="250" height="250">
+                                        <div class="gallery-title">${item.videoTitle}</div>
+                                    </div>
+                                </a>
+                            `);
                     });
                 } else {
-                    debugger;
                     console.error("Failed to load gallery data:", res.message);
+                    alert("Error loading data. Please try again later.");
                 }
             },
             error: function (error) {
-                debugger;
                 console.error('An error occurred while loading gallery data:', error);
+                alert("An error occurred. Please check your connection and try again.");
             }
         });
     });
@@ -119,8 +109,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="imageTitle">Image Title</label>
-                        <input type="text" class="form-control" id="imageTitle" name="ImageTitle" required />
+                        <label for="videoTitle">Video Title</label>
+                        <input type="text" class="form-control" id="videoTitle" name="videoTitle" required />
                     </div>
 
                     <div class="form-group">
@@ -128,6 +118,10 @@
                         <input type="number" class="form-control" id="serialNo" name="SerialNo" required />
                     </div>
 
+                    <div class="form-group">
+                        <label for="videoUrl">Video Url</label>
+                        <input type="text" class="form-control" id="videoUrl" name="videoUrl" required />
+                    </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Submit</button>
@@ -137,28 +131,29 @@
         </div>
     </div>
 </div>
-
 <script>
     $(document).ready(function () {
         // Handle form submission for the modal
         $('#AddForm').on('submit', function (e) {
             e.preventDefault(); // Prevent default form submission
-            debugger;
+
             // Gather individual field values
             var imageFile = $('#image')[0].files[0]; // Get the file object
-            var imageTitle = $('#imageTitle').val();
-            var serialNo = $('#serialNo').val();
-            var jyotishId = localStorage.getItem('Id');
+            var videoTitle = $('#videoTitle').val(); // Get the video title
+            var serialNo = $('#serialNo').val(); // Get the serial number
+            var videoUrl = $('#videoUrl').val(); // Get the video URL
+            var jyotishId = localStorage.getItem('Id'); // Get JyotishId from local storage
 
             // Create a FormData object for the file upload
             var formData = new FormData();
-            formData.append('ImageUrl', imageFile);
-            formData.append('ImageTitle', imageTitle);
+            formData.append('Image', imageFile);
+            formData.append('VideoTitle', videoTitle); // Changed to match the input name
             formData.append('SerialNo', serialNo);
-            formData.append('JyotishId', jyotishId);
+            formData.append('VideoUrl', videoUrl); // Added the video URL
+            formData.append('JyotishId', jyotishId); // Append JyotishId
 
             // Define the API endpoint for adding an image
-            var addImageUrl = BaseUrl + "Api/Jyotish/AddJyotishGallery"; // Adjust this to your actual API endpoint
+            var addImageUrl = BaseUrl + "Api/Jyotish/AddJyotishVideo"; // Adjust this to your actual API endpoint
 
             // Make AJAX request to submit the form
             $.ajax({
@@ -171,7 +166,6 @@
                     'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
                 },
                 success: function (response) {
-                    debugger;
                     if (response.status === 200) {
                         location.reload(); // Reload the page or refresh the gallery
                         $('#AddModal').modal('hide'); // Close the modal
@@ -181,7 +175,6 @@
                     }
                 },
                 error: function (xhr) {
-                    debugger;
                     console.error('An error occurred while adding the image:', xhr);
                     console.error('Status:', xhr.status);
                     console.error('Response Text:', xhr.responseText);

@@ -83,7 +83,7 @@ namespace BusinessAccessLayer.Implementation
         public dynamic GetChatedUser(int id, string userType)
         {
             dynamic data;
-            if (userType == "client")
+            if (userType.ToLower(  ) == "client")
             {
              data = (from chat in _context.ChatedUser
                     join Jyotish in _context.JyotishRecords on chat.JyotishId equals Jyotish.Id
