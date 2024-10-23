@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ModelAccessLayer.Models;
+using ModelAccessLayer.ViewModels;
 using System.Collections.Concurrent;
 using System.Net.WebSockets;
 
@@ -68,7 +69,7 @@ namespace MyJyotishGApi.Controllers
                         md.sendBy = sendBy;
                         md.status = 1;
 
-                        ChatedUser cu = new ChatedUser();
+                        ChatedUserViewModel cu = new ChatedUserViewModel();
                         cu.Status = 1;
                         cu.UserId = sendBy == "client" ? Convert.ToInt32(clientId):Convert.ToInt32(recipientId);
                         cu.JyotishId = sendBy == "client" ?Convert.ToInt32(recipientId):Convert.ToInt32(clientId);
@@ -101,7 +102,7 @@ namespace MyJyotishGApi.Controllers
             return result;
         }
         [HttpGet("getChatedUser")]
-        public List<ChatedUser> GetChatedUser(int id, string userType)
+        public dynamic GetChatedUser(int id, string userType)
         {
             var result = _chat.GetChatedUser(id, userType);
             return result;
