@@ -112,83 +112,7 @@ namespace BusinessAccessLayer.Implementation
             }
         }
 
-        /*  public string UpdateProfile(JyotishCompleteViewModel model)
-          {
-              // Fetch the existing record from the database
-              var existingRecord = _context.JyotishRecords.FirstOrDefault(x => x.Id == model.Id);
-
-              if (existingRecord == null)
-              {
-                  throw new Exception("Jyotish Not Found");
-              }
-
-              // Validate email
-              if (existingRecord.Email != model.Email)
-              {
-                  throw new Exception("Invalid Email");
-              }
-
-              // Update common properties
-              existingRecord.Role = model.Role;
-              existingRecord.Status = "Complete";
-
-              // Handle profile image upload
-              if (model.ProfileImageUrl != null)
-              {
-                  existingRecord.ProfileImageUrl = SaveFile(model.ProfileImageUrl, "ProfileImages");
-              }
-
-              // Update other properties from the model
-              existingRecord.Mobile = model.Mobile;
-              existingRecord.Name = model.Name;
-              existingRecord.Gender = model.Gender;
-              existingRecord.Language = model.Language;
-              existingRecord.Expertise = model.Expertise;
-              existingRecord.Country = model.Country;
-              existingRecord.State = model.State;
-              existingRecord.City = model.City;
-              existingRecord.Password = model.Password; // Consider hashing the password
-              existingRecord.DateOfBirth = model.DateOfBirth;
-
-              existingRecord.Otp = model.Otp;
-              existingRecord.Experience = model.Experience;
-              existingRecord.Pooja = model.Pooja;
-              existingRecord.Call = model.Call;
-              existingRecord.CallCharges = model.CallCharges;
-              existingRecord.Chat = model.Chat;
-              existingRecord.ChatCharges = model.ChatCharges;
-              existingRecord.Address = model.Address;
-              existingRecord.TimeTo = model.TimeTo;
-              existingRecord.TimeFrom = model.TimeFrom;
-              existingRecord.AppointmentCharges = model.AppointmentCharges;
-
-
-
-              // Save changes to the database
-              if (_context.SaveChanges() > 0)
-              {
-                  return "Successful";
-              }
-              else
-              {
-                  throw new Exception("Data Not Saved");
-              }
-          }
-
-          private string SaveFile(IFormFile file, string folderName)
-          {
-              var fileGuid = Guid.NewGuid().ToString();
-              var fileName = Path.GetFileName(file.FileName);
-              var filePath = Path.Combine(_uploadDirectory,"wwwroot" ,folderName, fileGuid + fileName);
-
-              using (var stream = new FileStream(filePath, FileMode.Create))
-              {
-                  file.CopyTo(stream);
-              }
-
-              return $"/{folderName}/{fileGuid}{fileName}"; // Return the relative path
-          }
-  */
+       
 
           public List<AppointmentModel> GetAllAppointment(int Id) 
          {
@@ -423,9 +347,21 @@ namespace BusinessAccessLayer.Implementation
         {
             if (model == null) { return "invalid data"; }
             JyotishVideosModel data = new JyotishVideosModel();
+            if(model.Image != null)
+            {
+                var ProfileGuid = Guid.NewGuid().ToString();
+                var SqlPath = "wwwroot/Images/Jyotish/Video" + ProfileGuid + model.Image.FileName;
+                var ProfilePath = Path.Combine(_uploadDirectory, SqlPath);
+                using (var stream = new FileStream(ProfilePath, FileMode.Create))
+                {
+                    model.Image.CopyTo(stream);
+                }
+                data.ImageUrl = "/Images/Jyotish/Video" + ProfileGuid + model.Image.FileName;
+            }
             data.VideoTitle = model.VideoTitle;
             data.VideoUrl = model.VideoUrl;
             data.JyotishId = model.JyotishId;
+            data.SerialNo = model.SerialNo;
             _context.JyotishVideos.Add(data);
             if (_context.SaveChanges() > 0) { return "Successful"; }
             else { return "internal server Error"; }
@@ -451,6 +387,7 @@ namespace BusinessAccessLayer.Implementation
 
             data.ImageTitle = model.ImageTitle;
             data.JyotishId = model.JyotishId;
+            data.SerialNo = model.SerialNo;
             _context.JyotishGallery.Add(data);
             if (_context.SaveChanges() > 0) { return "Successful"; }
             else { return "internal server Error"; }
@@ -459,12 +396,12 @@ namespace BusinessAccessLayer.Implementation
 
         public List<JyotishVideosModel> JyotishVideos(int Id)
         {
-            var records = _context.JyotishVideos.Where(x => x.JyotishId == Id).ToList();
+            var records = _context.JyotishVideos.Where(x => x.JyotishId == Id).OrderBy(x => x.SerialNo).ToList();
             return records;
         }
         public List<JyotishGalleryModel> JyotishGallery(int Id)
         {
-            var records = _context.JyotishGallery.Where(x => x.JyotishId == Id).ToList();
+            var records = _context.JyotishGallery.Where(x => x.JyotishId == Id).OrderBy(x => x.SerialNo).ToList();
             return records;
         }
 

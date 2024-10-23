@@ -101,12 +101,15 @@ namespace BusinessAccessLayer.Implementation
             // Fetch videos and gallery related to the Jyotish record
             var videos = _context.JyotishVideos
                                  .Where(x => x.JyotishId == Id)
-                                 .Select(video => new JyotishVideosViewModel
+                                 .Select(video => new JyotishVideosModel
                                  {
                                      
                                      Id = video.Id,
                                      VideoUrl = video.VideoUrl ,
-                                     VideoTitle = video.VideoTitle
+                                     VideoTitle = video.VideoTitle,
+                                     ImageUrl= video.ImageUrl,
+                                     SerialNo = video.SerialNo
+                                     
                                  })
                                  .ToArray();
 
@@ -116,7 +119,8 @@ namespace BusinessAccessLayer.Implementation
                                   {
                                       Id = image.Id,
                                       ImageUrl = image.ImageUrl,
-                                      ImageTitle = image.ImageTitle
+                                      ImageTitle = image.ImageTitle,
+                                      SerialNo = image.SerialNo
                                   })
                                   .ToArray();
             var achievementsArray = jyotishRecord.AwordsAndAchievement?.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
