@@ -63,6 +63,8 @@ namespace ModelAccessLayer.Models
         public ICollection<JyotishGalleryModel> JyotishGallery { get; set; }
         public ICollection<JyotishVideosModel> JyotishVideos { get; set; }
 
+        public ICollection<ChatedUser> ChatedUserRecord { get; set; } = new List<ChatedUser>();
+
 
 
     }

@@ -33,5 +33,6 @@ namespace ModelAccessLayer.Models
         public string? Status { get; set; }
         public ICollection<CallingModel> CallingModelRecord { get; set; } = new List<CallingModel>();
         public ICollection<ChattingModel> ChattingModelRecord { get; set; } = new List<ChattingModel>();
+        public ICollection<ChatedUser> ChatedUserRecord { get; set; } = new List<ChatedUser>();
     }
 }

@@ -47,6 +47,11 @@ namespace DataAccessLayer.DbServices
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            modelBuilder.Entity<ChatedUser>().HasOne(c => c.Jyotish).WithMany(j => j.ChatedUserRecord).HasForeignKey(c => c.JyotishId);
+
+            modelBuilder.Entity<ChatedUser>().HasOne(c => c.User).WithMany(j => j.ChatedUserRecord).HasForeignKey(c => c.UserId);
+
             modelBuilder.Entity<CallingModel>().HasOne(c => c.Jyotish).WithMany(j => j.CallingModelRecord).HasForeignKey(c => c.JyotishId);
 
             modelBuilder.Entity<CallingModel>().HasOne(c => c.User).WithMany(j => j.CallingModelRecord).HasForeignKey(c => c.UserId);

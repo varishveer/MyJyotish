@@ -10,7 +10,7 @@ namespace BusinessAccessLayer.Abstraction
     public interface IChat
     {
         public string AddChat(ChatModel chat);
-        public string AddChatUser(ChatModel chat);
+      //  public string AddChatUser(ChatModel chat);
         public List<ChatModel> GetChats(int sender, int receiver);
     }
 }
