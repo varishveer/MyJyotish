@@ -47,24 +47,20 @@
 </style>
 
 <div class="container profile-container mt-4">
-    <div class="row">
+    <div class="row justify-content-center">
         <!-- Left Sidebar -->
-        <div class="col-md-4 left-part">
-            <div class="mb-3">
-                <img id="profileImage" src="~/Img/Astrologer.jpg" alt="Profile Image" class="profile-photo">
+        <div class="col-md-4 ">
+            <div class="mb-3 text-center">
+                <img id="profileImage" src="~/Img/UserPlaceholder.png" alt="Profile Image" class="profile-photo">
             </div>
-            <div class="mb-3">
-                <button class="notification-btn btn btn-light">
-                    <i class="bi bi-bell"></i>
-                    <span class="badge rounded-pill bg-danger">3</span>
-                </button>
-            </div>
-            <div class="mb-3 d-flex justify-content-between flex-row">
-                <button class="btn btn-outline-info mx-1"><a href="/Jyotish/UpdateProfile">Edit Profile</a></button>
-                <button class="btn btn-outline-primary">Logout Account</button>
+          
+            <div class="mb-3 justify-content-center d-flex ">
+                <button class="btn btn-outline-info "><a href="/Home/UpdateProfile">Edit Profile</a></button>
+             
             </div>
         </div>
-
+    </div>
+    <div class="row justify-content-center">
         <!-- Right Profile Details -->
         <div class="col-md-8">
             <div class="profile-main">
@@ -95,20 +91,11 @@
                         <div class="detail-value" id="dateOfBirth"></div>
                     </div>
                     <div class="col-md-6">
-                        <div class="detail-label">Country</div>
-                        <div class="detail-value" id="country"></div>
+                        <div class="detail-label">Place Of Birth</div>
+                        <div class="detail-value" id="placeOfBirth"></div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="detail-label">State</div>
-                        <div class="detail-value" id="state"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="detail-label">City</div>
-                        <div class="detail-value" id="city"></div>
-                    </div>
-                </div>
+               
                 
             </div>
         </div>
@@ -131,15 +118,14 @@
                 if (response.status === 200) {
                     var profile = response.data;
                     // Fill in the data fields
-                    $('#profileImage').attr('src', profile.profilePictureUrl ? BaseUrl + profile.profilePictureUrl : '~/Img/Astrologer.jpg');
+                    $('#profileImage').attr('src', profile.profilePictureUrl ? BaseUrl + profile.profilePictureUrl : '/Img/UserPlaceholder.png');
                     $('#name').text(profile.name);
                     $('#email').text(profile.email);
                     $('#mobile').text(profile.mobile);
                     $('#gender').text(profile.gender);
                     $('#dateOfBirth').text(profile.doB !== "null" ? profile.doB : 'N/A');
-                    $('#country').text(profile.country);
-                    $('#state').text(profile.state);
-                    $('#city').text(profile.city);
+                    $('#placeOfBirth').text(profile.placeOfBirth);
+          
                 } else {
                     alert('Error: Could not load profile.');
                 }
