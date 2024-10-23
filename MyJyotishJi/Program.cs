@@ -27,6 +27,7 @@ builder.Services.AddScoped<IUserServices, UserServices>();
 builder.Services.AddScoped<RazorpayService>();
 builder.Services.AddScoped<IRazorPayServices,RazorPayServices>();
 builder.Services.AddScoped<ICallServices, CallServices>();
+builder.Services.AddScoped<IChat, ChatServices>();
 builder.Services.AddSignalR();
 
 
@@ -108,13 +109,10 @@ builder.Services.AddAuthorization(options =>
 });*/
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowSpecificOrigin",
-        policy =>
-        {
-            policy.WithOrigins("*")
-                  .AllowAnyHeader()
-                  .AllowAnyMethod();
-        });
+    options.AddPolicy("AllowAllOrigins",
+                    builder => builder.AllowAnyOrigin()
+                                      .AllowAnyMethod()
+                                      .AllowAnyHeader());
 });
 
 var app = builder.Build();
@@ -125,11 +123,25 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseCors("AllowSpecificOrigin");
+app.UseCors("AllowAllOrigins");
 app.UseStaticFiles();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseWebSockets();
+
+app.Use(async (context, next) =>
+{
+    if (context.WebSockets.IsWebSocketRequest)
+    {
+        await next();
+    }
+    else
+    {
+        await next();
+    }
+});
+
 
 app.MapControllers();
 app.MapHub<CallHub>("/callHub");

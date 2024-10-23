@@ -4,16 +4,14 @@
 
 @{
     Layout = "Extra";
-
 }
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
 
 <style>
     .container {
         margin-top: 50px;
         margin-bottom: 50px;
     }
-
 
     .left-part {
         border-radius: 10px 0px 0px 10px;
@@ -44,23 +42,19 @@
     }
 
     .form-group {
-        margin-bottom: 0.5rem; /* Adjust this value as needed */
+        margin-bottom: 0.5rem;
     }
 
     .form-label {
-        margin-bottom: 0.2rem; /* Reduce space between label and input */
+        margin-bottom: 0.2rem;
         font-size: 16px;
     }
 
     .input-group {
-        margin-bottom: 0.5rem; /* Reduce space between input groups */
+        margin-bottom: 0.5rem;
     }
 
-    .form-control {
-        font-size: 12px;
-    }
-
-    .form-select {
+    .form-control, .form-select {
         font-size: 12px;
     }
 
@@ -74,7 +68,6 @@
     }
 
 </style>
-
 <div class="container h-80 ">
     <div class="row w-70">
         <div class="col-md-5 left-part d-flex justify-content-center align-items-center">
@@ -83,32 +76,36 @@
         <div class="col-md-7 right-part">
             <h2 class="mb-3 d-flex justify-content-center">Sign Up</h2>
             <form id="registrationForm">
-                <div class="form-row">
-                    <div class="form-group col-md-6" style="margin-bottom: 0.2rem;">
-                        <label for="name" class="form-label" style="margin-bottom: 0.2rem;">Name:</label>
-                        <input type="text" id="name" name="name" placeholder="Enter your name" class="form-control" required>
+                <div class="form-row row">
+                    <div class="form-group col-md-6">
+                        <label for="name" class="form-label">Name:</label>
+                        <input type="text" id="name" name="name" placeholder="Enter your name" class="form-control"
+                               required>
                     </div>
-                    <div class="form-group col-md-6" style="margin-bottom: 0.2rem;">
+                    <div class="form-group col-md-6">
                         <label for="email" class="form-label">Email:</label>
                         <div class="input-group">
-                            <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email" aria-label="Recipient's username" required>
+                            <input type="email" id="email" name="email" class="form-control"
+                                   placeholder="Enter your email" aria-label="Recipient's username" required>
                             <button class="btn btn-outline-secondary otpcolour" type="button" id="getOtp">Get OTP</button>
                         </div>
                     </div>
                 </div>
 
-                <div class="form-row">
-                    <div class="form-group col-md-12" style="margin-bottom: 0.2rem;">
-                        <label for="otp" class="form-label" style="display:none">Verification:</label>
-                        <div class="input-group">
-                            <input type="number" id="otp" name="otp" class="form-control" style="display:none" placeholder="Enter OTP" required>
-                            <button class="btn btn-outline-secondary" type="button" id="verifyOtp" style="display:none">Verify OTP</button>
-                        </div>
+                <div class="form-group col-md-12">
+                    <label for="otp" class="form-label otp-label" style="display:none">Verification:</label>
+                    <div class="input-group">
+                        <input type="number" id="otp" name="otp" class="form-control otp-input" style="display:none"
+                               placeholder="Enter OTP" required>
+                        <button class="btn btn-outline-secondary otp-button" type="button" id="verifyOtp"
+                                style="display:none">
+                            Verify OTP
+                        </button>
                     </div>
                 </div>
 
-                <div class="form-row">
-                    <div class="form-group col-md-6" style="margin-bottom: 0.2rem;">
+                <div class="form-row row">
+                    <div class="form-group col-md-6">
                         <label for="gender" class="form-label">Gender:</label>
                         <select id="gender" name="gender" class="form-select" required>
                             <option value="Male" selected>Male</option>
@@ -116,34 +113,32 @@
                             <option value="Other">Other</option>
                         </select>
                     </div>
-                    <div class="form-group col-md-6" style="margin-bottom: 0.2rem;">
+                    <div class="form-group col-md-6">
                         <label for="mobile" class="form-label">Mobile:</label>
-                        <input type="tel" id="mobile" name="mobile" class="form-control" placeholder="Mobile Number" required>
+                        <input type="tel" id="mobile" name="mobile" class="form-control" placeholder="Mobile Number"
+                               required>
                     </div>
-
                 </div>
 
-
-
-                <div class="form-row">
-                    <div class="form-group col-md-6" style="margin-bottom: 0.6rem;">
-                        <label for="city" class="form-label">Date Of Birth:</label>
-                        <input type="text" class="form-control" id="DoB" name="DoB" placeholder="Enter DOB" />
-                    </div>  
-                    <div class="form-group col-md-6" style="margin-bottom: 0.6rem;">
-                        <label for="expertise" class="form-label">Place of Birth:</label>
-                        <select id="PlaceOfBirth" name="PlaceOfBirth" class="form-select" required>
+                <div class="form-row row">
+                    <div class="form-group col-md-6">
+                        <label for="DoB" class="form-label">Date Of Birth:</label>
+                        <input type="date" class="form-control" id="DoB" name="DoB" placeholder="Enter DOB" />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="PlaceOfBirthInput" class="form-label">Place of Birth:</label>
+                        <input type="text" id="PlaceOfBirthInput" name="PlaceOfBirthInput" class="form-control"
+                               placeholder="Enter City" />
+                        <select id="PlaceOfBirthList" name="PlaceOfBirth" class="form-select mt-2" required>
                             <option value="">Select Place Of Birth</option>
-                            <!-- Add expertise options here -->
                         </select>
                     </div>
-                 
                 </div>
 
                 <button type="submit" class="btn btn-info">Sign Up</button>
 
-                <div class="form-row mt-3" style="margin-bottom: 0.2rem;">
-                    <div class="form-group col-md-12" style="margin-bottom: 0.2rem;">
+                <div class="form-row mt-3">
+                    <div class="form-group col-md-12">
                         <p>
                             By submitting this form, you agree to our
                             <a href="#" class="text-info">Privacy Policy</a> and
@@ -152,12 +147,126 @@
                     </div>
                     <div class="d-flex justify-content-center">
                         <p class="mb-0">Already have an account?</p>
-                        <a href="/Jyotish/Login">Login</a>
+                        <a href="/Home/Login">Login</a>
                     </div>
                 </div>
             </form>
         </div>
-
-
     </div>
 </div>
+
+<script>
+
+
+    // Debounce function to limit API requests
+    function debounce(func, delay) {
+        let timeout;
+        return function (...args) {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(this, args), delay);
+        };
+    }
+
+    // Function to load the Place of Birth list dynamically
+    async function loadPlaceOfBirth(city) {
+        if (!city) return;
+
+        try {
+            const response = await fetch(BaseUrl + `Api/Account/PlaceOfBirthList?City=${encodeURIComponent(city)}`);
+            const data = await response.json();
+            const $placeOfBirthDropdown = $('#PlaceOfBirthList');
+            $placeOfBirthDropdown.html('<option value="">Select Place Of Birth</option>');
+
+            data.data.forEach(placeOfBirth => {
+                $placeOfBirthDropdown.append(`<option value="${placeOfBirth}">${placeOfBirth}</option>`);
+            });
+        } catch (error) {
+            console.error('Error fetching PlaceOfBirth:', error);
+        }
+    }
+
+    // Trigger API call on every keypress in the PlaceOfBirth input
+    $('#PlaceOfBirthInput').on('keyup', debounce(function () {
+        const city = $(this).val();
+        loadPlaceOfBirth(city);
+    }, 300));
+
+    // Get OTP button click event
+    $("#getOtp").click(function () {
+        const email = $('#email').val();
+
+        $.ajax({
+            url: BaseUrl + `Api/Account/RegisterUserEmail?email=${encodeURIComponent(email)}`,
+            type: 'POST',
+            success: function () {
+                alert("OTP sent successfully.");
+                $("#otp").show();
+                $("#verifyOtp").show();
+            },
+            error: function (xhr) {
+                alert("Error: " + xhr.status + " - " + xhr.statusText);
+            }
+        });
+    });
+
+    // Verify OTP button click event
+    $("#verifyOtp").click(function () {
+        const email = $('#email').val();
+        const otp = $('#otp').val();
+
+        const data = { Email: email, Otp: otp };
+
+        $.ajax({
+            url: BaseUrl + `Api/Account/VerifyUserOtp`,
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function (response) {
+                debugger;
+                alert("OTP verification successful: " + response.message);
+                $("#otp").show();
+                $("#verifyOtp").show();
+            },
+            error: function (xhr) {
+                debugger;
+                alert("Error: " + xhr.status + " - " + xhr.statusText);
+            }
+        });
+    });
+
+    // Form submission event
+    $('#registrationForm').on("submit", function (event) {
+        event.preventDefault();
+
+        const formData = {
+            email: $('#email').val(),
+            mobile: $('#mobile').val(),
+            name: $('#name').val(),
+            gender: $('#gender').val(),
+            DoB: $('#DoB').val().split('-').reverse().join('-'), 
+            PlaceOfBirth: $('#PlaceOfBirthList').val(),
+            otp: $('#otp').val()
+        };
+        console.log(formData);
+        $.ajax({
+            url: "https://localhost:7118/" + 'Api/Account/RegisterUserDetails',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(formData),
+            success: function (response) {
+                if (response.status === 200) {
+                    alert('User registered successfully.');
+                    window.location.href = "/Home/Index";
+                }
+                else {
+                    alert(`Alert : ${response.message}`);
+                }
+                           
+            },
+            error: function (xhr) {
+                alert('Error: ' + xhr.status + ' - ' + xhr.statusText);
+            }
+        });
+    });
+</script>
+

@@ -53,6 +53,7 @@ namespace MyJyotishJiWebDesign.Controllers
         public IActionResult IndianCalendarFestivals() { return View(); }
         public IActionResult BlogDetails() { return View(); }
         public IActionResult SignUp() { return View(); }
+        public IActionResult ResetPassword() { return View(); }
 
 
     }
