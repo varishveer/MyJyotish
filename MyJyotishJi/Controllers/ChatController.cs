@@ -25,12 +25,7 @@ namespace MyJyotishGApi.Controllers
         {
             if (HttpContext.WebSockets.IsWebSocketRequest)
             {
-                if (_clients.ContainsKey(id))
-                {
-
-                    _clients[id].Dispose();
-                    _clients.TryRemove(id, out _);
-                }
+               
                 var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
                 _clients[id] = webSocket;
 
@@ -72,6 +67,16 @@ namespace MyJyotishGApi.Controllers
                         md.mssDate = DateTime.Now.ToString("dd-MM-yyyy hh:mm:ss");
                         md.sendBy = sendBy;
                         md.status = 1;
+
+                        ChatedUser cu = new ChatedUser();
+                        cu.Status = 1;
+                        cu.UserId = sendBy == "client" ? Convert.ToInt32(clientId):Convert.ToInt32(recipientId);
+                        cu.JyotishId = sendBy == "client" ?Convert.ToInt32(recipientId):Convert.ToInt32(clientId);
+                        cu.FirstMessageAt = DateTime.Now;
+                        cu.LastMessageAt = DateTime.Now;
+
+
+                        var cres = _chat.AddChatUser(cu);
                         var res = _chat.AddChat(md);
 
                         if (_clients.TryGetValue(recipientId, out var recipientSocket))
@@ -93,6 +98,12 @@ namespace MyJyotishGApi.Controllers
         public List<ChatModel> GetChats(int sender, int receiver)
         {
             var result = _chat.GetChats(sender, receiver);
+            return result;
+        }
+        [HttpGet("getChatedUser")]
+        public List<ChatedUser> GetChatedUser(int id, string userType)
+        {
+            var result = _chat.GetChatedUser(id, userType);
             return result;
         }
     }
