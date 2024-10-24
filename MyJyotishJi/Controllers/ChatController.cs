@@ -81,7 +81,7 @@ namespace MyJyotishGApi.Controllers
 
                         if (_clients.TryGetValue(recipientId, out var recipientSocket))
                         {
-                            var msgBuffer = System.Text.Encoding.UTF8.GetBytes($"{clientId}: {msgContent}");
+                            var msgBuffer = System.Text.Encoding.UTF8.GetBytes($"{msgContent}: {DateTime.Now}");
                             await recipientSocket.SendAsync(new ArraySegment<byte>(msgBuffer), result.MessageType, result.EndOfMessage, CancellationToken.None);
                         }
                     }

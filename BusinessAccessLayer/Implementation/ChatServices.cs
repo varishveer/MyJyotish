@@ -79,7 +79,7 @@ namespace BusinessAccessLayer.Implementation
             {
              data = (from chat in _context.ChatedUser
                     join Jyotish in _context.JyotishRecords on chat.JyotishId equals Jyotish.Id
-                    where (chat.JyotishId == id && chat.Status==1)
+                    where (chat.UserId == id && chat.Status==1)
                     select new
                     {
                         Id = Jyotish.Id,
@@ -95,7 +95,7 @@ namespace BusinessAccessLayer.Implementation
             {
                 data = (from chat in _context.ChatedUser
                         join Users in _context.Users on chat.UserId equals Users.Id
-                        where (chat.UserId == id && chat.Status == 1)
+                        where (chat.JyotishId == id && chat.Status == 1)
                         select new
                         {
                             Id = Users.Id,

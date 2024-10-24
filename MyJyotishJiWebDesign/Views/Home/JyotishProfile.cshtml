@@ -24,7 +24,7 @@
                     <div class="mt-1">
 
                        
-                        <button class="btn btn-primary" style="background-color: #4CAF50; border-color: #4CAF50;"> <a id="bookAAppointment" href=""> </a>  Book A Appointmnet</button>
+                        <button class="btn btn-primary" style="background-color: #4CAF50; border-color: #4CAF50;" data-bs-toggle="modal" data-bs-target="#exampleModal">Book A Appointmnet</button>
                     </div>
 
                 </div>
@@ -71,9 +71,32 @@
     </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Book An Appoinment</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <select class="form-control my-2" id="appoinmentDate">
+                    <option>--Select Appoinment Date--</option>
+                </select>
+                <div id="appoinmentDetail"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     $(document).ready(function () {
        
+
+
         debugger;
         const urlParams = new URLSearchParams(window.location.search);
         var astrologerId = urlParams.get('Id');
@@ -126,6 +149,53 @@
                 console.error('AJAX Error: ', error);
             }
         });
+
+
+        // select appoinment
+        var appoinmentUrl = BaseUrl + `api/User/getAllAppointment?Id=${astrologerId}`;
+        let appoinmentArray;
+        $.ajax({
+            url: appoinmentUrl,
+            method: 'GET',
+            success: function (response) {
+                debugger;
+                if (response.status === 200) {
+                    var data = response.data;
+                    appoinmentArray=data;
+                    data.forEach(function(d){
+                        $("#appoinmentDate").append(
+                            `
+                                <option value='${d.date}'>${d.date.split("T")[0]}</option>
+                            `
+                        )
+                    })
+                }
+            },error:function(err){
+                console.log(err)
+            }
+        })
+        let newArray=[];
+        const currentDate = new Date();
+        function setAppoinment(appdata){
+            newArray = appoinmentArray.filter((e) => {
+                return e.date == currentDate.toISOString().split('T')[0];
+            })
+
+
+            $("#appoinmentDetail").empty();
+            newArray.forEach(function (d) {
+                $("#appoinmentDetail").append(
+                    `
+                        <p>${d.name}</p>
+
+                        `
+                )
+            })
+        }
+        $("#appoinmentDate").on("change", function () {
+           setAppoinment($(this).val())
+        });
+    
     });
 
 </script>
