@@ -1,9 +1,9 @@
 ﻿@{
-    Layout = "AdminLayout";
+    Layout = "JyotishLayout";
 
 }
 <!-- Link to Bootstrap CSS -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
 <style>
     .gallery-container {
         display: flex;
@@ -66,12 +66,14 @@
                         else { var src = BaseUrl + item.imageUrl; }
                         
                         $('#galleryContainer').append(`
-                               <a href="${item.videoUrl}">
+                              
                                    <div class="gallery-item col-md-3">
-                                        <img src="${src}" alt="${item.videoTitle}" width="250" height="250">
-                                        <div class="gallery-title">${item.videoTitle}</div>
+                                        <a href="${item.videoUrl}">
+                                            <img src="${src}" alt="${item.videoTitle}" width="250" height="250">
+                                            <div class="gallery-title">${item.videoTitle}</div>
+                                        </a>
                                     </div>
-                                </a>
+                               
                             `);
                     });
                 } else {

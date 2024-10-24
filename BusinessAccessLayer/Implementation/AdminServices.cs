@@ -59,9 +59,36 @@ namespace BusinessAccessLayer.Implementation
             return Records;
         }
 
-        public List<AppointmentModel> GetAllAppointment()
+        public List<AppointmentDetailViewModel> GetAllAppointment()
         {
-            var Records = _context.AppointmentRecords.ToList();
+            // var Records = _context.AppointmentRecords.ToList();
+            var Records = _context.AppointmentRecords
+            .Join(_context.Users,
+           record => record.UserId,
+           user => user.Id,
+           (record, user) => new { record, user })
+     .Join(_context.AppointmentSlots,
+           combined => combined.record.SlotId,
+           slot => slot.Id,
+           (combined, slot) => new AppointmentDetailViewModel
+           {
+               Id = combined.record.Id,
+               UserName = combined.user.Name,
+               UserMobile = combined.user.Mobile,
+               UserEmail = combined.user.Email,
+               UserId = combined.record.UserId,
+               Problem = combined.record.Problem,
+               Date = slot.Date,
+               Time = slot.TimeFrom,
+               Status = combined.record.Status,
+               Amount = combined.record.Amount
+           })
+     .ToList();
+
+
+
+
+
             return Records;
         }
         static string PasswordMethod(int length)
@@ -286,30 +313,42 @@ namespace BusinessAccessLayer.Implementation
             var Records = _context.CallingRecords.ToList();
             return Records;
         }
-        public AppointmentModel AppointmentDetails(int id)
+        public AppointmentDetailViewModel AppointmentDetails(int id)
         {
-            AppointmentModel Record =  _context.AppointmentRecords.Where(x=>x.Id == id).FirstOrDefault();
+            AppointmentDetailViewModel Record = _context.AppointmentRecords.Where(x => x.Id == id).Select(x => new AppointmentDetailViewModel
+            {
+                    Id = x.Id,
+                    UserName = _context.Users.Where(u => u.Id == x.UserId).Select(u => u.Name).FirstOrDefault(),
+                    UserMobile = _context.Users.Where(u => u.Id == x.UserId).Select(u => u.Mobile).FirstOrDefault(),
+                    UserEmail = _context.Users.Where(u => u.Id == x.UserId).Select(u => u.Email).FirstOrDefault(),
+                    UserId = x.UserId,
+                    Problem = x.Problem,
+                    Date = _context.AppointmentSlots.Where(u => u.Id == x.SlotId).Select(u => u.Date).FirstOrDefault(),
+                    Time = _context.AppointmentSlots.Where(u => u.Id == x.SlotId).Select(u => u.TimeFrom).FirstOrDefault(),
+                    Status = x.Status,
+                    Amount = x.Amount,
+
+            }).FirstOrDefault();
+
             if (Record == null)
             { return null; }
+
             else { return Record; }
         }
 
-        public bool UpdateAppointment(AppointmentModel model)
+        public bool UpdateAppointment(AppointmentUpdateAdminViewModel model)
         {
            var isDetailsValid = _context.AppointmentRecords.Where(x => x.Id == model.Id).FirstOrDefault();
             if (isDetailsValid == null)
             { return false; }
-            isDetailsValid.Name = model.Name;
-            isDetailsValid.Mobile = model.Mobile;
+           
             isDetailsValid.Date = model.Date;
-            isDetailsValid.Time = model.Time;
-            isDetailsValid.TimeDuration = model.TimeDuration;
-            isDetailsValid.Email = model.Email;
+        
             isDetailsValid.JyotishId = model.JyotishId;
             isDetailsValid.UserId = model.UserId;
             isDetailsValid.SlotId = model.SlotId;
             isDetailsValid.Problem = model.Problem;
-            isDetailsValid.Solution = model.Solution;
+        
             isDetailsValid.Status = model.Status;
             isDetailsValid.Amount = model.Amount;
 
@@ -1014,6 +1053,8 @@ namespace BusinessAccessLayer.Implementation
             if (record != null) { return record; }
             else { return null; }
         }
+
+       
 
     }
 }

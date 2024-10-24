@@ -27,7 +27,7 @@ namespace BusinessAccessLayer.Abstraction
         public UserModel GetUserProfile(int Id);
         public string UpdateProfile(UserUpdateViewModel model, string path);
         public AppointmentModel GetAppointmentDetails(int Id);
-        public List<AppointmentModel> getAllAppointment(int Id);
+        public List<AppointmentDetailViewModel> getAllAppointment(int Id);
         public List<UserPaymentRecordModel> UserPaymentrecords(int Id);
         public UserPaymentRecordModel UserPaymentDetail(int Id);
         public List<AppointmentSlotUserViewModel> GetAllAppointmentSlot(int id);

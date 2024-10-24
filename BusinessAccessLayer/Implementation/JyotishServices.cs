@@ -1,6 +1,6 @@
 ﻿using BusinessAccessLayer.Abstraction;
 using DataAccessLayer.DbServices;
-
+using DataAccessLayer.Migrations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -14,6 +14,7 @@ using System.Reflection.Metadata;
 using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace BusinessAccessLayer.Implementation
 {
@@ -112,23 +113,49 @@ namespace BusinessAccessLayer.Implementation
             }
         }
 
-       
 
-          public List<AppointmentModel> GetAllAppointment(int Id) 
-         {
-             var Jyotish = _context.JyotishRecords.Where(x => x.Id == Id).FirstOrDefault();
-            if (Jyotish == null) {return null; }
-             var Records = _context.AppointmentRecords.Where(x=>x.JyotishId == Jyotish.Id).ToList();
-             return Records;
-         }
-         public List<AppointmentModel> UpcomingAppointment(int Id)
-         {
-             var Jyotish = _context.JyotishRecords.Where(x => x.Id == Id).FirstOrDefault();
-            if(Jyotish== null) { return null; }
-             DateTime Today =DateTime.Now;
-             var Records = _context.AppointmentRecords.Where(e => e.Date > Today).Where(x=> x.JyotishId == Jyotish.Id).ToList();
-             return Records;
-         }
+
+
+        public List<AppointmentDetailViewModel> UpcomingAppointment(int Id)
+        {
+            // Fetch the Jyotish details
+            var Jyotish = _context.JyotishRecords.Where(x => x.Id == Id).FirstOrDefault();
+            if (Jyotish == null) { return null; }
+
+            DateTime Today = DateTime.Now;
+
+            // Fetch appointment records for the given Jyotish and filter by future dates
+            var allRecords = _context.AppointmentRecords
+     .Where(record => record.JyotishId == Id)
+     .Join(_context.Users,
+           record => record.UserId,
+           user => user.Id,
+           (record, user) => new { record, user })
+     .Join(_context.AppointmentSlots,
+           combined => combined.record.SlotId,
+           slot => slot.Id,
+           (combined, slot) => new AppointmentDetailViewModel
+           {
+               Id = combined.record.Id,
+               UserName = combined.user.Name,
+               UserMobile = combined.user.Mobile,
+               UserEmail = combined.user.Email,
+               UserId = combined.record.UserId,
+               Problem = combined.record.Problem,
+               Date = slot.Date,
+               Time = slot.TimeFrom,
+               Status = combined.record.Status,
+               Amount = combined.record.Amount
+           })
+     .ToList();  // Retrieve all records for the Jyotish
+
+            // Log the count of all records before filtering
+            Console.WriteLine($"Total records for JyotishId {Id}: {allRecords.Count}");
+
+            var Records = allRecords.Where(x => x.Date >= Today).ToList();
+
+            return Records;
+        }
         public string AddAppointment(AddAppointmentJyotishModel model) 
          {   
              var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
@@ -140,18 +167,18 @@ namespace BusinessAccessLayer.Implementation
              if (Jyotish == null || Slot == null || Slot.Status == "Booked" || appointmentRecord != null) { return "invalid Data"; }
 
              AppointmentModel appointment = new AppointmentModel();
-             appointment.Name = model.Name;
-             appointment.Mobile = model.Mobile;
+          
+         
              appointment.Date = Slot.Date;
-            appointment.Time = Slot.TimeTo;
-             appointment.Email = model.Email;
+
+         
              appointment.JyotishId = model.JyotishId;
             appointment.SlotId = model.SlotId;
-            appointment.TimeDuration = Slot.TimeDuration;
+         
 
              if(User == null)
              {
-                 UserModel userModel = new UserModel();
+                 ModelAccessLayer.Models.UserModel userModel = new ModelAccessLayer.Models.UserModel();
                  userModel.Email = model.Email;
                  userModel.Mobile = model.Mobile;
                  userModel.Name = model.Name;
@@ -184,29 +211,24 @@ namespace BusinessAccessLayer.Implementation
              if (User == null || Jyotish == null || appointment == null || slot == null) { return "invalid Data"; }
 
 
-             appointment.Name = User.Name;
-             appointment.Mobile = User.Mobile;
             
-             appointment.Email = User.Email;
+            
+            
+             
              appointment.JyotishId = Jyotish.Id;
              appointment.UserId = User.Id;
              appointment.Problem = model.Problem;
              appointment.Amount = Jyotish.AppointmentCharges;
             if (appointment.SlotId == model.SlotId)
             {
-                appointment.TimeDuration = slot.TimeDuration;
-                appointment.Time = slot.TimeFrom;
+              
                 appointment.Date = slot.Date;
             }
-            var oldSlot = _context.AppointmentSlots.Where(x => x.Id == appointment.SlotId).FirstOrDefault();
-            oldSlot.Status = "Vacant";
-            _context.AppointmentSlots.Update(oldSlot);
+            
 
             appointment.SlotId = model.SlotId;
             appointment.Date = slot.Date;
-            appointment.TimeDuration = slot.TimeDuration;
-            appointment.Time = slot.TimeFrom;
-            appointment.Solution = model.Solution;
+         
 
             appointment.Status = "Upcomming";
              _context.AppointmentRecords.Update(appointment);
@@ -215,11 +237,33 @@ namespace BusinessAccessLayer.Implementation
              return "internal Server Error.";
          }
 
-         public AppointmentModel GetAppointment(int Id)
+         public AppointmentDetailViewModel GetAppointment(int Id)
          {
-            var appointment = _context.AppointmentRecords.Where(x => x.Id == Id).FirstOrDefault();
-             if (appointment == null) { return null; }
-             else { return appointment; }
+            var Record = _context.AppointmentRecords
+      .Where(x => x.Id == Id) // Filter by appointmentId
+      .Join(_context.Users,
+            record => record.UserId,
+            user => user.Id,
+            (record, user) => new { record, user })
+      .Join(_context.AppointmentSlots,
+            combined => combined.record.SlotId,
+            slot => slot.Id,
+            (combined, slot) => new AppointmentDetailViewModel
+            {
+                Id = combined.record.Id,
+                UserName = combined.user.Name,
+                UserMobile = combined.user.Mobile,
+                UserEmail = combined.user.Email,
+                UserId = combined.record.UserId,
+                Problem = combined.record.Problem,
+                Date = slot.Date,
+                Time = slot.TimeFrom,
+                Status = combined.record.Status,
+                Amount = combined.record.Amount
+            })
+      .FirstOrDefault();
+            if (Record == null) { return null; }
+             else { return Record; }
          }
         public List<TeamMemberModel> TeamMember(int Id)
         {
@@ -349,6 +393,10 @@ namespace BusinessAccessLayer.Implementation
             JyotishVideosModel data = new JyotishVideosModel();
             if(model.Image != null)
             {
+                const long MaxFileSize = 5 * 1024 * 1024; // 5 MB
+                var allowedExtensions = new[] { ".pdf", ".jpg", ".jpeg", ".png" };
+                if (ValidateFile(model.Image, MaxFileSize, allowedExtensions) == false)
+                { return "Invalid File."; }
                 var ProfileGuid = Guid.NewGuid().ToString();
                 var SqlPath = "wwwroot/Images/Jyotish/Video" + ProfileGuid + model.Image.FileName;
                 var ProfilePath = Path.Combine(_uploadDirectory, SqlPath);
@@ -374,6 +422,10 @@ namespace BusinessAccessLayer.Implementation
 
             if (model.ImageUrl != null)
             {
+                const long MaxFileSize = 5 * 1024 * 1024; // 5 MB
+                var allowedExtensions = new[] { ".pdf", ".jpg", ".jpeg", ".png" };
+                if (ValidateFile(model.ImageUrl, MaxFileSize, allowedExtensions) == false)
+                { return "Invalid File."; }
                 var ProfileGuid = Guid.NewGuid().ToString();
                 var SqlPath = "wwwroot/Images/Jyotish/" + ProfileGuid + model.ImageUrl.FileName;
                 var ProfilePath = Path.Combine(_uploadDirectory, SqlPath);
@@ -563,6 +615,314 @@ namespace BusinessAccessLayer.Implementation
                     })
                     .ToList();
             return result;
+        }
+
+        public string AddProblemSolution(ProblemSolutionViewModel model)
+        {
+            var User = _context.Users.Where(x => x.Email == model.Email).FirstOrDefault();
+            var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
+            if (User == null || Jyotish ==null) { return "Invalid Data"; }
+
+            var Appointment = _context.AppointmentRecords.Where(x => x.Id == model.AppointmentId).Where(y => y.UserId == User.Id).Where(y => y.JyotishId == Jyotish.Id).FirstOrDefault();
+            if(Appointment == null) { return "Invalid Data"; }
+            DateTime currentDateTime = DateTime.Now;
+            ProblemSolutionModel data = new ProblemSolutionModel();
+            data.UserId = User.Id;
+            data.JyotishId = Jyotish.Id;
+            data.AppointmentId = Appointment.Id;
+            data.Date = DateTime.Now;
+            data.Time = TimeOnly.FromDateTime(currentDateTime);
+
+
+            if (model.Image1 != null)
+            {
+                const long MaxFileSize = 5 * 1024 * 1024; // 5 MB
+                var allowedExtensions = new[] { ".pdf", ".jpg", ".jpeg", ".png" };
+                if(ValidateFile(model.Image1, MaxFileSize, allowedExtensions) ==  false)
+                { return "Invalid File."; }
+                var ProfileGuid = Guid.NewGuid().ToString();
+                var SqlPath = "wwwroot/Images/Jyotish/ProblemSolution" + ProfileGuid + model.Image1.FileName;
+                var ProfilePath = Path.Combine(_uploadDirectory, SqlPath);
+                using (var stream = new FileStream(ProfilePath, FileMode.Create))
+                {
+                    model.Image1.CopyTo(stream);
+                }
+                data.Image1 = "/Images/Jyotish/ProblemSolution" + ProfileGuid + model.Image1.FileName;
+            }
+            if (model.Image2 != null)
+            {
+                const long MaxFileSize = 5 * 1024 * 1024; // 5 MB
+                var allowedExtensions = new[] { ".pdf", ".jpg", ".jpeg", ".png" };
+                if (ValidateFile(model.Image2, MaxFileSize, allowedExtensions) == false)
+                { return "Invalid File."; }
+                var ProfileGuid = Guid.NewGuid().ToString();
+                var SqlPath = "wwwroot/Images/Jyotish/ProblemSolution" + ProfileGuid + model.Image2.FileName;
+                var ProfilePath = Path.Combine(_uploadDirectory, SqlPath);
+                using (var stream = new FileStream(ProfilePath, FileMode.Create))
+                {
+                    model.Image2.CopyTo(stream);
+                }
+                data.Image2 = "/Images/Jyotish/ProblemSolution" + ProfileGuid + model.Image2.FileName;
+            }
+            if (model.Image3 != null)
+            {
+                const long MaxFileSize = 5 * 1024 * 1024; // 5 MB
+                var allowedExtensions = new[] { ".pdf", ".jpg", ".jpeg", ".png" };
+                if (ValidateFile(model.Image3, MaxFileSize, allowedExtensions) == false)
+                { return "Invalid File."; }
+                var ProfileGuid = Guid.NewGuid().ToString();
+                var SqlPath = "wwwroot/Images/Jyotish/ProblemSolution" + ProfileGuid + model.Image3.FileName;
+                var ProfilePath = Path.Combine(_uploadDirectory, SqlPath);
+                using (var stream = new FileStream(ProfilePath, FileMode.Create))
+                {
+                    model.Image3.CopyTo(stream);
+                }
+               data.Image3 = "/Images/Jyotish/ProblemSolution" + ProfileGuid + model.Image3.FileName;
+            }
+
+            if (model.Problem1 != null)
+            {
+                data.Problem1 = model.Problem1;
+            }
+            if (model.Solution1 != null)
+            {
+                data.Solution1 = model.Solution1;
+            }
+
+            if (model.Problem2 != null)
+            {
+                data.Problem2 = model.Problem2;
+            }
+            if (model.Solution2 != null)
+            {
+                data.Solution2 = model.Solution2;
+            }
+
+            if (model.Problem3 != null)
+            {
+                data.Problem3 = model.Problem3;
+            }
+            if (model.Solution3 != null)
+            {
+                data.Solution3 = model.Solution3;
+            }
+
+            _context.ProblemSolution.Add(data);
+            if(_context.SaveChanges()>0)
+            { return "Successful"; }
+            else { return "Internal Server Error."; }
+         
+        }
+
+        public List<ProblemSolutionGetAllViewModel> GetAllProblemSolution(int Id)
+        {
+            if (Id == 0)
+            {
+                return null;
+            }
+
+         
+            var Data = _context.ProblemSolution
+                                .Where(x => x.JyotishId == Id)
+                                .Select(x => new ProblemSolutionGetAllViewModel
+                                {
+                                    Id = x.Id,
+                                    JyotishId = x.JyotishId,
+                                    AppointmentId = x.AppointmentId,
+                                    Date = x.Date,
+                                    Time = x.Time,
+                                    Problem1 = x.Problem1,
+                                    Solution1 = x.Solution1,
+                                    Problem2 = x.Problem2,
+                                    Solution2 = x.Solution2,
+                                    Problem3 = x.Problem3,
+                                    Solution3 = x.Solution3,
+                                    Image1 = x.Image1,
+                                    Image2 = x.Image2,
+                                    Image3 = x.Image3,
+                                  
+                                    Name = _context.Users.Where(u => u.Id == x.UserId).Select(u => u.Name).FirstOrDefault(),
+                                    Email = _context.Users.Where(u => u.Id == x.UserId).Select(u => u.Email).FirstOrDefault()
+                                })
+                                .ToList();
+
+            return Data;
+        }
+
+
+        public string UpdateProblemSolution(ProblemSolutionViewModel model)
+        {
+            var User = _context.Users.Where(x => x.Email == model.Email).FirstOrDefault();
+            var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
+            if (User == null || Jyotish == null) { return "Invalid Data"; }
+
+            var Appointment = _context.AppointmentRecords.Where(x => x.Id == model.AppointmentId).Where(y => y.UserId == User.Id).Where(y => y.JyotishId == Jyotish.Id).FirstOrDefault();
+            if (Appointment == null) { return "Invalid Data"; }
+
+            var data = _context.ProblemSolution.Where(x => x.Id == model.Id).FirstOrDefault();
+            if(data == null) { return "Invalid Data"; }
+            data.UserId = User.Id;
+            data.JyotishId = Jyotish.Id;
+            data.AppointmentId = Appointment.Id;
+
+         
+
+
+            if (model.Image1 != null)
+            {
+                const long MaxFileSize = 5 * 1024 * 1024; // 5 MB
+                var allowedExtensions = new[] { ".pdf", ".jpg", ".jpeg", ".png" };
+                if (ValidateFile(model.Image1, MaxFileSize, allowedExtensions) == false)
+                { return "Invalid File."; }
+                var ProfileGuid = Guid.NewGuid().ToString();
+                var SqlPath = "wwwroot/Images/Jyotish/ProblemSolution" + ProfileGuid + model.Image1.FileName;
+                var ProfilePath = Path.Combine(_uploadDirectory, SqlPath);
+                using (var stream = new FileStream(ProfilePath, FileMode.Create))
+                {
+                    model.Image1.CopyTo(stream);
+                }
+                data.Image1 = "/Images/Jyotish/ProblemSolution" + ProfileGuid + model.Image1.FileName;
+            }
+            if (model.Image2 != null)
+            {
+                const long MaxFileSize = 5 * 1024 * 1024; // 5 MB
+                var allowedExtensions = new[] { ".pdf", ".jpg", ".jpeg", ".png" };
+                if (ValidateFile(model.Image2, MaxFileSize, allowedExtensions) == false)
+                { return "Invalid File."; }
+                var ProfileGuid = Guid.NewGuid().ToString();
+                var SqlPath = "wwwroot/Images/Jyotish/ProblemSolution" + ProfileGuid + model.Image2.FileName;
+                var ProfilePath = Path.Combine(_uploadDirectory, SqlPath);
+                using (var stream = new FileStream(ProfilePath, FileMode.Create))
+                {
+                    model.Image2.CopyTo(stream);
+                }
+                data.Image2 = "/Images/Jyotish/ProblemSolution" + ProfileGuid + model.Image2.FileName;
+            }
+            if (model.Image3 != null)
+            {
+                const long MaxFileSize = 5 * 1024 * 1024; // 5 MB
+                var allowedExtensions = new[] { ".pdf", ".jpg", ".jpeg", ".png" };
+                if (ValidateFile(model.Image3, MaxFileSize, allowedExtensions) == false)
+                { return "Invalid File."; }
+                var ProfileGuid = Guid.NewGuid().ToString();
+                var SqlPath = "wwwroot/Images/Jyotish/ProblemSolution" + ProfileGuid + model.Image3.FileName;
+                var ProfilePath = Path.Combine(_uploadDirectory, SqlPath);
+                using (var stream = new FileStream(ProfilePath, FileMode.Create))
+                {
+                    model.Image3.CopyTo(stream);
+                }
+                data.Image3 = "/Images/Jyotish/ProblemSolution" + ProfileGuid + model.Image3.FileName;
+            }
+
+            if (model.Problem1 != null)
+            {
+                data.Problem1 = model.Problem1;
+            }
+            if (model.Solution1 != null)
+            {
+                data.Solution1 = model.Solution1;
+            }
+
+            if (model.Problem2 != null)
+            {
+                data.Problem2 = model.Problem2;
+            }
+            if (model.Solution2 != null)
+            {
+                data.Solution2 = model.Solution2;
+            }
+
+            if (model.Problem3 != null)
+            {
+                data.Problem3 = model.Problem3;
+            }
+            if (model.Solution3 != null)
+            {
+                data.Solution3 = model.Solution3;
+            }
+
+            _context.ProblemSolution.Update(data);
+            if (_context.SaveChanges() > 0)
+            { return "Successful"; }
+            else { return "Internal Server Error."; }
+
+        }
+
+        public string DeleteProblemSolution(int Id)
+        {
+            if(Id == null) { return "Invalid Id"; }
+            var data = _context.ProblemSolution.Where(x => x.Id == Id).FirstOrDefault();
+            if(data == null) { return "Invalid Id"; }
+
+            _context.ProblemSolution.Remove(data);
+            if (_context.SaveChanges() > 0) { return "Successful"; }
+            else { return "Internal Server Error."; }
+        }
+
+        private bool ValidateFile(IFormFile file, long maxSize, string[] allowedExtensions)
+        {
+            return file.Length <= maxSize && allowedExtensions.Contains(Path.GetExtension(file.FileName).ToLower());
+        }
+
+        public List<AppointmentDetailViewModel> GetAllAppointment(int Id)
+        {
+            var Jyotish = _context.JyotishRecords.Where(x => x.Id == Id).FirstOrDefault();
+            if (Jyotish == null) { return null; }
+
+
+
+            var allRecords = _context.AppointmentRecords
+                 .Where(record => record.JyotishId == Id)
+                 .Join(_context.Users,
+                       record => record.UserId,
+                       user => user.Id,
+                       (record, user) => new { record, user })
+                 .Join(_context.AppointmentSlots,
+                       combined => combined.record.SlotId,
+                       slot => slot.Id,
+                       (combined, slot) => new AppointmentDetailViewModel
+                       {
+                           Id = combined.record.Id,
+                           UserName = combined.user.Name,
+                           UserMobile = combined.user.Mobile,
+                           UserEmail = combined.user.Email,
+                           UserId = combined.record.UserId,
+                           Problem = combined.record.Problem,
+                           Date = slot.Date,
+                           Time = slot.TimeFrom,
+                           Status = combined.record.Status,
+                           Amount = combined.record.Amount
+                       })
+                 .ToList();
+
+            /*var Records = _context.AppointmentRecords
+            .Join(_context.Users,
+          record => record.UserId,
+          user => user.Id,
+          (record, user) => new { record, user })
+            .Join(_context.AppointmentSlots,
+          combined => combined.record.SlotId,
+          slot => slot.Id,
+          (combined, slot) => new AppointmentDetailViewModel
+          {
+              Id = combined.record.Id,
+              UserName = combined.user.Name,
+              UserMobile = combined.user.Mobile,
+              UserEmail = combined.user.Email,
+              UserId = combined.record.UserId,
+              Problem = combined.record.Problem,
+              Date = slot.Date,
+              Time = slot.TimeFrom,
+              Status = combined.record.Status,
+              Amount = combined.record.Amount
+          })
+    .ToList();*/
+
+
+
+
+
+            return allRecords;
         }
     }
 }

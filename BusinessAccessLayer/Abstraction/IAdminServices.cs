@@ -14,7 +14,7 @@ namespace BusinessAccessLayer.Abstraction
         public List<JyotishModel> GetAllPendingJyotish();
         public List<UserModel> GetAllUser();
         public List<TeamMemberModel> GetAllTeamMember();
-        public List<AppointmentModel> GetAllAppointment();
+        public List<AppointmentDetailViewModel> GetAllAppointment();
         public bool ApproveJyotish(IdViewModel JyotishId);
         public bool RejectJyotish(IdViewModel JyotishId);
         public bool RemoveJyotish(IdViewModel JyotishId);
@@ -28,8 +28,8 @@ namespace BusinessAccessLayer.Abstraction
         public List<PoojaRecordModel> PoojaRecord();
         public List<ChattingModel> ChattingRecord();
         public List<CallingModel> CallingRecord();
-        public AppointmentModel AppointmentDetails(int id);
-        public bool UpdateAppointment(AppointmentModel model);
+        public AppointmentDetailViewModel AppointmentDetails(int id);
+        public bool UpdateAppointment(AppointmentUpdateAdminViewModel model);
         public bool AddCountry(Country _country);
         public bool AddState(State _state);
         public bool AddCity(City _city);

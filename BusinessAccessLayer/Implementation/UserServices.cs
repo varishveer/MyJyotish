@@ -279,14 +279,11 @@ namespace BusinessAccessLayer.Implementation
             var User = _context.Users.Where(x => x.Id == model.UserId).FirstOrDefault();
             var Slot = _context.AppointmentSlots.Where(x=>x.Id == model.SlotId).FirstOrDefault();
             if (User == null || Jyotish == null|| Slot==null ||Slot.Status == "Booked" ) { return "invalid Data"; }
+
+
             AppointmentModel appointment = new AppointmentModel();
-            appointment.Name = User.Name;
-            appointment.Mobile = User.Mobile;
             appointment.Date = Slot.Date;
-            appointment.Time = Slot.TimeFrom;
-            appointment.TimeDuration = Slot.TimeDuration;
             appointment.SlotId = model.SlotId;
-            appointment.Email = User.Email;
             appointment.JyotishId = Jyotish.Id;
             appointment.UserId = User.Id;
             appointment.Problem = model.Problem;
@@ -402,12 +399,43 @@ namespace BusinessAccessLayer.Implementation
   
         }
 
-        public List<AppointmentModel> getAllAppointment(int Id)
+        public List<AppointmentDetailViewModel> getAllAppointment(int Id)
         {
             var User = _context.Users.Where(x => x.Id == Id).FirstOrDefault();
             if(User == null) { return null; }
-            var records = _context.AppointmentRecords.Where(x => x.UserId == Id).ToList();
-             return records; 
+
+
+
+
+
+            var Records = _context.AppointmentRecords
+       .Where(x => x.UserId == Id)  // Filter by the userId
+       .Join(_context.Users,
+             record => record.UserId,
+             user => user.Id,
+             (record, user) => new { record, user })  // First join to get the user's details
+       .Join(_context.JyotishRecords,  // Join with JyotishRecords instead of Users
+             combined => combined.record.JyotishId,
+             jyotish => jyotish.Id,
+             (combined, jyotish) => new { combined.record, combined.user, jyotish }) // Get Jyotish's details from JyotishRecords
+       .Join(_context.AppointmentSlots,
+             combined => combined.record.SlotId,
+             slot => slot.Id,
+             (combined, slot) => new AppointmentDetailViewModel
+             {
+                 Id = combined.record.Id,
+                 UserName = combined.jyotish.Name,  // Store Jyotish's Name
+                 UserEmail = combined.jyotish.Email,  // Store Jyotish's Email
+                 UserMobile = combined.jyotish.Mobile,  // Store Jyotish's Mobile
+                 UserId = combined.record.UserId,
+                 Problem = combined.record.Problem,
+                 Date = slot.Date,
+                 Time = slot.TimeFrom,
+                 Status = combined.record.Status,
+                 Amount = combined.record.Amount
+             })
+       .ToList();
+            return Records; 
         }
         public AppointmentModel GetAppointmentDetails(int Id)
         {

@@ -43,10 +43,14 @@ namespace DataAccessLayer.DbServices
         public DbSet<AppointmentSlotModel> AppointmentSlots { get; set; }
         public DbSet<ChatModel> Chat { get; set; }
         public DbSet<ChatedUser> ChatedUser { get; set; }
-
+        public DbSet<ProblemSolutionModel> ProblemSolution { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<AppointmentModel>().HasOne(j => j.ProblemSolutionRecord).WithOne(d => d.Appointment).HasForeignKey<ProblemSolutionModel>(d => d.AppointmentId);
+            modelBuilder.Entity<ProblemSolutionModel>().HasOne(c => c.Jyotish).WithMany(j => j.ProblemSolutionRecord).HasForeignKey(c => c.JyotishId);
+
+            modelBuilder.Entity<ProblemSolutionModel>().HasOne(c => c.User).WithMany(j => j.ProblemSolutionRecord).HasForeignKey(c => c.UserId);
 
             modelBuilder.Entity<ChatedUser>().HasOne(c => c.Jyotish).WithMany(j => j.ChatedUserRecord).HasForeignKey(c => c.JyotishId);
 

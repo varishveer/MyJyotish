@@ -57,12 +57,12 @@ namespace BusinessAccessLayer.Implementation
             {
                 var documentsToUpload = new[]
                 {
-            (model.IdProof, (Action<string>)(path => document.IdProof = path)),
-            (model.AddressProof, (Action<string>)(path => document.AddressProof = path)),
-            (model.TenthCertificate, (Action<string>)(path => document.TenthCertificate = path)),
-            (model.TwelveCertificate, (Action<string>)(path => document.TwelveCertificate = path)),
-            (model.ProfessionalCertificate, (Action<string>)(path => document.ProfessionalCertificate = path)),
-        };
+                    (model.IdProof, (Action<string>)(path => document.IdProof = path)),
+                    (model.AddressProof, (Action<string>)(path => document.AddressProof = path)),
+                    (model.TenthCertificate, (Action<string>)(path => document.TenthCertificate = path)),
+                    (model.TwelveCertificate, (Action<string>)(path => document.TwelveCertificate = path)),
+                    (model.ProfessionalCertificate, (Action<string>)(path => document.ProfessionalCertificate = path)),
+                };
 
                 foreach (var (file, setPath) in documentsToUpload)
                 {

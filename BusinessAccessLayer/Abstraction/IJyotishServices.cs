@@ -11,10 +11,10 @@ namespace BusinessAccessLayer.Abstraction
     public interface IJyotishServices
     {
         public string UpdateProfile(JyotishUpdateViewModel model);
-           public List<AppointmentModel> GetAllAppointment(int Id);
-           public List<AppointmentModel> UpcomingAppointment(int Id);
+        public List<AppointmentDetailViewModel> GetAllAppointment(int Id);
+        public List<AppointmentDetailViewModel> UpcomingAppointment(int Id);
            public string AddAppointment(AddAppointmentJyotishModel model);
-           public AppointmentModel GetAppointment(int Id);
+        public AppointmentDetailViewModel GetAppointment(int Id);
            public string UpdateAppointment(UpdateAppointmentJyotishViewModel model); 
         public List<TeamMemberModel> TeamMember(int Id);
         public string AddTeamMember(TeamMemberViewModel teamMember, string Path);
@@ -39,5 +39,9 @@ namespace BusinessAccessLayer.Abstraction
          public string UpdateAppointmentSlot(AppointmentSlotViewModel model);
          public string DeleteAppointmentSlot(int Id);
         public List<AppointmentSlotUserViewModel> GetAllAppointmentSlot(int id);
+        public string AddProblemSolution(ProblemSolutionViewModel model);
+        public List<ProblemSolutionGetAllViewModel> GetAllProblemSolution(int Id);
+        public string UpdateProblemSolution(ProblemSolutionViewModel model);
+        public string DeleteProblemSolution(int Id);
     }
 }

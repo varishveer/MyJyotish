@@ -4,6 +4,7 @@ using DataAccessLayer.DbServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20241024051938_24-10-2024")]
+    partial class _24102024
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -65,8 +68,20 @@ namespace DataAccessLayer.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("JyotishId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Mobile")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Problem")
                         .IsRequired()
@@ -75,9 +90,18 @@ namespace DataAccessLayer.Migrations
                     b.Property<int>("SlotId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Solution")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<TimeOnly>("Time")
+                        .HasColumnType("time");
+
+                    b.Property<int>("TimeDuration")
+                        .HasColumnType("int");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -685,12 +709,6 @@ namespace DataAccessLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AppointmentId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Image1")
                         .HasColumnType("nvarchar(max)");
 
@@ -721,16 +739,10 @@ namespace DataAccessLayer.Migrations
                     b.Property<string>("Solution3")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<TimeOnly>("Time")
-                        .HasColumnType("time");
-
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AppointmentId")
-                        .IsUnique();
 
                     b.HasIndex("JyotishId");
 
@@ -1159,12 +1171,6 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("ModelAccessLayer.Models.ProblemSolutionModel", b =>
                 {
-                    b.HasOne("ModelAccessLayer.Models.AppointmentModel", "Appointment")
-                        .WithOne("ProblemSolutionRecord")
-                        .HasForeignKey("ModelAccessLayer.Models.ProblemSolutionModel", "AppointmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("ModelAccessLayer.Models.JyotishModel", "Jyotish")
                         .WithMany("ProblemSolutionRecord")
                         .HasForeignKey("JyotishId")
@@ -1176,8 +1182,6 @@ namespace DataAccessLayer.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Appointment");
 
                     b.Navigation("Jyotish");
 
@@ -1193,12 +1197,6 @@ namespace DataAccessLayer.Migrations
                         .IsRequired();
 
                     b.Navigation("JyotishRecords");
-                });
-
-            modelBuilder.Entity("ModelAccessLayer.Models.AppointmentModel", b =>
-                {
-                    b.Navigation("ProblemSolutionRecord")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.JyotishModel", b =>
