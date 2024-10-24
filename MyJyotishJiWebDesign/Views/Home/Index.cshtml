@@ -1,139 +1,10 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
-    Layout = null;
-    string BaseUrl = "https://api.myjyotishg.in/";
     string Url = "";
 }
-<html>
-    <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-   
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
-    <link href="~/css/index.css" rel="stylesheet" />
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
-</head>
-    <body>
-        <!-- Nav Bar-->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top p-0" style="background-color:#fde0b6">
-        <div class="container-fluid">
-            <a class="navbar-brand p-0" href="#"> <img src="https://api.myjyotishg.in/Images/Logo.png" width="70" height="40" /></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Language
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="languageDropdown">
-                            <li><a class="dropdown-item" href="#">English</a></li>
-                            <li><a class="dropdown-item" href="#">Hindi</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Book a Pooja</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Free Kundli</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Kundli Matching</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="horoscopeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Horoscope
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="horoscopeDropdown">
-                            <li><a class="dropdown-item" href="#">Today</a></li>
-                            <li><a class="dropdown-item" href="#">Weekly</a></li>
-                            <li><a class="dropdown-item" href="#">Overall</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Home/Chat">Chat with Astrologer</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Home/Talk">Call with Astrologer</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Blog</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="LoginDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Login
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="LoginDropdown" style="z-index:1040;">
-
-                            
-                            <li><a class="dropdown-item" href="/Jyotish/Login">Astrologer</a></li>
-                            <li><a class="dropdown-item" href="/Home/Login">User</a></li>
-
-                        </ul>
-                    </li>
-                    <button class="btn btn-outline-dark ms-3 border-0" id="toggleSearch"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="m19.485 20.154l-6.262-6.262q-.75.639-1.725.989t-1.96.35q-2.402 0-4.066-1.663T3.808 9.503T5.47 5.436t4.064-1.667t4.068 1.664T15.268 9.5q0 1.042-.369 2.017t-.97 1.668l6.262 6.261zM9.539 14.23q1.99 0 3.36-1.37t1.37-3.361t-1.37-3.36t-3.36-1.37t-3.361 1.37t-1.37 3.36t1.37 3.36t3.36 1.37" /></svg></button>
-
-                </ul>
-             
-            </div>
-        </div>
-    </nav>
-
-
-   
-
-
-    <!-- Search Bar -->
-    <div class="container-fluid" id="searchcontainer">
-        <div class="container d-flex justify-content-center">
-            <div id="searchForm" class=" justify-content-center align-items-center">
-                <input id="searchInput" class="form-control me-2" type="search" placeholder="Search" aria-label="Search" style="height:30px">
-                <button id="SearchBoxIcon" style="margin-left:-30px" class="border-0"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-   
-    document.getElementById('searchInput').addEventListener('keypress', function(event) {
-       
-        if (event.key === 'Enter') {
-            event.preventDefault();  
-            var keyword = document.getElementById('searchInput').value;
-            if (keyword.trim() !== '') {
-                window.location.href = `/Home/Search?keyword=${keyword}`;
-            }
-        }
-    });
-</script>
  
-     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            
-            var toggleIcon = document.getElementById('SearchBoxIcon');
-            var toggleButton = document.getElementById('toggleSearch');
-            var searchForm = document.getElementById('searchForm');
-
-            toggleButton.addEventListener('click', function () {
-                if (searchForm.style.display === 'none' || searchForm.style.display === '') {
-                    searchForm.style.display = 'flex';
-                  
-                } else {
-                    searchForm.style.display = 'none';
-                 
-                }
-            });
-            toggleIcon.addEventListener('click', function () {            
-                    searchForm.style.display = 'none';
-            });
-        });
-        
-    </script> 
+     
 
 
      <!-- Book A Pooja Section -->
@@ -150,32 +21,6 @@
     </div>
 
 
-    <style>
-        .fixed-section {
-            position: fixed;
-            top: 150px;
-            right: 0;
-            width: 100px;
-            height: 140px;
-            background-color: rgb(116,82,199);
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border: 1px solid #ddd;
-            z-index: 1000;
-            overflow-y: auto;
-            transition: width 0.3s ease, transform 0.3s ease;
-            text-align:center;
-        }
-
-        .content-container-fluid {
-            padding: 15px;
-        }
-
-        .fixed-section.hidden {
-            transform: translateX(100%);
-            width: 0;
-        }
-    </style>
-
 
     <!-- Banners (Carousel) -->
     <div id="bannerCarousel" class="carousel slide"  data-bs-ride="carousel">
@@ -191,14 +36,6 @@
             <span class="visually-hidden">Next</span>
         </button>
     </div>
-
-
-
-  
-
-
-
-
 
     <div class="container-fluid my-5">
         <h3 class="text-center mb-5">Our Services</h3>
@@ -270,7 +107,7 @@
     <!-- Small Banner -->
     <div class="container-fluid my-3">
     <div class="row">
-            <img src="@BaseUrl" + "Images/HomeBanner12.jpg" class="img-fluid" alt="Small Banner">
+            <img src=BaseUrl + "Images/HomeBanner12.jpg" class="img-fluid" alt="Small Banner">
     </div>
     </div>
 
@@ -848,7 +685,7 @@
 $(document).ready(function () {
     function fetchSliderImages() {
         $.ajax({
-            url: "@BaseUrl" + `Api/user/SliderImageList?Keyword=HomePage`,
+            url: BaseUrl + `Api/user/SliderImageList?Keyword=HomePage`,
             type: 'GET',
             dataType: 'json',
             success: function (data) {
@@ -876,7 +713,7 @@ $(document).ready(function () {
             const isActive = index === 0 ? 'active' : ''; // Set the first image as active
             const carouselItem = `
                     <div class="carousel-item ${isActive}">
-                        <img src="${"@BaseUrl" + image.imageUrl}" class="d-block w-100" alt="Banner ${index + 1}">
+                        <img src="${BaseUrl + image.imageUrl}" class="d-block w-100" alt="Banner ${index + 1}">
                     </div>
                 `;
             container.append(carouselItem); // Append image to the container
@@ -891,14 +728,14 @@ $(document).ready(function () {
  <script>
         $(document).ready(function () {
             $.ajax({
-                url: "@BaseUrl"+'Api/User/TopAstrologer?City=NewDelhi', 
+                url: BaseUrl+'Api/User/TopAstrologer?City=NewDelhi', 
                 method: 'GET',
                 success: function (response) {
                      
                     if (response.status === 200) {
                         const records = response.data.slice(0, 5); 
                         records.forEach(function (astrologer) {
-                            var src = "@BaseUrl" + `${astrologer.profileImageUrl}`;
+                            var src =BaseUrl     + `${astrologer.profileImageUrl}`;
                             $('#astrologers-container').append(`
                                
                                      <div class="col-12 col-sm-2 col-md-2 col-lg-2 mb-2 p-1">
@@ -940,7 +777,5 @@ $(document).ready(function () {
 
   
 
-    </body>
-</html>
 
 

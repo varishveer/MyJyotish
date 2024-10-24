@@ -26,9 +26,9 @@ namespace MyJyotishGApi.Controllers
         {
             if (HttpContext.WebSockets.IsWebSocketRequest)
             {
-               
+               var changeIdPref=sendBy=="client"?id+"A":id+"B";
                 var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
-                _clients[id] = webSocket;
+                _clients[changeIdPref] = webSocket;
 
                 await HandleWebSocketCommunication(webSocket, id, sendBy);
             }
@@ -46,10 +46,11 @@ namespace MyJyotishGApi.Controllers
                 while (true)
                 {
                     var result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+                    var changeIdPref = sendBy == "client" ? clientId + "A" : clientId + "B";
 
                     if (result.CloseStatus.HasValue)
                     {
-                        _clients.TryRemove(clientId, out _);
+                        _clients.TryRemove(changeIdPref, out _);
                         await webSocket.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
                         break;
                     }
@@ -79,8 +80,10 @@ namespace MyJyotishGApi.Controllers
 
                         var cres = _chat.AddChatUser(cu);
                         var res = _chat.AddChat(md);
+                        var changeresPref = sendBy == "client" ? recipientId + "B" : recipientId + "A";
 
-                        if (_clients.TryGetValue(recipientId, out var recipientSocket))
+
+                        if (_clients.TryGetValue(changeresPref, out var recipientSocket))
                         {
                             var msgBuffer = System.Text.Encoding.UTF8.GetBytes($"{msgContent}: {DateTime.Now}");
                             await recipientSocket.SendAsync(new ArraySegment<byte>(msgBuffer), result.MessageType, result.EndOfMessage, CancellationToken.None);
