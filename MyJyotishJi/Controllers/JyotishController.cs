@@ -201,7 +201,7 @@ namespace MyJyotishGApi.Controllers
 
 
         [HttpPost("AddJyotishVideo")]
-        public IActionResult AddJyotishVideo([FromBody] JyotishVideosViewModel model)
+        public IActionResult AddJyotishVideo( JyotishVideosViewModel model)
         {
             try
             {
@@ -218,7 +218,7 @@ namespace MyJyotishGApi.Controllers
 
         // Method to add Jyotish gallery
         [HttpPost("AddJyotishGallery")]
-        public IActionResult AddJyotishGallery([FromForm] JyotishGalleryViewModel model)
+        public IActionResult AddJyotishGallery( JyotishGalleryViewModel model)
         {
             try
             {

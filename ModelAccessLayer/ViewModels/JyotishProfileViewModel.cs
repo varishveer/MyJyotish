@@ -52,7 +52,7 @@ namespace ModelAccessLayer.ViewModels
         public string? About { get; set; }
         public string[] AwordsAndAchievement { get; set; }
         public string[] Specialization { get; set; }
-        public JyotishVideosViewModel[] Videos { get; set; }
+        public JyotishVideosModel[] Videos { get; set; }
         public JyotishGalleryModel[] Gallery { get; set; }
 
        

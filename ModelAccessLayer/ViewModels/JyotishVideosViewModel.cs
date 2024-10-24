@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -12,7 +13,9 @@ namespace ModelAccessLayer.ViewModels
         [Key]
         public int Id { get; set; }
         public string VideoTitle { get; set; }
+        public IFormFile Image { get; set; }
         public string VideoUrl { get; set; }
+        public string SerialNo { get; set; }
         public int JyotishId { get; set; }
     }
 }

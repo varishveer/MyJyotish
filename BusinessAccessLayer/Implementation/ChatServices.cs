@@ -1,6 +1,7 @@
 ﻿using BusinessAccessLayer.Abstraction;
 using DataAccessLayer.DbServices;
 using ModelAccessLayer.Models;
+using ModelAccessLayer.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,7 +33,7 @@ namespace BusinessAccessLayer.Implementation
                 return "some error";
             }
         }
-        public string AddChatUser(ChatedUser cu)
+        public string AddChatUser(ChatedUserViewModel cu)
         {
             var Records = _context.ChatedUser.Where(e => e.UserId == cu.UserId && e.JyotishId == cu.JyotishId).FirstOrDefault();
 
@@ -53,7 +54,14 @@ namespace BusinessAccessLayer.Implementation
             }
             else
             {
-                _context.ChatedUser.Add(cu);
+                ChatedUser data = new ChatedUser();
+                data.FirstMessageAt = cu.FirstMessageAt;
+                data.LastMessageAt = cu.LastMessageAt;
+                data.Status = cu.Status;
+                data.UserId = cu.UserId;
+                data.JyotishId = cu.JyotishId;
+
+                _context.ChatedUser.Add(data);
                 var result = _context.SaveChanges();
                 if (result > 0)
                 {
@@ -72,14 +80,14 @@ namespace BusinessAccessLayer.Implementation
             var data = _context.Chat.Where(e => (e.senderId == sender && e.receiverId == receiver) || (e.senderId == receiver && e.receiverId == sender)).ToList();
             return data;
         } 
-        public List<ChatedUser> GetChatedUser(int id, string userType)
+        public dynamic GetChatedUser(int id, string userType)
         {
             dynamic data;
-            if (userType == "client")
+            if (userType.ToLower(  ) == "client")
             {
              data = (from chat in _context.ChatedUser
                     join Jyotish in _context.JyotishRecords on chat.JyotishId equals Jyotish.Id
-                    where (chat.UserId == id && chat.Status==1)
+                    where (chat.UserId == id && chat.Status==1) orderby (chat.LastMessageAt)
                     select new
                     {
                         Id = Jyotish.Id,
@@ -96,6 +104,7 @@ namespace BusinessAccessLayer.Implementation
                 data = (from chat in _context.ChatedUser
                         join Users in _context.Users on chat.UserId equals Users.Id
                         where (chat.JyotishId == id && chat.Status == 1)
+                        orderby (chat.LastMessageAt)
                         select new
                         {
                             Id = Users.Id,
