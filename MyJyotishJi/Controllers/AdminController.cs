@@ -88,7 +88,7 @@ namespace MyJyotishJiApi.Controllers
         {
             try
             {
-                List<AppointmentModel> Records =_admin.GetAllAppointment();
+                var Records =_admin.GetAllAppointment();
                 return Ok(new { Status = 200, data = Records, Message = "Success" });
             }
             catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
@@ -244,7 +244,7 @@ namespace MyJyotishJiApi.Controllers
             catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
         }
         [HttpPost("UpdateAppointment")]
-        public IActionResult UpdateAppointment(AppointmentModel model)
+        public IActionResult UpdateAppointment(AppointmentUpdateAdminViewModel model)
         {
             try
             {

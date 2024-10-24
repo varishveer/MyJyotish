@@ -831,8 +831,15 @@ namespace BusinessAccessLayer.Implementation
             if (_user.Mobile != null)
             { 
                 var UserMobile = _context.Users.Where(x=>x.Mobile == record.Mobile).FirstOrDefault();
-                if (UserMobile.Mobile == null) { record.Mobile = _user.Mobile; }
-                else { return "Invalid Number"; }
+
+               if(UserMobile == null) { record.Mobile = _user.Mobile; }
+               else
+                {
+                        if (UserMobile.Mobile == null) { record.Mobile = _user.Mobile; }
+                        else { return "Invalid Number"; }
+                }
+               
+               
                 
             }
             if (_user.Name != null)
