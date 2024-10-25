@@ -641,13 +641,13 @@ namespace BusinessAccessLayer.Implementation
                 if(ValidateFile(model.Image1, MaxFileSize, allowedExtensions) ==  false)
                 { return "Invalid File."; }
                 var ProfileGuid = Guid.NewGuid().ToString();
-                var SqlPath = "wwwroot/Images/Jyotish/ProblemSolution" + ProfileGuid + model.Image1.FileName;
+                var SqlPath = "wwwroot/Images/Jyotish/ProblemSolution/" + ProfileGuid + model.Image1.FileName;
                 var ProfilePath = Path.Combine(_uploadDirectory, SqlPath);
                 using (var stream = new FileStream(ProfilePath, FileMode.Create))
                 {
                     model.Image1.CopyTo(stream);
                 }
-                data.Image1 = "/Images/Jyotish/ProblemSolution" + ProfileGuid + model.Image1.FileName;
+                data.Image1 = "/Images/Jyotish/ProblemSolution/" + ProfileGuid + model.Image1.FileName;
             }
             if (model.Image2 != null)
             {
@@ -656,13 +656,13 @@ namespace BusinessAccessLayer.Implementation
                 if (ValidateFile(model.Image2, MaxFileSize, allowedExtensions) == false)
                 { return "Invalid File."; }
                 var ProfileGuid = Guid.NewGuid().ToString();
-                var SqlPath = "wwwroot/Images/Jyotish/ProblemSolution" + ProfileGuid + model.Image2.FileName;
+                var SqlPath = "wwwroot/Images/Jyotish/ProblemSolution/" + ProfileGuid + model.Image2.FileName;
                 var ProfilePath = Path.Combine(_uploadDirectory, SqlPath);
                 using (var stream = new FileStream(ProfilePath, FileMode.Create))
                 {
                     model.Image2.CopyTo(stream);
                 }
-                data.Image2 = "/Images/Jyotish/ProblemSolution" + ProfileGuid + model.Image2.FileName;
+                data.Image2 = "/Images/Jyotish/ProblemSolution/" + ProfileGuid + model.Image2.FileName;
             }
             if (model.Image3 != null)
             {
@@ -671,13 +671,13 @@ namespace BusinessAccessLayer.Implementation
                 if (ValidateFile(model.Image3, MaxFileSize, allowedExtensions) == false)
                 { return "Invalid File."; }
                 var ProfileGuid = Guid.NewGuid().ToString();
-                var SqlPath = "wwwroot/Images/Jyotish/ProblemSolution" + ProfileGuid + model.Image3.FileName;
+                var SqlPath = "wwwroot/Images/Jyotish/ProblemSolution/" + ProfileGuid + model.Image3.FileName;
                 var ProfilePath = Path.Combine(_uploadDirectory, SqlPath);
                 using (var stream = new FileStream(ProfilePath, FileMode.Create))
                 {
                     model.Image3.CopyTo(stream);
                 }
-               data.Image3 = "/Images/Jyotish/ProblemSolution" + ProfileGuid + model.Image3.FileName;
+               data.Image3 = "/Images/Jyotish/ProblemSolution/" + ProfileGuid + model.Image3.FileName;
             }
 
             if (model.Problem1 != null)
@@ -775,13 +775,13 @@ namespace BusinessAccessLayer.Implementation
                 if (ValidateFile(model.Image1, MaxFileSize, allowedExtensions) == false)
                 { return "Invalid File."; }
                 var ProfileGuid = Guid.NewGuid().ToString();
-                var SqlPath = "wwwroot/Images/Jyotish/ProblemSolution" + ProfileGuid + model.Image1.FileName;
+                var SqlPath = "wwwroot/Images/Jyotish/ProblemSolution/" + ProfileGuid + model.Image1.FileName;
                 var ProfilePath = Path.Combine(_uploadDirectory, SqlPath);
                 using (var stream = new FileStream(ProfilePath, FileMode.Create))
                 {
                     model.Image1.CopyTo(stream);
                 }
-                data.Image1 = "/Images/Jyotish/ProblemSolution" + ProfileGuid + model.Image1.FileName;
+                data.Image1 = "Images/Jyotish/ProblemSolution/" + ProfileGuid + model.Image1.FileName;
             }
             if (model.Image2 != null)
             {
@@ -790,13 +790,13 @@ namespace BusinessAccessLayer.Implementation
                 if (ValidateFile(model.Image2, MaxFileSize, allowedExtensions) == false)
                 { return "Invalid File."; }
                 var ProfileGuid = Guid.NewGuid().ToString();
-                var SqlPath = "wwwroot/Images/Jyotish/ProblemSolution" + ProfileGuid + model.Image2.FileName;
+                var SqlPath = "wwwroot/Images/Jyotish/ProblemSolution/" + ProfileGuid + model.Image2.FileName;
                 var ProfilePath = Path.Combine(_uploadDirectory, SqlPath);
                 using (var stream = new FileStream(ProfilePath, FileMode.Create))
                 {
                     model.Image2.CopyTo(stream);
                 }
-                data.Image2 = "/Images/Jyotish/ProblemSolution" + ProfileGuid + model.Image2.FileName;
+                data.Image2 = "Images/Jyotish/ProblemSolution/" + ProfileGuid + model.Image2.FileName;
             }
             if (model.Image3 != null)
             {
@@ -805,13 +805,13 @@ namespace BusinessAccessLayer.Implementation
                 if (ValidateFile(model.Image3, MaxFileSize, allowedExtensions) == false)
                 { return "Invalid File."; }
                 var ProfileGuid = Guid.NewGuid().ToString();
-                var SqlPath = "wwwroot/Images/Jyotish/ProblemSolution" + ProfileGuid + model.Image3.FileName;
+                var SqlPath = "wwwroot/Images/Jyotish/ProblemSolution/" + ProfileGuid + model.Image3.FileName;
                 var ProfilePath = Path.Combine(_uploadDirectory, SqlPath);
                 using (var stream = new FileStream(ProfilePath, FileMode.Create))
                 {
                     model.Image3.CopyTo(stream);
                 }
-                data.Image3 = "/Images/Jyotish/ProblemSolution" + ProfileGuid + model.Image3.FileName;
+                data.Image3 = "Images/Jyotish/ProblemSolution/" + ProfileGuid + model.Image3.FileName;
             }
 
             if (model.Problem1 != null)
