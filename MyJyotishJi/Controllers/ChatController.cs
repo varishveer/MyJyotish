@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ModelAccessLayer.Models;
 using ModelAccessLayer.ViewModels;
+using Newtonsoft.Json;
 using System.Collections.Concurrent;
 using System.Net.WebSockets;
 
@@ -82,10 +83,17 @@ namespace MyJyotishGApi.Controllers
                         var res = _chat.AddChat(md);
                         var changeresPref = sendBy == "client" ? recipientId + "B" : recipientId + "A";
 
-
+        
                         if (_clients.TryGetValue(changeresPref, out var recipientSocket))
                         {
-                            var msgBuffer = System.Text.Encoding.UTF8.GetBytes($"{msgContent}: {DateTime.Now}");
+                            ReceiveChat ms = new ReceiveChat
+                            {
+                                mssg = msgContent,
+                                date = DateTime.Now.ToString("hh:mm")
+                            };
+                            
+                            string jsonString = JsonConvert.SerializeObject(ms);
+                            var msgBuffer = System.Text.Encoding.UTF8.GetBytes(jsonString);
                             await recipientSocket.SendAsync(new ArraySegment<byte>(msgBuffer), result.MessageType, result.EndOfMessage, CancellationToken.None);
                         }
                     }

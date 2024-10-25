@@ -7,11 +7,13 @@
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
+    <link href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css" rel="stylesheet" />
     <!-- FontAwesome for icons -->
     <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc" crossorigin="anonymous"></script>
 
-  
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
 
     <style>
         /* Custom styles */
@@ -48,16 +50,50 @@
     height: 0;
     display: flex;
         }
-       
+
+        .footer-heading {
+            color: white;
+            font-size: 18px;
+        }
+
+        .footer-line {
+            border-top: 2px solid white;
+            width: 50%;
+            margin: 5px 0;
+        }
+
+        .footer-item a {
+            color: #b0b0b0;
+            margin-bottom: 8px;
+            transition: color 0.3s ease;
+            text-decoration: none
+        }
+
+        .footer-item {
+            color: #b0b0b0;
+            margin-bottom: 8px;
+            transition: color 0.3s ease;
+            text-decoration: none
+        }
+
+            .footer-item :hover {
+                color: rgb(253, 224, 182);
+            }
+
+        footer {
+            background-color: #17303B;
+        }
+   
+        
     </style>
 </head>
 <body>
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
-    <nav class="navbar navbar-expand-lg navbar-light positon-relative fixed-top p-0" style="background-color:#fde0b6">
-        <div class="container-fluid">
-            <a class="navbar-brand p-0" href="#">
+    <nav class="navbar navbar-expand-lg navbar-light position-sticky fixed-top p-0" style="background-color:#fde0b6">
+        <div class="container-fluid positon-relative">
+            <a class="navbar-brand p-0" href="/">
                 <img src="https://api.myjyotishg.in/Images/Logo.png" width="70" height="40" />
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -133,11 +169,136 @@
        
 
       <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  
+    <div style="margin-top: 70px;">
+        @RenderBody()
+    </div>
 
-     <script>
+    <div class="container-fluid-fluid bg-black  py-4">
+        <div class="container-fluid">
+            <div class="row g-4 align-items-center">
+                <div class="col-md-10 text-center text-md-start mb-md-0">
+                    <span class="text-body">
+                        <a title="macreel" class="border-bottom text-white" style="text-decoration:none;">
+                            <i class="fas fa-copyright text-light me-2"></i>
+                            2024 - 2025 Macreel Infosoft Pvt . Ltd.
+                        </a>,
+                        All right reserved.
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="py-4 px-2">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- 1st Column: Jyotish Services -->
+                <div class="col-md-3">
+                    <h5 class="footer-heading" style="font-weight:bolder">Jyotish Services</h5>
+                    <hr class="footer-line">
+                    <ul class="list-unstyled">
+                        <li class="footer-item"><a href="#">  Astrological Consultation</a></li>
+                        <li class="footer-item"><a href="#">  Personalized Horoscope</a></li>
+                        <li class="footer-item"><a href="#">  Kundali Matching</a></li>
+                        <li class="footer-item"><a href="#">  Vedic Astrology</a></li>
+                        <li class="footer-item"><a href="#">  Palmistry</a></li>
+                        <li class="footer-item"><a href="#">  Numerology</a></li>
+                        <li class="footer-item"><a href="#">  Tarot Card Reading</a></li>
+                        <li class="footer-item"><a href="#">  Face Reading</a></li>
+                        <li class="footer-item"><a href="#">  Birth Chart Analysis</a></li>
+                        <li class="footer-item"><a href="#">  Gemstone Therapy</a></li>
+                    </ul>
+                </div>
+
+                <!-- 2nd Column: Our Services -->
+                <div class="col-md-3">
+                    <h5 class="footer-heading" style="font-weight:bolder">Our Services</h5>
+                    <hr class="footer-line">
+                    <ul class="list-unstyled">
+                        <li class="footer-item"><a href="#">  Pooja and Rituals</a></li>
+                        <li class="footer-item"><a href="#">  Gemstone Suggestions</a></li>
+                        <li class="footer-item"><a href="#">  Astrological Remedies</a></li>
+                        <li class="footer-item"><a href="#">  Muhurta Selection</a></li>
+                        <li class="footer-item"><a href="#">  Vaastu Consultation</a></li>
+                        <li class="footer-item"><a href="#">  Health Astrology</a></li>
+                        <li class="footer-item"><a href="#">  Finance Astrology</a></li>
+                        <li class="footer-item"><a href="#">  Business Astrology</a></li>
+                        <li class="footer-item"><a href="#">  Child Birth Remedies</a></li>
+                        <li class="footer-item"><a href="#">  Dasha Prediction</a></li>
+                    </ul>
+                </div>
+
+                <!-- 3rd Column: Quick Links & Privacy Policy -->
+                <div class="col-md-3">
+                    <h5 class="footer-heading" style="font-weight:bolder">Quick Links</h5>
+                    <hr class="footer-line">
+                    <ul class="list-unstyled">
+                        <li class="footer-item"><a href="#">  About Jyotish G</a></li>
+                        <li class="footer-item"><a href="#">  Astrology Blogs</a></li>
+                        <li class="footer-item"><a href="#">  Contact Jyotish G</a></li>
+                        <li class="footer-item"><a href="#">  FAQ</a></li>
+                    </ul>
+
+                    <h5 class="footer-heading" style="font-weight:bolder">Privacy Policy & Terms</h5>
+                    <hr class="footer-line">
+                    <ul class="list-unstyled">
+                        <li class="footer-item"><a href="#">  Privacy Policy</a></li>
+                        <li class="footer-item"><a href="#">  Terms & Conditions</a></li>
+                    </ul>
+                </div>
+
+                <!-- 4th Column: Contact Info -->
+                <div class="col-md-3">
+                    <h5 class="footer-heading" style="font-weight:bolder">Contact Info</h5>
+                    <hr class="footer-line">
+
+                    <p class="footer-item"> <i class="fa-solid fa-location-dot"></i> &nbsp; City of Stars, India</p>
+                    <p class="footer-item"><a href="mailto:jyotishg@astroservices.com"> <i class="fa-solid fa-envelope"></i> &nbsp;jyotishg@astroservices.com</a></p>
+                    <p class="footer-item"><a href="tel:+919876543210"> <i class="fa-solid fa-phone"></i> &nbsp;+(91) 9876543210</a></p>
+                    <p class="footer-item"><a href="http://www.myjyotishg.in"><i class="fa-brands fa-edge"></i>&nbsp;www.myjyotishg.in</a></p>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center mt-3">
+                <div class="btn-toolbar">
+
+                    <a class="btn btn-md-square rounded-circle mx-2" href="#" target="_blank" title="facebook">
+                        <img src="https://api.myjyotishg.in/Images/Icon/facebook.png" width="30" />
+                    </a>
+
+                    <a class="btn  btn-md-square rounded-circle mx-2" href="#" target="_blank" title="instagram">
+                        <img src="https://api.myjyotishg.in/Images/Icon/Instagram.png" width="30" />
+                    </a>
+
+                    <a class="btn  btn-md-square rounded-circle mx-2" title="linkedin" href="#" target="_blank">
+                        <img src="https://api.myjyotishg.in/Images/Icon/Linkedin.png" width="30" />
+                    </a>
+
+                    <a class="btn  btn-md-square rounded-circle mx-2" href="#" target="_blank" title="youtube">
+                        <img src="https://api.myjyotishg.in/Images/Icon/Youtube.png" width="30" />
+                    </a>
+
+                    <a class="btn  btn-md-square rounded-circle mx-2" href="#" title="twitter" target="_blank">
+                        <img src="https://api.myjyotishg.in/Images/Icon/twitter.png" width="30" />
+                    </a>
+
+                    <a class="btn  btn-md-square rounded-circle mx-2" href="#" title="pinterest" target="_blank">
+                        <img src="https://api.myjyotishg.in/Images/Icon/pinterest.png" width="30" />
+                    </a>
+
+                    <a class="btn  btn-md-square rounded-circle mx-2" href="#" title="blogger" target="_blank">
+                        <img src="https://api.myjyotishg.in/Images/Icon/blogger.png" width="30" />
+                    </a>
+                </div>
+            </div>
+            <hr style="color:grey" />
+        </div>
+    </footer>
+    @await RenderSectionAsync("Scripts", required: false)
+  
+
+    <script>
         document.addEventListener('DOMContentLoaded', function () {
+
             var toggleIcon = document.getElementById('SearchBoxIcon');
             var toggleButton = document.getElementById('toggleSearch');
             var searchForm = document.getElementById('searchForm');
@@ -155,14 +316,15 @@
                     var profileSection = document.createElement('li');
                     profileSection.classList.add('nav-item', 'dropdown');
                     profileSection.innerHTML = `
-                        <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-user-circle"></i> Profile
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                            <li><a class="dropdown-item" href="/Home/Profile">View Profile</a></li>
-                            <li><a class="dropdown-item" href="#" id="logoutBtn">Logout</a></li>
-                        </ul>
-                    `;
+                                <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-user-circle"></i> Profile
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                                    <li><a class="dropdown-item" href="/Home/Profile">View Profile</a></li>
+                                    <li><a class="dropdown-item" href="/Home/Appointments">Appointments</a></li>
+                                    <li><a class="dropdown-item" href="#" id="logoutBtn">Logout</a></li>
+                                </ul>
+                            `;
                     navbarNav.appendChild(profileSection);
 
                     // Handle logout
@@ -190,24 +352,22 @@
             checkUserLogin();
         });
 
-        document.getElementById('searchInput').addEventListener('keypress', function(event) {
-       
-        if (event.key === 'Enter') {
-            event.preventDefault();  
-            var keyword = document.getElementById('searchInput').value;
-            if (keyword.trim() !== '') {
-                window.location.href = `/Home/Search?keyword=${keyword}`;
-            }
-        }
-    });
+        document.getElementById('searchInput').addEventListener('keypress', function (event) {
 
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                var keyword = document.getElementById('searchInput').value;
+                if (keyword.trim() !== '') {
+                    window.location.href = `/Home/Search?keyword=${keyword}`;
+                }
+            }
+        });
+        $(document).ready(function () {
+            let table = new DataTable('#myTable');
+
+        })
         var BaseUrl = "https://api.myjyotishg.in/";
     </script>
-    <div style="margin-top: 70px;">
-        @RenderBody()
-    </div>
-
-    @await RenderSectionAsync("Scripts", required: false)
 
     <!-- JavaScript for Search Toggle and User Profile -->
    

@@ -1,0 +1,104 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<style>
+    .appointment-cont{
+        margin-top:4rem;
+        margin-bottom:4rem;
+    }
+    body{
+        background: url("https://localhost:7169/astrologer-bg.jpg");
+        background-size:cover;
+        background-position:center;
+        background-attachment:fixed;
+        backdrop-filter:blur(3px);
+    }
+
+    .appointment > div{
+        background: rgb(255, 255, 255,.7);
+    }
+</style>
+
+
+<div class="container appointment-cont">
+    <h5 class="text-secondary border-bottom pb-2 text-center my-4">Appointments</h5>
+    <div class="row">
+        <div class="col-sm-12">
+    <div class="my-3 px-5 fw-bold text-end"><button id="AppoinmentHistory" class="btn btn-warning">Appointment History</button></div>
+            <div class="row justify-content-center gap-3 appointment">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function(){
+        function reverseDate(dateString) {
+            const parts = dateString.split('-');
+
+            const reversedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
+
+            return reversedDate;
+        }
+    
+    var appoinmentUrl = BaseUrl + `api/User/getAllAppointment?Id=${localStorage.getItem('userId')}`;
+    let appoinmentArray
+    $.ajax({
+        url: appoinmentUrl,
+        method: 'GET',
+        success: function (response) {
+                var data = response.data;
+             appoinmentArray = data;
+           
+        },error:function(err){
+            console.log(err)
+        }
+    }).then(()=>{
+            let filterData = "Upcomming"
+            $("#AppoinmentHistory").click(function(){
+                if ($(this).text() == "Appointment History") {
+                $(this).text("Upcomming Appointment")
+                filterData = "Completed"
+            }else{
+                $(this).text("Appointment History")
+                filterData = "Upcomming"
+
+            }
+                filterRecords(filterData);
+            })
+            function filterRecords(fdata){
+        let newAppoinment = appoinmentArray.filter(function (d) {
+                    return d.status == fdata
+               })
+                $(".appointment").empty();
+        if (newAppoinment.length > 0) {
+    newAppoinment.forEach(function (d, i) {
+
+                    let cards = `  <div class="col-sm-5 col-md-5 border shadow-sm rounded p-3">
+                            <div class="row fw-semi-bold">
+                                <div class="col-sm-6">
+                                             Name : ${d.userName}<br />Fees : ${d.amount != null ? d.amount : 0}<br />Mobile : ${d.userMobile}<br/>Email : ${d.userEmail}
+                                </div>
+                                <div class="col-sm-6">
+                                                Problem : ${d.problem}<br />Appoinment Date : ${reverseDate(d.date.split("T")[0])}<br />Time : ${d.time}<br/>Status : ${d.status}
+                                </div>
+                            </div>
+                        </div>
+
+                                `
+
+                    $(".appointment").append(cards)
+   })
+        }
+          else {
+                    $(".appointment").html(`<p class='my-5 text-center text-secondary'>There no appoinment yet</p>`)
+            }
+            }
+            filterRecords(filterData);
+    })
+
+    })
+</script>

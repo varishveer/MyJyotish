@@ -163,6 +163,7 @@
         }
 </style>
 
+<h4 class="border-bottom pb-3 fw-bold text-secondary text-center">Astrologers</h4>
 <div class="astrologer-list mt-3" id="astrologerList">
     <!-- Astrologer results will be injected here -->
 </div>
@@ -205,22 +206,32 @@
         });
     }
 
+    //function for create stars
+    function generateFullStars() {
+        return '<i class="fa fa-star"></i>'.repeat(5); // Return 5 filled stars
+    }
     // Function to display astrologers
     function displayAstrologers(astrologers) {
+        console.log(astrologers)
         var html = '';
         astrologers.forEach(function (astrologer) {
             var ImgSrc = "@BaseUrl" + `${astrologer.profileImageUrl}`;
             html += `
-                    <div class="astrologer-card">
-                        <a href="/Home/JyotishProfile?Id=${astrologer.id}">
-                        <i class="decorative-icon fa fa-star"></i>
-                        <img src="${ImgSrc}" alt="${astrologer.name}">
-                        <h4>${astrologer.name}</h4>
-                        <p><span>Expertise:</span> ${astrologer.expertise || 'N/A'}</p>
-                        <p><span>Experience:</span> ${astrologer.experience || 'N/A'} years</p>
-                        <p><span>Address:</span> ${astrologer.address || 'N/A'}</p>
-                        </a>
-                    </div>
+                 <div class="col-12 col-sm-12 col-md-12 col-lg-12 mb-2 p-1">
+                                            <div class="card astrologer-card shadow">
+                                                 <a class='text-secondary text-decoration-none' href= "/Home/JyotishProfile?Id=${astrologer.id}">
+                                                        <img src=  "${ImgSrc}" class="card-img-top rounded-circle" alt="${astrologer.name}">
+                                                    <div class="card-body p-0 pt-2">
+                                                        <h6 class="card-title text-center">${astrologer.name} - ${astrologer.city}</h6>
+                                                            <p class='text-center text-warning' >${generateFullStars()}</p>
+                                                        <p class="card-text px-1 text-center" >
+                                                             ${astrologer.expertise || 'NA'} | ${astrologer.experience != null ? astrologer.experience : 0} Years
+                                                        </p>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+
                 `;
         });
         $('#astrologerList').html(html);
