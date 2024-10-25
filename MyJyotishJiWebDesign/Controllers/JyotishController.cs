@@ -30,6 +30,7 @@ namespace MyJyotishJiWebDesign.Controllers
         public ActionResult Video() { return View(); }
 
         public ActionResult AppointmentSlot() { return View(); }
+        public ActionResult JyotishSolution() { return View(); }
 
     }
 }

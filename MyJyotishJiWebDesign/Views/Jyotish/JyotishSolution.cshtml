@@ -1,0 +1,573 @@
+﻿@{
+    Layout = "JyotishLayout";
+}
+
+
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+ 
+<div class="container-fluid mt-4">
+    <div class="card">
+        <div class="d-flex flex-row justify-content-between align-items-center pt-2 px-4">
+            <h6 class="text-primary">Jyotish Solution</h6>
+            <div id="buttonContainer1">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#appointmentModal">
+                    Add Solution
+                </button>
+            </div>
+        </div>
+
+        <hr />
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="problemSolutionTable" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Problem 1</th>
+                            <th>Solution 1</th>
+                            <th>Problem 2</th>
+                            <th>Solution 2</th>
+                            <th>Problem 3</th>
+                            <th>Solution 3</th>
+                            <th>Image 1</th>
+                            <th>Image 2</th>
+                            <th>Image 3</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Table content will be inserted here dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Modal -->
+<div class="modal fade" id="appointmentModal" tabindex="-1" aria-labelledby="appointmentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <!-- Fullscreen class added -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="appointmentModalLabel">Submit Appointment Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="appointmentForm">
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" readonly>
+                        </div>
+                        <div class="form-group col-md-6" hidden>
+                            <label for="jyotishId">Jyotish ID</label>
+                            <input type="text" class="form-control" id="jyotishId" name="JyotishId">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="problem1">Problem 1</label>
+                            <input type="text" class="form-control" id="problem1" name="Problem1" value="test">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="appointmentId">Appointment ID</label>
+                            <select class="form-control" id="appointmentId" name="AppointmentId"></select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="solution1">Solution 1</label>
+                            <input type="text" class="form-control" id="solution1" name="Solution1" value="test">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="problem2">Problem 2</label>
+                            <input type="text" class="form-control" id="problem2" name="Problem2">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="solution2">Solution 2</label>
+                            <input type="text" class="form-control" id="solution2" name="Solution2">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="problem3">Problem 3</label>
+                            <input type="text" class="form-control" id="problem3" name="Problem3">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="solution3">Solution 3</label>
+                            <input type="text" class="form-control" id="solution3" name="Solution3">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <label for="image1">Image 1</label>
+                            <input type="file" class="form-control" id="image1" name="Image1">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="image2">Image 2</label>
+                            <input type="file" class="form-control" id="image2" name="Image2">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="image3">Image 3</label>
+                            <input type="file" class="form-control" id="image3" name="Image3">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="submitForm">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Update Modal -->
+<div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateModalLabel">Update Appointment Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="updateForm">
+                    <input type="hidden" id="updateId" name="updateId"> <!-- Hidden field for ID -->
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="updateEmail">Email</label>
+                            <input type="email" class="form-control" id="updateEmail" name="updateEmail" readonly>
+                        </div>
+                        <div class="form-group col-md-6" hidden>
+                            <label for="updateId"> ID</label>
+                            <input type="text" class="form-control" id="updateId" name="updateId">
+                        </div>
+                        <div class="form-group col-md-6" hidden>
+                            <label for="updateJyotishId">Jyotish ID</label>
+                            <input type="text" class="form-control" id="updateJyotishId" name="updateJyotishId">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="updateAppointmentId">Appointment ID</label>
+                            <select class="form-control" id="updateAppointmentId" name="updateAppointmentId"></select>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="updateProblem1">Problem 1</label>
+                            <input type="text" class="form-control" id="updateProblem1" name="updateProblem1">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="updateSolution1">Solution 1</label>
+                            <input type="text" class="form-control" id="updateSolution1" name="updateSolution1">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="updateProblem2">Problem 2</label>
+                            <input type="text" class="form-control" id="updateProblem2" name="updateProblem2">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="updateSolution2">Solution 2</label>
+                            <input type="text" class="form-control" id="updateSolution2" name="updateSolution2">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="updateProblem3">Problem 3</label>
+                            <input type="text" class="form-control" id="updateProblem3" name="updateProblem3">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="updateSolution3">Solution 3</label>
+                            <input type="text" class="form-control" id="updateSolution3" name="updateSolution3">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <label for="updateImage1">Image 1</label>
+                            <input type="file" class="form-control" id="updateImage1" name="updateImage1">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="updateImage2">Image 2</label>
+                            <input type="file" class="form-control" id="updateImage2" name="updateImage2">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="updateImage3">Image 3</label>
+                            <input type="file" class="form-control" id="updateImage3" name="updateImage3">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="updateSubmitForm">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+
+    th{
+        background-color: #009CFF !important;
+        white-space: nowrap;
+    }
+    .modal-fullscreen {
+        /* Makes the modal take full height and width */
+        max-width: 100%;
+        width: 100%;
+        height: 100%;
+        margin: 0; /* No margin */
+    }
+
+    .modal-content {
+        height: 100vh; /* Full viewport height */
+        overflow-y: auto; /* Allows scrolling if content exceeds height */
+        border: none; /* Optional: remove border */
+        border-radius: 0; /* Optional: remove border-radius */
+    }
+
+    .modal-header,
+    .modal-footer {
+        position: sticky; /* Keep the header/footer sticky */
+        top: 0; /* Fixes the header at the top */
+        background: white; /* Background for header/footer */
+        z-index: 10; /* Make sure it stays above the content */
+    }
+</style>
+
+
+
+<script>
+    $(document).ready(function () {
+        // Get the Jyotish ID from localStorage
+
+        var jyotishId = localStorage.getItem('Id');
+
+        // Define the API URL
+        var ApiUrl = BaseUrl + `Api/Jyotish/GetAllProblemSolution?Id=${jyotishId}`;
+
+        // Load the problem-solution table
+        $.ajax({
+            url: ApiUrl,
+            type: "GET",
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+                'Content-Type': 'application/json',
+            },
+            success: function (response) {
+                if (response.status === 200 && response.data.length > 0) {
+                    $.each(response.data, function (index, item) {
+                        if (item.image1 != null) { var src1 = BaseUrl.replace(/\/+$/, '') + '/' + item.image1.replace(/^\/+/, ''); }
+                        if (item.image2 != null) { var src2 = BaseUrl + item.image2; }
+                        if (item.image3 != null) { var src3 = BaseUrl + item.image3; }
+
+
+                        var row = `<tr>
+                                    <td>${item.id}</td>
+                                    <td>${item.name}</td>
+                                    <td>${item.email}</td>
+                                    <td>${new Date(item.date).toLocaleDateString()}</td>
+                                    <td>${item.time}</td>
+                                    <td>${item.problem1 || 'N/A'}</td>
+                                    <td>${item.solution1 || 'N/A'}</td>
+                                    <td>${item.problem2 || 'N/A'}</td>
+                                    <td>${item.solution2 || 'N/A'}</td>
+                                    <td>${item.problem3 || 'N/A'}</td>
+                                    <td>${item.solution3 || 'N/A'}</td>
+                                    <td>${item.image1 ? `<img src="${src1}" alt="Image 1" width="50" height="50">` : 'No Image'}</td>
+                                    <td>${item.image2 ? `<img src="${src2}" alt="Image 2" width="50" height="50">` : 'No Image'}</td>
+                                    <td>${item.image3 ? `<img src="${src3}" alt="Image 3" width="50" height="50">` : 'No Image'}</td>
+                                                <td><button class="btn btn-warning btn-sm updateBtn" data-id="${item.id}" data-name="${item.name}" data-email="${item.email}" data-problem1="${item.problem1}" data-solution1="${item.solution1}"  data-problem2="${item.problem2}" data-solution2="${item.solution2}" data-problem3="${item.problem3}" data-solution3="${item.solution3}">Update</button></td>
+
+                                    </tr>`;
+                        $('#problemSolutionTable tbody').append(row);
+                    });
+
+                    $('#problemSolutionTable').DataTable({
+                        "paging": true,
+                        "searching": true,
+                        "ordering": true
+                    });
+                } else {
+                    $('#problemSolutionTable tbody').append('<tr><td colspan="14">No data available</td></tr>');
+                }
+            },
+            error: function (error) {
+                console.error("Error fetching data: ", error);
+            }
+        });
+
+        var getallApiUrl = BaseUrl + `api/Jyotish/GetAllAppointment?Id=${jyotishId}`;
+        // Load Appointment Data
+        function loadAppointmentIds() {
+            $.ajax({
+                url: getallApiUrl,
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+                    'Content-Type': 'application/json',
+                },
+                success: function (response) {
+
+                    if (response.status === 200) {
+                        if (response.data != null) {
+                            $('#appointmentId').empty(); // Clear existing options
+                            response.data.forEach(function (appointment) {
+                                var appointmentText = appointment.userName + ' (' + new Date(appointment.date).toLocaleDateString() + ' at ' + appointment.time + ')';
+                                $('#appointmentId').append('<option value="' + appointment.id + '">' + appointmentText + '</option>');
+                            });
+
+                        }
+                        $('#jyotishId').val(jyotishId);
+                    }
+                },
+                error: function (error) {
+                    console.error('Error loading appointments:', error);
+                }
+            });
+        }
+
+        //  email based on selected appointment
+        $('#appointmentId').on('change', function () {
+            var selectedAppointmentId = $(this).val();
+            if (selectedAppointmentId) {
+                $.ajax({
+                    url: BaseUrl + `api/Jyotish/GetAppointment?Id=${selectedAppointmentId}`,
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+                        'Content-Type': 'application/json',
+                    },
+                    success: function (response) {
+                        if (response.status === 200) {
+
+
+
+
+                            $('#email').val(response.data.userEmail);
+
+                        }
+                    },
+                    error: function (error) {
+                        console.error('Error loading email for appointment:', error);
+                    }
+                });
+            }
+        });
+
+        // Load appointment IDs when the modal is opened
+        $('#appointmentModal').on('show.bs.modal', function () {
+            loadAppointmentIds();
+        });
+
+        // Add Form Submit
+        $('#submitForm').on('click', function () {
+            var formData = new FormData();
+
+            // Append each field individually
+            formData.append('Email', $('#email').val());
+            formData.append('JyotishId', jyotishId);
+            formData.append('AppointmentId', $('#appointmentId').val());
+            formData.append('Problem1', $('#problem1').val());
+            formData.append('Problem2', $('#problem2').val());
+            formData.append('Problem3', $('#problem3').val());
+            formData.append('Solution1', $('#solution1').val());
+            formData.append('Solution2', $('#solution2').val());
+            formData.append('Solution3', $('#solution3').val());
+
+            // Append each image file if selected
+            if ($('#image1')[0].files.length > 0) {
+                formData.append('Image1', $('#image1')[0].files[0]);
+            }
+            if ($('#image2')[0].files.length > 0) {
+                formData.append('Image2', $('#image2')[0].files[0]);
+            }
+            if ($('#image3')[0].files.length > 0) {
+                formData.append('Image3', $('#image3')[0].files[0]);
+            }
+
+            $.ajax({
+                url: BaseUrl + 'api/Jyotish/AddProblemSolution',
+                method: 'POST',
+                data: formData,
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token2")}`
+                },
+                contentType: false, // Important: Do not set Content-Type for FormData
+                processData: false, // Important: Prevent jQuery from processing the data
+                success: function (response) {
+                    if (response.status === 200) {
+                        alert('Form submitted successfully!');
+                        $('#appointmentModal').modal('hide');
+                    } else {
+                        alert('Submission failed: ' + response.message || 'Unknown error');
+                    }
+                },
+                error: function (error) {
+                    console.error('Error submitting form:', error);
+                    alert('Error submitting form: ' + (error.responseJSON ? error.responseJSON.message : 'Unknown error'));
+                }
+            });
+        });
+
+
+        // Update Form Submit
+        $(document).on('click', '.updateBtn', function () {
+            const id = $(this).data('id');
+
+            const email = $(this).data('email');
+            const problem1 = $(this).data('problem1');
+            const solution1 = $(this).data('solution1');
+            const problem2 = $(this).data('problem2');
+            const solution2 = $(this).data('solution2');
+            const problem3 = $(this).data('problem3');
+            const solution3 = $(this).data('solution3');
+
+
+            // Set values in the update form
+            $('#updateId').val(id);
+            $('#updateEmail').val(email);
+            $('#updateProblem1').val(problem1);
+            $('#updateSolution1').val(solution1);
+            $('#updateProblem2').val(problem2);
+            $('#updateSolution2').val(solution2);
+            $('#updateProblem3').val(problem3);
+            $('#updateSolution3').val(solution3);
+
+            // Load Appointment IDs into the select dropdown
+            loadAppointmentIds();  // Function to load appointment IDs
+
+            // Load the Jyotish ID into the hidden input
+            $('#updateJyotishId').val(jyotishId);
+
+            // Show the update modal
+            $('#updateModal').modal('show');
+        });
+
+
+        function loadAppointmentIds() {
+            $.ajax({
+                url: getallApiUrl, // Same URL for loading appointments
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+                    'Content-Type': 'application/json',
+                },
+                success: function (response) {
+                    if (response.status === 200) {
+                        if (response.data != null) {
+                            $('#updateAppointmentId').empty(); // Clear existing options
+                            response.data.forEach(function (appointment) {
+                                var appointmentText = appointment.userName + ' (' + new Date(appointment.date).toLocaleDateString() + ' at ' + appointment.time + ')';
+                                $('#updateAppointmentId').append('<option value="' + appointment.id + '">' + appointmentText + '</option>');
+                            });
+                        }
+                    }
+                },
+                error: function (error) {
+                    console.error('Error loading appointments:', error);
+                }
+            });
+        }
+
+        $('#updateAppointmentId').on('change', function () {
+            var selectedAppointmentId = $(this).val();
+            if (selectedAppointmentId) {
+                $.ajax({
+                    url: BaseUrl + `api/Jyotish/GetAppointment?Id=${selectedAppointmentId}`,
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+                        'Content-Type': 'application/json',
+                    },
+                    success: function (response) {
+                        if (response.status === 200) {
+                            $('#updateEmail').val(response.data.userEmail);
+                        }
+                    },
+                    error: function (error) {
+                        console.error('Error loading email for appointment:', error);
+                    }
+                });
+            }
+        });
+
+
+
+        // Handle form submission for updating
+        $('#updateSubmitForm').click(function () {
+            var formData = new FormData();
+
+            var Email = $('#updateEmail').val();
+            console.log(Email);
+            // Append each field individually
+            formData.append('Id', $('#updateId').val());
+            formData.append('Email', $('#updateEmail').val());
+            formData.append('JyotishId', $('#updateJyotishId').val());
+            formData.append('AppointmentId', $('#updateAppointmentId').val());
+            formData.append('Problem1', $('#updateProblem1').val());
+            formData.append('Problem2', $('#updateProblem2').val());
+            formData.append('Problem3', $('#updateProblem3').val());
+            formData.append('Solution1', $('#updateSolution1').val());
+            formData.append('Solution2', $('#updateSolution2').val());
+            formData.append('Solution3', $('#updateSolution3').val());
+
+            // Append each image file if selected
+            if ($('#image1')[0].files.length > 0) {
+                formData.append('Image1', $('#updateImage1')[0].files[0]);
+            }
+            if ($('#image2')[0].files.length > 0) {
+                formData.append('Image2', $('#updateImage2')[0].files[0]);
+            }
+            if ($('#image3')[0].files.length > 0) {
+                formData.append('Image3', $('#updateImage3')[0].files[0]);
+            }
+
+            console.log(formData);
+            $.ajax({
+                url: BaseUrl + `Api/Jyotish/UpdateProblemSolution`, // Replace with your actual update API URL
+                type: 'POST',
+                data: formData,
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+
+                },
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    debugger;
+                    if (response.status === 200) {
+
+                        $('#updateModal').modal('hide');
+
+                        alert('Update successful!');
+                        window.location.reload();
+                    }
+                    else {
+                        alert('Update Failed!');
+                    }
+
+                },
+                error: function (error) {
+
+                    console.error("Error updating data: ", error);
+                    alert('Update failed!');
+                }
+            });
+        });
+
+
+
+
+
+    });
+
+</script>

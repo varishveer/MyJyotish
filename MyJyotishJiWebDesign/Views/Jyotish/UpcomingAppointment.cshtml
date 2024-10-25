@@ -29,10 +29,10 @@
                             <th>Id</th>
                             <th>Name</th>
                             <th>Mobile</th>
+                            <th>Email</th>
                             <th>Date</th>
                             <th>Time</th>
-                            <th>Time Duration</th>
-                            <th>Email</th>
+                          
                             <th>Problem</th>
                             
                             <th>Status</th>
@@ -49,7 +49,7 @@
     </div>
 </div>
 
-<!-- Bootstrap Modal -->
+
 <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -69,53 +69,25 @@
                         <label for="SlotId"> Slot Id:</label>
                         <input type="text" class="form-control" id="SlotId" readonly>
                     </div>
-                    <div class="form-group">
-                        <label for="JyotishId">Jyotish Id:</label>
-                        <input type="text" class="form-control" id="JyotishId" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="Name">Name:</label>
-                        <input type="text" class="form-control" id="Name" readonly>
-                    </div>
+
+
                     <div class="form-group">
                         <label for="Email">Email:</label>
                         <input type="email" class="form-control" id="Email">
                     </div>
-                    <div class="form-group">
-                        <label for="Mobile">Mobile:</label>
-                        <input type="text" class="form-control" id="Mobile" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="Date">Date:</label>
-                        <input type="date" class="form-control" id="Date">
-                    </div>
-                    <div class="form-group">
-                        <label for="Time">Time:</label>
-                        <input type="time" class="form-control" id="Time">
-                    </div>
+
+
                     <div class="form-group">
                         <label for="Problem">Problem:</label>
                         <input type="text" class="form-control" id="Problem">
                     </div>
-                    <div class="form-group">
-                        <label for="Solution">Solution:</label>
-                        <input type="text" class="form-control" id="Solution">
-                    </div>
-                    <div class="form-group">
-                        <label for="TimeDuration">Time Duration (minutes):</label>
-                        <input type="number" class="form-control" id="TimeDuration" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="Amount">Amount:</label>
-                        <input type="number" class="form-control" id="Amount">
-                    </div>
+
                     <button type="button" class="btn btn-primary" id="updateButton">Update</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
 <script>
     $(document).ready(function () {
         // Fetch and display all appointments on page load
@@ -133,12 +105,13 @@
                     $.each(result.data, function (key, item) {
                         htmls += '<tr>';
                         htmls += `<td class="text-center">${item.id}</td>`;
-                        htmls += `<td class="text-center">${item.name}</td>`;
-                        htmls += `<td class="text-center">${item.mobile}</td>`;
+                        htmls += `<td class="text-center">${item.userName}</td>`;
+                        htmls += `<td class="text-center">${item.userMobile}</td>`;
+                        htmls += `<td class="text-center">${item.userEmail}</td>`;
                         htmls += `<td class="text-center">${new Date(item.date).toLocaleDateString()}</td>`;
                         htmls += `<td class="text-center">${item.time}</td>`;
-                        htmls += `<td class="text-center">${item.timeDuration}</td>`;
-                        htmls += `<td class="text-center">${item.email}</td>`;
+            
+                      
                         htmls += `<td class="text-center">${item.problem}</td>`;
                     
                         htmls += `<td class="text-center">${item.status}</td>`;
@@ -170,21 +143,19 @@
                     'Content-Type': 'application/json'
                 },
                 success: function (result) {
+                    debugger;
                     const appointment = result.data;
 
                     // Populate modal fields with fetched data
                     $('#Id').val(appointment.id);
-                    $('#SlotId').val(appointment.slotId);
-                    $('#JyotishId').val(appointment.jyotishId);
-                    $('#Name').val(appointment.name);
-                    $('#Email').val(appointment.email);
-                    $('#Mobile').val(appointment.mobile);
-                    $('#Date').val(new Date(appointment.date).toISOString().split('T')[0]); // Format to fit date input
-                    $('#Time').val(appointment.time); // Use time from the response
+                    $('#SlotId').val(appointment.id);
+
+                    $('#Email').val(appointment.userEmail);
+
                     $('#Problem').val(appointment.problem);
-                    $('#Solution').val(appointment.solution || '');
-                    $('#TimeDuration').val(appointment.timeDuration);
-                    $('#Amount').val(appointment.amount || ''); // Include amount
+
+
+
                 },
                 error: function (errormessage) {
                     console.error('Error loading appointment details:', errormessage.responseText);
@@ -195,17 +166,14 @@
         $('#updateButton').on('click', async function () {
             const formData = {
                 id: parseInt($('#Id').val(), 10),
-                name: $('#Name').val(),
+
                 email: $('#Email').val(),
-                mobile: $('#Mobile').val(),
-                jyotishId: parseInt($('#JyotishId').val(), 10),
+
+                jyotishId: localStorage.getItem('Id'),
                 slotId: parseInt($('#SlotId').val(), 10),
-                date: $('#Date').val(),
-                time: $('#Time').val(),
-                timeDuration: parseInt($('#TimeDuration').val(), 10),
+
                 problem: $('#Problem').val(),
-                solution: $('#Solution').val(),
-                amount: parseFloat($('#Amount').val())
+
             };
 
             console.log('Form Data:', formData); // Check the form data
