@@ -140,7 +140,7 @@
                         var galleryHtml = '';
                         $.each(data.gallery, function (index, item) {
                             galleryHtml += '<div class="col-6 col-md-3">';
-                            galleryHtml += '<img src="' + BaseUrl + item.imageUrl + '" alt="Gallery Image" class="img-fluid rounded-4 img-thumbnail border-0" style="height:250px; width:250; border: 2px solid #ffffff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);">';
+                            galleryHtml += '<img src="' + BaseUrl + item.imageUrl + '" alt="Gallery Image" class="img-fluid rounded img-thumbnail border-0" style="height:250px; width:250; border: 2px solid #ffffff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);">';
                             galleryHtml += '</div>';
                         });
                         $('#gallerySection').html(galleryHtml);
@@ -163,8 +163,11 @@
                 }
             },
             error: function (error) {
-                debugger;
-                console.error('AJAX Error: ', error);
+                Swal.fire({
+                    title: "error!",
+                    text: "An error occured please try again later",
+                    icon: "error"
+                })
             }
         });
 
@@ -205,7 +208,11 @@
                     })
                 }
             }, error: function (err) {
-                console.log(err)
+                Swal.fire({
+                    title: "error!",
+                    text: "An error occured please try again later",
+                    icon: "error"
+                })
             }
         }).then(() => {
 
