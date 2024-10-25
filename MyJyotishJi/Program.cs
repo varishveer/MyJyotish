@@ -128,6 +128,7 @@ app.UseStaticFiles();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
+
 app.UseWebSockets();
 
 app.Use(async (context, next) =>

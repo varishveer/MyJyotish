@@ -60,43 +60,83 @@
             </div>
         </div>
     </div>
-    <div class="row justify-content-center">
+    <div class="row justify-content-center my-4">
         <!-- Right Profile Details -->
-        <div class="col-md-8">
+        <div class="col-md-9">
             <div class="profile-main">
                 <div class="section-title">Personal Details</div>
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="detail-label">Full Name</div>
-                        <div class="detail-value" id="name"></div>
+                    <div class="col-sm-6">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <span class="detail-label">Full Name</span>
+                            </div>
+                            <div class="col-sm-6">
+                                <span class="detail-value" id="name"></span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="detail-label">Email</div>
-                        <div class="detail-value" id="email"></div>
+                    <div class="col-sm-6">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <span class="detail-label">Email</span>
+                            </div>
+                            <div class="col-sm-6">
+
+                                <span class="detail-value" id="email"></span>
+                            </div>
+                        </div>
                     </div>
+                    <div class="col-sm-6">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <span class="detail-label">Phone</span>
+
+                            </div>
+                            <div class="col-sm-6">
+                                <span class="detail-value" id="mobile"></span>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <span class="detail-label">Gender</span>
+
+                            </div>
+                            <div class="col-sm-6">
+                                <span class="detail-value" id="gender"></span>
+
+                            </div>
+                        </div>
+                    </div>
+                      <div class="col-sm-6">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <span class="detail-label">Date of Birth</span>
+
+                            </div>
+                            <div class="col-sm-6">
+                                <span class="detail-value" id="dateOfBirth"></span>
+
+                            </div>
+                        </div>
+                    </div>
+                   
+                    <div class="col-sm-6">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <span class="detail-label">Place Of Birth</span>
+
+                            </div>
+                            <div class="col-sm-6">
+                                <span class="detail-value" id="placeOfBirth"></span>
+
+                            </div>
+                        </div>
+              </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="detail-label">Phone</div>
-                        <div class="detail-value" id="mobile"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="detail-label">Gender</div>
-                        <div class="detail-value" id="gender"></div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="detail-label">Date of Birth</div>
-                        <div class="detail-value" id="dateOfBirth"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="detail-label">Place Of Birth</div>
-                        <div class="detail-value" id="placeOfBirth"></div>
-                    </div>
-                </div>
-               
-                
             </div>
         </div>
     </div>
@@ -124,7 +164,7 @@
                     $('#mobile').text(profile.mobile);
                     $('#gender').text(profile.gender);
                     $('#dateOfBirth').text(profile.doB !== "null" ? profile.doB : 'N/A');
-                    $('#placeOfBirth').text(profile.placeOfBirth);
+                    $('#placeOfBirth').text(profile.placeOfBirth !== "null" ? profile.placeOfBirth:'N/A');
           
                 } else {
                     alert('Error: Could not load profile.');

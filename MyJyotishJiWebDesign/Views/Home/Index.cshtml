@@ -3,8 +3,28 @@
     string Url = "";
 }
 
- 
-     
+
+<style>
+    .service-card {
+        padding-top: 20px;
+        padding-bottom: 20px;
+        perspective: 1000px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    }
+        .service-card img {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        .servicecard{
+            height:180px !important;
+            transition:.5s;
+        }
+        .servicecard:hover{
+            transform:scale(1.1);
+        }
+    #astrologers-container div {
+        min-height: 140px;
+    }
+</style>
 
 
      <!-- Book A Pooja Section -->
@@ -36,63 +56,45 @@
             <span class="visually-hidden">Next</span>
         </button>
     </div>
-
+<div class="container-fluid">
     <div class="container-fluid my-5">
         <h3 class="text-center mb-5">Our Services</h3>
         <div class="row  justify-content-between p-1">
 
             <div class="col-6 col-md-2  mb-4 service-card rounded  text-center  ">
                 <img src="https://api.myjyotishg.in/Images/Tabs/Astrology.jpg"
-                     class="card-img-top servicecard"
+                     class="card-img-top rounded-circle servicecard"
                      alt="Astrology" />
                 <p class="card-title mt-2">Astrology</p>
             </div>
             <div class="col-6 col-md-2 mb-4 service-card rounded text-center " >
                 <img src="https://api.myjyotishg.in/Images/Tabs/Palmistry.jpg"
-                     class="card-img-top ServiceCard"
+                 class="card-img-top rounded-circle servicecard"
                      alt="Palmistry" />
                 <p class="card-title mt-2">Palmistry</p>
             </div>
             <div class="col-6 col-md-2 mb-4 service-card rounded text-center">
                 <img src="https://api.myjyotishg.in/Images/Tabs/tarot.png"
-                     class="card-img-top ServiceCard"
+                 class="card-img-top rounded-circle servicecard"
                      alt="Tarot" />
                 <p class="card-title mt-2">Tarot</p>
             </div>
             <div class="col-6 col-md-2 mb-4 service-card  rounded text-center">
                 <img src="https://api.myjyotishg.in/Images/Tabs/vastu.jpg"
-                     class="card-img-top ServiceCard"
+                 class="card-img-top rounded-circle servicecard"
                      alt="Vastu" />
                 <p class="card-title mt-2">Vastu</p>
             </div>
             <div class="col-12 col-md-2 mb-4 service-card rounded text-center">
                 <img src="https://api.myjyotishg.in/Images/Tabs/Horoscope.jpg"
-                     class="card-img-top ServiceCard    "
+                 class="card-img-top rounded-circle servicecard    "
                      alt="Horoscope" />
                 <p class="card-title mt-2">Horoscope</p>
             </div>
         </div>
     </div>
 
-    <style>
-        .service-card {
-            padding-top: 20px;
-            padding-bottom:20px;
-            perspective: 1000px; 
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); 
-        }
-
-    
-
-        .service-card img {
-     
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-        }
-        #astrologers-container div{
-            min-height:140px;
-        }
-      
-    </style>
+   
 
 
 
@@ -109,7 +111,7 @@
     <!-- Small Banner -->
     <div class="container-fluid my-3">
     <div class="row">
-            <img src= BaseUrl + "Images/HomeBanner12.jpg" class="img-fluid" alt="Small Banner">
+            <img src="https://api.myjyotishg.in/Images/HomeBanner12.jpg" class="img-fluid" alt="Small Banner">
     </div>
     </div>
 
@@ -522,7 +524,7 @@
             </div>
         </div>
     </section>
-
+</div>
 
   
 
@@ -589,7 +591,7 @@ $(document).ready(function () {
                                      <div class="col-12 col-sm-2 col-md-2 col-lg-2 mb-2 p-1">
                                         <div class="card astrologer-card shadow">
                                              <a class='text-secondary text-decoration-none' href= "/Home/JyotishProfile?Id=${astrologer.id}">
-                                                <img src=  "${src}" class="card-img-top rounded" alt="${astrologer.name}">
+                                                <img src=  "${src}" class="card-img-top p-2 rounded" alt="${astrologer.name}">
                                                 <div class="card-body p-0 pt-2">
                                                     <h6 class="card-title text-center">${astrologer.name} - ${astrologer.city}</h6>
                                                         <p class='text-center text-warning' >${generateFullStars()}</p>
