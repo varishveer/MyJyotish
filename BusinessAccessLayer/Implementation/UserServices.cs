@@ -408,33 +408,32 @@ namespace BusinessAccessLayer.Implementation
 
 
 
-            var Records = _context.AppointmentRecords
-       .Where(x => x.UserId == Id)  // Filter by the userId
-       .Join(_context.Users,
-             record => record.UserId,
-             user => user.Id,
-             (record, user) => new { record, user })  // First join to get the user's details
-       .Join(_context.JyotishRecords,  // Join with JyotishRecords instead of Users
-             combined => combined.record.JyotishId,
-             jyotish => jyotish.Id,
-             (combined, jyotish) => new { combined.record, combined.user, jyotish }) // Get Jyotish's details from JyotishRecords
-       .Join(_context.AppointmentSlots,
-             combined => combined.record.SlotId,
-             slot => slot.Id,
-             (combined, slot) => new AppointmentDetailViewModel
-             {
-                 Id = combined.record.Id,
-                 UserName = combined.jyotish.Name,  // Store Jyotish's Name
-                 UserEmail = combined.jyotish.Email,  // Store Jyotish's Email
-                 UserMobile = combined.jyotish.Mobile,  // Store Jyotish's Mobile
-                 UserId = combined.record.UserId,
-                 Problem = combined.record.Problem,
-                 Date = slot.Date,
-                 Time = slot.TimeFrom,
-                 Status = combined.record.Status,
-                 Amount = combined.record.Amount
-             })
-       .ToList();
+            var Records = _context.AppointmentRecords.Where(x => x.UserId == Id)  // Filter by the userId
+             .Join(_context.Users,
+                   record => record.UserId,
+                   user => user.Id,
+                   (record, user) => new { record, user })  // First join to get the user's details
+             .Join(_context.JyotishRecords,  // Join with JyotishRecords instead of Users
+                   combined => combined.record.JyotishId,
+                   jyotish => jyotish.Id,
+                   (combined, jyotish) => new { combined.record, combined.user, jyotish }) // Get Jyotish's details from JyotishRecords
+             .Join(_context.AppointmentSlots,
+                   combined => combined.record.SlotId,
+                   slot => slot.Id,
+                   (combined, slot) => new AppointmentDetailViewModel
+                   {
+                       Id = combined.record.Id,
+                       UserName = combined.jyotish.Name,           // Store Jyotish's Name
+                       UserEmail = combined.jyotish.Email,         // Store Jyotish's Email
+                       UserMobile = combined.jyotish.Mobile,       // Store Jyotish's Mobile
+                       UserId = combined.jyotish.Id,            // Added JyotishId
+                       Problem = combined.record.Problem,
+                       Date = slot.Date,
+                       Time = slot.TimeFrom,
+                       Status = combined.record.Status,
+                       Amount = combined.record.Amount
+                   })
+             .ToList();
             return Records; 
         }
         public AppointmentModel GetAppointmentDetails(int Id)
