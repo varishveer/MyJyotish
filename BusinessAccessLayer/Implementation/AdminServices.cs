@@ -1054,42 +1054,34 @@ namespace BusinessAccessLayer.Implementation
             else { return null; }
         }
 
-        public List<ProblemSolutionAdminViewModel> GetAllProblemSolution(int Id)
+        public List<ProblemSolutionAdminViewModel> GetAllProblemSolution()
         {
-            if (Id == 0)
-            {
-                return null;
-            }
-
-
-            var Data = _context.ProblemSolution
-                                .Where(x => x.UserId == Id)
-                                .Select(x => new ProblemSolutionAdminViewModel
-                                {
-                                    Id = x.Id,
+            var Data = _context.ProblemSolution.Select(x => new ProblemSolutionAdminViewModel
+                                                {
+                                                    Id = x.Id,
                                    
-                                    AppointmentId = x.AppointmentId,
-                                    Date = x.Date,
-                                    Time = x.Time,
-                                    Problem1 = x.Problem1,
-                                    Solution1 = x.Solution1,
-                                    Problem2 = x.Problem2,
-                                    Solution2 = x.Solution2,
-                                    Problem3 = x.Problem3,
-                                    Solution3 = x.Solution3,
-                                    Image1 = x.Image1,
-                                    Image2 = x.Image2,
-                                    Image3 = x.Image3,
+                                                    AppointmentId = x.AppointmentId,
+                                                    Date = x.Date,
+                                                    Time = x.Time,
+                                                    Problem1 = x.Problem1,
+                                                    Solution1 = x.Solution1,
+                                                    Problem2 = x.Problem2,
+                                                    Solution2 = x.Solution2,
+                                                    Problem3 = x.Problem3,
+                                                    Solution3 = x.Solution3,
+                                                    Image1 = x.Image1,
+                                                    Image2 = x.Image2,
+                                                    Image3 = x.Image3,
 
-                                    JyotishId = x.JyotishId,
-                                    JyotishName = _context.JyotishRecords.Where(u => u.Id == x.JyotishId).Select(u => u.Name).FirstOrDefault(),
-                                    JyotishEmail = _context.JyotishRecords.Where(u => u.Id == x.JyotishId).Select(u => u.Email).FirstOrDefault(),
-                                    UserId =x.UserId,
-                                    UserName = _context.Users.Where(u => u.Id == x.UserId).Select(u => u.Name).FirstOrDefault(),
-                                    UserEmail = _context.Users.Where(u=>u.Id == x.UserId).Select(u => u.Email).FirstOrDefault(),
+                                                    JyotishId = x.JyotishId,
+                                                    JyotishName = _context.JyotishRecords.Where(u => u.Id == x.JyotishId).Select(u => u.Name).FirstOrDefault(),
+                                                    JyotishEmail = _context.JyotishRecords.Where(u => u.Id == x.JyotishId).Select(u => u.Email).FirstOrDefault(),
+                                                    UserId =x.UserId,
+                                                    UserName = _context.Users.Where(u => u.Id == x.UserId).Select(u => u.Name).FirstOrDefault(),
+                                                    UserEmail = _context.Users.Where(u=>u.Id == x.UserId).Select(u => u.Email).FirstOrDefault(),
 
-                                })
-                                .ToList();
+                                                })
+                                                .ToList();
 
             return Data;
         }
