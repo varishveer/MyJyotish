@@ -60,6 +60,8 @@ namespace BusinessAccessLayer.Abstraction
         public JyotishPaymentRecordModel JyotishPaymentDetail(int Id);
         public List<UserPaymentRecordModel> UserPaymentrecords();
         public UserPaymentRecordModel UserPaymentDetail(int Id);
+
+        public List<ProblemSolutionAdminViewModel> GetAllProblemSolution(int Id);
       /*  public string ApproveDocument(DocUpdateViewModel model);
         public string RejectDocument(DocUpdateViewModel model);
       */

@@ -479,5 +479,40 @@ namespace BusinessAccessLayer.Implementation
             return result;
         }
 
+        public List<ProblemSolutionGetAllViewModel> GetAllProblemSolution(int Id)
+        {
+            if (Id == 0)
+            {
+                return null;
+            }
+
+
+            var Data = _context.ProblemSolution
+                                .Where(x => x.UserId == Id)
+                                .Select(x => new ProblemSolutionGetAllViewModel
+                                {
+                                    Id = x.Id,
+                                    JyotishId = x.JyotishId,
+                                    AppointmentId = x.AppointmentId,
+                                    Date = x.Date,
+                                    Time = x.Time,
+                                    Problem1 = x.Problem1,
+                                    Solution1 = x.Solution1,
+                                    Problem2 = x.Problem2,
+                                    Solution2 = x.Solution2,
+                                    Problem3 = x.Problem3,
+                                    Solution3 = x.Solution3,
+                                    Image1 = x.Image1,
+                                    Image2 = x.Image2,
+                                    Image3 = x.Image3,
+
+                                    Name = _context.JyotishRecords.Where(u => u.Id == x.JyotishId).Select(u => u.Name).FirstOrDefault(),
+                                    Email = _context.JyotishRecords.Where(u => u.Id == x.JyotishId).Select(u => u.Email).FirstOrDefault()
+                                })
+                                .ToList();
+
+            return Data;
+        }
+
     }
 }
