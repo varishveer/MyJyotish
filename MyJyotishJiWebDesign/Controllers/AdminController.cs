@@ -36,7 +36,7 @@ namespace MyJyotishJiWebDesign.Controllers
         public IActionResult Subscription() { return View(); }
         public IActionResult Features() { return View(); }
         public IActionResult Documents() { return View(); }
-        public IActionResult PendingJyotishDetails() { return View(); }
+
         public IActionResult AddSlot() { return View(); }
 
 
