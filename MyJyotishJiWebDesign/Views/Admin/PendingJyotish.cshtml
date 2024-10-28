@@ -67,7 +67,7 @@
                         '<th>Country</th>' +
                         '<th>State</th>' +
                         '<th>City</th>' +
-                        '<th>Password</th>' +
+                      
                         '<th>DOB</th>' +
                         '<th>Image</th>' +
                       
@@ -91,7 +91,7 @@
                         htmls += `<td class="text-center">${item.country ?? ''}</td>`;
                         htmls += `<td class="text-center">${item.state ?? ''}</td>`;
                         htmls += `<td class="text-center">${item.city ?? ''}</td>`;
-                        htmls += `<td class="text-center">${item.password ?? ''}</td>`;
+                   
                         htmls += `<td class="text-center">${item.dateOfBirth ? new Date(item.dateOfBirth).toLocaleDateString() : ''}</td>`; // Format date if available
                         htmls += `<td class="text-center">${item.profileImageUrl ?? ''}</td>`;
                        

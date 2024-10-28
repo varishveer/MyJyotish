@@ -46,29 +46,19 @@
                 },
                 success: function (result) {
                     console.log(result); // Log the API response
-                    let htmls = '<thead><tr><th>Id</th><th>Name</th><th>Mobile</th><th>DateTime</th><th>Email</th><th>JyotishId</th><th>UserId</th><th>Problem</th><th>Solution</th><th>Status</th><th>Amount</th><th>Action</th></tr></thead><tbody>';
+                    let htmls = '<thead><tr><th>Id</th><th>Name</th><th>Mobile</th><th>Email</th><th>UserId</th><th>Problem</th><th>date</th><th>Time</th><th>Status</th><th>Amount</th><th>Action</th></tr></thead><tbody>';
 
                     $.each(result.data, function (key, item) {
-                        htmls += '<tr data-id="' + item.id +
-                            '" data-name="' + item.name +
-                            '" data-mobile="' + item.mobile +
-                            '" data-datetime="' + item.dateTime +
-                            '" data-email="' + item.email +
-                            '" data-jyotishid="' + item.jyotishId +
-                            '" data-userid="' + item.userId +
-                            '" data-problem="' + item.problem +
-                            '" data-solution="' + item.solution +
-                            '" data-status="' + item.status +
-                            '" data-amount="' + item.amount + '">';
+                        htmls += '<tr>';
                         htmls += `<td class="text-center">${item.id}</td>`;
-                        htmls += `<td class="text-center">${item.name}</td>`;
-                        htmls += `<td class="text-center">${item.mobile}</td>`;
-                        htmls += `<td class="text-center">${item.dateTime}</td>`;
-                        htmls += `<td class="text-center">${item.email}</td>`;
-                        htmls += `<td class="text-center">${item.jyotishId}</td>`;
+                        htmls += `<td class="text-center">${item.userName}</td>`;
+                        htmls += `<td class="text-center">${item.userMobile}</td>`;
+                      
+                        htmls += `<td class="text-center">${item.userEmail}</td>`;
                         htmls += `<td class="text-center">${item.userId}</td>`;
                         htmls += `<td class="text-center">${item.problem}</td>`;
-                        htmls += `<td class="text-center">${item.solution}</td>`;
+                        htmls += `<td class="text-center">${item.date}</td>`;
+                        htmls += `<td class="text-center">${item.time}</td>`;
                         htmls += `<td class="text-center">${item.status}</td>`;
                         htmls += `<td class="text-center">${item.amount}</td>`;
                         htmls += `<td class="text-center">

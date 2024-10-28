@@ -57,6 +57,7 @@ namespace MyJyotishJiWebDesign.Controllers
         public IActionResult Appointments() { return View(); }
 
         public IActionResult ProblemSolution() { return View(); }
+        public IActionResult ProblemSolutionDetails() { return View(); }
 
     }
 }

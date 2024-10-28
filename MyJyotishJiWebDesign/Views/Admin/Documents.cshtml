@@ -5,7 +5,7 @@
     Layout = "AdminLayout";
 
 }
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <style>
     .image-container {
         border: 1px solid #ddd;
@@ -324,7 +324,7 @@
 </div>
 
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 
 
 
@@ -449,8 +449,8 @@
                     id: id // Send the user ID as well
                 };
                 var ApiUrl
-                if (status == 'Rejected') { ApiUrl = BaseUrl + 'Api/Admin/RejectJyotishDocs' }
-                else { ApiUrl = BaseUrl + 'Api/Admin/ApproveJyotishDocs' }
+                if (status == 'Rejected') { ApiUrl = "https://localhost:7118/" + 'Api/Admin/RejectJyotishDocs' }
+                else { ApiUrl = "https://localhost:7118/" + 'Api/Admin/ApproveJyotishDocs' }
                
                 $.ajax({
                     url: ApiUrl,
@@ -463,8 +463,14 @@
                     success: function (response) {
                        
                         if (response.status === 200) {
-                            alert('Status updated successfully!');
-                            // Optionally close the modal
+                            Swal.fire({
+                                title: "Status updated successfully!",
+                             
+                                icon: "success",
+
+                                showConfirmButton: true, // Ensure the OK button is shown
+                            });
+                            
                             location.reload();
                         } else {
                             alert(response.message);

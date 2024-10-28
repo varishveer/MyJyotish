@@ -601,83 +601,84 @@ namespace BusinessAccessLayer.Implementation
 
         public string ApproveJyotishDocs(EmailDocumentViewModel model)
         {
-            var jyotish = _context.JyotishRecords.Where(x => x.Id == model.Id).FirstOrDefault();
-            if (jyotish == null) { return "Jyotish not found"; }
-            var record = _context.Documents.Where(x => x.JId == jyotish.Id).FirstOrDefault();
-            if(record == null) { return "documents not found"; }
+            var jyotish = _context.JyotishRecords.FirstOrDefault(x => x.Id == model.Id);
+            if (jyotish == null) return "Jyotish not found";
 
-            switch (model.ImageStatus)
+            var record = _context.Documents.FirstOrDefault(x => x.JId == jyotish.Id);
+            if (record == null) return "Documents not found";
+
+            var statusMapping = new Dictionary<string, Action>
+    {
+        { "idProofStatus", () => record.IdProofStatus = "Verified" },
+        { "addressProofStatus", () => record.AddressProofStatus = "Verified" },
+        { "tenthCertificateStatus", () => record.TenthCertificateStatus = "Verified" },
+        { "twelveCertificateStatus", () => record.TwelveCertificateStatus = "Verified" },
+        { "professionalCertificateStatus", () => record.ProfessionalCertificateStatus = "Verified" }
+    };
+
+            if (statusMapping.ContainsKey(model.ImageStatus))
             {
-                case "IdProofStatus":
-                    record.IdProofStatus = "Verified";
-                   
-                    break;
-
-                case "AddressProofStatus":
-                    record.AddressProofStatus = "Verified";
-                    break;
-
-                case "TenthCertificateStatus":
-                    record.TenthCertificateStatus = "Verified";
-                    break;
-
-                case "TwelveCertificateStatus":
-                    record.TwelveCertificateStatus = "Verified";
-                    break;
-
-                case "ProfessionalCertificateStatus":
-                    record.ProfessionalCertificateStatus = "Verified";
-                    break;
-
-                default:
-                    return "invalid data";
-                    break;
+                statusMapping[model.ImageStatus]();
             }
+            else
+            {
+                return "Invalid data";
+            }
+
             _context.Documents.Update(record);
             _context.SaveChanges();
-            AccountServices.SendEmail(model.Message, jyotish.Email, model.Subject);
-           
+
+            try
+            {
+                AccountServices.SendEmail(model.Message, jyotish.Email, model.Subject);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception if needed
+                return "Email sending failed: " + ex.Message;
+            }
+
             return "Successful";
         }
         public string RejectJyotishDocs(EmailDocumentViewModel model)
         {
-            var jyotish = _context.JyotishRecords.Where(x => x.Id == model.Id).FirstOrDefault();
-            if (jyotish == null) { return "Jyotish not found"; }
-            var record = _context.Documents.Where(x => x.JId == jyotish.Id).FirstOrDefault();
-            if (record == null) { return "documents not found"; }
+            var jyotish = _context.JyotishRecords.FirstOrDefault(x => x.Id == model.Id);
+            if (jyotish == null) return "Jyotish not found";
 
-            switch (model.ImageStatus)
+            var record = _context.Documents.FirstOrDefault(x => x.JId == jyotish.Id);
+            if (record == null) return "Documents not found";
+
+            var statusMapping = new Dictionary<string, Action>
+    {
+        { "idProofStatus", () => record.IdProofStatus = "Rejected" },
+        { "addressProofStatus", () => record.AddressProofStatus = "Rejected" },
+        { "tenthCertificateStatus", () => record.TenthCertificateStatus = "Rejected" },
+        { "twelveCertificateStatus", () => record.TwelveCertificateStatus = "Rejected" },
+        { "professionalCertificateStatus", () => record.ProfessionalCertificateStatus = "Rejected" }
+    };
+
+            if (statusMapping.ContainsKey(model.ImageStatus))
             {
-                case "IdProofStatus":
-                    record.IdProofStatus = "Rejected";
-
-                    break;
-
-                case "AddressProofStatus":
-                    record.AddressProofStatus = "Rejected";
-                    break;
-
-                case "TenthCertificateStatus":
-                    record.TenthCertificateStatus = "Rejected";
-                    break;
-
-                case "TwelveCertificateStatus":
-                    record.TwelveCertificateStatus = "Rejected";
-                    break;
-
-                case "ProfessionalCertificateStatus":
-                    record.ProfessionalCertificateStatus = "Rejected";
-                    break;
-
-                default:
-                    return "invalid data";
-                    break;
+                statusMapping[model.ImageStatus]();
             }
+            else
+            {
+                return "Invalid data";
+            }
+
             _context.Documents.Update(record);
             _context.SaveChanges();
 
+            try
+            {
+                AccountServices.SendEmail(model.Message, jyotish.Email, model.Subject);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception if needed
+                return "Email sending failed: " + ex.Message;
+            }
 
-            AccountServices.SendEmail(model.Message, jyotish.Email, model.Subject);
             return "Successful";
         }
 

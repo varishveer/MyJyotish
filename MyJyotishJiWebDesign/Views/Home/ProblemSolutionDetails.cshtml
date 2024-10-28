@@ -1,0 +1,155 @@
+﻿
+@{
+}
+
+<!-- External CSS for styling -->
+<style>
+    .container {
+        margin-top: 4rem;
+    }
+
+    body {
+        background: url("https://api.myjyotishg.in/astrologer-bg.jpg");
+        background-size: cover;
+        background-attachment: fixed;
+        backdrop-filter: blur(3px);
+    }
+
+    .card {
+        background: rgba(255, 255, 255, 0.8);
+        border: none;
+    }
+
+    .profile-img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 1rem;
+    }
+
+    .section-title {
+        font-weight: bold;
+        font-size: 1.2rem;
+        color: #343a40;
+        margin-top: 1rem;
+        text-decoration: underline;
+        text-align:center;
+
+    }
+
+    .problem-solution {
+        display: flex;
+        flex-direction: column; /* Stack items vertically */
+        align-items: center; /* Center items horizontally */
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid #dedede;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+        .problem-solution img {
+            max-width: 100%; /* Ensure images are responsive */
+            height: auto; /* Maintain aspect ratio */
+        }
+
+    .placeholder-text {
+        color: #999;
+        font-style: italic;
+    }
+</style>
+
+<!-- Main container for profile data -->
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div id="profileData" class="card p-4 shadow-lg">
+                <div class="text-center">
+                    <!-- Profile Image Placeholder -->
+                  
+                    <h3 id="profileName"></h3>
+                    <p id="profileEmail"></p>
+                    <p><strong>Appointment ID:</strong> <span id="appointmentId"></span></p>
+                    <p><strong>Date:</strong> <span id="profileDate"></span> | <strong>Time:</strong> <span id="profileTime"></span></p>
+                </div>
+
+                <!-- Problems & Solutions -->
+                <h4 class="section-title">Problems and Solutions</h4>
+                <div id="problemSolutionList"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Script for data fetching and display -->
+<script>
+    $(document).ready(function () {
+        function getIdFromUrl() {
+            
+            const urlObj = new URL(window.location.href);
+
+            const params = new URLSearchParams(urlObj.search);
+
+            const id = params.get('Id');
+
+            return id;
+        }
+        var Id = getIdFromUrl();
+        const apiUrl = `${BaseUrl}api/User/getProblemSolution?Id=${Id}`;
+
+        // Function to format date to DD-MM-YYYY
+        function formatDate(isoDate) {
+            let date = new Date(isoDate);
+            return date.toLocaleDateString('en-GB'); // Formats as DD/MM/YYYY
+        }
+
+        // AJAX call to fetch data
+        $.ajax({
+            url: apiUrl,
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                'Content-Type': 'application/json',
+            },
+            success: function (response) {
+                if (response.status === 200) {
+                    const data = response.data;
+
+                    // Populate profile data
+                  
+                    $('#profileName').text(data.name);
+                    $('#profileEmail').text(data.email);
+                    $('#appointmentId').text(data.appointmentId);
+                    $('#profileDate').text(formatDate(data.date));
+                    $('#profileTime').text(data.time.substring(0, 5)); // Show time as HH:MM
+
+                    // Generate problem and solution sections
+                    const problems = [
+                        { problem: data.problem1, solution: data.solution1, image: data.image1 },
+                        { problem: data.problem2, solution: data.solution2, image: data.image2 },
+                        { problem: data.problem3, solution: data.solution3, image: data.image3 }
+                    ];
+
+                    problems.forEach((item, index) => {
+                        if (item.problem || item.solution) {
+                            $('#problemSolutionList').append(`
+                <div class="problem-solution">
+                    <h5>Problem ${index + 1}</h5>
+                    <p><strong>Problem:</strong> ${item.problem || '<span class="placeholder-text">No Problem provided</span>'}</p>
+                    <p><strong>Solution:</strong> ${item.solution || '<span class="placeholder-text">No Solution provided</span>'}</p>
+                    ${item.image ? `<img src="${BaseUrl}${item.image.replace(/^\//, '')}" class="img-fluid mt-2" alt="Problem Image" style="max-width: 200px; height: auto;">` : ''}
+                </div>
+            `);
+                        }
+                    });
+                } else {
+                    $('#profileData').html('<p class="text-center text-danger">Error loading data. Please try again later.</p>');
+                }
+            },
+            error: function () {
+                $('#profileData').html('<p class="text-center text-danger">Error loading data. Please try again later.</p>');
+            }
+        });
+    });
+</script>
