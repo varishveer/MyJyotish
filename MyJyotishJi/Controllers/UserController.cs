@@ -333,7 +333,7 @@ namespace MyJyotishGApi.Controllers
         {
             try
             {
-                var result = _services.GetAppointmentDetails(Id);
+                var result = _services.GetProblemSolution(Id);
                 if (result == null)
                 {
                     return Ok(new { Status = 404, Message = "Not Found" });
