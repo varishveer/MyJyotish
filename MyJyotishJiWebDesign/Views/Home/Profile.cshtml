@@ -4,7 +4,7 @@
 <style>
     .profile-container {
         max-width: 1170px;
-        margin: 07rem auto;
+        margin: 2rem auto;
     }
     .profile-sidebar {
         background-color: white;
@@ -16,7 +16,7 @@
     }
     .profile-photo {
         width: 120px;
-        height: 120px;
+        height: 145px;
         border-radius: 50%;
         border: 5px solid #fff;
         margin-bottom: 20px;
@@ -33,6 +33,10 @@
         font-weight: 600;
         color: #333;
     }
+    .profile-detals-container{
+        min-height:70vh;
+        background:#f2f2f2;
+    }
     .detail-label {
         font-weight: 500;
         color: #6c757d;
@@ -43,6 +47,9 @@
         color: #495057;
         font-size: 14px;
     }
+    .img-container{
+        background: #d2e2fc;
+    }
     @@media screen and (max-width:575px){
         .profile-detals-container{
             width:100% !important;
@@ -51,26 +58,26 @@
 </style>
 
 <div class="container profile-container ">
-    <div class="shadow rounded w-75 mx-auto profile-detals-container">
-    <div class="row justify-content-center">
+    <div class="shadow rounded-3 w-100 mx-auto profile-detals-container">
+    <div class="row p-4 mt-5 h-100 justify-content-center">
         <!-- Left Sidebar -->
-        <div class="col-md-4 ">
-            <div class="mb-3 text-center">
+            <div class="col-md-4 h-100 p-2 rounded img-container">
+                <div class="row">
+            <div class="mb-3 col-sm-12 text-center">
                 <img id="profileImage" src="~/Img/UserPlaceholder.png" alt="Profile Image" class="profile-photo">
             </div>
-          
-            <div class="mb-3 justify-content-center d-flex ">
+
+                    <div class="mb-3 col-sm-12 justify-content-center d-flex ">
                     <button class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#exampleModal">Edit Profile</button>
              
-            </div>
         </div>
-    </div>
-    <div class="row justify-content-center my-4">
+                </div>
+        </div>
         <!-- Right Profile Details -->
-        <div class="col-md-12 ">
-                <div class="section-title px-3">Personal Details</div>
+            <div class="col-md-8 h-100">
+                <div class="section-title fw-bold fs-3 px-3">Personal Details</div>
                 <div class="row p-3">
-                    <div class="col-sm-6">
+                    <div class="col-sm-6 mb-2">
                         <div class="row">
                             <div class="col-6">
                                 <span class="detail-label">Full Name</span>
@@ -80,7 +87,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-6 mb-2">
                         <div class="row">
                             <div class="col-6">
                                 <span class="detail-label">Email</span>
@@ -91,7 +98,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-6 mb-2">
                         <div class="row">
                             <div class="col-6">
                                 <span class="detail-label">Phone</span>
@@ -103,7 +110,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-6 mb-2">
                         <div class="row">
                             <div class="col-6">
                                 <span class="detail-label">Gender</span>
@@ -115,7 +122,7 @@
                             </div>
                         </div>
                     </div>
-                      <div class="col-sm-6">
+                    <div class="col-sm-6 mb-2">
                         <div class="row">
                             <div class="col-6">
                                 <span class="detail-label">Date of Birth</span>
@@ -128,7 +135,7 @@
                         </div>
                     </div>
                    
-                    <div class="col-sm-6">
+                    <div class="col-sm-6 mb-2">
                         <div class="row">
                             <div class="col-6">
                                 <span class="detail-label">Place Of Birth</span>
@@ -140,6 +147,66 @@
                             </div>
                         </div>
                 </div>
+                    <div class="col-sm-6 mb-2">
+                        <div class="row">
+                            <div class="col-6">
+                                <span class="detail-label">Country</span>
+
+                            </div>
+                            <div class="col-6">
+                                <span class="detail-value" id="insCountry"></span>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 mb-2">
+                        <div class="row">
+                            <div class="col-6">
+                                <span class="detail-label">State</span>
+
+                            </div>
+                            <div class="col-6">
+                                <span class="detail-value" id="insState"></span>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 mb-2">
+                        <div class="row">
+                            <div class="col-6">
+                                <span class="detail-label">City</span>
+
+                            </div>
+                            <div class="col-6">
+                                <span class="detail-value" id="insCity"></span>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 mb-2">
+                        <div class="row">
+                            <div class="col-6">
+                                <span class="detail-label">Pincode</span>
+
+                            </div>
+                            <div class="col-6">
+                                <span class="detail-value" id="insPincode"></span>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 mb-2">
+                        <div class="row">
+                            <div class="col-6">
+                                <span class="detail-label">Full Address</span>
+
+                            </div>
+                            <div class="col-6">
+                                <span class="detail-value" id="insAddress"></span>
+
+                            </div>
+                        </div>
+                    </div>
             </div>
         </div>
     </div>
@@ -155,10 +222,14 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form>
+                <form class="userUpdateFormData">
                <div class="row">  
-                   <div class="col-sm-12">
-                       <img src="" id="userImage" class="rounded-circle" height="100" width="100" />
+                   <input type="hidden" name="id" id="userId" />
+                   <div class="col-sm-12 my-4 text-center">
+                       <img src="" id="userImage" class="rounded-circle" height="100" width="100" /><br /><br />
+                            <label for="pImage"class="btn btn-outline-primary">Edit Profile Image</label>
+                            <input type="file" name="pImage" accept="image/*" hidden id="pImage" />
+                            
                    </div>
                    <div class="col-sm-12">
                        <div class="row">
@@ -168,7 +239,7 @@
                                        Name :
                                    </div>
                                    <div class="col-8">
-                                       <input type="text" id="userName" placeholder="Enter Your Name" class="form-control" name="name" />
+                                       <input type="text" required id="userName" placeholder="Enter Your Name" class="form-control" name="name" />
                                    </div>
                                </div>
                            </div>
@@ -178,13 +249,13 @@
                                        Email :
                                    </div>
                                    <div class="col-8">
-                                       <input type="email" id="userEmail" placeholder="Enter Your Email" class="form-control" name="email" />
+                                            <input type="email" required id="userEmail" placeholder="Enter Your Email" class="form-control" name="email" />
                                    </div>
                                </div>
                            </div>
                        </div>
                    </div>
-                    <div class="col-sm-12">
+                    <div class="col-sm-12 my-3">
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="row">
@@ -192,7 +263,7 @@
                                         Phone Number :
                                     </div>
                                     <div class="col-8">
-                                        <input type="number" id="mobno" placeholder="Enter Your Phone Number" class="form-control" name="mobno" />
+                                            <input type="number" required id="mobno" placeholder="Enter Your Phone Number" class="form-control" name="mobile" />
                                     </div>
                                 </div>
                             </div>
@@ -202,8 +273,8 @@
                                         Gender :
                                     </div>
                                     <div class="col-8">
-                                        <input type="radio" class="userGender" name="gender" value="Male" /> Male &nbsp;&nbsp;
-                                        <input type="radio" class="userGender" name="gender" value="Female" /> Female
+                                        <input type="radio" required class="userGender" name="gender" value="Male" /> Male &nbsp;&nbsp;
+                                        <input type="radio" required class="userGender" name="gender" value="Female" /> Female
                                     </div>
                                 </div>
                             </div>
@@ -217,7 +288,7 @@
                                         Date of Birth :
                                     </div>
                                     <div class="col-8">
-                                        <input type="date" id="userdob" class="form-control" name="dob" />
+                                            <input type="date" required id="userdob" class="form-control" name="doB" />
                                     </div>
                                 </div>
                             </div>
@@ -227,12 +298,81 @@
                                         Place of Birth :
                                     </div>
                                     <div class="col-8">
-                                        <input type="text" id="userpob" placeholder="Enter Place of Birth" class="form-control" name="pob" />
+                                            <input type="text" required id="userpob" placeholder="Enter Place of Birth" class="form-control" name="placeOfBirth" />
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                        <div class="col-sm-12 my-3">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="row">
+                                        <div class="col-3">
+                                            Country :
+                                        </div>
+                                        <div class="col-8">
+                                            <select id="country" required name="country" class="form-control form-control-sm" required>
+                                                <option selected disabled>Select Country</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="row">
+                                        <div class="col-3">
+                                            State :
+                                        </div>
+                                        <div class="col-8">
+                                            <select id="state" required name="state" class="form-control form-control-sm" disabled>
+                                                <option selected disabled>Select State</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="row">
+                                        <div class="col-3">
+                                            City :
+                                        </div>
+                                        <div class="col-8">
+                                            <select id="city" required name="city" class="form-control form-control-sm" disabled>
+                                                <option selected disabled>Select City</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="row">
+                                        <div class="col-3">
+                                            Current Address :
+                                        </div>
+                                        <div class="col-8">
+                                            <input type="text" required id="address" placeholder="Current Address" class="form-control" name="currentAddress" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="row">
+                                        <div class="col-3">
+                                            Pincode :
+                                        </div>
+                                        <div class="col-8">
+                                            <input type="number" required placeholder="Pincode" name="pincode" class="form-control" id="pincode" />
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
                </div>
                    <div class="my-3 text-end px-3"><input type="submit" value="Update" class="btn btn-success" /></div>
                 </form>
@@ -242,6 +382,13 @@
 </div>
 
 <script>
+    function reverseDate(dateString) {
+        const parts = dateString.split('-');
+
+        const reversedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
+
+        return reversedDate;
+    }
     $(document).ready(function () {
         var Id = localStorage.getItem('userId'); // Assuming Id is stored in localStorage
         debugger;
@@ -262,17 +409,61 @@
                     $('#email').text(profile.email);
                     $('#mobile').text(profile.mobile);
                     $('#gender').text(profile.gender);
+                    $('#insCountry').text(profile.country !== "null" ? profile.country : 'N/A');
+                    $('#insState').text(profile.state !== "null" ? profile.state : 'N/A');
+                    $('#insCity').text(profile.city !== "null" ? profile.city : 'N/A');
+                    $('#insAddress').text(profile.currentAddress !== "null" ? profile.currentAddress : 'N/A');
                     $('#dateOfBirth').text(profile.doB !== "null" ? profile.doB : 'N/A');
+                    $('#insPincode').text(profile.pincode !== "null" ? profile.pincode : 'N/A');
                     $('#placeOfBirth').text(profile.placeOfBirth !== "null" ? profile.placeOfBirth:'N/A');
           
                     // upate user
 
                     $('#userImage').attr('src', profile.profilePictureUrl ? BaseUrl + profile.profilePictureUrl : '/Img/UserPlaceholder.png');
-                    $('#userName').text(profile.name);
-                    $('#userEmail').text(profile.email);
-                    $('#mobno').text(profile.mobile);
-                    $('#userdob').text(profile.doB !== "null" ? profile.doB : 'N/A');
-                    $('#userpob').text(profile.placeOfBirth !== "null" ? profile.placeOfBirth : 'N/A');
+                    $('#userName').val(profile.name);
+                    $('#userEmail').val(profile.email);
+                    $('#mobno').val(profile.mobile);
+                    $('#userdob').val(profile.doB !== "null" ? profile.doB : 'N/A');
+                    $('#userpob').val(profile.placeOfBirth !== "null" ? profile.placeOfBirth: 'N/A');
+                    $("#userId").val(profile.id)
+                    $("#pincode").val(profile.pincode)
+                    $("#address").val(profile.currentAddress)
+                    $(".userGender").each(function(i,d){
+                        if (d.value == $('#gender').text()){
+                            d.setAttribute("checked",true)
+                        }
+                    })
+
+                    if(profile.country!=null){
+                    $(".country").each(function(i,d){
+                        if(d.text==profile.country){
+                            d.setAttribute("selected",true)
+                        }
+                    }) 
+                    }
+                    if (profile.state != null) {
+                        $("#country").trigger("change");
+                        setTimeout(()=>{
+                        $(".state").each(function (i, d) {
+                            if (d.text == profile.state) {
+                                d.setAttribute("selected", true)
+                            }
+                        })
+                            if (profile.city != null) {
+                                $("#state").trigger("change")
+                            }
+                        },1000)
+                    }
+                    if (profile.city != null) {
+                        setTimeout(() => {
+                        $(".city").each(function (i, d) {
+                            if (d.text == profile.city) {
+                                d.setAttribute("selected", true)
+                            }
+                        })
+                        }, 2000)
+
+                    }
 
                 } else {
                     alert('Error: Could not load profile.');
@@ -284,5 +475,139 @@
                 alert('There was an error fetching the profile data.');
             }
         });
+
+        $("#pImage").on("change",function(e){
+            const file = e.target.files[0];
+            if (file) {
+                const url = URL.createObjectURL(file);
+                $('#userImage').attr('src', url); 
+              
+            }
+        })
+
+        function loadCountries() {
+            $.ajax({
+                url: BaseUrl + 'Api/Jyotish/Country',
+                type: 'GET',
+
+                success: function (response) {
+                    var countryDropdown = $('#country');
+                    countryDropdown.empty().append('<option value="">Select Country</option>');
+                    response.data.forEach(country => {
+                        countryDropdown.append(`<option class='country' value="${country.id}">${country.name}</option>`);
+                    });
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error('Error fetching countries:', textStatus, errorThrown);
+                }
+            });
+        }
+        loadCountries()
+        // Fetch States based on selected Country
+        $('#country').change(function () {
+            var countryId = $(this).val();
+            $('#state').prop('disabled', false).empty().append('<option value="">Select State</option>'); // Reset State dropdown
+            $('#city').prop('disabled', true).empty().append('<option value="">Select City</option>'); // Reset City dropdown
+
+            if (countryId) {
+                $.ajax({
+                    url: BaseUrl + 'Api/Jyotish/State',
+                    type: 'GET',
+                    data: { Id: countryId },
+
+                    success: function (response) {
+                        var stateDropdown = $('#state');
+                        stateDropdown.empty().append('<option value="">Select State</option>');
+                        response.data.forEach(state => {
+                            stateDropdown.append(`<option class='state' value="${state.id}">${state.name}</option>`);
+                        });
+                        stateDropdown.prop('disabled', false);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.error('Error fetching states:', textStatus, errorThrown);
+                    }
+                });
+            }
+        });
+
+        // Fetch Cities based on selected State
+        $('#state').change(function () {
+            var stateId = $(this).val();
+            $('#city').prop('disabled', false).empty().append('<option value="">Select City</option>'); // Reset City dropdown
+
+            if (stateId) {
+                $.ajax({
+                    url: BaseUrl + 'Api/Jyotish/City',
+                    type: 'GET',
+                    data: { Id: stateId },
+
+                    success: function (response) {
+                        var cityDropdown = $('#city');
+                        cityDropdown.empty().append('<option value="">Select City</option>');
+                        response.data.forEach(city => {
+                            cityDropdown.append(`<option class='city' value="${city.id}">${city.name}</option>`);
+                        });
+                        cityDropdown.prop('disabled', false);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.error('Error fetching cities:', textStatus, errorThrown);
+                    }
+                });
+            }
+        });
+
+        $(".userUpdateFormData").submit(function(e){
+            e.preventDefault();
+            
+                Swal.fire({
+                    title: "Processing Your Request",
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                })
+                let formdata = new FormData();
+                let formarray = $(this).serializeArray();
+                formarray.forEach(function (e) {
+                    formdata.append(e.name, e.value);
+                })
+                if ($("#pImage").val() != null && $("#pImage").val() != "") {
+                    formdata.append("profilePictureUrl", $("#pImage").get(0).files[0])
+                }
+
+                $.ajax({
+                    url: BaseUrl + 'Api/User/UpdateProfile',
+                    type: 'POST',
+                    data: formdata,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        if (response.status == 200) {
+                            Swal.fire({
+                                title: "Success",
+                                text: "Profile Updated Successfully",
+                                icon: "success",
+                                didClose: () => {
+                                    location.reload(true)
+                                }
+
+                            });
+                        } else {
+                            Swal.fire({
+                                title: "error",
+                                text: "some error occured while updating your profile",
+                                icon: "error"
+                            });
+                        }
+                    },
+                    error: function () {
+                        Swal.fire({
+                            title: "error",
+                            text: "some error occured ",
+                            icon: "error"
+                        });
+                    }
+                })
+            
+        })
     });
 </script>
