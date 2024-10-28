@@ -36,16 +36,21 @@
                         <button class="btn btn-primary" style="background-color: #4CAF50; border-color: #4CAF50;">Start Call</button>
                         <button class="btn btn-primary" style="background-color: #4CAF50; border-color: #4CAF50;" data-bs-toggle="modal" data-bs-target="#exampleModal">Book A Appointmnet</button>
                     </div>
-                  
+                    <div class="mb-4 mt-4">
+                        <div class="btn-group mb-3 border-top border-start border-end rounded-0 rounded-top" role="group" aria-label="Basic example">
+                            <button type="button" id="aboutBtn" class="btn btn-success">About</button>
+                            <button type="button" id="specBtn" class="btn ">Specialization</button>
+                            <button type="button" id="achBtn" class="btn ">Achievement</button>
+                        </div>
+                        <p id="aboutMe" class="text-justify" style="font-size: 14px;"></p>
+                        <p id="specialization" class="text-justify" style="font-size: 14px;"></p>
+                        <p id="achievement" class="text-justify" style="font-size: 14px;"></p>
+                    </div>
 
                 </div>
             </div>
 
-            <div class="mb-4">
-                <h3 class="h5 border-bottom" style="color: #333333;">About me</h3>
-                <p id="aboutMe" class="text-justify" style="font-size: 14px;"></p>
-            </div>
-
+           
 
            
         </div>
@@ -125,7 +130,11 @@
                     $('#profileCharges').text('₹ ' + data.chatCharges + ' / 20 min');
                     $('#bookAAppointment').attr('href', "/Home/JyotishProfile?Id=" + `${data.id}`);
                     // Update About Section
-                    $('#aboutMe').text(data.about);
+                    $('#aboutMe').text(data.about !=null ?data.about:"About us not added yet!");
+                    $('#specialization').text(data.specialization != null ? data.specialization : "Specialization not added yet!");
+                    $('#achievement').text(data.awordsAndAchievement != null ? data.awordsAndAchievement : "Achievement not added yet!");
+                    $('#specialization').hide();
+                    $('#achievement').hide();
 
                     // Update Gallery Section
                     if (data.gallery.length > 0) {
@@ -164,6 +173,35 @@
             }
         });
 
+        //handle specialization aboutus and achievement
+
+        $("#aboutBtn").click(function(){
+            $("#aboutMe").show();
+            $("#achievement").hide();
+            $("#specialization").hide();
+            $(this).addClass("btn-success")
+            $("#specBtn").removeClass("btn-success")
+            $("#achBtn").removeClass("btn-success")
+        })
+        $("#specBtn").click(function(){
+            $("#aboutMe").hide();
+            $("#achievement").hide();
+            $("#specialization").show();
+            $(this).addClass("btn-success")
+            $("#aboutBtn").removeClass("btn-success")
+            $("#achBtn").removeClass("btn-success")
+
+        })
+        $("#achBtn").click(function(){
+            $("#aboutMe").hide();
+            $("#achievement").show();
+            $("#specialization").hide();
+            $(this).addClass("btn-success")
+            $(this).addClass("btn-success")
+            $("#aboutBtn").removeClass("btn-success")
+            $("#specBtn").removeClass("btn-success")
+
+        })
 
         // select appoinment
         function reverseDate(dateString) {
