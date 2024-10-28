@@ -14,14 +14,14 @@
 </style>
 
 <div class="container my-3" style="margin-top:100px; background-color: #f7f7f7; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
-    <div class="card shadow-sm" style="background-color: #ffffff; padding: 20px; border-radius: 10px;">
+    <div class="card w-75 mx-auto shadow-sm" style="background-color: #ffffff; padding: 20px; border-radius: 10px;">
         <div class="card-body">
             <div class="row align-items-center mb-4">
                 <div class="col-md-3 text-center text-md-start">
-                    <img id="profilePicture" src="" alt="Profile Picture" class="rounded-circle img-thumbnail" style="width: 100%; max-width: 120px; border: 2px solid #ffffff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);">
+                    <img id="profilePicture" src="" alt="Profile Picture" class="rounded-circle border p-2 img-thumbnail" style=" width: 120px;height: 145px; border: 2px solid #ffffff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);">
                 </div>
                 <div class="col-md-9">
-                    <h2 id="profileName" class="h4 mb-1" style="color: #333333;"> <span class="text-success">&#10004;</span></h2>
+                    <h2 id="profileName" class="h4 mb-1" style="color:#333333;"> <span class="text-success">&#10004;</span></h2>
                     <span class="text-warning me-2">★★★★★</span>
                      <span id="rating" class="mb-0 me-2">4.99</span>|
                     <span id="totalReviews" class="text-muted">
@@ -30,7 +30,7 @@
                     <p id="profileLanguage" class="text-muted mb-1" style="font-size: 14px;"></p>
                     <p id="profileExperience" class="text-muted mb-1" style="font-size: 14px;"></p>
                     <p id="profileCharges" class="text-secondary fw-bold mb-1" style="font-size: 18px;"></p>
-                    <div class="mt-3">
+                    <div class="mt-3 border-top py-2">
 
                         <button class="btn btn-primary me-2 mb-2 mb-md-0" style="background-color: #4CAF50; border-color: #4CAF50;">Start Chat</button>
                         <button class="btn btn-primary" style="background-color: #4CAF50; border-color: #4CAF50;">Start Call</button>
@@ -46,35 +46,28 @@
                 <p id="aboutMe" class="text-justify" style="font-size: 14px;"></p>
             </div>
 
-            <div class="mb-4" id="ratingSection">
-                <div class="d-flex align-items-center">
-                   
-                </div>
-                <div class="mt-3" id="reviewsSection">
-                    <!-- Add reviews here -->
-                </div>
-            </div>
 
-            <div class="mb-4 galleryContainer d-none">
-                <h3 class="h5 border-bottom" style="color: #333333;">Gallery</h3>
-                <div class="row g-2" id="gallerySection">
-                    <!-- Gallery images will be dynamically loaded here -->
-                </div>
-            </div>
+           
+        </div>
+    </div>
+    <div class="mb-4 mt-4 galleryContainer d-none">
+        <h3 class="h5 py-2 mb-3 border-bottom" style="color: #333333;">Gallery</h3>
+        <div class="row g-2" id="gallerySection">
+            <!-- Gallery images will be dynamically loaded here -->
+        </div>
+    </div>
 
-            <div class="mb-4 videoContainer d-none">
-                <h3 class="h5 border-bottom" style="color: #333333;">Videos</h3>
-                <div id="videosSection" class=" row">
-                    <!-- Videos will be dynamically loaded here -->
-                </div>
-            </div>
+    <div class="mb-4 videoContainer d-none">
+        <h3 class="h5 py-2 mb-3 border-bottom" style="color: #333333;">Videos</h3>
+        <div id="videosSection" class=" row">
+            <!-- Videos will be dynamically loaded here -->
+        </div>
+    </div>
 
-            <div class="mb-4 consultantContainer d-none">
-                <h3 class="h5 border-bottom" style="color: #333333;">Check Similar Consultants</h3>
-                <div class="row g-2">
-                    <!-- Similar consultants section -->
-                </div>
-            </div>
+    <div class="mb-4 consultantContainer d-none">
+        <h3 class="h5 border-bottom" style="color: #333333;">Check Similar Consultants</h3>
+        <div class="row g-2">
+            <!-- Similar consultants section -->
         </div>
     </div>
 </div>
@@ -140,7 +133,7 @@
                         var galleryHtml = '';
                         $.each(data.gallery, function (index, item) {
                             galleryHtml += '<div class="col-6 col-md-3">';
-                            galleryHtml += '<img src="' + BaseUrl + item.imageUrl + '" alt="Gallery Image" class="img-fluid rounded img-thumbnail border-0" style="height:250px; width:250; border: 2px solid #ffffff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);">';
+                            galleryHtml += '<img src="' + BaseUrl + item.imageUrl + '" alt="Gallery Image" class="img-fluid rounded-4 img-thumbnail border-0" style="height:250px; width:250; border: 2px solid #ffffff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);">';
                             galleryHtml += '</div>';
                         });
                         $('#gallerySection').html(galleryHtml);
@@ -215,7 +208,7 @@
                 })
             }
         }).then(() => {
-
+            
             let newArray = [];
             function setAppoinment(appdata) {
                 newArray = appoinmentArray.filter((e) => {
@@ -231,7 +224,7 @@
                                    <div class='row w-100 position-relative'>
                                     ${d.status == 'Booked' ? '<div class="position-absolute bookedContainer text-light rounded d-flex justify-content-center align-items-center z-3 h-100 w-100">Booked</div>' : ""}
                     <div class='col-sm-1'>
-                                                       <input type='radio' ${d.status == 'Booked' ? 'disabled' : ""} name='jyotishAppoinment' data-userId='${localStorage.getItem('userId')}' data-slotId='${d.id}' data-jyotishId='${d.jyotishId}'>
+                                           <input type='radio' onChange='selectSlots()' ${d.status == 'Booked' ? 'disabled' : ""} name='jyotishAppoinment' data-userId='${localStorage.getItem('userId')}' data-slotId='${d.id}' data-jyotishId='${d.jyotishId}'>
                                    </div>
                                        
                                            <div class='col-sm-5'>
@@ -252,13 +245,10 @@
             $("#appoinmentDate").on("change", function () {
                 setAppoinment($(this).val())
             });
-            setAppoinment($("#appoinmentDate").val())
 
-            document.querySelectorAll('input[name="jyotishAppoinment"]').forEach(radio => {
-                radio.addEventListener('change', function(){
-                    $("#next-btn").attr("disabled",false)
-                });
-            });
+            
+
+            setAppoinment($("#appoinmentDate").val())
 
             $("#next-btn").click(function(){
                 if($(this).text()=="Book"){
@@ -279,7 +269,7 @@ $("#next-btn").text("Next");
             });
 
 
-        var bookAppoinmentUrl = BaseUrl + `api/User/bookAppointment`;
+var bookAppoinmentUrl = BaseUrl + `api/User/bookAppointment`;
             function bookAppoinment(){
                 Swal.fire({
   title: "Are you sure?",
@@ -357,7 +347,9 @@ $("#next-btn").text("Next");
             })
 
     });
-
+    function selectSlots() {
+        $("#next-btn").attr("disabled", false)
+    }
 </script>
 
 

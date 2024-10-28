@@ -67,7 +67,7 @@ namespace MyJyotishGApi.Controllers
                         md.senderId = Convert.ToInt32(clientId);
                         md.message = msgContent;
                         md.receiverId = Convert.ToInt32(recipientId);
-                        md.mssDate = DateTime.Now.ToString("dd-MM-yyyy hh:mm:ss");
+                        md.mssDate = DateTime.Now.ToString("dd-MM-yyyy hh:mm tt");
                         md.sendBy = sendBy;
                         md.status = 1;
 
@@ -89,7 +89,7 @@ namespace MyJyotishGApi.Controllers
                             ReceiveChat ms = new ReceiveChat
                             {
                                 mssg = msgContent,
-                                date = DateTime.Now.ToString("hh:mm")
+                                date = DateTime.Now.ToString("hh:mm tt")
                             };
                             
                             string jsonString = JsonConvert.SerializeObject(ms);
