@@ -10,6 +10,17 @@
             <!-- Personal Information Section -->
             <div class="col-md-12 col-lg-6">
                 <div class="profile-card bg-light rounded p-3 mb-4">
+
+
+
+                    <div class="form-group mb-3">
+                        <label for="profileImage">Old Profile Image:</label>
+                        <img id="profileImagePreview" width="250" height="250" />
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="profileImage">Upload New Image:</label>
+                        <input type="file" id="profileImage" name="profileImage" class="form-control form-control-sm">
+                    </div>
                     <div class="form-group mb-3">
                         <label for="name">Name:</label>
                         <input type="text" id="name" name="name" class="form-control form-control-sm" required>
@@ -36,18 +47,8 @@
                             <option value="">Select Expertise</option>
                         </select>
                     </div>
-                    <div class="form-group mb-3">
-                        <label for="specialization">Specialization:</label>
-                        <input type="text" id="specialization" name="specialization" class="form-control form-control-sm" required>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="profileImage">Old Profile Image:</label>
-                        <img id="profileImagePreview" width="250" height="250" />
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="profileImage">Upload New Image:</label>
-                        <input type="file" id="profileImage" name="profileImage" class="form-control form-control-sm">
-                    </div>
+                  
+                    
                     <div class="form-group mb-3">
                         <label for="country">Country:</label>
                         <select id="country" name="country" class="form-control form-control-sm" required>
@@ -119,6 +120,10 @@
                         <label for="pooja">Pooja</label>
                         <input type="text" id="pooja" name="pooja" class="form-control form-control-sm" required>
                     </div>
+                    <div class="form-group mb-3">
+                        <label for="specialization">Specialization:</label>
+                        <input type="text" id="specialization" name="specialization" class="form-control form-control-sm" required>
+                    </div>
                 </div>
             </div>
         </div>
@@ -136,6 +141,11 @@
        
         // Load Profile Data on Page Load
         function loadProfileData() {
+            if (!token || !id) {
+                alert('Missing authentication token or profile ID.');
+                return;
+            }
+
             $.ajax({
                 url: BaseUrl + 'Api/Jyotish/GetProfile',
                 type: 'GET',
@@ -144,43 +154,63 @@
                 },
                 data: { Id: id },
                 success: function (response) {
-                   
                     if (response.status === 200) {
                         var profile = response.data;
 
-                        // Fill in the data fields
+                        // Fill in text fields
                         $('#name').val(profile.name);
                         $('#mobile').val(profile.mobile);
                         $('#gender').val(profile.gender);
-                        $('#expertise').val(profile.expertise);
                         $('#city').val(profile.city);
                         $('#state').val(profile.state);
                         $('#country').val(profile.country);
-                        $('#language').val(profile.language);
                         $('#experience').val(profile.experience);
+                        $('#timeTo').val(profile.timeTo);
+                        $('#timeFrom').val(profile.timeFrom);
                         $('#specialization').val(profile.specialization);
                         $('#about').val(profile.about);
                         $('#awardsAndAchievement').val(profile.awardsAndAchievement || 'N/A');
                         $('#callCharges').val(profile.callCharges);
                         $('#chatCharges').val(profile.chatCharges);
-                        $('#dateOfBirth').val(profile.dateOfBirth);
-                        $('#timeTo').val(profile.timeTo);
-                        $('#timeFrom').val(profile.timeFrom);
                         $('#address').val(profile.address);
                         $('#appointmentCharges').val(profile.appointmentCharges);
                         $('#pooja').val(profile.pooja);
-                        // Set the profile image preview if URL exists
+
+                        // Set profile image preview or fallback image
                         if (profile.profileImageUrl) {
-                            $('#profileImagePreview').attr('src', BaseUrl + profile.profileImageUrl);
+                            $('#profileImagePreview').attr('src', BaseUrl + profile.profileImageUrl).show();
                         } else {
-                            $('#profileImagePreview').attr('src', 'default-image.jpg'); // Fallback image
+                            $('#profileImagePreview').attr('src', 'default-image.jpg').show();
                         }
+
+                        // Handle comma-separated string fields (languages and expertise)
+                        if (profile.language) {
+                            let languagesArray = profile.language.split(',');
+                            $('#language').val(languagesArray).trigger('change');
+                        }
+                        if (profile.expertise) {
+                            let expertiseArray = profile.expertise.split(',');
+                            $('#expertise').val(expertiseArray).trigger('change');
+                        }
+
+                        // Date of birth field
+                        if (profile.dateOfBirth) {
+                            let date = new Date(profile.dateOfBirth);
+                            let day = String(date.getDate()).padStart(2, '0');
+                            let month = String(date.getMonth() + 1).padStart(2, '0'); // Adjust for zero-based month
+                            let year = date.getFullYear();
+
+                            // Set the value in the `YYYY-MM-DD` format expected by input type="date"
+                            $('#dateOfBirth').val(`${year}-${month}-${day}`);
+                        }
+
+
                     } else {
-                        alert('Error: Could not load profile.');
+                        alert('Error: Could not load profile data.');
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    
+                    alert('Failed to load profile data. Please try again.');
                     console.error('Error fetching profile data:', textStatus, errorThrown);
                 }
             });
@@ -359,10 +389,30 @@
                 success: function (response) {
                     debugger;
                     if (response.status === 200) {
-                        alert('Profile updated successfully!');
-                        loadProfileData(); // Reload the profile data after updating
+
+                        Swal.fire({
+                            title: "Profile updated successfully!",
+                            text: "Redirecting to Profile...",
+                            icon: "success",
+
+                            showConfirmButton: true, // Ensure the OK button is shown
+                        }).then(() => {
+
+                           
+                            window.location.href = "/Jyotish/Profile";
+                        });
+
+
+                        
                     } else {
-                        alert('Error: ' + response.message);
+                        Swal.fire({
+                            title: 'Error: ' + response.message,
+
+                            icon: "warning",
+
+                            showConfirmButton: true, // Ensure the OK button is shown
+
+                        });
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {

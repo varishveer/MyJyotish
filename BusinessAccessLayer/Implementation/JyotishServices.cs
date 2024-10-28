@@ -83,7 +83,7 @@ namespace BusinessAccessLayer.Implementation
             existingRecord.Country = CountryName.Name;
             existingRecord.State = StateName.Name;
             existingRecord.City = CityName.Name;
-            existingRecord.Password = model.Password;
+        
             existingRecord.DateOfBirth = model.DateOfBirth;
 
             existingRecord.Otp = model.Otp;

@@ -56,6 +56,7 @@ namespace MyJyotishJiWebDesign.Controllers
         public IActionResult ResetPassword() { return View(); }
         public IActionResult Appointments() { return View(); }
 
+        public IActionResult ProblemSolution() { return View(); }
 
     }
 }

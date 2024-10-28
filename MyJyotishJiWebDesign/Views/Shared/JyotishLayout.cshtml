@@ -33,6 +33,7 @@
     <link href="~/css/style.css" rel="stylesheet">
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
 
         .sidebar1 {
@@ -384,10 +385,23 @@
 
             // Logout
             $("#logout").click(function () {
-                if (confirm("Are you sure you want to logout?")) {  // Confirm logout
-                    localStorage.clear();
-                    window.location.replace("/Jyotish/Login");
-                }
+                //if (confirm("Are you sure you want to logout?")) {  // Confirm logout
+                //    localStorage.clear();
+                //    window.location.replace("/Jyotish/Login");
+                //}
+
+                Swal.fire({
+                    title: "Are you sure you want to logout?",
+                    icon: 'warning',
+                    showConfirmButton: true,
+                    showCancelButton: true,  // Adds the cancel button
+                    confirmButtonText: 'Yes, logout',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.replace("/Jyotish/Login");
+                    }
+                });
             });
 
             // Use hover to handle mouse enter and leave

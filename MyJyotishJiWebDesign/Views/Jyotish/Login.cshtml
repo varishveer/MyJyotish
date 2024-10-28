@@ -202,10 +202,32 @@
                         }
 
                         } else if (response.status === 409) {
-                            alert(response.message); // Show alert for Invalid Email or Incorrect Password
+
+                            Swal.fire({
+                                title: response.message,
+                            
+                                icon: "warning",
+
+                                showConfirmButton: true, // Ensure the OK button is shown
+                            }).then(() => {
+
+                           
+                                window.location.reload();
+                            });
+                           
                         } else if (response.status === 401) {
-                            alert(response.message); // Show alert for Unauthorized
-                        } else {
+                                Swal.fire({
+                                    title: response.message,
+
+                                    icon: "warning",
+
+                                    showConfirmButton: true, // Ensure the OK button is shown
+                                }).then(() => {
+                                    window.location.reload();
+                                });
+                           
+                        } 
+                        else {
                             alert("Unexpected response: " + response.message);
                         }
                 },

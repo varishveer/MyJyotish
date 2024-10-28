@@ -525,7 +525,7 @@ namespace BusinessAccessLayer.Implementation
 
 
             var Data = _context.ProblemSolution
-                                .Where(x => x.UserId == Id)
+                                .Where(x => x.Id == Id)
                                 .Select(x => new ProblemSolutionGetAllViewModel
                                 {
                                     Id = x.Id,

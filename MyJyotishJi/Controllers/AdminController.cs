@@ -804,5 +804,22 @@ namespace MyJyotishJiApi.Controllers
             { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
 
         }
+
+        [HttpGet("GetProblemSolution")]
+        public IActionResult GetProblemSolution(int Id)
+        {
+            try
+            {
+                var Result = _admin.GetProblemSolution(Id);
+                if ( Result == null)
+                { return Ok(new { Status = 404, Message = "Data Not Found" }); }
+
+                else
+                { return Ok(new { Status = 200, Data = Result, Message = "Successful" }); }
+            }
+            catch (Exception ex)
+            { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+
+        }
     }
 }

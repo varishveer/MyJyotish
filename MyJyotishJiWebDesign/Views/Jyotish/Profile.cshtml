@@ -194,11 +194,18 @@
             <div class="mb-3">
                 <img id="profileImage" src="~/Img/UserPlaceholder.png" alt="Profile Image" class="profile-photo" width="250" height="250">
             </div>
-           
-            <div class="mb-3 d-flex justify-content-between flex-row">
+            <h6 id="JyotishName"></h6>
+            <div class="my-3 d-flex justify-content-center flex-row">
                 <button class="btn btn-outline-info mx-1">
                     <a href="/Jyotish/UpdateProfile">Edit Profile</a>
                 </button>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="detail-value">About</div>
+                    <div class="detail-label" id="about"></div>
+                </div>
             </div>
         </div>
 
@@ -334,12 +341,7 @@
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="detail-label">About</div>
-                        <div class="detail-value" id="about"></div>
-                    </div>
-                </div>
+               
             </div>
         </div>
     </div>
@@ -363,6 +365,7 @@
                     debugger;
                     // Fill in the data fields
                     $('#profileImage').attr('src', profile.profileImageUrl ?  BaseUrl+profile.profileImageUrl : 'default-image.jpg');
+                    $('#JyotishName').text(profile.name);
                     $('#name').text(profile.name);
                     $('#email').text(profile.email);
                     $('#mobile').text(profile.mobile);
@@ -390,12 +393,28 @@
 
                     // Handle timeFrom and timeTo if necessary
                 } else {
-                    alert('Error: Could not load profile.');
+                   
+                    Swal.fire({
+                        title: 'Error: Could not load profile.',
+
+                        icon: "warning",
+
+                        showConfirmButton: true, 
+                  
+                    });
                 }
             },
             error: function (xhr, status, error) {
                 console.error('Error:', error);
-                alert('There was an error fetching the profile data.');
+               
+                Swal.fire({
+                    title: 'There was an error fetching the profile data.',
+
+                    icon: "warning",
+
+                    showConfirmButton: true, 
+
+                });
             }
         });
     });
