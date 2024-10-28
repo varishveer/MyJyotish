@@ -148,23 +148,61 @@
                     success: function (response) {
 
                         if (response.status === 200) {
-                            // Store the token and user email in local storage
+
+
+
+                        Swal.fire({
+                            title: "Login Successful!",
+                            text: "Redirecting to dashboard...",
+                            icon: "success",
+
+                            showConfirmButton: true, // Ensure the OK button is shown
+                        }).then(() => {
+
                             localStorage.setItem("Token", response.token);
-                        localStorage.setItem('userEmail', response.userEmail);
-                        localStorage.setItem("userName", response.userName);
-                        localStorage.setItem('userMobile', response.userMobile);
-                        localStorage.setItem('userId', response.userId);
+                            localStorage.setItem('userEmail', response.userEmail);
+                            localStorage.setItem("userName", response.userName);
+                            localStorage.setItem('userMobile', response.userMobile);
+                            localStorage.setItem('userId', response.userId);
 
                             // Redirect to the dashboard
                             window.location.href = "/Home/Index";
+
+                        });
+
+
+
+                            // Store the token and user email in local storage
+                           
+
                         } else if (response.status === 409) {
                             // Handle invalid email or incorrect password scenarios
-                            alert(response.message);
+                        Swal.fire({
+                            title: response.message,
+
+                            icon: "warning",
+
+                            showConfirmButton: true, // Ensure the OK button is shown
+                        }).then(() => {
+
+
+                            window.location.reload();
+                        });
                         } else {
                             // Handle unexpected success responses
                             console.error("Unexpected response status:", response.status);
-                            alert("An unexpected error occurred.");
-                        }
+                         
+                        Swal.fire({
+                            title: "An unexpected error occurred.",
+
+                            icon: "warning",
+
+                            showConfirmButton: true, // Ensure the OK button is shown
+                        }).then(() => {
+                            window.location.reload();
+                        });
+
+                    }
                     },
                     error: function (xhr, status, error) {
                         // Handle HTTP error responses

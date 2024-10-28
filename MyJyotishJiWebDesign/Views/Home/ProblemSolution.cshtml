@@ -1,0 +1,87 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<style>
+    .problemSolution-cont {
+        margin-top: 4rem;
+        margin-bottom: 4rem;
+    }
+
+    body {
+        background: url("https://api.myjyotishg.in/astrologer-bg.jpg");
+        background-attachment: fixed;
+        backdrop-filter: blur(3px);
+    }
+
+    .problemSolution > div {
+        background: rgba(255, 255, 255, 0.7);
+    }
+</style>
+
+<div class="container problemSolution-cont">
+    <div class="row">
+        <h6> Problem Solution</h6>
+        <div class="col-sm-12">
+            <div class="row justify-content-center gap-3 problemSolution">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        function reverseDate(dateString) {
+            const parts = dateString.split('-');
+            return `${parts[2]}-${parts[1]}-${parts[0]}`;
+        }
+
+        var appoinmentUrl = BaseUrl + `api/User/getAllProblemSolution?Id=${localStorage.getItem('userId')}`;
+        let ProblemSolutionArray = [];
+
+        $.ajax({
+            url: appoinmentUrl,
+            method: 'GET',
+            success: function (response) {
+                ProblemSolutionArray = response.data || [];
+                filterRecords(); // Call filterRecords after data is loaded
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+
+        function filterRecords() {
+            let newSolution = ProblemSolutionArray;
+
+            $(".problemSolution").empty();
+
+            if (newSolution.length > 0) {
+                newSolution.forEach(function (d) {
+                    let cards = `
+                            <div class="col-sm-5 col-md-5 border shadow-sm rounded p-3 mb-3">
+                                <div class="row fw-semi-bold">
+                                    <div class="col-sm-6">
+                                        <strong>Name:</strong> ${d.name}<br />
+                                        <strong>Date:</strong> ${reverseDate(d.date)}<br />
+                                        <strong>Time:</strong> ${d.time}<br />
+                                        <strong>Email:</strong> ${d.email}
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <strong>Problem1:</strong> ${d.problem1}<br />
+                                        <strong>Problem2:</strong> ${d.problem2}<br />
+                                        <strong>Problem3:</strong> ${d.problem3}
+                                    </div>
+                                </div>
+                            </div>`;
+
+                    $(".problemSolution").append(cards);
+                });
+            } else {
+                $(".problemSolution").html(`<p class='my-5 text-center text-secondary'>There are no appointments yet.</p>`);
+            }
+        }
+    });
+</script>
