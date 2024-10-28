@@ -408,33 +408,32 @@ namespace BusinessAccessLayer.Implementation
 
 
 
-            var Records = _context.AppointmentRecords
-       .Where(x => x.UserId == Id)  // Filter by the userId
-       .Join(_context.Users,
-             record => record.UserId,
-             user => user.Id,
-             (record, user) => new { record, user })  // First join to get the user's details
-       .Join(_context.JyotishRecords,  // Join with JyotishRecords instead of Users
-             combined => combined.record.JyotishId,
-             jyotish => jyotish.Id,
-             (combined, jyotish) => new { combined.record, combined.user, jyotish }) // Get Jyotish's details from JyotishRecords
-       .Join(_context.AppointmentSlots,
-             combined => combined.record.SlotId,
-             slot => slot.Id,
-             (combined, slot) => new AppointmentDetailViewModel
-             {
-                 Id = combined.record.Id,
-                 UserName = combined.jyotish.Name,  // Store Jyotish's Name
-                 UserEmail = combined.jyotish.Email,  // Store Jyotish's Email
-                 UserMobile = combined.jyotish.Mobile,  // Store Jyotish's Mobile
-                 UserId = combined.record.UserId,
-                 Problem = combined.record.Problem,
-                 Date = slot.Date,
-                 Time = slot.TimeFrom,
-                 Status = combined.record.Status,
-                 Amount = combined.record.Amount
-             })
-       .ToList();
+            var Records = _context.AppointmentRecords.Where(x => x.UserId == Id)  // Filter by the userId
+             .Join(_context.Users,
+                   record => record.UserId,
+                   user => user.Id,
+                   (record, user) => new { record, user })  // First join to get the user's details
+             .Join(_context.JyotishRecords,  // Join with JyotishRecords instead of Users
+                   combined => combined.record.JyotishId,
+                   jyotish => jyotish.Id,
+                   (combined, jyotish) => new { combined.record, combined.user, jyotish }) // Get Jyotish's details from JyotishRecords
+             .Join(_context.AppointmentSlots,
+                   combined => combined.record.SlotId,
+                   slot => slot.Id,
+                   (combined, slot) => new AppointmentDetailViewModel
+                   {
+                       Id = combined.record.Id,
+                       UserName = combined.jyotish.Name,           // Store Jyotish's Name
+                       UserEmail = combined.jyotish.Email,         // Store Jyotish's Email
+                       UserMobile = combined.jyotish.Mobile,       // Store Jyotish's Mobile
+                       UserId = combined.jyotish.Id,            // Added JyotishId
+                       Problem = combined.record.Problem,
+                       Date = slot.Date,
+                       Time = slot.TimeFrom,
+                       Status = combined.record.Status,
+                       Amount = combined.record.Amount
+                   })
+             .ToList();
             return Records; 
         }
         public AppointmentModel GetAppointmentDetails(int Id)
@@ -478,6 +477,41 @@ namespace BusinessAccessLayer.Implementation
                     })
                     .ToList();
             return result;
+        }
+
+        public List<ProblemSolutionGetAllViewModel> GetAllProblemSolution(int Id)
+        {
+            if (Id == 0)
+            {
+                return null;
+            }
+
+
+            var Data = _context.ProblemSolution
+                                .Where(x => x.UserId == Id)
+                                .Select(x => new ProblemSolutionGetAllViewModel
+                                {
+                                    Id = x.Id,
+                                    JyotishId = x.JyotishId,
+                                    AppointmentId = x.AppointmentId,
+                                    Date = x.Date,
+                                    Time = x.Time,
+                                    Problem1 = x.Problem1,
+                                    Solution1 = x.Solution1,
+                                    Problem2 = x.Problem2,
+                                    Solution2 = x.Solution2,
+                                    Problem3 = x.Problem3,
+                                    Solution3 = x.Solution3,
+                                    Image1 = x.Image1,
+                                    Image2 = x.Image2,
+                                    Image3 = x.Image3,
+
+                                    Name = _context.JyotishRecords.Where(u => u.Id == x.JyotishId).Select(u => u.Name).FirstOrDefault(),
+                                    Email = _context.JyotishRecords.Where(u => u.Id == x.JyotishId).Select(u => u.Email).FirstOrDefault()
+                                })
+                                .ToList();
+
+            return Data;
         }
 
     }

@@ -109,11 +109,6 @@
 </div>
 
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> cbc52c54f79890b96b1ef13a5bbdf9dd90dc1b23
 <!-- JavaScript Libraries -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -155,34 +150,64 @@
                         localStorage.setItem('Username', response.userName);
                         localStorage.setItem('userEmail', response.user);
                         localStorage.setItem('userRole', response.role);
-                       
-                         Swal.fire({
-                            title: "Login Successful!",
-                            text: "Redirecting to dashboard...",
-                            icon: "success"
-                        });
+
+                       // Swal.fire({
+                        //    title: "Login Successful!",
+                       //     text: "Redirecting to dashboard...",
+                     //       icon: "success",
+                     //       timer: 2000, // Optional: Show for 2 seconds
+                     //       showConfirmButton: true, // Ensure the OK button is shown
+                     //   }).then(() => {
+                   //         
+                  //          location.reload(); 
+                   //     });
                       
                        
                         if(response.role == "Pending")
                         {
-                            localStorage.setItem("Token3", response.token);
-                            localStorage.setItem("Id", response.id);
-                            window.location.href = "/PendingJyotish/Dashboard";
+                            Swal.fire({
+                                title: "Login Successful!",
+                                text: "Redirecting to dashboard...",
+                                icon: "success",
+                               
+                                showConfirmButton: true, // Ensure the OK button is shown
+                            }).then(() => {
+
+                                localStorage.setItem("Token3", response.token);
+                                localStorage.setItem("Id", response.id);
+                                window.location.href = "/PendingJyotish/Dashboard";
+                            });
+
+
+                           
                         }
                         else if(response.role == "Jyotish")
                         {
-                            localStorage.setItem("Token2", response.token);
-                            localStorage.setItem("Id", response.id);
-                            window.location.href = "/Jyotish/Dashboard";
+                            Swal.fire({
+                                title: "Login Successful!",
+                                text: "Redirecting to dashboard...",
+                                icon: "success",
+                              
+                                showConfirmButton: true, // Ensure the OK button is shown
+                            }).then(() => {
+
+                                localStorage.setItem("Token2", response.token);
+                                localStorage.setItem("Id", response.id);
+                                window.location.href = "/Jyotish/Dashboard";
+                            });
+
+
+
+                           
                         }
 
-                    } else if (response.status === 409) {
-                        alert(response.message); // Show alert for Invalid Email or Incorrect Password
-                    } else if (response.status === 401) {
-                        alert(response.message); // Show alert for Unauthorized
-                    } else {
-                        alert("Unexpected response: " + response.message);
-                    }
+                        } else if (response.status === 409) {
+                            alert(response.message); // Show alert for Invalid Email or Incorrect Password
+                        } else if (response.status === 401) {
+                            alert(response.message); // Show alert for Unauthorized
+                        } else {
+                            alert("Unexpected response: " + response.message);
+                        }
                 },
                 error: function (xhr) {
                     console.error("Error:", xhr.responseText);
