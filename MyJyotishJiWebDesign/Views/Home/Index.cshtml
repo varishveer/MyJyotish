@@ -24,6 +24,17 @@
     #astrologers-container div {
         min-height: 140px;
     }
+    #astrologers-container::-webkit-scrollbar{
+        height:5px;
+    }
+
+    #astrologers-container::-webkit-scrollbar-thumb{
+        background: #e8985f;
+    }
+
+    #astrologers-container::-webkit-scrollbar-track{
+        background: #fcdfb6;
+    }
 </style>
 
 
@@ -102,8 +113,10 @@
     <!-- Top Astrologers -->
     <div class="container-fluid my-5">
         <h3 class="text-center mb-5">Top Astrologers</h3>
-        <div id="astrologers-container" class="row d-flex justify-content-between">
-          
+        <div  class="row">
+          <div class="col-sm-12">
+                <div class="row flex-nowrap justify-content-between overflow-auto" id="astrologers-container"></div>
+          </div>
         </div>
     </div>
 
@@ -170,9 +183,6 @@
 <style>
    
 </style>
-
-
-
 
     <!-- Services Section -->
     <div class="container-fluid my-5">
@@ -288,10 +298,6 @@
         </div>
     </div>
 
-
-
-
-
     <!-- Testimonials -->
     <div class="container-fluid testimonial-section my-5">
         <h3 class="text-center mb-4">Testimonials</h3>
@@ -335,8 +341,6 @@
             </button>
         </div>
     </div>
-
-
 
     <style>
         .accordion-button:not(.collapsed) {
@@ -411,10 +415,6 @@
           
         </div>
     </div>
-
-
-
-
 
     <section>
         <div class="container-fluid my-5 p-4 rounded" style=" background-color: rgba(253, 224, 182,0.5);">
@@ -588,10 +588,10 @@ $(document).ready(function () {
                             var src =BaseUrl     + `${astrologer.profileImageUrl}`;
                             $('#astrologers-container').append(`
                                
-                                     <div class="col-12 col-sm-2 col-md-2 col-lg-2 mb-2 p-1">
+                                     <div class="col-sm-3 col-md-3 col-lg-3 mb-2 p-2">
                                         <div class="card astrologer-card shadow">
                                              <a class='text-secondary text-decoration-none' href= "/Home/JyotishProfile?Id=${astrologer.id}">
-                                                <img src=  "${src}" class="card-img-top p-2 rounded" alt="${astrologer.name}">
+                                                <img src=  "${src}" class="card-img-top p-3 rounded" alt="${astrologer.name}">
                                                 <div class="card-body p-0 pt-2">
                                                     <h6 class="card-title text-center">${astrologer.name} - ${astrologer.city}</h6>
                                                         <p class='text-center text-warning' >${generateFullStars()}</p>

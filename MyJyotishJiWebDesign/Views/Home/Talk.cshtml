@@ -114,7 +114,9 @@
             }
         });
     }
-
+    function generateFullStars() {
+        return '<i class="fa fa-star"></i>'.repeat(5); // Return 5 filled stars
+    }
     // Function to display astrologers dynamically
     function displayAstrologers(astrologers) {
 
@@ -123,16 +125,17 @@
             var ImgSrc = BaseUrl + astrologer.profileImageUrl;
             html += `
                     <div class="astrologer-card">
-                        <a href="/Home/JyotishProfile?Id=${astrologer.id}">
-                            <i class="decorative-icon fa fa-star"></i>
-                            <img src="${ImgSrc}" alt="${astrologer.name}">
-                            <h4>${astrologer.name}</h4>
-                            <p><span>Expertise:</span> ${astrologer.expertise || 'N/A'}</p>
-                            <p><span>Experience:</span> ${astrologer.experience || 'N/A'} years</p>
-                            <p><span>Address:</span> ${astrologer.address || 'N/A'}</p>
-                                     <p><span>Call Charges:</span> ${astrologer.callCharges || 'N/A'}</p>
-
-                        </a>
+                           <a href="/Home/JyotishProfile?Id=${astrologer.id}" class="text-decoration-none">
+                                <i class="decorative-icon fa fa-star"></i>
+                                    <img src=  "${ImgSrc}"  alt="${astrologer.name}">
+                                                        <div class="card-body p-0 pt-2">
+                                                            <h6 class="card-title  text-center">${astrologer.name} - ${astrologer.city}</h6>
+                                                                <p class='text-center text-warning' >${generateFullStars()}</p>
+                                                            <p class="card-text px-1 text-center" >
+                                                                 ${astrologer.expertise} | ${astrologer.experience != null ? astrologer.experience : 0} Years
+                                                            </p>
+                                                        </div>
+                            </a>
                     </div>
                 `;
         });
