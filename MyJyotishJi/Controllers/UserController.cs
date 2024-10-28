@@ -11,6 +11,7 @@ namespace MyJyotishGApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Policy = "Policy4")]
     public class UserController : ControllerBase
     {
 

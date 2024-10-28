@@ -19,11 +19,27 @@
     .problemSolution > div {
         background: rgba(255, 255, 255, 0.7);
     }
+
+    .problem-card {
+        background: rgba(255, 255, 255, 0.9); /* Slightly more opaque background */
+        transition: transform 0.2s;
+    }
+
+        .problem-card:hover {
+            transform: scale(1.02); /* Scale up on hover */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Add shadow effect */
+        }
+
+
+
+   
 </style>
 
 <div class="container problemSolution-cont">
     <div class="row">
-        <h6> Problem Solution</h6>
+        <h6 style="font-weight: bold; font-size: 1.5rem; text-align: center; color: #343a40; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 1px;">
+            Problem Solution
+        </h6>
         <div class="col-sm-12">
             <div class="row justify-content-center gap-3 problemSolution">
             </div>
@@ -44,6 +60,10 @@
         $.ajax({
             url: appoinmentUrl,
             method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                'Content-Type': 'application/json',
+            },
             success: function (response) {
                 ProblemSolutionArray = response.data || [];
                 filterRecords(); // Call filterRecords after data is loaded
@@ -53,6 +73,11 @@
             }
         });
 
+
+        function formatDate(isoDate) {
+            let date = new Date(isoDate);
+            return date.toLocaleDateString('en-GB'); // Formats as DD/MM/YYYY
+        }
         function filterRecords() {
             let newSolution = ProblemSolutionArray;
 
@@ -61,22 +86,25 @@
             if (newSolution.length > 0) {
                 newSolution.forEach(function (d) {
                     let cards = `
-                            <div class="col-sm-5 col-md-5 border shadow-sm rounded p-3 mb-3">
-                                <div class="row fw-semi-bold">
-                                    <div class="col-sm-6">
-                                        <strong>Name:</strong> ${d.name}<br />
-                                        <strong>Date:</strong> ${reverseDate(d.date)}<br />
-                                        <strong>Time:</strong> ${d.time}<br />
-                                        <strong>Email:</strong> ${d.email}
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <strong>Problem1:</strong> ${d.problem1}<br />
-                                        <strong>Problem2:</strong> ${d.problem2}<br />
-                                        <strong>Problem3:</strong> ${d.problem3}
-                                    </div>
-                                </div>
-                            </div>`;
-
+            <div class="col-sm-5 col-md-5 mb-3">
+                <div class="problem-card border shadow-sm rounded p-3">
+                    <a href="/home/ProblemSolutionDetails?Id=${d.id}" class="text-decoration-none text-dark">
+                        <div class="row fw-semi-bold">
+                            <div class="col-sm-6">
+                                <strong>Name:</strong> ${d.name}<br />
+                                    <strong>Date:</strong> ${formatDate(d.date)}<br />
+                                    <strong>Time:</strong> ${d.time.substring(0, 5)}<br />
+                                <strong>Email:</strong> ${d.email}
+                            </div>
+                            <div class="col-sm-6">
+                                <strong>Problem1:</strong> ${d.problem1}<br />
+                                <strong>Problem2:</strong> ${d.problem2 || 'N/A'}<br />
+                                <strong>Problem3:</strong> ${d.problem3 || 'N/A'}
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>`;
                     $(".problemSolution").append(cards);
                 });
             } else {

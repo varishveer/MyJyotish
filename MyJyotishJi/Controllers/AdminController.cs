@@ -434,11 +434,12 @@ namespace MyJyotishJiApi.Controllers
             try
             {
                 var Result = _admin.ApproveJyotishDocs(model);
-                if (Result == null)
+                if (Result == "Successful")
                 {
-                    return Ok(new { Status = 400, Message = "Jyotish not found" });
+                    return Ok(new { Status = 200, Message = "Successful" });
+                  
                 }
-                return Ok(new { Status = 200, Message = "Successful" });
+                return Ok(new { Status = 404, Message = Result });
             }
             catch
             {
