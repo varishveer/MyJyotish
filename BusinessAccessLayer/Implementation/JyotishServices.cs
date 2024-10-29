@@ -497,7 +497,7 @@ namespace BusinessAccessLayer.Implementation
         {
             var Jyotish = _context.JyotishRecords.Where(x => x.Id == Id).FirstOrDefault();
             if (Jyotish == null) { return null; }
-            var record = _context.JyotishPaymentRecord.Where(x => x.JyotishId == Id).ToList();
+            var record = _context.JyotishPaymentRecord.Where(x => x.JyotishId == Id).OrderBy(x=>x.Id).Reverse().ToList();
             if (record.Count > 0) { return record; }
             else { return null; }
         }

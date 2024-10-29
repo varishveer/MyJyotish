@@ -44,6 +44,8 @@ namespace DataAccessLayer.DbServices
         public DbSet<ChatModel> Chat { get; set; }
         public DbSet<ChatedUser> ChatedUser { get; set; }
         public DbSet<ProblemSolutionModel> ProblemSolution { get; set; }
+        public DbSet<jyotishWallet> JyotishWallets { get; set; }
+        public DbSet<UserWallet> UserWallets { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -77,6 +79,13 @@ namespace DataAccessLayer.DbServices
             modelBuilder.Entity<ManageSubscriptionModel>().HasOne(c => c.Feature).WithMany(j => j.ManageSubscription).HasForeignKey(c => c.FeatureId);
 
             modelBuilder.Entity<ManageSubscriptionModel>().HasOne(c => c.Subscription).WithMany(j => j.ManageSubscription).HasForeignKey(c => c.SubscriptionId);
+
+            modelBuilder.Entity<jyotishWallet>().HasOne(c => c.jyotish).WithMany(j => j.JyotishRecord).HasForeignKey(c => c.jyotishId);
+            
+            modelBuilder.Entity<UserWallet>().HasOne(c => c.User).WithMany(j => j.UserRecord).HasForeignKey(c => c.userId);
+            
+            modelBuilder.Entity<UserPaymentRecordModel>().HasOne(c => c.User).WithMany(j => j.UserPaymentRecords).HasForeignKey(c => c.UserId);
+            modelBuilder.Entity<JyotishPaymentRecordModel>().HasOne(c => c.Jyotish).WithMany(j => j.jyotishPaymentRecords).HasForeignKey(c => c.JyotishId);
         }
 
 

@@ -37,11 +37,12 @@
 
 <div class="container problemSolution-cont">
     <div class="row">
-        <h6 style="font-weight: bold; font-size: 1.5rem; text-align: center; color: #343a40; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 1px;">
+        <h4 class="fw-bold pb-3 border-bottom text-center">
             Problem Solution
-        </h6>
-        <div class="col-sm-12">
-            <div class="row justify-content-center gap-3 problemSolution">
+        </h4>
+        <div class="col-sm-12 my-3">
+            <div class="row justify-content-evenly problemSolution">
+               
             </div>
         </div>
     </div>
@@ -81,12 +82,13 @@
         function filterRecords() {
             let newSolution = ProblemSolutionArray;
 
-            $(".problemSolution").empty();
+            // $(".problemSolution").empty();
 
             if (newSolution.length > 0) {
+                let pi=1
                 newSolution.forEach(function (d) {
                     let cards = `
-            <div class="col-sm-5 col-md-5 mb-3">
+            <div class="col-sm-6 col-md-6 mb-3">
                 <div class="problem-card border shadow-sm rounded p-3">
                     <a href="/home/ProblemSolutionDetails?Id=${d.id}" class="text-decoration-none text-dark">
                         <div class="row fw-semi-bold">
@@ -97,10 +99,10 @@
                                 <strong>Email:</strong> ${d.email}
                             </div>
                             <div class="col-sm-6">
-                                <strong>Problem1:</strong> ${d.problem1}<br />
-                                <strong>Problem2:</strong> ${d.problem2 || 'N/A'}<br />
-                                <strong>Problem3:</strong> ${d.problem3 || 'N/A'}
-                            </div>
+                                        ${d.problem1 != null ? `<strong> Problem${pi}:</strong> ${d.problem1}<br />` : ""}
+                                            ${d.problem2 != null ? `<strong> Problem${pi=pi+1}:</strong> ${d.problem2}<br />` : ""}
+                                                    ${d.problem3 != null ? `<strong> Problem${pi = pi + 1}:</strong> ${d.problem3}<br />` : ""}
+                                </div>
                         </div>
                     </a>
                 </div>
