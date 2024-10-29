@@ -8,13 +8,12 @@ using System.Threading.Tasks;
 
 namespace ModelAccessLayer.ViewModels
 {
-    public class ProblemSolutionViewModel
+    public  class JyotishUserAttachmentViewModel
     {
         [AllowNull]
-        public int Id { get; set; }
-        public int AppointmentId { get; set; }
-        public string Problem { get; set; }
-        public string Solution { get; set; }
-
+        public int? Id { get; set; }
+        public int JyotishId { get; set;  }
+        public int  UserId { get; set; }
+        public IFormFile Image { get; set; }
     }
 }

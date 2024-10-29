@@ -64,7 +64,7 @@ namespace ModelAccessLayer.Models
         public ICollection<JyotishVideosModel> JyotishVideos { get; set; }
 
         public ICollection<ChatedUser> ChatedUserRecord { get; set; } = new List<ChatedUser>();
-        public ICollection<AppointmentSolutionModel> AppointmentSolutionRecord { get; set; } = new List<AppointmentSolutionModel>();
+        public ICollection<AppointmentModel> AppointmentRecord { get; set; } = new List<AppointmentModel>();
         public ICollection<jyotishWallet> JyotishRecord { get; set; } = new List<jyotishWallet>();
         public ICollection<JyotishPaymentRecordModel> jyotishPaymentRecords { get; set; } = new List<JyotishPaymentRecordModel>();
 

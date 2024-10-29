@@ -34,7 +34,7 @@ namespace ModelAccessLayer.Models
         public ICollection<CallingModel> CallingModelRecord { get; set; } = new List<CallingModel>();
         public ICollection<ChattingModel> ChattingModelRecord { get; set; } = new List<ChattingModel>();
         public ICollection<ChatedUser> ChatedUserRecord { get; set; } = new List<ChatedUser>();
-        public ICollection<AppointmentSolutionModel> AppointmentSolutionRecord { get; set; } = new List<AppointmentSolutionModel>();
+        public ICollection<AppointmentModel> AppointmentRecord { get; set; } = new List<AppointmentModel>();
         public ICollection<UserWallet> UserRecord { get; set; } = new List<UserWallet>();
         public ICollection<UserPaymentRecordModel> UserPaymentRecords { get; set; } = new List<UserPaymentRecordModel>();
         public ICollection<JyotishUserAttachmentModel> JyotishUserAttachmentRecords { get; set; } = new List<JyotishUserAttachmentModel>();

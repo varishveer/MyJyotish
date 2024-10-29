@@ -448,43 +448,49 @@ namespace MyJyotishGApi.Controllers
         }
 
 
-/*        [HttpPost("AddProblemSolution")]
-        public IActionResult AddProblemSolution(ProblemSolutionViewModel model)
+        [HttpPost("AddProblemSolution")]
+        public IActionResult AddProblemSolution(ProblemSolutionViewModel[] model)
         {
             try
             {
                 var Result = _jyotish.AddProblemSolution(model);
-                if (Result == "Invalid Data")
+                if (Result == "No data provided")
                 { return Ok(new { Status = 400, Message = Result }); }
 
-                else if (Result == "Invalid File.")
+                else if (Result == "Invalid Data: AppointmentId does not exist.")
                 { return Ok(new { Status = 400, Message = Result }); }
-               
+
                 else if (Result == "Successful")
                 { return Ok(new { Status = 200, Message = Result }); }
                 else
-                { return Ok(new { Status = 500, Message = Result }); }
+                { return Ok(new { Status = 500, Message = "Internal Server Error", Error = Result }); }
             }
             catch (Exception ex)
             { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
         }
 
         [HttpGet("GetAllProblemSolution")]
-        public IActionResult GetAllProblemSolution(int Id)
+        public IActionResult GetAllProblemSolution(int id)
         {
             try
             {
-                var Result = _jyotish.GetAllProblemSolution(Id);
-                
-                if (Result.Count == 0)
-                { return Ok(new { Status = 400, Message = "Data Not Found" }); }
-                else if(Result == null)
-                { return Ok(new { Status = 400, Message = "Invalid Id" }); }
-                else
-                { return Ok(new { Status = 200, data = Result, Message = "Successful" }); }
+               
+                var result = _jyotish.GetAllProblemSolution(id);
+
+               
+                if (result == null || result.Count == 0)
+                {
+                    return Ok(new { Status = 400, Message = "Data Not Found" });
+                }
+
+               
+                return Ok(new { Status = 200, Data = result, Message = "Successful" });
             }
             catch (Exception ex)
-            { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
+            {
+               
+                return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message });
+            }
         }
 
 
@@ -493,41 +499,174 @@ namespace MyJyotishGApi.Controllers
         {
             try
             {
-                var Result = _jyotish.UpdateProblemSolution(model);
-                if (Result == "Invalid Data")
-                { return Ok(new { Status = 400, Message = Result }); }
+                // Call the service layer to update the problem solution
+                var result = _jyotish.UpdateProblemSolution(model);
 
-                else if (Result == "Invalid File.")
-                { return Ok(new { Status = 400, Message = Result }); }
+                // Determine response based on the result
+                switch (result)
+                {
+                    case "Invalid data provided":
+                        return BadRequest(new { Status = 400, Message = result });
 
-                else if (Result == "Successful")
-                { return Ok(new { Status = 200, Message = Result }); }
-                else
-                { return Ok(new { Status = 500, Message = Result }); }
+                    case "Record not found":
+                        return NotFound(new { Status = 404, Message = result });
+
+                    case "Update failed":
+                        return StatusCode(500, new { Status = 500, Message = result });
+
+                    case "successful":
+                        return Ok(new { Status = 200, Message = result });
+
+                    default:
+                        return StatusCode(500, new { Status = 500, Message = "Unexpected error occurred" });
+                }
             }
             catch (Exception ex)
-            { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
+            {
+                // Handle any exceptions with a 500 status code
+                return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message });
+            }
         }
 
         [HttpDelete("DeleteProblemSolution")]
-        public IActionResult DeleteProblemSolution(int Id)
+        public IActionResult DeleteProblemSolution(int id)
         {
             try
             {
-                var Result = _jyotish.DeleteAppointmentSlot(Id);
-                if (Result == "Invalid Id")
-                { return Ok(new { Status = 400, Message = Result }); }
+                var result = _jyotish.DeleteProblemSolution(id); // Ensure the method name matches
 
-                else if (Result == "Internal Server Error.")
-                { return Ok(new { Status = 500, Message = Result }); }
-                else if (Result == "Successful")
-                { return Ok(new { Status = 200, Message = Result }); }
+                switch (result)
+                {
+                    case "Invalid Id":
+                        return BadRequest(new { Status = 400, Message = result });
 
-                else
-                { return Ok(new { Status = 500, Message = Result }); }
+                    case "Internal Server Error.":
+                        return StatusCode(500, new { Status = 500, Message = result });
+
+                    case "Successful":
+                        return Ok(new { Status = 200, Message = result });
+
+                    default:
+                        return StatusCode(500, new { Status = 500, Message = "Unexpected error occurred" });
+                }
             }
             catch (Exception ex)
-            { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
-        }*/
+            {
+                return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message });
+            }
+        }
+
+        [HttpPost("AddUserAttachment")]
+        public IActionResult AddUserAttachment( JyotishUserAttachmentViewModel[] models)
+        {
+            try
+            {
+                // Call the service layer to add user attachments
+                var result = _jyotish.AddUserAttachment(models);
+
+                // Determine response based on the result
+                if (result == "No data provided.")
+                {
+                    return BadRequest(new { Status = 400, Message = result });
+                }
+                else if (result == "Invalid data provided for one or more attachments.")
+                {
+                    return BadRequest(new { Status = 400, Message = result });
+                }
+                else if (result == "Successful")
+                {
+                    return Ok(new { Status = 200, Message = result });
+                }
+                else
+                {
+                    return StatusCode(500, new { Status = 500, Message = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions with a 500 status code
+                return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message });
+            }
+        }
+
+        [HttpGet("GetAllUserAttachments")]
+        public IActionResult GetAllUserAttachments(int jyotishId)
+        {
+            try
+            {
+                var result = _jyotish.GetAllUserAttachments(jyotishId);
+
+                if (result == null || result.Count == 0)
+                {
+                    return Ok(new { Status = 404, Message = "No attachments found for the provided JyotishId." });
+                }
+
+                return Ok(new { Status = 200, Data = result, Message = "Successful" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message });
+            }
+        }
+
+        [HttpPost("UpdateUserAttachment")]
+        public IActionResult UpdateUserAttachment([FromForm] JyotishUserAttachmentViewModel model)
+        {
+            try
+            {
+                var result = _jyotish.UpdateUserAttachment(model);
+
+                if (result == "Invalid data provided.")
+                {
+                    return BadRequest(new { Status = 400, Message = result });
+                }
+                else if (result == "Record not found.")
+                {
+                    return NotFound(new { Status = 404, Message = result });
+                }
+                else if (result == "Successful")
+                {
+                    return Ok(new { Status = 200, Message = result });
+                }
+                else
+                {
+                    return StatusCode(500, new { Status = 500, Message = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message });
+            }
+        }
+
+        [HttpDelete("DeleteUserAttachment")]
+        public IActionResult DeleteUserAttachment(int id)
+        {
+            try
+            {
+                var result = _jyotish.DeleteUserAttachment(id);
+
+                if (result == "Invalid Id.")
+                {
+                    return BadRequest(new { Status = 400, Message = result });
+                }
+                else if (result == "Attachment not found.")
+                {
+                    return NotFound(new { Status = 404, Message = result });
+                }
+                else if (result == "Successful")
+                {
+                    return Ok(new { Status = 200, Message = result });
+                }
+                else
+                {
+                    return StatusCode(500, new { Status = 500, Message = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message });
+            }
+        }
     }
 }
