@@ -26,5 +26,7 @@ namespace ModelAccessLayer.Models
         public string? SignatureId { get; set; }
         [AllowNull]
         public string? Method { get; set; }
+
+        public JyotishModel Jyotish { get; set; }
     }
 }

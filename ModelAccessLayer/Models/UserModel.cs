@@ -35,5 +35,7 @@ namespace ModelAccessLayer.Models
         public ICollection<ChattingModel> ChattingModelRecord { get; set; } = new List<ChattingModel>();
         public ICollection<ChatedUser> ChatedUserRecord { get; set; } = new List<ChatedUser>();
         public ICollection<ProblemSolutionModel> ProblemSolutionRecord { get; set; } = new List<ProblemSolutionModel>();
+        public ICollection<UserWallet> UserRecord { get; set; } = new List<UserWallet>();
+        public ICollection<UserPaymentRecordModel> UserPaymentRecords { get; set; } = new List<UserPaymentRecordModel>();
     }
 }
