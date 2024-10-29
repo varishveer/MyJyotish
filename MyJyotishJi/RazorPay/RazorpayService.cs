@@ -77,7 +77,7 @@ namespace MyJyotishGApi.RazorPay
             RazorpayClient client = new RazorpayClient(_razorpaySettings.Key, _razorpaySettings.Secret);
 
             // Verify the payment signature before capturing
-            if (!VerifyPaymentStatus(model.OrderId, model.PaymentId, model.Signature))
+            if (!VerifyPaymentStatus(model.OrderId, model.PaymentId, model.SignatureId))
             {
                 throw new InvalidOperationException("Payment verification failed.");
             }

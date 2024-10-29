@@ -27,7 +27,7 @@ namespace BusinessAccessLayer.Implementation
                 JyotishPaymentRecordModel record = new JyotishPaymentRecordModel();
                 record.JyotishId = model.JyotishId;
                 record.Amount = model.Amount.ToString();
-                record.JyotishName = jyotish.Name;
+          
                 record.DateTime = DateTime.Now;
                 record.Status = "Pending";
                 record.OrderId = model.OrderId;
@@ -42,7 +42,7 @@ namespace BusinessAccessLayer.Implementation
                 UserPaymentRecordModel record = new UserPaymentRecordModel();
                 record.UserId = model.UserId;
                 record.Amount = model.Amount.ToString();
-                record.UserName = user.Name;
+             
                 record.DateTime = DateTime.Now;
                 record.Status = "Pending";
                 record.OrderId = model.OrderId;
@@ -111,9 +111,9 @@ namespace BusinessAccessLayer.Implementation
                 jyotish.Status = status; // "success" or "failed"
                 jyotish.OrderId = model.OrderId;
                 jyotish.PaymentId = model.PaymentId;
-                if (!string.IsNullOrEmpty(model.Signature))
+                if (!string.IsNullOrEmpty(model.SignatureId))
                 {
-                    jyotish.Signature = model.Signature;
+                    jyotish.SignatureId = model.SignatureId;
                 }
 
                 _context.JyotishPaymentRecord.Update(jyotish); // Update the Jyotish payment record
@@ -125,9 +125,9 @@ namespace BusinessAccessLayer.Implementation
                 user.Status = status; // "success" or "failed"
                 user.OrderId = model.OrderId;
                 user.PaymentId = model.PaymentId;
-                if (!string.IsNullOrEmpty(model.Signature))
+                if (!string.IsNullOrEmpty(model.SignatureId))
                 {
-                    user.Signature = model.Signature;
+                    user.SignatureId = model.SignatureId;
                 }
 
                 _context.UserPaymentRecord.Update(user); // Update the User payment record

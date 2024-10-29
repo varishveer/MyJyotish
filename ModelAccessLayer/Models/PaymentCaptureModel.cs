@@ -11,7 +11,7 @@ namespace ModelAccessLayer.Models
         public string PaymentId { get; set; }
         public decimal Amount { get; set; }
         public string OrderId { get; set; }
-        public string Signature { get; set; }
+        public string SignatureId { get; set; }
         public string Status { get; set; } // "success" or "failed"
      
     }
