@@ -30,7 +30,7 @@ namespace ModelAccessLayer.ViewModels
         public string? Country { get; set; }
         public string? State { get; set; }
         public string? City { get; set; }
-        public string? Password { get; set; }
+  
         public DateTime? DateOfBirth { get; set; }
         public string? ProfileImageUrl { get; set; }
 
@@ -52,8 +52,8 @@ namespace ModelAccessLayer.ViewModels
         public string? About { get; set; }
         public string[] AwordsAndAchievement { get; set; }
         public string[] Specialization { get; set; }
-        public JyotishVideosModel[] Videos { get; set; }
-        public JyotishGalleryModel[] Gallery { get; set; }
+        public JyotishVideosUserViewModel[] Videos { get; set; }
+        public JyotishGalleryUserViewModel[] Gallery { get; set; }
 
        
     }

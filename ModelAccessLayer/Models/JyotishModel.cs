@@ -64,11 +64,11 @@ namespace ModelAccessLayer.Models
         public ICollection<JyotishVideosModel> JyotishVideos { get; set; }
 
         public ICollection<ChatedUser> ChatedUserRecord { get; set; } = new List<ChatedUser>();
-        public ICollection<ProblemSolutionModel> ProblemSolutionRecord { get; set; } = new List<ProblemSolutionModel>();
+        public ICollection<AppointmentSolutionModel> AppointmentSolutionRecord { get; set; } = new List<AppointmentSolutionModel>();
         public ICollection<jyotishWallet> JyotishRecord { get; set; } = new List<jyotishWallet>();
         public ICollection<JyotishPaymentRecordModel> jyotishPaymentRecords { get; set; } = new List<JyotishPaymentRecordModel>();
 
-
+        public ICollection<JyotishUserAttachmentModel> JyotishUserAttachmentRecords { get; set; } = new List<JyotishUserAttachmentModel>();
 
     }
 

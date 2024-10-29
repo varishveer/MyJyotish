@@ -34,106 +34,6 @@
 
 
 
-<!-- Jyotish Update Modal -->
-<div class="modal fade" id="jyotishUpdateModal" tabindex="-1" aria-labelledby="jyotishUpdateModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="jyotishUpdateModalLabel">Update Jyotish Information</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="jyotishUpdateForm">
-                    <div class="form-group">
-                        <label for="jyotishId">ID:</label>
-                        <input type="text" class="form-control" id="jyotishId" hidden>
-                    </div>
-                    <div class="form-group">
-                        <label for="jyotishName">Name:</label>
-                        <input type="text" class="form-control" id="jyotishName">
-                    </div>
-                    <div class="form-group">
-                        <label for="jyotishEmail">Email:</label>
-                        <input type="email" class="form-control" id="jyotishEmail">
-                    </div>
-                    <div class="form-group">
-                        <label for="jyotishMobile">Mobile:</label>
-                        <input type="text" class="form-control" id="jyotishMobile">
-                    </div>
-                    <div class="form-group">
-                        <label for="jyotishRole">Role:</label>
-                        <input type="text" class="form-control" id="jyotishRole">
-                    </div>
-                    <div class="form-group">
-                        <label for="jyotishGender">Gender:</label>
-                        <input type="text" class="form-control" id="jyotishGender">
-                    </div>
-                    <div class="form-group">
-                        <label for="jyotishLanguage">Language:</label>
-                        <input type="text" class="form-control" id="jyotishLanguage">
-                    </div>
-                    <div class="form-group">
-                        <label for="jyotishExpertise">Expertise:</label>
-                        <input type="text" class="form-control" id="jyotishExpertise">
-                    </div>
-                    <div class="form-group">
-                        <label for="jyotishCountry">Country:</label>
-                        <input type="text" class="form-control" id="jyotishCountry">
-                    </div>
-                    <div class="form-group">
-                        <label for="jyotishState">State:</label>
-                        <input type="text" class="form-control" id="jyotishState">
-                    </div>
-                    <div class="form-group">
-                        <label for="jyotishCity">City:</label>
-                        <input type="text" class="form-control" id="jyotishCity">
-                    </div>
-                    <div class="form-group">
-                        <label for="jyotishAddress">Address:</label>
-                        <input type="text" class="form-control" id="jyotishAddress">
-                    </div>
-                    <div class="form-group">
-                        <label for="jyotishDateOfBirth">Date of Birth:</label>
-                        <input type="date" class="form-control" id="jyotishDateOfBirth">
-                    </div>
-                    <div class="form-group">
-                        <label for="jyotishStatus">Status:</label>
-                        <input type="text" class="form-control" id="jyotishStatus">
-                    </div>
-                    <div class="form-group">
-                        <label for="jyotishExperience">Experience:</label>
-                        <input type="number" class="form-control" id="jyotishExperience">
-                    </div>
-                    <div class="form-group">
-                        <label for="jyotishPooja">Pooja:</label>
-                        <input type="text" class="form-control" id="jyotishPooja">
-                    </div>
-                    <div class="form-group">
-                        <label for="jyotishCall">Call Service:</label>
-                        <input type="checkbox" id="jyotishCall">
-                    </div>
-                    <div class="form-group">
-                        <label for="jyotishCallCharges">Call Charges:</label>
-                        <input type="number" class="form-control" id="jyotishCallCharges">
-                    </div>
-                    <div class="form-group">
-                        <label for="jyotishChat">Chat Service:</label>
-                        <input type="checkbox" id="jyotishChat">
-                    </div>
-                    <div class="form-group">
-                        <label for="jyotishChatCharges">Chat Charges:</label>
-                        <input type="number" class="form-control" id="jyotishChatCharges">
-                    </div>
-                    <div class="form-group">
-                        <label for="jyotishProfileImageUrl">Profile Image URL:</label>
-                        <input type="text" class="form-control" id="jyotishProfileImageUrl">
-                    </div>
-                    <button type="button" class="btn btn-primary" id="updateJyotishButton">Update</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 
 <script>
     $(document).ready(function () {
@@ -184,20 +84,11 @@
                         htmls += `<td class="text-center">${item.chatCharges ?? ''}</td>`;
                         htmls += `<td class="text-center">
 
-                                    <a href="https://localhost:44324/Admin/JyotishUpdate?id=${item.id}">
-                                    <i class="fa-solid fa-pen-to-square text-success"></i>
-                                </a>
 
-                                                <a href="https://localhost:44324/Admin/JyotishDetails?id=${item.id}">
+                                                <a href="/Admin/JyotishDocument?id=${item.id}">
                                         <svg id="Document" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 2.5a.25.25 0 0 0-.25-.25H7A2.75 2.75 0 0 0 4.25 5v14A2.75 2.75 0 0 0 7 21.75h10A2.75 2.75 0 0 0 19.75 19V9.147a.25.25 0 0 0-.25-.25H15a.75.75 0 0 1-.75-.75zm.75 9.75a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1 0-1.5zm0 4a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1 0-1.5z" clip-rule="evenodd"/><path fill="currentColor" d="M15.75 2.824c0-.184.193-.301.336-.186q.182.147.323.342l3.013 4.197c.068.096-.006.22-.124.22H16a.25.25 0 0 1-.25-.25z"/></svg>
                                             </a>
 
-                                            <a href="https://myjyotishg.in/Admin/JyotishCalls?id=${item.id}">
-                                            <svg id="Call" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M19.95 21q-3.125 0-6.187-1.35T8.2 15.8t-3.85-5.55T3 4.05V3h5.9l.925 5.025l-2.85 2.875q.55.975 1.225 1.85t1.45 1.625q.725.725 1.588 1.388T13.1 17l2.9-2.9l5 1.025V21z"/></svg>
-                                            </a>
-                                                 <a href="https://myjyotishg.in/Admin/JyotishChats?id=${item.id}">
-                                                <svg id="Chat" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M2 22V4q0-.825.588-1.412T4 2h16q.825 0 1.413.588T22 4v12q0 .825-.587 1.413T20 18H6zm4-8h8v-2H6zm0-3h12V9H6zm0-3h12V6H6z"/></svg>
-                                                </a>
                                                 
                                 </td>`;
                         htmls += '</tr>';
@@ -211,76 +102,6 @@
         }
 
         fetchData();
-
-        $(document).on('click', '.open-jyotish-modal', function () {
-            debugger;
-            const $modal = $('#jyotishUpdateModal');
-            const data = $(this).data();
-            $('#jyotishId').val(data.id);
-            $('#jyotishName').val(data.name);
-            $('#jyotishMobile').val(data.mobile);
-            $('#jyotishEmail').val(data.email);
-            $('#jyotishExpertise').val(data.expertise);
-            $('#jyotishLanguage').val(data.language);
-            $('#jyotishGender').val(data.gender);
-            $('#jyotishStatus').val(data.status);
-            $('#jyotishExperience').val(data.experience);
-            $('#jyotishCountry').val(data.country);
-            $('#jyotishState').val(data.state);
-            $('#jyotishCity').val(data.city);
-            $('#jyotishAddress').val(data.address);
-            $('#jyotishDateOfBirth').val(data.dateOfBirth ? new Date(data.dateOfBirth).toISOString().split('T')[0] : '');
-            $('#jyotishCall').prop('checked', data.call);
-            $('#jyotishChat').prop('checked', data.chat);
-            $('#jyotishCallCharges').val(data.callCharges);
-            $('#jyotishChatCharges').val(data.chatCharges);
-            $('#jyotishProfileImageUrl').val(data.profileImageUrl);
-        });
-
-        $('#updateJyotishButton').click(function () {
-            const jyotishData = {
-                id: $('#jyotishId').val(),
-                name: $('#jyotishName').val(),
-                mobile: $('#jyotishMobile').val(),
-                email: $('#jyotishEmail').val(),
-                expertise: $('#jyotishExpertise').val(),
-                language: $('#jyotishLanguage').val(),
-                gender: $('#jyotishGender').val(),
-                status: $('#jyotishStatus').val(),
-                experience: $('#jyotishExperience').val(),
-                country: $('#jyotishCountry').val(),
-                state: $('#jyotishState').val(),
-                city: $('#jyotishCity').val(),
-                address: $('#jyotishAddress').val(),
-                dateOfBirth: $('#jyotishDateOfBirth').val(),
-                call: $('#jyotishCall').is(':checked'),
-                callCharges: $('#jyotishCallCharges').val(),
-                chat: $('#jyotishChat').is(':checked'),
-                chatCharges: $('#jyotishChatCharges').val(),
-                profileImageUrl: $('#jyotishProfileImageUrl').val()
-            };
-
-            $.ajax({
-                url: BaseUrl+`api/Admin/Jyotish/${jyotishData.id}`,
-                type: 'PUT',
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem("Token")}`,
-                    'Content-Type': 'application/json',
-                },
-                data: JSON.stringify(jyotishData),
-                success: function () {
-                    $('#jyotishUpdateModal').modal('hide');
-                    fetchData(); // Refresh the table data
-                },
-                error: function () {
-                    alert('Error updating Jyotish information.');
-                }
-            });
-
-        });
-
-
-
 
     });
 </script>

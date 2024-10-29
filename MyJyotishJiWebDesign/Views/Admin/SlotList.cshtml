@@ -18,10 +18,10 @@
     <div class="card">
      
             <div class="d-flex flex-row justify-content-between align-items-center pt-2 px-4">
-                <h5 class="text-primary">Pooja Category</h5>
-                <a href="/Admin/AddSlot">
-                    <button class="btn btn-primary">Add New Slot</button>
-                </a>
+                <h5 class="text-primary">Appointment Slot</h5>
+            <a href="javascript:void(0)" onclick="openAddSlotModal()">
+                <button class="btn btn-primary">Add Slot</button>
+            </a>
             </div>
             <hr />
      
@@ -35,9 +35,67 @@
     </div>
 </div>
 
-
+<!-- Slot Modal -->
+<div class="modal fade" id="addSlotModal" tabindex="-1" aria-labelledby="addSlotModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addSlotModalLabel">Add New Slot</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="addSlotForm">
+                    <div class="form-group">
+                        <label for="slotDate">Date</label>
+                        <input type="date" class="form-control" id="slotDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="slotTime">Time</label>
+                        <input type="time" class="form-control" id="slotTime" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="submitSlot()">Save Slot</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
+
+
+    function openAddSlotModal() {
+        $('#addSlotModal').modal('show');
+    }
+
+    // Function to submit the slot form via AJAX
+    function submitSlot() {
+        const date = $('#slotDate').val();
+        const time = $('#slotTime').val();
+
+        $.ajax({
+            url: BaseUrl + "api/Admin/AddSlot",
+            type: "POST",
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                'Content-Type': 'application/json'
+            },
+            data: JSON.stringify({ date, time }),
+            success: function (response) {
+                alert('Slot added successfully!');
+                $('#addSlotModal').modal('hide');
+                fetchData(); // Refresh the table
+            },
+            error: function (error) {
+                console.error('Error adding slot:', error.responseText);
+                alert('Failed to add slot. Please try again.');
+            }
+        });
+    }
     $(document).ready(function () {
         function fetchData() {
             $.ajax({

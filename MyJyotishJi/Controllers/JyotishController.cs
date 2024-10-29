@@ -462,7 +462,7 @@ namespace MyJyotishGApi.Controllers
         }
 
 
-        [HttpPost("AddProblemSolution")]
+/*        [HttpPost("AddProblemSolution")]
         public IActionResult AddProblemSolution(ProblemSolutionViewModel model)
         {
             try
@@ -542,6 +542,6 @@ namespace MyJyotishGApi.Controllers
             }
             catch (Exception ex)
             { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
-        }
+        }*/
     }
 }

@@ -633,7 +633,7 @@ namespace BusinessAccessLayer.Implementation
             return result;
         }
 
-        public string AddProblemSolution(ProblemSolutionViewModel model)
+/*        public string AddProblemSolution(ProblemSolutionViewModel model)
         {
             var User = _context.Users.Where(x => x.Email == model.Email).FirstOrDefault();
             var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
@@ -873,7 +873,7 @@ namespace BusinessAccessLayer.Implementation
             _context.ProblemSolution.Remove(data);
             if (_context.SaveChanges() > 0) { return "Successful"; }
             else { return "Internal Server Error."; }
-        }
+        }*/
 
         private bool ValidateFile(IFormFile file, long maxSize, string[] allowedExtensions)
         {

@@ -102,7 +102,7 @@ namespace BusinessAccessLayer.Implementation
             // Fetch videos and gallery related to the Jyotish record
             var videos = _context.JyotishVideos
                                  .Where(x => x.JyotishId == Id)
-                                 .Select(video => new JyotishVideosModel
+                                 .Select(video => new JyotishVideosUserViewModel
                                  {
                                      
                                      Id = video.Id,
@@ -111,18 +111,18 @@ namespace BusinessAccessLayer.Implementation
                                      ImageUrl= video.ImageUrl,
                                      SerialNo = video.SerialNo
                                      
-                                 })
+                                 }).OrderBy(order=>order.SerialNo)
                                  .ToArray();
 
             var gallery = _context.JyotishGallery
                                   .Where(x => x.JyotishId == Id)
-                                  .Select(image => new JyotishGalleryModel
+                                  .Select(image => new JyotishGalleryUserViewModel
                                   {
                                       Id = image.Id,
                                       ImageUrl = image.ImageUrl,
                                       ImageTitle = image.ImageTitle,
                                       SerialNo = image.SerialNo
-                                  })
+                                  }).OrderBy(order => order.SerialNo)
                                   .ToArray();
             var achievementsArray = jyotishRecord.AwordsAndAchievement?.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
                                                   .Select(a => a.Trim())
@@ -144,7 +144,7 @@ namespace BusinessAccessLayer.Implementation
                 Country = jyotishRecord.Country,
                 State = jyotishRecord.State,
                 City = jyotishRecord.City,
-                Password = jyotishRecord.Password,
+            
                 DateOfBirth = jyotishRecord.DateOfBirth,
                 ProfileImageUrl = jyotishRecord.ProfileImageUrl,
                 Status = jyotishRecord.Status,
@@ -495,76 +495,76 @@ namespace BusinessAccessLayer.Implementation
             return result;
         }
 
-        public List<ProblemSolutionGetAllViewModel> GetAllProblemSolution(int Id)
-        {
-            if (Id == 0)
-            {
-                return null;
-            }
+        /*        public List<ProblemSolutionGetAllViewModel> GetAllProblemSolution(int Id)
+                {
+                    if (Id == 0)
+                    {
+                        return null;
+                    }
 
 
-            var Data = _context.ProblemSolution
-                                .Where(x => x.UserId == Id)
-                                .Select(x => new ProblemSolutionGetAllViewModel
-                                {
-                                    Id = x.Id,
-                                    JyotishId = x.JyotishId,
-                                    AppointmentId = x.AppointmentId,
-                                    Date = x.Date,
-                                    Time = x.Time,
-                                    Problem1 = x.Problem1,
-                                    Solution1 = x.Solution1,
-                                    Problem2 = x.Problem2,
-                                    Solution2 = x.Solution2,
-                                    Problem3 = x.Problem3,
-                                    Solution3 = x.Solution3,
-                                    Image1 = x.Image1,
-                                    Image2 = x.Image2,
-                                    Image3 = x.Image3,
+                    var Data = _context.ProblemSolution
+                                        .Where(x => x.UserId == Id)
+                                        .Select(x => new ProblemSolutionGetAllViewModel
+                                        {
+                                            Id = x.Id,
+                                            JyotishId = x.JyotishId,
+                                            AppointmentId = x.AppointmentId,
+                                            Date = x.Date,
+                                            Time = x.Time,
+                                            Problem1 = x.Problem1,
+                                            Solution1 = x.Solution1,
+                                            Problem2 = x.Problem2,
+                                            Solution2 = x.Solution2,
+                                            Problem3 = x.Problem3,
+                                            Solution3 = x.Solution3,
+                                            Image1 = x.Image1,
+                                            Image2 = x.Image2,
+                                            Image3 = x.Image3,
 
-                                    Name = _context.JyotishRecords.Where(u => u.Id == x.JyotishId).Select(u => u.Name).FirstOrDefault(),
-                                    Email = _context.JyotishRecords.Where(u => u.Id == x.JyotishId).Select(u => u.Email).FirstOrDefault()
-                                })
-                                .ToList();
+                                            Name = _context.JyotishRecords.Where(u => u.Id == x.JyotishId).Select(u => u.Name).FirstOrDefault(),
+                                            Email = _context.JyotishRecords.Where(u => u.Id == x.JyotishId).Select(u => u.Email).FirstOrDefault()
+                                        })
+                                        .ToList();
 
-            return Data;
-        }
-
-
-
-        public ProblemSolutionGetAllViewModel GetProblemSolution(int Id)
-        {
-            if (Id == 0)
-            {
-                return null;
-            }
+                    return Data;
+                }
 
 
-            var Data = _context.ProblemSolution
-                                .Where(x => x.Id == Id)
-                                .Select(x => new ProblemSolutionGetAllViewModel
-                                {
-                                    Id = x.Id,
-                                    JyotishId = x.JyotishId,
-                                    AppointmentId = x.AppointmentId,
-                                    Date = x.Date,
-                                    Time = x.Time,
-                                    Problem1 = x.Problem1,
-                                    Solution1 = x.Solution1,
-                                    Problem2 = x.Problem2,
-                                    Solution2 = x.Solution2,
-                                    Problem3 = x.Problem3,
-                                    Solution3 = x.Solution3,
-                                    Image1 = x.Image1,
-                                    Image2 = x.Image2,
-                                    Image3 = x.Image3,
 
-                                    Name = _context.JyotishRecords.Where(u => u.Id == x.JyotishId).Select(u => u.Name).FirstOrDefault(),
-                                    Email = _context.JyotishRecords.Where(u => u.Id == x.JyotishId).Select(u => u.Email).FirstOrDefault()
-                                })
-                                .FirstOrDefault();
+                public ProblemSolutionGetAllViewModel GetProblemSolution(int Id)
+                {
+                    if (Id == 0)
+                    {
+                        return null;
+                    }
 
-            return Data;
-        }
+
+                    var Data = _context.ProblemSolution
+                                        .Where(x => x.Id == Id)
+                                        .Select(x => new ProblemSolutionGetAllViewModel
+                                        {
+                                            Id = x.Id,
+                                            JyotishId = x.JyotishId,
+                                            AppointmentId = x.AppointmentId,
+                                            Date = x.Date,
+                                            Time = x.Time,
+                                            Problem1 = x.Problem1,
+                                            Solution1 = x.Solution1,
+                                            Problem2 = x.Problem2,
+                                            Solution2 = x.Solution2,
+                                            Problem3 = x.Problem3,
+                                            Solution3 = x.Solution3,
+                                            Image1 = x.Image1,
+                                            Image2 = x.Image2,
+                                            Image3 = x.Image3,
+
+                                            Name = _context.JyotishRecords.Where(u => u.Id == x.JyotishId).Select(u => u.Name).FirstOrDefault(),
+                                            Email = _context.JyotishRecords.Where(u => u.Id == x.JyotishId).Select(u => u.Email).FirstOrDefault()
+                                        })
+                                        .FirstOrDefault();
+
+                    return Data;
+                }*/
     }
 }

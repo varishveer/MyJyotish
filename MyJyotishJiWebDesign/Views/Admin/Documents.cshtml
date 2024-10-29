@@ -448,10 +448,10 @@
                     message: message,
                     id: id // Send the user ID as well
                 };
-                var BaseUrl2 = "https://localhost:7118/";
+             
                 var ApiUrl
-                if (status == 'Rejected') { ApiUrl = `${BaseUrl2}` + 'Api/Admin/RejectJyotishDocs' }
-                else { ApiUrl = `${BaseUrl2}` + 'Api/Admin/ApproveJyotishDocs' }
+                if (status == 'Rejected') { ApiUrl = `${BaseUrl}` + 'Api/Admin/RejectJyotishDocs' }
+                else { ApiUrl = `${BaseUrl}` + 'Api/Admin/ApproveJyotishDocs' }
                
                 $.ajax({
                     url: ApiUrl,

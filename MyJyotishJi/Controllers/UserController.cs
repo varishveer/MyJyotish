@@ -327,7 +327,7 @@ namespace MyJyotishGApi.Controllers
 
         }
 
-        [HttpGet("GetAllProblemSolution")]
+      /*  [HttpGet("GetAllProblemSolution")]
         public IActionResult GetAllProblemSolution(int Id)
         {
             try
@@ -360,7 +360,7 @@ namespace MyJyotishGApi.Controllers
             }
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
 
-        }
+        }*/
 
         /* [AllowAnonymous]
          [HttpGet("GetPoojaList")]
