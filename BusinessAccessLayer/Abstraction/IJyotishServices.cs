@@ -43,5 +43,6 @@ namespace BusinessAccessLayer.Abstraction
         public List<ProblemSolutionGetAllViewModel> GetAllProblemSolution(int Id);
         public string UpdateProblemSolution(ProblemSolutionViewModel model);
         public string DeleteProblemSolution(int Id);
+        public string AddWallet(JyotishWalletViewmodel pr);
     }
 }

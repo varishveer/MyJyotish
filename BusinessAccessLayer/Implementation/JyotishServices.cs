@@ -559,6 +559,22 @@ namespace BusinessAccessLayer.Implementation
             else { return "Data Not Saved"; }
         }
 
+        //add wallet
+        public string AddWallet(JyotishWalletViewmodel pr)
+        {
+            var Jyotish = _context.JyotishRecords.Where(x => x.Id == pr.jyotishId).FirstOrDefault();
+            if (Jyotish == null) { return null; }
+            jyotishWallet jw=new jyotishWallet
+            {
+                jyotishId = pr.jyotishId,
+                WalletAmount = pr.WalletAmount,
+                status = 1
+            };
+            _context.JyotishWallets.Add(jw);
+            if (_context.SaveChanges() > 0) { return "Successful"; }
+            else { return "Data Not Saved"; }
+        }
+
         public string UpdateAppointmentSlot(AppointmentSlotViewModel model)
         {
             if (model.Date < DateTime.Now)

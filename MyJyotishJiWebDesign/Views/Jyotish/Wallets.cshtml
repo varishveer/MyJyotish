@@ -63,7 +63,10 @@ body {
             </div>
         </aside>
         <content class="right-trans overflow-auto">
-            <h2 class="text-secondary"> Current Balance </h2>
+           <div class="d-flex justify-content-between"> 
+               <h2 class="text-secondary"> Current Balance </h2>
+                <h3><span class="text-success">2000</span>&nbsp;<span id="addWallet" data-bs-toggle="modal" data-bs-target="#exampleModal" class="text-secondary" role="button"><i class="far fa-plus-square"></i></span></h3>
+            </div>
             <h4 id="balance"></h4>
             <div class="trans-list  row">
                
@@ -72,6 +75,24 @@ body {
     </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header w-100">
+                <h1 class="modal-title fs-5 text-center" id="exampleModalLabel">Add Wallet</h1>
+            </div>
+            <div class="modal-body text-center">
+                <small class="text-secondary">Please enter a amount to add into your wallet</small>
+               <input type="number" class="form-control my-3" name="amount" placeholder="Enter amount to add wallet" id="amount"/>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" id="addAmountIntoWallet" class="btn btn-success" data-bs-dismiss="modal">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
 
     <script>
 
@@ -113,4 +134,46 @@ $(".trans-list").append(
 
         }
     })
+
+        $("#addAmountIntoWallet").click(function(){
+                let amount=$("#amount").val();
+                     Swal.fire({
+                        title: "Processing Your Request",
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    })
+            $.ajax({
+                url:"https://localhost:7118/api/Jyotish/AddWallet",
+                type:"post",
+                    data:{jyotishId:Id,WalletAmount:amount},
+                success:function(res){
+                            if (res.status == 200) {
+
+                        Swal.fire({
+                                    title: "Success",
+                                    text: "Amount Added to your wallet Successfully",
+                                    icon: "success",
+                                    didClose: () => {
+                                        location.reload(true)
+                                    }
+
+                                });
+                            }else{
+                                     Swal.fire({
+                                        title: "error",
+                                        text: "some error occured while updating your profile",
+                                        icon: "error"
+                                    });
+                            }
+                },
+                error:function(err){
+                         Swal.fire({
+                                    title: "error",
+                                    text: "some error occured",
+                                    icon: "error"
+                                });
+                }
+            })
+        })
     </script>

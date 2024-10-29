@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UserWalletViewmodel = ModelAccessLayer.ViewModels.UserWalletViewmodel;
 
 namespace BusinessAccessLayer.Abstraction
 {
@@ -33,6 +34,7 @@ namespace BusinessAccessLayer.Abstraction
         public List<AppointmentSlotUserViewModel> GetAllAppointmentSlot(int id);
         public List<ProblemSolutionGetAllViewModel> GetAllProblemSolution(int Id);
         public ProblemSolutionGetAllViewModel GetProblemSolution(int Id);
+        public string AddUserWallets(UserWalletViewmodel uw);
 
     }
 }

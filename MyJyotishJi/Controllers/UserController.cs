@@ -278,6 +278,21 @@ namespace MyJyotishGApi.Controllers
             { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
         }
 
+        [HttpPost("AddWallet")]
+        public IActionResult AddWallet(UserWalletViewmodel uv)
+        {
+            try
+            {
+                var Result = _services.AddUserWallets(uv);
+                if (Result == "Successful")
+                { return Ok(new { Status = 200, Data = Result, Message = "Successful" }); }
+                else
+                { return Ok(new { Status = 404, Message = "Some error occured" }); }
+            }
+            catch (Exception ex)
+            { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+        }
+
         [HttpGet("UserPaymentDetail")]
         public IActionResult UserPaymentDetail(int Id)
         {

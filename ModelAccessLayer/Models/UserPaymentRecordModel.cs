@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace ModelAccessLayer.Models
@@ -26,6 +27,7 @@ namespace ModelAccessLayer.Models
         public string? SignatureId { get; set; }
         [AllowNull]
         public string? Method { get; set; }
+        [JsonIgnore]
         public UserModel User { get; set; }
     }
 }

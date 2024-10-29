@@ -342,6 +342,20 @@ namespace MyJyotishGApi.Controllers
             catch (Exception ex)
             { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
         }
+        [HttpPost("AddWallet")]
+        public IActionResult AddWallet(JyotishWalletViewmodel jw)
+        {
+            try
+            {
+                var Result = _jyotish.AddWallet(jw);
+                if (Result == "Successful")
+                { return Ok(new { Status = 200, Data = Result, Message = "Successful" }); }
+                else
+                { return Ok(new { Status = 404, Message ="Some error occured" }); }
+            }
+            catch (Exception ex)
+            { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+        }
 
         [HttpGet("JyotishPaymentDetail")]
         public IActionResult JyotishPaymentDetail(int Id)

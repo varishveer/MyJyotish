@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UserModel = ModelAccessLayer.Models.UserModel;
+using UserWalletViewmodel = ModelAccessLayer.ViewModels.UserWalletViewmodel;
 
 namespace BusinessAccessLayer.Implementation
 {
@@ -456,6 +457,21 @@ namespace BusinessAccessLayer.Implementation
             var record = _context.UserPaymentRecord.Where(x => x.Id == Id).FirstOrDefault();
             if (record!=null) { return record; }
             else { return null; }
+        }
+
+        public string AddUserWallets(UserWalletViewmodel uw)
+        {
+            var Jyotish = _context.Users.Where(x => x.Id == uw.userId).FirstOrDefault();
+            if (Jyotish == null) { return null; }
+            UserWallet user = new UserWallet
+            {
+                userId = uw.userId,
+                WalletAmount = uw.WalletAmount,
+                status = 1
+            };
+            _context.UserWallets.Add(user);
+            if (_context.SaveChanges() > 0) { return "Successful"; }
+            else { return "Data Not Saved"; }
         }
 
         public List<AppointmentSlotUserViewModel> GetAllAppointmentSlot(int id) 
