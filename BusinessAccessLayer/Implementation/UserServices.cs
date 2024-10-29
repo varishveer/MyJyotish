@@ -101,7 +101,7 @@ namespace BusinessAccessLayer.Implementation
             // Fetch videos and gallery related to the Jyotish record
             var videos = _context.JyotishVideos
                                  .Where(x => x.JyotishId == Id)
-                                 .Select(video => new JyotishVideosModel
+                                 .Select(video => new JyotishVideosUserViewModel
                                  {
                                      
                                      Id = video.Id,
@@ -110,18 +110,18 @@ namespace BusinessAccessLayer.Implementation
                                      ImageUrl= video.ImageUrl,
                                      SerialNo = video.SerialNo
                                      
-                                 })
+                                 }).OrderBy(order=>order.SerialNo)
                                  .ToArray();
 
             var gallery = _context.JyotishGallery
                                   .Where(x => x.JyotishId == Id)
-                                  .Select(image => new JyotishGalleryModel
+                                  .Select(image => new JyotishGalleryUserViewModel
                                   {
                                       Id = image.Id,
                                       ImageUrl = image.ImageUrl,
                                       ImageTitle = image.ImageTitle,
                                       SerialNo = image.SerialNo
-                                  })
+                                  }).OrderBy(order => order.SerialNo)
                                   .ToArray();
             var achievementsArray = jyotishRecord.AwordsAndAchievement?.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
                                                   .Select(a => a.Trim())
@@ -143,7 +143,7 @@ namespace BusinessAccessLayer.Implementation
                 Country = jyotishRecord.Country,
                 State = jyotishRecord.State,
                 City = jyotishRecord.City,
-                Password = jyotishRecord.Password,
+            
                 DateOfBirth = jyotishRecord.DateOfBirth,
                 ProfileImageUrl = jyotishRecord.ProfileImageUrl,
                 Status = jyotishRecord.Status,

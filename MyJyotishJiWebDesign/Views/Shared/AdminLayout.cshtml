@@ -8,12 +8,7 @@
     <meta content="" name="keywords">
     <meta content="" name="description">
 
-    <!---Swal fire--->
-    <!-- Include SweetAlert2 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.0/dist/sweetalert2.min.css" rel="stylesheet">
 
-
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
 
     <!---Font Awesome-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -42,11 +37,7 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 
-    <link href="https://cdn.datatables.net/2.1.3/css/dataTables.dataTables.min.css" rel="stylesheet" />
-    <!-- Your script that uses Swal.fire() -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.9/dist/sweetalert2.all.min.js"></script>
-
-    <script src="https://cdn.datatables.net/2.1.3/js/dataTables.min.js"></script>
+   
 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <style>
@@ -245,14 +236,24 @@
         }
 
     </style>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <!-- Include SweetAlert2 JS -->
+
+
+
+
+
+    <link href="https://cdn.datatables.net/2.1.3/css/dataTables.dataTables.min.css" rel="stylesheet" />
+
+
+    <script src="https://cdn.datatables.net/2.1.3/js/dataTables.min.js"></script>
+    <!---Swal fire--->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.0/dist/sweetalert2.all.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.0/dist/sweetalert2.min.css" rel="stylesheet">
 
 
     <!-- Include DataTables JS -->
     <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
 
     <script src="~/lib/chart/chart.min.js"></script>
     <script src="~/lib/easing/easing.min.js"></script>
@@ -293,7 +294,7 @@
                         </a>
 
                         <div class="dropdown-menu nav-menus d-none bg-transparent border-0">
-                            <a href="/Admin/PoojaCategoryList" class="dropdown-item px-5 py-1">Pooja List </a>
+                  @*           <a href="/Admin/PoojaCategoryList" class="dropdown-item px-5 py-1">Pooja List </a> *@
                             <a href="/Admin/ExpertiseList" class="dropdown-item px-5 py-1">Expertiese List</a>
                             <a href="/Admin/SlotList" class="dropdown-item px-5 py-1">Slot List</a>
                 @*             <a href="element.html" class="dropdown-item px-5 py-1">Other Elements</a> *@
@@ -304,8 +305,8 @@
                     <a href="/Admin/PendingJyotish" class="nav-item nav-link py-1  mb-2" style="font-weight:300;"><i class="fa-solid fa-clock"></i> <span class="sidebar-nav d-none">Pending Jyotish</span> </a>
                     <a href="/Admin/JyotishList" class="nav-item nav-link py-1  mb-2" style="font-weight:300;"><i class="fa-solid fa-table-list"></i> <span class="sidebar-nav d-none">Jyotish List</span></a>
                     <a href="/Admin/UserList" class="nav-item nav-link py-1 mb-2" style="font-weight:300;"><i class="fa-solid fa-list-check"></i> <span class="sidebar-nav d-none">User List</span></a>
-                    <a href="/Admin/CallingRecord" class="nav-item nav-link py-1 mb-2" style="font-weight:300;"><i class="fa-solid fa-book-medical"></i> <span class="sidebar-nav d-none">Calling Records</span> </a>
-                    <a href="/Admin/ChattingRecord" class="nav-item nav-link py-1 mb-2 " style="font-weight:300;"><i class="fa-brands fa-rocketchat"></i> <span class="sidebar-nav d-none">Chatting Records</span></a>
+                   @*  <a href="/Admin/CallingRecord" class="nav-item nav-link py-1 mb-2" style="font-weight:300;"><i class="fa-solid fa-book-medical"></i> <span class="sidebar-nav d-none">Calling Records</span> </a>
+                    <a href="/Admin/ChattingRecord" class="nav-item nav-link py-1 mb-2 " style="font-weight:300;"><i class="fa-brands fa-rocketchat"></i> <span class="sidebar-nav d-none">Chatting Records</span></a> *@
 @*                     <a href="/Admin/Subscription" class="nav-item nav-link py-1 mb-2" style="font-weight:300;"><i class="fa-solid fa-coins"></i> <span class="sidebar-nav d-none">Subscription Plan</span></a> *@
              
                     <div class="nav-item dropdown">
@@ -356,7 +357,8 @@
             </nav>
             <!-- Navbar End -->
             <script>
-                var BaseUrl = "https://api.myjyotishg.in/"
+               // var BaseUrl = "https://api.myjyotishg.in/"
+                var BaseUrl = "https://localhost:7118/"
             </script>
             @RenderBody()
         </div>
@@ -400,10 +402,17 @@
 
             // Logout
             $("#logout").click(function () {
-                if (confirm("Are you sure you want to logout?")) {  // Confirm logout
-                    localStorage.clear();
-                    window.location.replace("/Admin/Login");
-                }
+
+                Swal.fire({
+                    title:"Are you sure you want to logout?",
+                    icon : "warning",
+                    showConfirmbutton: true,
+                    showCancelButton: true,
+                }).then(()=>{
+                     localStorage.clear();
+                     window.location.replace("/Admin/Login");
+                })
+             
             });
 
             // Use hover to handle mouse enter and leave

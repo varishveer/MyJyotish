@@ -209,7 +209,7 @@ namespace MyJyotishJiApi.Controllers
 
         }
 
-        [HttpGet("ChattingRecord")]
+      /*  [HttpGet("ChattingRecord")]
         public IActionResult ChattingRecord()
         {
            try
@@ -229,7 +229,7 @@ namespace MyJyotishJiApi.Controllers
                 return Ok(new { Status = 200, data = Records, Message = "Success" });
             }
             catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
-        }
+        }*/
         [HttpGet("AppointmentDetail")]
         public IActionResult AppointmentDetail(IdViewModel model)
         {
@@ -243,59 +243,25 @@ namespace MyJyotishJiApi.Controllers
             }
             catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
         }
-        [HttpPost("UpdateAppointment")]
-        public IActionResult UpdateAppointment(AppointmentUpdateAdminViewModel model)
+      /*  [HttpPost("UpdateAppointment")]
+        public IActionResult UpdateAppointment(UpdateAppointmentJyotishViewModel model)
         {
             try
             {
-                var Records = _admin.UpdateAppointment(model);
-                if (Records == false)
-                { return Ok(new { Status = 400, Message = "Record Not Found" }); }
-                else
-                { return Ok(new { Status = 200, Message = "Success" }); }
+                var result = _admin.UpdateAppointment(model);
+                if (result == "invalid Data")
+                {
+                    return Ok(new { Status = 400, Message = result });
+                }
+
+                else if (result == "Successful") { return Ok(new { Status = 200, message = result }); }
+                else if (result == "internal Server Error.") { return Ok(new { Status = 500, message = result }); }
+                else { return Ok(new { Status = 500, message = result }); }
             }
             catch {return Ok(new { Status = 500, Message = "Internal Server Error " }); }
-        }
-
-       /* [HttpPost("AddCountry")]
-        public IActionResult AddCountry(Country country)
-        {
-            try
-           { 
-                var result = _admin.AddCountry(country);
-                if (result == false)
-                { return Ok(new { Status = 400, Message = "Bad Request" }); }
-                else { return Ok(new { Status = 200,  Message = "Success" }); }
-            }
-            catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
-
-        }
-
-        [HttpPost("AddState")]
-        public IActionResult AddState(State state)
-        {
-           try{ var result = _admin.AddState(state);
-                if (result == false)
-                { return Ok(new { Status = 400, Message = "Bad Request" }); }
-                else { return Ok(new { Status = 200, Message = "Success" }); }
-            }
-            catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
-
-        }
-
-        [HttpPost("AddCity")]
-        public IActionResult AddCity(City city)
-        {
-           try{ 
-                var result = _admin.AddCity(city);
-                if (result == false)
-                { return Ok(new { Status = 400, Message = "Bad Request" }); }
-                else { return Ok(new { Status = 200, Message = "Success" }); }
-            }
-            catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
-
         }*/
-       
+
+      
         [HttpPost("AddSlider")]
         public IActionResult AddSlider(SliderImagesViewModel model)
         {
@@ -352,7 +318,7 @@ namespace MyJyotishJiApi.Controllers
         }
 
 
-        [HttpGet("GetJyotishCalls")]
+      /*  [HttpGet("GetJyotishCalls")]
         public IActionResult GetJyotishCalls(int id)
         {
             try {
@@ -379,7 +345,7 @@ namespace MyJyotishJiApi.Controllers
                 return Ok(new { Status = 200, Data = Records, Message = "Jyotish Chats" });
             }
             catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
-        }
+        }*/
         
         [HttpGet("GetJyotishDocs")]
         public IActionResult GetJyotishDocs(int id)
@@ -409,7 +375,8 @@ namespace MyJyotishJiApi.Controllers
             }
             catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
         }
-        [HttpPost("UpdateJyotishDetails")]
+
+      /*  [HttpPost("UpdateJyotishDetails")]
         public IActionResult UpdateJyotishDetails(JyotishDetailsViewModel model)
         {
 
@@ -427,7 +394,8 @@ namespace MyJyotishJiApi.Controllers
                 else { return Ok(new { Status = 500, Message = Records }); }
             }
             catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
-        }
+        }*/
+
         [HttpPost("ApproveJyotishDocs")]
         public IActionResult  ApproveJyotishDocs(EmailDocumentViewModel model)
         {

@@ -59,7 +59,7 @@ namespace BusinessAccessLayer.Implementation
             return Records;
         }
 
-        public List<AppointmentDetailViewModel> GetAllAppointment()
+        public List<AppointmentListAdminViewModel> GetAllAppointment()
         {
             // var Records = _context.AppointmentRecords.ToList();
             var Records = _context.AppointmentRecords
@@ -70,13 +70,16 @@ namespace BusinessAccessLayer.Implementation
      .Join(_context.AppointmentSlots,
            combined => combined.record.SlotId,
            slot => slot.Id,
-           (combined, slot) => new AppointmentDetailViewModel
+           (combined, slot) => new AppointmentListAdminViewModel
            {
                Id = combined.record.Id,
                UserName = combined.user.Name,
                UserMobile = combined.user.Mobile,
                UserEmail = combined.user.Email,
                UserId = combined.record.UserId,
+               JyotishId = _context.AppointmentSlots.Where(x => x.Id == slot.Id).Select(y => y.JyotishId).FirstOrDefault(),
+               JyotishName = _context.JyotishRecords.Where(x=>x.Id == _context.AppointmentSlots.Where(x => x.Id == slot.Id).Select(y => y.JyotishId).FirstOrDefault()).Select(z=>z.Name).FirstOrDefault(),
+               JyotishEmail = _context.JyotishRecords.Where(x => x.Id == _context.AppointmentSlots.Where(x => x.Id == slot.Id).Select(y => y.JyotishId).FirstOrDefault()).Select(z => z.Email).FirstOrDefault(),
                Problem = combined.record.Problem,
                Date = slot.Date,
                Time = slot.TimeFrom,
@@ -336,28 +339,39 @@ namespace BusinessAccessLayer.Implementation
             else { return Record; }
         }
 
-        public bool UpdateAppointment(AppointmentUpdateAdminViewModel model)
+        public string UpdateAppointment(UpdateAppointmentJyotishViewModel model)
         {
-           var isDetailsValid = _context.AppointmentRecords.Where(x => x.Id == model.Id).FirstOrDefault();
-            if (isDetailsValid == null)
-            { return false; }
-           
-            isDetailsValid.Date = model.Date;
-        
-            isDetailsValid.JyotishId = model.JyotishId;
-            isDetailsValid.UserId = model.UserId;
-            isDetailsValid.SlotId = model.SlotId;
-            isDetailsValid.Problem = model.Problem;
-        
-            isDetailsValid.Status = model.Status;
-            isDetailsValid.Amount = model.Amount;
+            var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
+            var User = _context.Users.Where(x => x.Email == model.Email).FirstOrDefault();
+            var appointment = _context.AppointmentRecords.Where(x => x.Id == model.Id).FirstOrDefault();
+            var slot = _context.AppointmentSlots.Where(x => x.Id == model.SlotId).FirstOrDefault();
+            if (User == null || Jyotish == null || appointment == null || slot == null) { return "invalid Data"; }
 
-            _context.AppointmentRecords.Update(isDetailsValid);
-            var result = _context.SaveChanges();
-            if (result > 0)
-            { return true; }
-            else
-            { return false; }
+
+
+
+
+
+            appointment.JyotishId = Jyotish.Id;
+            appointment.UserId = User.Id;
+            appointment.Problem = model.Problem;
+            appointment.Amount = Jyotish.AppointmentCharges;
+            if (appointment.SlotId == model.SlotId)
+            {
+
+                appointment.Date = slot.Date;
+            }
+
+
+            appointment.SlotId = model.SlotId;
+            appointment.Date = slot.Date;
+
+
+            appointment.Status = "Upcomming";
+            _context.AppointmentRecords.Update(appointment);
+
+            if (_context.SaveChanges() > 0) { return "Successful"; }
+            return "internal Server Error.";
         }
 
         public bool AddCountry(ModelAccessLayer.Models.Country _country)

@@ -95,6 +95,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
     $(document).ready(function () {
@@ -120,18 +121,37 @@
 
                     if (response.status === 200) {
                         // Store the token and user email in local storage
-                        localStorage.setItem("Token", response.token);
-                        localStorage.setItem('userEmail', response.user);
+                       
+                        Swal.fire({
+                            title: "Successfully Login",
+                            text: "Redirecting to Dashboard",
+                            icon: "success",
+                            showConfirmButton: true,
 
+                        }).then(() => {
+                            window.location.href = "/Admin/Dashboard";
+                            localStorage.setItem("Token", response.token);
+                            localStorage.setItem('userEmail', response.user);
+                        });
                         // Redirect to the dashboard
-                        window.location.href = "/Admin/Dashboard";
+                      
                     } else if (response.status === 400) {
                         // Handle invalid email or incorrect password scenarios
-                        alert(response.message);
+                        Swal.fire({
+                            title: response.message,
+                            icon: "warning",
+                            showConfirmButton: true,
+                        });
+                       
                     } else {
                         // Handle unexpected success responses
                         console.error("Unexpected response status:", response.status);
-                        alert("An unexpected error occurred.");
+                        Swal.fire({
+                            title: "An unexpected error occurred.",
+                            icon: "warning",
+                            showConfirmButton: true,
+                        });
+                       
                     }
                 },
                 error: function (xhr, status, error) {
@@ -140,7 +160,12 @@
                         alert("Unauthorized access. Please check your credentials.");
                     } else {
                         console.error("Error:", xhr.responseText);
-                        alert("An error occurred. Please try again.");
+                        Swal.fire({
+                            title: "An error occurred. Please try again.",
+                            icon: "warning",
+                            showConfirmButton: true,
+                        });
+                      
                     }
                 }
             });

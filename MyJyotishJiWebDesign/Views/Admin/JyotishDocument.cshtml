@@ -1,0 +1,146 @@
+﻿@{
+    Layout = "AdminLayout";
+}
+<style>
+    .image-container {
+        border: 1px solid #ddd;
+        border-radius: 0.5rem;
+        padding: 0.75rem;
+        margin-bottom: 1rem;
+        height: 140px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s ease, transform 0.3s ease;
+        background-color: white !important;
+    }
+
+    .image-container img {
+        max-width: 100%;
+        max-height: 120px;
+        object-fit: cover;
+    }
+
+    .image-container:hover {
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+        transform: translateY(-5px);
+    }
+
+    .container-fluid {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    /* Responsive columns */
+    .col-md-6, .col-lg-4 {
+        flex: 1 0 30%;
+        max-width: 30%;
+        margin-bottom: 1rem;
+    }
+
+    @@media (max-width: 768px) {
+        .col-md-6 {
+            flex: 1 0 45%;
+            max-width: 45%;
+        }
+    }
+
+    @@media (max-width: 576px) {
+        .col-md-6 {
+            flex: 1 0 100%;
+            max-width: 100%;
+        }
+    }
+</style>
+
+<div class="container-fluid pt-4 px-4">
+    <div class="text-center border border-1 rounded p-3">
+        <div class="row">
+            <div class="col-md-12 d-flex justify-content-center mb-3 fw-bold fs-2 text-primary">
+                <div>Jyotish Documents</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 col-lg-2 mb-4">
+                <div class="image-container">
+                    <img id="idProof" alt="ID Proof" src="">
+                </div>
+            </div>
+            <div class="col-md-3 col-lg-2 mb-4">
+                <div class="image-container">
+                    <img id="addressProof" alt="Address Proof" src="">
+                </div>
+            </div>
+            <div class="col-md-3 col-lg-2 mb-4">
+                <div class="image-container">
+                    <img id="tenthCertificate" alt="Tenth Certificate" src="">
+                </div>
+            </div>
+            <div class="col-md-3 col-lg-2 mb-4">
+                <div class="image-container">
+                    <img id="twelveCertificate" alt="Twelve Certificate" src="">
+                </div>
+            </div>
+            <div class="col-md-3 col-lg-2 mb-4">
+                <div class="image-container">
+                    <img id="professionalCertificate" alt="Professional Certificate" src="">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Base URL for API requests
+ 
+
+    // Function to get 'id' from the URL parameters
+    function getIdFromUrl() {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get('id');
+    }
+
+    const id = getIdFromUrl();
+
+    if (id) {
+        // Fetch Jyotish documents
+        function getJyotishDocs(id) {
+            $.ajax({
+                url: BaseUrl + `Api/Admin/GetJyotishDocs?Id=${id}`,
+                type: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token")}`
+                },
+                success: function (response) {
+                    if (response.status === 200) {
+                        updateDocumentStatus(response.data);
+                    } else {
+                        alert("No Record Found");
+                        window.location.replace("/Admin/PendingJyotish");
+                    }
+                },
+                error: function () {
+                    alert('Error fetching Jyotish documents.');
+                    window.location.replace("/Admin/Jyotish");
+                }
+            });
+        }
+
+        // Update document images
+        function updateDocumentStatus(docs) {
+            const defaultImage = '/Img/SampleDoc.jpeg';
+            $("#idProof").attr("src", docs.idProof ? BaseUrl + docs.idProof : defaultImage);
+            $("#addressProof").attr("src", docs.addressProof ? BaseUrl + docs.addressProof : defaultImage);
+            $("#tenthCertificate").attr("src", docs.tenthCertificate ? BaseUrl + docs.tenthCertificate : defaultImage);
+            $("#twelveCertificate").attr("src", docs.twelveCertificate ? BaseUrl + docs.twelveCertificate : defaultImage);
+            $("#professionalCertificate").attr("src", docs.professionalCertificate ? BaseUrl + docs.professionalCertificate : defaultImage);
+        }
+
+        // Call the function to load the documents
+        getJyotishDocs(id);
+    }
+</script>
