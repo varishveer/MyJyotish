@@ -757,7 +757,7 @@ namespace MyJyotishJiApi.Controllers
         }
 
 
-        [HttpGet("GetAllProblemSolution")]
+  /*      [HttpGet("GetAllProblemSolution")]
         public IActionResult GetAllProblemSolution()
         {
             try
@@ -789,6 +789,6 @@ namespace MyJyotishJiApi.Controllers
             catch (Exception ex)
             { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
 
-        }
+        }*/
     }
 }

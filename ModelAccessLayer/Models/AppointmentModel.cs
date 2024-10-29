@@ -25,6 +25,7 @@ namespace ModelAccessLayer.Models
         public string Status { get; set; }
         public int? Amount { get; set; }
 
-        public ProblemSolutionModel ProblemSolutionRecord { get; set; }
+        public AppointmentSolutionModel ProblemSolutionRecord { get; set; }
+
     }
 }

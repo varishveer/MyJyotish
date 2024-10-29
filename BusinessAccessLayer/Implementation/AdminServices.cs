@@ -1069,7 +1069,7 @@ namespace BusinessAccessLayer.Implementation
             else { return null; }
         }
 
-        public List<ProblemSolutionAdminViewModel> GetAllProblemSolution()
+/*        public List<ProblemSolutionAdminViewModel> GetAllProblemSolution()
         {
             var Data = _context.ProblemSolution.Select(x => new ProblemSolutionAdminViewModel
                                                 {
@@ -1132,7 +1132,7 @@ namespace BusinessAccessLayer.Implementation
 
             return Data;
 
-        }
+        }*/
 
     }
 }
