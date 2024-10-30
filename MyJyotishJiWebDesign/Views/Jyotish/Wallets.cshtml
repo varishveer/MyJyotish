@@ -94,6 +94,8 @@ body {
     </div>
 </div>
 
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
     <script>
 
     var Id = localStorage.getItem('Id');
@@ -147,10 +149,10 @@ $(".trans-list").append(
                             </div>
                             <div class="col-sm-6">
                                 Jyotishg<br />
-                                                        ${d.status == 'success' ? d.dateTime.split("T")[0] : `<span class='text-danger'><i class="fas fa-exclamation-circle"></i>Failed</span>`}
+                                                                    ${d.status == 'success' ? d.dateTime.split("T")[0] : d.status == 'Pending' ? `<small><i class="fas text-warning fa-exclamation-triangle"></i>Cancelled</small>` : `<small class='text-danger'><i class="fas fa-exclamation-circle"></i>Failed</small>`}
                             </div>
                             <div class="col-sm-3 d-flex text-danger justify-content-end align-items-center">
-                                                     ${d.status == 'success' ? `- ${d.amount}` : `${d.amount}`}
+                                                     ${d.status == 'success' ? `- ${d.amount}` : `<span class='text-secondary'>${d.amount}</span>`}
                             </div>
                         </div>
                     </div>
@@ -169,7 +171,7 @@ $(".trans-list").append(
         let amount = $("#amount").val();
         debugger
         $.ajax({
-            url: BaseUrl + "Api/Payments/create-order",
+            url: "https://localhost:7118/Api/Payments/create-order",
             type: "POST",
             contentType: "application/json", 
             data: JSON.stringify({ 
@@ -189,16 +191,18 @@ $(".trans-list").append(
                         description: 'Payment Transaction',
                         image: "https://vakiluncle.in/Content/assets/img/advocate/logo.png",
                         order_id: data.id,     // Order ID
-                        handler: function (paymentResponse) {
+                        handler:async function (paymentResponse) {
                             debugger;
-                            console.log(paymentResponse.razorpay_payment_id, paymentResponse.razorpay_signature, paymentResponse.razorpay_order_id, planPrice);
-                            InsertPayment(paymentResponse.razorpay_payment_id, paymentResponse.razorpay_signature, paymentResponse.razorpay_order_id, planPrice);
+                            console.log(paymentResponse.razorpay_payment_id, paymentResponse.razorpay_signature, paymentResponse.razorpay_order_id,data.amount);
+                            await InsertPayment(paymentResponse.razorpay_payment_id, paymentResponse.razorpay_signature, paymentResponse.razorpay_order_id, amount, "success","Payment Successfull");
+                            await addWallet();
                         },
                         modal: {
                             ondismiss: function () {
                                 Swal.fire({
                                     icon: "warning",
-                                    title: "Payment Cancelled",
+                                    title:"Cancelled",
+                                    text: "Payment Cancelled",
 
                                 });
                             }
@@ -213,11 +217,16 @@ $(".trans-list").append(
 
                     var rzp1 = new Razorpay(options);
                     rzp1.on('payment.failed', function (response) {
+                        console.log(response)
                         Swal.fire({
                             icon: "error",
                             title: "Payment Failed",
                             text: response.error.description || "Unknown error occurred.",
+                            didClose: () => { location.reload(true); }
                         });
+
+                        InsertPayment(response.error.metadata.payment_id, "", response.error.metadata.order_id, amount, "failed", response.error.reason);
+
                     });
                     rzp1.open();
                 } else {
@@ -232,6 +241,40 @@ $(".trans-list").append(
 
     });
 
+    function InsertPayment(pay_id, signature, order_id, amount,status,message) {
+        debugger
+        $.ajax({
+            url: "https://localhost:7118/Api/payments/capture-payment",
+            type: "POST",
+            contentType: "application/json",
+            data:JSON.stringify({
+                orderId: order_id,
+                paymentId: pay_id,
+                SignatureId: signature,
+                amount: amount,
+                Status: status,
+                Message:message
+
+            }),
+            success: function (res) {
+                debugger;
+                if (res.message == "Payment captured and recorded.") {
+                    Swal.fire({
+                        title: "Success!",
+                        text: "Payment Successfull",
+                        icon: "success",
+                        didClose: () => { location.reload(true); }
+                    });
+                } else {
+                    Swal.fire({ title: "Payment Failed!", text: "Technical issue occurred. Try again later.", icon: "error" });
+                }
+            },
+            error: function () {
+
+                Swal.fire({ icon: "error", title: "Technical Issue", text: "Payment verification failed." });
+            }
+        });
+    }
         function addWallet(){
                 let amount=$("#amount").val();
                      Swal.fire({
