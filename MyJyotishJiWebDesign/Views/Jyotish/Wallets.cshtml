@@ -65,7 +65,7 @@ body {
         <content class="right-trans overflow-auto">
            <div class="d-flex justify-content-between"> 
                <h2 class="text-secondary"> Current Balance </h2>
-                <h3><span class="text-success">2000</span>&nbsp;<span id="addWallet" data-bs-toggle="modal" data-bs-target="#exampleModal" class="text-secondary" role="button"><i class="far fa-plus-square"></i></span></h3>
+                <h3><span class="text-success" id="walletAmount">0</span>&nbsp;<span id="addWallet" data-bs-toggle="modal" data-bs-target="#exampleModal" class="text-secondary" role="button"><i class="far fa-plus-square"></i></span></h3>
             </div>
             <h4 id="balance"></h4>
             <div class="trans-list  row">
@@ -97,6 +97,35 @@ body {
     <script>
 
     var Id = localStorage.getItem('Id');
+
+        $(document).ready(function () {
+            $.ajax({
+                url: "https://localhost:7118/api/Jyotish/GetWallet",
+                type: "get",
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+                    'Content-Type': 'application/json',
+                },
+                data:{JyotishId:Id},
+                success:function(res){
+                    if(res.status==200){
+                    $("#walletAmount").text(res.data)
+                    }else{
+                    Swal.fire({
+                        title: "error",
+                        text: "some error occured",
+                        icon: "error"
+                    });
+                    }
+                },error:function(){
+                Swal.fire({
+                    title: "error",
+                    text: "some error occured",
+                    icon: "error"
+                });
+                }
+            })
+
     $.ajax({
         url: `https://localhost:7118/api/Jyotish/JyotishPaymentrecords`,
         type: 'GET',
@@ -134,8 +163,76 @@ $(".trans-list").append(
 
         }
     })
+    });
 
-        $("#addAmountIntoWallet").click(function(){
+    $("#addAmountIntoWallet").click(function(){
+        let amount = $("#amount").val();
+        debugger
+        $.ajax({
+            url: BaseUrl + "Api/Payments/create-order",
+            type: "POST",
+            contentType: "application/json", 
+            data: JSON.stringify({ 
+                JyotishId: Id, 
+                Amount: amount
+               
+            }),
+            success: function (response) {
+                debugger
+                if (response.status === 200 && response.data) {
+                    var data = response.data; // Get the actual data object
+                    var options = {
+                        key: data.secretKey,  // Use the correct secret key from data
+                        amount: data.amount,   // Amount in paise
+                        currency: data.currency,
+                        name: 'My Jyotish G',
+                        description: 'Payment Transaction',
+                        image: "https://vakiluncle.in/Content/assets/img/advocate/logo.png",
+                        order_id: data.id,     // Order ID
+                        handler: function (paymentResponse) {
+                            debugger;
+                            console.log(paymentResponse.razorpay_payment_id, paymentResponse.razorpay_signature, paymentResponse.razorpay_order_id, planPrice);
+                            InsertPayment(paymentResponse.razorpay_payment_id, paymentResponse.razorpay_signature, paymentResponse.razorpay_order_id, planPrice);
+                        },
+                        modal: {
+                            ondismiss: function () {
+                                Swal.fire({
+                                    icon: "warning",
+                                    title: "Payment Cancelled",
+
+                                });
+                            }
+                        },
+                        prefill: {
+                            name: data.advocateList?.advocateName || 'John Doe',  // Fallback if name not available
+                            email: data.advocateList?.email || 'user@example.com',
+                            contact: data.advocateList?.contactNum || '9999999999'
+                        },
+                        theme: { color: '#F37254' }
+                    };
+
+                    var rzp1 = new Razorpay(options);
+                    rzp1.on('payment.failed', function (response) {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Payment Failed",
+                            text: response.error.description || "Unknown error occurred.",
+                        });
+                    });
+                    rzp1.open();
+                } else {
+                    Swal.fire({ icon: "error", title: "Error", text: "Payment initiation failed. Please try again." });
+                }
+            },
+            error: function () {
+
+                Swal.fire({ icon: "error", title: "Server Error", text: "Server down, please try later." });
+            }
+        });
+
+    });
+
+        function addWallet(){
                 let amount=$("#amount").val();
                      Swal.fire({
                         title: "Processing Your Request",
@@ -143,37 +240,43 @@ $(".trans-list").append(
                             Swal.showLoading();
                         }
                     })
-            $.ajax({
-                url:"https://localhost:7118/api/Jyotish/AddWallet",
-                type:"post",
-                    data:{jyotishId:Id,WalletAmount:amount},
-                success:function(res){
-                            if (res.status == 200) {
+        $.ajax({
+            url: "https://localhost:7118/api/Jyotish/AddWallet",
+            type: "post",
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+                'Content-Type': 'application/json',
+            },
+            data: JSON.stringify({ jyotishId: Id, WalletAmount: amount }),
+            success: function (res) {
+                if (res.status == 200) {
 
-                        Swal.fire({
-                                    title: "Success",
-                                    text: "Amount Added to your wallet Successfully",
-                                    icon: "success",
-                                    didClose: () => {
-                                        location.reload(true)
-                                    }
+                    Swal.fire({
+                        title: "Success",
+                        text: "Amount Added to your wallet Successfully",
+                        icon: "success",
+                        didClose: () => {
+                            location.reload(true)
+                        }
 
-                                });
-                            }else{
-                                     Swal.fire({
-                                        title: "error",
-                                        text: "some error occured while updating your profile",
-                                        icon: "error"
-                                    });
-                            }
-                },
-                error:function(err){
-                         Swal.fire({
-                                    title: "error",
-                                    text: "some error occured",
-                                    icon: "error"
-                                });
+                    });
+                } else {
+                    Swal.fire({
+                        title: "error",
+                        text: "some error occured while updating your profile",
+                        icon: "error"
+                    });
                 }
-            })
+            },
+            error: function (err) {
+                Swal.fire({
+                    title: "error",
+                    text: "some error occured",
+                    icon: "error"
+                });
+            }
         })
+        }
     </script>
+
+    

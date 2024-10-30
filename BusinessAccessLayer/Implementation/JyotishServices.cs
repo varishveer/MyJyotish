@@ -564,15 +564,35 @@ namespace BusinessAccessLayer.Implementation
         {
             var Jyotish = _context.JyotishRecords.Where(x => x.Id == pr.jyotishId).FirstOrDefault();
             if (Jyotish == null) { return null; }
-            jyotishWallet jw=new jyotishWallet
+            var JyotishWallets = _context.JyotishWallets.Where(x => x.jyotishId == pr.jyotishId).FirstOrDefault();
+            if (JyotishWallets == null)
             {
-                jyotishId = pr.jyotishId,
-                WalletAmount = pr.WalletAmount,
-                status = 1
-            };
-            _context.JyotishWallets.Add(jw);
-            if (_context.SaveChanges() > 0) { return "Successful"; }
-            else { return "Data Not Saved"; }
+                jyotishWallet jw = new jyotishWallet
+                {
+                    jyotishId = pr.jyotishId,
+                    WalletAmount = pr.WalletAmount,
+                    status = 1
+                };
+                _context.JyotishWallets.Add(jw);
+                if (_context.SaveChanges() > 0) { return "Successful"; }
+                else { return "Data Not Saved"; }
+            }
+            else
+            {
+                JyotishWallets.WalletAmount += pr.WalletAmount;
+                _context.JyotishWallets.Update(JyotishWallets);
+                if (_context.SaveChanges() > 0) { return "Successful"; }
+                else { return "Data Not Saved"; }
+            }
+        }
+         public long GetWallet(int JyotishId)
+        {
+            var Jyotish = _context.JyotishWallets.Where(x => x.jyotishId == JyotishId).FirstOrDefault();
+            if ( Jyotish == null) { return 0; }
+            else
+            {
+                return Jyotish.WalletAmount;
+            }
         }
 
         public string UpdateAppointmentSlot(AppointmentSlotViewModel model)

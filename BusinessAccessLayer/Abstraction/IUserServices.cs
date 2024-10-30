@@ -34,8 +34,6 @@ namespace BusinessAccessLayer.Abstraction
         public List<AppointmentSlotUserViewModel> GetAllAppointmentSlot(int id);
 /*        public List<ProblemSolutionGetAllViewModel> GetAllProblemSolution(int Id);
         public ProblemSolutionGetAllViewModel GetProblemSolution(int Id);*/
-        public List<ProblemSolutionGetAllViewModel> GetAllProblemSolution(int Id);
-        public ProblemSolutionGetAllViewModel GetProblemSolution(int Id);
         public string AddUserWallets(UserWalletViewmodel uw);
 
     }
