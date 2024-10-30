@@ -683,51 +683,75 @@ namespace BusinessAccessLayer.Implementation
             return result;
         }
 
-        public string AddProblemSolution(ProblemSolutionViewModel[] models)
+        public string AddProblemSolution(ProblemSolutionViewModel model)
         {
-        
-            if (models == null || models.Length == 0)
+            if (model == null )
             {
                 return "No data provided";
             }
 
-          
 
-            foreach (var model in models)
-            {
-              
-                var appointment = _context.AppointmentRecords
+            var appointment = _context.AppointmentRecords
                                          .FirstOrDefault(x => x.Id == model.AppointmentId);
-                if (appointment == null)
-                {
-                    return "Invalid Data: AppointmentId does not exist.";
-                }
-
-             
-                ProblemSolutionModel data = new ProblemSolutionModel
-                {
-                    AppointmentId = appointment.Id,
-                    Problem = model.Problem,
-                    Solution = model.Solution
-                };
-
-              
-                _context.ProblemSolution.Add(data);
+            if (appointment == null)
+            {
+                return "Invalid Data: AppointmentId does not exist.";
+            }
+            string problems = "";
+            string Solutions = "";
+            foreach (var it in model.Problem)
+            {
+                problems += it + "$%^";
             }
 
+            foreach (var it in model.Solution)
+            {
+                Solutions += it + "$%^";
+            }
+            ProblemSolutionModel data = new ProblemSolutionModel
+            {
+                AppointmentId = appointment.Id,
+                Problem = problems,
+                Solution = Solutions
+            };
+            _context.ProblemSolution.Add(data);
             return _context.SaveChanges() > 0 ? "Successful" : "Internal Server Error";
         }
 
 
-        public List<ProblemSolutionModel> GetAllProblemSolution(int appointmentId)
+        public ProblemSolutionJyotishGetAllViewModel GetProblemSolution(int appointmentId)
         {
             if (appointmentId == 0)
             {
-                return new List<ProblemSolutionModel>();
+                return null;
             }
 
-           
-            return _context.ProblemSolution.Where(x => x.AppointmentId == appointmentId).ToList();
+            var Appointment = _context.AppointmentRecords.Where(x => x.Id == appointmentId).FirstOrDefault();
+
+            var User = _context.Users.Where(x => x.Id == Appointment.UserId).FirstOrDefault(); 
+
+           var record = _context.ProblemSolution.Where(x => x.AppointmentId == appointmentId).FirstOrDefault();
+
+            string problemString = record.Problem;
+            string SolutionString = record.Solution;
+            // Split the string using the specified delimiter
+            string[] problemArray = problemString.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries);
+            string[] SolutionArray = SolutionString.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries);
+
+
+            ProblemSolutionJyotishGetAllViewModel Result = new ProblemSolutionJyotishGetAllViewModel
+            {
+
+                Id = record.Id,
+                AppointmentId = record.AppointmentId,
+                UserId = User.Id,
+                UserName = User.Name,
+                UserEmail = User.Email,
+                Problem = problemArray,
+                Solution = SolutionArray
+
+            };
+            return Result;
         }
 
 
@@ -743,9 +767,20 @@ namespace BusinessAccessLayer.Implementation
             {
                 return "Record not found";
             }
-            
-            existingRecord.Problem = model.Problem;
-            existingRecord.Solution = model.Solution;
+
+            string problems = "";
+            string Solutions = "";
+            foreach (var it in model.Problem)
+            {
+                problems += it + "$%^";
+            }
+
+            foreach (var it in model.Solution)
+            {
+                Solutions += it + "$%^";
+            }
+            existingRecord.Problem = problems;
+            existingRecord.Solution = Solutions;
             existingRecord.AppointmentId = model.AppointmentId;
 
             return _context.SaveChanges() > 0 ? "successful" : "Update failed";

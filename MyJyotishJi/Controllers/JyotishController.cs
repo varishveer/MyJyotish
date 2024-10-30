@@ -507,7 +507,7 @@ namespace MyJyotishGApi.Controllers
 
 
         [HttpPost("AddProblemSolution")]
-        public IActionResult AddProblemSolution(ProblemSolutionViewModel[] model)
+        public IActionResult AddProblemSolution(ProblemSolutionViewModel model)
         {
             try
             {
@@ -527,16 +527,16 @@ namespace MyJyotishGApi.Controllers
             { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
         }
 
-        [HttpGet("GetAllProblemSolution")]
-        public IActionResult GetAllProblemSolution(int id)
+        [HttpGet("GetProblemSolution")]
+        public IActionResult GetProblemSolution(int id)
         {
             try
             {
                
-                var result = _jyotish.GetAllProblemSolution(id);
+                var result = _jyotish.GetProblemSolution(id);
 
                
-                if (result == null || result.Count == 0)
+                if (result == null )
                 {
                     return Ok(new { Status = 400, Message = "Data Not Found" });
                 }
