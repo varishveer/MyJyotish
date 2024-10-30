@@ -603,14 +603,14 @@ namespace BusinessAccessLayer.Implementation
             if (Jyotish == null) { return null; }
             var JyotishWallets = _context.JyotishWallets.Where(x => x.jyotishId == pr.JId).FirstOrDefault();
             
-                JyotishWalletHistoryModel jw = new JyotishWalletHistoryModel
+                WalletHistoryModel jw = new WalletHistoryModel
                 {
                     JId = pr.JId,
                     amount = pr.amount,
                     PaymentStatus = pr.PaymentStatus,
                     PaymentAction = pr.PaymentAction,
                     date =DateTime.Now.ToString("dd-MM-yyyy hh:mm:ss"),
-                    PaymentId=Jyotish.Name+DateTime.Now.Day+DateTime.Now.Month+DateTime.Now.Year+pr.JId,
+                    PaymentId=Jyotish.Name+DateTime.Now.Day+DateTime.Now.Month+DateTime.Now.Year+pr.JId+Guid.NewGuid(),
                     status = 1
                 };
                 _context.JyotishWalletHistroy.Add(jw);
@@ -618,7 +618,7 @@ namespace BusinessAccessLayer.Implementation
                 else { return "Data Not Saved"; }  
             
         }
-        public List<JyotishWalletHistoryModel> GetWalletHistory(int JyotishId)
+        public List<WalletHistoryModel> GetWalletHistory(int JyotishId)
         {
             var Jyotish = _context.JyotishWalletHistroy.Where(x => x.JId == JyotishId).OrderBy(e=>e.Id).Reverse().ToList();
 

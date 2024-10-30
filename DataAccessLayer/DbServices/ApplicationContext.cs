@@ -47,8 +47,7 @@ namespace DataAccessLayer.DbServices
         public DbSet<jyotishWallet> JyotishWallets { get; set; }
         public DbSet<UserWallet> UserWallets { get; set; }
         public DbSet<JyotishUserAttachmentModel> JyotishUserAttachmentRecord { get; set; }
-        public DbSet<JyotishWalletHistoryModel> JyotishWalletHistroy { get; set; }
-        public DbSet<UserWalletHistory> UserWalletHistroy { get; set; }
+        public DbSet<WalletHistoryModel> WalletHistroy { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -93,9 +92,9 @@ namespace DataAccessLayer.DbServices
 
             modelBuilder.Entity<JyotishPaymentRecordModel>().HasOne(c => c.Jyotish).WithMany(j => j.jyotishPaymentRecords).HasForeignKey(c => c.JyotishId); 
 
-modelBuilder.Entity<JyotishWalletHistoryModel>().HasOne(c => c.jyotish).WithMany(j => j.JytoishWalletHistoryRecord).HasForeignKey(c => c.JId);
+modelBuilder.Entity<WalletHistoryModel>().HasOne(c => c.jyotish).WithMany(j => j.JytoishWalletHistoryRecord).HasForeignKey(c => c.JId);
             
-            modelBuilder.Entity<UserWalletHistory>().HasOne(c => c.Users).WithMany(j => j.UserWalletHistoryRecords).HasForeignKey(c => c.UId);
+            modelBuilder.Entity<WalletHistoryModel>().HasOne(c => c.Users).WithMany(j => j.JyotishWalletHistoryRecords).HasForeignKey(c => c.UId);
         }
 
 

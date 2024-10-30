@@ -60,6 +60,8 @@ body {
                 
             </div>
             <div class="cc-select">
+                <div class="border rounded p-3 mb-2 mt-5">Payment History</div>
+                <div class="border rounded p-3 mb-2">Wallet History</div>
             </div>
         </aside>
         <content class="right-trans overflow-auto">
@@ -293,7 +295,6 @@ $(".trans-list").append(
             data: JSON.stringify({ jyotishId: Id, WalletAmount: amount }),
             success: function (res) {
                 if (res.status == 200) {
-                    AddWalletHistory("Success", "Credit");
                     Swal.fire({
                         title: "Success",
                         text: "Amount Added to your wallet Successfully",
@@ -321,24 +322,30 @@ $(".trans-list").append(
         })
         }
 
-        function AddWalletHistory(paymentStatus,paymentAction){
+        function GetWalletHistory(){
         let amount = $("#amount").val();
-        debugger
+       
         $.ajax({
-            url: "https://localhost:7118/api/Jyotish/AddWalletHistory",
-            type: "post",
+            url: "https://localhost:7118/api/Jyotish/GetWalletHistroy",
+            type: "get",
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/json'
             },
-            data: JSON.stringify({ JId: Id, amount: amount, PaymentStatus: paymentStatus, PaymentAction: paymentAction }),
+            data:{
+                JyotishId: Id,
+            },
+            success:function(res){
+                console.log(res)
+            },
             error: function (err) {
                 Swal.fire({ icon: "error", title: "Server Error", text: "Server down, please try later." });
 
             }
         })
     }
-     
-    </script>
+    GetWalletHistory();
+
+</script>
 
     

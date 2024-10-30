@@ -158,10 +158,6 @@ namespace MyJyotishGApi.Controllers
 
 
 
-
-
-
-
         [HttpGet("Dashboard")]
         public IActionResult DashBoard(string email)
         {
@@ -191,12 +187,6 @@ namespace MyJyotishGApi.Controllers
                 return StatusCode(500, new { Status = 500, Message = ex.Message, Error = ex });
             }
         }
-
-
-
-
-
-
 
 
 
@@ -349,7 +339,18 @@ namespace MyJyotishGApi.Controllers
             {
                 var Result = _jyotish.AddWallet(jw);
                 if (Result == "Successful")
-                { return Ok(new { Status = 200, Message = "Successful" }); }
+                {
+                    JyotishWalletHistoryViewmodel js = new JyotishWalletHistoryViewmodel
+                    {
+                        JId = jw.jyotishId,
+                        amount=jw.WalletAmount,
+                        PaymentAction="Credit",
+                        PaymentStatus="Success"
+                        
+                    };
+                   var res= AddWalletHistory(js);
+                    return Ok(new { Status = 200, Message = "Successful" }); 
+                }
                 else
                 { return Ok(new { Status = 404, Message ="Some error occured" }); }
             }
