@@ -4,6 +4,7 @@ using DataAccessLayer.DbServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20241030064336_Attachment Updates")]
+    partial class AttachmentUpdates
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -616,46 +619,6 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("JyotishVideos");
                 });
 
-            modelBuilder.Entity("ModelAccessLayer.Models.JyotishWalletHistoryModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("JId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PaymentAction")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PaymentId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PaymentStatus")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("amount")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("date")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("status")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("JId");
-
-                    b.ToTable("JyotishWalletHistroy");
-                });
-
             modelBuilder.Entity("ModelAccessLayer.Models.LanguageModel", b =>
                 {
                     b.Property<int>("Id")
@@ -1119,46 +1082,6 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("UserWallets");
                 });
 
-            modelBuilder.Entity("ModelAccessLayer.Models.UserWalletHistory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("PaymentAction")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PaymentId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PaymentStatus")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UId")
-                        .HasColumnType("int");
-
-                    b.Property<long>("amount")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("date")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("status")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UId");
-
-                    b.ToTable("UserWalletHistroy");
-                });
-
             modelBuilder.Entity("ModelAccessLayer.Models.jyotishWallet", b =>
                 {
                     b.Property<int>("Id")
@@ -1322,17 +1245,6 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("Jyotish");
                 });
 
-            modelBuilder.Entity("ModelAccessLayer.Models.JyotishWalletHistoryModel", b =>
-                {
-                    b.HasOne("ModelAccessLayer.Models.JyotishModel", "jyotish")
-                        .WithMany("JytoishWalletHistoryRecord")
-                        .HasForeignKey("JId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("jyotish");
-                });
-
             modelBuilder.Entity("ModelAccessLayer.Models.ManageSubscriptionModel", b =>
                 {
                     b.HasOne("ModelAccessLayer.Models.SubscriptionFeaturesModel", "Feature")
@@ -1396,17 +1308,6 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("ModelAccessLayer.Models.UserWalletHistory", b =>
-                {
-                    b.HasOne("ModelAccessLayer.Models.UserModel", "Users")
-                        .WithMany("UserWalletHistoryRecords")
-                        .HasForeignKey("UId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Users");
-                });
-
             modelBuilder.Entity("ModelAccessLayer.Models.jyotishWallet", b =>
                 {
                     b.HasOne("ModelAccessLayer.Models.JyotishModel", "jyotish")
@@ -1444,8 +1345,6 @@ namespace DataAccessLayer.Migrations
 
                     b.Navigation("JyotishVideos");
 
-                    b.Navigation("JytoishWalletHistoryRecord");
-
                     b.Navigation("Slots");
 
                     b.Navigation("jyotishPaymentRecords");
@@ -1476,8 +1375,6 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("UserPaymentRecords");
 
                     b.Navigation("UserRecord");
-
-                    b.Navigation("UserWalletHistoryRecords");
                 });
 #pragma warning restore 612, 618
         }

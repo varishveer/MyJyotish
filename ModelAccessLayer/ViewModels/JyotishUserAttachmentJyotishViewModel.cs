@@ -1,25 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace ModelAccessLayer.Models
+namespace ModelAccessLayer.ViewModels
 {
-    public  class JyotishUserAttachmentModel
+    public class JyotishUserAttachmentJyotishViewModel
     {
-        [Key]
         public int Id { get; set; }
         public int JyotishId { get; set; }
+        public string UserName { get; set; }
+        public string UserEmail { get; set; }
         public int UserId { get; set; }
         public string Title { get; set; }
         public string Image { get; set; }
-        [JsonIgnore]
-        public JyotishModel Jyotish { get; set; }
-        [JsonIgnore]
-        public UserModel User { get; set; }
-
     }
 }
