@@ -14,18 +14,17 @@ namespace ModelAccessLayer.Models
         public int Id { get; set; }
 
         public DateTime Date { get; set; }
-  
-  
         public int JyotishId { get; set; } 
         public int UserId { get; set; }
         public int SlotId { get; set; }
         public string Problem { get; set; }
         [AllowNull]
-
         public string Status { get; set; }
         public int? Amount { get; set; }
 
-        public AppointmentSolutionModel ProblemSolutionRecord { get; set; }
+        public JyotishModel JyotishRecord { get; set; }
+        public UserModel UserRecord { get; set; }
+        public ICollection<ProblemSolutionModel> Solution { get; set; }
 
     }
 }

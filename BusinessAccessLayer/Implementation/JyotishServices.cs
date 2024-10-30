@@ -653,247 +653,91 @@ namespace BusinessAccessLayer.Implementation
             return result;
         }
 
-/*        public string AddProblemSolution(ProblemSolutionViewModel model)
+        public string AddProblemSolution(ProblemSolutionViewModel[] models)
         {
-            var User = _context.Users.Where(x => x.Email == model.Email).FirstOrDefault();
-            var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
-            if (User == null || Jyotish ==null) { return "Invalid Data"; }
-
-            var Appointment = _context.AppointmentRecords.Where(x => x.Id == model.AppointmentId).Where(y => y.UserId == User.Id).Where(y => y.JyotishId == Jyotish.Id).FirstOrDefault();
-            if(Appointment == null) { return "Invalid Data"; }
-            DateTime currentDateTime = DateTime.Now;
-            ProblemSolutionModel data = new ProblemSolutionModel();
-            data.UserId = User.Id;
-            data.JyotishId = Jyotish.Id;
-            data.AppointmentId = Appointment.Id;
-            data.Date = DateTime.Now;
-            data.Time = TimeOnly.FromDateTime(currentDateTime);
-
-
-            if (model.Image1 != null)
+        
+            if (models == null || models.Length == 0)
             {
-                const long MaxFileSize = 5 * 1024 * 1024; // 5 MB
-                var allowedExtensions = new[] { ".pdf", ".jpg", ".jpeg", ".png" };
-                if(ValidateFile(model.Image1, MaxFileSize, allowedExtensions) ==  false)
-                { return "Invalid File."; }
-                var ProfileGuid = Guid.NewGuid().ToString();
-                var SqlPath = "wwwroot/Images/Jyotish/ProblemSolution/" + ProfileGuid + model.Image1.FileName;
-                var ProfilePath = Path.Combine(_uploadDirectory, SqlPath);
-                using (var stream = new FileStream(ProfilePath, FileMode.Create))
+                return "No data provided";
+            }
+
+          
+
+            foreach (var model in models)
+            {
+              
+                var appointment = _context.AppointmentRecords
+                                         .FirstOrDefault(x => x.Id == model.AppointmentId);
+                if (appointment == null)
                 {
-                    model.Image1.CopyTo(stream);
+                    return "Invalid Data: AppointmentId does not exist.";
                 }
-                data.Image1 = "/Images/Jyotish/ProblemSolution/" + ProfileGuid + model.Image1.FileName;
-            }
-            if (model.Image2 != null)
-            {
-                const long MaxFileSize = 5 * 1024 * 1024; // 5 MB
-                var allowedExtensions = new[] { ".pdf", ".jpg", ".jpeg", ".png" };
-                if (ValidateFile(model.Image2, MaxFileSize, allowedExtensions) == false)
-                { return "Invalid File."; }
-                var ProfileGuid = Guid.NewGuid().ToString();
-                var SqlPath = "wwwroot/Images/Jyotish/ProblemSolution/" + ProfileGuid + model.Image2.FileName;
-                var ProfilePath = Path.Combine(_uploadDirectory, SqlPath);
-                using (var stream = new FileStream(ProfilePath, FileMode.Create))
+
+             
+                ProblemSolutionModel data = new ProblemSolutionModel
                 {
-                    model.Image2.CopyTo(stream);
-                }
-                data.Image2 = "/Images/Jyotish/ProblemSolution/" + ProfileGuid + model.Image2.FileName;
-            }
-            if (model.Image3 != null)
-            {
-                const long MaxFileSize = 5 * 1024 * 1024; // 5 MB
-                var allowedExtensions = new[] { ".pdf", ".jpg", ".jpeg", ".png" };
-                if (ValidateFile(model.Image3, MaxFileSize, allowedExtensions) == false)
-                { return "Invalid File."; }
-                var ProfileGuid = Guid.NewGuid().ToString();
-                var SqlPath = "wwwroot/Images/Jyotish/ProblemSolution/" + ProfileGuid + model.Image3.FileName;
-                var ProfilePath = Path.Combine(_uploadDirectory, SqlPath);
-                using (var stream = new FileStream(ProfilePath, FileMode.Create))
-                {
-                    model.Image3.CopyTo(stream);
-                }
-               data.Image3 = "/Images/Jyotish/ProblemSolution/" + ProfileGuid + model.Image3.FileName;
+                    AppointmentId = appointment.Id,
+                    Problem = model.Problem,
+                    Solution = model.Solution
+                };
+
+              
+                _context.ProblemSolution.Add(data);
             }
 
-            if (model.Problem1 != null)
-            {
-                data.Problem1 = model.Problem1;
-            }
-            if (model.Solution1 != null)
-            {
-                data.Solution1 = model.Solution1;
-            }
-
-            if (model.Problem2 != null)
-            {
-                data.Problem2 = model.Problem2;
-            }
-            if (model.Solution2 != null)
-            {
-                data.Solution2 = model.Solution2;
-            }
-
-            if (model.Problem3 != null)
-            {
-                data.Problem3 = model.Problem3;
-            }
-            if (model.Solution3 != null)
-            {
-                data.Solution3 = model.Solution3;
-            }
-
-            _context.ProblemSolution.Add(data);
-            if(_context.SaveChanges()>0)
-            { return "Successful"; }
-            else { return "Internal Server Error."; }
-         
+            return _context.SaveChanges() > 0 ? "Successful" : "Internal Server Error";
         }
 
-        public List<ProblemSolutionGetAllViewModel> GetAllProblemSolution(int Id)
+
+        public List<ProblemSolutionModel> GetAllProblemSolution(int appointmentId)
         {
-            if (Id == 0)
+            if (appointmentId == 0)
             {
-                return null;
+                return new List<ProblemSolutionModel>();
             }
 
-         
-            var Data = _context.ProblemSolution
-                                .Where(x => x.JyotishId == Id)
-                                .Select(x => new ProblemSolutionGetAllViewModel
-                                {
-                                    Id = x.Id,
-                                    JyotishId = x.JyotishId,
-                                    AppointmentId = x.AppointmentId,
-                                    Date = x.Date,
-                                    Time = x.Time,
-                                    Problem1 = x.Problem1,
-                                    Solution1 = x.Solution1,
-                                    Problem2 = x.Problem2,
-                                    Solution2 = x.Solution2,
-                                    Problem3 = x.Problem3,
-                                    Solution3 = x.Solution3,
-                                    Image1 = x.Image1,
-                                    Image2 = x.Image2,
-                                    Image3 = x.Image3,
-                                  
-                                    Name = _context.Users.Where(u => u.Id == x.UserId).Select(u => u.Name).FirstOrDefault(),
-                                    Email = _context.Users.Where(u => u.Id == x.UserId).Select(u => u.Email).FirstOrDefault()
-                                })
-                                .ToList();
-
-            return Data;
+           
+            return _context.ProblemSolution.Where(x => x.AppointmentId == appointmentId).ToList();
         }
 
 
         public string UpdateProblemSolution(ProblemSolutionViewModel model)
         {
-            var User = _context.Users.Where(x => x.Email == model.Email).FirstOrDefault();
-            var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
-            if (User == null || Jyotish == null) { return "Invalid Data"; }
-
-            var Appointment = _context.AppointmentRecords.Where(x => x.Id == model.AppointmentId).Where(y => y.UserId == User.Id).Where(y => y.JyotishId == Jyotish.Id).FirstOrDefault();
-            if (Appointment == null) { return "Invalid Data"; }
-
-            var data = _context.ProblemSolution.Where(x => x.Id == model.Id).FirstOrDefault();
-            if(data == null) { return "Invalid Data"; }
-            data.UserId = User.Id;
-            data.JyotishId = Jyotish.Id;
-            data.AppointmentId = Appointment.Id;
-
-         
-
-
-            if (model.Image1 != null)
+            if (model == null || model.Id == 0)
             {
-                const long MaxFileSize = 5 * 1024 * 1024; // 5 MB
-                var allowedExtensions = new[] { ".pdf", ".jpg", ".jpeg", ".png" };
-                if (ValidateFile(model.Image1, MaxFileSize, allowedExtensions) == false)
-                { return "Invalid File."; }
-                var ProfileGuid = Guid.NewGuid().ToString();
-                var SqlPath = "wwwroot/Images/Jyotish/ProblemSolution/" + ProfileGuid + model.Image1.FileName;
-                var ProfilePath = Path.Combine(_uploadDirectory, SqlPath);
-                using (var stream = new FileStream(ProfilePath, FileMode.Create))
-                {
-                    model.Image1.CopyTo(stream);
-                }
-                data.Image1 = "Images/Jyotish/ProblemSolution/" + ProfileGuid + model.Image1.FileName;
-            }
-            if (model.Image2 != null)
-            {
-                const long MaxFileSize = 5 * 1024 * 1024; // 5 MB
-                var allowedExtensions = new[] { ".pdf", ".jpg", ".jpeg", ".png" };
-                if (ValidateFile(model.Image2, MaxFileSize, allowedExtensions) == false)
-                { return "Invalid File."; }
-                var ProfileGuid = Guid.NewGuid().ToString();
-                var SqlPath = "wwwroot/Images/Jyotish/ProblemSolution/" + ProfileGuid + model.Image2.FileName;
-                var ProfilePath = Path.Combine(_uploadDirectory, SqlPath);
-                using (var stream = new FileStream(ProfilePath, FileMode.Create))
-                {
-                    model.Image2.CopyTo(stream);
-                }
-                data.Image2 = "Images/Jyotish/ProblemSolution/" + ProfileGuid + model.Image2.FileName;
-            }
-            if (model.Image3 != null)
-            {
-                const long MaxFileSize = 5 * 1024 * 1024; // 5 MB
-                var allowedExtensions = new[] { ".pdf", ".jpg", ".jpeg", ".png" };
-                if (ValidateFile(model.Image3, MaxFileSize, allowedExtensions) == false)
-                { return "Invalid File."; }
-                var ProfileGuid = Guid.NewGuid().ToString();
-                var SqlPath = "wwwroot/Images/Jyotish/ProblemSolution/" + ProfileGuid + model.Image3.FileName;
-                var ProfilePath = Path.Combine(_uploadDirectory, SqlPath);
-                using (var stream = new FileStream(ProfilePath, FileMode.Create))
-                {
-                    model.Image3.CopyTo(stream);
-                }
-                data.Image3 = "Images/Jyotish/ProblemSolution/" + ProfileGuid + model.Image3.FileName;
+                return "Invalid data provided";
             }
 
-            if (model.Problem1 != null)
+            var existingRecord = _context.ProblemSolution.FirstOrDefault(x => x.Id == model.Id);
+            if (existingRecord == null)
             {
-                data.Problem1 = model.Problem1;
+                return "Record not found";
             }
-            if (model.Solution1 != null)
-            {
-                data.Solution1 = model.Solution1;
-            }
+            
+            existingRecord.Problem = model.Problem;
+            existingRecord.Solution = model.Solution;
+            existingRecord.AppointmentId = model.AppointmentId;
 
-            if (model.Problem2 != null)
-            {
-                data.Problem2 = model.Problem2;
-            }
-            if (model.Solution2 != null)
-            {
-                data.Solution2 = model.Solution2;
-            }
-
-            if (model.Problem3 != null)
-            {
-                data.Problem3 = model.Problem3;
-            }
-            if (model.Solution3 != null)
-            {
-                data.Solution3 = model.Solution3;
-            }
-
-            _context.ProblemSolution.Update(data);
-            if (_context.SaveChanges() > 0)
-            { return "Successful"; }
-            else { return "Internal Server Error."; }
-
+            return _context.SaveChanges() > 0 ? "successful" : "Update failed";
         }
 
-        public string DeleteProblemSolution(int Id)
+
+        public string DeleteProblemSolution(int id)
         {
-            if(Id == null) { return "Invalid Id"; }
-            var data = _context.ProblemSolution.Where(x => x.Id == Id).FirstOrDefault();
-            if(data == null) { return "Invalid Id"; }
+            if (id <= 0) // Check for invalid ID (should be greater than 0)
+            {
+                return "Invalid Id";
+            }
+
+            var data = _context.ProblemSolution.FirstOrDefault(x => x.Id == id);
+            if (data == null)
+            {
+                return "Invalid Id"; // Return this message if no record found
+            }
 
             _context.ProblemSolution.Remove(data);
-            if (_context.SaveChanges() > 0) { return "Successful"; }
-            else { return "Internal Server Error."; }
-        }*/
+            return _context.SaveChanges() > 0 ? "Successful" : "Internal Server Error.";
+        }
 
         private bool ValidateFile(IFormFile file, long maxSize, string[] allowedExtensions)
         {
@@ -960,5 +804,118 @@ namespace BusinessAccessLayer.Implementation
 
             return allRecords;
         }
+
+        public string AddUserAttachment(JyotishUserAttachmentViewModel[] models)
+        {
+            if (models == null || models.Length == 0)
+            {
+                return "No data provided.";
+            }
+
+            foreach (var model in models)
+            {
+                // Validate the model properties
+                if (model.JyotishId <= 0 || model.UserId <= 0 || model.Image == null)
+                {
+                    return "Invalid data provided for one or more attachments.";
+                }
+
+                // Save the image file to the desired location
+                string filePath = Path.Combine("/wwwroot/Images/Jyotish/ProblemSolution/", model.Image.FileName);
+                string AccessPath = Path.Combine("/Images/Jyotish/ProblemSolution/", model.Image.FileName);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    model.Image.CopyTo(stream);
+                }
+
+                var attachmentRecord = new JyotishUserAttachmentModel
+                {
+                    JyotishId = model.JyotishId,
+                    UserId = model.UserId,
+                    Image = AccessPath 
+                };
+
+               
+                _context.JyotishUserAttachmentRecord.Add(attachmentRecord);
+            }
+
+            return _context.SaveChanges() > 0 ? "Successful" : "Internal Server Error.";
+        }
+
+        public List<JyotishUserAttachmentModel> GetAllUserAttachments(int jyotishId)
+        {
+            if (jyotishId <= 0)
+            {
+                return new List<JyotishUserAttachmentModel>(); 
+            }
+
+            return _context.JyotishUserAttachmentRecord.Where(x => x.JyotishId == jyotishId).ToList();
+        }
+
+
+
+        public string UpdateUserAttachment(JyotishUserAttachmentViewModel model)
+        {
+            if (model == null || model.Id <= 0)
+            {
+                return "Invalid data provided.";
+            }
+
+            // Find the existing record
+            var existingRecord = _context.JyotishUserAttachmentRecord.FirstOrDefault(x => x.Id == model.Id);
+            if (existingRecord == null)
+            {
+                return "Record not found.";
+            }
+
+            // Update the properties
+            existingRecord.JyotishId = model.JyotishId;
+            existingRecord.UserId = model.UserId;
+
+            // Handle file update if a new file is provided
+            if (model.Image != null)
+            {
+                // Save the new image file
+                string filePath = Path.Combine("/wwwroot/Images/Jyotish/ProblemSolution/", model.Image.FileName);
+                string accessPath = Path.Combine("/Images/Jyotish/ProblemSolution/", model.Image.FileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    model.Image.CopyTo(stream);
+                }
+
+                existingRecord.Image = accessPath; // Update image path
+            }
+
+            return _context.SaveChanges() > 0 ? "Successful" : "Update failed.";
+        }
+
+        public string DeleteUserAttachment(int id)
+        {
+            if (id <= 0)
+            {
+                return "Invalid Id.";
+            }
+
+            // Find the existing record
+            var attachment = _context.JyotishUserAttachmentRecord.FirstOrDefault(x => x.Id == id);
+            if (attachment == null)
+            {
+                return "Attachment not found.";
+            }
+
+            // Optionally, delete the physical file if needed
+            string filePath = Path.Combine("/wwwroot", attachment.Image.TrimStart('/'));
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+            }
+
+            // Remove the record from the database
+            _context.JyotishUserAttachmentRecord.Remove(attachment);
+
+            return _context.SaveChanges() > 0 ? "Successful" : "Deletion failed.";
+        }
+
     }
 }

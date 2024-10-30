@@ -46,17 +46,17 @@ namespace DataAccessLayer.DbServices
         public DbSet<ProblemSolutionModel> ProblemSolution { get; set; }
         public DbSet<jyotishWallet> JyotishWallets { get; set; }
         public DbSet<UserWallet> UserWallets { get; set; }
-        public DbSet<AppointmentSolutionModel> AppointmentSolutionRecord{ get; set; }
+   
         public DbSet<JyotishUserAttachmentModel> JyotishUserAttachmentRecord { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
             
-            modelBuilder.Entity<AppointmentModel>().HasOne(j => j.ProblemSolutionRecord).WithOne(d => d.Appointment).HasForeignKey<AppointmentSolutionModel>(d => d.AppointmentId);
-            modelBuilder.Entity<AppointmentSolutionModel>().HasOne(c => c.Jyotish).WithMany(j => j.AppointmentSolutionRecord).HasForeignKey(c => c.JyotishId);
+          
+            modelBuilder.Entity<AppointmentModel>().HasOne(c => c.JyotishRecord).WithMany(j => j.AppointmentRecord).HasForeignKey(c => c.JyotishId);
 
-            modelBuilder.Entity<AppointmentSolutionModel>().HasOne(c => c.User).WithMany(j => j.AppointmentSolutionRecord).HasForeignKey(c => c.UserId);
+            modelBuilder.Entity<AppointmentModel>().HasOne(c => c.UserRecord).WithMany(j => j.AppointmentRecord).HasForeignKey(c => c.UserId);
 
             modelBuilder.Entity<ChatedUser>().HasOne(c => c.Jyotish).WithMany(j => j.ChatedUserRecord).HasForeignKey(c => c.JyotishId);
 
