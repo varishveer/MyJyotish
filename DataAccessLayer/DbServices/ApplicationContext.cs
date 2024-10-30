@@ -50,9 +50,7 @@ namespace DataAccessLayer.DbServices
         public DbSet<WalletHistoryModel> WalletHistroy { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-
-            
+        { 
           
             modelBuilder.Entity<AppointmentModel>().HasOne(c => c.JyotishRecord).WithMany(j => j.AppointmentRecord).HasForeignKey(c => c.JyotishId);
 

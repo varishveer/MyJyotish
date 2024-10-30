@@ -597,33 +597,57 @@ namespace BusinessAccessLayer.Implementation
 
 
         //add wallet History
-        //public string AddWalletHistory(JyotishWalletHistoryViewmodel pr)
-        //{
-        //    var Jyotish = _context.JyotishRecords.Where(x => x.Id == pr.JId).FirstOrDefault();
-        //    if (Jyotish == null) { return null; }
-        //    var JyotishWallets = _context.JyotishWallets.Where(x => x.jyotishId == pr.JId).FirstOrDefault();
-            
-        //        WalletHistoryModel jw = new WalletHistoryModel
-        //        {
-        //            JId = pr.JId,
-        //            amount = pr.amount,
-        //            PaymentStatus = pr.PaymentStatus,
-        //            PaymentAction = pr.PaymentAction,
-        //            date =DateTime.Now.ToString("dd-MM-yyyy hh:mm:ss"),
-        //            PaymentId=Jyotish.Name+DateTime.Now.Day+DateTime.Now.Month+DateTime.Now.Year+pr.JId+Guid.NewGuid(),
-        //            status = 1
-        //        };
-        //        //_context.JyotishWalletHistroy.Add(jw);
-        //        if (_context.SaveChanges() > 0) { return "Successful"; }
-        //        else { return "Data Not Saved"; }  
-            
-        //}
-        ////public List<WalletHistoryModel> GetWalletHistory(int JyotishId)
-        ////{
-        ////    //var Jyotish = _context.JyotishWalletHistroy.Where(x => x.JId == JyotishId).OrderBy(e=>e.Id).Reverse().ToList();
+        public string AddWalletHistory(WalletHistoryViewmodel pr)
+        {
+            var Jyotish = _context.JyotishRecords.Where(x => x.Id == pr.JId).FirstOrDefault();
+            if (Jyotish == null) { return null; }
+            Random rnd = new Random();
+            var rndnum = rnd.Next(100, 999);
+            var paymentId = Jyotish.Name + DateTime.Now.ToString("ddMMyyyy")+ pr.JId + rndnum;
+            var paymentUnqId = _context.WalletHistroy.Where(x => x.PaymentId == paymentId).FirstOrDefault();
+            if (paymentUnqId != null)
+            {
+                paymentId=paymentId + 1;
+            }
+            WalletHistoryModel jw = new WalletHistoryModel
+            {
+                JId = pr.JId,
+                amount = pr.amount,
+                PaymentStatus = pr.PaymentStatus,
+                PaymentAction = pr.PaymentAction,
+                date = DateTime.Now.ToString("dd-MM-yyyy hh:mm:ss"),
+                PaymentId = paymentId,
+                status = 1,
+                PaymentBy="jyotish",
+                PaymentFor=pr.PaymentFor,
+                UId=pr.UId!=0?pr.UId:null
+            };
+            _context.WalletHistroy.Add(jw);
+            if (_context.SaveChanges() > 0) { return "Successful"; }
+            else { return "Data Not Saved"; }
 
-        ////    return Jyotish;
-        ////}
+        }
+        public dynamic GetWalletHistory(int JyotishId)
+        {
+            var Jyotish =(from wallet in _context.WalletHistroy join user in _context.Users.DefaultIfEmpty() on wallet.UId equals user.Id
+                          where wallet.JId == JyotishId
+                          orderby wallet.Id descending
+                          select new
+                          {
+                              UserName=user.Name,
+                              paymentDate=wallet.date,
+                              amount=wallet.amount,
+                              paymentId=wallet.PaymentId,
+                              paymentBy=wallet.PaymentBy,
+                              paymentAction=wallet.PaymentAction,
+                              profile=user.ProfilePictureUrl,
+                              paymentFor=wallet.PaymentFor
+                          }
+                          
+                          );
+
+            return Jyotish;
+        }
 
         public string UpdateAppointmentSlot(AppointmentSlotViewModel model)
         {
