@@ -697,6 +697,11 @@ namespace BusinessAccessLayer.Implementation
             {
                 return "Invalid Data: AppointmentId does not exist.";
             }
+            var isValid = _context.ProblemSolution.Where(x => x.AppointmentId == model.AppointmentId).FirstOrDefault();
+            if(isValid != null)
+            {
+                return "Record Already Present.";
+            }
             string problems = "";
             string Solutions = "";
             foreach (var it in model.Problem)

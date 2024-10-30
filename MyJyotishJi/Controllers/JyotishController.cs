@@ -518,6 +518,8 @@ namespace MyJyotishGApi.Controllers
 
                 else if (Result == "Invalid Data: AppointmentId does not exist.")
                 { return Ok(new { Status = 400, Message = Result }); }
+                else if (Result == "Record Already Present.")
+                { return Ok(new { Status = 400, Message = Result }); }
 
                 else if (Result == "Successful")
                 { return Ok(new { Status = 200, Message = Result }); }
