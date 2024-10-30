@@ -191,11 +191,12 @@ $(".trans-list").append(
                         description: 'Payment Transaction',
                         image: "https://vakiluncle.in/Content/assets/img/advocate/logo.png",
                         order_id: data.id,     // Order ID
-                        handler:async function (paymentResponse) {
+                        handler:function (paymentResponse) {
                             debugger;
                             console.log(paymentResponse.razorpay_payment_id, paymentResponse.razorpay_signature, paymentResponse.razorpay_order_id,data.amount);
-                            await InsertPayment(paymentResponse.razorpay_payment_id, paymentResponse.razorpay_signature, paymentResponse.razorpay_order_id, amount, "success","Payment Successfull");
-                            await addWallet();
+                             InsertPayment(paymentResponse.razorpay_payment_id, paymentResponse.razorpay_signature, paymentResponse.razorpay_order_id, amount, "success","Payment Successfull");
+                             addWallet();
+                            AddWalletHistory("Success", "Credit");
                         },
                         modal: {
                             ondismiss: function () {
@@ -320,6 +321,33 @@ $(".trans-list").append(
             }
         })
         }
+
+        function AddWalletHistory(paymentStatus,paymentAction){
+        let amount = $("#amount").val();
+        debugger
+        $.ajax({
+            url: "https://localhost:7118/api/Jyotish/AddWalletHistory",
+            type: "post",
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+                'Content-Type': 'application/json',
+            },
+            data: JSON.stringify({ JId: Id, amount: amount, paymentStatus: PaymentStatus, paymentAction: paymentAction }),
+            success: function (res) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Payment Failed",
+                    text: response.error.description || "Unknown error occurred."
+                    
+                });
+            },
+            error: function (err) {
+                Swal.fire({ icon: "error", title: "Server Error", text: "Server down, please try later." });
+
+            }
+        })
+    }
+     
     </script>
 
     

@@ -15,15 +15,13 @@ namespace MyJyotishGApi.Controllers
     {
 
         private readonly RazorpayService _razorpayService;
-        private readonly JyotishServices _jyotishServices;
         private readonly IRazorPayServices _services;
         private readonly IConfiguration _configuration;
-        public PaymentsController(RazorpayService razorpayService, IRazorPayServices services, IConfiguration configuration,JyotishServices jyotishServices)
+        public PaymentsController(RazorpayService razorpayService, IRazorPayServices services, IConfiguration configuration)
         {
             _razorpayService = razorpayService;
             _services = services;
             _configuration = configuration;
-            _jyotishServices = jyotishServices;
         }
 
         // Create an order
