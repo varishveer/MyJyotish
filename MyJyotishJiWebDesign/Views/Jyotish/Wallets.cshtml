@@ -191,12 +191,12 @@ $(".trans-list").append(
                         description: 'Payment Transaction',
                         image: "https://vakiluncle.in/Content/assets/img/advocate/logo.png",
                         order_id: data.id,     // Order ID
-                        handler:function (paymentResponse) {
+                        handler:async function (paymentResponse) {
                             debugger;
                             console.log(paymentResponse.razorpay_payment_id, paymentResponse.razorpay_signature, paymentResponse.razorpay_order_id,data.amount);
-                             InsertPayment(paymentResponse.razorpay_payment_id, paymentResponse.razorpay_signature, paymentResponse.razorpay_order_id, amount, "success","Payment Successfull");
-                             addWallet();
-                            AddWalletHistory("Success", "Credit");
+                             await InsertPayment(paymentResponse.razorpay_payment_id, paymentResponse.razorpay_signature, paymentResponse.razorpay_order_id, amount, "success","Payment Successfull");
+                             await addWallet();
+                             await AddWalletHistory("Success", "Credit");
                         },
                         modal: {
                             ondismiss: function () {
@@ -217,8 +217,9 @@ $(".trans-list").append(
                     };
 
                     var rzp1 = new Razorpay(options);
-                    rzp1.on('payment.failed', function (response) {
-                        console.log(response)
+                    rzp1.on('payment.failed', async function(response) {
+                        await InsertPayment(response.error.metadata.payment_id, "", response.error.metadata.order_id, amount, "failed", response.error.reason);
+
                         Swal.fire({
                             icon: "error",
                             title: "Payment Failed",
@@ -226,7 +227,6 @@ $(".trans-list").append(
                             didClose: () => { location.reload(true); }
                         });
 
-                        InsertPayment(response.error.metadata.payment_id, "", response.error.metadata.order_id, amount, "failed", response.error.reason);
 
                     });
                     rzp1.open();
