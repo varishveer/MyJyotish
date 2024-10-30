@@ -69,7 +69,7 @@ namespace ModelAccessLayer.Models
         public ICollection<JyotishPaymentRecordModel> jyotishPaymentRecords { get; set; } = new List<JyotishPaymentRecordModel>();
 
         public ICollection<JyotishUserAttachmentModel> JyotishUserAttachmentRecords { get; set; } = new List<JyotishUserAttachmentModel>();
-        public ICollection<JyotishWalletHistoryModel> JytoishWalletHistoryRecord { get; set; } = new List<JyotishWalletHistoryModel>();
+        public ICollection<WalletHistoryModel> JytoishWalletHistoryRecord { get; set; } = new List<WalletHistoryModel>();
 
     }
 

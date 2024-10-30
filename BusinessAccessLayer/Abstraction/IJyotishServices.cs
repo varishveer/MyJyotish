@@ -52,6 +52,6 @@ namespace BusinessAccessLayer.Abstraction
         public long GetWallet(int JyotishId);
         
         public string AddWalletHistory(JyotishWalletHistoryViewmodel pr);
-        public List<JyotishWalletHistoryModel> GetWalletHistory(int JyotishId);
+        public List<WalletHistoryModel> GetWalletHistory(int JyotishId);
     }
 }

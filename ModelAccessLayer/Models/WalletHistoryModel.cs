@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ModelAccessLayer.Models
 {
-    public class JyotishWalletHistoryModel
+    public class WalletHistoryModel
     {
         [Key]
         public int Id { get; set; }
