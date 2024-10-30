@@ -191,12 +191,10 @@ $(".trans-list").append(
                         description: 'Payment Transaction',
                         image: "https://vakiluncle.in/Content/assets/img/advocate/logo.png",
                         order_id: data.id,     // Order ID
-                        handler:async function (paymentResponse) {
-                            debugger;
-                            console.log(paymentResponse.razorpay_payment_id, paymentResponse.razorpay_signature, paymentResponse.razorpay_order_id,data.amount);
-                             await InsertPayment(paymentResponse.razorpay_payment_id, paymentResponse.razorpay_signature, paymentResponse.razorpay_order_id, amount, "success","Payment Successfull");
-                             await addWallet();
-                             await AddWalletHistory("Success", "Credit");
+                        handler: function (paymentResponse) {
+                            //console.log(paymentResponse.razorpay_payment_id, paymentResponse.razorpay_signature, paymentResponse.razorpay_order_id,data.amount);
+                               InsertPayment(paymentResponse.razorpay_payment_id, paymentResponse.razorpay_signature, paymentResponse.razorpay_order_id, amount, "success","Payment Successfull")
+                               
                         },
                         modal: {
                             ondismiss: function () {
@@ -217,8 +215,8 @@ $(".trans-list").append(
                     };
 
                     var rzp1 = new Razorpay(options);
-                    rzp1.on('payment.failed', async function(response) {
-                        await InsertPayment(response.error.metadata.payment_id, "", response.error.metadata.order_id, amount, "failed", response.error.reason);
+                    rzp1.on('payment.failed',  function(response) {
+                         InsertPayment(response.error.metadata.payment_id, "", response.error.metadata.order_id, amount, "failed", response.error.reason);
 
                         Swal.fire({
                             icon: "error",
@@ -260,6 +258,7 @@ $(".trans-list").append(
             success: function (res) {
                 debugger;
                 if (res.message == "Payment captured and recorded.") {
+                    addWallet();
                     Swal.fire({
                         title: "Success!",
                         text: "Payment Successfull",
@@ -294,7 +293,7 @@ $(".trans-list").append(
             data: JSON.stringify({ jyotishId: Id, WalletAmount: amount }),
             success: function (res) {
                 if (res.status == 200) {
-
+                    AddWalletHistory("Success", "Credit");
                     Swal.fire({
                         title: "Success",
                         text: "Amount Added to your wallet Successfully",
@@ -332,15 +331,7 @@ $(".trans-list").append(
                 'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
                 'Content-Type': 'application/json',
             },
-            data: JSON.stringify({ JId: Id, amount: amount, paymentStatus: PaymentStatus, paymentAction: paymentAction }),
-            success: function (res) {
-                Swal.fire({
-                    icon: "error",
-                    title: "Payment Failed",
-                    text: response.error.description || "Unknown error occurred."
-                    
-                });
-            },
+            data: { JId: Id, amount: amount, PaymentStatus: paymentStatus, PaymentAction: paymentAction },
             error: function (err) {
                 Swal.fire({ icon: "error", title: "Server Error", text: "Server down, please try later." });
 
