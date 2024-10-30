@@ -174,15 +174,15 @@
         };
 
         $.ajax({
-            url: BaseUrl+'Api/Jyotish/AddProblemSolution',  // Replace with actual API URL
+            url: BaseUrl+'Api/Jyotish/AddProblemSolution',  
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(data),
             success: function (response) {
                 if (response.Status === 200) {
                     alert('Data saved successfully!');
-                    $('#problemSolutionModal').modal('hide');  // Close modal on success
-                    $('#problemSolutionForm')[0].reset();      // Reset form fields
+                    $('#problemSolutionModal').modal('hide');  
+                    $('#problemSolutionForm')[0].reset();     
                 } else {
                     alert('Error: ' + response.Message);
                 }
@@ -192,6 +192,6 @@
                 alert('An error occurred while saving data. Please try again.');
             }
         });
-        // Add your AJAX or form submission logic here
+       
     }
 </script>
