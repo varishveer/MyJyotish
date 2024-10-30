@@ -194,8 +194,9 @@ $(".trans-list").append(
                         handler:async function (paymentResponse) {
                             debugger;
                             console.log(paymentResponse.razorpay_payment_id, paymentResponse.razorpay_signature, paymentResponse.razorpay_order_id,data.amount);
-                            await InsertPayment(paymentResponse.razorpay_payment_id, paymentResponse.razorpay_signature, paymentResponse.razorpay_order_id, amount, "success","Payment Successfull");
-                            await addWallet();
+                             await InsertPayment(paymentResponse.razorpay_payment_id, paymentResponse.razorpay_signature, paymentResponse.razorpay_order_id, amount, "success","Payment Successfull");
+                             await addWallet();
+                             await AddWalletHistory("Success", "Credit");
                         },
                         modal: {
                             ondismiss: function () {
@@ -216,8 +217,9 @@ $(".trans-list").append(
                     };
 
                     var rzp1 = new Razorpay(options);
-                    rzp1.on('payment.failed', function (response) {
-                        console.log(response)
+                    rzp1.on('payment.failed', async function(response) {
+                        await InsertPayment(response.error.metadata.payment_id, "", response.error.metadata.order_id, amount, "failed", response.error.reason);
+
                         Swal.fire({
                             icon: "error",
                             title: "Payment Failed",
@@ -225,7 +227,6 @@ $(".trans-list").append(
                             didClose: () => { location.reload(true); }
                         });
 
-                        InsertPayment(response.error.metadata.payment_id, "", response.error.metadata.order_id, amount, "failed", response.error.reason);
 
                     });
                     rzp1.open();
@@ -320,6 +321,33 @@ $(".trans-list").append(
             }
         })
         }
+
+        function AddWalletHistory(paymentStatus,paymentAction){
+        let amount = $("#amount").val();
+        debugger
+        $.ajax({
+            url: "https://localhost:7118/api/Jyotish/AddWalletHistory",
+            type: "post",
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+                'Content-Type': 'application/json',
+            },
+            data: JSON.stringify({ JId: Id, amount: amount, paymentStatus: PaymentStatus, paymentAction: paymentAction }),
+            success: function (res) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Payment Failed",
+                    text: response.error.description || "Unknown error occurred."
+                    
+                });
+            },
+            error: function (err) {
+                Swal.fire({ icon: "error", title: "Server Error", text: "Server down, please try later." });
+
+            }
+        })
+    }
+     
     </script>
 
     
