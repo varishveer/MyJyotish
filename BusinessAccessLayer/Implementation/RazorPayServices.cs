@@ -111,6 +111,7 @@ namespace BusinessAccessLayer.Implementation
                 jyotish.Status = status; // "success" or "failed"
                 jyotish.OrderId = model.OrderId;
                 jyotish.PaymentId = model.PaymentId;
+                jyotish.Message = model.Message;
                 if (!string.IsNullOrEmpty(model.SignatureId))
                 {
                     jyotish.SignatureId = model.SignatureId;
@@ -125,6 +126,8 @@ namespace BusinessAccessLayer.Implementation
                 user.Status = status; // "success" or "failed"
                 user.OrderId = model.OrderId;
                 user.PaymentId = model.PaymentId;
+                user.Message = model.Message;
+
                 if (!string.IsNullOrEmpty(model.SignatureId))
                 {
                     user.SignatureId = model.SignatureId;
@@ -153,7 +156,7 @@ namespace BusinessAccessLayer.Implementation
                 jyotish.Status = "failed";
                 jyotish.OrderId = model.OrderId;
                 jyotish.PaymentId = model.PaymentId;
-               
+                jyotish.Message = model.Message;
 
                 _context.JyotishPaymentRecord.Update(jyotish);
                 return _context.SaveChanges() > 0;
@@ -163,7 +166,8 @@ namespace BusinessAccessLayer.Implementation
                 user.Status = "failed";
                 user.OrderId = model.OrderId;
                 user.PaymentId = model.PaymentId;
-             
+                user.Message = model.Message;
+
 
                 _context.UserPaymentRecord.Update(user);
                 return _context.SaveChanges() > 0;
