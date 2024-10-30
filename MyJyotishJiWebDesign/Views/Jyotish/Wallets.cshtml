@@ -331,7 +331,7 @@ $(".trans-list").append(
                 'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
                 'Content-Type': 'application/json',
             },
-            data: { JId: Id, amount: amount, PaymentStatus: paymentStatus, PaymentAction: paymentAction },
+            data: JSON.stringify({ JId: Id, amount: amount, PaymentStatus: paymentStatus, PaymentAction: paymentAction }),
             error: function (err) {
                 Swal.fire({ icon: "error", title: "Server Error", text: "Server down, please try later." });
 

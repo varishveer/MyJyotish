@@ -726,16 +726,21 @@ namespace BusinessAccessLayer.Implementation
 
         public ProblemSolutionJyotishGetAllViewModel GetProblemSolution(int appointmentId)
         {
-            if (appointmentId == 0)
+           
+
+            var Appointment = _context.AppointmentRecords.Where(x => x.Id == appointmentId).FirstOrDefault();
+            if (appointmentId == 0 || Appointment ==null)
             {
                 return null;
             }
 
-            var Appointment = _context.AppointmentRecords.Where(x => x.Id == appointmentId).FirstOrDefault();
-
             var User = _context.Users.Where(x => x.Id == Appointment.UserId).FirstOrDefault(); 
 
            var record = _context.ProblemSolution.Where(x => x.AppointmentId == appointmentId).FirstOrDefault();
+            if(record == null)
+            {
+                return null;
+            }
 
             string problemString = record.Problem;
             string SolutionString = record.Solution;
