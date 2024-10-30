@@ -47,7 +47,7 @@ namespace BusinessAccessLayer.Abstraction
         public List<JyotishUserAttachmentModel> GetAllUserAttachments(int jyotishId);
         public string UpdateUserAttachment(JyotishUserAttachmentViewModel model);
         public string DeleteUserAttachment(int id);
-        public string DeleteProblemSolution(int Id);*/
+       
         public string AddWallet(JyotishWalletViewmodel pr);
         public long GetWallet(int JyotishId);
     }

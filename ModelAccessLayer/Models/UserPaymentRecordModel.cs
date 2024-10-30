@@ -18,7 +18,7 @@ namespace ModelAccessLayer.Models
         public DateTime DateTime { get; set; }
         public string Status { get; set; }
         [AllowNull]
-        public string Message { get; set; }
+        public string? Message { get; set; }
         
         public string? OrderId { get; set; }
         [AllowNull]
