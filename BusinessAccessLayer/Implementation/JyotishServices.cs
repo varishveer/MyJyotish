@@ -610,7 +610,7 @@ namespace BusinessAccessLayer.Implementation
                     PaymentStatus = pr.PaymentStatus,
                     PaymentAction = pr.PaymentAction,
                     date =DateTime.Now.ToString("dd-MM-yyyy hh:mm:ss"),
-                    PaymentId=Jyotish.Name+DateTime.Now.Day+DateTime.Now.Month+DateTime.Now.Year+pr.JId,
+                    PaymentId=Jyotish.Name+DateTime.Now.Day+DateTime.Now.Month+DateTime.Now.Year+pr.JId+Guid.NewGuid(),
                     status = 1
                 };
                 _context.JyotishWalletHistroy.Add(jw);
