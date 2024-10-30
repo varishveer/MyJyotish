@@ -905,8 +905,10 @@ namespace BusinessAccessLayer.Implementation
                     return "Record not found";
                 }
 
-                string accessPath = existingRecord.Image; // Keep existing image path if no new file is uploaded
+                // Keep existing image path if no new file is uploaded
+                string accessPath = existingRecord.Image;
 
+                // Handle new image upload
                 if (model.Image != null)
                 {
                     // Ensure the uploads directory exists
@@ -932,7 +934,8 @@ namespace BusinessAccessLayer.Implementation
                 existingRecord.Title = model.Title;
                 existingRecord.Image = accessPath;
 
-                _context.SaveChanges(); // Save changes to the database
+                // Save changes to the database
+                _context.SaveChanges();
 
                 return "Successful"; // Return success message
             }
