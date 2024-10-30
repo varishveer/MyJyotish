@@ -332,7 +332,7 @@ namespace MyJyotishGApi.Controllers
             catch (Exception ex)
             { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
         }
-        [HttpPost("AddWallet")]
+       /* [HttpPost("AddWallet")]
         public IActionResult AddWallet(JyotishWalletViewmodel jw)
         {
             try
@@ -356,7 +356,7 @@ namespace MyJyotishGApi.Controllers
             }
             catch (Exception ex)
             { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
-        }
+        }*/
         [HttpGet("GetWallet")]
         public IActionResult GetWallet(int JyotishId)
         {
@@ -372,35 +372,35 @@ namespace MyJyotishGApi.Controllers
             { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
         }
 
-        [HttpPost("AddWalletHistory")]
-        public IActionResult AddWalletHistory(JyotishWalletHistoryViewmodel jw)
-        {
-            try
-            {
-                var Result = _jyotish.AddWalletHistory(jw);
-                if (Result == "Successful")
-                { return Ok(new { Status = 200, Message = "Successful" }); }
-                else
-                { return Ok(new { Status = 404, Message = "Some error occured" }); }
-            }
-            catch (Exception ex)
-            { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
-        }
+        //[HttpPost("AddWalletHistory")]
+        //public IActionResult AddWalletHistory(JyotishWalletHistoryViewmodel jw)
+        //{
+        //    try
+        //    {
+        //        var Result = _jyotish.AddWalletHistory(jw);
+        //        if (Result == "Successful")
+        //        { return Ok(new { Status = 200, Message = "Successful" }); }
+        //        else
+        //        { return Ok(new { Status = 404, Message = "Some error occured" }); }
+        //    }
+        //    catch (Exception ex)
+        //    { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+        //}
 
-        [HttpGet("GetWalletHistroy")]
-        public IActionResult GetWallethistory(int JyotishId)
-        {
-            try
-            {
-                var Result = _jyotish.GetWalletHistory(JyotishId);
-                if (Result != null)
-                { return Ok(new { Status = 200, Data = Result }); }
-                else
-                { return Ok(new { Status = 404, Message = "Some error occured" }); }
-            }
-            catch (Exception ex)
-            { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
-        }
+        //[HttpGet("GetWalletHistroy")]
+        //public IActionResult GetWallethistory(int JyotishId)
+        //{
+        //    try
+        //    {
+        //        var Result = _jyotish.GetWalletHistory(JyotishId);
+        //        if (Result != null)
+        //        { return Ok(new { Status = 200, Data = Result }); }
+        //        else
+        //        { return Ok(new { Status = 404, Message = "Some error occured" }); }
+        //    }
+        //    catch (Exception ex)
+        //    { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+        //}
 
         [HttpGet("JyotishPaymentDetail")]
         public IActionResult JyotishPaymentDetail(int Id)

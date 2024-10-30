@@ -38,6 +38,6 @@ namespace ModelAccessLayer.Models
         public ICollection<UserWallet> UserRecord { get; set; } = new List<UserWallet>();
         public ICollection<UserPaymentRecordModel> UserPaymentRecords { get; set; } = new List<UserPaymentRecordModel>();
         public ICollection<JyotishUserAttachmentModel> JyotishUserAttachmentRecords { get; set; } = new List<JyotishUserAttachmentModel>(); 
-        public ICollection<WalletHistoryModel> JyotishWalletHistoryRecords { get; set; } = new List<WalletHistoryModel>();
+        public ICollection<WalletHistoryModel> UserWalletHistoryRecords { get; set; } = new List<WalletHistoryModel>();
     }
 }

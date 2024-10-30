@@ -90,11 +90,11 @@ namespace DataAccessLayer.DbServices
             
             modelBuilder.Entity<UserPaymentRecordModel>().HasOne(c => c.User).WithMany(j => j.UserPaymentRecords).HasForeignKey(c => c.UserId);
 
-            modelBuilder.Entity<JyotishPaymentRecordModel>().HasOne(c => c.Jyotish).WithMany(j => j.jyotishPaymentRecords).HasForeignKey(c => c.JyotishId); 
+            modelBuilder.Entity<JyotishPaymentRecordModel>().HasOne(c => c.Jyotish).WithMany(j => j.jyotishPaymentRecords).HasForeignKey(c => c.JyotishId);
 
-modelBuilder.Entity<WalletHistoryModel>().HasOne(c => c.jyotish).WithMany(j => j.JytoishWalletHistoryRecord).HasForeignKey(c => c.JId);
-            
-            modelBuilder.Entity<WalletHistoryModel>().HasOne(c => c.Users).WithMany(j => j.JyotishWalletHistoryRecords).HasForeignKey(c => c.UId);
+            modelBuilder.Entity<WalletHistoryModel>().HasOne(c => c.jyotish).WithMany(j => j.JytoishWalletHistoryRecord).HasForeignKey(c => c.JId);
+                        
+            modelBuilder.Entity<WalletHistoryModel>().HasOne(c => c.Users).WithMany(j => j.UserWalletHistoryRecords).HasForeignKey(c => c.UId);
         }
 
 
