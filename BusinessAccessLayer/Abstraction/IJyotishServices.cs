@@ -43,9 +43,9 @@ namespace BusinessAccessLayer.Abstraction
         public List<ProblemSolutionModel> GetAllProblemSolution(int appointmentId);
         public string UpdateProblemSolution(ProblemSolutionViewModel model);
         public string DeleteProblemSolution(int Id);
-        public string AddUserAttachment(JyotishUserAttachmentViewModel[] models);
-        public List<JyotishUserAttachmentModel> GetAllUserAttachments(int jyotishId);
-        public string UpdateUserAttachment(JyotishUserAttachmentViewModel model);
+        public string AddUserAttachment(JyotishUserAttachmentViewModel model);
+        public List<JyotishUserAttachmentJyotishViewModel> GetAllUserAttachments(int Id);
+        public string UpdateUserAttachment(JyotishUserAttachmentJyotishUpdateViewModel model);
         public string DeleteUserAttachment(int id);
        
         public string AddWallet(JyotishWalletViewmodel pr);

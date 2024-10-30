@@ -805,89 +805,111 @@ namespace BusinessAccessLayer.Implementation
             return allRecords;
         }
 
-        public string AddUserAttachment(JyotishUserAttachmentViewModel[] models)
+        public string AddUserAttachment(JyotishUserAttachmentViewModel model)
         {
-            if (models == null || models.Length == 0)
+            try
             {
-                return "No data provided.";
-            }
-
-            foreach (var model in models)
-            {
-                // Validate the model properties
-                if (model.JyotishId <= 0 || model.UserId <= 0 || model.Image == null)
+                // Validate model data
+                if (model.JyotishId <= 0 || model.UserId <= 0 || model.ImageUrl == null || !model.ImageUrl.Any())
                 {
-                    return "Invalid data provided for one or more attachments.";
+                    return "Invalid data provided for the attachment.";
                 }
 
-                // Save the image file to the desired location
-                string filePath = Path.Combine("/wwwroot/Images/Jyotish/ProblemSolution/", model.Image.FileName);
-                string AccessPath = Path.Combine("/Images/Jyotish/ProblemSolution/", model.Image.FileName);
-                using (var stream = new FileStream(filePath, FileMode.Create))
+                // Keep Titles synchronized with Image URLs
+                for (int i = 0; i < model.ImageUrl.Count; i++)
                 {
-                    model.Image.CopyTo(stream);
+                    var attachmentRecord = new JyotishUserAttachmentModel
+                    {
+                        JyotishId = model.JyotishId,
+                        UserId = model.UserId,
+                        Image = model.ImageUrl[i],
+                        Title = i < model.Title.Count ? model.Title[i] : null // Use Title if available
+                    };
+
+                    _context.JyotishUserAttachmentRecord.Add(attachmentRecord);
                 }
 
-                var attachmentRecord = new JyotishUserAttachmentModel
-                {
-                    JyotishId = model.JyotishId,
-                    UserId = model.UserId,
-                    Image = AccessPath 
-                };
-
-               
-                _context.JyotishUserAttachmentRecord.Add(attachmentRecord);
+                return _context.SaveChanges() > 0 ? "Successful" : "Failed to save attachments.";
             }
-
-            return _context.SaveChanges() > 0 ? "Successful" : "Internal Server Error.";
+            catch (Exception)
+            {
+                return "Internal Server Error";
+            }
         }
 
-        public List<JyotishUserAttachmentModel> GetAllUserAttachments(int jyotishId)
+        public List<JyotishUserAttachmentJyotishViewModel> GetAllUserAttachments(int Id)
         {
-            if (jyotishId <= 0)
+            if (Id <= 0)
             {
-                return new List<JyotishUserAttachmentModel>(); 
+                return new List<JyotishUserAttachmentJyotishViewModel>();
             }
 
-            return _context.JyotishUserAttachmentRecord.Where(x => x.JyotishId == jyotishId).ToList();
+            var record = _context.JyotishUserAttachmentRecord
+                                 .Where(x => x.JyotishId == Id)
+                                 .ToList();
+
+            var result = record.Select(x => new JyotishUserAttachmentJyotishViewModel
+            {
+                Id = x.Id,
+                JyotishId = x.JyotishId,
+                UserId = x.UserId,
+                UserName = _context.Users.Where(y=>y.Id == x.UserId).Select(z=>z.Name).FirstOrDefault(),
+                UserEmail = _context.Users.Where(y => y.Id == x.UserId).Select(z => z.Email).FirstOrDefault(),
+                Title = x.Title,
+                Image = x.Image
+            }).ToList();
+
+            return result;
         }
 
 
 
-        public string UpdateUserAttachment(JyotishUserAttachmentViewModel model)
+        public string UpdateUserAttachment(JyotishUserAttachmentJyotishUpdateViewModel model)
         {
-            if (model == null || model.Id <= 0)
+            try
             {
-                return "Invalid data provided.";
-            }
-
-            // Find the existing record
-            var existingRecord = _context.JyotishUserAttachmentRecord.FirstOrDefault(x => x.Id == model.Id);
-            if (existingRecord == null)
-            {
-                return "Record not found.";
-            }
-
-            // Update the properties
-            existingRecord.JyotishId = model.JyotishId;
-            existingRecord.UserId = model.UserId;
-
-            // Handle file update if a new file is provided
-            if (model.Image != null)
-            {
-                // Save the new image file
-                string filePath = Path.Combine("/wwwroot/Images/Jyotish/ProblemSolution/", model.Image.FileName);
-                string accessPath = Path.Combine("/Images/Jyotish/ProblemSolution/", model.Image.FileName);
-
-                using (var stream = new FileStream(filePath, FileMode.Create))
+                // Retrieve existing record from the database
+                var existingRecord = _context.JyotishUserAttachmentRecord.FirstOrDefault(x => x.Id == model.Id);
+                if (existingRecord == null)
                 {
-                    model.Image.CopyTo(stream);
+                    return "Record not found";
                 }
 
-                existingRecord.Image = accessPath; // Update image path
-            }
+                string accessPath = existingRecord.Image; // Keep existing image path if no new file is uploaded
 
-            return _context.SaveChanges() > 0 ? "Successful" : "Update failed.";
+                if (model.Image != null)
+                {
+                    // Ensure the uploads directory exists
+                    string uploadsFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Jyotish/ProblemSolution");
+                    if (!Directory.Exists(uploadsFolderPath))
+                    {
+                        Directory.CreateDirectory(uploadsFolderPath);
+                    }
+
+                    // Generate unique filename
+                    string uniqueString = Guid.NewGuid().ToString("N").Substring(0, 10);
+                    string filePath = Path.Combine(uploadsFolderPath, uniqueString + Path.GetFileName(model.Image.FileName));
+                    accessPath = Path.Combine("/Images/Jyotish/ProblemSolution", uniqueString + Path.GetFileName(model.Image.FileName));
+
+                    // Save the new image
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        model.Image.CopyTo(stream);
+                    }
+                }
+
+                // Update the record with new data
+                existingRecord.Title = model.Title;
+                existingRecord.Image = accessPath;
+
+                _context.SaveChanges(); // Save changes to the database
+
+                return "Successful"; // Return success message
+            }
+            catch (Exception)
+            {
+                return "Internal Server Error"; // Handle errors
+            }
         }
 
         public string DeleteUserAttachment(int id)

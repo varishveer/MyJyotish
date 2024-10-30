@@ -11,9 +11,10 @@ namespace ModelAccessLayer.ViewModels
     public  class JyotishUserAttachmentViewModel
     {
         [AllowNull]
-        public int? Id { get; set; }
         public int JyotishId { get; set;  }
         public int  UserId { get; set; }
-        public IFormFile Image { get; set; }
+
+        public List<string> Title { get; set; }
+        public List< string> ImageUrl { get; set; }
     }
 }

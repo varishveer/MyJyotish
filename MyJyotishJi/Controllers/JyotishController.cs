@@ -585,44 +585,79 @@ namespace MyJyotishGApi.Controllers
         }
 
         [HttpPost("AddUserAttachment")]
-        public IActionResult AddUserAttachment( JyotishUserAttachmentViewModel[] models)
+        public IActionResult AddUserAttachment()
         {
             try
             {
-                // Call the service layer to add user attachments
-                var result = _jyotish.AddUserAttachment(models);
+                var httpRequest = HttpContext.Request;
 
-                // Determine response based on the result
-                if (result == "No data provided.")
+                // Collect Titles
+                List<string> titleList = httpRequest.Form["Title"].ToList();
+
+                // Collect Image URLs
+                List<string> urlList = new List<string>();
+                var images = httpRequest.Form.Files;
+
+                // Ensure directory exists for file upload
+                string uploadsFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Jyotish/ProblemSolution");
+                if (!Directory.Exists(uploadsFolderPath))
                 {
-                    return BadRequest(new { Status = 400, Message = result });
+                    Directory.CreateDirectory(uploadsFolderPath);
                 }
-                else if (result == "Invalid data provided for one or more attachments.")
+
+                // Process each uploaded file
+                foreach (var image in images)
                 {
-                    return BadRequest(new { Status = 400, Message = result });
+                    string uniqueString = Guid.NewGuid().ToString("N").Substring(0, 10);
+
+                    string filePath = Path.Combine(uploadsFolderPath,uniqueString+ image.FileName);
+                    string accessPath = Path.Combine("/Images/Jyotish/ProblemSolution", uniqueString + image.FileName);
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        image.CopyTo(stream);
+                    }
+                    urlList.Add(accessPath);
                 }
-                else if (result == "Successful")
+
+                // Prepare ViewModel
+                JyotishUserAttachmentViewModel model = new JyotishUserAttachmentViewModel
+                {
+                    UserId = int.Parse(httpRequest.Form["UserId"]),
+                    JyotishId = int.Parse(httpRequest.Form["JyotishId"]),
+                    Title = titleList,
+                    ImageUrl = urlList
+                };
+
+                // Save to Database
+                var result = _jyotish.AddUserAttachment(model);
+                if (result == "Invalid data provided for the attachment.")
+                {
+                    return Ok(new { Status = 400, Message = result });
+                }
+                else if(result == "Failed to save attachments.")
+                {
+                    return Ok(new { Status = 500, Message = result });
+                }
+                else if( result == "Successful")
                 {
                     return Ok(new { Status = 200, Message = result });
                 }
-                else
-                {
-                    return StatusCode(500, new { Status = 500, Message = result });
-                }
+                return Ok(new { Status = 500, Message = result });
             }
             catch (Exception ex)
             {
-                // Handle any exceptions with a 500 status code
                 return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message });
             }
         }
 
+
         [HttpGet("GetAllUserAttachments")]
-        public IActionResult GetAllUserAttachments(int jyotishId)
+        public IActionResult GetAllUserAttachments(int Id)
         {
             try
             {
-                var result = _jyotish.GetAllUserAttachments(jyotishId);
+                var result = _jyotish.GetAllUserAttachments(Id);
 
                 if (result == null || result.Count == 0)
                 {
@@ -636,25 +671,28 @@ namespace MyJyotishGApi.Controllers
                 return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message });
             }
         }
-
         [HttpPost("UpdateUserAttachment")]
-        public IActionResult UpdateUserAttachment([FromForm] JyotishUserAttachmentViewModel model)
+        public IActionResult UpdateUserAttachment([FromForm] JyotishUserAttachmentJyotishUpdateViewModel model)
         {
             try
             {
+                // Validate model data
+                if (model == null || model.Id <= 0 || string.IsNullOrEmpty(model.Title))
+                {
+                    return BadRequest(new { Status = 400, Message = "Invalid data provided" });
+                }
+
+                // Call service method to update the attachment
                 var result = _jyotish.UpdateUserAttachment(model);
 
-                if (result == "Invalid data provided.")
-                {
-                    return BadRequest(new { Status = 400, Message = result });
-                }
-                else if (result == "Record not found.")
-                {
-                    return NotFound(new { Status = 404, Message = result });
-                }
-                else if (result == "Successful")
+                // Check the result of the update operation
+                if (result == "Successful")
                 {
                     return Ok(new { Status = 200, Message = result });
+                }
+                else if (result == "Record not found")
+                {
+                    return NotFound(new { Status = 404, Message = result });
                 }
                 else
                 {
@@ -666,6 +704,7 @@ namespace MyJyotishGApi.Controllers
                 return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message });
             }
         }
+
 
         [HttpDelete("DeleteUserAttachment")]
         public IActionResult DeleteUserAttachment(int id)
