@@ -629,19 +629,21 @@ namespace BusinessAccessLayer.Implementation
         }
         public dynamic GetWalletHistory(int JyotishId)
         {
-            var Jyotish =(from wallet in _context.WalletHistroy join user in _context.Users.DefaultIfEmpty() on wallet.UId equals user.Id
+            var Jyotish =(from wallet in _context.WalletHistroy join user in _context.Users on wallet.UId equals user.Id into userGroup
+                          from user in userGroup.DefaultIfEmpty()
                           where wallet.JId == JyotishId
                           orderby wallet.Id descending
                           select new
                           {
-                              UserName=user.Name,
+                              UserName= wallet.UId != null ? user.Name : null,
                               paymentDate=wallet.date,
                               amount=wallet.amount,
                               paymentId=wallet.PaymentId,
                               paymentBy=wallet.PaymentBy,
                               paymentAction=wallet.PaymentAction,
-                              profile=user.ProfilePictureUrl,
-                              paymentFor=wallet.PaymentFor
+                              profile= wallet.UId != null ? user.ProfilePictureUrl : null,
+                              paymentFor=wallet.PaymentFor,
+                              paymentStatus=wallet.PaymentStatus
                           }
                           
                           );
