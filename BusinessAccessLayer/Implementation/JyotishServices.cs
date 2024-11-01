@@ -962,7 +962,7 @@ namespace BusinessAccessLayer.Implementation
             try
             {
                 // Validate model data
-                if (model.JyotishId <= 0 || model.UserId <= 0 || model.ImageUrl == null || !model.ImageUrl.Any())
+                if (model.JyotishId <= 0 || model.UserId <= 0 || model.ImageUrl == null || !model.ImageUrl.Any()|| model.ImageUrl.Count>5)
                 {
                     return "Invalid data provided for the attachment.";
                 }
