@@ -967,6 +967,7 @@ namespace BusinessAccessLayer.Implementation
                     return "Invalid data provided for the attachment.";
                 }
 
+
                 // Keep Titles synchronized with Image URLs
                 for (int i = 0; i < model.ImageUrl.Count; i++)
                 {
