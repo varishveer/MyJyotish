@@ -723,6 +723,15 @@ namespace BusinessAccessLayer.Implementation
             {
                 return "Invalid Data: AppointmentId does not exist.";
             }
+            if (appointment.Date > DateTime.Now)
+            {
+                return "Appointment is Upcoming";
+            }
+            if (model.Problem.Length > 10 || model.Solution.Length > 10) 
+            {
+                return "Problem or Solution Limit Exceed";
+            }
+
             var isValid = _context.ProblemSolution.Where(x => x.AppointmentId == model.AppointmentId).FirstOrDefault();
             if(isValid != null)
             {
@@ -750,7 +759,7 @@ namespace BusinessAccessLayer.Implementation
         }
 
 
-        public ProblemSolutionJyotishGetAllViewModel GetProblemSolution(int appointmentId)
+        public ProblemSolutionJyotishGetViewModel GetProblemSolution(int appointmentId)
         {
            
 
@@ -775,14 +784,14 @@ namespace BusinessAccessLayer.Implementation
             string[] SolutionArray = SolutionString.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries);
 
 
-            ProblemSolutionJyotishGetAllViewModel Result = new ProblemSolutionJyotishGetAllViewModel
+            ProblemSolutionJyotishGetViewModel Result = new ProblemSolutionJyotishGetViewModel
             {
 
                 Id = record.Id,
                 AppointmentId = record.AppointmentId,
                 UserId = User.Id,
                 UserName = User.Name,
-                UserEmail = User.Email,
+                
                 Problem = problemArray,
                 Solution = SolutionArray
 
@@ -790,6 +799,48 @@ namespace BusinessAccessLayer.Implementation
             return Result;
         }
 
+        
+        public List<ProblemSolutionJyotishGetAllViewModel> GetAllProblemSolution(int JyotishId) 
+        {
+            var data = _context.ProblemSolution
+            .Include(x => x.Appointment)
+                .ThenInclude(y => y.UserRecord)
+            .Select(x => new ProblemSolutionJyotishGetAllViewModel
+            {
+                Id = x.Id,
+                UserName = x.Appointment.UserRecord.Name,
+                UserId = x.Appointment.UserRecord.Id,
+                Date = DateOnly.FromDateTime(x.Appointment.Date),
+                Time = TimeOnly.FromDateTime(x.Appointment.Date),
+                AppointmentId = x.AppointmentId
+            })
+            .ToList();
+
+            return data;
+        }
+        public ProblemSolutionJyotishDetailViewModel GetProblemSolutionDetail(int id)
+        {
+            var data = _context.ProblemSolution
+                .Where(x => x.Id == id)
+                .Include(x => x.Appointment) 
+                    .ThenInclude(y => y.UserRecord) 
+                .Select(x => new ProblemSolutionJyotishDetailViewModel
+                {
+                    Id = x.Id,
+                    UserName = x.Appointment.UserRecord.Name, 
+                    UserId = x.Appointment.UserRecord.Id, 
+                    Date = DateOnly.FromDateTime(x.Appointment.Date), 
+                    Time = TimeOnly.FromDateTime(x.Appointment.Date), 
+                    AppointmentId = x.AppointmentId, 
+                    Problem = x.Problem != null ?
+                        x.Problem.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries) : Array.Empty<string>(), 
+                    Solution = x.Solution != null ?
+                        x.Solution.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries) : Array.Empty<string>() 
+                })
+                .FirstOrDefault(); 
+
+            return data;
+        }
 
         public string UpdateProblemSolution(ProblemSolutionViewModel model)
         {

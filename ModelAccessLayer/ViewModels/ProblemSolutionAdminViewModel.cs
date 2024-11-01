@@ -16,6 +16,8 @@ namespace ModelAccessLayer.ViewModels
         public string JyotishName { get; set; }
         public string JyotishEmail { get; set; }
         public int JyotishId { get; set; }
+        public int AppointmentId { get; set; }
+        public DateTime Date { get; set; }
         public string[] Problem { get; set; }
         public string[] Solution { get; set; }
 

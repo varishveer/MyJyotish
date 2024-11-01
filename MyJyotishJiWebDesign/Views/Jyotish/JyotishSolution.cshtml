@@ -2,49 +2,88 @@
     Layout = "JyotishLayout";
 }
 
-
 <style>
- 
-
-
     .content-container {
         max-width: 800px;
         margin: 20px auto;
-        padding: 20px;
-        border-radius: 8px;
-        background-color: #f7f7f7;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        border-radius: 12px;
+        background-color: #ffffff;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     }
 
     .header {
         text-align: center;
-        margin-bottom: 20px;
+        margin-bottom: 30px;
     }
 
+        .header h2 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+        }
+
     .problem-solution-container {
-        margin-top: 15px;
+        margin-top: 20px;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 15px;
+        background-color: #f9f9f9;
     }
 
     .section-title {
         font-weight: bold;
-        color: #333;
-        margin-bottom: 5px;
+        color: #2980b9;
+        margin-bottom: 10px;
     }
 
     .modal-dialog-fullscreen {
         max-width: 100%;
         height: 100vh;
         margin: 0;
+        border-radius: 0;
     }
 
     .modal-content {
         height: 100%;
+        border-radius: 0;
     }
+
+    .btn-custom {
+        background-color: #2980b9;
+        color: #fff;
+    }
+
+        .btn-custom:hover {
+            background-color: #1a5276;
+        }
+
+    .form-control {
+        border-radius: 5px;
+        border: 1px solid #bdc3c7;
+    }
+
+        .form-control:focus {
+            border-color: #2980b9;
+            box-shadow: 0 0 5px rgba(41, 128, 185, 0.5);
+        }
+
+    .btn-secondary {
+        background-color: #34495e;
+    }
+
+        .btn-secondary:hover {
+            background-color: #2c3e50;
+        }
 </style>
 
 <div class="content-container">
     <div class="header">
-        <h2>Problem and Solution Viewer</h2>
+        <h2 style="font-weight: 300;">Problem and Solution Viewer</h2>
         <p>View the details of the problem and its solutions</p>
     </div>
     <div id="problemSolutionContent">
@@ -58,10 +97,11 @@
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get(paramName);
         }
-        const id = getIdFromParams('id'); 
+        const id = getIdFromParams('id');
 
+        // Load the existing problem and solution data
         $.ajax({
-            url: BaseUrl+`Api/Jyotish/GetProblemSolution?id=${id}`,
+            url: BaseUrl + `Api/Jyotish/GetProblemSolution?id=${id}`,
             method: "GET",
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
@@ -71,11 +111,15 @@
                 if (response.status === 200) {
                     const data = response.data;
                     const content = `
+                            <div class="container my-3">
+                                            <a class="btn btn-success" data-id="${data.id}" data-userName="${data.userName}"  data-appointmentId="${data.appointmentId}"
+                                   data-bs-toggle="modal" data-bs-target="#updateProblemSolutionModal"
+                                   onclick='populateUpdateModal(${JSON.stringify(data)})'>Update</a>
+                            </div>
                             <div class="problem-solution-container">
                                 <div class="section-title">User Name:</div>
                                 <p>${data.userName}</p>
-                                <div class="section-title">User Email:</div>
-                                <p>${data.userEmail}</p>
+                              
                                 <div class="section-title">Problems:</div>
                                 <ul>${data.problem.map(problem => `<li>${problem}</li>`).join('')}</ul>
                                 <div class="section-title">Solutions:</div>
@@ -84,18 +128,40 @@
                         `;
                     $('#problemSolutionContent').html(content);
                 } else {
-                    $('#problemSolutionContent').html('<div class="container my-3"> <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#problemSolutionModal">Add</a>  </div > ');
+                    $('#problemSolutionContent').html('<div class="container my-3"> <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#problemSolutionModal">Add</a>  </div>');
                 }
             },
             error: function () {
                 $('#problemSolutionContent').html('<p>There was an error loading the data.</p>');
             }
         });
+
+        // Function to populate the update modal with existing data
+        window.populateUpdateModal = function (data) {
+            // Clear existing fields
+            $('#updateProblemFields').empty();
+            $('#updateSolutionFields').empty();
+
+            // Set the hidden input for the id
+            $('#updateProblemSolutionModal #updateAppointmentId').val(data.id);
+            $('#updateProblemSolutionModal #updateUserName').val(data.userName);
+
+            // Populate problem fields
+            data.problem.forEach(problem => {
+                const problemField = `<div class="mb-3"><textarea class="form-control" name="Problem[]" placeholder="Enter updated problem" rows="3">${problem}</textarea></div>`;
+                $('#updateProblemFields').append(problemField);
+            });
+
+            // Populate solution fields
+            data.solution.forEach(solution => {
+                const solutionField = `<div class="mb-3"><textarea class="form-control" name="Solution[]" placeholder="Enter updated solution" rows="3">${solution}</textarea></div>`;
+                $('#updateSolutionFields').append(solutionField);
+            });
+        };
     });
 </script>
 
-
-
+<!-- Add Problem and Solution Modal -->
 <div class="modal fade" id="problemSolutionModal" tabindex="-1" aria-labelledby="problemSolutionModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-fullscreen">
         <div class="modal-content">
@@ -111,7 +177,7 @@
                             <h6>Problem(s)</h6>
                             <div id="problemFields">
                                 <div class="mb-3">
-                                    <input type="text" class="form-control" name="Problem[]" placeholder="Enter problem">
+                                    <textarea class="form-control" name="Problem[]" placeholder="Enter problem" rows="3"></textarea>
                                 </div>
                             </div>
                             <button type="button" class="btn btn-secondary mb-3" onclick="addProblemField()">Add More Problem</button>
@@ -122,7 +188,7 @@
                             <h6>Solution(s)</h6>
                             <div id="solutionFields">
                                 <div class="mb-3">
-                                    <input type="text" class="form-control" name="Solution[]" placeholder="Enter solution">
+                                    <textarea class="form-control" name="Solution[]" placeholder="Enter solution" rows="3"></textarea>
                                 </div>
                             </div>
                             <button type="button" class="btn btn-secondary mb-3" onclick="addSolutionField()">Add More Solution</button>
@@ -131,41 +197,65 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="saveData()">Save</button>
+                <button type="button" class="btn btn-custom" onclick="saveData()">Save</button>
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
 
+<!-- Update Problem and Solution Modal -->
+<div class="modal fade" id="updateProblemSolutionModal" tabindex="-1" aria-labelledby="updateProblemSolutionModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-fullscreen">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateProblemSolutionModalLabel">Update Problem and Solution</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="updateAppointmentId" value="" />
+                <input type="text" id="updateUserName" value="" readonly />
 
+                <div class="container-fluid">
+                    <div class="row">
+                        <!-- Column for Problems -->
+                        <div class="col-md-6">
+                            <h6>Problem(s)</h6>
+                            <div id="updateProblemFields">
+                                <!-- Existing problems will be populated here -->
+                            </div>
+                            <button type="button" class="btn btn-secondary mb-3" onclick="addUpdateProblemField()">Add More Problem</button>
+                        </div>
+
+                        <!-- Column for Solutions -->
+                        <div class="col-md-6">
+                            <h6>Solution(s)</h6>
+                            <div id="updateSolutionFields">
+                                <!-- Existing solutions will be populated here -->
+                            </div>
+                            <button type="button" class="btn btn-secondary mb-3" onclick="addUpdateSolutionField()">Add More Solution</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-custom" onclick="updateData()">Update</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
-    // Function to dynamically add new problem fields
-    function addProblemField() {
-        const problemFields = document.getElementById('problemFields');
-        const newField = document.createElement('div');
-        newField.className = 'mb-3';
-        newField.innerHTML = `<input type="text" class="form-control" name="Problem[]" placeholder="Enter problem">`;
-        problemFields.appendChild(newField);
+    function getIdFromParams(paramName) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(paramName);
     }
-
-    // Function to dynamically add new solution fields
-    function addSolutionField() {
-        const solutionFields = document.getElementById('solutionFields');
-        const newField = document.createElement('div');
-        newField.className = 'mb-3';
-        newField.innerHTML = `<input type="text" class="form-control" name="Solution[]" placeholder="Enter solution">`;
-        solutionFields.appendChild(newField);
-    }
-
-    // Function to save data - you can implement this to handle form submission or API calls
+    const appointmentId = getIdFromParams('id');
+    // Function to save new problem and solution data
     function saveData() {
-        const problems = Array.from(document.querySelectorAll('input[name="Problem[]"]')).map(input => input.value);
-        const solutions = Array.from(document.querySelectorAll('input[name="Solution[]"]')).map(input => input.value);
-
-        console.log("Problems:", problems);
-        console.log("Solutions:", solutions);
+        const problems = Array.from(document.querySelectorAll('#problemFields textarea')).map(input => input.value);
+        const solutions = Array.from(document.querySelectorAll('#solutionFields textarea')).map(input => input.value);
 
         const data = {
             AppointmentId: appointmentId,
@@ -174,15 +264,18 @@
         };
 
         $.ajax({
-            url: BaseUrl+'Api/Jyotish/AddProblemSolution',  
+            url: BaseUrl + 'Api/Jyotish/AddProblemSolution', // Update your API endpoint accordingly
             type: 'POST',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+            },
             contentType: 'application/json',
             data: JSON.stringify(data),
             success: function (response) {
-                if (response.Status === 200) {
+                if (response.status === 200) {
                     alert('Data saved successfully!');
-                    $('#problemSolutionModal').modal('hide');  
-                    $('#problemSolutionForm')[0].reset();     
+                    $('#problemSolutionModal').modal('hide');
+                    location.reload();
                 } else {
                     alert('Error: ' + response.Message);
                 }
@@ -192,6 +285,63 @@
                 alert('An error occurred while saving data. Please try again.');
             }
         });
-       
+    }
+
+    // Function to update existing problem and solution data
+    function updateData() {
+        const id = $('#updateAppointmentId').val(); // Get the ID from the hidden input
+        const problems = Array.from(document.querySelectorAll('#updateProblemFields textarea')).map(input => input.value);
+        const solutions = Array.from(document.querySelectorAll('#updateSolutionFields textarea')).map(input => input.value);
+        debugger;
+        const data = {
+            Id:id,
+            AppointmentId: appointmentId,
+            Problem: problems,
+            Solution: solutions
+        };
+
+        $.ajax({
+            url: BaseUrl + 'Api/Jyotish/UpdateProblemSolution', // Update your API endpoint accordingly
+            type: 'POST', // Assuming you're using POST for updates
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+            },
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function (response) {
+                if (response.status === 200) {
+                    alert('Data updated successfully!');
+                    $('#updateProblemSolutionModal').modal('hide');
+                    location.reload();
+                } else {
+                    alert('Error: ' + response.Message);
+                }
+            },
+            error: function (error) {
+                console.error('Error:', error);
+                alert('An error occurred while updating data. Please try again.');
+            }
+        });
+    }
+
+    // Functions to add more problem and solution fields
+    function addProblemField() {
+        const problemField = `<div class="mb-3"><textarea class="form-control" name="Problem[]" placeholder="Enter problem" rows="3"></textarea></div>`;
+        $('#problemFields').append(problemField);
+    }
+
+    function addSolutionField() {
+        const solutionField = `<div class="mb-3"><textarea class="form-control" name="Solution[]" placeholder="Enter solution" rows="3"></textarea></div>`;
+        $('#solutionFields').append(solutionField);
+    }
+
+    function addUpdateProblemField() {
+        const problemField = `<div class="mb-3"><textarea class="form-control" name="Problem[]" placeholder="Enter updated problem" rows="3"></textarea></div>`;
+        $('#updateProblemFields').append(problemField);
+    }
+
+    function addUpdateSolutionField() {
+        const solutionField = `<div class="mb-3"><textarea class="form-control" name="Solution[]" placeholder="Enter updated solution" rows="3"></textarea></div>`;
+        $('#updateSolutionFields').append(solutionField);
     }
 </script>
