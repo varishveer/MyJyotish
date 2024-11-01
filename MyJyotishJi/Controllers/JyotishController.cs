@@ -554,6 +554,45 @@ namespace MyJyotishGApi.Controllers
             }
         }
 
+        [HttpGet("GetProblemSolutionDetail")]
+        public IActionResult GetProblemSolutionDetail(int id)
+        {
+            try
+            {
+
+                var result = _jyotish.GetProblemSolutionDetail(id);
+
+
+                if (result == null)
+                {
+                    return Ok(new { Status = 400, Message = "Data Not Found" });
+                }
+
+
+                return Ok(new { Status = 200, Data = result, Message = "Successful" });
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message });
+            }
+        }
+        [HttpGet("GetAllProblemSolution")]
+        public IActionResult GetAllProblemSolution(int Id)
+        {
+            try
+            {
+                var Result = _jyotish.GetAllProblemSolution(Id);
+                if (Result.Count == 0 || Result == null)
+                { return Ok(new { Status = 404, Message = "Data Not Found" }); }
+
+                else
+                { return Ok(new { Status = 200, Data = Result, Message = "Successful" }); }
+            }
+            catch (Exception ex)
+            { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+
+        }
 
         [HttpPost("UpdateProblemSolution")]
         public IActionResult UpdateProblemSolution(ProblemSolutionViewModel model)

@@ -8,13 +8,12 @@ namespace ModelAccessLayer.ViewModels
 {
     public class ProblemSolutionJyotishGetAllViewModel
     {
-
         public int Id { get; set; }
-        public int AppointmentId { get; set; }
-        public int UserId { get; set; }
         public string UserName { get; set; }
-        public string UserEmail { get; set; }
-        public string[] Problem { get; set; }
-        public string[] Solution { get; set; }
+        public int UserId { get; set; }
+        public DateOnly Date { get; set; }
+        public TimeOnly Time { get; set; }
+        public int AppointmentId {get; set;}
+
     }
 }

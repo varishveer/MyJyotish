@@ -40,7 +40,9 @@ namespace BusinessAccessLayer.Abstraction
          public string DeleteAppointmentSlot(int Id);
         public List<AppointmentSlotUserViewModel> GetAllAppointmentSlot(int id);
         public string AddProblemSolution(ProblemSolutionViewModel model);
-        public ProblemSolutionJyotishGetAllViewModel GetProblemSolution(int appointmentId);
+        public ProblemSolutionJyotishGetViewModel GetProblemSolution(int appointmentId);
+        public List<ProblemSolutionJyotishGetAllViewModel> GetAllProblemSolution(int JyotishId);
+        public ProblemSolutionJyotishDetailViewModel GetProblemSolutionDetail(int id);
         public string UpdateProblemSolution(ProblemSolutionViewModel model);
         public string DeleteProblemSolution(int Id);
         public string AddUserAttachment(JyotishUserAttachmentViewModel model);
@@ -50,8 +52,8 @@ namespace BusinessAccessLayer.Abstraction
        
         public string AddWallet(JyotishWalletViewmodel pr);
         public long GetWallet(int JyotishId);
-
-        public string AddWalletHistory(WalletHistoryViewmodel pr);
-        public dynamic GetWalletHistory(int JyotishId);
+        
+        //public string AddWalletHistory(JyotishWalletHistoryViewmodel pr);
+        //public List<WalletHistoryModel> GetWalletHistory(int JyotishId);
     }
 }
