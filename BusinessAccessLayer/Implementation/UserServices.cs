@@ -466,36 +466,41 @@ namespace BusinessAccessLayer.Implementation
                     .ToList();
             return result;
         }
-        public List<ProblemSolutionGetAllViewModel> GetAllProblemSolution(int Id)
+        public List<ProblemSolutionGetAllViewModel> GetAllProblemSolution(int id)
         {
-            if (Id == 0)
+            if (id == 0)
             {
                 return null;
             }
 
             var data = _context.ProblemSolution
-                                .Include(x => x.Appointment)
-                                    .ThenInclude(x => x.UserRecord)
-                                .Include(x => x.Appointment)
-                                    .ThenInclude(x => x.JyotishRecord)
-                                .Where(x => x.Appointment.UserId == Id)  // Filter by UserId early in the query
-                                .AsEnumerable() // Switch to client-side evaluation
-                                .GroupBy(x => new { x.Appointment.UserId, x.Appointment.JyotishId, x.Appointment.Id }) // Group by UserId, JyotishId, and AppointmentId
-                                .Select(group => new ProblemSolutionGetAllViewModel
-                                {
-                                    Id = group.FirstOrDefault().Id,
-                                    JyotishId = group.Key.JyotishId,
-                                    JyotishName = group.FirstOrDefault().Appointment.JyotishRecord.Name,
-                                    JyotishEmail = group.FirstOrDefault().Appointment.JyotishRecord.Email,
-                                    UserId = group.Key.UserId,
-                                    AppointmentId = group.Key.Id, // Added AppointmentId
-                                    Date = group.FirstOrDefault().Appointment.Date, // Added Date
+                .Include(x => x.Appointment)
+                    .ThenInclude(x => x.UserRecord)
+                .Include(x => x.Appointment)
+                    .ThenInclude(x => x.JyotishRecord)
+                .Where(x => x.Appointment.UserId == id)
+                .AsEnumerable() // Switch to client-side evaluation for in-memory processing
+                .GroupBy(x => new { x.Appointment.UserId, x.Appointment.JyotishId, x.Appointment.Id })
+                .Select(group =>
+                {
+                    var first = group.FirstOrDefault();
+                    var slot = _context.AppointmentSlots.FirstOrDefault(s => s.Id == first.Appointment.SlotId);
 
-                                    // Split each Problem and Solution entry by "$%^" after switching to in-memory evaluation
-                                    Problem = group.SelectMany(p => p.Problem?.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries) ?? new string[0]).ToArray(),
-                                    Solution = group.SelectMany(p => p.Solution?.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries) ?? new string[0]).ToArray()
-                                })
-                                .ToList();
+                    return new ProblemSolutionGetAllViewModel
+                    {
+                        Id = first.Id,
+                        JyotishId = group.Key.JyotishId,
+                        JyotishName = first.Appointment.JyotishRecord.Name,
+                        JyotishEmail = first.Appointment.JyotishRecord.Email,
+                        UserId = group.Key.UserId,
+                        AppointmentId = group.Key.Id,
+                        Date = slot != null ? DateOnly.FromDateTime(slot.Date) : DateOnly.MinValue,
+                        Time = slot != null ? slot.TimeFrom : TimeOnly.MinValue,
+                        Problem = group.SelectMany(p => p.Problem?.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries) ?? Array.Empty<string>()).ToArray(),
+                        Solution = group.SelectMany(p => p.Solution?.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries) ?? Array.Empty<string>()).ToArray()
+                    };
+                })
+                .ToList();
 
             return data;
         }
@@ -503,39 +508,46 @@ namespace BusinessAccessLayer.Implementation
 
 
 
-        public ProblemSolutionGetAllViewModel GetProblemSolution(int Id)
+
+        public ProblemSolutionGetAllViewModel GetProblemSolution(int id)
         {
-            if (Id == 0)
+            if (id == 0)
             {
                 return null;
             }
 
             var result = _context.ProblemSolution
-                                 .Where(x => x.Id == Id)
-                                 .Include(ps => ps.Appointment)
-                                     .ThenInclude(a => a.UserRecord)
-                                 .Include(ps => ps.Appointment)
-                                     .ThenInclude(a => a.JyotishRecord)
-                                 .AsEnumerable() // Switch to in-memory evaluation for Split
-                                 .GroupBy(ps => new { ps.Appointment.UserId, ps.Appointment.JyotishId, ps.Appointment.Id }) // Group by UserId, JyotishId, and AppointmentId
-                                 .Select(group => new ProblemSolutionGetAllViewModel
-                                 {
-                                     Id = group.FirstOrDefault().Id,
-                                     UserId = group.Key.UserId,
-                                     JyotishId = group.Key.JyotishId,
-                                     JyotishName = group.FirstOrDefault().Appointment.JyotishRecord.Name,
-                                     JyotishEmail = group.FirstOrDefault().Appointment.JyotishRecord.Email,
-                                     AppointmentId = group.Key.Id, // Added AppointmentId
-                                     Date = group.FirstOrDefault().Appointment.Date, // Added Date
+                .Where(x => x.Id == id)
+                .Include(ps => ps.Appointment)
+                    .ThenInclude(a => a.UserRecord)
+                .Include(ps => ps.Appointment)
+                    .ThenInclude(a => a.JyotishRecord)
+                .AsEnumerable()
+                .GroupBy(ps => new { ps.Appointment.UserId, ps.Appointment.JyotishId, ps.Appointment.Id })
+                .Select(group =>
+                {
+                    var first = group.FirstOrDefault();
+                    var slot = _context.AppointmentSlots.FirstOrDefault(s => s.Id == first.Appointment.SlotId);
 
-                                     // Split each Problem and Solution entry by "$%^" after switching to in-memory evaluation
-                                     Problem = group.SelectMany(p => p.Problem?.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries) ?? new string[0]).ToArray(),
-                                     Solution = group.SelectMany(p => p.Solution?.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries) ?? new string[0]).ToArray()
-                                 })
-                                 .FirstOrDefault();
+                    return new ProblemSolutionGetAllViewModel
+                    {
+                        Id = first.Id,
+                        UserId = group.Key.UserId,
+                        JyotishId = group.Key.JyotishId,
+                        JyotishName = first.Appointment.JyotishRecord.Name,
+                        JyotishEmail = first.Appointment.JyotishRecord.Email,
+                        AppointmentId = group.Key.Id,
+                        Date = slot != null ? DateOnly.FromDateTime(slot.Date) : DateOnly.MinValue,
+                        Time = slot != null ? slot.TimeFrom : TimeOnly.MinValue,
+                        Problem = group.SelectMany(p => p.Problem?.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries) ?? Array.Empty<string>()).ToArray(),
+                        Solution = group.SelectMany(p => p.Solution?.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries) ?? Array.Empty<string>()).ToArray()
+                    };
+                })
+                .FirstOrDefault();
 
             return result;
         }
+
 
 
 
