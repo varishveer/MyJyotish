@@ -345,7 +345,7 @@ namespace MyJyotishGApi.Controllers
                          JId = jw.jyotishId,
                          amount=jw.WalletAmount,
                          PaymentAction="Credit",
-                         PaymentStatus="Success",
+                         PaymentStatus="success",
                          PaymentFor="Add to wallet"
                      };
                     var res= AddWalletHistory(js);
