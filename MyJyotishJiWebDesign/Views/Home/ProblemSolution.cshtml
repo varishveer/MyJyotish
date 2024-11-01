@@ -61,6 +61,7 @@
         $.ajax({
             url: appoinmentUrl,
             method: 'GET',
+
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("Token")}`,
                 'Content-Type': 'application/json',
