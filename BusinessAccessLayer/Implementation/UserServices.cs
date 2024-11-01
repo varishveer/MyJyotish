@@ -202,35 +202,7 @@ namespace BusinessAccessLayer.Implementation
             return RecordList;
         }
 
-        /* public List<JyotishModel> SearchAstrologer(string keyword)
-         {
-
-             var ignoredWords = new HashSet<string> { "best", "top", "in", "the", "a" };
-
-
-             var keywords = keyword.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
-                                   .Where(k => !ignoredWords.Contains(k.ToLower()))
-                                   .ToList();
-
-
-             var query = _context.JyotishRecords.Where(x => x.Role == "Jyotish");
-
-             foreach (var word in keywords)
-             {
-                 query = query.Where(record => record.Name.Contains(word) ||
-                                               record.Expertise.Contains(word) ||
-                                               record.Language.Contains(word) ||
-                                               record.Specialization.Contains(word) ||
-                                               record.Pooja.Contains(word) ||
-                                               record.City.Contains(word) ||
-                                               record.State.Contains(word) ||
-                                               record.Country.Contains(word));
-             }
-
-
-             return query.ToList();
-         }*/
-
+        
 
 
 
@@ -495,76 +467,67 @@ namespace BusinessAccessLayer.Implementation
             return result;
         }
 
-        /*        public List<ProblemSolutionGetAllViewModel> GetAllProblemSolution(int Id)
-                {
-                    if (Id == 0)
-                    {
-                        return null;
-                    }
+        public List<ProblemSolutionGetAllViewModel> GetAllProblemSolution(int Id)
+        {
+            if (Id == 0)
+            {
+                return null;
+            }
 
+            var data = _context.ProblemSolution
+                                .Include(x => x.Appointment)
+                                    .ThenInclude(x => x.UserRecord)
+                                .Include(x => x.Appointment)
+                                    .ThenInclude(x => x.JyotishRecord)
+                                .Where(x => x.Appointment.UserId == Id)  // Filter by UserId early in the query
+                                .GroupBy(x => new { x.Appointment.UserId, x.Appointment.JyotishId })
+                                .Select(group => new ProblemSolutionGetAllViewModel
+                                {
+                                    Id = group.FirstOrDefault().Id,
+                                    JyotishId = group.Key.JyotishId,
+                                    JyotishName = group.FirstOrDefault().Appointment.JyotishRecord.Name,
+                                    JyotishEmail = group.FirstOrDefault().Appointment.JyotishRecord.Email,
+                                    UserId = group.Key.UserId,
 
-                    var Data = _context.ProblemSolution
-                                        .Where(x => x.UserId == Id)
-                                        .Select(x => new ProblemSolutionGetAllViewModel
-                                        {
-                                            Id = x.Id,
-                                            JyotishId = x.JyotishId,
-                                            AppointmentId = x.AppointmentId,
-                                            Date = x.Date,
-                                            Time = x.Time,
-                                            Problem1 = x.Problem1,
-                                            Solution1 = x.Solution1,
-                                            Problem2 = x.Problem2,
-                                            Solution2 = x.Solution2,
-                                            Problem3 = x.Problem3,
-                                            Solution3 = x.Solution3,
-                                            Image1 = x.Image1,
-                                            Image2 = x.Image2,
-                                            Image3 = x.Image3,
+                                    // Split each Problem and Solution entry by "$%^" and flatten into an array
+                                    Problem = group.SelectMany(p => p.Problem.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries)).ToArray(),
+                                    Solution = group.SelectMany(p => p.Solution.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries)).ToArray()
+                                })
+                                .ToList();
 
-                                            Name = _context.JyotishRecords.Where(u => u.Id == x.JyotishId).Select(u => u.Name).FirstOrDefault(),
-                                            Email = _context.JyotishRecords.Where(u => u.Id == x.JyotishId).Select(u => u.Email).FirstOrDefault()
-                                        })
-                                        .ToList();
-
-                    return Data;
-                }
+            return data;
+        }
 
 
 
-                public ProblemSolutionGetAllViewModel GetProblemSolution(int Id)
-                {
-                    if (Id == 0)
-                    {
-                        return null;
-                    }
+        public ProblemSolutionGetAllViewModel GetProblemSolution(int Id)
+              {
+                  if (Id == 0)
+                  {
+                      return null;
+                  }
 
 
-                    var Data = _context.ProblemSolution
-                                        .Where(x => x.Id == Id)
-                                        .Select(x => new ProblemSolutionGetAllViewModel
-                                        {
-                                            Id = x.Id,
-                                            JyotishId = x.JyotishId,
-                                            AppointmentId = x.AppointmentId,
-                                            Date = x.Date,
-                                            Time = x.Time,
-                                            Problem1 = x.Problem1,
-                                            Solution1 = x.Solution1,
-                                            Problem2 = x.Problem2,
-                                            Solution2 = x.Solution2,
-                                            Problem3 = x.Problem3,
-                                            Solution3 = x.Solution3,
-                                            Image1 = x.Image1,
-                                            Image2 = x.Image2,
-                                            Image3 = x.Image3,
-
-                                            Name = _context.JyotishRecords.Where(u => u.Id == x.JyotishId).Select(u => u.Name).FirstOrDefault(),
-                                            Email = _context.JyotishRecords.Where(u => u.Id == x.JyotishId).Select(u => u.Email).FirstOrDefault()
-                                        })
-                                        .FirstOrDefault();
-
-                    return Data;
-                }*/
+                        var result = _context.ProblemSolution.Where(x => x.Id == Id)
+                  .Include(ps => ps.Appointment)
+                      .ThenInclude(a => a.UserRecord)
+                  .Include(ps => ps.Appointment)
+                      .ThenInclude(a => a.JyotishRecord)
+                  .GroupBy(ps => new { ps.Appointment.UserId, ps.Appointment.JyotishId })
+                  .Select(group => new ProblemSolutionGetAllViewModel
+                  {
+                      Id = group.FirstOrDefault().Id,
+                      UserId = group.Key.UserId,
+                     
+                     
+                      JyotishId = group.Key.JyotishId,
+                      JyotishName = group.FirstOrDefault().Appointment.JyotishRecord.Name,
+                      JyotishEmail = group.FirstOrDefault().Appointment.JyotishRecord.Email,
+                      Problem = group.SelectMany(p => p.Problem.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries)).ToArray(),
+                      Solution = group.SelectMany(p => p.Solution.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries)).ToArray()
+                  }).FirstOrDefault();
+          
+            return result;
+              }
     }
 }

@@ -13,6 +13,7 @@ using System.Net;
 using System.Reflection.Metadata;
 using DataAccessLayer.Migrations;
 using System.Xml.Linq;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace BusinessAccessLayer.Implementation
@@ -722,94 +723,7 @@ namespace BusinessAccessLayer.Implementation
             }
         }
 
-      /*  public string ApproveDocument(DocUpdateViewModel model)
-        {
-            var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
-
-            if (Jyotish == null) { return "Jyotish Not Found"; }
-            var Records = _context.Documents.Where(x => x.JId == Jyotish.Id).FirstOrDefault();
-            if (Records == null) { return "Docs Not Found"; }
-
-            
-
-            switch (model.ImageStatus)
-            {
-                case "IdProofStatus":
-                    Records.IdProofStatus = "Verified";
-                    break;
-                case "AddressProofStatus":
-                    Records.AddressProofStatus = "Verified";
-                    break;
-                case "ProfessionalCertificateStatus":
-                    Records.ProfessionalCertificateStatus = "Verified";
-                    break;
-                case "TenthCertificateStatus":
-                    Records.TenthCertificateStatus = "Verified";
-                    break;
-                case "TwelveCertificateStatus":
-                    Records.TwelveCertificateStatus = "Verified";
-                    break;
-                default:
-                    return "Invalid ImageStatus";
-                    break;
-            }
-
-            _context.Documents.Update(Records);
-            var Result = _context.SaveChanges();
-            if(Result > 0 )
-            {
-                string message = @$"{model.ImageStatus} is Approved";
-                string subject = "Docs Approved";
-                AccountServices.SendEmail(message, Jyotish.Email, subject);
-                return "Successful"; }
-            else
-            { return "Data Not Saved"; }
-        }
-
-
-        public string RejectDocument(DocUpdateViewModel model)
-        {
-            var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
-
-            if (Jyotish == null) { return "Jyotish Not Found"; }
-            var Records = _context.Documents.Where(x => x.JId == Jyotish.Id).FirstOrDefault();
-            if (Records == null) { return "Docs Not Found"; }
-
-
-
-            switch (model.ImageStatus)
-            {
-                case "IdProofStatus":
-                    Records.IdProofStatus = "Reject";
-                    break;
-                case "AddressProofStatus":
-                    Records.AddressProofStatus = "Reject";
-                    break;
-                case "ProfessionalCertificateStatus":
-                    Records.ProfessionalCertificateStatus = "Reject";
-                    break;
-                case "TenthCertificateStatus":
-                    Records.TenthCertificateStatus = "Reject";
-                    break;
-                case "TwelveCertificateStatus":
-                    Records.TwelveCertificateStatus = "Reject";
-                    break;
-                default:
-                    return "Invalid ImageStatus";
-                    break;
-            }
-
-            _context.Documents.Update(Records);
-            var Result = _context.SaveChanges();
-            if (Result > 0)
-            {
-                string message = @$"{model.ImageStatus} is Rejected";
-                string subject = "Docs Rejected";
-                AccountServices.SendEmail(message, Jyotish.Email, subject);
-                return "Successful"; }
-            else
-            { return "Data Not Saved"; }
-        }*/
+      
 
       public string AddFeature(SubscriptionFeaturesModel model)
         {
@@ -1069,70 +983,56 @@ namespace BusinessAccessLayer.Implementation
             else { return null; }
         }
 
-/*        public List<ProblemSolutionAdminViewModel> GetAllProblemSolution()
+        public List<ProblemSolutionAdminViewModel> GetAllProblemSolution()
         {
-            var Data = _context.ProblemSolution.Select(x => new ProblemSolutionAdminViewModel
-                                                {
-                                                    Id = x.Id,
-                                   
-                                                    AppointmentId = x.AppointmentId,
-                                                    Date = x.Date,
-                                                    Time = x.Time,
-                                                    Problem1 = x.Problem1,
-                                                    Solution1 = x.Solution1,
-                                                    Problem2 = x.Problem2,
-                                                    Solution2 = x.Solution2,
-                                                    Problem3 = x.Problem3,
-                                                    Solution3 = x.Solution3,
-                                                    Image1 = x.Image1,
-                                                    Image2 = x.Image2,
-                                                    Image3 = x.Image3,
+           
+            var result =  _context.ProblemSolution
+                .Include(ps => ps.Appointment)
+                    .ThenInclude(a => a.UserRecord)
+                .Include(ps => ps.Appointment)
+                    .ThenInclude(a => a.JyotishRecord)
+                .GroupBy(ps => new { ps.Appointment.UserId, ps.Appointment.JyotishId })
+                .Select(group => new ProblemSolutionAdminViewModel
+                {
+                    Id = group.FirstOrDefault().Id,
+                    UserId = group.Key.UserId,
+                    UserName = group.FirstOrDefault().Appointment.UserRecord.Name,
+                    UserEmail = group.FirstOrDefault().Appointment.UserRecord.Email,
+                    JyotishId = group.Key.JyotishId,
+                    JyotishName = group.FirstOrDefault().Appointment.JyotishRecord.Name,
+                    JyotishEmail = group.FirstOrDefault().Appointment.JyotishRecord.Email,
+                    Problem = group.SelectMany(p => p.Problem.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries)).ToArray(),
+                    Solution = group.SelectMany(p => p.Solution.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries)).ToArray()
+                })
+                .ToList();
 
-                                                    JyotishId = x.JyotishId,
-                                                    JyotishName = _context.JyotishRecords.Where(u => u.Id == x.JyotishId).Select(u => u.Name).FirstOrDefault(),
-                                                    JyotishEmail = _context.JyotishRecords.Where(u => u.Id == x.JyotishId).Select(u => u.Email).FirstOrDefault(),
-                                                    UserId =x.UserId,
-                                                    UserName = _context.Users.Where(u => u.Id == x.UserId).Select(u => u.Name).FirstOrDefault(),
-                                                    UserEmail = _context.Users.Where(u=>u.Id == x.UserId).Select(u => u.Email).FirstOrDefault(),
-
-                                                })
-                                                .ToList();
-
-            return Data;
+            return result;
         }
 
         public ProblemSolutionAdminViewModel GetProblemSolution(int Id)
         {
-            var Data = _context.ProblemSolution.Where(x=>x.Id == Id).Select(x => new ProblemSolutionAdminViewModel
-            {
-                Id = x.Id,
+            var result = _context.ProblemSolution.Where(x => x.Id == Id)
+             .Include(ps => ps.Appointment)
+                 .ThenInclude(a => a.UserRecord)
+             .Include(ps => ps.Appointment)
+                 .ThenInclude(a => a.JyotishRecord)
+             .GroupBy(ps => new { ps.Appointment.UserId, ps.Appointment.JyotishId })
+             .Select(group => new ProblemSolutionAdminViewModel
+             {
+                 Id = group.FirstOrDefault().Id,
+                 UserId = group.Key.UserId,
+                 UserName = group.FirstOrDefault().Appointment.UserRecord.Name,
+                 UserEmail = group.FirstOrDefault().Appointment.UserRecord.Email,
+                 JyotishId = group.Key.JyotishId,
+                 JyotishName = group.FirstOrDefault().Appointment.JyotishRecord.Name,
+                 JyotishEmail = group.FirstOrDefault().Appointment.JyotishRecord.Email,
+                 Problem = group.SelectMany(p => p.Problem.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries)).ToArray(),
+                 Solution = group.SelectMany(p => p.Solution.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries)).ToArray()
+             }).FirstOrDefault();
 
-                AppointmentId = x.AppointmentId,
-                Date = x.Date,
-                Time = x.Time,
-                Problem1 = x.Problem1,
-                Solution1 = x.Solution1,
-                Problem2 = x.Problem2,
-                Solution2 = x.Solution2,
-                Problem3 = x.Problem3,
-                Solution3 = x.Solution3,
-                Image1 = x.Image1,
-                Image2 = x.Image2,
-                Image3 = x.Image3,
+            return result;
 
-                JyotishId = x.JyotishId,
-                JyotishName = _context.JyotishRecords.Where(u => u.Id == x.JyotishId).Select(u => u.Name).FirstOrDefault(),
-                JyotishEmail = _context.JyotishRecords.Where(u => u.Id == x.JyotishId).Select(u => u.Email).FirstOrDefault(),
-                UserId = x.UserId,
-                UserName = _context.Users.Where(u => u.Id == x.UserId).Select(u => u.Name).FirstOrDefault(),
-                UserEmail = _context.Users.Where(u => u.Id == x.UserId).Select(u => u.Email).FirstOrDefault(),
-
-            })
-                                                .FirstOrDefault();
-
-            return Data;
-
-        }*/
+        }
 
     }
 }
