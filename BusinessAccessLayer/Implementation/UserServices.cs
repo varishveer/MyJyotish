@@ -480,6 +480,7 @@ namespace BusinessAccessLayer.Implementation
                                 .Include(x => x.Appointment)
                                     .ThenInclude(x => x.JyotishRecord)
                                 .Where(x => x.Appointment.UserId == Id)  // Filter by UserId early in the query
+                                .AsEnumerable() // Switch to client-side evaluation
                                 .GroupBy(x => new { x.Appointment.UserId, x.Appointment.JyotishId })
                                 .Select(group => new ProblemSolutionGetAllViewModel
                                 {
@@ -489,9 +490,9 @@ namespace BusinessAccessLayer.Implementation
                                     JyotishEmail = group.FirstOrDefault().Appointment.JyotishRecord.Email,
                                     UserId = group.Key.UserId,
 
-                                    // Split each Problem and Solution entry by "$%^" and flatten into an array
-                                    Problem = group.SelectMany(p => p.Problem.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries)).ToArray(),
-                                    Solution = group.SelectMany(p => p.Solution.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries)).ToArray()
+                                    // Split each Problem and Solution entry by "$%^" after switching to in-memory evaluation
+                                    Problem = group.SelectMany(p => p.Problem?.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries) ?? new string[0]).ToArray(),
+                                    Solution = group.SelectMany(p => p.Solution?.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries) ?? new string[0]).ToArray()
                                 })
                                 .ToList();
 
@@ -501,33 +502,36 @@ namespace BusinessAccessLayer.Implementation
 
 
         public ProblemSolutionGetAllViewModel GetProblemSolution(int Id)
-              {
-                  if (Id == 0)
-                  {
-                      return null;
-                  }
+        {
+            if (Id == 0)
+            {
+                return null;
+            }
 
+            var result = _context.ProblemSolution
+                                 .Where(x => x.Id == Id)
+                                 .Include(ps => ps.Appointment)
+                                     .ThenInclude(a => a.UserRecord)
+                                 .Include(ps => ps.Appointment)
+                                     .ThenInclude(a => a.JyotishRecord)
+                                 .AsEnumerable() // Switch to in-memory evaluation
+                                 .GroupBy(ps => new { ps.Appointment.UserId, ps.Appointment.JyotishId })
+                                 .Select(group => new ProblemSolutionGetAllViewModel
+                                 {
+                                     Id = group.FirstOrDefault().Id,
+                                     UserId = group.Key.UserId,
+                                     JyotishId = group.Key.JyotishId,
+                                     JyotishName = group.FirstOrDefault().Appointment.JyotishRecord.Name,
+                                     JyotishEmail = group.FirstOrDefault().Appointment.JyotishRecord.Email,
 
-                        var result = _context.ProblemSolution.Where(x => x.Id == Id)
-                  .Include(ps => ps.Appointment)
-                      .ThenInclude(a => a.UserRecord)
-                  .Include(ps => ps.Appointment)
-                      .ThenInclude(a => a.JyotishRecord)
-                  .GroupBy(ps => new { ps.Appointment.UserId, ps.Appointment.JyotishId })
-                  .Select(group => new ProblemSolutionGetAllViewModel
-                  {
-                      Id = group.FirstOrDefault().Id,
-                      UserId = group.Key.UserId,
-                     
-                     
-                      JyotishId = group.Key.JyotishId,
-                      JyotishName = group.FirstOrDefault().Appointment.JyotishRecord.Name,
-                      JyotishEmail = group.FirstOrDefault().Appointment.JyotishRecord.Email,
-                      Problem = group.SelectMany(p => p.Problem.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries)).ToArray(),
-                      Solution = group.SelectMany(p => p.Solution.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries)).ToArray()
-                  }).FirstOrDefault();
-          
+                                     // Split each Problem and Solution entry by "$%^" after switching to in-memory evaluation
+                                     Problem = group.SelectMany(p => p.Problem?.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries) ?? new string[0]).ToArray(),
+                                     Solution = group.SelectMany(p => p.Solution?.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries) ?? new string[0]).ToArray()
+                                 })
+                                 .FirstOrDefault();
+
             return result;
-              }
+        }
+
     }
 }
