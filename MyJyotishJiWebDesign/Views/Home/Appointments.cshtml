@@ -49,6 +49,10 @@
     $.ajax({
         url: appoinmentUrl,
         method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                'Content-Type': 'application/json'
+            },
         success: function (response) {
                 var data = response.data;
              appoinmentArray = data;

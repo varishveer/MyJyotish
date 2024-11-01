@@ -23,6 +23,8 @@
         }
     #astrologers-container div {
         min-height: 140px;
+min-width:200px;
+
     }
     #astrologers-container::-webkit-scrollbar{
         height:5px;
@@ -35,6 +37,7 @@
     #astrologers-container::-webkit-scrollbar-track{
         background: #fcdfb6;
     }
+      
 </style>
 
 
@@ -115,7 +118,7 @@
         <h3 class="text-center mb-5">Top Astrologers</h3>
         <div  class="row">
           <div class="col-sm-12">
-                <div class="row flex-nowrap justify-content-between overflow-auto" id="astrologers-container"></div>
+                <div class="row flex-nowrap gap-3 justify-content-between overflow-auto" id="astrologers-container"></div>
           </div>
         </div>
     </div>
@@ -585,13 +588,13 @@ $(document).ready(function () {
                     if (response.status === 200) {
                         const records = response.data.slice(0, 5); 
                         records.forEach(function (astrologer) {
-                            var src =BaseUrl     + `${astrologer.profileImageUrl}`;
+                            var src =BaseUrl + `${astrologer.profileImageUrl!=null && astrologer.profileImageUrl!=""?astrologer.profileImageUrl:"user-not-found.png"}`;
                             $('#astrologers-container').append(`
                                
-                                     <div class="col-sm-3 col-md-3 col-lg-3 mb-2 p-2">
+                                     <div class="col-sm-2 col-md-2 col-lg-2 mb-2 p-2">
                                         <div class="card astrologer-card shadow">
                                              <a class='text-secondary text-decoration-none' href= "/Home/JyotishProfile?Id=${astrologer.id}">
-                                                <img src=  "${src}" class="card-img-top p-3 rounded" alt="${astrologer.name}">
+                                                <img height="160" width="150" src="${src}" class="card-img-top p-2 px-5 rounded" alt="${astrologer.name}">
                                                 <div class="card-body p-0 pt-2">
                                                     <h6 class="card-title text-center">${astrologer.name} - ${astrologer.city}</h6>
                                                         <p class='text-center text-warning' >${generateFullStars()}</p>

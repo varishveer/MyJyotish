@@ -68,7 +68,7 @@
                             <button type="button" id="achBtn" class="btn ">Achievement</button>
                         </div>
                         <p id="aboutMe" class="text-justify" style="font-size: 14px;"></p>
-                        <p id="specialization" class="text-justify" style="font-size: 14px;"></p>
+                        <p id="specialization" class="text-justify mt-3" style="font-size: 14px;"></p>
                         <p id="achievement" class="text-justify" style="font-size: 14px;"></p>
                     </div>
 
@@ -103,7 +103,7 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal z-5 fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
@@ -154,7 +154,17 @@
                     $('#bookAAppointment').attr('href', "/Home/JyotishProfile?Id=" + `${data.id}`);
                     // Update About Section
                     $('#aboutMe').text(data.about !=null ?data.about:"About us not added yet!");
-                    $('#specialization').text(data.specialization != null ? data.specialization : "Specialization not added yet!");
+                  if(data.specialization != null){
+                  
+                  data.specialization.toString().split(',').forEach((e)=>{
+                            $('#specialization').append(`<small class='px-3 py-2 border rounded-3'>${e}</small> &nbsp;`);
+
+                  })
+                  }  else{
+
+                    $('#specialization').text("Specialization not added yet!");
+                  }
+
                     $('#achievement').text(data.awordsAndAchievement != null ? data.awordsAndAchievement : "Achievement not added yet!");
                     $('#specialization').hide();
                     $('#achievement').hide();
@@ -264,6 +274,10 @@ $(".callBtn").hide()
         $.ajax({
             url: appoinmentUrl,
             method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                'Content-Type': 'application/json'
+            },
             success: function (response) {
                 $("#problem").hide()
                 $("#prev-btn").hide()
@@ -342,6 +356,7 @@ $(".callBtn").hide()
                 }else{
                 $("#problem").show()
                 $("#prev-btn").show()
+                    $("#appoinmentDate").attr("disabled",true)
                 $("#appoinmentDetail").hide()
 $(this).text("Book");
                 }
@@ -350,6 +365,7 @@ $(this).text("Book");
             $("#prev-btn").click(function(){
                 $("#problem").hide()
                 $("#prev-btn").hide()
+                $("#appoinmentDate").attr("disabled", false)
                 $("#appoinmentDetail").show()
 $("#next-btn").text("Next");
             });
@@ -385,8 +401,11 @@ var bookAppoinmentUrl = BaseUrl + `api/User/bookAppointment`;
                  $.ajax({
     url: bookAppoinmentUrl,
     method: 'POST',
-    contentType: 'application/json',  
-    data: JSON.stringify({
+                            headers: {
+                                'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                                'Content-Type': 'application/json'
+                            },
+                            data: JSON.stringify({
         userId: userId,
         jyotishId: jyotishId,
         slotId: slotId,
@@ -436,6 +455,30 @@ $("#next-btn").text("Next");
     function selectSlots() {
         $("#next-btn").attr("disabled", false)
     }
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#exampleModal').on('shown.bs.modal', function () {
+            const tooltipTriggerList = document.querySelector('[data-bs-toggle="tooltip1"]')
+            const tooltip = bootstrap.Tooltip.getOrCreateInstance(tooltipTriggerList)
+            const tooltipTriggerList1 = document.querySelector('[data-bs-toggle="tooltip2"]')
+            const tooltip1 = bootstrap.Tooltip.getOrCreateInstance(tooltipTriggerList1)
+            tooltip.hide()
+            tooltip1.hide()
+        });
+
+        $('#exampleModal').on('hidden.bs.modal', function () {
+            const tooltipTriggerList = document.querySelector('[data-bs-toggle="tooltip1"]')
+            const tooltip = bootstrap.Tooltip.getOrCreateInstance(tooltipTriggerList)
+            const tooltipTriggerList1 = document.querySelector('[data-bs-toggle="tooltip2"]')
+            const tooltip1 = bootstrap.Tooltip.getOrCreateInstance(tooltipTriggerList1)
+            tooltip.show()
+            tooltip1.show()
+            $("#appoinmentDetail").text("")
+
+        });
+    });
 </script>
 
 
