@@ -24,6 +24,9 @@
         <div class="d-flex flex-row justify-content-between align-items-center pt-2 px-4">
             <h6 class="text-primary">Problem's Solution'</h6>
             <div id="buttonContainer1"></div>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#dynamicModal">
+                Open Add Form
+            </button>
         </div>
         <hr />
 
@@ -94,5 +97,183 @@
         
 
         fetchData(); // Initial data fetch
+    });
+</script>
+
+
+
+<!-- Modal Structure -->
+<div class="modal fade" id="dynamicModal" tabindex="-1" aria-labelledby="dynamicModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="dynamicModalLabel">Add Form</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="modalForm">
+                <div class="modal-body">
+                    <!-- Search Box and Results List -->
+                    <div class="mb-3">
+                        <label for="searchBox" class="form-label">Search</label>
+                        <input type="text" id="searchBox" class="form-control" placeholder="Type to search..." />
+                        <ul id="resultsList" class="list-group mt-2">
+                            <!-- Search results will be displayed here dynamically -->
+                        </ul>
+                    </div>
+
+                    <!-- Problem Section with Add More Feature -->
+                    <div id="problemSection" class="mb-3" style="max-height: 300px; overflow-y: auto;">
+                        <!-- Added scrolling -->
+                        <label class="form-label">Problem</label>
+                        <div class="input-group mb-2">
+                            <textarea class="form-control" name="problem[]" placeholder="Enter problem"></textarea>
+                            <button type="button" class="btn btn-outline-secondary add-more-problem">Add More</button>
+                        </div>
+                    </div>
+
+                    <!-- Solution Section with Add More Feature -->
+                    <div id="solutionSection" class="mb-3" style="max-height: 300px; overflow-y: auto;">
+                        <!-- Added scrolling -->
+                        <label class="form-label">Solution</label>
+                        <div class="input-group mb-2">
+                            <textarea class="form-control" name="solution[]" placeholder="Enter solution"></textarea>
+                            <button type="button" class="btn btn-outline-secondary add-more-solution">Add More</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="submitForm" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        let allData = [];  // Store filtered data
+
+        // Load the data when the modal opens
+        $('#dynamicModal').on('show.bs.modal', function () {
+            loadData();
+        });
+
+        // Load data from API and filter by date
+        function loadData() {
+            $.ajax({
+                url: BaseUrl + `Api/Jyotish/GetAllAppointment?id=${localStorage.getItem("Id")}`,
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+                },
+                success: function (response) {
+                    const yesterday = new Date();
+                    yesterday.setDate(yesterday.getDate() - 1);
+
+                    // Access the data array from the response
+                    const items = response.data || [];
+
+                    // Filter data to show only dates greater than yesterday
+                    allData = items.filter(item => new Date(item.date) > yesterday);
+                },
+                error: function (error) {
+                    console.error("Error fetching data:", error);
+                }
+            });
+        }
+
+        // Display search results in list
+        function displayResults(results) {
+            const resultsList = $('#resultsList');
+            resultsList.empty();
+
+            results.forEach(item => {
+                resultsList.append(`
+                        <li class="list-group-item" data-id="${item.id}">
+                            ${item.userName} - ${item.date}
+                        </li>
+                    `);
+            });
+
+            // Enable item selection and hide all items except the selected one
+            $('#resultsList li').click(function () {
+                $('#resultsList li').removeClass('active');
+                $(this).addClass('active');
+
+                // Hide all items except the active one
+                $('#resultsList li').not('.active').hide();
+            });
+        }
+
+        // Perform live search on keyup
+        $('#searchBox').on('keyup', function () {
+            const searchTerm = $(this).val().toLowerCase();
+
+            if (searchTerm.length >= 1) {
+                const filteredResults = allData.filter(item => item.userName.toLowerCase().includes(searchTerm));
+                displayResults(filteredResults);
+            } else {
+                $('#resultsList').empty();  // Clear list if search term is empty
+            }
+        });
+
+        // Add More functionality for Problem and Solution sections
+        $('.add-more-problem').click(function () {
+            $('#problemSection').append(`
+                    <div class="input-group mb-2">
+                        <textarea class="form-control" name="problem[]" placeholder="Enter problem"></textarea>
+                        <button type="button" class="btn btn-outline-danger remove-problem">Remove</button>
+                    </div>
+                `);
+        });
+
+        $('.add-more-solution').click(function () {
+            $('#solutionSection').append(`
+                    <div class="input-group mb-2">
+                        <textarea class="form-control" name="solution[]" placeholder="Enter solution"></textarea>
+                        <button type="button" class="btn btn-outline-danger remove-solution">Remove</button>
+                    </div>
+                `);
+        });
+
+        // Remove button functionality
+        $(document).on('click', '.remove-problem', function () {
+            $(this).parent().remove();
+        });
+
+        $(document).on('click', '.remove-solution', function () {
+            $(this).parent().remove();
+        });
+
+        // Form submission with AJAX
+        $('#submitForm').click(function () {
+            // Get selected item ID from the active list item
+            let selectedId = $('#resultsList li.active').data('id');
+
+            let formData = {
+                appointmentId: selectedId,  // Get selected item ID
+                problems: $('textarea[name="problem[]"]').map(function () { return $(this).val(); }).get(),
+                solutions: $('textarea[name="solution[]"]').map(function () { return $(this).val(); }).get()
+            };
+
+            $.ajax({
+                url: BaseUrl + 'Api/Jyotish/AddProblemSolution',
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+                },
+                contentType: 'application/json',
+                data: JSON.stringify(formData),
+                success: function (response) {
+                    alert('Data submitted successfully!');
+                    $('#dynamicModal').modal('hide');
+                },
+                error: function (error) {
+                    alert('Error submitting data!');
+                }
+            });
+        });
     });
 </script>
