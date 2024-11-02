@@ -284,8 +284,68 @@ namespace MyJyotishGApi.Controllers
             try
             {
                 var Result = _services.AddUserWallets(uv);
+                if(Result == "Successful")
+                 {
+                    WalletHistoryViewmodel js = new WalletHistoryViewmodel
+                    {
+                        UId = uv.userId,
+                        amount = uv.WalletAmount,
+                        PaymentAction = "Credit",
+                        PaymentStatus = "success",
+                        PaymentFor = "Add to wallet"
+                    };
+                    var res = _services.AddWalletHistory(js);
+                    
+                        return Ok(new { Status = 200, Message = "Successful" });
+                   
+                }
+                 else
+                {
+
+                    return Ok(new { Status = 404, Message = "Some error occured" });
+                }
+            }
+            catch (Exception ex)
+            { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+        }
+        [HttpGet("GetWallet")]
+        public IActionResult GetWallet(int UserId)
+        {
+            try
+            {
+                var Result = _services.GetWallet(UserId);
+                if (Result != null)
+                { return Ok(new { Status = 200, Data = Result }); }
+                else
+                { return Ok(new { Status = 404, Message = "Some error occured" }); }
+            }
+            catch (Exception ex)
+            { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+        }
+        //wallet histroy
+        [HttpPost("AddWalletHistory")]
+        public IActionResult AddWalletHistory(WalletHistoryViewmodel jw)
+        {
+            try
+            {
+                var Result = _services.AddWalletHistory(jw);
                 if (Result == "Successful")
-                { return Ok(new { Status = 200, Data = Result, Message = "Successful" }); }
+                { return Ok(new { Status = 200, Message = "Successful" }); }
+                else
+                { return Ok(new { Status = 404, Message = "Some error occured" }); }
+            }
+            catch (Exception ex)
+            { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+        }
+
+        [HttpGet("GetWalletHistroy")]
+        public IActionResult GetWallethistory(int UserId)
+        {
+            try
+            {
+                var Result = _services.GetWalletHistory(UserId);
+                if (Result != null)
+                { return Ok(new { Status = 200, Data = Result }); }
                 else
                 { return Ok(new { Status = 404, Message = "Some error occured" }); }
             }

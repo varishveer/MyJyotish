@@ -643,7 +643,8 @@ namespace BusinessAccessLayer.Implementation
                               paymentAction=wallet.PaymentAction,
                               profile= wallet.UId != null ? user.ProfilePictureUrl : null,
                               paymentFor=wallet.PaymentFor,
-                              paymentStatus=wallet.PaymentStatus
+                              paymentStatus=wallet.PaymentStatus,
+                              Id=wallet.Id
                           }
                           
                           );

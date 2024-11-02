@@ -419,7 +419,7 @@ namespace BusinessAccessLayer.Implementation
         {
             var User = _context.Users.Where(x => x.Id == Id).FirstOrDefault();
             if(User == null) { return null; }
-            var record = _context.UserPaymentRecord.Where(x => x.UserId == Id).ToList();
+            var record = _context.UserPaymentRecord.Where(x => x.UserId == Id).OrderBy(e=>e.Id).Reverse().ToList();
             if (record.Count > 0) { return record; }
             else { return null; }
         }
@@ -433,17 +433,95 @@ namespace BusinessAccessLayer.Implementation
 
         public string AddUserWallets(UserWalletViewmodel uw)
         {
-            var Jyotish = _context.Users.Where(x => x.Id == uw.userId).FirstOrDefault();
-            if (Jyotish == null) { return null; }
-            UserWallet user = new UserWallet
+            var users = _context.Users.Where(x => x.Id == uw.userId).FirstOrDefault();
+            if (users == null) { return null; }
+            var Userwallet = _context.UserWallets.Where(x => x.userId == uw.userId).FirstOrDefault();
+            
+            if (Userwallet == null)
             {
-                userId = uw.userId,
-                WalletAmount = uw.WalletAmount,
-                status = 1
+                UserWallet user = new UserWallet
+                {
+                    userId = uw.userId,
+                    WalletAmount = uw.WalletAmount,
+                    status = 1
+                };
+                _context.UserWallets.Add(user);
+                if (_context.SaveChanges() > 0) { return "Successful"; }
+                else { return "Data Not Saved"; }
+            }
+            else
+            {
+                Userwallet.WalletAmount += uw.WalletAmount;
+                _context.UserWallets.Update(Userwallet);
+                if (_context.SaveChanges() > 0) { return "Successful"; }
+                else { return "Data Not Saved"; }
+            }
+           
+        }
+        public long GetWallet(int UserId)
+        {
+            var Jyotish = _context.UserWallets.Where(x => x.userId == UserId).FirstOrDefault();
+            if (Jyotish == null) { return 0; }
+            else
+            {
+                return Jyotish.WalletAmount;
+            }
+        }
+        //wallet history
+        public string AddWalletHistory(WalletHistoryViewmodel pr)
+        {
+            var Jyotish = _context.Users.Where(x => x.Id == pr.UId).FirstOrDefault();
+            if (Jyotish == null) { return null; }
+            Random rnd = new Random();
+            var rndnum = rnd.Next(100, 999);
+            var paymentId = Jyotish.Name + DateTime.Now.ToString("ddMMyyyyhhmmss") + pr.UId + rndnum;
+            var paymentUnqId = _context.WalletHistroy.Where(x => x.PaymentId == paymentId).FirstOrDefault();
+            if (paymentUnqId != null)
+            {
+                paymentId = paymentId + rndnum;
+            }
+            WalletHistoryModel jw = new WalletHistoryModel
+            {
+                JId = pr.JId != 0 ? pr.JId : null,
+                amount = pr.amount,
+                PaymentStatus = pr.PaymentStatus,
+                PaymentAction = pr.PaymentAction,
+                date = DateTime.Now.ToString("dd-MM-yyyy hh:mm:ss"),
+                PaymentId = paymentId,
+                status = 1,
+                PaymentBy = "user",
+                PaymentFor = pr.PaymentFor,
+                UId =pr.UId
             };
-            _context.UserWallets.Add(user);
+            _context.WalletHistroy.Add(jw);
             if (_context.SaveChanges() > 0) { return "Successful"; }
             else { return "Data Not Saved"; }
+
+        }
+        public dynamic GetWalletHistory(int UserId)
+        {
+            var Jyotish = (from wallet in _context.WalletHistroy
+                           join jyotish in _context.JyotishRecords on wallet.JId equals jyotish.Id into jyotishGroup
+                           from jyotish in jyotishGroup.DefaultIfEmpty()
+                           where wallet.UId == UserId
+                           orderby wallet.Id descending
+                           select new
+                           {
+                               UserName = wallet.JId != null ? jyotish.Name : null,
+                               paymentDate = wallet.date,
+                               amount = wallet.amount,
+                               paymentId = wallet.PaymentId,
+                               paymentBy = wallet.PaymentBy,
+                               paymentAction = wallet.PaymentAction,
+                               profile = wallet.JId != null ? jyotish.ProfileImageUrl : null,
+                               paymentFor = wallet.PaymentFor,
+                               paymentStatus = wallet.PaymentStatus,
+                               Id = wallet.Id
+                           }
+
+                          );
+
+            return Jyotish;
         }
 
         public List<AppointmentSlotUserViewModel> GetAllAppointmentSlot(int id) 
