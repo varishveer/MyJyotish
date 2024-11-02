@@ -332,8 +332,8 @@
 
                     // Handle logout
                     document.getElementById('logoutBtn').addEventListener('click', function () {
-                        localStorage.removeItem('userId');  // Remove user ID from localStorage
-                        location.reload();  // Reload the page to update the navbar
+                        localStorage.clear();
+                        window.location.href("/USer/Login");
                     });
                 }
             }

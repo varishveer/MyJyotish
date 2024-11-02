@@ -88,6 +88,26 @@
     <!-- Astrologer results will be injected here -->
 </div>
 
+<!-- Modal call-->
+<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Scan QR code to download MyjyotishgApp</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <h4 class="text-center">MyJyotishg</h4>
+                <p class="text-center">Scan QR</p>
+                <img src="https://api.myjyotishg.in/qr-code.jpg" class="w-50 h-50" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
    
     // Function to fetch astrologers for the chat
@@ -132,13 +152,11 @@
                                                             <h6 class="card-title  text-center">${astrologer.name} - ${astrologer.city}</h6>
                                                                 <p class='text-center text-warning' >${generateFullStars()}</p>
                                                             <p class="card-text px-1 text-center" >
-                                                                 ${astrologer.expertise} | ${astrologer.experience != null ? astrologer.experience : 0} Years
+                                                                 ${astrologer.expertise || "N/A"} | ${astrologer.experience != null ? astrologer.experience : 0} Years
                                                             </p>
                                                         </div>
-                            </a>
-                                 <button class="btn btn-primary callBtn" style="background-color: #4CAF50; border-color: #4CAF50;" data-bs-toggle="tooltip2" data-bs-placement="top"
-                                    data-bs-custom-class="custom-tooltip"
-                                    data-bs-title="">
+                            </a><br>
+                                     <button class="btn btn-primary callBtn" style="background-color: #4CAF50; border-color: #4CAF50;" data-bs-toggle="modal" data-bs-target="#exampleModal2">
                                 Start Call
                             </button>
                     </div>
@@ -149,4 +167,6 @@
 
     // Initialize the function to get astrologers on page load
     GetAstroListCallChat();
+
+    
 </script>
