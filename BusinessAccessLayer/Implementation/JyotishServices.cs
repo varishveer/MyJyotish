@@ -59,13 +59,13 @@ namespace BusinessAccessLayer.Implementation
             {
 
                 var ProfileGuid = Guid.NewGuid().ToString();
-                var SqlPath = "wwwroot/PendingJyotish/Document/" + ProfileGuid + model.ProfileImageUrl.FileName;
+                var SqlPath = "wwwroot/Images/Jyotish/" + ProfileGuid + model.ProfileImageUrl.FileName;
                 var ProfilePath = Path.Combine(_uploadDirectory, SqlPath);
                 using (var stream = new FileStream(ProfilePath, FileMode.Create))
                 {
                     model.ProfileImageUrl.CopyTo(stream);
                 }
-                existingRecord.ProfileImageUrl = "/Images/Jyotish/" + ProfileGuid + model.ProfileImageUrl.FileName;
+                existingRecord.ProfileImageUrl = "Images/Jyotish/" + ProfileGuid + model.ProfileImageUrl.FileName;
 
             }
 
@@ -122,7 +122,11 @@ namespace BusinessAccessLayer.Implementation
             var Jyotish = _context.JyotishRecords.Where(x => x.Id == Id).FirstOrDefault();
             if (Jyotish == null) { return null; }
 
-            DateTime Today = DateTime.Now;
+           
+            DateTime today = DateTime.Now;
+            DateTime yesterday = today.AddDays(-1); 
+            
+            DateTime yesterdayDateOnly = yesterday.Date;
 
             // Fetch appointment records for the given Jyotish and filter by future dates
             var allRecords = _context.AppointmentRecords
@@ -149,10 +153,9 @@ namespace BusinessAccessLayer.Implementation
            })
      .ToList();  // Retrieve all records for the Jyotish
 
-            // Log the count of all records before filtering
-            Console.WriteLine($"Total records for JyotishId {Id}: {allRecords.Count}");
+      
 
-            var Records = allRecords.Where(x => x.Date >= Today).ToList();
+            var Records = allRecords.Where(x => x.Date > yesterdayDateOnly).ToList();
 
             return Records;
         }

@@ -526,7 +526,12 @@ namespace BusinessAccessLayer.Implementation
 
         public List<AppointmentSlotUserViewModel> GetAllAppointmentSlot(int id) 
         {
-            var result = _context.AppointmentSlots.Where(x => x.JyotishId == id)
+            DateTime today = DateTime.Now;
+            DateTime yesterday = today.AddDays(-1);
+
+            DateTime yesterdayDateOnly = yesterday.Date;
+
+            var record = _context.AppointmentSlots.Where(x => x.JyotishId == id)
                     .GroupBy(x => x.Date)
                     .Select(g => new AppointmentSlotUserViewModel
                     {
@@ -542,6 +547,7 @@ namespace BusinessAccessLayer.Implementation
                         }).ToList()
                     })
                     .ToList();
+            var result = record.Where(x => x.Date > yesterdayDateOnly).ToList();
             return result;
         }
         public List<ProblemSolutionGetAllViewModel> GetAllProblemSolution(int id)

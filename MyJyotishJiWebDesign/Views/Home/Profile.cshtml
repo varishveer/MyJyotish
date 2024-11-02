@@ -15,8 +15,8 @@
         top: 50px;
     }
     .profile-photo {
-        width: 120px;
-        height: 145px;
+        width: 150px;
+        height: 150px;
         border-radius: 50%;
         border: 5px solid #fff;
         margin-bottom: 20px;
@@ -64,7 +64,7 @@
             <div class="col-md-4 h-100 p-2 rounded img-container">
                 <div class="row">
             <div class="mb-3 col-sm-12 text-center">
-                <img id="profileImage" src="~/Img/UserPlaceholder.png" alt="Profile Image" class="profile-photo border">
+                <img id="profileImage" src="~/Img/UserPlaceholder.png" alt="Profile Image" class="profile-photo border" >
             </div>
 
                     <div class="mb-3 col-sm-12 justify-content-center d-flex ">
@@ -578,7 +578,12 @@
                 $.ajax({
                     url: BaseUrl + 'Api/User/UpdateProfile',
                     type: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                    
+                },
                     data: formdata,
+               
                     contentType: false,
                     processData: false,
                     success: function (response) {
