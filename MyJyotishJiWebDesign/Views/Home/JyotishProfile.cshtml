@@ -35,7 +35,7 @@
         <div class="card-body">
             <div class="row align-items-start mb-4">
                 <div class="col-md-4 text-center text-md-start">
-                    <img id="profilePicture" src="" alt="Profile Picture" class="rounded shadow-sm border p-2 img-thumbnail" style=" width: 120px;height: 145px; border: 2px solid #ffffff;">
+                    <img id="profilePicture" src="" alt="Profile Picture" class="rounded shadow-sm border p-2 img-thumbnail" style=" width: 150px;height: 145px; border: 2px solid #ffffff;">
               
                     <h2 id="profileName" class="h4 mt-3 mb-1" style="color:#333333;"> <span class="text-success">&#10004;</span></h2>
                     <span class="text-warning me-2">★★★★★</span>
@@ -372,86 +372,97 @@ $("#next-btn").text("Next");
 
 
 var bookAppoinmentUrl = BaseUrl + `api/User/bookAppointment`;
-            function bookAppoinment(){
-                Swal.fire({
-  title: "Are you sure?",
-  text: "Do you really want to book!",
-  icon: "warning",
-  showCancelButton: true,
-  confirmButtonColor: "#3085d6",
-  cancelButtonColor: "#d33",
-  confirmButtonText: "Yes"
-}).then((result) => {
-  if (result.isConfirmed) {
-    
-                Swal.fire({
-  title: "Proccessing Please Wait!",
-  timerProgressBar: true,
-  didOpen: () => {
-    Swal.showLoading();
-  }
-                })
-                let appointmentDetail = $("input[name='jyotishAppoinment']:checked");
-
-                let userId=appointmentDetail[0].getAttribute("data-userId")
-                let jyotishId=appointmentDetail[0].getAttribute("data-jyotishId")
-                let slotId=appointmentDetail[0].getAttribute("data-slotId")
-                let problem=$("#problem-desc").val()
+            function bookAppoinment() {
                 debugger
-                 $.ajax({
-    url: bookAppoinmentUrl,
-    method: 'POST',
-                            headers: {
-                                'Authorization': `Bearer ${localStorage.getItem("Token")}`,
-                                'Content-Type': 'application/json'
-                            },
-                            data: JSON.stringify({
-        userId: userId,
-        jyotishId: jyotishId,
-        slotId: slotId,
-        problem: problem
-    }),
-    success: function(res) {
-        debugger
-       if(res.status==200){
-           Swal.fire({
-      title: "Success!",
-      text: "Booked Successfully",
-      icon: "success",
-      didClose:()=>{
-          location.reload(true);
-      }
-    });
-    $("#exampleModal").modal("hide")
-    $("#problem").hide()
-                $("#prev-btn").hide()
-                $("#appoinmentDetail").show()
-$("#next-btn").text("Next");
-       }else{
-            Swal.fire({
-      title: "error!",
-      text: res.message,
-      icon: "error"
-       })
-       }
-    },
-    error: function(err) {
-        Swal.fire({
-      title: "error!",
-      text: "An error occured please try again later",
-      icon: "error"
-       })
-    }
-                 
-});
-  }
-});
-            }
+                if ($("#problem-desc").val() == null || $("#problem-desc").val() == "")
+                {
+                    Swal.fire({
+                        title: "Required!",
+                        text: "Please describe your problems",
+                        icon: "warning"
+                    })
+                }
+                else {
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "Do you really want to book!",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Yes"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
 
+                            Swal.fire({
+                                title: "Proccessing Please Wait!",
+                                timerProgressBar: true,
+                                didOpen: () => {
+                                    Swal.showLoading();
+                                }
+                            })
+                            let appointmentDetail = $("input[name='jyotishAppoinment']:checked");
+
+                            let userId = appointmentDetail[0].getAttribute("data-userId")
+                            let jyotishId = appointmentDetail[0].getAttribute("data-jyotishId")
+                            let slotId = appointmentDetail[0].getAttribute("data-slotId")
+                            let problem = $("#problem-desc").val()
+                            debugger
+                            $.ajax({
+                                url: bookAppoinmentUrl,
+                                method: 'POST',
+                                headers: {
+                                    'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                                    'Content-Type': 'application/json'
+                                },
+                                data: JSON.stringify({
+                                    userId: userId,
+                                    jyotishId: jyotishId,
+                                    slotId: slotId,
+                                    problem: problem
+                                }),
+                                success: function (res) {
+                                    debugger
+                                    if (res.status == 200) {
+                                        Swal.fire({
+                                            title: "Success!",
+                                            text: "Booked Successfully",
+                                            icon: "success",
+                                            didClose: () => {
+                                                location.reload(true);
+                                            }
+                                        });
+                                        $("#exampleModal").modal("hide")
+                                        $("#problem").hide()
+                                        $("#prev-btn").hide()
+                                        $("#appoinmentDetail").show()
+                                        $("#next-btn").text("Next");
+                                    } else {
+                                        Swal.fire({
+                                            title: "error!",
+                                            text: res.message,
+                                            icon: "error"
+                                        })
+                                    }
+                                },
+                                error: function (err) {
+                                    Swal.fire({
+                                        title: "error!",
+                                        text: "An error occured please try again later",
+                                        icon: "error"
+                                    })
+                                }
+
+                            });
+                        }
+                    });
+                }
+            }
            
             })
 
     });
+
     function selectSlots() {
         $("#next-btn").attr("disabled", false)
     }

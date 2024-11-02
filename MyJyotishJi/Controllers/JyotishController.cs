@@ -348,11 +348,16 @@ namespace MyJyotishGApi.Controllers
                          PaymentStatus="success",
                          PaymentFor="Add to wallet"
                      };
-                    var res= AddWalletHistory(js);
-                     return Ok(new { Status = 200, Message = "Successful" }); 
-                 }
+                    var res= _jyotish.AddWalletHistory(js);
+                  
+                     return Ok(new { Status = 200, Message = "Successful" });
+                    
+                }
                  else
-                 { return Ok(new { Status = 404, Message ="Some error occured" }); }
+                 { 
+
+                    return Ok(new { Status = 404, Message ="Some error occured" }); 
+                }
              }
              catch (Exception ex)
              { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
@@ -384,7 +389,7 @@ namespace MyJyotishGApi.Controllers
                 { return Ok(new { Status = 404, Message = "Some error occured" }); }
             }
             catch (Exception ex)
-            { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+            {return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
         }
 
         [HttpGet("GetWalletHistroy")]

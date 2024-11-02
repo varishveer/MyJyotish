@@ -36,5 +36,9 @@ namespace BusinessAccessLayer.Abstraction
         public ProblemSolutionGetAllViewModel GetProblemSolution(int Id);
         public string AddUserWallets(UserWalletViewmodel uw);
 
+        public long GetWallet(int JyotishId);
+
+        public string AddWalletHistory(WalletHistoryViewmodel pr);
+        public dynamic GetWalletHistory(int UserId);
     }
 }

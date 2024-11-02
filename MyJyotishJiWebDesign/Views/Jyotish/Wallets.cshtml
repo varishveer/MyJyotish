@@ -57,6 +57,8 @@ body {
        background:#c95812;
        border-radius:10px;
     }
+
+    
 </style>
 
 <div class="container">
@@ -105,18 +107,20 @@ body {
 
 <!-- Modal for print receipt-->
 <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered ">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Payment Receipt</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                ...
+            <div class="modal-body receipt-body">
+            <div class="row">
+               
+            </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-primary" id="printbtn">Print</button>
             </div>
         </div>
     </div>
@@ -320,9 +324,10 @@ body {
         })
         }
 
-        $(document).ready(function(){
         let paymentHistroy = []
         let walletHistory = []
+
+       
         //payment history
         $.ajax({
             url: `https://localhost:7118/api/Jyotish/JyotishPaymentrecords`,
@@ -341,13 +346,11 @@ body {
 
             }
         }).then(function () {
-
-
             function paymentHistory() {
                 $(".trans-list").empty()
                 paymentHistroy.forEach(function (d) {
                     let historycard = $(`
-                                         <div class="col-sm-12 border rounded p-2 my-2 phistory" data-receipt='${JSON.stringify(d).replace(/'/g, "\\'")}'>
+                                                 <div class="col-sm-12 border rounded p-2 my-2 phistory" data-receipt='${JSON.stringify(d).replace(/'/g, "\\'")}' id="receipt_${d.id}" onClick='printReceipt(${d.id},"payment")'>
                                 <div class="row h-100">
                                     <div class="col-sm-2 text-center ">
                                         <img class="w-75 h-100 rounded-circle" src="https://api.myjyotishg.in/Images/Logo.png" />
@@ -403,14 +406,14 @@ body {
                         if (d.userName!=null & d.profile!=null) {
                     let historycard = $(
                         `
-                                                 <div class="col-sm-12 border rounded p-2 my-2 phistory" data-receipt='${JSON.stringify(d).replace(/'/g, "\\'")}'>
+                                                         <div class="col-sm-12 border rounded p-2 my-2 phistory" data-receipt='${JSON.stringify(d).replace(/'/g, "\\'")}' id="receipt_${d.id}" onClick='printReceipt(${d.id},"wallet")'>
                                     <div class="row h-100">
                                         <div class="col-sm-2 text-center ">
                                             <img class="w-75 h-75 rounded-circle" src="${BaseUrl}${d.profile}" />
                                         </div>
                                         <div class="col-sm-6">
                                             ${d.userName}<br />
-                                                                                        ${d.paymentStatus.toLowerCase() == 'success' ? d.paymentDate.split(" ")[0] : d.status == 'Pending' ? `<small><i class="fas text-warning fa-exclamation-triangle"></i>Cancelled</small>` : `<small class='text-danger'><i class="fas fa-exclamation-circle"></i>Failed</small>`}
+                                                                                                ${d.paymentStatus.toLowerCase() == 'success' ? d.paymentDate.split(" ")[0] : d.paymentStatus.toLowerCase() == 'pending' ? `<small><i class="fas text-warning fa-exclamation-triangle"></i>Cancelled</small>` : `<small class='text-danger'><i class="fas fa-exclamation-circle"></i>Failed</small>`}
                                         </div>
                                         <div class="col-sm-3 d-flex h-100 justify-content-end align-items-center">
                                                                                              ${d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" ? `<span class='text-success'>+ ${d.amount}</span>` : d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "debit" ? `<span class='text-danger'>-${d.amount}</span>` : `<span class='text-secondary'>${d.amount}</span>`}
@@ -421,7 +424,7 @@ body {
                             $(".trans-list").append(historycard)
                         } else {
                     let historycard = $(`
-                                     <div class="col-sm-12 border rounded p-2 my-2 phistory" data-receipt='${JSON.stringify(d).replace(/'/g, "\\'")}'>
+                                             <div class="col-sm-12 border rounded p-2 my-2 phistory"  data-receipt='${JSON.stringify(d).replace(/'/g, "\\'")}' id="receipt_${d.id}" onClick='printReceipt(${d.id},"wallet")'>
                                 <div class="row h-100">
                                     <div class="col-sm-2 text-center ">
                                         <img class="w-75 h-100 rounded-circle" src="https://api.myjyotishg.in/Images/Logo.png" />
@@ -441,13 +444,76 @@ body {
                             )
                         }
                     })
-            function printReceipt(data) {
-                console.log(JSON.parse(data))
-            }
-         })
+            
 
+         })
+        function printReceipt(id,type) {
+            let d = $("#receipt_" + id).attr("data-receipt")
+            let data=JSON.parse(d)
+            console.log(data)
+            $("#exampleModal2").modal("show");
+            if (type == "payment") {
+            $(".receipt-body").html(
+                `
+                     <div class="col-sm-12 d-flex justify-content-center flex-column align-items-center">
+                            <img src="${'https://api.myjyotishg.in/Images/Logo.png'}" height="100" width="100" />
+                            <p class="text-center">To MyJyotishg</p>
+                                    <h2>₹${data.amount}</h2>
+                                                        <p class="text-center">${data.status == "success" ? "<i class='fas fa-check-circle text-success'></i>Completed" : data.status == "Pending" ? "<span><i class='fas text-warning fa-exclamation-triangle'></i>Cancelled</span>": "<span class='text-danger'><i class='fas fa-exclamation-circle'></i>Failed</span>"}</p >
+                            <hr class="w-50"/>
+                                <p class="text-center">${data.dateTime.split("T")[0]} ${data.dateTime.split("T")[1].slice(0,5)}</p >
+                            <div class="border rounded w-100 p-3 row">
+                                        <div class='col-sm-3'>OrderId </div>: <div class='col-sm-8'>${data.orderId}</div>
+                                           <div class='col-sm-3'> PaymentId </div>:<div class='col-sm-8'>${data.paymentId}</div>
+                                                <div class='col-sm-3'>Message </div>:<div class='col-sm-8'>${data.message}</div>
+                            </div>
+                    </div>
+                `
+            )
+        }else{
+                $(".receipt-body").html(
+                    `
+        <div class="col-sm-12 d-flex justify-content-center flex-column align-items-center" >
+                                <img src="${data.profile==null?'https://api.myjyotishg.in/Images/Logo.png':BaseUrl+data.profile}" class='rounded-circle' height="100" width="100" />
+                                <p class="text-center">From ${data.userName==null?"MyJyotishg":data.userName}</p>
+                                <h2>₹20</h2>
+                                <p class="text-center"><i class="fas fa-check-circle text-success"></i>Completed</p>
+                                <hr class="w-50"/>
+                                <p class="text-center">20-10-2003</p>
+                                    <div class="border rounded w-100 p-3 row">
+                                            
+                                               <div class='col-sm-3'> PaymentId </div>:<div class='col-sm-8'>${data.paymentId}</div>
+                                                        <div class='col-sm-3'>Message </div>:<div class='col-sm-8'>${data.paymentFor}</div>
+                                                        ${data.userName!=null?`<div class='col-sm-3'>From </div>:<div class='col-sm-8'>${data.userName}</div>`:""}
+                                </div>
+                        </div >
+        `
+                )
+        }
+        $("#printbtn").attr("data-id",id)
+        }
         
-    })
+        $("#printbtn").click(function(){
+       
+        let printWindow = window.open('', '_blank', 'width=600,height=400');
+
+        // Prepare the HTML content for printing
+        let printContent = `<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap-grid.min.css" integrity="sha512-JQksK36WdRekVrvdxNyV3B0Q1huqbTkIQNbz1dlcFVgNynEMRl0F8OSqOGdVppLUDIvsOejhr/W5L3G/b3J+8w==" crossorigin="anonymous" referrerpolicy="no-referrer" />` + $(".receipt-body").html()
+        
+
+        // Write the HTML content to the new window
+        printWindow.document.write(printContent);
+        printWindow.document.close();
+
+        // Wait for the content to load and then print
+        printWindow.onload = function () {
+            printWindow.print();
+           
+        };
+        setTimeout(function () {
+            printWindow.close(); // Close the window after a short delay
+        }, 20000);
+        })
 </script>
 
     
