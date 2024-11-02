@@ -400,7 +400,8 @@
                     cancelButtonText: 'Cancel'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.location.replace("/Jyotish/Login");
+                        localStorage.clear();
+                        window.location.href("/Jyotish/Login");
                     }
                 });
             });
