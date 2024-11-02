@@ -169,7 +169,7 @@
                         $('#timeFrom').val(profile.timeFrom);
                         $('#specialization').val(profile.specialization);
                         $('#about').val(profile.about);
-                        $('#awardsAndAchievement').val(profile.awardsAndAchievement || 'N/A');
+                        $('#awardsAndAchievement').val(profile.awordsAndAchievement || 'N/A');
                         $('#callCharges').val(profile.callCharges);
                         $('#chatCharges').val(profile.chatCharges);
                         $('#address').val(profile.address);
@@ -361,7 +361,7 @@
             formData.append('timeFrom', document.getElementById('timeFrom').value);
             formData.append('timeTo', document.getElementById('timeTo').value);
             formData.append('about', document.getElementById('about').value);
-            formData.append('awardsAndAchievement', document.getElementById('awardsAndAchievement').value);
+            formData.append('awordsAndAchievement', document.getElementById('awardsAndAchievement').value);
             formData.append('appointmentCharges', document.getElementById('appointmentCharges').value);
             // Handle boolean options
             formData.append('call', true); // Set as true based on your form data
