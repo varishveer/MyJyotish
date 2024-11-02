@@ -267,3 +267,283 @@
     });
 
 </script>
+
+
+
+
+
+<style>
+    .image-container {
+        margin-bottom: 1rem;
+        height: 150px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: box-shadow 0.3s ease, transform 0.3s ease;
+        background-color: white !important;
+    }
+
+    #loading {
+        display: none;
+        margin-bottom: 1rem;
+        text-align: center;
+        font-size: 1.2rem;
+    }
+
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+
+    .col-md-6,
+    .col-lg-4 {
+        flex: 1 0 30%;
+        max-width: 30%;
+        margin-bottom: 1rem;
+    }
+
+        .col-md-6.increased-width,
+        .col-lg-4.increased-width {
+            flex: 1 0 35%;
+            max-width: 45%;
+        }
+
+    @@media (max-width: 768px) {
+        .col-md-6 {
+            flex: 1 0 45%;
+            max-width: 45%;
+        }
+
+            .col-md-6.increased-width {
+                flex: 1 0 50%;
+                max-width: 50%;
+            }
+    }
+
+    @@media (max-width: 576px) {
+        .col-md-6 {
+            flex: 1 0 100%;
+            max-width: 100%;
+        }
+
+            .col-md-6.increased-width {
+                flex: 1 0 100%;
+                max-width: 100%;
+            }
+    }
+
+    .main-container {
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    .img-text {
+        display: flex;
+        justify-content: center;
+    }
+
+</style>
+<style>
+    /* For screens smaller than 576px (mobile) */
+    @@media (max-width: 575.98px) {
+        .container {
+            padding: 0 15px;
+        }
+
+        .row {
+            display: block;
+        }
+
+        .col-md-3 {
+            width: 100% !important;
+            margin-bottom: 15px;
+        }
+
+        .img-text {
+            font-size: 14px;
+        }
+    }
+
+    /* For screens between 576px and 768px (tablets) */
+    @@media (min-width: 576px) and (max-width: 767.98px) {
+        .col-md-3 {
+            width: 50% !important;
+            margin-bottom: 15px;
+        }
+    }
+
+    /* For screens between 768px and 991px (medium to large tablets or small laptops) */
+    @@media (min-width: 768px) and (max-width: 991.98px) {
+        .col-md-3 {
+            width: 33.33% !important;
+        }
+    }
+
+    /* For screens above 992px (desktop) */
+    @@media (min-width: 992px) {
+        .col-md-3 {
+            width: 20% !important;
+        }
+    }
+</style>
+<style>
+    .dropify {
+        border-radius: 20px;
+    }
+
+    .dropify-wrapper {
+        border-radius: 20px;
+    }
+
+    .dropify-clear {
+        border-radius: 50%;
+    }
+</style>
+
+<div class="container-fluid  pt-4 px-4">
+    <div class="text-center  border border-1 rounded p-3">
+
+        <div class="row">
+            <div class="col-md-12 d-flex justify-content-center mb-3 fw-bold fs-2 text-primary">
+                <div>Upload Documents</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 col-lg-2 mb-4 increased-width">
+                <div class="img-text">
+                    <span>ID Proof</span>
+                </div>
+                <div class="image-container bg-light rounded">
+                    <input id="idProof" name="file1" type="file" class="dropify" data-height="120" />
+                </div>
+
+
+            </div>
+            <div class="col-md-3 col-lg-2 mb-4 increased-width">
+                <div class="img-text">
+                    <span>Address Proof</span>
+                </div>
+                <div class="image-container bg-light rounded">
+                    <input id="addressProof" name="file1" type="file" class="dropify" data-height="120" />
+                </div>
+
+            </div>
+            <div class="col-md-3 col-lg-2 mb-4 increased-width">
+                <div class="img-text">
+                    <span>10th Certificate</span>
+                </div>
+                <div class="image-container bg-light rounded">
+                    <input id="tenthCertificate" name="file1" type="file" class="dropify" data-height="120" />
+                </div>
+
+            </div>
+            <div class="col-md-3 col-lg-2 mb-4 increased-width">
+                <div class="img-text">
+                    <span>12th Certificate</span>
+                </div>
+                <div class="image-container bg-light rounded">
+                    <input id="twelveCertificate" name="file1" type="file" class="dropify" data-height="120" />
+                </div>
+
+            </div>
+            <div class="col-md-3 col-lg-2  increased-width">
+                <div class="img-text">
+                    <span>Professional Certificate</span>
+                </div>
+                <div class="image-container bg-light rounded">
+                    <input id="professionalCertificate" name="file1" type="file" class="dropify" data-height="120" />
+                </div>
+
+            </div>
+            <div class="text-center">
+                <button id="uploadBtn" type="submit" class="btn btn-primary px-4">Upload</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://jeremyfagis.github.io/dropify/dist/js/dropify.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://jeremyfagis.github.io/dropify/dist/css/dropify.min.css">
+<script>
+
+    $('.dropify').dropify();
+
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        const email = localStorage.getItem('userEmail');
+        $('#jyotishEmail').val(email);
+
+        $('#uploadBtn').click(function (event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Check if at least one image file is selected
+            const idProofFile = document.getElementById('idProof').files.length > 0;
+            const addressProofFile = document.getElementById('addressProof').files.length > 0;
+            const tenthCertificateFile = document.getElementById('tenthCertificate').files.length > 0;
+            const twelveCertificateFile = document.getElementById('twelveCertificate').files.length > 0;
+            const professionalCertificateFile = document.getElementById('professionalCertificate').files.length > 0;
+
+            const isAnyImageSelected = idProofFile || addressProofFile || tenthCertificateFile || twelveCertificateFile || professionalCertificateFile;
+
+            if (!isAnyImageSelected) {
+                alert('Please select at least one image file to upload.');
+                return;
+            }
+
+            // Create a FormData object from the form
+            const formData = new FormData();
+            debugger;
+            // Append files to FormData
+            if (idProofFile) formData.append('IdProof', document.getElementById('idProof').files[0]);
+            if (addressProofFile) formData.append('AddressProof', document.getElementById('addressProof').files[0]);
+            if (tenthCertificateFile) formData.append('TenthCertificate', document.getElementById('tenthCertificate').files[0]);
+            if (twelveCertificateFile) formData.append('TwelveCertificate', document.getElementById('twelveCertificate').files[0]);
+            if (professionalCertificateFile) formData.append('ProfessionalCertificate', document.getElementById('professionalCertificate').files[0]);
+
+            // Add the email from the hidden field
+            formData.append('JyotishEmail', email);
+
+            const token = localStorage.getItem('Token3');
+
+            // Send the data via AJAX
+            $.ajax({
+                url: "@BaseUrl" + 'Api/PendingJyotish/UploadDocument',
+                type: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                data: formData,
+                processData: false, // Prevent jQuery from automatically processing the data
+                contentType: false, // Prevent jQuery from setting content type, as it is handled by FormData
+                success: function (result) {
+                    debugger;
+                    // Handle success
+                    console.log('Success:', result);
+                    alert('Files and data uploaded successfully!');
+                },
+                error: function (xhr, status, message) {
+                    debugger;
+                    // Handle errors
+                    console.error('Error:');
+                    console.error(status);
+                    console.error(message);
+                    console.error(xhr);
+                    alert('There was a problem with your submission.');
+                }
+            });
+        });
+    });
+
+
+
+
+</script>
