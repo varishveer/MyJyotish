@@ -21,28 +21,20 @@ body {
 }
 
 .wallet {
-  margin: 0 auto;
+  margin-left: auto;
   border-radius: 5px;
   background-color: #FFFFFF;
-  height: 680px;
-  max-width: 900px;
-  min-width: 800px;
-  display: flex;
+
 }
 
 .left-wallet {
   background-color: #f2f2f2;
-  width: 300px;
-  height: initial;
-  padding: 40px;
   border-radius: 5px;
 }
 
 .right-trans {
   background-color: #FFFFFF;
-  width: 600px;
   height: initial;
-  padding: 40px;
   border-radius: 5px;
 }
 .phistory{
@@ -62,7 +54,10 @@ body {
 </style>
 
 <div class="container">
-    <div class="wallet shadow-sm">
+    <div class="wallet shadow-sm row">
+        <div class="col-sm-12">
+            <div class="row g-0">
+            <div class="col-sm-4">
         <aside class="left-wallet">
             <div class="wallet-head">
                 <h2 class="text-secondary"> My Wallets </h2>
@@ -73,7 +68,9 @@ body {
                 <div role="button" class="border rounded wallethstBtn p-3 mb-2">Wallet History</div>
             </div>
         </aside>
-        <content class="right-trans overflow-auto">
+                </div>
+                <div class="col-sm-8 overflow-auto">
+        <content class="right-trans ">
            <div class="d-flex justify-content-between"> 
                <h2 class="text-secondary"> Current Balance </h2>
                 <h3><span class="text-success" id="walletAmount">0</span>&nbsp;<span id="addWallet" data-bs-toggle="modal" data-bs-target="#exampleModal" class="text-secondary" role="button"><i class="far fa-plus-square"></i></span></h3>
@@ -83,6 +80,9 @@ body {
                
             </div>
         </content>
+        </div>
+        </div>
+        </div>
     </div>
 </div>
 

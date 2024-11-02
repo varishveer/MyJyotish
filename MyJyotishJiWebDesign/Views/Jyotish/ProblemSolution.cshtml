@@ -212,6 +212,7 @@
             const searchTerm = $(this).val().toLowerCase();
 
             if (searchTerm.length >= 1) {
+                debugger
                 const filteredResults = allData.filter(item => item.userName.toLowerCase().includes(searchTerm));
                 displayResults(filteredResults);
             } else {

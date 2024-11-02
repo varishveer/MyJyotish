@@ -28,11 +28,9 @@
                         <tr>
                             <th>Id</th>
                             <th>Name</th>
-                           
                             <th>Problem</th>
                             <th>Date</th>
                             <th>Time</th>
-                    
                             <th>Status</th>
                             <th>Amount</th>
                             <th>Action</th>
@@ -49,44 +47,34 @@
 
 <!-- Bootstrap Modal -->
 <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="updateModalLabel">Update Appointment</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="requestForm">
-                    <div class="form-group">
-                        <label for="Id">Id:</label>
-                        <input type="text" class="form-control" id="Id" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="SlotId"> Slot Id:</label>
-                        <input type="text" class="form-control" id="SlotId" readonly>
-                    </div>
-                   
-                   
-                    <div class="form-group">
-                        <label for="Name">Name:</label>
-                        <input type="text" class="form-control" id="Name" readonly>
-                    </div>
-                  
-                  
-                    <div class="form-group">
-                        <label for="Problem">Problem:</label>
-                        <input type="text" class="form-control" id="Problem">
-                    </div>
-               
-                    <button type="button" class="btn btn-primary" id="updateButton">Update</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+       <div class="modal-dialog" role="document">
+           <div class="modal-content">
+               <div class="modal-header">
+                   <h5 class="modal-title" id="updateModalLabel">Client Problem</h5>
+                   <button type="button" class="close btn" data-dismiss="modal" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                   </button>
+               </div>
+               <div class="modal-body">
+                   <form id="requestForm">
+                       <input type="hidden" class="form-control" id="SlotId" readonly>
+                       <input type="hidden" class="form-control" id="Id" readonly>
 
+                       <div class="form-group mb-2">
+                           <label for="Name">Name:</label>
+                           <input type="text" class="form-control" id="Name" readonly>
+                       </div>
+                
+                       <div class="form-group mb-2">
+                           <label for="Problem">Problem:</label>
+                           <input type="text" class="form-control" readonly id="Problem">
+                       </div>
+                   </form>
+               </div>
+           </div>
+       </div>
+   </div>
+   
 <script>
     $(document).ready(function () {
         // Fetch and display all appointments on page load
@@ -115,7 +103,7 @@
                         htmls += `<td class="text-center">${item.status}</td>`;
                         htmls += `<td class="text-center">${item.amount || 'N/A'}</td>`;
                         htmls += `<td class="text-center">
-                                               <svg data-id="${item.id}" class="edit-appointment" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24" data-toggle="modal" data-target="#updateModal">
+                                               <svg data-id="${item.id}" class="edit-appointment" xmlns="http:www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24" data-toggle="modal" data-target="#updateModal">
                                                     <path fill="currentColor" d="M13.654 21v-2.21l5.96-5.934l2.19 2.204l-5.94 5.94zm6.885-5.94l-.926-.945zm-6 5.056h.95l3.467-3.474l-.45-.494l-.475-.47l-3.493 3.488zM5 21V3h9.5L19 7.5v2.596h-1V8h-4V4H6v16h5.27v1zm13.506-4.852l-.475-.47l.925.964z"/>
                                                 </svg>
 

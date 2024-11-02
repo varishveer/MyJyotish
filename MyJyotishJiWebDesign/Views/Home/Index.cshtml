@@ -588,7 +588,7 @@ $(document).ready(function () {
                     if (response.status === 200) {
                         const records = response.data.slice(0, 5); 
                         records.forEach(function (astrologer) {
-                            var src =BaseUrl + `${astrologer.profileImageUrl!=null || astrologer.profileImageUrl!=""?astrologer.profileImageUrl:"user-not-found.png"}`;
+                            var src = `${astrologer.profileImageUrl!=null || astrologer.profileImageUrl!=""?BaseUrl+astrologer.profileImageUrl:BaseUrlImg+"user-not-found.png"}`;
                             $('#astrologers-container').append(`
                                
                                      <div class="col-sm-2 col-md-2 col-lg-2 mb-2 p-2">
@@ -599,8 +599,8 @@ $(document).ready(function () {
                                                     <h6 class="card-title text-center">${astrologer.name!=null?astrologer.name:"N/A"} - ${astrologer.city}</h6>
                                                         <p class='text-center text-warning' >${generateFullStars()}</p>
                                                     <p class="card-text px-1 text-center" >
-                                                         ${astrologer.expertise || "N/A"} | ${astrologer.experience!=null ?astrologer.experience:0} Years  
-                                                    </p>
+                                                                 ${astrologer.expertise.split(",")[0] || "N/A"}${astrologer.expertise.split(",").length - 1 != 0 ? "+" + (astrologer.expertise.split(",").length - 1) + "more" : ""} | ${astrologer.experience != null ? astrologer.experience : 0} Years
+                                                        </p>
                                                 </div>
                                             </a>
                                         </div>
