@@ -249,7 +249,7 @@
         };
         console.log(formData);
         $.ajax({
-            url: "https://localhost:7118/" + 'Api/Account/RegisterUserDetails',
+            url: BaseUrl + 'Api/Account/RegisterUserDetails',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(formData),

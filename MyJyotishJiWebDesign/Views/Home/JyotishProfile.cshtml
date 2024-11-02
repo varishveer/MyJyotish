@@ -51,7 +51,8 @@
 
                         <button class="btn btn-primary chatBtn me-2 mb-2 mb-md-0" style="background-color: #4CAF50; border-color: #4CAF50;" data-bs-toggle="tooltip1" data-bs-placement="top"
                                 data-bs-custom-class="custom-tooltip"
-                                data-bs-title="">
+                                data-bs-title=""
+                                >
                             Start Chat
                         </button>
                         <button class="btn btn-primary callBtn" style="background-color: #4CAF50; border-color: #4CAF50;" data-bs-toggle="tooltip2" data-bs-placement="top"
@@ -102,7 +103,7 @@
     </div>
 </div>
 
-<!-- Modal -->
+<!-- Modal book appoinment-->
 <div class="modal z-5 fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
@@ -127,8 +128,47 @@
     </div>
 </div>
 
+<!-- Modal call-->
+<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Scan QR code to download MyjyotishgApp</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <h4 class="text-center">MyJyotishg</h4>
+                <p class="text-center">Scan QR</p>
+                <img src="https://api.myjyotishg.in/qr-code.jpg" class="w-50 h-50" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
+<!-- Modal chat-->
+<div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Scan QR code to download MyjyotishgApp</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <h4 class="text-center">MyJyotishg</h4>
+                <p class="text-center">Scan QR</p>
+                <img src="https://api.myjyotishg.in/qr-code.jpg" class="w-50 h-50" />
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     $(document).ready(function () {
        
@@ -492,7 +532,27 @@ var bookAppoinmentUrl = BaseUrl + `api/User/bookAppointment`;
     });
 </script>
 
-
+<script>
+    //handle chat and call
+    $(".chatBtn").click(function(){
+        $("#exampleModal3").modal("show")
+        const tooltipTriggerList = document.querySelector('[data-bs-toggle="tooltip1"]')
+        const tooltip = bootstrap.Tooltip.getOrCreateInstance(tooltipTriggerList)
+        const tooltipTriggerList1 = document.querySelector('[data-bs-toggle="tooltip2"]')
+        const tooltip1 = bootstrap.Tooltip.getOrCreateInstance(tooltipTriggerList1)
+        tooltip.hide()
+        tooltip1.hide()
+    })
+    $(".callBtn").click(function(){
+        $("#exampleModal2").modal("show")
+        const tooltipTriggerList = document.querySelector('[data-bs-toggle="tooltip1"]')
+        const tooltip = bootstrap.Tooltip.getOrCreateInstance(tooltipTriggerList)
+        const tooltipTriggerList1 = document.querySelector('[data-bs-toggle="tooltip2"]')
+        const tooltip1 = bootstrap.Tooltip.getOrCreateInstance(tooltipTriggerList1)
+        tooltip.hide()
+        tooltip1.hide()
+    })
+</script>
 
 
 

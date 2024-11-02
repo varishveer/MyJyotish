@@ -133,7 +133,7 @@
 
     $(document).ready(function () {
         $.ajax({
-            url: "https://localhost:7118/api/User/GetWallet",
+            url: BaseUrl+"api/User/GetWallet",
             type: "get",
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("Token")}`,
@@ -173,7 +173,7 @@
             }
         })
         $.ajax({
-            url: "https://localhost:7118/Api/Payments/create-order",
+            url: BaseUrl+"Api/Payments/create-order",
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify({
@@ -245,7 +245,7 @@
     function InsertPayment(pay_id, signature, order_id, amount, status, message) {
         debugger
         $.ajax({
-            url: "https://localhost:7118/Api/payments/capture-payment",
+            url: BaseUrl+"Api/payments/capture-payment",
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify({
@@ -287,7 +287,7 @@
             }
         })
         $.ajax({
-            url: "https://localhost:7118/api/User/AddWallet",
+            url: BaseUrl+"api/User/AddWallet",
             type: "post",
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("Token")}`,
@@ -295,6 +295,7 @@
             },
             data: JSON.stringify({ userId: Id, WalletAmount: amount }),
             success: function (res) {
+                console.log(res)
                 if (res.Status == 200) {
                     Swal.fire({
                         title: "Success",
@@ -329,7 +330,7 @@
 
     //payment history
     $.ajax({
-        url: `https://localhost:7118/api/User/UserPaymentrecords`,
+        url: `${BaseUrl}api/User/UserPaymentrecords`,
         type: 'GET',
         headers: {
             'Authorization': `Bearer ${localStorage.getItem("Token")}`,
@@ -379,7 +380,7 @@
 
     //wallet history
     $.ajax({
-        url: "https://localhost:7118/api/User/GetWalletHistroy",
+        url: BaseUrl+"api/User/GetWalletHistroy",
         type: "get",
         headers: {
             'Authorization': `Bearer ${localStorage.getItem("Token")}`,
@@ -415,7 +416,7 @@
                                                                                                     ${d.paymentStatus.toLowerCase() == 'success' ? d.paymentDate.split(" ")[0] : d.paymentStatus.toLowerCase() == 'pending' ? `<small><i class="fas text-warning fa-exclamation-triangle"></i>Cancelled</small>` : `<small class='text-danger'><i class="fas fa-exclamation-circle"></i>Failed</small>`}
                                             </div>
                                             <div class="col-sm-3 d-flex h-100 justify-content-end align-items-center">
-                                                                                                 ${d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" ? `<span class='text-success'>+ ${d.amount}</span>` : d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "debit" ? `<span class='text-danger'>-${d.amount}</span>` : `<span class='text-secondary'>${d.amount}</span>`}
+                                                                                                     ${d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" & d.paymentBy == "user" ? `<span class='text-danger'>- ${d.amount}</span>` : d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" ? `<span class='text-success'>+${d.amount}</span>` : `<span class='text-secondary'>${d.amount}</span>`}
                                             </div>
                                         </div>
                                     </div>
@@ -474,16 +475,16 @@
                 `
             <div class="col-sm-12 d-flex justify-content-center flex-column align-items-center" >
                                     <img src="${data.profile == null ? 'https://api.myjyotishg.in/Images/Logo.png' : BaseUrl + data.profile}" class='rounded-circle' height="100" width="100" />
-                                    <p class="text-center">From ${data.userName == null ? "MyJyotishg" : data.userName}</p>
+                                    <p class="text-center"> ${data.userName == null ? "From MyJyotishg" : "To "+data.userName}</p>
                                     <h2>₹20</h2>
                                     <p class="text-center"><i class="fas fa-check-circle text-success"></i>Completed</p>
                                     <hr class="w-50"/>
-                                    <p class="text-center">20-10-2003</p>
+                                    <p class="text-center">${data.paymentDate}</p>
                                         <div class="border rounded w-100 p-3 row">
 
                                                    <div class='col-sm-3'> PaymentId </div>:<div class='col-sm-8'>${data.paymentId}</div>
                                                             <div class='col-sm-3'>Message </div>:<div class='col-sm-8'>${data.paymentFor}</div>
-                                                            ${data.userName != null ? `<div class='col-sm-3'>From </div>:<div class='col-sm-8'>${data.userName}</div>` : ""}
+                                                                ${data.userName != null ? `<div class='col-sm-3'>To</div>:<div class='col-sm-8'>${data.userName}</div>` : `<div class='col-sm-3'>From</div>:<div class='col-sm-8'>MyJyotishg</div>`}
                                     </div>
                             </div >
             `
