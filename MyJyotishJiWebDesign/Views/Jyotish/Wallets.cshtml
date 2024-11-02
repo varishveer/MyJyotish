@@ -406,7 +406,7 @@ body {
                         if (d.userName!=null & d.profile!=null) {
                     let historycard = $(
                         `
-                                                         <div class="col-sm-12 border rounded p-2 my-2 phistory" data-receipt='${JSON.stringify(d).replace(/'/g, "\\'")}' id="receipt_${d.id}" onClick='printReceipt(${d.id},"wallet")'>
+                          <div class="col-sm-12 border rounded p-2 my-2 phistory" data-receipt='${JSON.stringify(d).replace(/'/g, "\\'")}' id="receipt_${d.id}" onClick='printReceipt(${d.id},"wallet")'>
                                     <div class="row h-100">
                                         <div class="col-sm-2 text-center ">
                                             <img class="w-75 h-75 rounded-circle" src="${BaseUrl}${d.profile}" />
@@ -462,7 +462,7 @@ body {
                                                         <p class="text-center">${data.status == "success" ? "<i class='fas fa-check-circle text-success'></i>Completed" : data.status == "Pending" ? "<span><i class='fas text-warning fa-exclamation-triangle'></i>Cancelled</span>": "<span class='text-danger'><i class='fas fa-exclamation-circle'></i>Failed</span>"}</p >
                             <hr class="w-50"/>
                                 <p class="text-center">${data.dateTime.split("T")[0]} ${data.dateTime.split("T")[1].slice(0,5)}</p >
-                            <div class="border rounded w-100 p-3 row">
+                            <div class="border rounded w-75 p-3 row">
                                         <div class='col-sm-3'>OrderId </div>: <div class='col-sm-8'>${data.orderId}</div>
                                            <div class='col-sm-3'> PaymentId </div>:<div class='col-sm-8'>${data.paymentId}</div>
                                                 <div class='col-sm-3'>Message </div>:<div class='col-sm-8'>${data.message}</div>
