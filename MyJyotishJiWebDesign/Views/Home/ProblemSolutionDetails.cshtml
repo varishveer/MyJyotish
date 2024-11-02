@@ -56,8 +56,8 @@
                 <div class="text-center">
                     <!-- Profile Image Placeholder -->
                   
-                    <span class="fw-bold" id="profileName"></span> -
-                    <span id="profileEmail"></span>
+                    <span class="fw-bold" id="profileName"></span> 
+                  
                     <p  class="mt-2"><strong>Appointment ID:</strong> <span id="appointmentId"></span></p>
                     <p><strong>Date:</strong> <span id="profileDate"></span> | <strong>Time:</strong> <span id="profileTime"></span></p>
                 </div>
@@ -103,35 +103,36 @@
             success: function (response) {
                 if (response.status === 200) {
                     const data = response.data;
-                    console.log(data)
+
                     // Populate profile data
-                  
-                    $('#profileName').text(data.name);
-                    $('#profileEmail').text(data.email);
+                    $('#profileName').text(data.jyotishName);
                     $('#appointmentId').text(data.appointmentId);
                     $('#profileDate').text(formatDate(data.date));
                     $('#profileTime').text(data.time.substring(0, 5)); // Show time as HH:MM
 
-                    // Generate problem and solution sections
-                    const problems = [
-                        { problem: data.problem1, solution: data.solution1, image: data.image1 },
-                        { problem: data.problem2, solution: data.solution2, image: data.image2 },
-                        { problem: data.problem3, solution: data.solution3, image: data.image3 }
-                    ];
-                    let psi=1;
-                    problems.forEach((item, index) => {
-                        if (item.problem || item.solution) {
-                            $('#problemSolutionList').append(`
-                <div class="problem-solution border my-3 p-3 rounded">
-                        <h5 class='text-center mb-4 fw-bold'>Problem ${psi}</h5>
-                    <p class='text-start border-bottom fw-bold'>${item.problem || '<span class="placeholder-text">No Problem provided</span>'}</p>
-                    <p><strong>Solution:</strong> ${item.solution || '<span class="placeholder-text">No Solution provided</span>'}</p>
-                    ${item.image ? `<img src="${BaseUrl}${item.image.replace(/^\//, '')}" class="img-fluid mt-2" alt="Problem Image" style="max-width: 200px; height: auto;">` : ''}
-                </div>
-            `);
-                            psi++
-                        }
+                    // Check if problems and solutions are arrays
+                    const problems = data.problem || []; // Assuming this is an array of problems
+                    const solutions = data.solution || []; // Assuming this is an array of solutions
+
+                    $('#problemSolutionList').append(`<h4 class='section-title text-center my-4'>Problems</h4>`);
+                    // Generate problem sections
+                    problems.forEach((problem, index) => {
+                       
+                        const problemText = problem || '<span class="placeholder-text">No Solution provided</span>';
+                        $('#problemSolutionList').append(`
+                                <p class='text-start'><strong>Problem ${index + 1}:</strong> ${problemText}</p>
+                    `);
                     });
+
+                    // After all problems are displayed, generate the solution sections
+                    $('#problemSolutionList').append(`<h4 class='section-title text-center my-4'>Solutions</h4>`); // Add a header for solutions
+                    solutions.forEach((solution, index) => {
+                        const solutionText = solution || '<span class="placeholder-text">No Solution provided</span>';
+                        $('#problemSolutionList').append(`
+                        <p class='text-start'><strong>Solution ${index + 1}:</strong> ${solutionText}</p>
+                    `);
+                    });
+
                 } else {
                     $('#profileData').html('<p class="text-center text-danger">Error loading data. Please try again later.</p>');
                 }

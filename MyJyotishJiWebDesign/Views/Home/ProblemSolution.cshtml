@@ -94,16 +94,12 @@
                     <a href="/home/ProblemSolutionDetails?Id=${d.id}" class="text-decoration-none text-dark">
                         <div class="row fw-semi-bold">
                             <div class="col-sm-6">
-                                <strong>Name:</strong> ${d.name}<br />
+                                <strong>Name:</strong> ${d.jyotishName}<br />
                                     <strong>Date:</strong> ${formatDate(d.date)}<br />
                                     <strong>Time:</strong> ${d.time.substring(0, 5)}<br />
-                                <strong>Email:</strong> ${d.email}
+                               
                             </div>
-                            <div class="col-sm-6">
-                                        ${d.problem1 != null ? `<strong> Problem${pi}:</strong> ${d.problem1}<br />` : ""}
-                                            ${d.problem2 != null ? `<strong> Problem${pi=pi+1}:</strong> ${d.problem2}<br />` : ""}
-                                                    ${d.problem3 != null ? `<strong> Problem${pi = pi + 1}:</strong> ${d.problem3}<br />` : ""}
-                                </div>
+                          
                         </div>
                     </a>
                 </div>

@@ -20,7 +20,7 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        gap: 15px;
+       
     }
     .gallery-item {
         border: 1px solid #ddd;
@@ -80,7 +80,7 @@
                         var src = BaseUrl + item.imageUrl
                         $('#galleryContainer').append(`
                             <div class="gallery-item col-md-3">
-                                <img src= "${src}" alt="${item.imageTitle}">
+                                    <img src= "${src}" alt="${item.imageTitle}" style="width:250px; height:250px;">
                                 <div class="gallery-title">${item.imageTitle}</div>
                             </div>
                         `);

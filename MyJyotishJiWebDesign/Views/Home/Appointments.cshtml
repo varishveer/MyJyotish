@@ -86,10 +86,10 @@
                     let cards = `  <div class="col-sm-5 col-md-5 border shadow-sm rounded p-3">
                             <div class="row fw-semi-bold">
                                 <div class="col-sm-6">
-                                             Name : ${d.userName}<br />Fees : ${d.amount != null ? d.amount : 0}<br />Mobile : ${d.userMobile}<br/>Email : ${d.userEmail}
+                                                 Name : ${d.userName}<br />Fees : ${d.amount != null ? d.amount : 0}<br />Problem : ${d.problem}<br />
                                 </div>
                                 <div class="col-sm-6">
-                                                Problem : ${d.problem}<br />Appoinment Date : ${reverseDate(d.date.split("T")[0])}<br />Time : ${d.time}<br/>Status : ${d.status}
+                                                Date : ${reverseDate(d.date.split("T")[0])}<br />Time : ${d.time}<br/>Status : ${d.status}
                                 </div>
                             </div>
                         </div>

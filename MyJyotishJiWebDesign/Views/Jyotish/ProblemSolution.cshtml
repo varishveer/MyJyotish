@@ -169,14 +169,14 @@
                     'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
                 },
                 success: function (response) {
-                    const yesterday = new Date();
-                    yesterday.setDate(yesterday.getDate() - 1);
+                    const today = new Date();
+                    today.setDate(today.getDate() );
 
                     // Access the data array from the response
                     const items = response.data || [];
 
                     // Filter data to show only dates greater than yesterday
-                    allData = items.filter(item => new Date(item.date) > yesterday);
+                    allData = items.filter(item => new Date(item.date) == today);
                 },
                 error: function (error) {
                     console.error("Error fetching data:", error);
@@ -259,7 +259,7 @@
             };
 
             $.ajax({
-                url: BaseUrl + 'Api/Jyotish/AddProblemSolution',
+                url: "https://localhost:7118/" + 'Api/Jyotish/AddProblemSolution',
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("Token2")}`,

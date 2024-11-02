@@ -28,8 +28,7 @@
                         <tr>
                             <th>Id</th>
                             <th>Name</th>
-                            <th>Mobile</th>
-                            <th>Email</th>
+                           
                             <th>Problem</th>
                             <th>Date</th>
                             <th>Time</th>
@@ -71,8 +70,8 @@
                    
                    
                     <div class="form-group">
-                        <label for="Email">Email:</label>
-                        <input type="email" class="form-control" id="Email">
+                        <label for="Name">Name:</label>
+                        <input type="text" class="form-control" id="Name" readonly>
                     </div>
                   
                   
@@ -107,8 +106,7 @@
                         htmls += '<tr>';
                         htmls += `<td class="text-center">${item.id}</td>`;
                         htmls += `<td class="text-center">${item.userName}</td>`;
-                        htmls += `<td class="text-center">${item.userMobile}</td>`;
-                        htmls += `<td class="text-center">${item.userEmail}</td>`;
+                      
                         htmls += `<td class="text-center">${item.problem}</td>`;
 
                         htmls += `<td class="text-center">${new Date(item.date).toLocaleDateString()}</td>`;
@@ -154,7 +152,7 @@
                     $('#Id').val(appointment.id);
                     $('#SlotId').val(appointment.id);
                    
-                    $('#Email').val(appointment.userEmail);
+                    $('#Name').val(appointment.userName);
                   
                     $('#Problem').val(appointment.problem);
                   
@@ -195,7 +193,7 @@
                 if (response.ok) {
                     alert('Appointment updated successfully!');
                     $('#updateModal').modal('hide');
-                    fetchData();  // Refresh the table data after update
+                   location.reload();
                 } else {
                     const error = await response.json();
                     alert('Error updating appointment: ' + error.message);
