@@ -359,8 +359,8 @@
                     $('#specialization').text(profile.specialization);
                 $('#about').html(profile.about.slice(0, 200) + `...<span class='text-primary' onClick='SeemoreAbout()' role='button'>more</span>`);
                     $('#awardsAndAchievement').text(profile.awordsAndAchievement || 'N/A');
-                    $('#callCharges').text(profile.callCharges);
-                    $('#chatCharges').text(profile.chatCharges);
+                    $('#callCharges').text("₹"+profile.callCharges+"/min");
+                    $('#chatCharges').text("₹"+profile.chatCharges+"/min");
                    const dateOfBirth = profile.dateOfBirth.split('T')[0];
                     $('#dateOfBirth').text(dateOfBirth);
                     $('#pooja').text(profile.pooja);

@@ -99,7 +99,7 @@
                     <div class="form-group col-md-12" style="margin-bottom: 0.2rem;">
                         <label for="otp" class="form-label" style="display:none">Verification:</label>
                 <div class="input-group">
-                            <input type="number" id="otp" name="otp" class="form-control" style="display:none" placeholder="Enter OTP" required>
+                            <input type="number" id="otp" name="otp" class="form-control" style="display:none" placeholder="Enter OTP" >
                             <button class="btn btn-outline-secondary" type="button" id="verifyOtp" style="display:none">Verify OTP</button>
                 </div>
             </div>
@@ -198,8 +198,8 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css">
 
 
 
@@ -207,48 +207,46 @@
     $(document).ready(function () {
        
         $("#getOtp").click(function () {
-            var email = document.getElementById("email").value;
-            // Use jQuery to get the value
+            var email = $("#email").val();
 
             $.ajax({
                 url: BaseUrl + `Api/Account/RegisterJyotish?email=${encodeURIComponent(email)}`,
                 type: 'POST',
-                contentType: 'application/json', // Set content type to JSON
-
+                contentType: 'application/json',
                 success: function () {
-               
-                    alert("OTP send successful.");
+
+
+                   // Swal.fire({
+                   //     title: "Otp Send Successfully",
+                  //      text: "Please Enter Otp ",
+                  //      icon: "success",
+                    //
+                  //      
+                  //  });
+                    alert("OTP sent successfully.");
                     $("#otpLabel").show();
+                    $("#otp").show().prop('required', true); 
                     $("#verifyOtp").show();
-                    $('#otp').show();
                 },
                 error: function (xhr) {
-                   
-                    alert("Error: " + xhr.status + " - " + xhr.statusText );
+                    alert("Error: " + xhr.status + " - " + xhr.statusText);
                 }
             });
         });
 
 
         $("#verifyOtp").click(function () {
-            var email = document.getElementById("email").value;
-            var otp = document.getElementById("otp").value;
+            var email = $("#email").val();
+            var otp = $("#otp").val();
 
-            // Create the data object to send
-            var data = {
-                Email: email, // Match the property name in the model
-                Otp: otp
-            };
-             
+            var data = { Email: email, Otp: otp };
+
             $.ajax({
-                url: BaseUrl+`Api/Account/VerifyJyotish`,
+                url: BaseUrl + `Api/Account/VerifyJyotish`,
                 type: 'POST',
                 contentType: 'application/json',
-                data: JSON.stringify(data), // Send the data as a JSON string
-
+                data: JSON.stringify(data),
                 success: function (response) {
-                     
-                    // Handle different status messages based on the response
                     switch (response.status) {
                         case 200:
                             alert("OTP Check successful: " + response.message);
@@ -268,7 +266,6 @@
                     }
                 },
                 error: function (xhr) {
-                     
                     alert("Error: " + xhr.status + " - " + xhr.statusText);
                 }
             });
@@ -378,15 +375,22 @@
             }
         });
 
-        
 
-        $('#registrationForm').on("submit", function (event) {
+
+        $("#registrationForm").on("submit", function (event) {
             event.preventDefault();
 
-           
-            const formData = new FormData();
+            // Check if the OTP is required and empty
+            if ($("#otp").is(':hidden') && !$("#otp").val()) {
+                alert("Please get and verify your OTP before signing up.");
+                return; // Stop form submission
+            }
+            if ($("#otp").css('display') === 'none' && !$("#otp").val()) {
+                alert("Please get and verify your OTP before signing up.");
+                return; // Stop form submission
+            }
 
-         
+            const formData = new FormData();
             formData.append('name', $('#name').val());
             formData.append('email', $('#email').val());
             formData.append('gender', $('#gender').val());
@@ -396,30 +400,37 @@
             formData.append('country', $('#country').val());
             formData.append('state', $('#state').val());
             formData.append('city', $('#city').val());
-       
 
-           
             const fileInput = document.querySelector('input[type="file"]');
             if (fileInput && fileInput.files.length > 0) {
                 formData.append('image', fileInput.files[0]);
             }
 
-          
             $.ajax({
                 url: BaseUrl + 'Api/Account/SignUpJyotish',
                 type: 'POST',
                 data: formData,
                 processData: false,
-                contentType: false, 
+                contentType: false,
                 success: function (response) {
-                    console.log('Success:', response);
                     alert('Form submitted successfully!');
                     $('#registrationForm')[0].reset();
+                    location.replace('/Jyotish/login');
                 },
-                error: function (xhr, status, error) {
-                    console.error('Error:', error);
-                    console.log('XHR:', xhr);
-                    alert('There was an error submitting the form: ' + xhr.responseText);
+                error: function (xhr) {
+                    try {
+                        // Parse the responseText if it's JSON
+                        var response = JSON.parse(xhr.responseText);
+
+                        if (response.message === "Not authorized to register") {
+                            alert('Please Verify OTP');
+                        } else {
+                            alert('Error: ' + response.message || 'There was an error submitting the form');
+                        }
+                    } catch (e) {
+                        // Fallback if parsing fails
+                        alert('There was an error submitting the form: ' + xhr.responseText);
+                    }
                 }
             });
         });
