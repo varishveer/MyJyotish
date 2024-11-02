@@ -511,7 +511,8 @@ namespace BusinessAccessLayer.Implementation
 
         public string AddAppointmentSlot(AppointmentSlotViewModel model)
         {
-            if(model.Date < DateTime.Now)
+            var today = DateOnly.FromDateTime(DateTime.Now);
+            if (model.Date < today.ToDateTime(TimeOnly.MinValue))
             { return "Invalid Date"; }
 
             var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
@@ -780,7 +781,7 @@ namespace BusinessAccessLayer.Implementation
 
             string problemString = record.Problem;
             string SolutionString = record.Solution;
-            // Split the string using the specified delimiter
+          
             string[] problemArray = problemString.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries);
             string[] SolutionArray = SolutionString.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -800,48 +801,61 @@ namespace BusinessAccessLayer.Implementation
             return Result;
         }
 
-        
-        public List<ProblemSolutionJyotishGetAllViewModel> GetAllProblemSolution(int JyotishId) 
+
+        public List<ProblemSolutionJyotishGetAllViewModel> GetAllProblemSolution(int jyotishId)
         {
             var data = _context.ProblemSolution
-            .Include(x => x.Appointment)
-                .ThenInclude(y => y.UserRecord)
-            .Select(x => new ProblemSolutionJyotishGetAllViewModel
-            {
-                Id = x.Id,
-                UserName = x.Appointment.UserRecord.Name,
-                UserId = x.Appointment.UserRecord.Id,
-                Date = DateOnly.FromDateTime(x.Appointment.Date),
-                Time = TimeOnly.FromDateTime(x.Appointment.Date),
-                AppointmentId = x.AppointmentId
-            })
-            .ToList();
+                .Include(x => x.Appointment)
+                    .ThenInclude(y => y.UserRecord)
+                .Where(x => x.Appointment.JyotishId == jyotishId)
+                .Select(x => new
+                {
+                    ProblemSolution = x,
+                    AppointmentSlot = _context.AppointmentSlots.FirstOrDefault(s => s.Id == x.Appointment.SlotId)
+                })
+                .Select(x => new ProblemSolutionJyotishGetAllViewModel
+                {
+                    Id = x.ProblemSolution.Id,
+                    UserName = x.ProblemSolution.Appointment.UserRecord.Name,
+                    UserId = x.ProblemSolution.Appointment.UserRecord.Id,
+                    Date = x.AppointmentSlot != null ? DateOnly.FromDateTime(x.AppointmentSlot.Date) : DateOnly.MinValue,
+                    Time = x.AppointmentSlot != null ? x.AppointmentSlot.TimeFrom : TimeOnly.MinValue,
+                    AppointmentId = x.ProblemSolution.AppointmentId
+                })
+                .ToList();
 
             return data;
         }
+
         public ProblemSolutionJyotishDetailViewModel GetProblemSolutionDetail(int id)
         {
             var data = _context.ProblemSolution
                 .Where(x => x.Id == id)
-                .Include(x => x.Appointment) 
-                    .ThenInclude(y => y.UserRecord) 
+                .Include(x => x.Appointment)
+                    .ThenInclude(y => y.UserRecord)
+                .Select(x => new
+                {
+                    ProblemSolution = x,
+                    AppointmentSlot = _context.AppointmentSlots.FirstOrDefault(s => s.Id == x.Appointment.SlotId)
+                })
                 .Select(x => new ProblemSolutionJyotishDetailViewModel
                 {
-                    Id = x.Id,
-                    UserName = x.Appointment.UserRecord.Name, 
-                    UserId = x.Appointment.UserRecord.Id, 
-                    Date = DateOnly.FromDateTime(x.Appointment.Date), 
-                    Time = TimeOnly.FromDateTime(x.Appointment.Date), 
-                    AppointmentId = x.AppointmentId, 
-                    Problem = x.Problem != null ?
-                        x.Problem.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries) : Array.Empty<string>(), 
-                    Solution = x.Solution != null ?
-                        x.Solution.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries) : Array.Empty<string>() 
+                    Id = x.ProblemSolution.Id,
+                    UserName = x.ProblemSolution.Appointment.UserRecord.Name,
+                    UserId = x.ProblemSolution.Appointment.UserRecord.Id,
+                    Date = x.AppointmentSlot != null ? DateOnly.FromDateTime(x.AppointmentSlot.Date) : DateOnly.MinValue,
+                    Time = x.AppointmentSlot != null ? x.AppointmentSlot.TimeFrom: TimeOnly.MinValue,
+                    AppointmentId = x.ProblemSolution.AppointmentId,
+                    Problem = x.ProblemSolution.Problem != null ?
+                        x.ProblemSolution.Problem.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries) : Array.Empty<string>(),
+                    Solution = x.ProblemSolution.Solution != null ?
+                        x.ProblemSolution.Solution.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries) : Array.Empty<string>()
                 })
-                .FirstOrDefault(); 
+                .FirstOrDefault();
 
             return data;
         }
+
 
         public string UpdateProblemSolution(ProblemSolutionViewModel model)
         {
@@ -967,6 +981,7 @@ namespace BusinessAccessLayer.Implementation
                 {
                     return "Invalid data provided for the attachment.";
                 }
+
 
                 // Keep Titles synchronized with Image URLs
                 for (int i = 0; i < model.ImageUrl.Count; i++)

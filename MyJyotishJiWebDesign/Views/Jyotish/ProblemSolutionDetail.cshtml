@@ -1,0 +1,263 @@
+﻿@{
+    Layout = "JyotishLayout";
+}
+
+<style>
+    .content-container {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 30px;
+        border-radius: 12px;
+        background-color: #ffffff;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    .header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+        .header h2 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+        }
+
+    .problem-solution-container {
+        margin-top: 20px;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 15px;
+        background-color: #f9f9f9;
+    }
+
+    .section-title {
+        font-weight: bold;
+        color: #2980b9;
+        margin-bottom: 10px;
+    }
+
+    .btn-custom {
+        background-color: #2980b9;
+        color: #fff;
+    }
+
+        .btn-custom:hover {
+            background-color: #1a5276;
+        }
+
+    .form-control {
+        border-radius: 5px;
+        border: 1px solid #bdc3c7;
+    }
+
+        .form-control:focus {
+            border-color: #2980b9;
+            box-shadow: 0 0 5px rgba(41, 128, 185, 0.5);
+        }
+</style>
+
+<div class="content-container">
+    <div class="header">
+        <h2 style="font-weight: 300;">Problem and Solution Viewer</h2>
+        <p>View the details of the problem and its solutions</p>
+    </div>
+    <div id="problemSolutionContent">
+        <!-- Data will be injected here -->
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        const id = new URLSearchParams(window.location.search).get('id');
+
+        $.ajax({
+            url: `${BaseUrl}Api/Jyotish/GetProblemSolutionDetail?id=${id}`,
+            method: "GET",
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+                'Content-Type': 'application/json',
+            },
+            success: function (response) {
+                if (response.status === 200) {
+                    const data = response.data;
+                    const content = `
+                            <div class="container my-3">
+                                <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#updateProblemSolutionModal"
+                                   onclick='populateUpdateModal(${JSON.stringify(data)})'>Update</a>
+                            </div>
+                            <div class="problem-solution-container">
+                                <div class="d-flex justify-content-between">
+                                    <div><div class="section-title">User Name:</div><p>${data.userName}</p></div>
+                                    <div><div class="section-title">Date:</div><p>${data.date}</p></div>
+                                    <div><div class="section-title">Time:</div><p>${data.time}</p></div>
+                                </div>
+                                <div class="section-title">Problems:</div>
+                                <ul>${data.problem.map(problem => `<li>${problem}</li>`).join('')}</ul>
+                                <div class="section-title">Solutions:</div>
+                                <ul>${data.solution.map(solution => `<li>${solution}</li>`).join('')}</ul>
+                            </div>
+                        `;
+                    $('#problemSolutionContent').html(content);
+                } else {
+                    $('#problemSolutionContent').html('<p>No data available.</p>');
+                }
+            },
+            error: function () {
+                $('#problemSolutionContent').html('<p>Error loading data.</p>');
+            }
+        });
+
+        window.populateUpdateModal = function (data) {
+            $('#modalUserName').text(data.userName);
+            $('#modalDate').text(data.date);
+            $('#modalTime').text(data.time);
+
+            $('#updateProblemFields').empty();
+            $('#updateSolutionFields').empty();
+
+            // Set hidden input for AppointmentId
+            $('#updateId').val(data.id); // Set the unique id
+            $('#updateAppointmentId').val(data.appointmentId);
+
+            // Populate problem fields
+            data.problem.forEach(problem => {
+                const problemField = `<div class="mb-3"><textarea class="form-control" rows="3">${problem}</textarea></div>`;
+                $('#updateProblemFields').append(problemField);
+            });
+
+            // Populate solution fields
+            data.solution.forEach(solution => {
+                const solutionField = `<div class="mb-3"><textarea class="form-control" rows="3">${solution}</textarea></div>`;
+                $('#updateSolutionFields').append(solutionField);
+            });
+        };
+    });
+
+    function updateData() {
+        const id = $('#updateId').val(); // Assuming a hidden input for the unique id
+        const appointmentId = $('#updateAppointmentId').val();
+        const problems = Array.from($('#updateProblemFields textarea')).map(input => input.value);
+        const solutions = Array.from($('#updateSolutionFields textarea')).map(input => input.value);
+
+        const data = {
+            Id: id, // The unique identifier
+            AppointmentId: appointmentId, // Appointment-specific ID
+            Problem: problems,
+            Solution: solutions
+        };
+
+        $.ajax({
+            url: `${BaseUrl}Api/Jyotish/UpdateProblemSolution`,
+            type: 'POST',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+            },
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function (response) {
+                if (response.status === 200) {
+                    alert('Data updated successfully!');
+                    $('#updateProblemSolutionModal').modal('hide');
+                    location.reload();
+                } else {
+                    alert('Error: ' + response.Message);
+                }
+            },
+            error: function () {
+                alert('Error updating data.'); 
+            }
+        });
+    }
+
+    function addUpdateProblemField() {
+        $('#updateProblemFields').append(`<div class="mb-3"><textarea class="form-control" rows="3" placeholder="Enter updated problem"></textarea></div>`);
+    }
+
+    function addUpdateSolutionField() {
+        $('#updateSolutionFields').append(`<div class="mb-3"><textarea class="form-control" rows="3" placeholder="Enter updated solution"></textarea></div>`);
+    }
+</script>
+
+<!-- Update Problem and Solution Modal -->
+<div class="modal fade" id="updateProblemSolutionModal" tabindex="-1" aria-labelledby="updateProblemSolutionModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateProblemSolutionModalLabel">Update Problem and Solution</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+
+                <div class="d-flex justify-content-between">
+                    <div><div class="section-title">User Name:</div><p id="modalUserName"></p></div>
+                    <div><div class="section-title">Date:</div><p id="modalDate"></p></div>
+                    <div><div class="section-title">Time:</div><p id="modalTime"></p></div>
+                </div>
+               
+
+                <!-- Hidden input to store AppointmentId -->
+                <input type="hidden" id="updateId" />
+                <input type="hidden" id="updateAppointmentId" />
+
+                <div class="container-fluid">
+                    <div class="row">
+                        <!-- Column for Problems -->
+                        <div class="col-md-6">
+                            <h6>Problem(s)</h6>
+                            <div id="updateProblemFields" class="expandable-content"></div>
+                            <button type="button" class="btn btn-secondary mb-3" onclick="addUpdateProblemField()">Add More Problem</button>
+                        </div>
+
+                        <!-- Column for Solutions -->
+                        <div class="col-md-6">
+                            <h6>Solution(s)</h6>
+                            <div id="updateSolutionFields" class="expandable-content"></div>
+                            <button type="button" class="btn btn-secondary mb-3" onclick="addUpdateSolutionField()">Add More Solution</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-custom" onclick="updateData()">Update</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Ensure the modal covers the full screen and expands with content */
+    .modal-fullscreen {
+        max-width: 100%;
+        max-height: 100vh;
+        margin: 0;
+        padding: 0;
+    }
+
+    .modal-content {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+    }
+
+    .modal-body {
+        flex: 1;
+        overflow-y: auto;
+    }
+
+    .expandable-content {
+        max-height: 50vh; /* Adjust as needed */
+        overflow-y: auto;
+    }
+
+    /* Optional styling for modal headers and footers */
+    .modal-header, .modal-footer {
+        background-color: #f5f5f5;
+    }
+</style>

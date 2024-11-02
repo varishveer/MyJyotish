@@ -31,6 +31,8 @@ namespace MyJyotishJiWebDesign.Controllers
 
         public ActionResult AppointmentSlot() { return View(); }
         public ActionResult JyotishSolution() { return View(); }
+        public ActionResult ProblemSolution() { return View(); }
+        public ActionResult ProblemSolutionDetail() { return View(); }
         public ActionResult Wallets() { return View(); }
 
     }

@@ -1,0 +1,98 @@
+﻿
+@{
+    Layout = "JyotishLayout";
+}
+
+
+@{
+    Layout = "JyotishLayout";
+
+}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<style>
+    .card-body {
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+    }
+</style>
+
+<div class="container-fluid mt-4">
+    <div class="card">
+        <div class="d-flex flex-row justify-content-between align-items-center pt-2 px-4">
+            <h6 class="text-primary">Problem's Solution'</h6>
+            <div id="buttonContainer1"></div>
+        </div>
+        <hr />
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="DataTable" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                           
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Action</th>
+                          
+                           
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Table content will be inserted here dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    $(document).ready(function () {
+        // Fetch and display all appointments on page load
+        function fetchData() {
+            var Id = localStorage.getItem('Id');
+            $.ajax({
+                url: BaseUrl + `api/Jyotish/GetAllProblemSolution?Id=${Id}`,
+                type: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+                    'Content-Type': 'application/json'
+                },
+                success: function (result) {
+                    var counterForId = 1;
+                    let htmls = '';
+                    $.each(result.data, function (key, item) {
+                        htmls += '<tr>';
+                        htmls += `<td class="text-center">${counterForId}</td>`;
+                        htmls += `<td class="text-center">${item.userName}</td>`;
+
+                        htmls += `<td class="text-center">${item.date}</td>`;
+                        htmls += `<td class="text-center">${item.time}</td>`;
+                        htmls += `<td class="text-center"> <a href="/Jyotish/ProblemSolutionDetail?id=${item.id}" class="btn btn-success"> View </a></td>`
+                       
+                        htmls += '</tr>';
+                        counterForId++;
+                    });
+                    $('#DataTable tbody').html(htmls);
+                    $('#DataTable').DataTable();
+                },
+                error: function (errormessage) {
+                    console.error('Error fetching data:', errormessage.responseText);
+                }
+            });
+        }
+
+       
+
+        
+
+        fetchData(); // Initial data fetch
+    });
+</script>
