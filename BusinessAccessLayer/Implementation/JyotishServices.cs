@@ -55,7 +55,7 @@ namespace BusinessAccessLayer.Implementation
 
 
 
-            if (model.ProfileImageUrl != null)
+            if (model.ProfileImageUrl !=null)
             {
 
                 var ProfileGuid = Guid.NewGuid().ToString();
@@ -67,6 +67,10 @@ namespace BusinessAccessLayer.Implementation
                 }
                 existingRecord.ProfileImageUrl = "Images/Jyotish/" + ProfileGuid + model.ProfileImageUrl.FileName;
 
+            }
+            else
+            {
+                existingRecord.ProfileImageUrl = existingRecord.ProfileImageUrl;
             }
 
 

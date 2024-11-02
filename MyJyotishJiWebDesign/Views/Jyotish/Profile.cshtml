@@ -184,6 +184,10 @@
     .laguage {
         font-size: 15px;
     }
+
+    #about{
+        text-align:justify !important;
+    }
 </style>
 
 
@@ -195,12 +199,11 @@
                 <img id="profileImage" src="~/Img/UserPlaceholder.png" alt="Profile Image" class="profile-photo" width="250" height="250">
             </div>
             <h6 id="JyotishName"></h6>
-            <div class="my-3 d-flex justify-content-center flex-row">
-                <a href="/Jyotish/UpdateProfile">
-                    <button class="btn btn-outline-info mx-1">
-                    Edit Profile
-                    </button>
-                </a>
+            <div class="my-3 d-flex justify-content-center flex-wrap flex-row">
+                <button class="btn btn-outline-info mx-1">
+                    <a href="/Jyotish/UpdateProfile">Edit Profile</a>
+                </button>
+                <button class="btn btn-outline-primary">Change Password</button>
             </div>
 
             <div class="row">
@@ -319,16 +322,11 @@
                         <div class="detail-label">Specialization</div>
                         <div class="detail-value" id="specialization"></div>
                     </div>
-                   
-                </div>
-                <div class="row">
-                     <div class="col-md-12">
-                        <div class="detail-value">Awards and Achievements</div>
-                        <div class="detail-label" id="awardsAndAchievement"></div>
+                    <div class="col-md-6">
+                        <div class="detail-label">Awards and Achievements</div>
+                        <div class="detail-value" id="awardsAndAchievement"></div>
                     </div>
                 </div>
-            
-             
 
                
             </div>
@@ -338,9 +336,10 @@
 
 
 <script>
-    $(document).ready(function () {
+   
         var Id = localStorage.getItem('Id'); // Assuming Id is stored in localStorage
-
+        let allAbout;
+        let cropAbout;
         $.ajax({
             url: BaseUrl + `api/Jyotish/GetProfile?Id=${encodeURIComponent(Id)}`,
             type: 'GET',
@@ -365,9 +364,9 @@
                     $('#state').text(profile.state);
                     $('#country').text(profile.country);
                     $('#language').text(profile.language);
-                    $('#experience').text(profile.experience);
+                $('#experience').text(profile.experience);
                     $('#specialization').text(profile.specialization);
-                    $('#about').text(profile.about);
+                $('#about').html(profile.about.slice(0, 200) + `...<span class='text-primary' onClick='SeemoreAbout()' role='button'>more</span>`);
                     $('#awardsAndAchievement').text(profile.awordsAndAchievement || 'N/A');
                     $('#callCharges').text(profile.callCharges);
                     $('#chatCharges').text(profile.chatCharges);
@@ -378,7 +377,7 @@
                     $('#timeTo').text(profile.timeTo);
                    
                     $('#timeFrom').text(profile.timeFrom);
-
+                    allAbout = profile.about;
                     // Handle timeFrom and timeTo if necessary
                 } else {
                    
@@ -405,6 +404,17 @@
                 });
             }
         });
-    });
+      function SeemoreAbout(){
+            cropAbout=$("#about").html()
+          $("#about").html(
+              `
+                      ${allAbout} <span class='text-primary' onClick='SeelessAbout()' role='button'>less</span>
+              `
+          )
+      }
+      function SeelessAbout(){
+            $("#about").html(cropAbout)
+      }
+   
 
 </script>

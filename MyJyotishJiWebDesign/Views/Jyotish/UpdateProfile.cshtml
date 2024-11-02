@@ -2,6 +2,13 @@
     Layout = "JyotishLayout";
   
 }
+
+<style>
+    .back-to-top{
+        display:none !important;
+    }
+</style>
+
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <div class="container mt-2">
     <h3 style="font-weight:300;" class="mb-4">Update Profile Information</h3>
@@ -13,13 +20,12 @@
 
 
 
-                    <div class="form-group mb-3">
-                        <label for="profileImage">Old Profile Image:</label>
-                        <img id="profileImagePreview" width="250" height="250" />
+                    <div class="form-group mb-3 text-center">
+                        <img id="profileImagePreview" class="rounded-circle" width="200" height="200" /><br /><br />
+                        <label for="profileImage" class="btn btn-outline-primary">EditImage</label>
                     </div>
                     <div class="form-group mb-3">
-                        <label for="profileImage">Upload New Image:</label>
-                        <input type="file" id="profileImage" name="profileImage" class="form-control form-control-sm">
+                        <input type="file" id="profileImage" hidden name="profileImage" class="form-control form-control-sm">
                     </div>
                     <div class="form-group mb-3">
                         <label for="name">Name:</label>
@@ -43,28 +49,31 @@
                     </div>
                     <div class="form-group mb-3">
                         <label for="expertise">Expertise:</label>
-                        <select id="expertise" name="expertise" class="form-control form-control-sm" multiple>
+                        <select id="expertise" name="expertise" class="form-control select2 form-control-sm" multiple>
                             <option value="">Select Expertise</option>
                         </select>
                     </div>
-                  
+                    <div class="form-group mb-3">
+                        <label for="experience">Experience (Years):</label>
+                        <input type="number" id="experience" name="experience" class="form-control form-control-sm" required>
+                    </div>
                     
                     <div class="form-group mb-3">
                         <label for="country">Country:</label>
-                        <select id="country" name="country" class="form-control form-control-sm" required>
-                            <option value="">Select Country</option>
+                        <select id="country" name="country" class="form-control form-control-sm select2" required>
+                            <option selected disabled>Select Country</option>
                         </select>
                     </div>
                     <div class="form-group mb-3">
                         <label for="state">State:</label>
-                        <select id="state" name="state" class="form-control form-control-sm" disabled>
-                            <option value="">Select State</option>
+                        <select id="state" name="state" class="form-control select2 form-control-sm" disabled>
+                            <option selected disabled>Select State</option>
                         </select>
                     </div>
                     <div class="form-group mb-3">
                         <label for="city">City:</label>
-                        <select id="city" name="city" class="form-control form-control-sm" disabled>
-                            <option value="">Select City</option>
+                        <select id="city" name="city" class="form-control select2 form-control-sm" disabled>
+                            <option selected disabled>Select City</option>
                         </select>
                     </div>
                 </div>
@@ -73,11 +82,7 @@
             <!-- Profile Image Section -->
             <div class="col-md-12 col-lg-6">
                 <div class="profile-card bg-light rounded p-3 mb-4">
-
-                    <div class="form-group mb-3">
-                        <label for="experience">Experience (Years):</label>
-                        <input type="number" id="experience" name="experience" class="form-control form-control-sm" required>
-                    </div>
+                    
                     <div class="form-group mb-3">
                         <label for="language">Language:</label>
                         <select id="language" name="language" class="form-control form-control-sm" multiple>
@@ -125,17 +130,18 @@
                         <input type="text" id="specialization" name="specialization" class="form-control form-control-sm" required>
                     </div>
                 </div>
+        <button type="submit" class="btn btn-primary float-end">Update Profile</button>
             </div>
         </div>
 
         <!-- Submit Button -->
-        <button type="submit" class="btn btn-primary">Update Profile</button>
     </form>
 </div>
 
 
 <script>
     $(document).ready(function () {
+        $(".select2").select2();
         var token = localStorage.getItem('Token2');
         var id = localStorage.getItem("Id");
        
@@ -156,14 +162,11 @@
                 success: function (response) {
                     if (response.status === 200) {
                         var profile = response.data;
-
+                        console.log(profile)
                         // Fill in text fields
                         $('#name').val(profile.name);
                         $('#mobile').val(profile.mobile);
                         $('#gender').val(profile.gender);
-                        $('#city').val(profile.city);
-                        $('#state').val(profile.state);
-                        $('#country').val(profile.country);
                         $('#experience').val(profile.experience);
                         $('#timeTo').val(profile.timeTo);
                         $('#timeFrom').val(profile.timeFrom);
@@ -190,7 +193,45 @@
                         }
                         if (profile.expertise) {
                             let expertiseArray = profile.expertise.split(',');
+                            setTimeout(()=>{
                             $('#expertise').val(expertiseArray).trigger('change');
+                            },1000)
+                        }
+
+
+
+
+                        if (profile.country != null) {
+                            $(".country").each(function (i, d) {
+                                if (d.text == profile.country) {
+                                    d.setAttribute("selected", true)
+                                }
+                            })
+                        }
+                        if (profile.state != null) {
+                            $("#country").trigger("change");
+                            setTimeout(() => {
+                                $(".state").each(function (i, d) {
+                                    if (d.text == profile.state) {
+                                        d.setAttribute("selected", true)
+                                    }
+                                })
+                                if (profile.city != null) {
+                                    $("#state").trigger("change")
+                                }
+                            }, 1000)
+                        }
+                        if (profile.city != null) {
+                            setTimeout(() => {
+                                $(".city").each(function (i, d) {
+                                    if (d.text == profile.city) {
+                                        d.setAttribute("selected", true)
+                                    }
+                                })
+                                $("#city").trigger("change");
+
+                            }, 2000)
+
                         }
 
                         // Date of birth field
@@ -219,17 +260,17 @@
         // Load data on page load
         loadProfileData();
 
-        // Load Countries
+
         function loadCountries() {
             $.ajax({
                 url: BaseUrl + 'Api/Jyotish/Country',
                 type: 'GET',
-             
+
                 success: function (response) {
                     var countryDropdown = $('#country');
                     countryDropdown.empty().append('<option value="">Select Country</option>');
                     response.data.forEach(country => {
-                        countryDropdown.append(new Option(country.name, country.id));
+                        countryDropdown.append(`<option class='country' value="${country.id}">${country.name}</option>`);
                     });
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
@@ -237,7 +278,6 @@
                 }
             });
         }
-
         // Fetch States based on selected Country
         $('#country').change(function () {
             var countryId = $(this).val();
@@ -254,7 +294,7 @@
                         var stateDropdown = $('#state');
                         stateDropdown.empty().append('<option value="">Select State</option>');
                         response.data.forEach(state => {
-                            stateDropdown.append(new Option(state.name, state.id));
+                            stateDropdown.append(`<option class='state' value="${state.id}">${state.name}</option>`);
                         });
                         stateDropdown.prop('disabled', false);
                     },
@@ -280,7 +320,7 @@
                         var cityDropdown = $('#city');
                         cityDropdown.empty().append('<option value="">Select City</option>');
                         response.data.forEach(city => {
-                            cityDropdown.append(new Option(city.name, city.id));
+                            cityDropdown.append(`<option class='city' value="${city.id}">${city.name}</option>`);
                         });
                         cityDropdown.prop('disabled', false);
                     },
@@ -290,7 +330,6 @@
                 });
             }
         });
-
         // Load expertise options (mock data)
         function loadExpertise() {
             $.ajax({

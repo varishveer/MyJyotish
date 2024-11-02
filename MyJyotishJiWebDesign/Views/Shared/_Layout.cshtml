@@ -325,7 +325,7 @@
                                     <li><a class="dropdown-item" href="/Home/Wallet">Wallet</a></li>
                                     <li><a class="dropdown-item" href="/Home/Appointments">Appointments</a></li>
                                     <li><a class="dropdown-item" href="/Home/ProblemSolution ">ProblemSolution</a></li>
-                                    <li><a class="dropdown-item" href="#" id="logoutBtn">Logout</a></li>
+                                    <li><a class="dropdown-item" id="logoutBtn">Logout</a></li>
                                 </ul>
                             `;
                     navbarNav.appendChild(profileSection);
@@ -334,7 +334,7 @@
                     document.getElementById('logoutBtn').addEventListener('click', function () {
                         debugger;
                         localStorage.clear();
-                        window.location.href("/Home/Login");
+                        window.location.href = "/Home/Login";
                     });
                 }
             }
