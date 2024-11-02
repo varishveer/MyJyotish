@@ -134,7 +134,7 @@ body {
 
         $(document).ready(function () {
             $.ajax({
-                url: "https://localhost:7118/api/Jyotish/GetWallet",
+                url: BaseUrl+"api/Jyotish/GetWallet",
                 type: "get",
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
@@ -174,7 +174,7 @@ body {
             }
         })
         $.ajax({
-            url: "https://localhost:7118/Api/Payments/create-order",
+            url:BaseUrl+"Api/Payments/create-order",
             type: "POST",
             contentType: "application/json", 
             data: JSON.stringify({ 
@@ -246,7 +246,7 @@ body {
     function InsertPayment(pay_id, signature, order_id, amount,status,message) {
         debugger
         $.ajax({
-            url: "https://localhost:7118/Api/payments/capture-payment",
+            url:BaseUrl+"Api/payments/capture-payment",
             type: "POST",
             contentType: "application/json",
             data:JSON.stringify({
@@ -288,7 +288,7 @@ body {
                         }
                     })
         $.ajax({
-            url: "https://localhost:7118/api/Jyotish/AddWallet",
+            url:BaseUrl+"Api/Jyotish/AddWallet",
             type: "post",
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
@@ -330,7 +330,7 @@ body {
        
         //payment history
         $.ajax({
-            url: `https://localhost:7118/api/Jyotish/JyotishPaymentrecords`,
+            url: `${BaseUrl}Api/Jyotish/JyotishPaymentrecords`,
             type: 'GET',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
@@ -353,7 +353,7 @@ body {
                                                  <div class="col-sm-12 border rounded p-2 my-2 phistory" data-receipt='${JSON.stringify(d).replace(/'/g, "\\'")}' id="receipt_${d.id}" onClick='printReceipt(${d.id},"payment")'>
                                 <div class="row h-100">
                                     <div class="col-sm-2 text-center ">
-                                        <img class="w-75 h-100 rounded-circle" src="https://api.myjyotishg.in/Images/Logo.png" />
+                                        <img class="w-75 h-100 rounded-circle" src="https:/Api.myjyotishg.in/Images/Logo.png" />
                                     </div>
                                     <div class="col-sm-6">
                                         MyJyotishg<br />
@@ -380,7 +380,7 @@ body {
        
         //wallet history
         $.ajax({
-            url: "https://localhost:7118/api/Jyotish/GetWalletHistroy",
+            url:BaseUrl+"Api/Jyotish/GetWalletHistroy",
             type: "get",
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
@@ -427,7 +427,7 @@ body {
                                              <div class="col-sm-12 border rounded p-2 my-2 phistory"  data-receipt='${JSON.stringify(d).replace(/'/g, "\\'")}' id="receipt_${d.id}" onClick='printReceipt(${d.id},"wallet")'>
                                 <div class="row h-100">
                                     <div class="col-sm-2 text-center ">
-                                        <img class="w-75 h-100 rounded-circle" src="https://api.myjyotishg.in/Images/Logo.png" />
+                                        <img class="w-75 h-100 rounded-circle" src="https:/Api.myjyotishg.in/Images/Logo.png" />
                                     </div>
                                     <div class="col-sm-6">
                                         MyJyotishg<br />
@@ -456,7 +456,7 @@ body {
             $(".receipt-body").html(
                 `
                      <div class="col-sm-12 d-flex justify-content-center flex-column align-items-center">
-                            <img src="${'https://api.myjyotishg.in/Images/Logo.png'}" height="100" width="100" />
+                            <img src="${'https:/Api.myjyotishg.in/Images/Logo.png'}" height="100" width="100" />
                             <p class="text-center">To MyJyotishg</p>
                                     <h2>₹${data.amount}</h2>
                                                         <p class="text-center">${data.status == "success" ? "<i class='fas fa-check-circle text-success'></i>Completed" : data.status == "Pending" ? "<span><i class='fas text-warning fa-exclamation-triangle'></i>Cancelled</span>": "<span class='text-danger'><i class='fas fa-exclamation-circle'></i>Failed</span>"}</p >
@@ -474,12 +474,12 @@ body {
                 $(".receipt-body").html(
                     `
         <div class="col-sm-12 d-flex justify-content-center flex-column align-items-center" >
-                                <img src="${data.profile==null?'https://api.myjyotishg.in/Images/Logo.png':BaseUrl+data.profile}" class='rounded-circle' height="100" width="100" />
+                                <img src="${data.profile==null?'https:/Api.myjyotishg.in/Images/Logo.png':BaseUrl+data.profile}" class='rounded-circle' height="100" width="100" />
                                 <p class="text-center">From ${data.userName==null?"MyJyotishg":data.userName}</p>
                                 <h2>₹20</h2>
                                 <p class="text-center"><i class="fas fa-check-circle text-success"></i>Completed</p>
                                 <hr class="w-50"/>
-                                <p class="text-center">20-10-2003</p>
+                                <p class="text-center">${data.paymentDate}</p>
                                     <div class="border rounded w-100 p-3 row">
                                             
                                                <div class='col-sm-3'> PaymentId </div>:<div class='col-sm-8'>${data.paymentId}</div>
