@@ -27,6 +27,12 @@ namespace MyJyotishGApi.Controllers
         {
             var records = _jyotish.GetAllAppointment(Id);
             return Ok(new { Status =200,data = records });
+        } 
+        [HttpGet("GetTodayAppointment")]
+        public IActionResult GetTodayAppointment(int Id)
+        {
+            var records = _jyotish.GetTodayAppointment(Id);
+            return Ok(new { Status =200,data = records });
         }
         [HttpGet("UpcomingAppointment")]
         public IActionResult UpcomingAppointment(int Id)

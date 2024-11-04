@@ -44,6 +44,7 @@
                      (6587)</span>
                     <p id="profileExpertise" class="text-muted mb-1" style="font-size: 14px;"></p>
                     <p id="profileLanguage" class="text-muted mb-1" style="font-size: 14px;"></p>
+                    <p class="mb-1 text-muted">Available :<small id="time"></small></p>
                     <p id="profileExperience" class="text-muted mb-1" style="font-size: 14px;"></p>
                     </div>
                     <div class="col-md-8">
@@ -139,7 +140,7 @@
             <div class="modal-body text-center">
                 <h4 class="text-center">MyJyotishg</h4>
                 <p class="text-center">Scan QR</p>
-                <img src="https://api.myjyotishg.in/qr-code.jpg" class="w-50 h-50" />
+                <img src="https://myjyotishg.in/qr-code.jpg" class="w-50 h-50" />
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -160,7 +161,7 @@
             <div class="modal-body text-center">
                 <h4 class="text-center">MyJyotishg</h4>
                 <p class="text-center">Scan QR</p>
-                <img src="https://api.myjyotishg.in/qr-code.jpg" class="w-50 h-50" />
+                <img src="https://myjyotishg.in/qr-code.jpg" class="w-50 h-50" />
 
             </div>
             <div class="modal-footer">
@@ -184,12 +185,13 @@
                 debugger;
                 if (response.status === 200) {
                     var data = response.data;
-
+                    console.log(data)
                     // Update Profile Section
                     $('#profilePicture').attr('src', BaseUrl+data.profileImageUrl);
                     $('#profileName').text(data.name + ' ✅');
                     $('#profileExpertise').text(data.expertise);
                     $('#profileLanguage').text(data.language);
+                    $("#time").text(data.timeFrom.slice(0, 5) + "-" + data.timeTo.slice(0, 5))
                     $('#profileExperience').text('Experience: ' + data.experience + ' Years');
                     $('#bookAAppointment').attr('href', "/Home/JyotishProfile?Id=" + `${data.id}`);
                     // Update About Section
@@ -311,6 +313,8 @@ $(".callBtn").hide()
         }
         var appoinmentUrl = BaseUrl + `api/User/getAllAppointmentSlot?Id=${astrologerId}`;
         let appoinmentArray;
+        if (localStorage.getItem("userId") != null & localStorage.getItem("Token") != null) {
+
         $.ajax({
             url: appoinmentUrl,
             method: 'GET',
@@ -341,11 +345,12 @@ $(".callBtn").hide()
                     })
                 }
             }, error: function (err) {
-                Swal.fire({
-                    title: "error!",
-                    text: "An error occured please try again later",
-                    icon: "error"
-                })
+                    Swal.fire({
+                        title: "error!",
+                        text: "An error occured please try again later",
+                        icon: "error"
+                    })
+                
             }
         }).then(() => {
             
@@ -413,94 +418,96 @@ $("#next-btn").text("Next");
 
 var bookAppoinmentUrl = BaseUrl + `api/User/bookAppointment`;
             function bookAppoinment() {
-                debugger
-                if ($("#problem-desc").val() == null || $("#problem-desc").val() == "")
-                {
-                    Swal.fire({
-                        title: "Required!",
-                        text: "Please describe your problems",
-                        icon: "warning"
-                    })
-                }
-                else {
-                    Swal.fire({
-                        title: "Are you sure?",
-                        text: "Do you really want to book!",
-                        icon: "warning",
-                        showCancelButton: true,
-                        confirmButtonColor: "#3085d6",
-                        cancelButtonColor: "#d33",
-                        confirmButtonText: "Yes"
-                    }).then((result) => {
-                        if (result.isConfirmed) {
+                    if ($("#problem-desc").val() == null || $("#problem-desc").val() == "") {
+                        Swal.fire({
+                            title: "Required!",
+                            text: "Please describe your problems",
+                            icon: "warning"
+                        })
+                    }
+                    else {
+                        Swal.fire({
+                            title: "Are you sure?",
+                            text: "Do you really want to book!",
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#3085d6",
+                            cancelButtonColor: "#d33",
+                            confirmButtonText: "Yes"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
 
-                            Swal.fire({
-                                title: "Proccessing Please Wait!",
-                                timerProgressBar: true,
-                                didOpen: () => {
-                                    Swal.showLoading();
-                                }
-                            })
-                            let appointmentDetail = $("input[name='jyotishAppoinment']:checked");
+                                Swal.fire({
+                                    title: "Proccessing Please Wait!",
+                                    timerProgressBar: true,
+                                    didOpen: () => {
+                                        Swal.showLoading();
+                                    }
+                                })
+                                let appointmentDetail = $("input[name='jyotishAppoinment']:checked");
 
-                            let userId = appointmentDetail[0].getAttribute("data-userId")
-                            let jyotishId = appointmentDetail[0].getAttribute("data-jyotishId")
-                            let slotId = appointmentDetail[0].getAttribute("data-slotId")
-                            let problem = $("#problem-desc").val()
-                            debugger
-                            $.ajax({
-                                url: bookAppoinmentUrl,
-                                method: 'POST',
-                                headers: {
-                                    'Authorization': `Bearer ${localStorage.getItem("Token")}`,
-                                    'Content-Type': 'application/json'
-                                },
-                                data: JSON.stringify({
-                                    userId: userId,
-                                    jyotishId: jyotishId,
-                                    slotId: slotId,
-                                    problem: problem
-                                }),
-                                success: function (res) {
-                                    debugger
-                                    if (res.status == 200) {
-                                        Swal.fire({
-                                            title: "Success!",
-                                            text: "Booked Successfully",
-                                            icon: "success",
-                                            didClose: () => {
-                                                location.reload(true);
-                                            }
-                                        });
-                                        $("#exampleModal").modal("hide")
-                                        $("#problem").hide()
-                                        $("#prev-btn").hide()
-                                        $("#appoinmentDetail").show()
-                                        $("#next-btn").text("Next");
-                                    } else {
+                                let userId = appointmentDetail[0].getAttribute("data-userId")
+                                let jyotishId = appointmentDetail[0].getAttribute("data-jyotishId")
+                                let slotId = appointmentDetail[0].getAttribute("data-slotId")
+                                let problem = $("#problem-desc").val()
+                                debugger
+                                $.ajax({
+                                    url: bookAppoinmentUrl,
+                                    method: 'POST',
+                                    headers: {
+                                        'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                                        'Content-Type': 'application/json'
+                                    },
+                                    data: JSON.stringify({
+                                        userId: userId,
+                                        jyotishId: jyotishId,
+                                        slotId: slotId,
+                                        problem: problem
+                                    }),
+                                    success: function (res) {
+                                        debugger
+                                        if (res.status == 200) {
+                                            Swal.fire({
+                                                title: "Success!",
+                                                text: "Booked Successfully",
+                                                icon: "success",
+                                                didClose: () => {
+                                                    location.reload(true);
+                                                }
+                                            });
+                                            $("#exampleModal").modal("hide")
+                                            $("#problem").hide()
+                                            $("#prev-btn").hide()
+                                            $("#appoinmentDetail").show()
+                                            $("#next-btn").text("Next");
+                                        } else {
+                                            Swal.fire({
+                                                title: "error!",
+                                                text: res.message,
+                                                icon: "error"
+                                            })
+                                        }
+                                    },
+                                    error: function (err) {
+                                    
+
                                         Swal.fire({
                                             title: "error!",
-                                            text: res.message,
+                                            text: "An error occured please try again later",
                                             icon: "error"
                                         })
+                                    
                                     }
-                                },
-                                error: function (err) {
-                                    Swal.fire({
-                                        title: "error!",
-                                        text: "An error occured please try again later",
-                                        icon: "error"
-                                    })
-                                }
 
-                            });
-                        }
-                    });
-                }
+                                });
+                            }
+                        });
+                    }
+               
             }
            
             })
-
+        }
     });
 
     function selectSlots() {
@@ -551,6 +558,30 @@ var bookAppoinmentUrl = BaseUrl + `api/User/bookAppointment`;
         const tooltip1 = bootstrap.Tooltip.getOrCreateInstance(tooltipTriggerList1)
         tooltip.hide()
         tooltip1.hide()
+    })
+
+    //handle modal for book appoinment
+    $("#exampleModal").on("show.bs.modal", function () {
+        if (localStorage.getItem("userId") == null & localStorage.getItem("Token")==null) {
+            setTimeout(() => {
+                $("#exampleModal").modal("hide")
+            Swal.fire({
+                title: "Authentication Required",
+                text: "Please login for booking appointment",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Login"
+            }).then((result) => {
+                if (result.isConfirmed)
+                {
+                location.href="/home/login"
+                }
+            })
+            }, 1000)
+       
+        }
     })
 </script>
 

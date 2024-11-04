@@ -699,22 +699,52 @@ namespace BusinessAccessLayer.Implementation
 
         public List<AppointmentSlotUserViewModel> GetAllAppointmentSlot(int id)
         {
-            var result = _context.AppointmentSlots.Where(x=>x.JyotishId == id)
-                    .GroupBy(x => x.Date)
-                    .Select(g => new AppointmentSlotUserViewModel
-                    {
-                        
-                        Date = g.Key, // Date is the grouping key
-                        SlotList = g.Select(x => new AppointmentSlotDateUserViewModel
-                        {   Id = x.Id,
-                            TimeDuration = x.TimeDuration,
-                            TimeFrom = x.TimeFrom,
-                            TimeTo = x.TimeTo,
-                            JyotishId = x.JyotishId,
-                            Status = x.Status
-                        }).ToList()
-                    })
-                    .ToList();
+            var result = _context.AppointmentSlots.Where(x => x.JyotishId == id)
+                   .GroupBy(x => x.Date)
+                   .Select(g => new AppointmentSlotUserViewModel
+                   {
+
+                       Date = g.Key, // Date is the grouping key
+                       SlotList = g.Select(x => new AppointmentSlotDateUserViewModel
+                       {
+                           Id = x.Id,
+                           TimeDuration = x.TimeDuration,
+                           TimeFrom = x.TimeFrom,
+                           TimeTo = x.TimeTo,
+                           JyotishId = x.JyotishId,
+                           Status = x.Status
+                       }).ToList()
+                   })
+                   .ToList();
+
+            return result;
+        } 
+        public dynamic GetTodayAppointment(int jyotishId)
+        {
+            var result = (
+                from appointmentRecords in _context.AppointmentRecords
+                join user in _context.Users
+                on appointmentRecords.UserId equals user.Id
+                join slots in _context.AppointmentSlots on appointmentRecords.SlotId equals slots.Id
+                where (appointmentRecords.JyotishId==jyotishId
+                && DateTime.Compare(slots.Date.Date,DateTime.Now.Date)==0)
+                select new
+                {
+                    appId = appointmentRecords.Id,
+                    uId = appointmentRecords.UserId,
+                    userName = user.Name,
+                    userMobile = user.Mobile,
+                    problem = appointmentRecords.Problem,
+                    userEmail=user.Email,
+                    userProfile=user.ProfilePictureUrl,
+                    appoinDate=slots.Date,
+                    appoinTimeFrom=slots.TimeFrom,
+                    appoinTimeTo=slots.TimeTo
+
+                }
+                );
+
+           
             return result;
         }
 
