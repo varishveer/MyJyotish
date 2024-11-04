@@ -147,7 +147,7 @@ namespace BusinessAccessLayer.Implementation
             
                 DateOfBirth = jyotishRecord.DateOfBirth,
                 ProfileImageUrl = jyotishRecord.ProfileImageUrl,
-                Status = jyotishRecord.Status,
+                Status = jyotishRecord.ApprovedStatus,
                 Otp = jyotishRecord.Otp,
                 Experience = jyotishRecord.Experience,
                 Pooja = jyotishRecord.Pooja,

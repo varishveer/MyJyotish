@@ -32,7 +32,7 @@ namespace BusinessAccessLayer.Implementation
             
             if (IsMobileValid != null)
             { 
-                if(IsMobileValid.Status == "Unverified" || IsMobileValid.Status == "Verified")
+                if(IsMobileValid.ApprovedStatus == "Unverified" || IsMobileValid.ApprovedStatus == "Verified")
                 {
                     int NewOtp = new Random().Next(100000, 1000000); ;
 
@@ -120,7 +120,7 @@ namespace BusinessAccessLayer.Implementation
                     if(isNewMailSend)
                     {IsMobileValid.Otp = NewOtp;
 
-                        IsMobileValid.Status = "Unverified";
+                        IsMobileValid.ApprovedStatus = "Unverified";
                         _context.JyotishRecords.Update(IsMobileValid);
                     var NewResult = _context.SaveChanges();
                         if (NewResult > 0)
@@ -217,7 +217,7 @@ namespace BusinessAccessLayer.Implementation
             if(isMailSend)
             {model.Otp = Otp;
             model.Email = Email;
-            model.Status = "Unverified";
+            model.ApprovedStatus = "Unverified";
             model.Role = "Pending";
             _context.JyotishRecords.Add(model);
             var result = _context.SaveChanges();
@@ -235,9 +235,9 @@ namespace BusinessAccessLayer.Implementation
             {
                 if (record.Otp == Otp)
                 {
-                    if(record.Status == "Unverified")
+                    if(record.ApprovedStatus == "Unverified")
                     {
-                        record.Status = "Verified";
+                        record.ApprovedStatus = "Verified";
                     }
                     else { return "Email already Verified"; }
                    
@@ -342,7 +342,7 @@ namespace BusinessAccessLayer.Implementation
             if (Jyotish == null )
             { return "Email Number not found"; }
 
-            if( Jyotish.Status != "Verified")
+            if( Jyotish.ApprovedStatus != "Verified")
             { return "Not authorized to register"; }
             var CountryName = _context.Countries.Where(x => x.Id == jyotishView.Country).FirstOrDefault();
             var StateName = _context.States.Where(x => x.Id == jyotishView.State).FirstOrDefault();
@@ -369,7 +369,7 @@ namespace BusinessAccessLayer.Implementation
 
 
             Jyotish.Role = "Pending";
-            Jyotish.Status = "Pending";
+            Jyotish.ApprovedStatus = "Pending";
             string uploadFolder = path + "/wwwroot/Images/Jyotish";
             string imageName = Guid.NewGuid().ToString("N").Substring(0, 8) + jyotishView.Image.FileName  ;
             Jyotish.ProfileImageUrl = "/Images/Jyotish/" + imageName;

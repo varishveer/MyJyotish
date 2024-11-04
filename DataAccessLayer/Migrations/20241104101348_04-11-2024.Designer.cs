@@ -4,6 +4,7 @@ using DataAccessLayer.DbServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20241104101348_04-11-2024")]
+    partial class _04112024
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -416,9 +419,6 @@ namespace DataAccessLayer.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("AlternateMobile")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int?>("AppointmentCharges")
                         .HasColumnType("int");
 
@@ -471,9 +471,6 @@ namespace DataAccessLayer.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("NewStatus")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int?>("Otp")
                         .HasColumnType("int");
 
@@ -497,9 +494,6 @@ namespace DataAccessLayer.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("State")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SuccessRate")
@@ -558,103 +552,6 @@ namespace DataAccessLayer.Migrations
                     b.HasIndex("JyotishId");
 
                     b.ToTable("JyotishPaymentRecord");
-                });
-
-            modelBuilder.Entity("ModelAccessLayer.Models.JyotishSignUpTempRecord", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("About")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("AlternateMobile")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("AppointmentCharges")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ApprovedStatus")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("AwordsAndAchievement")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("Call")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("CallCharges")
-                        .HasColumnType("int");
-
-                    b.Property<bool?>("Chat")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("ChatCharges")
-                        .HasColumnType("int");
-
-                    b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Country")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("DateOfBirth")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("Experience")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Expertise")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Gender")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Language")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Mobile")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NewStatus")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Pooja")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ProfileImageUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Specialization")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("State")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<TimeOnly?>("TimeFrom")
-                        .HasColumnType("time");
-
-                    b.Property<TimeOnly?>("TimeTo")
-                        .HasColumnType("time");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("jyotishTempRecords");
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.JyotishUserAttachmentModel", b =>

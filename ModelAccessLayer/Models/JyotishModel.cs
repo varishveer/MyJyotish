@@ -15,6 +15,7 @@ namespace ModelAccessLayer.Models
         [Required]
         public string Email { get; set; }
         public string? Mobile { get; set; }
+        public string? AlternateMobile { get; set; }
 
         public string Role { get; set; }
 
@@ -34,7 +35,11 @@ namespace ModelAccessLayer.Models
         public DateTime? DateOfBirth { get; set; }
         public string? ProfileImageUrl { get; set; }
        
+        public string? ApprovedStatus { get; set; }
         public string? Status { get; set; }
+        public string? NewStatus { get; set; }
+
+
         public int? Otp { get; set; }
 
 

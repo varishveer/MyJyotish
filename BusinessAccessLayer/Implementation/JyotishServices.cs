@@ -51,7 +51,7 @@ namespace BusinessAccessLayer.Implementation
 
             // Update properties from the model
             existingRecord.Role = "Jyotish";
-            existingRecord.Status = "Complete";
+            existingRecord.ApprovedStatus = "Complete";
 
 
 

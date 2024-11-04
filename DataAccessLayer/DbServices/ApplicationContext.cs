@@ -48,6 +48,7 @@ namespace DataAccessLayer.DbServices
         public DbSet<UserWallet> UserWallets { get; set; }
         public DbSet<JyotishUserAttachmentModel> JyotishUserAttachmentRecord { get; set; }
         public DbSet<WalletHistoryModel> WalletHistroy { get; set; }
+        public DbSet<JyotishTempRecord> jyotishTempRecords { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         { 

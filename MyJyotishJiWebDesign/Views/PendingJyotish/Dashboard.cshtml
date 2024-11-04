@@ -6,8 +6,14 @@
     var BaseUrl = "https://api.myjyotishg.in/";
 }
 
+<div class="justify-content-center d-flex">
+    <h4 style="font-weight:300" > Please Complete Your Profile and Upload Document</h4>
+
+</div>
 
 
+
+@* 
 <style>
     .dates {
         display: flex;
@@ -281,8 +287,8 @@
         <div class="row">
             <div class="col-md-6 offset-md-3">
                 <div class="alert" role="alert">
-                    <span class="font-weight-boldx">Status:</span>
-                    <span id="status" class="ml-2">Pending</span>
+                    <span  id="slots-title">Interview Slot Booking</span>
+                    
                 </div>
             </div>
         </div>
@@ -296,7 +302,7 @@
         <!-- Slot Booking Section -->
         <div class="slotBookingDiv">
             <div class="container">
-                <div id="slots-title">Select a Date and Time</div>
+                <div class="font-weight-boldx">Select a Date and Time</div>
 
                 <!-- Date Picker Container -->
                 <div class="d-flex align-items-center justify-content-center">
@@ -568,307 +574,9 @@
     });
 </script>
 
-
-
-
-
-
-
-
-@* <script>
-    const scrollLeftButton = document.getElementById('scroll-left');
-    const scrollRightButton = document.getElementById('scroll-right');
-    const dateContainer = document.querySelector('.dates');
-
-    const scrollAmount = 200;
-
-    scrollLeftButton.addEventListener('click', () => {
-        dateContainer.scrollBy({
-            left: -scrollAmount,
-            behavior: 'smooth',
-
-        });
-    });
-
-    scrollRightButton.addEventListener('click', () => {
-        dateContainer.scrollBy({
-            left: scrollAmount,
-            behavior: 'smooth',
-        });
-    });
-
-    function checkScrollButtons() {
-        const isAtStart = dateContainer.scrollLeft === 0;
-        const isAtEnd = dateContainer.scrollLeft + dateContainer.offsetWidth === dateContainer.scrollWidth;
-
-        scrollLeftButton.disabled = isAtStart;
-        scrollRightButton.disabled = isAtEnd;
-    }
-
-    checkScrollButtons();
-    dateContainer.addEventListener('scroll', checkScrollButtons);
-</script>
-
-<script>
-    const timeSlots = {
-        "2024-10-03": ["9:00 AM", "10:00 AM", "11:00 AM", "1:00 PM", "2:00 PM"],
-        "2024-10-04": ["9:30 AM", "10:30 AM", "11:30 AM", "1:30 PM", "2:00 PM"],
-        "2024-10-05": ["9:15 AM", "10:15 AM", "11:15 AM", "12:00 PM", "2:15 PM"],
-        "2024-10-06": ["8:00 AM", "10:00 AM", "12:00 PM", "3:00 PM", "12:00 PM", "12:00 PM", "12:00 PM", "12:00 PM"],
-        "2024-10-07": ["7:00 AM", "9:00 AM", "11:00 AM", "12:30 PM", "12:00 PM"],
-        "2024-10-08": ["8:30 AM", "10:30 AM", "12:30 PM", "2:00 PM", "12:00 PM"]
-    };
-
-    // Array to keep track of selected time slots
-    let selectedTimeSlots = [];
-
-    function updateTimeSlots(date) {
-        const timeSlotContainer = document.getElementById('time-slots');
-        timeSlotContainer.innerHTML = '';
-
-        const slots = timeSlots[date];
-
-        if (!slots) {
-            timeSlotContainer.innerHTML = '<div class="col-12">No time slots available for this date.</div>';
-            return;
-        }
-
-        let rowDiv;
-        slots.forEach((time, index) => {
-            if (index % 5 === 0) {
-                rowDiv = document.createElement('div');
-                rowDiv.classList.add('row');
-                timeSlotContainer.appendChild(rowDiv);
-            }
-
-            const colDiv = document.createElement('div');
-            colDiv.classList.add('col-md');
-            const button = document.createElement('button');
-            button.classList.add('btn', 'btn-outline-secondary', 'rounded-3', 'text-success');
-            button.textContent = time;
-
-            if (selectedTimeSlots.includes(time)) {
-                button.classList.add('btn-success');
-            }
-            button.addEventListener('click', () => {
-                // Toggle the selected time slot
-                if (selectedTimeSlots.includes(time)) {
-                    selectedTimeSlots = selectedTimeSlots.filter(slot => slot !== time);
-                    button.classList.remove('btn-success', 'text-light');
-                    button.classList.add('btn-outline-secondary'); // Reset style
-                } else {
-                    // If not selected, add it to the array and update button style
-                    selectedTimeSlots.push(time);
-                    button.classList.add('btn-success', 'text-light');
-                    button.classList.remove('btn-outline-secondary');
-                }
-            });
-
-            colDiv.appendChild(button);
-            rowDiv.appendChild(colDiv); // Append the column to the current row
-        });
-    }
-
-    // Add click event listeners to each date button
-    document.querySelectorAll('.date-btn').forEach(button => {
-        button.addEventListener('click', function () {
-            const selectedDate = button.getAttribute('data-date');
-            updateTimeSlots(selectedDate);
-        });
-    });
-
-
-</script>
-
-
-
-<script>
-    const dateButtons = document.querySelectorAll('.date-btn');
-
-    dateButtons.forEach(button => {
-        button.addEventListener('click', function () {
-            // Remove the 'selected-date' class from all buttons
-            dateButtons.forEach(b => b.classList.remove('selected-date'));
-
-            button.classList.add('selected-date');
-        });
-    });
-
-</script>
-
-
-
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-
-        // Retrieve the user role from local storage
-        var Status = localStorage.getItem("userRole");
-
-        // Get the status span element by its ID
-        var StatusSpan = document.getElementById("status");
-
-        // Set the text content of the status span to the retrieved value
-        if (StatusSpan) {
-            StatusSpan.textContent = Status || "No role assigned"; // Fallback text
-        }
-    });
-
-</script>
-
-
-<script>
-    $(document).ready(function () {
-        const apiUrl = "@BaseUrl" + `Api/PendingJyotish/SlotList`;
-        const token = localStorage.getItem('Token3');
-        const userId = localStorage.getItem('Id');
-
-        let selectedDate = null;
-        let selectedTime = null;
-
-        // Make an AJAX GET request to retrieve the data
-        $.ajax({
-            url: apiUrl,
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            },
-            success: function (response) {
-                // Parse the API response
-                const dateTimeMap = {};
-
-                response.data.forEach(item => {
-                    const dateKey = new Date(item.date).toISOString().split('T')[0]; // Extract only the date part
-
-                    if (!dateTimeMap[dateKey]) {
-                        dateTimeMap[dateKey] = [];
-                    }
-
-                    item.times.forEach(timeSlot => {
-                        dateTimeMap[dateKey].push({
-                            time: timeSlot.time,
-                            status: timeSlot.status
-                        });
-                    });
-                });
-
-                // Display dates on the webpage
-                const $dateContainer = $('.dates');
-                const $timeContainer = $('#time-slots');
-
-                for (const date in dateTimeMap) {
-                    const dateObject = new Date(date);
-                    const dayName = dateObject.toLocaleString('en-US', { weekday: 'short' }); // E.g., "Sun"
-                    const dayNumber = dateObject.getDate(); // E.g., 6
-                    const monthName = dateObject.toLocaleString('en-US', { month: 'short' }); // E.g., "Oct"
-
-                    // Create date element
-                    const $dateElement = $(`
-                        <div class="date-item date" data-date='${date}'>
-                            <button class="btn btn-light date-btn" data-date="${date}">
-                                <div>${dayName}</div>
-                                <div class="day">${dayNumber}</div>
-                                <div>${monthName}</div>
-                            </button>
-                        </div>
-                    `);
-                    $dateContainer.append($dateElement);
-                }
-
-                // Click event to show/hide times when a date is clicked
-                $('.date').on('click', function () {
-                    // Clear previous times
-                    $timeContainer.empty();
-
-                    // Retrieve the clicked date and update `selectedDate`
-                    selectedDate = $(this).data('date');
-
-                    // Create corresponding time buttons for the selected date
-                    dateTimeMap[selectedDate].forEach(slot => {
-                        const { time, status } = slot;
-                        const slotStatusClass = status === 'Booked' ? 'btn-danger' : 'btn-success';
-
-                        const $timeElement = $(`
-                            <div class="col-md">
-                                <button class="btn btn-outline-secondary rounded-3 text-success time-button"
-                                        data-date='${selectedDate}'
-                                        data-time='${time}'
-                                        ${status === 'Booked' ? 'disabled' : ''}>
-                                    ${time}
-                                </button>
-                            </div>
-                        `);
-                        $timeContainer.append($timeElement);
-                    });
-
-                    // Attach event listener for each new time button
-                    $('.time-button').on('click', function () {
-                        selectedTime = $(this).data('time');
-
-                        // Highlight selected time button
-                        $('.time-button').removeClass('selected');
-                        $(this).addClass('selected');
-                    });
-                });
-            },
-            error: function (error) {
-                console.error('Error fetching slot data:', error);
-            }
-        });
-
-        // Click event for the "Book Now" button
-        $('#book-now').on('click', function () {
-            if (!selectedDate || !selectedTime) {
-                alert("Please select both a date and a time slot before booking.");
-                return;
-            }
-
-            // Define the payload to send to the API
-            const postData = {
-                Date: selectedDate,
-                Time: selectedTime,
-                JyotishId: userId
-            };
-
-            // Make an AJAX POST request to send the selected date and time
-            $.ajax({
-                url:   "@BaseUrl" +'Api/PendingJyotish/AddSlotBooking', // Replace with your API endpoint
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                data: JSON.stringify(postData), // Convert JS object to JSON string
-                success: function (response) {
-                     
-                    if (response.status === 200) {
-                        Swal.fire({
-                            title: "Slot successfully booked",
-                            text: `Slot successfully booked for: ${selectedDate} at ${selectedTime}`,
-                            icon: "success"
-                        });
-                    } else if (response.status === 400) {
-                        Swal.fire({
-                            title: `${response.message}`,
-                            icon: "error"
-                        });
-                    } else if (response.status === 409) {
-                        Swal.fire({
-                            title: `${response.message}`,
-                            icon: "warning"
-                        });
-                    }
-                },
-                error: function (error) {
-                     
-                    console.error('Error booking slot:', error);
-                }
-            });
-        });
-    });
-
-</script>
  *@
+
+
+
 
 
