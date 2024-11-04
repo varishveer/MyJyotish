@@ -533,7 +533,7 @@ namespace MyJyotishGApi.Controllers
                 { return Ok(new { Status = 400, Message = Result }); }
 
                 else if (Result == "Successful")
-                { return Ok(new { Status = 200, Message = Result }); }
+                { return Ok(new { Status = 200, Message = "Problem solution added successfully" }); }
                 else
                 { return Ok(new { Status = 500, Message = "Internal Server Error", Error = Result }); }
             }

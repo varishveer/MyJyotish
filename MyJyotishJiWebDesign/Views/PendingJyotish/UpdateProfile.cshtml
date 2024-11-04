@@ -1,95 +1,482 @@
 ﻿@{
-    Layout = "PendingJyotishLayout";
+    Layout = null;
     var BaseUrl = "https://api.myjyotishg.in/";
+
 }
-<div class="container mt-2">
-    <h3 style="font-weight:300;" class="mb-4">Update Profile Information</h3>
-    <form id="profileUpdateForm">
+
+<style>
+    .select2{
+        min-width:100%;
+    }
+    #callInputBox{
+        display:none;
+    }
+    #chatInputBox{
+        display:none;
+    }
+
+ 
+    .dropify-message p {
+        font-size: 12px; /* Adjust this value to make the placeholder smaller */
+        color: #aaa; /* Optional: Change placeholder color */
+    }
+</style>
+
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<link href="~/dropify/css/dropify.min.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/dropify/js/dropify.min.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- FontAwesome for icons -->
+<script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc" crossorigin="anonymous"></script>
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<div class="container mh-75 mb-3 mt-5 border p-3 rounded shadow-sm">
+<div class="row">
+    <h3 class="text-center text-secondary border-bottom py-2 mb-5">Update Profile</h3>
+    <div  class=col-sm-12>
         <div class="row">
-            <!-- Personal Information Section -->
-            <div class="col-md-12 col-lg-6">
-                <div class="profile-card bg-light rounded p-3 mb-4">
-               
-                    <div class="form-group mb-3">
-                        <label for="name">Name:</label>
-                        <input type="text" id="name" name="name" class="form-control form-control-sm" required>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="gender">Gender:</label>
-                        <select id="gender" name="gender" class="form-control form-control-sm" required>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="dateOfBirth">Date of Birth:</label>
-                        <input type="date" id="dateOfBirth" name="dateOfBirth" class="form-control form-control-sm" required>
-                    </div>
-
-                    <div class="form-group mb-3">
-                        <label for="mobile">Mobile:</label>
-                        <input type="tel" id="mobile" name="mobile" class="form-control form-control-sm" required>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="expertise">Expertise:</label>
-                        <select id="expertise" name="expertise" class="form-control form-control-sm">
-                            <option value="">Select Expertise</option>
-                        </select>
-                    </div>
-
-                   
-
-                </div>
-            </div>
-
-            <!-- Profile Image Section -->
-            <div class="col-md-12 col-lg-6">
-                <div class="profile-card bg-light rounded p-3 mb-4">
-                  
-                    <div class="form-group mb-3">
-                        <label for="profileImage">Upload New Image:</label>
-                        <input type="file" id="profileImage" name="profileImage" class="form-control form-control-sm">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="country">Country:</label>
-                        <select id="country" name="country" class="form-control form-control-sm">
-                            <option value="">Select Country</option>
-                        </select>
-                    </div>
-                     
-                    <div class="form-group mb-3">
-                        <label for="state">State:</label>
-                        <select id="state" name="state" class="form-control form-control-sm" disabled>
-                            <option value="">Select State</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group mb-3">
-                        <label for="city">City:</label>
-                        <select id="city" name="city" class="form-control form-control-sm" disabled>
-                            <option value="">Select City</option>
-                        </select>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="language">Language:</label>
-                        <select id="language" name="language" class="form-control form-control-sm">
-                            <option value="">Select Language</option>
-                        </select>
-                    </div>
+            <div class="col-sm-3 border-end">
+                <button data-page="1" class="btn navigatorBtn rounded-0 btn-outline-primary w-100">Basic Information</button>
+                    <button data-page="2" class="btn navigatorBtn rounded-0 btn-outline-primary w-100">Address</button>
                     
-                </div>
+                    <button data-page="3" class="btn navigatorBtn rounded-0 btn-outline-primary w-100">Availability</button>
+                    <button data-page="4" class="btn navigatorBtn rounded-0 btn-outline-primary w-100">About</button>
+                    <button data-page="5" class="btn navigatorBtn rounded-0 btn-outline-primary w-100">Documents</button>
             </div>
-        </div>
+             <!--basic Detail-->
+                <div class="col-sm-9" id="basicDetails">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label for="name">Name</label>
+                    <input type="text" id="name" name="name" class="form-control" placeholder="Enter your name" />
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email" />
+                        </div>
+                    </div>
+                    <div class="row my-3">
+                        <div class="col-sm-6">
+                            <label for="mobno">Mobile Number</label>
+                    <input type="number" name="mobno" id="mobno" class="form-control" placeholder="Enter your Phone Number" />
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="altmobno">Alternate Number</label>
+                            <input type="number" id="altmobno" name="alternatemobno" class="form-control" placeholder="Enter alternate Phone Number" />
+                        </div>
+                    </div> 
+                    <div class="row">
+                        <div class="col-sm-6">
+                        <label for="gender">Gender</label>
+                    <select class="form-control" id="gender">
+                        <option selected disabled>--select gender--</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="language">Language</label>
+                            <select id="language" name="language" class="form-control form-control-sm " multiple>
+                                <option value="">Select Language</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row my-3">
+                        <div class="col-sm-6">
+                            <label for="dob">Date of Birth</label>
+                            <input type="date" id="dob" name="dob" class="form-control" />
+                        </div>
+                       
+                    </div>
+                    <div class="text-end"><button type="button" role="button" class="btn btn-primary nxtBtn" data-page="2">Next</button></div>
+                </div>
 
-        <!-- Submit Button -->
-        <button type="submit" class="btn btn-primary">Update Profile</button>
-    </form>
+                <!--Address-->
+                <div class="col-sm-9" id="address">
+                    <div class="row">
+                        <div class="col-sm-6 mb-3">
+                            <label for="country">Country:</label>
+                            <select id="country" name="country" class="form-control form-control-sm select2" required>
+                                <option selected disabled>Select Country</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-6 mb-3">
+                            <label for="state">State:</label>
+                            <select id="state" name="state" class="form-control select2 form-control-sm" disabled>
+                                <option selected disabled>Select State</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-6 mb-3">
+                            <label for="city">City:</label>
+                            <select id="city" name="city" class="form-control select2 form-control-sm" disabled>
+                                <option selected disabled>Select City</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-6 mb-3">
+                            <label for="pincode">Pincode</label>
+                            <input type="number" id="pincode" name="pincode" class="form-control" placeholder="Enter your pincode" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <textarea rows="4" placeholder="Enter your full address" class="form-control"></textarea>
+                        </div></div>
+                    <div class="text-end mt-3"><button type="button" role="button" class="btn btn-primary nxtBtn" data-page="3">Next</button></div>
+                </div>
+
+                <!--Availability-->
+              
+                    <div class="col-sm-9" id="availability">
+                        <div class="row">
+
+                        <div class="col-sm-6">
+                            <input type="checkbox" id="poojaCheckbox" value="1" name="pooja" /> Pooja &nbsp;&nbsp;&nbsp;&nbsp;
+                            <input type="checkbox" id="callCheckbox" value="1" name="call" /> Call &nbsp;&nbsp;&nbsp;&nbsp;
+                            <input type="checkbox" id="chatCheckbox" value="1" name="chat" /> Chat &nbsp;&nbsp;
+                            <div id="callInputBox" class="input-box">
+                                <input type="text" class="form-control my-2" id="callprice" name="callprice" placeholder="Enter call price" />
+                            </div>
+                            <div id="chatInputBox" class="input-box">
+                                <input type="text" class="form-control " id="chatprice" name="chatprice" placeholder="Enter chat price" />
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="d-flex justify-content-between">
+                            <label for="timefrom">Time From</label>
+                            <label for="timeto">Time To</label>
+                            </div>
+                            <div class="d-flex gap-2 justify-content-between">
+                            <input type="time" name="timeFrom" class="form-control" id="timefrom" />
+                                <input type="time" name="timeTo" class="form-control" id="timeto" />
+                            </div>
+                        </div>
+                        </div>
+                  <div class="text-end mt-3"><button type="button" role="button" class="btn btn-primary nxtBtn" data-page="4">Next</button></div>
+                </div>
+
+                <!--About-->
+                
+                    <div class="col-sm-9" id="about">
+                        <div class="row">
+                            <div class="col-sm-6">
+                            <label for="expertise">Expertise:</label>
+                            <select id="expertise" name="expertise" class="form-control select2 form-control-sm" multiple>
+                                <option value="" selected disabled>Select Expertise</option>
+                            </select>
+                            </div>
+                            <div class="col-sm-6">
+                            <label for="specialization">Specialization:</label>
+                            <input type="text" id="specialization" name="specialization" class="form-control form-control-sm" required>
+                            </div>
+                        </div>
+                        <div class="row my-3">
+                            <div class="col-sm-6">
+                            <label for="awardsAndAchievement">Awards and Achievement:</label>
+                            <input type="text" id="awardsAndAchievement" name="awardsAndAchievement" class="form-control form-control-sm">
+                            </div>
+                            <div class="col-sm-6">
+                            <label for="experiance">Experiance:</label>
+                            <input type="number" id="experiance" name="experiance" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <textarea rows="4" placeholder="About us" name="aboutus" id="aboutus" class="form-control"></textarea>
+                            </div>
+                            </div>
+                    <div class="text-end mt-3"><button type="button" role="button" class="btn btn-primary nxtBtn" data-page="5">Next</button></div>
+                </div>
+
+                <!--Documents-->
+                <div class="col-sm-9 " id="document">
+                    <div class="row">
+<div class="col-sm-6 mb-3">
+    <input type="file" name="addressdoc" id="addressdoc"/>
+</div>
+<div class="col-sm-6  mb-3">
+    <input type="file" name="idProof" id="idProof"/>
+
+</div>
+                        <div class="col-sm-6  mb-3">
+                   <input type="file" name="professionaldoc" id="professionaldoc" />
+
+</div>
+                        <div class="col-sm-6  mb-3">
+               <input type="file" name="metricdocs" id="metricdocs" />
+
+</div>
+                        <div class="col-sm-6  mb-3">
+                  <input type="file" name="postmetricdocs" id="postmetricdocs" />
+
+</div>
+</div>
+                    <div class="text-end mt-3"><input type="submit" value="Submit" class="btn btn-primary " /></div>
+                </div>
+        </div>
+    </div>
+</div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+<script>
+    async function loadLanguage() {
+        try {
+            const response = await fetch("@BaseUrl" + 'Api/Account/Languages');
+            const data = await response.json();
+            const $languageDropdown = $('#language');
+            $languageDropdown.html('<option value="">Select Language</option>');
+
+            data.data.forEach(language => {
+                $languageDropdown.append(`<option value="${language}">${language}</option>`);
+            });
+        } catch (error) {
+            console.error('Error fetching Language:', error);
+        }
+    }
+    loadLanguage();
+    function loadExpertise() {
+        var token = localStorage.getItem('Token2');
+
+        $.ajax({
+            url: "@BaseUrl" + 'Api/Jyotish/Expertise',
+            type: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+            success: function (response) {
+                var expertiseDropdown = $('#expertise');
+                expertiseDropdown.empty().append('<option value="" selected disabled>Select Expertise</option>');
+                response.data.forEach(expertise => {
+                    expertiseDropdown.append(new Option(expertise.name, expertise.name));
+                });
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error('Error fetching expertise:', textStatus, errorThrown);
+            }
+        });
+    }
+    loadExpertise();
+    </script>
+
+
+    <script>
+    $("#basicDetails").show()
+    $("#address").hide();
+    $("#availability").hide();
+    $("#about").hide();
+    $("#document").hide();
+
+    function pagination(page) {
+        if (page == 1) {
+            $("#basicDetails").show()
+            $("#address").hide();
+            $("#availability").hide();
+            $("#about").hide();
+            $("#document").hide();
+
+
+        } else if (page == 2) {
+            $("#basicDetails").hide()
+            $("#address").show();
+            $("#availability").hide();
+            $("#about").hide();
+            $("#document").hide();
+
+
+        } else if (page == 3) {
+            $("#availability").show();
+            $("#address").hide();
+            $("#basicDetails").hide()
+            $("#about").hide();
+            $("#document").hide();
+
+
+        } else if (page == 4) {
+            $("#availability").hide();
+            $("#address").hide();
+            $("#basicDetails").hide()
+            $("#about").show();
+            $("#document").hide();
+
+
+        } else if (page == 5) {
+            $("#availability").hide();
+            $("#address").hide();
+            $("#basicDetails").hide()
+            $("#about").hide();
+            $("#document").show();
+
+        }
+    }
+
+    $(".navigatorBtn").click(function(){
+        let page=$(this).attr("data-page")
+        pagination(page)
+    })
+
+    $(".nxtBtn").click(function(){
+        let page = $(this).attr("data-page")
+        pagination(page)
+    })
+
+
+    document.getElementById('callCheckbox').addEventListener('change', function () {
+        document.getElementById('callInputBox').style.display = this.checked ? 'block' : 'none';
+    });
+
+    document.getElementById('chatCheckbox').addEventListener('change', function () {
+        document.getElementById('chatInputBox').style.display = this.checked ? 'block' : 'none';
+    });
+    </script>
+
+
+    <script>
+    function loadCountries() {
+        $.ajax({
+            url: "@BaseUrl" + 'Api/Jyotish/Country',
+            type: 'GET',
+
+            success: function (response) {
+                var countryDropdown = $('#country');
+                countryDropdown.empty().append('<option value="">Select Country</option>');
+                response.data.forEach(country => {
+                    countryDropdown.append(`<option class='country' value="${country.id}">${country.name}</option>`);
+                });
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error('Error fetching countries:', textStatus, errorThrown);
+            }
+        });
+    }
+        loadCountries();
+    // Fetch States based on selected Country
+    $('#country').change(function () {
+        var countryId = $(this).val();
+        $('#state').prop('disabled', false).empty().append('<option value="">Select State</option>'); // Reset State dropdown
+        $('#city').prop('disabled', true).empty().append('<option value="">Select City</option>'); // Reset City dropdown
+
+        if (countryId) {
+            $.ajax({
+                url: "@BaseUrl" + 'Api/Jyotish/State',
+                type: 'GET',
+                data: { Id: countryId },
+
+                success: function (response) {
+                    var stateDropdown = $('#state');
+                    stateDropdown.empty().append('<option value="">Select State</option>');
+                    response.data.forEach(state => {
+                        stateDropdown.append(`<option class='state' value="${state.id}">${state.name}</option>`);
+                    });
+                    stateDropdown.prop('disabled', false);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error('Error fetching states:', textStatus, errorThrown);
+                }
+            });
+        }
+    });
+
+    // Fetch Cities based on selected State
+    $('#state').change(function () {
+        var stateId = $(this).val();
+        $('#city').prop('disabled', false).empty().append('<option value="">Select City</option>'); // Reset City dropdown
+
+        if (stateId) {
+            $.ajax({
+                url: "@BaseUrl" + 'Api/Jyotish/City',
+                type: 'GET',
+                data: { Id: stateId },
+
+                success: function (response) {
+                    var cityDropdown = $('#city');
+                    cityDropdown.empty().append('<option value="">Select City</option>');
+                    response.data.forEach(city => {
+                        cityDropdown.append(`<option class='city' value="${city.id}">${city.name}</option>`);
+                    });
+                    cityDropdown.prop('disabled', false);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error('Error fetching cities:', textStatus, errorThrown);
+                }
+            });
+        }
+    });
+    </script>
+
 <script>
     $(document).ready(function () {
+        
+        $(".select2").select2();
+        $('#addressdoc').dropify(
+            {
+                messages: {
+                    default: 'Upload Address proof max size 2mb',
+                    replace: 'Drag and drop or click to replace',
+                    remove: 'Remove',
+                    error: 'Oops, something went wrong.'
+                },
+                maxFileSize: '2M',
+               
+            }
+        ) 
+        $('#idProof').dropify(
+            {
+                messages: {
+                    default: 'Upload Any Id proof max size 2mb',
+                    replace: 'Drag and drop or click to replace',
+                    remove: 'Remove',
+                    error: 'Oops, something went wrong.'
+                },
+                maxFileSize: '2M',
+               
+            }
+        )
+        $('#professionaldoc').dropify(
+            {
+                messages: {
+                    default: 'Upload Professional Certificate max size 2mb',
+                    replace: 'Drag and drop or click to replace',
+                    remove: 'Remove',
+                    error: 'Oops, something went wrong.'
+                },
+                maxFileSize: '2M',
+               
+            }
+        )
+        $('#metricdocs').dropify(
+            {
+                messages: {
+                    default: 'Upload metrics max size 2mb',
+                    replace: 'Drag and drop or click to replace',
+                    remove: 'Remove',
+                    error: 'Oops, something went wrong.'
+                },
+                maxFileSize: '2M',
+               
+            }
+        )
+        $('#postmetricdocs').dropify(
+            {
+                messages: {
+                    default: 'Upload post metrics max size 2mb',
+                    replace: 'Drag and drop or click to replace',
+                    remove: 'Remove',
+                    error: 'Oops, something went wrong.'
+                },
+                maxFileSize: '2M',
+               
+            }
+        )
+
+$("#language").select2({
+            placeholder: "--select language--"
+})
         var token = localStorage.getItem('Token3');
         var email = localStorage.getItem("userEmail");
          

@@ -7,6 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\dropify\css\dropify.css" />
+    <None Include="wwwroot\dropify\css\dropify.min.css" />
+    <None Include="wwwroot\dropify\fonts\dropify.woff" />
+    <None Include="wwwroot\dropify\js\dropify.js" />
+    <None Include="wwwroot\dropify\js\dropify.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.7">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

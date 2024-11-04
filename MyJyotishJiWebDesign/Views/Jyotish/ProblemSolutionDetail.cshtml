@@ -59,7 +59,37 @@
             border-color: #2980b9;
             box-shadow: 0 0 5px rgba(41, 128, 185, 0.5);
         }
+
+    /* Ensure the modal covers the full screen and expands with content */
+    .modal-fullscreen {
+        max-width: 100%;
+        max-height: 100vh;
+        margin: 0;
+        padding: 0;
+    }
+
+    .modal-content {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+    }
+
+    .modal-body {
+        flex: 1;
+        overflow-y: auto;
+    }
+
+    .expandable-content {
+        max-height: 50vh; /* Adjust as needed */
+        overflow-y: auto;
+    }
+
+    /* Optional styling for modal headers and footers */
+    .modal-header, .modal-footer {
+        background-color: #f5f5f5;
+    }
 </style>
+
 
 <div class="content-container">
     <div class="header">
@@ -231,33 +261,3 @@
     </div>
 </div>
 
-<style>
-    /* Ensure the modal covers the full screen and expands with content */
-    .modal-fullscreen {
-        max-width: 100%;
-        max-height: 100vh;
-        margin: 0;
-        padding: 0;
-    }
-
-    .modal-content {
-        display: flex;
-        flex-direction: column;
-        height: 100vh;
-    }
-
-    .modal-body {
-        flex: 1;
-        overflow-y: auto;
-    }
-
-    .expandable-content {
-        max-height: 50vh; /* Adjust as needed */
-        overflow-y: auto;
-    }
-
-    /* Optional styling for modal headers and footers */
-    .modal-header, .modal-footer {
-        background-color: #f5f5f5;
-    }
-</style>
