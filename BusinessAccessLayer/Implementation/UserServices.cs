@@ -150,7 +150,7 @@ namespace BusinessAccessLayer.Implementation
                 Status = jyotishRecord.ApprovedStatus,
                 Otp = jyotishRecord.Otp,
                 Experience = jyotishRecord.Experience,
-                Pooja = jyotishRecord.Pooja,
+             
                 Call = jyotishRecord.Call,
                 CallCharges = jyotishRecord.CallCharges,
                 Chat = jyotishRecord.Chat,
@@ -192,7 +192,7 @@ namespace BusinessAccessLayer.Implementation
                                record.Language.Contains(word) ||
                                record.Country.Contains(word) ||
                                record.State.Contains(word) ||
-                               record.City.Contains(word) || record.Specialization.Contains(word) || record.Pooja.Contains(word))
+                               record.City.Contains(word) || record.Specialization.Contains(word))
 
               .ToList();
                 RecordList.AddRange(result);

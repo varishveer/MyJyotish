@@ -60,6 +60,10 @@ namespace MyJyotishGApi.Controllers
                 {
                     return Ok(new { Status = 404, Message = result });
                 }
+                else if (result == "Invalid Data")
+                {
+                    return Ok(new { Status = 404, Message = result });
+                }
                 else if (result == "Invalid File Extension or Size")
                 {
                     return Ok( new {Status = 400, Message = result });
@@ -85,7 +89,7 @@ namespace MyJyotishGApi.Controllers
         }
 
         [HttpPost("UpdateProfile")]
-        public IActionResult UpdateProfile(JyotishViewModel model)
+        public IActionResult UpdateProfile(JyotishTempViewModel model)
         {
             try
             {

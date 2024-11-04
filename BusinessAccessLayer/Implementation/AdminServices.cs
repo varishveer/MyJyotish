@@ -600,7 +600,7 @@ namespace BusinessAccessLayer.Implementation
             Record.ApprovedStatus = model.Status;
             Record.Otp = model.Otp;
             Record.Experience = model.Experience;
-            Record.Pooja = model.Pooja;
+         
             Record.Call = model.Call;
             Record.CallCharges = model.CallCharges;
             Record.Chat = model.Chat;

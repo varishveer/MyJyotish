@@ -31,7 +31,7 @@ namespace ModelAccessLayer.ViewModels
         public string? State { get; set; }
         public string? City { get; set; }
   
-        public DateTime? DateOfBirth { get; set; }
+        public DateOnly? DateOfBirth { get; set; }
         public string? ProfileImageUrl { get; set; }
 
         public string? Status { get; set; }
@@ -39,7 +39,7 @@ namespace ModelAccessLayer.ViewModels
 
 
         public int? Experience { get; set; }
-        public string? Pooja { get; set; }
+        public bool? Pooja { get; set; }
 
         public bool? Call { get; set; }
         public int? CallCharges { get; set; }
