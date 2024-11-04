@@ -112,7 +112,7 @@ namespace BusinessAccessLayer.Implementation
             if (Jyotish == null)
             { return false; }
        
-            Jyotish.Status = "Approved";
+            Jyotish.ApprovedStatus = "Approved";
             Jyotish.Role = "Jyotish";
             _context.JyotishRecords.Update(Jyotish);
             var result = _context.SaveChanges();
@@ -132,7 +132,7 @@ namespace BusinessAccessLayer.Implementation
             var Jyotish = _context.JyotishRecords.Where(x => x.Id == JyotishId.Id).FirstOrDefault();
             if (Jyotish == null)
             { return false; }
-            Jyotish.Status = "Rejected";
+            Jyotish.ApprovedStatus = "Rejected";
             _context.JyotishRecords.Update(Jyotish);
             var result = _context.SaveChanges();
             if (result > 0) 
@@ -187,7 +187,7 @@ namespace BusinessAccessLayer.Implementation
         public bool RemoveJyotish(IdViewModel JyotishId)
         {
             var Jyotish = _context.JyotishRecords.Where(x => x.Id == JyotishId.Id).FirstOrDefault();
-            if (Jyotish == null || Jyotish.Status != "Rejected")
+            if (Jyotish == null || Jyotish.ApprovedStatus != "Rejected")
             { return false; }
             _context.JyotishRecords.Remove(Jyotish);
             var result = _context.SaveChanges();
@@ -597,10 +597,10 @@ namespace BusinessAccessLayer.Implementation
             Record.Password = model.Password;
             Record.DateOfBirth = model.DateOfBirth;
             Record.ProfileImageUrl = model.ProfileImageUrl;
-            Record.Status = model.Status;
+            Record.ApprovedStatus = model.Status;
             Record.Otp = model.Otp;
             Record.Experience = model.Experience;
-            Record.Pooja = model.Pooja;
+         
             Record.Call = model.Call;
             Record.CallCharges = model.CallCharges;
             Record.Chat = model.Chat;

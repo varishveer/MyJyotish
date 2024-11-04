@@ -4,6 +4,7 @@ using DataAccessLayer.DbServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20241104113932_04-11-2024j Jyotish Temp Table")]
+    partial class _04112024jJyotishTempTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -446,8 +449,8 @@ namespace DataAccessLayer.Migrations
                     b.Property<string>("Country")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateOnly?>("DateOfBirth")
-                        .HasColumnType("date");
+                    b.Property<DateTime?>("DateOfBirth")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -480,9 +483,6 @@ namespace DataAccessLayer.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Pincode")
-                        .HasColumnType("int");
-
                     b.Property<bool?>("Pooja")
                         .HasColumnType("bit");
 
@@ -508,14 +508,14 @@ namespace DataAccessLayer.Migrations
                     b.Property<string>("SuccessRate")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TempRecordId")
-                        .HasColumnType("int");
-
                     b.Property<TimeOnly?>("TimeFrom")
                         .HasColumnType("time");
 
                     b.Property<TimeOnly?>("TimeTo")
                         .HasColumnType("time");
+
+                    b.Property<int?>("pincode")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -589,6 +589,9 @@ namespace DataAccessLayer.Migrations
                     b.Property<string>("AlternateMobile")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ApprovedStatus")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("AvailbilitySection")
                         .HasColumnType("bit");
 
@@ -616,8 +619,8 @@ namespace DataAccessLayer.Migrations
                     b.Property<string>("Country")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateOnly?>("DateOfBirth")
-                        .HasColumnType("date");
+                    b.Property<DateTime?>("DateOfBirth")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -644,6 +647,9 @@ namespace DataAccessLayer.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("NewStatus")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool?>("Pooja")
                         .HasColumnType("bit");
 
@@ -651,6 +657,9 @@ namespace DataAccessLayer.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("State")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<TimeOnly?>("TimeFrom")

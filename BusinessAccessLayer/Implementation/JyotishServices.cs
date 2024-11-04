@@ -51,7 +51,7 @@ namespace BusinessAccessLayer.Implementation
 
             // Update properties from the model
             existingRecord.Role = "Jyotish";
-            existingRecord.Status = "Complete";
+            existingRecord.ApprovedStatus = "Complete";
 
 
 
@@ -92,7 +92,7 @@ namespace BusinessAccessLayer.Implementation
 
             existingRecord.Otp = model.Otp;
             existingRecord.Experience = model.Experience;
-            existingRecord.Pooja = model.Pooja;
+          
             existingRecord.Call = model.Call;
             existingRecord.CallCharges = model.CallCharges;
             existingRecord.Chat = model.Chat;

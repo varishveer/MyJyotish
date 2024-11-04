@@ -4,6 +4,7 @@ using DataAccessLayer.DbServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20241104101934_04-11-2024b")]
+    partial class _04112024b
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -416,9 +419,6 @@ namespace DataAccessLayer.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("AlternateMobile")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int?>("AppointmentCharges")
                         .HasColumnType("int");
 
@@ -446,8 +446,8 @@ namespace DataAccessLayer.Migrations
                     b.Property<string>("Country")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateOnly?>("DateOfBirth")
-                        .HasColumnType("date");
+                    b.Property<DateTime?>("DateOfBirth")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -480,11 +480,8 @@ namespace DataAccessLayer.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Pincode")
-                        .HasColumnType("int");
-
-                    b.Property<bool?>("Pooja")
-                        .HasColumnType("bit");
+                    b.Property<string>("Pooja")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProfileImageUrl")
                         .HasColumnType("nvarchar(max)");
@@ -507,9 +504,6 @@ namespace DataAccessLayer.Migrations
 
                     b.Property<string>("SuccessRate")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("TempRecordId")
-                        .HasColumnType("int");
 
                     b.Property<TimeOnly?>("TimeFrom")
                         .HasColumnType("time");
@@ -564,107 +558,6 @@ namespace DataAccessLayer.Migrations
                     b.HasIndex("JyotishId");
 
                     b.ToTable("JyotishPaymentRecord");
-                });
-
-            modelBuilder.Entity("ModelAccessLayer.Models.JyotishTempRecord", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("About")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("AboutSection")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("AddressSection")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("AlternateMobile")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("AvailbilitySection")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("AwordsAndAchievement")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("BasicSection")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("Call")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("CallCharges")
-                        .HasColumnType("int");
-
-                    b.Property<bool?>("Chat")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("ChatCharges")
-                        .HasColumnType("int");
-
-                    b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Country")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateOnly?>("DateOfBirth")
-                        .HasColumnType("date");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("Experience")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Expertise")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Gender")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Image")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Language")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Mobile")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("Pooja")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Specialization")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("State")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<TimeOnly?>("TimeFrom")
-                        .HasColumnType("time");
-
-                    b.Property<TimeOnly?>("TimeTo")
-                        .HasColumnType("time");
-
-                    b.Property<int?>("pincode")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("jyotishTempRecords");
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.JyotishUserAttachmentModel", b =>

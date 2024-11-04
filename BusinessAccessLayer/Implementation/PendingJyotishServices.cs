@@ -43,6 +43,10 @@ namespace BusinessAccessLayer.Implementation
             var isJyotishValid = await _context.JyotishRecords
                 .FirstOrDefaultAsync(x => x.Email == model.JyotishEmail);
 
+            if(model.IdProof == null|| model.AddressProof == null|| model.ProfessionalCertificate == null)
+            {
+                return "Invalid Data";
+            }
             if (isJyotishValid == null)
             {
                 return "Invalid Jyotish";
@@ -135,7 +139,43 @@ namespace BusinessAccessLayer.Implementation
                     _context.Documents.Update(document);
                 }
                 if(await _context.SaveChangesAsync() > 0)
-                { return "Successful"; }
+                {
+
+                   var tempData =  _context.jyotishTempRecords.Where(x => x.Id == isJyotishValid.TempRecordId).FirstOrDefault();
+           
+                    isJyotishValid.AlternateMobile = tempData.AlternateMobile;
+                    isJyotishValid.Name = tempData.Name;
+                    isJyotishValid.Gender = tempData.Gender;
+                    isJyotishValid.Language = tempData.Language;
+                    isJyotishValid.Country = tempData.Country;
+                    isJyotishValid.State = tempData.State;
+                    isJyotishValid.City = tempData.City;
+                    isJyotishValid.DateOfBirth = tempData.DateOfBirth;
+                    isJyotishValid.ProfileImageUrl = tempData.Image;
+                    isJyotishValid.Experience = tempData.Experience;
+                    isJyotishValid.Pooja = tempData.Pooja;
+                    isJyotishValid.Call = tempData.Call;
+                    isJyotishValid.CallCharges = tempData.CallCharges;
+                    isJyotishValid.Chat = tempData.Chat;
+                    isJyotishValid.ChatCharges = tempData.ChatCharges;
+                    isJyotishValid.TimeTo = tempData.TimeTo;
+                    isJyotishValid.TimeFrom = tempData.TimeFrom;
+                    isJyotishValid.About = tempData.About;
+                    isJyotishValid.AwordsAndAchievement = tempData.AwordsAndAchievement;
+                    isJyotishValid.Specialization = tempData.Specialization;
+                    isJyotishValid.Expertise = tempData.Expertise;
+                    isJyotishValid.Address = tempData.Address;
+                    isJyotishValid.Pincode = tempData.pincode;
+
+                    _context.JyotishRecords.Update(isJyotishValid);
+                    if (_context.SaveChanges() > 0)
+                    { return "Successful"; }
+                    else
+                    {
+                        return "Internal Server Error.";
+                    }
+                   
+                }
                 else { return "Internal server DB error"; }
                 
             }
@@ -186,7 +226,176 @@ namespace BusinessAccessLayer.Implementation
             return result;
         }
 
-        public string UpdateProfile(JyotishViewModel model, string? path)
+        public string UpdateProfile(JyotishTempViewModel model, string? path)
+        {
+            if (model == null) return "Invalid Data";
+
+            // Find the existing record
+            var existingRecord = _context.JyotishRecords
+                .FirstOrDefault(x => x.Id == model.Id);
+
+
+            if (existingRecord == null) return "Jyotish Not Found";
+
+
+            if(existingRecord.TempRecordId == 0||  existingRecord.TempRecordId == null)
+            {
+                JyotishTempRecord newRecord = new JyotishTempRecord();
+                newRecord.Name = model.Name;
+                newRecord.Email = existingRecord.Email;
+                newRecord.Mobile = existingRecord.Mobile;
+                newRecord.AlternateMobile = model.AlternateMobile;
+                newRecord.Gender = model.Gender;
+                newRecord.Language = model.Language;
+                newRecord.DateOfBirth = model.DateOfBirth;
+                string filePath = string.Empty;
+                string ImageUrl = string.Empty;
+                if (model.Image != null)
+                {
+                    // Generate a unique file name
+                    var uniqueFileName = $"{Guid.NewGuid()}_{model.Image.FileName}";
+                    filePath = $"wwwroot/Images/Jyotish/{uniqueFileName}";
+                    ImageUrl = $"Images/Jyotish/{uniqueFileName}";
+                    var fullPath = path + "/" + filePath;
+                    UploadFile(model.Image, fullPath);
+
+
+                    newRecord.Image = ImageUrl;
+                }
+                _context.jyotishTempRecords.Add(newRecord);
+               
+               
+                var Result = _context.SaveChanges();
+
+                if (Result > 0) {
+
+                    var data = _context.jyotishTempRecords.Where(x => x.Email == existingRecord.Email).FirstOrDefault();
+
+                    existingRecord.TempRecordId = data.Id;
+                    _context.JyotishRecords.Update(existingRecord);
+                   _context.SaveChanges();
+                    return "Successful"; }
+                else { return "Internal Server Error"; }
+
+            }
+            /*-----------------------------Address-----------------------------------------*/
+            if (model.BasicSection == true)
+            {
+                var Record = _context.jyotishTempRecords.Where(x => x.Id == existingRecord.TempRecordId).FirstOrDefault();
+                if(Record == null) { return "Invalid Data"; }
+
+
+                Record.Name = model.Name;
+                Record.Email = existingRecord.Email;
+                Record.Mobile = existingRecord.Mobile;
+                Record.AlternateMobile = model.AlternateMobile;
+                Record.Gender = model.Gender;
+                Record.Language = model.Language;
+                Record.DateOfBirth = model.DateOfBirth;
+                string filePath = string.Empty;
+                string ImageUrl = string.Empty;
+                if (model.Image != null)
+                {
+                    // Generate a unique file name
+                    var uniqueFileName = $"{Guid.NewGuid()}_{model.Image.FileName}";
+                    filePath = $"wwwroot/Images/Jyotish/{uniqueFileName}";
+                    ImageUrl = $"Images/Jyotish/{uniqueFileName}";
+                    var fullPath = path + "/" + filePath;
+                    UploadFile(model.Image, fullPath);
+
+
+                    Record.Image = ImageUrl;
+                }
+                _context.jyotishTempRecords.Update(Record);
+                var Result = _context.SaveChanges();
+                if (Result > 0) { return "Successful"; }
+                else { return "Internal Server Error"; }
+            }
+            /*-----------------------------Address-----------------------------------------*/
+            if (model.AddressSection == true) 
+            {
+                var Record = _context.jyotishTempRecords.Where(x => x.Id == existingRecord.TempRecordId).FirstOrDefault();
+                if (Record == null) { return "Invalid Data"; }
+              
+                var countryName = _context.Countries
+                    .Where(x => x.Id == model.Country)
+                    .Select(x => x.Name)
+                    .FirstOrDefault();
+
+                var stateName = _context.States
+                    .Where(x => x.Id == model.State)
+                    .Select(x => x.Name)
+                    .FirstOrDefault();
+
+                var cityName = _context.Cities
+                    .Where(x => x.Id == model.City)
+                    .Select(x => x.Name)
+                    .FirstOrDefault();
+
+                Record.City = cityName;
+                Record.State = stateName;
+                Record.Country = countryName;
+                Record.Address = model.Address;
+                Record.pincode = model.pincode;
+              
+              
+                
+                _context.jyotishTempRecords.Update(Record);
+                var Result = _context.SaveChanges();
+                if (Result > 0) { return "Successful"; }
+                else { return "Internal Server Error"; }
+
+
+            }
+            /*----------------------------------Availbility---------------------------------------*/
+
+            if (model.AvailbilitySection == true)
+            {
+
+                var Record = _context.jyotishTempRecords.Where(x => x.Id == existingRecord.TempRecordId).FirstOrDefault();
+                if (Record == null) { return "Invalid Data"; }
+
+
+                Record.Pooja = model.Pooja;
+                Record.Call = model.Call;
+                Record.CallCharges = model.CallCharges;
+                Record.Chat = model.Chat;
+                Record.ChatCharges = model.ChatCharges;
+                Record.TimeFrom = model.TimeFrom;
+                Record.TimeTo = model.TimeTo;
+              
+                _context.jyotishTempRecords.Update(Record);
+                var Result = _context.SaveChanges();
+                if (Result > 0) { return "Successful"; }
+                else { return "Internal Server Error"; }
+            }
+            /*----------------------------------About---------------------------------------*/
+            if (model.AboutSection == true)
+            {
+
+                var Record = _context.jyotishTempRecords.Where(x => x.Id == existingRecord.TempRecordId).FirstOrDefault();
+                if (Record == null) { return "Invalid Data"; }
+
+
+                Record.About = model.About;
+                Record.AwordsAndAchievement = model.AwordsAndAchievement;
+                Record.Specialization = model.Specialization;
+                Record.Expertise = model.Expertise;
+                Record.Experience = model.Experience;
+         
+
+                _context.jyotishTempRecords.Update(Record);
+                var Result = _context.SaveChanges();
+                if (Result > 0) { return "Successful"; }
+                else { return "Internal Server Error"; }
+            }
+            // Save changes
+            return "Invalid Data";
+        }
+
+
+
+       /* public string UpdateProfile(JyotishViewModel model, string? path)
         {
             if (model == null) return "Invalid Data";
 
@@ -195,6 +404,13 @@ namespace BusinessAccessLayer.Implementation
                 .FirstOrDefault(x => x.Email == model.Email);
 
             if (existingRecord == null) return "Jyotish Not Found";
+
+            // Basic Details
+
+
+
+
+
 
             // Fetch related entities only if necessary
             var countryName = _context.Countries
@@ -221,7 +437,7 @@ namespace BusinessAccessLayer.Implementation
                 var uniqueFileName = $"{Guid.NewGuid()}_{model.Image.FileName}";
                 filePath = $"wwwroot/Images/Jyotish/{uniqueFileName}";
                 ImageUrl = $"Images/Jyotish/{uniqueFileName}";
-                var fullPath = path + "/"+filePath;
+                var fullPath = path + "/" + filePath;
                 UploadFile(model.Image, fullPath);
             }
 
@@ -238,13 +454,13 @@ namespace BusinessAccessLayer.Implementation
             existingRecord.ProfileImageUrl = ImageUrl;
 
             _context.JyotishRecords.Update(existingRecord);
-            if(_context.SaveChanges() > 0)
+            if (_context.SaveChanges() > 0)
             {
                 return "Successful";
             }
             // Save changes
             return "Data Not Saved";
-        }
+        }*/
 
         public void UploadFile(IFormFile file, string fullPath)
         {

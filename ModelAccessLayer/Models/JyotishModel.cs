@@ -15,6 +15,7 @@ namespace ModelAccessLayer.Models
         [Required]
         public string Email { get; set; }
         public string? Mobile { get; set; }
+        public string? AlternateMobile { get; set; }
 
         public string Role { get; set; }
 
@@ -31,15 +32,19 @@ namespace ModelAccessLayer.Models
         public string? State { get; set; }
         public string? City { get; set; }
         public string? Password { get; set; }
-        public DateTime? DateOfBirth { get; set; }
+        public DateOnly? DateOfBirth { get; set; }
         public string? ProfileImageUrl { get; set; }
        
+        public string? ApprovedStatus { get; set; }
         public string? Status { get; set; }
+        public string? NewStatus { get; set; }
+
+
         public int? Otp { get; set; }
 
 
         public int? Experience { get; set; }
-        public string? Pooja { get; set; }
+        public bool? Pooja { get; set; }
         
         public bool? Call { get; set; } 
         public int? CallCharges { get; set; }
@@ -54,6 +59,8 @@ namespace ModelAccessLayer.Models
         public string? Specialization { get; set; }
         public string? Rating { get; set; }
         public string? SuccessRate { get; set; }
+        public int? Pincode { get; set; }
+        public int? TempRecordId { get; set; }
 
 
         public DocumentModel DocumentModel { get; set; }
