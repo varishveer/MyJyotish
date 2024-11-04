@@ -25,7 +25,7 @@
             <h6 class="text-primary">Problem's Solution'</h6>
             <div id="buttonContainer1"></div>
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#dynamicModal">
-                Open Add Form
+                Add Problem Solution
             </button>
         </div>
         <hr />
@@ -107,7 +107,7 @@
     <div class="modal-dialog modal-fullscreen">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="dynamicModalLabel">Add Form</h5>
+                <h5 class="modal-title" id="dynamicModalLabel">Add Problem Solution</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form id="modalForm">
@@ -143,7 +143,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" id="submitForm" class="btn btn-primary">Save Changes</button>
+                    <button type="button" id="submitForm" class="btn btn-primary">Add</button>
                 </div>
             </form>
         </div>
@@ -163,20 +163,18 @@
         // Load data from API and filter by date
         function loadData() {
             $.ajax({
-                url: BaseUrl + `Api/Jyotish/GetAllAppointment?id=${localStorage.getItem("Id")}`,
+                url:`https://localhost:7118/Api/Jyotish/GetTodayAppointment?id=${localStorage.getItem("Id")}`,
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
                 },
-                success: function (response) {
-                    const today = new Date();
-                    today.setDate(today.getDate() );
-
-                    // Access the data array from the response
+                success: function (response) { 
+                    debugger
+                   
                     const items = response.data || [];
-
-                    // Filter data to show only dates greater than yesterday
-                    allData = items.filter(item => new Date(item.date) == today);
+                    allData = items;
+                 
+                   
                 },
                 error: function (error) {
                     console.error("Error fetching data:", error);
@@ -189,14 +187,17 @@
             const resultsList = $('#resultsList');
             resultsList.empty();
 
+            if(results.length>0){
             results.forEach(item => {
                 resultsList.append(`
-                        <li class="list-group-item" data-id="${item.id}">
-                            ${item.userName} - ${item.date}
+                        <li class="list-group-item" data-id="${item.appId}">
+                                            ${item.userName} - ${item.appoinDate.split("T")[0]} ${item.appoinTimeFrom.slice(0, 5)}-${item.appoinTimeTo.slice(0, 5)}
                         </li>
                     `);
             });
-
+            }else{
+                resultsList.append(`<p class='text-center text-secondary border-bottom py-2'>not result found</p>`)
+            }
             // Enable item selection and hide all items except the selected one
             $('#resultsList li').click(function () {
                 $('#resultsList li').removeClass('active');
@@ -213,7 +214,7 @@
 
             if (searchTerm.length >= 1) {
                 debugger
-                const filteredResults = allData.filter(item => item.userName.toLowerCase().includes(searchTerm));
+                const filteredResults = allData.filter(item => item.userName.toLowerCase().includes(searchTerm) | item.userMobile.includes(searchTerm) | item.userEmail.includes(searchTerm))
                 displayResults(filteredResults);
             } else {
                 $('#resultsList').empty();  // Clear list if search term is empty
@@ -258,7 +259,7 @@
                 problems: $('textarea[name="problem[]"]').map(function () { return $(this).val(); }).get(),
                 solutions: $('textarea[name="solution[]"]').map(function () { return $(this).val(); }).get()
             };
-
+            debugger
             $.ajax({
                 url: "https://localhost:7118/" + 'Api/Jyotish/AddProblemSolution',
                 method: 'POST',
@@ -268,11 +269,19 @@
                 contentType: 'application/json',
                 data: JSON.stringify(formData),
                 success: function (response) {
-                    alert('Data submitted successfully!');
+                    Swal.fire({
+                        title: 'Success',
+                        icon: "success",
+                        text: "Problem solution added successfully"
+                    });
                     $('#dynamicModal').modal('hide');
                 },
                 error: function (error) {
-                    alert('Error submitting data!');
+                    Swal.fire({
+                        title: 'error occured',
+                        icon: "error",
+                        text:"Some error occured"
+                    });
                 }
             });
         });
