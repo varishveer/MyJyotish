@@ -154,9 +154,9 @@ namespace MyJyotishGApi.Controllers
             }
 
         }
-       
+
         [HttpPost("AddSlotBooking")]
-        public IActionResult AddSlotBooking(SlotBookingViewModel model)
+        public IActionResult AddSlotBooking(SlotBookingAddViewModel model)
         {
             try
             {
@@ -167,7 +167,7 @@ namespace MyJyotishGApi.Controllers
                 }
                 else if (Result == "Jyotish Not Found")
                 { return Ok(new { status = 400, message = Result }); }
-                else if(Result == "Your Slot Already Booked")
+                else if (Result == "Your Slot Already Booked")
                 { return Ok(new { status = 409, message = Result }); }
                 else if (Result == "This Slot Already Booked")
                 { return Ok(new { status = 409, message = Result }); }
@@ -176,18 +176,18 @@ namespace MyJyotishGApi.Controllers
                     return Ok(new { Status = 500, Message = Result });
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return StatusCode(500, new
                 {
                     Status = 500,
                     Message = "Internal Server Error ",
                     ErrorMessage = ex
-                  
+
                 });
             }
         }
-        
+
         [HttpGet("SlotList")]
         public IActionResult SlotList()
         {

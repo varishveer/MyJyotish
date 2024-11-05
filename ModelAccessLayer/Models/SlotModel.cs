@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace ModelAccessLayer.Models
@@ -12,9 +13,12 @@ namespace ModelAccessLayer.Models
         [Key]
         public int Id { get; set; }
         [Required]
-        public string Time { get; set; }
+        public TimeOnly Time { get; set; }
+        public int TimeDuration { get; set; }
         [Required]
         public DateOnly Date { get; set; }
         public string Status { get; set; }
+        [JsonIgnore]
+        public ICollection<SlotBookingModel> SlotBookingRecords { get; set; }
     }
 }

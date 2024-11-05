@@ -7,15 +7,10 @@ using System.Threading.Tasks;
 
 namespace ModelAccessLayer.ViewModels
 {
-    public class SlotBookingViewModel
+    public class SlotBookingAddViewModel
     {
     
-        [Required]
-        public string Time { get; set; }
-        [Required]
-       
-        public DateTime Date { get; set; }
-        [Required]
+       public int SlotId { get; set; }
         public int JyotishId { get; set; }
     }
 }

@@ -10,7 +10,9 @@ namespace ModelAccessLayer.ViewModels
     public class SlotViewModel
     {
         [Required] 
-        public string Time { get; set; }
+        public TimeOnly Time { get; set; }
+        [Required]
+        public int TimeDuration { get; set; }
         [Required]
         public DateOnly Date { get; set; }
     }
