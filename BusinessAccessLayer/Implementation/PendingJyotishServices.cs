@@ -400,7 +400,7 @@ namespace BusinessAccessLayer.Implementation
                var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
                if (Jyotish == null) { return "Jyotish Not Found"; }
 
-               DateTime today = DateTime.Today;
+            //  DateTime today = DateTime.Today;
                var Slot = _context.SlotBooking.Where(x=>x.JyotishId == model.JyotishId).FirstOrDefault();
                if( Slot != null)
                { return "Your Slot Already Booked"; }
