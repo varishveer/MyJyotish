@@ -231,10 +231,6 @@ namespace BusinessAccessLayer.Implementation
             var existingRecord = _context.jyotishTempRecords
                 .FirstOrDefault(x => x.JyotishId == model.Id);
 
-
-
-
-
             if (existingRecord == null)
             {
                 JyotishTempRecord newRecord = new JyotishTempRecord();
@@ -271,7 +267,6 @@ namespace BusinessAccessLayer.Implementation
                 else { return "Internal Server Error"; }
 
             }
-
 
             /*-----------------------------Basic-----------------------------------------*/
             if (model.BasicSection == true)
@@ -400,29 +395,31 @@ namespace BusinessAccessLayer.Implementation
             return Jyotish.ProfileImageUrl;
         }
 
-        public string AddSlotBooking(SlotBookingViewModel model)
+        public string AddSlotBooking(SlotBookingAddViewModel model)
            {
                var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
                if (Jyotish == null) { return "Jyotish Not Found"; }
 
                DateTime today = DateTime.Today;
-               var Slot = _context.SlotBooking.Where(slot => slot.Date >= today).Where(x=>x.JyotishId == model.JyotishId).FirstOrDefault();
+               var Slot = _context.SlotBooking.Where(x=>x.JyotishId == model.JyotishId).FirstOrDefault();
                if( Slot != null)
                { return "Your Slot Already Booked"; }
 
 
-               var newDate = DateOnly.FromDateTime(model.Date);
-                var slot = _context.Slots.Where(y => y.Date == newDate).Where(x => x.Time == model.Time).FirstOrDefault();
-            if(slot.Status == "Booked")
+      
+                var slot = _context.Slots.Where(y => y.Id == model.SlotId).FirstOrDefault();
+          
+            if (slot.Status == "Booked")
             {
                 return "This Slot Already Booked";
             }
             slot.Status = "Booked";
 
             SlotBookingModel NewRecord = new SlotBookingModel();
-               NewRecord.Time = model.Time;
-               NewRecord.Date = model.Date;
+
+            NewRecord.Date = DateTime.Now;
                NewRecord.JyotishId = model.JyotishId;
+            NewRecord.SlotId = model.SlotId;
                 _context.Slots.Update(slot);
                _context.SlotBooking.Add(NewRecord);
                if (_context.SaveChanges() > 0) 
@@ -431,8 +428,8 @@ namespace BusinessAccessLayer.Implementation
 
    We are pleased to inform you that your interview has been scheduled. Below are the details for your upcoming virtual interview:\n
 
-   Date: {model.Date}\n
-   Time: {model.Time}\n
+   Date: {slot.Date}\n
+   Time: {slot.Time}\n
    The meeting link and further instructions will be shared with you closer to the interview date.\n
 
    If you have any questions or need to reschedule, feel free to reply to this email or contact us at myjyotishG@gmail.com.\n
@@ -445,22 +442,29 @@ namespace BusinessAccessLayer.Implementation
                }
                else { return "Data Not Saved"; }
            }
+       
+
         public List<SlotListViewModel> SlotList()
         {
             DateTime today = DateTime.Today;
             DateOnly todayDate = DateOnly.FromDateTime(today);
 
             var groupedSlots = _context.Slots
-                .Where(slot => slot.Date >= todayDate)
-                .GroupBy(slot => slot.Date)
+                .Where(slot => slot.Date >= todayDate)  
+                .GroupBy(slot => slot.Date) 
+                .OrderBy(group => group.Key)  
                 .Select(group => new SlotListViewModel
                 {
                     Date = group.Key,
-                    Times = group.Select(slot => new TimeStatusViewModel
-                    {
-                        Time = slot.Time,    
-                        Status = slot.Status  
-                    }).ToList()
+                    Times = group
+                        .OrderBy(slot => slot.Time)  
+                        .Select(slot => new TimeStatusViewModel
+                        {
+                            Id = slot.Id,
+                            Time = slot.Time,  
+                            Status = slot.Status
+                        })
+                        .ToList()
                 })
                 .ToList();
 
@@ -473,10 +477,6 @@ namespace BusinessAccessLayer.Implementation
             var record = _context.SlotBooking
                 .Where(x => x.JyotishId == id && x.Date >= DateTime.Today)
                 .FirstOrDefault();
-            if (record != null)
-            {
-                record.JyotishRecords = null;
-            }
             return record;
         }
 

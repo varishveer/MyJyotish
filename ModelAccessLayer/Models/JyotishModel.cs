@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace ModelAccessLayer.Models
@@ -31,6 +32,7 @@ namespace ModelAccessLayer.Models
         public string? Country { get; set; }
         public string? State { get; set; }
         public string? City { get; set; }
+        [JsonIgnore]
         public string? Password { get; set; }
         public DateOnly? DateOfBirth { get; set; }
         public string? ProfileImageUrl { get; set; }

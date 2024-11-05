@@ -12,11 +12,12 @@ namespace ModelAccessLayer.Models
         [Key]
         public int Id { get; set; }
         [Required]
-        public string Time { get; set; }
+        public int SlotId { get; set; }
         [Required]
         public DateTime Date { get; set; }
         public int JyotishId { get; set; }
         public  JyotishModel JyotishRecords { get; set; }
+        public SlotModel SlotRecords { get; set; }
        
     }
 }

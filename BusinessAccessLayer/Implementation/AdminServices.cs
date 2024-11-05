@@ -705,27 +705,83 @@ namespace BusinessAccessLayer.Implementation
             var Slots = _context.Slots.Where(slot => slot.Date >= todayDate).ToList();
             return Slots;
         }
+        /* public string AddSlot(SlotViewModel model)
+         { 
+            if(model == null)
+            { return "Invalid Data"; }
+
+             var Check = _context.Slots.Where(x => x.Time == model.Time).Where(x => x.TimeDuration == model.TimeDuration).FirstOrDefault();
+             SlotModel slot = new SlotModel
+             {
+                 Time = model.Time,
+                 TimeDuration = model.TimeDuration,
+                 Date = model.Date,
+                 Status = "Vacant"
+             };
+
+             _context.Slots.Add(slot);
+             var result = _context.SaveChanges();
+             if (result > 0) { return "Successful"; }
+             else { return "Internal Server Error"; }
+
+         }*/
+
         public string AddSlot(SlotViewModel model)
-        { 
-           if(model == null)
-           { return "Invalid Data"; }
+        {
+            if (model == null)
+            {
+                return "Invalid Data";
+            }
+
+            // Convert TimeOnly to DateTime for start and end times (assuming TimeDuration is in minutes)
+            TimeOnly startTime = model.Time;
+            TimeSpan duration = TimeSpan.FromMinutes(model.TimeDuration); // Assuming TimeDuration is in minutes
+
+            // Combine DateOnly (model.Date) and TimeOnly (startTime) to form DateTime
+            DateTime startDateTime = model.Date.ToDateTime(startTime); // Combine DateOnly and TimeOnly to DateTime
+            DateTime endDateTime = startDateTime.Add(duration); // Calculate end time
+
+            // Fetch slots and perform the comparison in memory
+            var conflictingSlot = _context.Slots
+                .Where(x => x.Date == model.Date) 
+                .AsEnumerable()
+                .Where(x =>
+                   
+                    (x.Date.ToDateTime(x.Time) >= startDateTime && x.Date.ToDateTime(x.Time) < endDateTime) || 
+                    (x.Date.ToDateTime(x.Time).AddMinutes(x.TimeDuration) > startDateTime && x.Date.ToDateTime(x.Time).AddMinutes(x.TimeDuration) <= endDateTime) 
+                )
+                .FirstOrDefault();
+
+            if (conflictingSlot != null)
+            {
+                // There's a conflict (overlap) with an existing slot
+                return "Slot overlaps with an existing booking.";
+            }
+
+            // No conflict, proceed with adding the new slot
+            SlotModel slot = new SlotModel
+            {
+                Time = model.Time,
+                TimeDuration = model.TimeDuration,
+                Date = model.Date,
+                Status = "Vacant"
+            };
+
+            _context.Slots.Add(slot);
+            var result = _context.SaveChanges();
+
+            if (result > 0)
+            {
+                return "Successful";
+            }
             else
             {
-                SlotModel slot = new SlotModel
-                {
-                    Time = model.Time,
-                    Date = model.Date,
-                    Status = "Vacant"
-                };
-                
-                _context.Slots.Add(slot);
-                var result = _context.SaveChanges();
-                if (result > 0) { return "Successful"; }
-                else { return "Internal Server Error"; }
+                return "Internal Server Error";
             }
         }
 
-        
+
+
 
         public string AddFeature(SubscriptionFeaturesModel model)
         {

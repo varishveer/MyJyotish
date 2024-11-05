@@ -8,7 +8,8 @@ namespace ModelAccessLayer.ViewModels
 {
     public  class TimeStatusViewModel
     {
-        public string Time { get; set; }    // Assuming Time is a string
+        public int Id { get; set; }
+        public TimeOnly Time { get; set; }    // Assuming Time is a string
         public string Status { get; set; }
     }
 }

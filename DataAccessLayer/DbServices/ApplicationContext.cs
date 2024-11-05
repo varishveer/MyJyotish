@@ -76,6 +76,11 @@ namespace DataAccessLayer.DbServices
      .HasOne(c => c.JyotishRecords)
      .WithMany(j => j.Slots)
      .HasForeignKey(c => c.JyotishId);
+            modelBuilder.Entity<SlotBookingModel>()
+    .HasOne(c => c.SlotRecords)
+    .WithMany(j => j.SlotBookingRecords)
+    .HasForeignKey(c => c.SlotId);
+
 
             modelBuilder.Entity<JyotishVideosModel>().HasOne(c => c.Jyotish).WithMany(j => j.JyotishVideos).HasForeignKey(c => c.JyotishId);
             modelBuilder.Entity<JyotishGalleryModel>().HasOne(c => c.Jyotish).WithMany(j => j.JyotishGallery).HasForeignKey(c => c.JyotishId);
