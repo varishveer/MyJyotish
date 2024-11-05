@@ -1,9 +1,9 @@
-﻿@* 
+﻿
     
 
 @{
     Layout = "PendingJyotishLayout";
-    var BaseUrl = "https://api.myjyotishg.in/";
+  
 }
 <style>
     .image-container {
@@ -47,11 +47,6 @@
         font-size: 1.2rem;
     }
 
-    .row {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-around;
-    }
 
     .col-md-6,
     .col-lg-4 {
@@ -150,60 +145,82 @@
 
         <div class="row">
             <div class="col-md-12 d-flex justify-content-center mb-3 fw-bold fs-2 text-primary">
-                <div>Uploaded Documents</div>
+                <div style="font-weight:300;"> Uploaded Documents</div>
             </div>
         </div>
 
-        <div class="row">
+        <div class="row justify-content-center">
             <div class="col-md-3 col-lg-2 mb-4 increased-width">
-                <div class="image-container bg-light rounded">
-                    <img id="idProof" alt="ID Proof" class="img-fluid" src="https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp">
-                </div>
-                <div class="img-text">
-                    <span style="font-weight:bold">Status:&nbsp; </span>
-                   
-                        <span id="idProofStatus" ></span>
-                  
-                </div>
-            </div>
-            <div class="col-md-3 col-lg-2 mb-4 increased-width">
-                <div class="image-container bg-light rounded">
-                    <img id="addressProof" alt="Address Proof" src="https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp">
-                </div>
-                <div class="img-text">
-                    <span style="font-weight:bold">Status:&nbsp; </span>
-                    <span id="addressProofStatus"></span>
+                <a id="idProofLink">
+                    <div class="image-container bg-light rounded">
+                        <img id="idProof" alt="ID Proof" class="img-fluid" src="">
+                    </div>
+                    <div class="img-text">
 
 
-                </div>
+                        <span>Id Proof</span>
+
+                    </div>
+                </a>
+               
             </div>
             <div class="col-md-3 col-lg-2 mb-4 increased-width">
-                <div class="image-container bg-light rounded">
-                    <img id="tenthCertificate" alt="Tenth Certificate" src="https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp">
-                </div>
-                <div class="img-text">
-                    <span style="font-weight:bold">Status:&nbsp; </span>
-                    <span id="tenthCertificateStatus"></span>
-                </div>
+                <a id="addressProofLink">
+                    <div class="image-container bg-light rounded">
+                        <img id="addressProof" alt="Address Proof" src="">
+                    </div>
+                    <div class="img-text">
+
+                        <span>Address Proof</span>
+
+
+                    </div>
+                </a>
+               
+            </div>
+            <div class="col-md-3 col-lg-2 mb-4 increased-width" id="tenthCertificateDiv">
+                <a id="tenthCertificateLink">
+                    <div class="image-container bg-light rounded">
+                        <img id="tenthCertificate" alt="Tenth Certificate" src="https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp">
+                    </div>
+                    <div class="img-text">
+
+                        <span>Tenth Certificate</span>
+                    </div>
+                </a>
+               
+            </div>
+            <div class="col-md-3 col-lg-2 mb-4 increased-width" id="twelveCertificateDiv">
+                <a id="twelveCertificateLink">
+                    <div class="image-container bg-light rounded">
+                        <img id="twelveCertificate" alt="Twelve Certificate" src="https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp">
+                    </div>
+                    <div class="img-text">
+
+                        <span>Twelve Certificate</span>
+                    </div>
+                </a>
+               
             </div>
             <div class="col-md-3 col-lg-2 mb-4 increased-width">
-                <div class="image-container bg-light rounded">
-                    <img id="twelveCertificate" alt="Twelve Certificate" src="https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp">
-                </div>
-                <div class="img-text">
-                    <span style="font-weight:bold">Status:&nbsp; </span>
-                    <span id="twelveCertificateStatus"></span>
-                </div>
+                <a id="professionalCertificateLink">
+                    <div class="image-container bg-light rounded">
+                        <img id="professionalCertificate" alt="Professional Certificate" src="https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp">
+                    </div>
+                    <div class="img-text">
+
+                        <span>Professional Certificate</span>
+                    </div>
+                </a>
+               
             </div>
-            <div class="col-md-3 col-lg-2 mb-4 increased-width">
-                <div class="image-container bg-light rounded">
-                    <img id="professionalCertificate" alt="Professional Certificate" src="https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp">
-                </div>
-                <div class="img-text">
-                    <span style="font-weight:bold">Status:&nbsp; </span>
-                    <span id="professionalCertificateStatus"></span>
-                </div>
-            </div>
+        </div>
+
+        <div class="row justify-content-center"> 
+            <h5 id="registrationNumber" style="font-weight:300"></h5>
+            Your profile and documents are currently under processing and verification.<br /> 
+            Updates will be available within 24 to 72 hours.<br /> 
+            Please check back within this timeframe for further information.
         </div>
     </div>
 </div>
@@ -215,16 +232,20 @@
 
     $(document).ready(function () {
         async function fetchDocuments() {
-            const email = localStorage.getItem('userEmail');
-            if (!email) {
-                $('#statusMessage').text('No email address found in localStorage.');
+            const Id = localStorage.getItem('Id');
+            if (!Id) {
+               location.replace('/Jyotish/Login')
                 return;
             }
+            var RegistrationNumber = document.getElementById('registrationNumber');
+            RegistrationNumber.textContent = 'Registration No :'+'MYJYOTISHG' + Id;
+
+
 
             try {
 
                 const token = localStorage.getItem('Token3');
-                const imageApiUrl = "@BaseUrl" + `Api/PendingJyotish/Documents?email=${encodeURIComponent(email)}`; // Replace with your API endpoint for images
+                const imageApiUrl = BaseUrl + `Api/PendingJyotish/Documents?id=${encodeURIComponent(Id)}`; // Replace with your API endpoint for images
 
                 const response = await $.ajax({
                     url: imageApiUrl,
@@ -234,24 +255,44 @@
                         'Content-Type': 'application/json'
                     }
                 });
-                debugger;
+                 
              
 
 
-                $('#idProof').attr('src', response.data.idProof ? "@BaseUrl" + response.data.idProof :  '/Img/SampleDoc.jpeg');
-                document.getElementById("idProofStatus").textContent = response.data.idProofStatus ? response.data.idProofStatus : "Upload Document" ;
+                $('#idProof').attr('src', response.data.idProof ? BaseUrl + response.data.idProof :  '/Img/SampleDoc.jpeg');
+                var idLink = document.getElementById('idProofLink');
+                idLink.href = BaseUrl + response.data.idProof;
 
-                $('#addressProof').attr('src', response.data.addressProof ? "@BaseUrl" + response.data.addressProof : '/Img/SampleDoc.jpeg');
-                document.getElementById("addressProofStatus").textContent = response.data.addressProofStatus ? response.data.addressProofStatus : "Upload Document";
+                $('#addressProof').attr('src', response.data.addressProof ? BaseUrl + response.data.addressProof : '/Img/SampleDoc.jpeg');
+                var addressLink = document.getElementById('addressProofLink');
+                addressLink.href = BaseUrl + response.data.addressProof;
+                
+                if (response.data.tenthCertificate == null) 
+                {
+                    var tenthDiv = document.getElementById('tenthCertificateDiv');
+                    tenthDiv.hidden = true;
+                    var tenthLink = document.getElementById('tenthCertificateLink');
+                    tenthLink.href = BaseUrl + response.data.tenthCertificate;
+                }
 
-                $('#tenthCertificate').attr('src', response.data.tenthCertificate ? "@BaseUrl" + response.data.tenthCertificate :  '/Img/SampleDoc.jpeg');
-                document.getElementById("tenthCertificateStatus").textContent = response.data.tenthCertificateStatus ? response.data.tenthCertificateStatus : "Upload Document";
+                $('#tenthCertificate').attr('src', response.data.tenthCertificate ? BaseUrl + response.data.tenthCertificate :  '/Img/SampleDoc.jpeg');
 
-                $('#twelveCertificate').attr('src', response.data.twelveCertificate ? "@BaseUrl" + response.data.twelveCertificate :  '/Img/SampleDoc.jpeg');
-                document.getElementById("twelveCertificateStatus").textContent = response.data.twelveCertificateStatus ? response.data.twelveCertificateStatus : "Upload Document";
 
-                $('#professionalCertificate').attr('src', response.data.professionalCertificate ? "@BaseUrl" + response.data.professionalCertificate :   '/Img/SampleDoc.jpeg');
-                document.getElementById("professionalCertificateStatus").textContent = response.data.professionalCertificateStatus ? response.data.professionalCertificateStatus : "Upload Document";
+
+                if (response.data.twelveCertificate == null) {
+                    var tenthDiv = document.getElementById('twelveCertificateDiv');
+                    tenthDiv.hidden = true;
+                    var twelveLink = document.getElementById('twelveCertificateLink');
+                    twelveLink.href = BaseUrl + response.data.twelveCertificate;
+                }
+               
+                $('#twelveCertificate').attr('src', response.data.twelveCertificate ? BaseUrl + response.data.twelveCertificate :  '/Img/SampleDoc.jpeg');
+
+               
+
+                $('#professionalCertificate').attr('src', response.data.professionalCertificate ? BaseUrl + response.data.professionalCertificate :   '/Img/SampleDoc.jpeg');
+                var ProfessionalLink = document.getElementById('professionalCertificateLink');
+                ProfessionalLink.href = BaseUrl + response.data.professionalCertificate;
 
 
                 $('#loading').hide();
@@ -271,7 +312,7 @@
 
 
 
-
+@* 
 <style>
     .image-container {
         margin-bottom: 1rem;
@@ -501,7 +542,7 @@
 
             // Create a FormData object from the form
             const formData = new FormData();
-            debugger;
+             
             // Append files to FormData
             if (idProofFile) formData.append('IdProof', document.getElementById('idProof').files[0]);
             if (addressProofFile) formData.append('AddressProof', document.getElementById('addressProof').files[0]);
@@ -525,13 +566,13 @@
                 processData: false, // Prevent jQuery from automatically processing the data
                 contentType: false, // Prevent jQuery from setting content type, as it is handled by FormData
                 success: function (result) {
-                    debugger;
+                     
                     // Handle success
                     console.log('Success:', result);
                     alert('Files and data uploaded successfully!');
                 },
                 error: function (xhr, status, message) {
-                    debugger;
+                     
                     // Handle errors
                     console.error('Error:');
                     console.error(status);
@@ -547,8 +588,14 @@
 
 
 </script>
- *@
+  *@
 
+
+
+
+
+
+@* 
 
 @{
     Layout = "PendingJyotishLayout";
@@ -1081,3 +1128,4 @@
         });
     });
 </script>
+ *@

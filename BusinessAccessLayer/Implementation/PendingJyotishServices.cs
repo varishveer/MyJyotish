@@ -170,7 +170,7 @@ namespace BusinessAccessLayer.Implementation
                     isJyotishValid.Expertise = tempData.Expertise;
                     isJyotishValid.Address = tempData.Address;
                     isJyotishValid.Pincode = tempData.pincode;
-
+                    isJyotishValid.NewStatus = false;
                     _context.JyotishRecords.Update(isJyotishValid);
                     if (_context.SaveChanges() > 0)
                     { return "Successful"; }
@@ -415,14 +415,15 @@ namespace BusinessAccessLayer.Implementation
            {
                var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
                if (Jyotish == null) { return "Jyotish Not Found"; }
+
                DateTime today = DateTime.Today;
                var Slot = _context.SlotBooking.Where(slot => slot.Date >= today).Where(x=>x.JyotishId == model.JyotishId).FirstOrDefault();
                if( Slot != null)
                { return "Your Slot Already Booked"; }
 
 
-
-                var slot = _context.Slots.Where(y => y.Date == model.Date).Where(x => x.Time == model.Time).FirstOrDefault();
+               var newDate = DateOnly.FromDateTime(model.Date);
+                var slot = _context.Slots.Where(y => y.Date == newDate).Where(x => x.Time == model.Time).FirstOrDefault();
             if(slot.Status == "Booked")
             {
                 return "This Slot Already Booked";
@@ -458,9 +459,10 @@ namespace BusinessAccessLayer.Implementation
         public List<SlotListViewModel> SlotList()
         {
             DateTime today = DateTime.Today;
+            DateOnly todayDate = DateOnly.FromDateTime(today);
 
             var groupedSlots = _context.Slots
-                .Where(slot => slot.Date >= today)
+                .Where(slot => slot.Date >= todayDate)
                 .GroupBy(slot => slot.Date)
                 .Select(group => new SlotListViewModel
                 {

@@ -235,7 +235,7 @@
 
             // Create a FormData object from the form
             const formData = new FormData();
-            debugger;
+             
             // Append files to FormData
             if (idProofFile) formData.append('IdProof', document.getElementById('idProof').files[0]);
             if (addressProofFile) formData.append('AddressProof', document.getElementById('addressProof').files[0]);
@@ -259,13 +259,13 @@
                 processData: false, // Prevent jQuery from automatically processing the data
                 contentType: false, // Prevent jQuery from setting content type, as it is handled by FormData
                 success: function (result) {
-                    debugger;
+                     
                     // Handle success
                     console.log('Success:', result);
                     alert('Files and data uploaded successfully!');
                 },
                 error: function (xhr, status, message) {
-                    debugger;
+                     
                     // Handle errors
                     console.error('Error:');
                     console.error(status);

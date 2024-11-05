@@ -205,7 +205,7 @@
                         image: "https://vakiluncle.in/Content/assets/img/advocate/logo.png",
                         order_id: data.id,     // Order ID
                         handler: function (paymentResponse) {
-                            debugger;
+                             
                             console.log(paymentResponse.razorpay_payment_id, paymentResponse.razorpay_signature, paymentResponse.razorpay_order_id, planPrice);
                             InsertPayment(paymentResponse.razorpay_payment_id, paymentResponse.razorpay_signature, paymentResponse.razorpay_order_id, planPrice);
                         },
@@ -263,7 +263,7 @@
               
             }),
             success: function (res) {
-                debugger;
+                 
                 if (res.message == "Payment captured and recorded.") {
                     Swal.fire({
                         title: "Success!",

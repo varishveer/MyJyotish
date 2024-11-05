@@ -116,7 +116,7 @@
             url: BaseUrl + 'Api/User/GetAstroListCallChat?listName=Chat',
             type: 'GET',
             success: function (response) {
-                debugger;
+                 
                 if (response.status === 200) {
                     var astrologers = response.data;
                     if (astrologers.length > 0) {
@@ -129,7 +129,7 @@
                 }
             },
             error: function () {
-                debugger;
+                 
                 $('#astrologerList').html('<p>An error occurred while searching for astrologers.</p>');
             }
         });

@@ -58,7 +58,7 @@
 <script>
    
     function verifyUserOtp() {
-        debugger;
+         
             const mobileNumber = localStorage.getItem('Mobile');
         var otp1 = $('#otp1').val();
         var otp2 = $('#otp2').val();
@@ -86,7 +86,7 @@
             return;
         }
 
-        debugger;
+         
         //var url = `https://localhost:7118/Api/Account/VerifyUserOtp?Mobile=${encodeURIComponent(mobileNumber)}&Otp=${encodeURIComponent(otp)}`;
         var url = `https://api.myjyotishg.in/api/Account/VerifyUserOtp?Mobile=${encodeURIComponent(mobileNumber)}&Otp=${encodeURIComponent(otp)}`;
      
@@ -96,7 +96,7 @@
             method: 'POST',
           
             success: function (data) {
-                debugger;
+                 
                 if (data.status === 200) {
                     alert('OTP verification successful.');
                    
@@ -108,7 +108,7 @@
                 }
             },
             error: function (xhr) {
-                debugger;
+                 
                 const statusCode = xhr.status;
                 if (statusCode === 500) {
                     alert(xhr.responseJSON.Message || 'An internal server error occurred.');

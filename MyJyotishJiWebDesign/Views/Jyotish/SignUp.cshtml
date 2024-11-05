@@ -230,7 +230,12 @@
                     $("#verifyOtp").show();
                 },
                 error: function (xhr) {
-                    alert("Error: " + xhr.status + " - " + xhr.statusText);
+                     Swal.fire({
+                                    title: "Something went wrong",
+                                    icon: "warning",   
+                                });
+                           
+                    console.log("Error: " + xhr.status + " - " + xhr.statusText);
                 }
             });
         });
@@ -250,24 +255,50 @@
                 success: function (response) {
                     switch (response.status) {
                         case 200:
-                            alert("OTP Check successful: " + response.message);
+                                Swal.fire({
+                                    title: "OTP Check " + response.message,
+                                    icon: "success",   
+                                });
+                           
                             break;
                         case 409:
-                            alert("Conflict: " + response.message);
+                                Swal.fire({
+                                    title: "Conflict:" + response.message,
+                                    icon: "warning",   
+                                });
+                           
                             break;
                         case 400:
-                            alert("Bad Request: " + response.message);
+                                Swal.fire({
+                                    title: "Bad Request:" + response.message,
+                                    icon: "warning",   
+                                });
+                          
                             break;
                         case 500:
-                            alert("Internal Server Error: " + response.message);
+                                Swal.fire({
+                                    title: "Internal Server Error:" + response.message,
+                                    icon: "warning",   
+                                });
+                         
                             break;
                         default:
-                            alert("Unexpected response: " + response.message);
+                                Swal.fire({
+                                    title: "Unexpected response:" + response.message,
+                                    icon: "warning",   
+                                });
+                          
                             break;
                     }
                 },
                 error: function (xhr) {
-                    alert("Error: " + xhr.status + " - " + xhr.statusText);
+                      Swal.fire({
+                                    title: "Something went Wrong",
+                                    icon: "warning",   
+                                });
+                           
+                           
+                    console.log("Error: " + xhr.status + " - " + xhr.statusText);
                 }
             });
         });
@@ -383,12 +414,21 @@
 
             // Check if the OTP is required and empty
             if ($("#otp").is(':hidden') && !$("#otp").val()) {
-                alert("Please get and verify your OTP before signing up.");
-                return; // Stop form submission
+                 Swal.fire({
+                            title: "Please get and verify your OTP before signing up. " ,
+                            icon: "warning",   
+                        });
+                           
+               
+                return; 
             }
             if ($("#otp").css('display') === 'none' && !$("#otp").val()) {
-                alert("Please get and verify your OTP before signing up.");
-                return; // Stop form submission
+                 Swal.fire({
+                            title: "Please get and verify your OTP before signing up." ,
+                            icon: "warning",   
+                        });
+              
+                return; 
             }
 
             const formData = new FormData();
@@ -414,7 +454,11 @@
                 processData: false,
                 contentType: false,
                 success: function (response) {
-                    alert('Form submitted successfully!');
+                    Swal.fire({
+                            title: "Form submitted successfully!" ,
+                            icon: "success",   
+                        });
+                   
                     $('#registrationForm')[0].reset();
                     location.replace('/Jyotish/login');
                 },
@@ -424,13 +468,25 @@
                         var response = JSON.parse(xhr.responseText);
 
                         if (response.message === "Not authorized to register") {
-                            alert('Please Verify OTP');
+                            Swal.fire({
+                            title: "Please Verify OTP" ,
+                            icon: "warning",   
+                        });
+                          
                         } else {
-                            alert('Error: ' + response.message || 'There was an error submitting the form');
+                                Swal.fire({
+                                title: 'Error: ' + response.message || 'There was an error submitting the form' ,
+                                icon: "warning",   
+                            });
+                        
                         }
                     } catch (e) {
+                        Swal.fire({
+                            title: "Something went wrong" ,
+                            icon: "warning",   
+                        });
                         // Fallback if parsing fails
-                        alert('There was an error submitting the form: ' + xhr.responseText);
+                        Console.log('There was an error submitting the form: ' + xhr.responseText);
                     }
                 }
             });

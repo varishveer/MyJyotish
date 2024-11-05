@@ -174,7 +174,7 @@
     $(document).ready(function () {
        
        
-        debugger;
+         
         const urlParams = new URLSearchParams(window.location.search);
         var astrologerId = urlParams.get('Id');
         var apiUrl = BaseUrl + `Api/User/AstrologerProfile?Id=${astrologerId}`;
@@ -182,7 +182,7 @@
             url: apiUrl,
             method: 'GET',
             success: function (response) {
-                debugger;
+                 
                 if (response.status === 200) {
                     var data = response.data;
                     console.log(data)
@@ -325,7 +325,7 @@ $(".callBtn").hide()
             success: function (response) {
                 $("#problem").hide()
                 $("#prev-btn").hide()
-                debugger;
+                 
                 if (response.status === 200) {
 
                     var data = response.data;
