@@ -17,6 +17,6 @@ namespace ModelAccessLayer.ViewModels
         public IFormFile? TenthCertificate { get; set; }
         public IFormFile? TwelveCertificate { get; set; }
         public IFormFile? ProfessionalCertificate { get; set; }
-        public string JyotishEmail { get; set; }
+        public int JyotishId { get; set; }
     }
 }

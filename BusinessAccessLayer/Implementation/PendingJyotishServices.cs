@@ -37,11 +37,11 @@ namespace BusinessAccessLayer.Implementation
 
         public async Task<string> UploadDocumentAsync(DocumentViewModel model)
         {
-            const long MaxFileSize = 5 * 1024 * 1024; // 5 MB
+            const long MaxFileSize = 5 * 1024 * 1024; 
             var allowedExtensions = new[] { ".pdf", ".jpg", ".jpeg", ".png" };
 
             var isJyotishValid = await _context.JyotishRecords
-                .FirstOrDefaultAsync(x => x.Email == model.JyotishEmail);
+                .FirstOrDefaultAsync(x => x.Id == model.JyotishId);
 
             if(model.IdProof == null|| model.AddressProof == null|| model.ProfessionalCertificate == null)
             {
@@ -142,6 +142,10 @@ namespace BusinessAccessLayer.Implementation
                 {
 
                    var tempData =  _context.jyotishTempRecords.Where(x => x.Id == isJyotishValid.TempRecordId).FirstOrDefault();
+                    if(tempData == null)
+                    {
+                        return "Invalid Data";
+                    }
            
                     isJyotishValid.AlternateMobile = tempData.AlternateMobile;
                     isJyotishValid.Name = tempData.Name;
@@ -186,45 +190,38 @@ namespace BusinessAccessLayer.Implementation
             }
         }
 
-        private async Task<string> SaveFileAsync(IFormFile file)
+        public DocumentModel Documents(int Id)
         {
-            var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-            var relativePath = Path.Combine("PendingJyotish", "Document", uniqueFileName);
-            var fullPath = Path.Combine(_uploadDirectory, "wwwroot", relativePath);
-
-            using (var stream = new FileStream(fullPath, FileMode.Create))
-            {
-                await file.CopyToAsync(stream);
-            }
-
-            return "/" + relativePath; // Return relative URL
-        }
-
-        private bool ValidateFile(IFormFile file, long maxSize, string[] allowedExtensions)
-        {
-            return file.Length <= maxSize && allowedExtensions.Contains(Path.GetExtension(file.FileName).ToLower());
-        }
-
-
-        public DocumentModel Documents(string email)
-        {
-            var isEmailValid =  _context.JyotishRecords.Where(x => x.Email == email).FirstOrDefault();
-            if (isEmailValid == null) { return null; }
-            var isDocumentAvailable =  _context.Documents.Where(x=>x.JId == isEmailValid.Id).FirstOrDefault();
+            var isJyotishValid =  _context.JyotishRecords.Where(x => x.Id == Id).FirstOrDefault();
+            if (isJyotishValid == null) { return null; }
+            var isDocumentAvailable =  _context.Documents.Where(x=>x.JId == Id).FirstOrDefault();
             if (isDocumentAvailable == null) { return null; }
             else {
+
                 isDocumentAvailable.Jyotish = null;
                 return isDocumentAvailable; 
             }
         }
 
-        public async Task<JyotishModel> Profile(string email)
+        public async Task<JyotishModel> ProfileData(int Id)
         {
-            if (email == null) { return null; }
-            var result = await _context.JyotishRecords.Where(x => x.Email == email).FirstOrDefaultAsync();
+      
+            var result = await _context.JyotishRecords.Where(x => x.Id == Id).FirstOrDefaultAsync();
             if (result == null) { return null; }
+
             return result;
         }
+
+
+        public async Task<JyotishTempRecord> ProfileTempData(int Id)
+        {
+
+            var result = await _context.JyotishRecords.Where(x => x.Id == Id).FirstOrDefaultAsync();
+            if (result == null) { return null; }
+            var records = await _context.jyotishTempRecords.Where(x => x.Id == result.TempRecordId).FirstOrDefaultAsync();
+            return records;
+        }
+
 
         public string UpdateProfile(JyotishTempViewModel model, string? path)
         {
@@ -241,6 +238,7 @@ namespace BusinessAccessLayer.Implementation
             if(existingRecord.TempRecordId == 0||  existingRecord.TempRecordId == null)
             {
                 JyotishTempRecord newRecord = new JyotishTempRecord();
+                newRecord.BasicSection = true;
                 newRecord.Name = model.Name;
                 newRecord.Email = existingRecord.Email;
                 newRecord.Mobile = existingRecord.Mobile;
@@ -278,13 +276,14 @@ namespace BusinessAccessLayer.Implementation
                 else { return "Internal Server Error"; }
 
             }
-            /*-----------------------------Address-----------------------------------------*/
+
+
+            /*-----------------------------Basic-----------------------------------------*/
             if (model.BasicSection == true)
             {
                 var Record = _context.jyotishTempRecords.Where(x => x.Id == existingRecord.TempRecordId).FirstOrDefault();
                 if(Record == null) { return "Invalid Data"; }
-
-
+                Record.BasicSection = true;
                 Record.Name = model.Name;
                 Record.Email = existingRecord.Email;
                 Record.Mobile = existingRecord.Mobile;
@@ -331,15 +330,13 @@ namespace BusinessAccessLayer.Implementation
                     .Where(x => x.Id == model.City)
                     .Select(x => x.Name)
                     .FirstOrDefault();
-
+                Record.AddressSection = true;
                 Record.City = cityName;
                 Record.State = stateName;
                 Record.Country = countryName;
                 Record.Address = model.Address;
                 Record.pincode = model.pincode;
-              
-              
-                
+
                 _context.jyotishTempRecords.Update(Record);
                 var Result = _context.SaveChanges();
                 if (Result > 0) { return "Successful"; }
@@ -355,7 +352,7 @@ namespace BusinessAccessLayer.Implementation
                 var Record = _context.jyotishTempRecords.Where(x => x.Id == existingRecord.TempRecordId).FirstOrDefault();
                 if (Record == null) { return "Invalid Data"; }
 
-
+                Record.AvailbilitySection = true;
                 Record.Pooja = model.Pooja;
                 Record.Call = model.Call;
                 Record.CallCharges = model.CallCharges;
@@ -376,7 +373,7 @@ namespace BusinessAccessLayer.Implementation
                 var Record = _context.jyotishTempRecords.Where(x => x.Id == existingRecord.TempRecordId).FirstOrDefault();
                 if (Record == null) { return "Invalid Data"; }
 
-
+                Record.AboutSection = true;
                 Record.About = model.About;
                 Record.AwordsAndAchievement = model.AwordsAndAchievement;
                 Record.Specialization = model.Specialization;
@@ -389,85 +386,15 @@ namespace BusinessAccessLayer.Implementation
                 if (Result > 0) { return "Successful"; }
                 else { return "Internal Server Error"; }
             }
-            // Save changes
+            
             return "Invalid Data";
         }
 
 
 
-       /* public string UpdateProfile(JyotishViewModel model, string? path)
-        {
-            if (model == null) return "Invalid Data";
+      
 
-            // Find the existing record
-            var existingRecord = _context.JyotishRecords
-                .FirstOrDefault(x => x.Email == model.Email);
-
-            if (existingRecord == null) return "Jyotish Not Found";
-
-            // Basic Details
-
-
-
-
-
-
-            // Fetch related entities only if necessary
-            var countryName = _context.Countries
-                .Where(x => x.Id == model.Country)
-                .Select(x => x.Name)
-                .FirstOrDefault();
-
-            var stateName = _context.States
-                .Where(x => x.Id == model.State)
-                .Select(x => x.Name)
-                .FirstOrDefault();
-
-            var cityName = _context.Cities
-                .Where(x => x.Id == model.City)
-                .Select(x => x.Name)
-                .FirstOrDefault();
-
-            // Handle file upload
-            string filePath = string.Empty;
-            string ImageUrl = string.Empty;
-            if (model.Image != null)
-            {
-                // Generate a unique file name
-                var uniqueFileName = $"{Guid.NewGuid()}_{model.Image.FileName}";
-                filePath = $"wwwroot/Images/Jyotish/{uniqueFileName}";
-                ImageUrl = $"Images/Jyotish/{uniqueFileName}";
-                var fullPath = path + "/" + filePath;
-                UploadFile(model.Image, fullPath);
-            }
-
-            // Update existing record
-            existingRecord.Name = model.Name;
-            existingRecord.Gender = model.Gender;
-            existingRecord.Language = model.Language;
-            existingRecord.Expertise = model.Expertise;
-            existingRecord.DateOfBirth = model.DateOfBirth;
-            existingRecord.Mobile = model.Mobile;
-            existingRecord.Country = countryName;
-            existingRecord.State = stateName;
-            existingRecord.City = cityName;
-            existingRecord.ProfileImageUrl = ImageUrl;
-
-            _context.JyotishRecords.Update(existingRecord);
-            if (_context.SaveChanges() > 0)
-            {
-                return "Successful";
-            }
-            // Save changes
-            return "Data Not Saved";
-        }*/
-
-        public void UploadFile(IFormFile file, string fullPath)
-        {
-            FileStream stream = new FileStream(fullPath, FileMode.Create);
-            file.CopyTo(stream);
-            
-        }
+     
 
         public string Role(string Email)
         {
@@ -560,6 +487,34 @@ namespace BusinessAccessLayer.Implementation
                 record.JyotishRecords = null;
             }
             return record;
+        }
+
+
+
+        private async Task<string> SaveFileAsync(IFormFile file)
+        {
+            var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+            var relativePath = Path.Combine("PendingJyotish", "Document", uniqueFileName);
+            var fullPath = Path.Combine(_uploadDirectory, "wwwroot", relativePath);
+
+            using (var stream = new FileStream(fullPath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            return "/" + relativePath; // Return relative URL
+        }
+
+        private bool ValidateFile(IFormFile file, long maxSize, string[] allowedExtensions)
+        {
+            return file.Length <= maxSize && allowedExtensions.Contains(Path.GetExtension(file.FileName).ToLower());
+        }
+
+        public void UploadFile(IFormFile file, string fullPath)
+        {
+            FileStream stream = new FileStream(fullPath, FileMode.Create);
+            file.CopyTo(stream);
+
         }
     }
 }
