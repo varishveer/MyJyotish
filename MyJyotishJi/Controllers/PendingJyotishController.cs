@@ -36,10 +36,10 @@ namespace MyJyotishGApi.Controllers
 
 
         [HttpGet("Documents")]
-        public IActionResult Documents(string Email)
+        public IActionResult Documents(int Id)
         {
             try {
-                DocumentModel Records = _pendingJyotishServices.Documents(Email);
+                DocumentModel Records = _pendingJyotishServices.Documents(Id);
                 if(Records == null)
                 { return Ok(new { Status = 409, Message = "Not Found" }); }
                 else { return Ok(new { Status= 200, data = Records }); }
@@ -80,12 +80,20 @@ namespace MyJyotishGApi.Controllers
             catch { return StatusCode(500, new { Message = "Internal Server Error" }); }
         }
 
-        [HttpGet("Profile")]
-        public async Task<IActionResult> Profile(string Email)
+        [HttpGet("ProfileData")]
+        public async Task<IActionResult> ProfileData(int Id)
         {
-            var result = await _pendingJyotishServices.Profile(Email);
+            var result = await _pendingJyotishServices.ProfileData(Id);
             if(result == null) { return Ok(new {Status =400 , Message ="No User Found"}); }
             else { return Ok(new { Status =200, data = result }); }
+        }
+
+        [HttpGet("ProfileTempData")]
+        public async Task<IActionResult> ProfileTempData(int Id)
+        {
+            var result = await _pendingJyotishServices.ProfileTempData(Id);
+            if (result == null) { return Ok(new { Status = 400, Message = "No User Found" }); }
+            else { return Ok(new { Status = 200, data = result }); }
         }
 
         [HttpPost("UpdateProfile")]
