@@ -126,6 +126,8 @@
 <script>
     $(document).ready(function () {
 
+
+
         $('#loginForm').submit(function (e) {
             
             e.preventDefault(); // Prevent the form from submitting normally
@@ -148,7 +150,6 @@
                     Password: password // Make sure this matches the property name in your model
                 }),
                 success: function (response) {
-                    console.log(response)
                     if (response.status === 200) {
                        
                         // Successful login
