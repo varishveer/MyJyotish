@@ -177,9 +177,10 @@ namespace MyJyotishJiApi.Controllers
                         var token = GenerateJwtToken(jyotishLogin.Email, "Scheme2");
                         return Ok(new { Status = 200, Message = Response.Role, Token = token, User = Response.Email, UserName = Response.Name, Role = Response.Role , Id = Response.Id});
                     }
-                    else { 
+                    else
+                    {
                         var token = GenerateJwtToken(jyotishLogin.Email, "Scheme3");
-                        return Ok(new { Status = 200, Message = Response.Role, Token = token, User = Response.Email, UserName = Response.Name, Role = Response.Role, Id = Response.Id });
+                        return Ok(new { Status = 200,newStatus= Response.NewStatus, Message = Response.Role, Token = token, User = Response.Email, UserName = Response.Name, Role = Response.Role, Id = Response.Id });
                     }
                    
                    
