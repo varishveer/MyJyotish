@@ -60,7 +60,7 @@ namespace ModelAccessLayer.Models
         public string? Rating { get; set; }
         public string? SuccessRate { get; set; }
         public int? Pincode { get; set; }
-        public int? TempRecordId { get; set; }
+       // public int? TempRecordId { get; set; }
 
 
         public DocumentModel DocumentModel { get; set; }
