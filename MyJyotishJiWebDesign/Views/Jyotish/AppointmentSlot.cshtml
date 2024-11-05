@@ -268,7 +268,7 @@
             const timeFrom = $(this).data('timefrom');
             const timeTo = $(this).data('timeto');
             const timeDuration = $(this).data('duration');
-            debugger;
+             
             // Convert date from MM/DD/YYYY to YYYY-MM-DD
             const dateParts = date.split('/');
             const formattedDate = `${dateParts[2]}-${dateParts[0].padStart(2, '0')}-${dateParts[1].padStart(2, '0')}`; // YYYY-MM-DD
@@ -290,7 +290,7 @@
         // Update Appointment Slot
         $("#btnupdate").on('click', function (e) {
             e.preventDefault();
-            debugger;
+             
             const id = $("#id").val();
             const date = $("#date").val(); // Ensure this is in YYYY-MM-DD format
             const timeFrom = $("#timeFrom").val(); // Get the time value

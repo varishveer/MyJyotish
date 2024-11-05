@@ -98,7 +98,7 @@
 <script>
     $('#TeamMemberRegistrationForm').on("submit", function (event) {
         event.preventDefault();
-        debugger;
+         
         // Set JyotishEmail from localStorage
        
 
@@ -121,13 +121,13 @@
             processData: false, // Important: Prevent jQuery from processing the data
             contentType: false, // Important: Let the browser set the content type
             success: function (response) {
-                debugger;
+                 
                 console.log('Success:', response);
                 alert('Form submitted successfully!');
                 $('#TeamMemberRegistrationForm')[0].reset(); // Reset the form
             },
             error: function (xhr, status, error) {
-                debugger;
+                 
                 console.error('Error:', error);
                 console.log('XHR:', xhr.statusCode);
                 alert('There was an error submitting the form.');

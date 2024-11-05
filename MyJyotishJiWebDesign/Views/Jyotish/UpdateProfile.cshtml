@@ -367,7 +367,7 @@
         // Handle form submission
         $('#profileUpdateForm').on('submit', function (e) {
             e.preventDefault();
-            debugger;
+             
             var formData = new FormData();
 
             // Append basic form data
@@ -426,7 +426,7 @@
                     'Authorization': `Bearer ${token}` // Ensure token is available in scope
                 },
                 success: function (response) {
-                    debugger;
+                     
                     if (response.status === 200) {
 
                         Swal.fire({
@@ -455,7 +455,7 @@
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    debugger;
+                     
                     console.error('Error updating profile:', textStatus, errorThrown);
                 },
                 complete: function () {

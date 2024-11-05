@@ -222,13 +222,13 @@
             contentType: 'application/json',
             data: JSON.stringify(data),
             success: function (response) {
-                debugger;
+                 
                 alert("OTP verification successful: " + response.message);
                 $("#otp").show();
                 $("#verifyOtp").show();
             },
             error: function (xhr) {
-                debugger;
+                 
                 alert("Error: " + xhr.status + " - " + xhr.statusText);
             }
         });

@@ -292,7 +292,7 @@
         const id = $('#updateAppointmentId').val(); // Get the ID from the hidden input
         const problems = Array.from(document.querySelectorAll('#updateProblemFields textarea')).map(input => input.value);
         const solutions = Array.from(document.querySelectorAll('#updateSolutionFields textarea')).map(input => input.value);
-        debugger;
+         
         const data = {
             Id:id,
             AppointmentId: appointmentId,

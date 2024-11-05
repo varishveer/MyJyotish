@@ -8,7 +8,7 @@ namespace ModelAccessLayer.ViewModels
 {
     public class SlotListViewModel
     {
-        public DateTime Date { get; set; }
+        public DateOnly Date { get; set; }
         public List<TimeStatusViewModel> Times { get; set; }
 
        

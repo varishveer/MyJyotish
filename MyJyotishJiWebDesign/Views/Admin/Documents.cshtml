@@ -349,7 +349,7 @@
                         'Authorization': `Bearer ${localStorage.getItem("Token")}`
                     },
                     success: function (response) {
-                        debugger;
+                         
                         if (response.status === 200) {
                             updateDocumentStatus(response.data); // Call function to update document status
                         } else {

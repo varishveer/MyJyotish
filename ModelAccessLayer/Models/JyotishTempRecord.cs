@@ -10,11 +10,13 @@ namespace ModelAccessLayer.Models
 {
     public  class JyotishTempRecord
     {
+        public int Id { get; set; }
+        public int JyotishId { get; set; }
         /*-----------Basic Information---------------------*/
         public bool BasicSection { get; set; }
-        public int Id { get; set; }
+       
         public string? Name { get; set; }
-        public string Email { get; set; }
+        public string? Email { get; set; }
         public string? Mobile { get; set; }
         public string? AlternateMobile { get; set; }
         public string? Gender { get; set; }
@@ -28,7 +30,7 @@ namespace ModelAccessLayer.Models
         public string? State { get; set; }
         public string? City { get; set; }
         public string? Address { get; set; }
-        public int? pincode { get; set; }
+        public int? Pincode { get; set; }
 
         /*-----------Availbility---------------------*/
         public bool AvailbilitySection { get; set; }

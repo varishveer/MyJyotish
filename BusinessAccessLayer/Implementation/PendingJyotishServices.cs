@@ -141,7 +141,7 @@ namespace BusinessAccessLayer.Implementation
                 if(await _context.SaveChangesAsync() > 0)
                 {
 
-                   var tempData =  _context.jyotishTempRecords.Where(x => x.Id == isJyotishValid.TempRecordId).FirstOrDefault();
+                   var tempData =  _context.jyotishTempRecords.Where(x => x.JyotishId == isJyotishValid.Id).FirstOrDefault();
                     if(tempData == null)
                     {
                         return "Invalid Data";
@@ -169,8 +169,8 @@ namespace BusinessAccessLayer.Implementation
                     isJyotishValid.Specialization = tempData.Specialization;
                     isJyotishValid.Expertise = tempData.Expertise;
                     isJyotishValid.Address = tempData.Address;
-                    isJyotishValid.Pincode = tempData.pincode;
-
+                    isJyotishValid.Pincode = tempData.Pincode;
+                    isJyotishValid.NewStatus = false;
                     _context.JyotishRecords.Update(isJyotishValid);
                     if (_context.SaveChanges() > 0)
                     { return "Successful"; }
@@ -218,7 +218,7 @@ namespace BusinessAccessLayer.Implementation
 
             var result = await _context.JyotishRecords.Where(x => x.Id == Id).FirstOrDefaultAsync();
             if (result == null) { return null; }
-            var records = await _context.jyotishTempRecords.Where(x => x.Id == result.TempRecordId).FirstOrDefaultAsync();
+            var records = await _context.jyotishTempRecords.Where(x => x.JyotishId == result.Id).FirstOrDefaultAsync();
             return records;
         }
 
@@ -228,14 +228,14 @@ namespace BusinessAccessLayer.Implementation
             if (model == null) return "Invalid Data";
 
             // Find the existing record
-            var existingRecord = _context.JyotishRecords
-                .FirstOrDefault(x => x.Id == model.Id);
+            var existingRecord = _context.jyotishTempRecords
+                .FirstOrDefault(x => x.JyotishId == model.Id);
 
 
-            if (existingRecord == null) return "Jyotish Not Found";
 
 
-            if(existingRecord.TempRecordId == 0||  existingRecord.TempRecordId == null)
+
+            if (existingRecord == null)
             {
                 JyotishTempRecord newRecord = new JyotishTempRecord();
                 newRecord.BasicSection = true;
@@ -267,11 +267,6 @@ namespace BusinessAccessLayer.Implementation
 
                 if (Result > 0) {
 
-                    var data = _context.jyotishTempRecords.Where(x => x.Email == existingRecord.Email).FirstOrDefault();
-
-                    existingRecord.TempRecordId = data.Id;
-                    _context.JyotishRecords.Update(existingRecord);
-                   _context.SaveChanges();
                     return "Successful"; }
                 else { return "Internal Server Error"; }
 
@@ -281,7 +276,7 @@ namespace BusinessAccessLayer.Implementation
             /*-----------------------------Basic-----------------------------------------*/
             if (model.BasicSection == true)
             {
-                var Record = _context.jyotishTempRecords.Where(x => x.Id == existingRecord.TempRecordId).FirstOrDefault();
+                var Record = _context.jyotishTempRecords.Where(x => x.JyotishId == existingRecord.Id).FirstOrDefault();
                 if(Record == null) { return "Invalid Data"; }
                 Record.BasicSection = true;
                 Record.Name = model.Name;
@@ -313,9 +308,9 @@ namespace BusinessAccessLayer.Implementation
             /*-----------------------------Address-----------------------------------------*/
             if (model.AddressSection == true) 
             {
-                var Record = _context.jyotishTempRecords.Where(x => x.Id == existingRecord.TempRecordId).FirstOrDefault();
+                var Record = _context.jyotishTempRecords.Where(x => x.JyotishId == existingRecord.Id).FirstOrDefault();
                 if (Record == null) { return "Invalid Data"; }
-              
+
                 var countryName = _context.Countries
                     .Where(x => x.Id == model.Country)
                     .Select(x => x.Name)
@@ -335,7 +330,7 @@ namespace BusinessAccessLayer.Implementation
                 Record.State = stateName;
                 Record.Country = countryName;
                 Record.Address = model.Address;
-                Record.pincode = model.pincode;
+                Record.Pincode = model.pincode;
 
                 _context.jyotishTempRecords.Update(Record);
                 var Result = _context.SaveChanges();
@@ -349,7 +344,7 @@ namespace BusinessAccessLayer.Implementation
             if (model.AvailbilitySection == true)
             {
 
-                var Record = _context.jyotishTempRecords.Where(x => x.Id == existingRecord.TempRecordId).FirstOrDefault();
+                var Record = _context.jyotishTempRecords.Where(x => x.JyotishId == existingRecord.Id).FirstOrDefault();
                 if (Record == null) { return "Invalid Data"; }
 
                 Record.AvailbilitySection = true;
@@ -370,7 +365,7 @@ namespace BusinessAccessLayer.Implementation
             if (model.AboutSection == true)
             {
 
-                var Record = _context.jyotishTempRecords.Where(x => x.Id == existingRecord.TempRecordId).FirstOrDefault();
+                var Record = _context.jyotishTempRecords.Where(x => x.JyotishId == existingRecord.Id).FirstOrDefault();
                 if (Record == null) { return "Invalid Data"; }
 
                 Record.AboutSection = true;
@@ -389,12 +384,6 @@ namespace BusinessAccessLayer.Implementation
             
             return "Invalid Data";
         }
-
-
-
-      
-
-     
 
         public string Role(string Email)
         {
@@ -415,14 +404,15 @@ namespace BusinessAccessLayer.Implementation
            {
                var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
                if (Jyotish == null) { return "Jyotish Not Found"; }
+
                DateTime today = DateTime.Today;
                var Slot = _context.SlotBooking.Where(slot => slot.Date >= today).Where(x=>x.JyotishId == model.JyotishId).FirstOrDefault();
                if( Slot != null)
                { return "Your Slot Already Booked"; }
 
 
-
-                var slot = _context.Slots.Where(y => y.Date == model.Date).Where(x => x.Time == model.Time).FirstOrDefault();
+               var newDate = DateOnly.FromDateTime(model.Date);
+                var slot = _context.Slots.Where(y => y.Date == newDate).Where(x => x.Time == model.Time).FirstOrDefault();
             if(slot.Status == "Booked")
             {
                 return "This Slot Already Booked";
@@ -458,9 +448,10 @@ namespace BusinessAccessLayer.Implementation
         public List<SlotListViewModel> SlotList()
         {
             DateTime today = DateTime.Today;
+            DateOnly todayDate = DateOnly.FromDateTime(today);
 
             var groupedSlots = _context.Slots
-                .Where(slot => slot.Date >= today)
+                .Where(slot => slot.Date >= todayDate)
                 .GroupBy(slot => slot.Date)
                 .Select(group => new SlotListViewModel
                 {

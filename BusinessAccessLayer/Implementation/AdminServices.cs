@@ -70,6 +70,7 @@ namespace BusinessAccessLayer.Implementation
            (record, user) => new { record, user })
      .Join(_context.AppointmentSlots,
            combined => combined.record.SlotId,
+
            slot => slot.Id,
            (combined, slot) => new AppointmentListAdminViewModel
            {
@@ -700,7 +701,8 @@ namespace BusinessAccessLayer.Implementation
         public List<SlotModel> SlotList()
         {
             DateTime today = DateTime.Today;
-            var Slots = _context.Slots.Where(slot => slot.Date >= today).ToList();
+            DateOnly todayDate = DateOnly.FromDateTime(today);
+            var Slots = _context.Slots.Where(slot => slot.Date >= todayDate).ToList();
             return Slots;
         }
         public string AddSlot(SlotViewModel model)
@@ -723,9 +725,9 @@ namespace BusinessAccessLayer.Implementation
             }
         }
 
-      
+        
 
-      public string AddFeature(SubscriptionFeaturesModel model)
+        public string AddFeature(SubscriptionFeaturesModel model)
         {
             if(model ==null)
             { return "Invalid Data"; }

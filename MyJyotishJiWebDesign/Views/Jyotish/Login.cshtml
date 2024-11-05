@@ -158,16 +158,7 @@
                         localStorage.setItem('userEmail', response.user);
                         localStorage.setItem('userRole', response.role);
 
-                       // Swal.fire({
-                        //    title: "Login Successful!",
-                       //     text: "Redirecting to dashboard...",
-                     //       icon: "success",
-                     //       timer: 2000, // Optional: Show for 2 seconds
-                     //       showConfirmButton: true, // Ensure the OK button is shown
-                     //   }).then(() => {
-                   //         
-                  //          location.reload(); 
-                   //     });
+                     
                       
                       
                         if(response.role == "Pending")
@@ -235,9 +226,19 @@
                            
                         } 
                         else {
-                            alert("Unexpected response: " + response.message);
+                             Swal.fire({
+                                    title: "Something went wrong",
+
+                                    icon: "warning",
+
+                                   
+                                });
+                            console.log("Unexpected response: " + response.message);
                         }
                 },
+
+
+
                 error: function (xhr) {
                     console.error("Error:", xhr.responseText);
                     alert("An error occurred. Please try again.");

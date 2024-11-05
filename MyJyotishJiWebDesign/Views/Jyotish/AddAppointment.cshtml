@@ -113,7 +113,7 @@
                 'Content-Type': 'application/json',
             },
             success: function (res) {
-                debugger;
+                 
                 // Loop through the response data
                 $.each(res.data, function (index, item) {
                     // For each date, loop through the slotList to append options
@@ -128,7 +128,7 @@
                 });
             },
             error: function (error) {
-                debugger;
+                 
                 console.error(error);
             }
         });
@@ -145,7 +145,7 @@
 
 
         $('#appointmentForm').on('submit', function (event) {
-            debugger;
+             
             event.preventDefault(); // Prevent default form submission
           
 
@@ -160,7 +160,7 @@
                 slotId: $('#yourSelectElementId').val(),
               
             };
-            debugger;
+             
             // Send data using AJAX
             $.ajax({
                 url: BaseUrl+ 'Api/Jyotish/AddAppointment', // Replace with your API endpoint

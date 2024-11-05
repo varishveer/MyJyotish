@@ -60,7 +60,7 @@
     $(document).ready(function () {
         // Get the ID from the URL
        
-        debugger;
+         
         var ApiUrl = BaseUrl + "Api/Jyotish/JyotishGallery?Id=" + `${localStorage.getItem("Id")}`;
         console.log(ApiUrl);
         // Fetch gallery data based on the ID
@@ -72,7 +72,7 @@
                 'Content-Type': 'application/json',
             },
             success: function (res) {
-                debugger;
+                 
                 if (res.status === 200) {
                     const galleryData = res.data;
                   
@@ -86,12 +86,12 @@
                         `);
                     });
                 } else {
-                    debugger;
+                     
                     console.error("Failed to load gallery data:", res.message);
                 }
             },
             error: function (error) {
-                debugger;
+                 
                 console.error('An error occurred while loading gallery data:', error);
             }
         });
@@ -143,7 +143,7 @@
         // Handle form submission for the modal
         $('#AddForm').on('submit', function (e) {
             e.preventDefault(); // Prevent default form submission
-            debugger;
+             
             // Gather individual field values
             var imageFile = $('#image')[0].files[0]; // Get the file object
             var imageTitle = $('#imageTitle').val();
@@ -171,7 +171,7 @@
                     'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
                 },
                 success: function (response) {
-                    debugger;
+                     
                     if (response.status === 200) {
                         location.reload(); // Reload the page or refresh the gallery
                         $('#AddModal').modal('hide'); // Close the modal
@@ -181,7 +181,7 @@
                     }
                 },
                 error: function (xhr) {
-                    debugger;
+                     
                     console.error('An error occurred while adding the image:', xhr);
                     console.error('Status:', xhr.status);
                     console.error('Response Text:', xhr.responseText);
