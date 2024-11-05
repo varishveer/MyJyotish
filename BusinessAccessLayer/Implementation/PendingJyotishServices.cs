@@ -407,9 +407,7 @@ namespace BusinessAccessLayer.Implementation
       
                 var slot = _context.Slots.Where(y => y.Id == model.SlotId).FirstOrDefault();
           
-            if (slot.Status == "Booked")
-                var newDate = DateOnly.FromDateTime(model.Date);
-            var slot = _context.Slots.Where(y => y.Date == model.Date).Where(x => x.Time == model.Time).FirstOrDefault();
+          
             if (slot.Status == "Booked")
             {
                 return "This Slot Already Booked";
@@ -448,7 +446,7 @@ namespace BusinessAccessLayer.Implementation
         public List<SlotListViewModel> SlotList()
         {
             var groupedSlots = _context.Slots
-                .Where(slot => slot.Date >= DateTime.Now.Date)  
+                .Where(slot => slot.Date >= DateOnly.FromDateTime(DateTime.Now.Date))  
                 .GroupBy(slot => slot.Date) 
                 .OrderBy(group => group.Key)  
                 .Select(group => new SlotListViewModel
