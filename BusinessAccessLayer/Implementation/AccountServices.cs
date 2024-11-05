@@ -409,7 +409,8 @@ namespace BusinessAccessLayer.Implementation
                        Id=  _Jyotish.Id,
                        Name = _Jyotish.Name,
                        Email =  _Jyotish.Email,
-                       Role = _Jyotish.Role
+                       Role = _Jyotish.Role,
+                       NewStatus=_Jyotish.NewStatus
 
                     });
                 }

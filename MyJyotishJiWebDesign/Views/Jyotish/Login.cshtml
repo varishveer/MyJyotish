@@ -126,16 +126,23 @@
 <script>
     $(document).ready(function () {
 
+
+
         $('#loginForm').submit(function (e) {
             
             e.preventDefault(); // Prevent the form from submitting normally
-
+            Swal.fire({
+                title: "Processing Your Request",
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            })
             var email = $('#email').val();
             var password = $('#password').val();
            
             $.ajax({
                
-                url: BaseUrl + "Api/Account/LoginJyotish",
+                url: "https://localhost:7118/Api/Account/LoginJyotish",
                 type: 'POST',
                 contentType: 'application/json', // Specify that the content type is JSON
                 data: JSON.stringify({
@@ -153,12 +160,12 @@
 
                      
                       
-                       
+                      
                         if(response.role == "Pending")
                         {
                             Swal.fire({
-                                title: "Login Successful!",
-                                text: "Redirecting to dashboard...",
+                                title: "Successful!",
+                                text: "You successfully login",
                                 icon: "success",
                                
                                 showConfirmButton: true, // Ensure the OK button is shown
@@ -166,7 +173,11 @@
 
                                 localStorage.setItem("Token3", response.token);
                                 localStorage.setItem("Id", response.id);
-                                window.location.href = "/PendingJyotish/Dashboard";
+                                if (response.newStatus) {
+                                    location.href = "/updateProfile"
+                                } else {
+                                    window.location.href = "/PendingJyotish/Dashboard";
+                                }
                             });
 
 

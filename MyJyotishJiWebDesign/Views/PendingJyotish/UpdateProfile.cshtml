@@ -6,9 +6,6 @@
 <html>
     <head>
 
-    
-
-
 <style>
     .select2{
         min-width:100%;
@@ -58,7 +55,7 @@
     <div  class=col-sm-12>
         <div class="row">
                 <div class="text-center my-3 mb-5">
-                    <img src="/user-not-found.png" /><br /><br />
+                        <img src="/user-not-found.png" accept="image/*" id="profileImage" height="130" width="130" class="rounded-circle" /><br /><br />
                     <label for="profile" class="btn btn-primary">Edit Profile</label>
                     <input type="file" hidden name="profile" id="profile"/>
                 </div>
@@ -98,9 +95,9 @@
                         <label for="gender">Gender</label>
                     <select class="form-control" id="gender">
                         <option selected disabled>--select gender--</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                        <option value="other">Other</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
                     </select>
                         </div>
                         <div class="col-sm-6">
@@ -249,6 +246,9 @@
 
 
 <script>
+
+    
+      
     async function loadLanguage() {
         try {
             const response = await fetch("@BaseUrl" + 'Api/Account/Languages');
@@ -288,8 +288,13 @@
     loadExpertise();
 
         $("#profile").on("change",function(){
-            let profile=$(this).val()
-            let url=profile.createObjectUrl
+            const file = this.files[0]; 
+            if (file) {
+                const url = URL.createObjectURL(file); 
+                $("#profileImage").attr("src", url).show(); 
+            } else {
+                $("#profileImage").attr("src", "/user-not-found.png");
+            }
         })
     </script>
 
@@ -365,7 +370,6 @@
             $(".active" + page).addClass("text-light")
         pagination(page)
     })
-
 
     document.getElementById('callCheckbox').addEventListener('change', function () {
         document.getElementById('callInputBox').style.display = this.checked ? 'block' : 'none';
@@ -741,12 +745,58 @@ $("#language").select2({
             });
         });
 
+           
         // Load data on page load
         loadProfileData();
         loadLanguage();
         loadExpertise();
         loadCountries();
-    });
+    })
+            function loadJyotishProfile() {
+                var Id = localStorage.getItem('Id');
+
+                $.ajax({
+
+                    url: "https://localhost:7118/Api/PendingJyotish/ProfileData",
+                    type: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem("Token3")}`
+
+                    },
+                    data: { Id: Id },
+                    success: function (response) {
+                        console.log(response)
+                        if (response.status === 200) {
+                            $("#name").val(response.data.name)
+                            $("#email").val(response.data.email)
+                            $("#mobno").val(response.data.mobile)
+                            $("#gender").val(response.data.gender)
+                            $("#language").val(response.data.language).change()
+                            $("#expertise").val(response.data.expertise).change()
+
+                            $("#state").val()
+                            $("#city").val()
+                            $("#profileImage").attr("src", "@BaseUrl" + response.data.profileImageUrl)
+
+                            $("#country option").filter(function () {
+                                return $(this).text() === response.data.country;
+                            }).prop("selected", true).change()
+                            setTimeout(()=>{
+                            $("#state option").filter(function () {
+                                return $(this).text() === response.data.state;
+                            }).prop("selected", true).change()
+                            }, 1000)
+                        setTimeout(() => {
+                            $("#city option").filter(function () {
+                                return $(this).text() === response.data.city;
+                            }).prop("selected", true).change()
+                        },2000)
+                        }
+                    }
+                })
+            }
+            loadJyotishProfile()
+    
 </script>
 </body>
 </html>
