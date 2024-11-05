@@ -61,15 +61,16 @@
                 </div>
             <div class="col-sm-3 border-end">
                 <button data-page="1" class="btn active1 bg-primary text-light navigatorBtn rounded-0 btn-outline-primary w-100">Basic Information</button>
-                    <button data-page="2" class="btn active2 navigatorBtn rounded-0 btn-outline-primary w-100">Address</button>
-                    
-                    <button data-page="3" class="btn active3 navigatorBtn rounded-0 btn-outline-primary w-100">Availability</button>
-                    <button data-page="4" class="btn active4 navigatorBtn rounded-0 btn-outline-primary w-100">About</button>
-                    <button data-page="5" class="btn active5 navigatorBtn rounded-0 btn-outline-primary w-100">Documents</button>
+                    <button data-page="2" disabled class="btn active2 navigatorBtn rounded-0 btn-outline-primary w-100">Address</button>
+
+                        <button data-page="3" disabled class="btn active3 navigatorBtn rounded-0 btn-outline-primary w-100">Availability</button>
+                        <button data-page="4" disabled class="btn active4 navigatorBtn rounded-0 btn-outline-primary w-100">About</button>
+                        <button data-page="5" disabled class="btn active5 navigatorBtn rounded-0 btn-outline-primary w-100">Documents</button>
             </div>
              <!--basic Detail-->
 
                 <div class="col-sm-9" id="basicDetails">
+                 <form id="basicForm">
                     <div class="row">
                         <div class="col-sm-6">
                             <label for="name">Name</label>
@@ -80,6 +81,7 @@
                             <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email" />
                         </div>
                     </div>
+                    </form>
                     <div class="row my-3">
                         <div class="col-sm-6">
                             <label for="mobno">Mobile Number</label>
@@ -114,7 +116,7 @@
                         </div>
                        
                     </div>
-                    <div class="text-end"><button type="button" role="button" class="btn btn-primary nxtBtn" data-page="2">Next</button></div>
+                    <div class="text-end"><button type="button" role="button" class="btn btn-primary nxtBtn basicnxtBtn" data-page="2">Next</button></div>
                 </div>
 
                 <!--Address-->
@@ -338,7 +340,6 @@
             $("#about").show();
             $("#document").hide();
 
-
         } else if (page == 5) {
             $("#availability").hide();
             $("#address").hide();
@@ -549,43 +550,6 @@ $("#language").select2({
 })
         var token = localStorage.getItem('Token3');
         var email = localStorage.getItem("userEmail");
-         
-        // Load Profile Data on Page Load
-        function loadProfileData() {
-            $.ajax({
-                url: "@BaseUrl"+'Api/PendingJyotish/Profile',
-                type: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                },
-                data: { Email: email }, // Query string parameter
-                success: function (response) {
-                  
-                    var data = response.data;
-                    $('#name').val(data.name);
-                    $('#gender').val(data.gender);
-                    $('#dateOfBirth').val(data.dateOfBirth);
-                    $('#mobile').val(data.mobile);
-                    $('#language').val(data.language);
-                    $('#expertise').val(data.expertise);
-                    $('#country').val(data.country);
-                    $('#state').val(data.state);
-                    $('#city').val(data.city);
-
-                    if (data.profileImageUrl) {
-                        $('#profileImageUrl').attr('src', data.profileImageUrl);
-                    }
-
-                    loadStates(data.country);
-                    loadCities(data.state);
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                     
-                    console.error('Error fetching profile data:', textStatus, errorThrown);
-                }
-            });
-        }
-
 
         async function loadLanguage() {
             try {
@@ -747,7 +711,7 @@ $("#language").select2({
 
            
         // Load data on page load
-        loadProfileData();
+       
         loadLanguage();
         loadExpertise();
         loadCountries();
@@ -797,6 +761,29 @@ $("#language").select2({
             }
             loadJyotishProfile()
     
+</script>
+
+<script>
+    function manageforms(){
+        //basic Details
+        let basicData=$("#basicForm").serializeArray();
+        let enablenxt = false;
+        debugger
+        basicData.forEach(function(d){
+                if (d.value != "" & d.value != null & d.value!=0){
+                    enablenxt = true;
+                }
+        })
+        if(enablenxt){
+                $(".active2").attr("disabled",false)
+            }
+    }
+    manageforms();
+
+        $(".basicnxtBtn").click(function () {
+            manageforms();
+
+        })
 </script>
 </body>
 </html>
