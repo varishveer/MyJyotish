@@ -74,28 +74,27 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <label for="name">Name</label>
-                    <input type="text" id="name" name="name" class="form-control" placeholder="Enter your name" />
+                                    <input type="text" id="name" name="Name" class="form-control" placeholder="Enter your name" />
                         </div>
                         <div class="col-sm-6">
                             <label for="email">Email</label>
-                            <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email" />
+                                    <input type="email" id="email" disabled name="email" class="form-control" placeholder="Enter your email" />
                         </div>
                     </div>
-                    </form>
                     <div class="row my-3">
                         <div class="col-sm-6">
                             <label for="mobno">Mobile Number</label>
-                    <input type="number" name="mobno" id="mobno" class="form-control" placeholder="Enter your Phone Number" />
+                                    <input type="number" name="mobno" disabled id="mobno" class="form-control" placeholder="Enter your Phone Number" />
                         </div>
                         <div class="col-sm-6">
                             <label for="altmobno">Alternate Number</label>
-                            <input type="number" id="altmobno" name="alternatemobno" class="form-control" placeholder="Enter alternate Phone Number" />
+                                    <input type="number" id="altmobno" name="AlternateMobile" class="form-control" placeholder="Enter alternate Phone Number" />
                         </div>
                     </div> 
                     <div class="row">
                         <div class="col-sm-6">
                         <label for="gender">Gender</label>
-                    <select class="form-control" id="gender">
+                                    <select class="form-control" id="gender" name="Gender">
                         <option selected disabled>--select gender--</option>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
@@ -104,7 +103,7 @@
                         </div>
                         <div class="col-sm-6">
                             <label for="language">Language</label>
-                            <select id="language" name="language" class="form-control form-control-sm " multiple>
+                                    <select id="language" name="Language" class="form-control form-control-sm " multiple>
                                 <option value="">Select Language</option>
                             </select>
                         </div>
@@ -112,15 +111,18 @@
                     <div class="row my-3">
                         <div class="col-sm-6">
                             <label for="dob">Date of Birth</label>
-                            <input type="date" id="dob" name="dob" class="form-control" />
+                                    <input type="date" id="dob" name="DateOfBirth" class="form-control" />
                         </div>
                        
                     </div>
+                        </form>
+
                     <div class="text-end"><button type="button" role="button" class="btn btn-primary nxtBtn basicnxtBtn" data-page="2">Next</button></div>
                 </div>
 
                 <!--Address-->
                 <div class="col-sm-9" id="address">
+                    <form id="addressform">
                     <div class="row">
                         <div class="col-sm-6 mb-3">
                             <label for="country">Country:</label>
@@ -147,8 +149,9 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-12">
-                            <textarea rows="4" placeholder="Enter your full address" class="form-control"></textarea>
+                            <textarea rows="4" name="address" placeholder="Enter your full address" class="form-control"></textarea>
                         </div></div>
+                        </form>
                     <div class="text-end mt-3"><button type="button" role="button" class="btn btn-primary nxtBtn" data-page="3">Next</button></div>
                 </div>
 
@@ -186,6 +189,7 @@
                 <!--About-->
                 
                     <div class="col-sm-9" id="about">
+                        <form id="aboutForm">
                         <div class="row">
                             <div class="col-sm-6">
                             <label for="expertise">Expertise:</label>
@@ -213,6 +217,7 @@
                             <textarea rows="4" placeholder="About us" name="aboutus" id="aboutus" class="form-control"></textarea>
                             </div>
                             </div>
+                        </form>
                     <div class="text-end mt-3"><button type="button" role="button" class="btn btn-primary nxtBtn" data-page="5">Next</button></div>
                 </div>
 
@@ -310,42 +315,116 @@
 
     function pagination(page) {
         if (page == 1) {
+               
             $("#basicDetails").show()
             $("#address").hide();
             $("#availability").hide();
             $("#about").hide();
             $("#document").hide();
-
+                
 
         } else if (page == 2) {
+            let basicData = $("#basicForm").serializeArray();
+            let enablenxt = 0;
+            debugger
+            basicData.forEach(function (d) {
+                if (d.value != "" & d.value != null & d.value != 0) {
+                    enablenxt++;
+                }
+            })
+            if (enablenxt == basicData.length) {
+                $(".active2").attr("disabled", false)
+            }else{
+                $(".active2").attr("disabled", true)
+
+            }
+            if ($(".active2").attr("disabled") === undefined) {
+                basicData.push({name:"Id",value:localStorage.getItem("Id")})
+                    basicData.push({ name:"BasicSection",value: 1 })
+                    addDataonTemp(basicData)
             $("#basicDetails").hide()
             $("#address").show();
             $("#availability").hide();
             $("#about").hide();
             $("#document").hide();
-
+                }
 
         } else if (page == 3) {
+                let basicData = $("#addressform").serializeArray();
+                let enablenxt = 0;
+                debugger
+                basicData.forEach(function (d) {
+                    if (d.value != "" & d.value != null & d.value != 0) {
+                        enablenxt++;
+                    }
+                })
+                if (enablenxt == basicData.length) {
+                    $(".active3").attr("disabled", false)
+                } else {
+                    $(".active3").attr("disabled", true)
+
+                }
+                if ($(".active3").attr("disabled") === undefined) {
             $("#availability").show();
             $("#address").hide();
             $("#basicDetails").hide()
             $("#about").hide();
             $("#document").hide();
+                }
 
 
         } else if (page == 4) {
+                let callPrice = $("#callprice").val()
+                let chatPrice = $("#chatprice").val()
+                if ($("#timefrom").val() != "" & $("#timefrom").val() != "" & $("#timeto").val() != "" & $("#timeto").val() != "") {
+                    $(".active4").attr("disabled", false)
+
+                    if ($("#callCheckbox:checked").length > 0 && callPrice != "") {
+
+                        $(".active4").attr("disabled", false)
+                    } else if ($("#callCheckbox:checked").length > 0 && callPrice =="") {
+                    $(".active4").attr("disabled", true)
+
+               }
+                    if ($("#chatCheckbox:checked").length > 0 && chatPrice != "" &$("#callCheckbox:checked").length > 0 && callPrice != "") {
+
+                    $(".active4").attr("disabled", false)
+                    } else if ($("#chatCheckbox:checked").length > 0 && chatPrice == "" ) {
+                    $(".active4").attr("disabled", true)
+                }
+           }else{
+                    $(".active4").attr("disabled", true)
+           }
+                if ($(".active4").attr("disabled") === undefined) {
             $("#availability").hide();
             $("#address").hide();
             $("#basicDetails").hide()
             $("#about").show();
             $("#document").hide();
+                }
 
         } else if (page == 5) {
+                let basicData = $("#aboutForm").serializeArray();
+                let enablenxt = 0;
+                debugger
+                basicData.forEach(function (d) {
+                    if (d.value != "" & d.value != null & d.value != 0) {
+                        enablenxt++;
+                    }
+                })
+                if (enablenxt == basicData.length) {
+                    $(".active5").attr("disabled", false)
+                } else {
+                    $(".active5").attr("disabled", true)
+
+                }
+                if ($(".active5").attr("disabled") === undefined) {
             $("#availability").hide();
             $("#address").hide();
             $("#basicDetails").hide()
             $("#about").hide();
             $("#document").show();
+                }
 
         }
     }
@@ -760,30 +839,51 @@ $("#language").select2({
                 })
             }
             loadJyotishProfile()
+
+            function addDataonTemp(sArray)
+            {
+            var token = localStorage.getItem('Token3');
+            debugger
+                let formData=new FormData();
+                sArray.forEach(function(d){
+                    formData.append(d.name,d.value)
+                })
+            $.ajax({
+                url: "https://localhost:7118/Api/PendingJyotish/UpdateProfile",
+                type: 'Post',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                contentType: "application/json",
+                data:JSON.stringify(formData),
+                success: function (response) 
+                {
+                    console.log(response)
+                },error:function(){
+                    console.log("some error occured","err")
+                }
+            })
+            }
     
 </script>
 
 <script>
     function manageforms(){
         //basic Details
-        let basicData=$("#basicForm").serializeArray();
-        let enablenxt = false;
-        debugger
-        basicData.forEach(function(d){
-                if (d.value != "" & d.value != null & d.value!=0){
-                    enablenxt = true;
+            let basicData = $("#basicForm").serializeArray();
+            let enablenxt = 0;
+            debugger
+            basicData.forEach(function (d) {
+                if (d.value != "" & d.value != null & d.value != 0) {
+                    enablenxt++;
                 }
-        })
-        if(enablenxt){
-                $(".active2").attr("disabled",false)
+            })
+            if (enablenxt == basicData.length) {
+                $(".active2").attr("disabled", false)
             }
     }
     manageforms();
-
-        $(".basicnxtBtn").click(function () {
-            manageforms();
-
-        })
+      
 </script>
 </body>
 </html>
