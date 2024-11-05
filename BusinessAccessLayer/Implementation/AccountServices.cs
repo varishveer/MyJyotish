@@ -899,8 +899,8 @@ namespace BusinessAccessLayer.Implementation
             try
             {
                 // Sender's email address and app-specific password
-                string senderEmail = "varishveer123@gmail.com";
-                string senderPassword = "yngh qauy rtkg zxzy"; // Ensure this is an app-specific password if 2FA is enabled
+                string senderEmail = "tech.kr.akhi@gmail.com";
+                string senderPassword = "nfvs ksza vhtn rhib"; // Ensure this is an app-specific password if 2FA is enabled
 
                 // Recipient's email address
                 string recipientEmail = Mail;
