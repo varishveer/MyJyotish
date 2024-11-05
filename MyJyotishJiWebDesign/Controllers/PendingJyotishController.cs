@@ -13,6 +13,7 @@ namespace MyJyotishGWeb.Controllers
         public IActionResult Documents() { return View(); }
         public IActionResult UploadDocument() { return View(); }
         public IActionResult Profile() { return View(); }
+        [Route("updateprofile")]
         public IActionResult UpdateProfile() { return View(); }
         public IActionResult ForgotPasswordRequest() { return View(); }
         public IActionResult ForgotPasswordOtp() { return View(); }
