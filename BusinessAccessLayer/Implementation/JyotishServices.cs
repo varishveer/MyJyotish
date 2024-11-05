@@ -858,7 +858,7 @@ namespace BusinessAccessLayer.Implementation
                     Date = x.AppointmentSlot != null ? DateOnly.FromDateTime(x.AppointmentSlot.Date) : DateOnly.MinValue,
                     Time = x.AppointmentSlot != null ? x.AppointmentSlot.TimeFrom : TimeOnly.MinValue,
                     AppointmentId = x.ProblemSolution.AppointmentId
-                })
+                })    
                 .ToList();
 
             return data;
