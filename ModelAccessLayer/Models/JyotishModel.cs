@@ -36,8 +36,8 @@ namespace ModelAccessLayer.Models
         public string? ProfileImageUrl { get; set; }
        
         public string? ApprovedStatus { get; set; }
-        public string? Status { get; set; }
-        public string? NewStatus { get; set; }
+        public bool Status { get; set; }
+        public bool NewStatus { get; set; }
 
 
         public int? Otp { get; set; }
