@@ -404,15 +404,13 @@ namespace BusinessAccessLayer.Implementation
                var Slot = _context.SlotBooking.Where(x=>x.JyotishId == model.JyotishId).FirstOrDefault();
                if( Slot != null)
                { return "Your Slot Already Booked"; }
-
-
       
                 var slot = _context.Slots.Where(y => y.Id == model.SlotId).FirstOrDefault();
           
             if (slot.Status == "Booked")
-               //var newDate = DateOnly.FromDateTime(model.Date);
-                var slot = _context.Slots.Where(y => y.Date == model.Date).Where(x => x.Time == model.Time).FirstOrDefault();
-            if(slot.Status == "Booked")
+                var newDate = DateOnly.FromDateTime(model.Date);
+            var slot = _context.Slots.Where(y => y.Date == model.Date).Where(x => x.Time == model.Time).FirstOrDefault();
+            if (slot.Status == "Booked")
             {
                 return "This Slot Already Booked";
             }
@@ -449,14 +447,10 @@ namespace BusinessAccessLayer.Implementation
 
         public List<SlotListViewModel> SlotList()
         {
-            
-
             var groupedSlots = _context.Slots
-                .Where(slot => slot.Date >= todayDate)  
+                .Where(slot => slot.Date >= DateTime.Now.Date)  
                 .GroupBy(slot => slot.Date) 
                 .OrderBy(group => group.Key)  
-                .Where(slot => slot.Date >= DateTime.Now.Date)
-                .GroupBy(slot => slot.Date)
                 .Select(group => new SlotListViewModel
                 {
                     Date = group.Key,
@@ -467,8 +461,7 @@ namespace BusinessAccessLayer.Implementation
                             Id = slot.Id,
                             Time = slot.Time,  
                             Status = slot.Status
-                        })
-                        .ToList()
+                        }).ToList()
                 })
                 .ToList();
 
