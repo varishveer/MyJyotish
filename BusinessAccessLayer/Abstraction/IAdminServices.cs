@@ -65,6 +65,7 @@ namespace BusinessAccessLayer.Abstraction
          public ProblemSolutionAdminViewModel GetProblemSolution(int Id);
 
         public string ReschduledInterview(ReschduledInterviewViewModel model);
+        public List<InteviewListViewModel> InteviewList();
 
 
 

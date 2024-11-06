@@ -817,5 +817,26 @@ namespace MyJyotishJiApi.Controllers
             }
         }
 
+
+        [HttpGet("GetInterviewList")]
+        public IActionResult GetInterviewList()
+        {
+            try
+            {
+                var interviewList = _admin.InteviewList(); 
+
+                if (interviewList == null || !interviewList.Any())
+                {
+                    return Ok(new { Status = 404, Message = "No interview records found" });
+                }
+
+                return Ok(new { Status = 200, Data = interviewList, Message = "Successful" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message });
+            }
+        }
+
     }
 }

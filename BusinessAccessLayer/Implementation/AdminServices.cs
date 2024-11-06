@@ -699,10 +699,16 @@ namespace BusinessAccessLayer.Implementation
         {
             DateTime today = DateTime.Today;
             DateOnly todayDate = DateOnly.FromDateTime(today);
-            var Slots = _context.Slots.Where(slot => slot.Date >= todayDate).ToList();
-            return Slots;
+
+            var slots = _context.Slots
+                .Where(slot => slot.Date >= todayDate)
+                .OrderByDescending(slot => slot.Date)
+                .ThenBy(slot => slot.Time) 
+                .ToList();
+
+            return slots;
         }
-        
+
 
         public string AddSlot(SlotViewModel model)
         {
@@ -1115,26 +1121,34 @@ namespace BusinessAccessLayer.Implementation
             }
         }
 
-       /* public List<InteviewListViewModel> InteviewList()
+        public List<InteviewListViewModel> InteviewList()
         {
-            var data = _context.JyotishRecords.Include(a => a.Slots).ThenInclude(b => b.SlotRecords).Select
-                (x => new InteviewListViewModel
+            var data = _context.JyotishRecords
+                .Include(j => j.Slots)
+                .ThenInclude(s => s.SlotRecords) 
+                .SelectMany(j => j.Slots.Select(s => new InteviewListViewModel
                 {
+                    Id = j.Id,
+                    Name = j.Name,
+                    Mobile = j.Mobile,
+                    Email = j.Email,
+                    Expertise = j.Expertise,
+                    Experience = (int)j.Experience,
+                    Language = j.Language,
+                    Date = s.SlotRecords.Date, 
+                    Time = s.SlotRecords.Time,
+                    SlotId = s.Id
+                }))
+                .OrderBy(i => i.Date) 
+                .ToList();
 
-                    Id = x.Id,
-                    Name = x.Name,
-                    Mobile = x.Mobile,
-                    Email = x.Email,
-                    Expertise = x.Expertise,
-                    Experience = (int)x.Experience,
-                    Language = x.Language,
-                    Date = x.Slots.SlotRecords.Date,
-                    Time = x.Slots.SlotRecords.Time,
-                    SlotId = x.Slots.Id,
+            return data;
+        }
 
-                }).ToList();
 
-        }*/
+
+
+
 
 
     }

@@ -18,7 +18,7 @@
     <div class="card">
      
             <div class="d-flex flex-row justify-content-between align-items-center pt-2 px-4">
-                <h5 class="text-primary">Appointment Slot</h5>
+                <h5 class="text-primary">Interview Slot</h5>
             <a href="javascript:void(0)" onclick="openAddSlotModal()">
                 <button class="btn btn-primary">Add Slot</button>
             </a>
@@ -27,7 +27,7 @@
      
         <div class="card-body">
             <div class="table-responsive">
-                <table id="DataTable" class="table table-bordered table-striped">
+                <table id="DataTable" class="table table-bordered table-striped ">
                     <!-- Table content goes here -->
                 </table>
             </div>
@@ -55,6 +55,10 @@
                         <label for="slotTime">Time</label>
                         <input type="time" class="form-control" id="slotTime" required>
                     </div>
+                    <div class="form-group">
+                        <label for="slotTimeDuration">Time Duration in Minutes</label>
+                        <input type="number" class="form-control" id="slotTimeDuration" required>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -74,9 +78,13 @@
 
     // Function to submit the slot form via AJAX
     function submitSlot() {
-        const date = $('#slotDate').val();
-        const time = $('#slotTime').val();
 
+
+        const slotData = {
+            date: $('#slotDate').val(),
+            time: `${$('#slotTime').val()}:00`,
+            timeDuration: $('#slotTimeDuration').val()
+        };
         $.ajax({
             url: BaseUrl + "api/Admin/AddSlot",
             type: "POST",
@@ -84,14 +92,37 @@
                 'Authorization': `Bearer ${localStorage.getItem("Token")}`,
                 'Content-Type': 'application/json'
             },
-            data: JSON.stringify({ date, time }),
+            data: JSON.stringify(slotData),
             success: function (response) {
-                alert('Slot added successfully!');
-                $('#addSlotModal').modal('hide');
-                fetchData(); // Refresh the table
+                if (response.status === 200) {
+
+                    Swal.fire({
+                        title: "Interview Slot Booked Successfully",
+                        icon: "success",
+                        showConfirmButton: true,
+                    }).then(() => {
+                        location.reload();
+                    });
+
+                   
+                }
+                else {
+                    Swal.fire({
+                        title: 'Failed to add slot. Please try again.',
+                        icon: "warning",
+                        showConfirmButton: true,
+                    });
+                    $('#addSlotModal').modal('hide');
+                }
+               
             },
             error: function (error) {
                 console.error('Error adding slot:', error.responseText);
+                Swal.fire({
+                    title: 'Failed to add slot. Please try again.',
+                    icon: "warning",
+                    showConfirmButton: true,
+                });
                 alert('Failed to add slot. Please try again.');
             }
         });
@@ -107,15 +138,19 @@
                 },
                 success: function (result) {
                     if (result.data) {
-                        let htmls = '<thead><tr><th>Id</th><th>Time</th><th>Date</th></thead><tbody>';
-
+                        let htmls = '<thead><tr><th class="text-center">Id</th> <th class="text-center">Date</th><th class="text-center">Time</th><th class="text-center">Time Duration in Minutes</th><th class="text-center">Status</th> </thead><tbody>';
+                        var IdCounter = 1;
                         // Loop through each slot item and create table rows
                         $.each(result.data, function (key, item) {
                             htmls += '<tr>';
-                            htmls += `<td class="text-center">${item.id}</td>`;
-                            htmls += `<td class="text-center">${item.time}</td>`;
+                            htmls += `<td class="text-center">${IdCounter}</td>`;
                             htmls += `<td class="text-center">${item.date}</td>`;
+                            htmls += `<td class="text-center">${item.time}</td>`;
+                          
+                            htmls += `<td class="text-center">${item.timeDuration}</td>`;
+                            htmls += `<td class="text-center">${item.status}</td>`;
                             htmls += '</tr>';
+                            IdCounter++;
                         });
 
                         htmls += '</tbody>';
