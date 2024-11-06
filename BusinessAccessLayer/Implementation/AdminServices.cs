@@ -119,7 +119,7 @@ namespace BusinessAccessLayer.Implementation
             var result = _context.SaveChanges();
             if (result > 0)
             {
-                string message = "Hey "+ Jyotish.Name+ ", Your Account has been Activated Successfully.";
+                string message = "Hey "+ Jyotish.Name+ ",You are selected as Jyotish in MyJyotish G. Your Account has been Activated Successfully.";
                 string subject = " My Jyotish G";
                 SendEmail(message, Jyotish.Email, subject);
                 return true;
@@ -128,16 +128,21 @@ namespace BusinessAccessLayer.Implementation
             
         }
         
-        public bool RejectJyotish(IdViewModel JyotishId)
+        public bool RejectJyotish(JyotishRejectMailViewModel model)
         {
-            var Jyotish = _context.JyotishRecords.Where(x => x.Id == JyotishId.Id).FirstOrDefault();
+            var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
             if (Jyotish == null)
             { return false; }
             Jyotish.ApprovedStatus = "Rejected";
             _context.JyotishRecords.Update(Jyotish);
             var result = _context.SaveChanges();
             if (result > 0) 
-            { return true;  }
+            {
+                string message = model.Message;
+                string subject =model.Subject;
+                SendEmail(message, Jyotish.Email, subject);
+                return true;
+            }
             else
             { return false; }
         }
@@ -615,7 +620,7 @@ namespace BusinessAccessLayer.Implementation
             else { return "Data Not Update"; }
         }
 
-        public string ApproveJyotishDocs(EmailDocumentViewModel model)
+        public string ApproveJyotishDocs(JyotishDocApproveViewModel model)
         {
             var jyotish = _context.JyotishRecords.FirstOrDefault(x => x.Id == model.Id);
             if (jyotish == null) return "Jyotish not found";
@@ -624,13 +629,13 @@ namespace BusinessAccessLayer.Implementation
             if (record == null) return "Documents not found";
 
             var statusMapping = new Dictionary<string, Action>
-    {
-        { "idProofStatus", () => record.IdProofStatus = "Verified" },
-        { "addressProofStatus", () => record.AddressProofStatus = "Verified" },
-        { "tenthCertificateStatus", () => record.TenthCertificateStatus = "Verified" },
-        { "twelveCertificateStatus", () => record.TwelveCertificateStatus = "Verified" },
-        { "professionalCertificateStatus", () => record.ProfessionalCertificateStatus = "Verified" }
-    };
+            {
+                { "idProofStatus", () => record.IdProofStatus = "Verified" },
+                { "addressProofStatus", () => record.AddressProofStatus = "Verified" },
+                { "tenthCertificateStatus", () => record.TenthCertificateStatus = "Verified" },
+                { "twelveCertificateStatus", () => record.TwelveCertificateStatus = "Verified" },
+                { "professionalCertificateStatus", () => record.ProfessionalCertificateStatus = "Verified" }
+            };
 
             if (statusMapping.ContainsKey(model.ImageStatus))
             {
@@ -644,15 +649,7 @@ namespace BusinessAccessLayer.Implementation
             _context.Documents.Update(record);
             _context.SaveChanges();
 
-            try
-            {
-                AccountServices.SendEmail(model.Message, jyotish.Email, model.Subject);
-            }
-            catch (Exception ex)
-            {
-                // Log the exception if needed
-                return "Email sending failed: " + ex.Message;
-            }
+           
 
             return "Successful";
         }
@@ -705,26 +702,7 @@ namespace BusinessAccessLayer.Implementation
             var Slots = _context.Slots.Where(slot => slot.Date >= todayDate).ToList();
             return Slots;
         }
-        /* public string AddSlot(SlotViewModel model)
-         { 
-            if(model == null)
-            { return "Invalid Data"; }
-
-             var Check = _context.Slots.Where(x => x.Time == model.Time).Where(x => x.TimeDuration == model.TimeDuration).FirstOrDefault();
-             SlotModel slot = new SlotModel
-             {
-                 Time = model.Time,
-                 TimeDuration = model.TimeDuration,
-                 Date = model.Date,
-                 Status = "Vacant"
-             };
-
-             _context.Slots.Add(slot);
-             var result = _context.SaveChanges();
-             if (result > 0) { return "Successful"; }
-             else { return "Internal Server Error"; }
-
-         }*/
+        
 
         public string AddSlot(SlotViewModel model)
         {
@@ -733,15 +711,15 @@ namespace BusinessAccessLayer.Implementation
                 return "Invalid Data";
             }
 
-            // Convert TimeOnly to DateTime for start and end times (assuming TimeDuration is in minutes)
+         
             TimeOnly startTime = model.Time;
-            TimeSpan duration = TimeSpan.FromMinutes(model.TimeDuration); // Assuming TimeDuration is in minutes
+            TimeSpan duration = TimeSpan.FromMinutes(model.TimeDuration); 
 
-            // Combine DateOnly (model.Date) and TimeOnly (startTime) to form DateTime
-            DateTime startDateTime = model.Date.ToDateTime(startTime); // Combine DateOnly and TimeOnly to DateTime
-            DateTime endDateTime = startDateTime.Add(duration); // Calculate end time
+          
+            DateTime startDateTime = model.Date.ToDateTime(startTime);
+            DateTime endDateTime = startDateTime.Add(duration); 
 
-            // Fetch slots and perform the comparison in memory
+           
             var conflictingSlot = _context.Slots
                 .Where(x => x.Date == model.Date) 
                 .AsEnumerable()
@@ -754,11 +732,11 @@ namespace BusinessAccessLayer.Implementation
 
             if (conflictingSlot != null)
             {
-                // There's a conflict (overlap) with an existing slot
+                
                 return "Slot overlaps with an existing booking.";
             }
 
-            // No conflict, proceed with adding the new slot
+           
             SlotModel slot = new SlotModel
             {
                 Time = model.Time,
