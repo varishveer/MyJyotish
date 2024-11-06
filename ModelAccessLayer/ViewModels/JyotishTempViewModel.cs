@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,7 @@ namespace ModelAccessLayer.ViewModels
         public string? Gender { get; set; }
         public string? Language { get; set; }
         public DateOnly? DateOfBirth { get; set; }
+        [AllowNull]
         public IFormFile? Image { get; set; }
 
         /*-----------Address---------------------*/

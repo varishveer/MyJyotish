@@ -340,7 +340,7 @@
             }
             if ($(".active2").attr("disabled") === undefined) {
                 basicData.push({name:"Id",value:localStorage.getItem("Id")})
-                    basicData.push({ name:"BasicSection",value: 1 })
+                    basicData.push({ name:"BasicSection",value: true })
                     addDataonTemp(basicData)
             $("#basicDetails").hide()
             $("#address").show();
@@ -854,8 +854,9 @@ $("#language").select2({
                 headers: {
                     'Authorization': `Bearer ${token}`
                 },
-                contentType: "application/json",
-                data: JSON.stringify(formData),
+                processData:false,
+                contentType:false,
+                data: formData,
                 success: function (response) {
                     console.log("Profile updated successfully:", response);
                 },
