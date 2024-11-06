@@ -96,6 +96,29 @@ namespace MyJyotishGApi.Controllers
             else { return Ok(new { Status = 200, data = result }); }
         }
 
+        [HttpPost("UploadProfileImage")]
+        public IActionResult UploadProfileImage(UploadProfileImagePJViewModel model)
+        {
+            try
+            {
+                string path = _webHostEnvironment.ContentRootPath;
+                var result = _pendingJyotishServices.UploadProfileImage(model, path);
+                if (result == "Successful")
+                { return Ok(new { Status = 200, Message = "Successful" }); }
+                if (result == "Invalid Data")
+                { return Ok(new { Status = 404, Message = result }); }
+                if (result == "Jyotish Not Found")
+                { return Ok(new { Status = 400, Message = result }); }
+                else { return Ok(new { Status = 400, Message = result }); }
+            }
+            catch
+            {
+                return StatusCode(500, new { Status = 500, Message = "Internal Server Error" });
+            }
+
+        }
+
+
         [HttpPost("UpdateProfile")]
         public IActionResult UpdateProfile(JyotishTempViewModel model)
         {
