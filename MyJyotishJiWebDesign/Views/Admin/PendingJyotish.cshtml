@@ -52,99 +52,36 @@
 
                 },
                 success: function (result) {
-                    // Destroy the existing DataTable instance if it exists
                     if ($.fn.DataTable.isDataTable('#DataTable')) {
                         $('#DataTable').DataTable().clear().destroy();
                     }
-                    let htmls = '<thead><tr>' +
-                        '<th>Id</th>' +
-                        '<th>Name</th>' +
-                        '<th>Mobile</th>' +
-                        '<th>Expertise</th>' +
-                        '<th>Language</th>' +
-                        '<th>Gender</th>' +
-                        '<th>Email</th>' +
-                        '<th>Country</th>' +
-                        '<th>State</th>' +
-                        '<th>City</th>' +
-                      
-                        '<th>DOB</th>' +
-                        '<th>Image</th>' +
-                      
-                        '<th>Status</th>' +
-                        '<th>Role</th>' +
-                        '<th>Action</th>' +
 
-                        '</tr></thead><tbody>';
-
+                    let htmls = '<thead><tr><th>Id</th><th>Name</th><th>Mobile</th><th>Email</th><th>Gender</th><th>Address</th><th>Status</th><th>Action</th></tr></thead><tbody>';
+                    var Id = 1;
                     $.each(result.data, function (key, item) {
-
-
                         htmls += '<tr>';
-                        htmls += `<td class="text-center">${item.id}</td>`;
-                        htmls += `<td class="text-center">${item.name ?? ''}</td>`; // Using nullish coalescing for optional fields
-                        htmls += `<td class="text-center">${item.mobile}</td>`;
-                        htmls += `<td class="text-center">${item.expertise ?? ''}</td>`;
-                        htmls += `<td class="text-center">${item.language ?? ''}</td>`;
-                        htmls += `<td class="text-center">${item.gender ?? ''}</td>`;
+                        htmls += `<td class="text-center">${Id}</td>`;
+                        htmls += `<td class="text-center">${item.name ?? ''}</td>`;
+                        htmls += `<td class="text-center">${item.mobile ?? ''}</td>`;
                         htmls += `<td class="text-center">${item.email ?? ''}</td>`;
-                        htmls += `<td class="text-center">${item.country ?? ''}</td>`;
-                        htmls += `<td class="text-center">${item.state ?? ''}</td>`;
-                        htmls += `<td class="text-center">${item.city ?? ''}</td>`;
-                   
-                        htmls += `<td class="text-center">${item.dateOfBirth ? new Date(item.dateOfBirth).toLocaleDateString() : ''}</td>`; // Format date if available
-                        htmls += `<td class="text-center">${item.profileImageUrl ?? ''}</td>`;
-                       
-                        htmls += `<td class="text-center">${item.status}</td>`;
-                       
-
-                        if (item.status == "Rejected") { htmls += `<td class="text-center" style="color:darkorange">${item.status}</td>
-                            <td class="text-center">
-                
-                <svg class="removeButton" data-id="${item.id}" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24"><path fill="currentColor" d="m9.4 16.5l2.6-2.6l2.6 2.6l1.4-1.4l-2.6-2.6L16 9.9l-1.4-1.4l-2.6 2.6l-2.6-2.6L8 9.9l2.6 2.6L8 15.1zM7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21z"/>
-                </svg>
-                </td>`;
-                        }
-                        else if (item.status == "Approved") {
-                            htmls += `<td class="text-center" style="color:green">${item.status}</td>
-                                <td class="text-center">
-                            
-                
-                <svg class="removeButton" data-id="${item.id}" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24"><path fill="currentColor" d="m9.4 16.5l2.6-2.6l2.6 2.6l1.4-1.4l-2.6-2.6L16 9.9l-1.4-1.4l-2.6 2.6l-2.6-2.6L8 9.9l2.6 2.6L8 15.1zM7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21z"/></svg></td>
-                            `; }
-
-
-                        else  {
-                            htmls += `<td class="text-center" style="color:green">${item.role}</td>
-                                <td class="text-center">
-                                        <a href='/Admin/Documents?id=${item.id}'>
-                                        <svg class="Document" data-id="${item.id}" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                    <path fill="currentColor" fill-rule="evenodd" d="M14.25 2.5a.25.25 0 0 0-.25-.25H7A2.75 2.75 0 0 0 4.25 5v14A2.75 2.75 0 0 0 7 21.75h10A2.75 2.75 0 0 0 19.75 19V9.147a.25.25 0 0 0-.25-.25H15a.75.75 0 0 1-.75-.75zm.75 9.75a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1 0-1.5zm0 4a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1 0-1.5z" clip-rule="evenodd"/>
-                                    <path fill="currentColor" d="M15.75 2.824c0-.184.193-.301.336-.186q.182.147.323.342l3.013 4.197c.068.096-.006.22-.124.22H16a.25.25 0 0 1-.25-.25z"/>
-                                  </svg>
-                                </a>
-                     
-
-                                <svg class="approveButton" data-id="${item.id}" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                <path fill="currentColor" d="m10.6 13.8l-2.15-2.15q-.275-.275-.7-.275t-.7.275t-.275.7t.275.7L9.9 15.9q.3.3.7.3t.7-.3l5.65-5.65q.275-.275.275-.7t-.275-.7t-.7-.275t-.7.275zM12 22q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8" />
-                    </svg>
-                    <svg class="rejectButton" data-id="${item.id}" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                <path fill="currentColor" d="M8.25 21L3 15.75v-7.5L8.25 3h7.5L21 8.25v7.5L15.75 21zm.9-4.75L12 13.4l2.85 2.85l1.4-1.4L13.4 12l2.85-2.85l-1.4-1.4L12 10.6L9.15 7.75l-1.4 1.4L10.6 12l-2.85 2.85zM9.1 19h5.8l4.1-4.1V9.1L14.9 5H9.1L5 9.1v5.8zm2.9-7" />
-                    </svg>
-                    <svg class="removeButton" data-id="${item.id}" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="m9.4 16.5l2.6-2.6l2.6 2.6l1.4-1.4l-2.6-2.6L16 9.9l-1.4-1.4l-2.6 2.6l-2.6-2.6L8 9.9l2.6 2.6L8 15.1zM7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21z"/></svg>
-                       
-                    </td>
-                      
-                                `;
-                        }
-                        
+                        htmls += `<td class="text-center">${item.gender ?? ''}</td>`;
+                        htmls += `<td class="text-center">${item.city ?? ''}, ${item.state ?? ''}, ${item.country ?? ''}</td>`;
+                        htmls += `<td class="text-center">${item.newStatus ? 'Incomplete Profile' : 'Profile Completed'}</td>`;
+                        htmls += `<td class="text-center">
+                         ${item.newStatus ? '' : `
+                         <i class="fas fa-user Document" data-id="${item.id}"></i>
+                         <i class="fas fa-check approveButton" data-id="${item.id}"></i>
+                         <i class="fas fa-times rejectButton" data-id="${item.id}"></i>`}
+                      </td>`;
                         htmls += '</tr>';
+                        Id++;
                     });
 
                     htmls += '</tbody>';
                     $('#DataTable').html(htmls);
-                    $('#DataTable').DataTable();
-                },
+                    $('#DataTable').DataTable(); // Reinitialize the DataTable
+                }
+                ,
                 error: function (errormessage) {
                     console.error('Error fetching data:', errormessage.responseText);
                 }

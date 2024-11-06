@@ -67,7 +67,7 @@ namespace BusinessAccessLayer.Abstraction
         public string ReschduledInterview(ReschduledInterviewViewModel model);
         public List<InteviewListViewModel> InteviewList();
 
-
+        public JyotishModel JyotishProfile(int Id);
 
     }
 }

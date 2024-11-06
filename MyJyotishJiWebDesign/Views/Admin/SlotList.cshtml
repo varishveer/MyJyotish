@@ -136,30 +136,35 @@
                     'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Include Authorization if required
                     'Content-Type': 'application/json', // Set content type as JSON
                 },
-                success: function (result) {
-                    if (result.data) {
-                        let htmls = '<thead><tr><th class="text-center">Id</th> <th class="text-center">Date</th><th class="text-center">Time</th><th class="text-center">Time Duration in Minutes</th><th class="text-center">Status</th> </thead><tbody>';
-                        var IdCounter = 1;
-                        // Loop through each slot item and create table rows
-                        $.each(result.data, function (key, item) {
-                            htmls += '<tr>';
-                            htmls += `<td class="text-center">${IdCounter}</td>`;
-                            htmls += `<td class="text-center">${item.date}</td>`;
-                            htmls += `<td class="text-center">${item.time}</td>`;
-                          
-                            htmls += `<td class="text-center">${item.timeDuration}</td>`;
-                            htmls += `<td class="text-center">${item.status}</td>`;
-                            htmls += '</tr>';
-                            IdCounter++;
-                        });
+               success: function (result) {
+                if (result.data) {
+                    let htmls = '<thead><tr><th class="text-center">Id</th> <th class="text-center">Date</th><th class="text-center">Time</th><th class="text-center">Time Duration in Minutes</th><th class="text-center">Status</th> </thead><tbody>';
+                    var IdCounter = 1;
 
-                        htmls += '</tbody>';
-                        $('#DataTable').html(htmls); // Populate the table with fetched data
-                        $('#DataTable').DataTable(); // Initialize DataTables
-                    } else {
-                        console.warn("No data received.");
-                    }
-                },
+                    // Loop through each slot item and create table rows
+                    $.each(result.data, function (key, item) {
+                        // Convert date from YYYY-MM-DD to DD-MM-YYYY
+                        let dateParts = item.date.split("-");
+                        let formattedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
+
+                        htmls += '<tr>';
+                        htmls += `<td class="text-center">${IdCounter}</td>`;
+                        htmls += `<td class="text-center">${formattedDate}</td>`; // Use formatted date
+                        htmls += `<td class="text-center">${item.time}</td>`;
+                        htmls += `<td class="text-center">${item.timeDuration}</td>`;
+                        htmls += `<td class="text-center">${item.status}</td>`;
+                        htmls += '</tr>';
+                        IdCounter++;
+                    });
+
+                    htmls += '</tbody>';
+                    $('#DataTable').html(htmls); // Populate the table with fetched data
+                    $('#DataTable').DataTable(); // Initialize DataTables
+                } else {
+                    console.warn("No data received.");
+                }
+}
+,
                 error: function (errormessage) {
                     console.error('Error fetching data:', errormessage.responseText);
                 }

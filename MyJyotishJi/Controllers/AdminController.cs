@@ -838,5 +838,24 @@ namespace MyJyotishJiApi.Controllers
             }
         }
 
+        [HttpGet("JyotishProfile")]
+        public IActionResult JyotishProfile(int Id)
+        {
+            try
+            {
+                var record = _admin.JyotishProfile(Id);
+
+                if (record == null )
+                {
+                    return Ok(new { Status = 404, Message = "No record found" });
+                }
+
+                return Ok(new { Status = 200, Data = record, Message = "Successful" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message });
+            }
+        }
     }
 }
