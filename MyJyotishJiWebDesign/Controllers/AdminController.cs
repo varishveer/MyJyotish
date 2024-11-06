@@ -21,6 +21,7 @@ namespace MyJyotishJiWebDesign.Controllers
         public IActionResult Features() { return View(); }
         public IActionResult Documents() { return View(); }
         public IActionResult JyotishDocument() { return View(); }
+        public IActionResult JyotishProfile() { return View(); }
 
 
 

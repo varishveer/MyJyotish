@@ -1,0 +1,111 @@
+﻿
+@{
+    Layout ="AdminLayout";
+}
+ <style>
+        .container {
+            display: flex;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .left-section {
+            width: 30%;
+            padding: 20px;
+            border-right: 1px solid #ddd;
+            text-align: center;
+        }
+        .left-section img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        .document-btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .right-section {
+            width: 70%;
+            padding: 20px;
+        }
+        .profile-info {
+            margin-bottom: 10px;
+        }
+        .profile-info h3 {
+            margin: 0;
+            color: #333;
+        }
+        .profile-info p {
+            margin: 5px 0;
+            color: #666;
+        }
+    </style>
+
+<div class="container">
+    <div class="left-section">
+        <img id="profileImage" src="" alt="Profile Image">
+        <h3 id="profileName"></h3>
+        <a href="#" class="document-btn" id="documentButton">View Documents</a>
+    </div>
+    <div class="right-section" id="profileDetails">
+        <!-- Dynamic profile details go here -->
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const Id = urlParams.get('Id');
+
+        $.ajax({
+            url: `${BaseUrl}Api/Admin/JyotishProfile?Id=${Id}`,
+            type: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Example of an authorization header
+                'Content-Type': 'application/json', // Example of a content type header
+
+            },
+            success: function (response) {
+                if (response.status === 200) {
+                    const data = response.data;
+
+                    // Populate Left Section
+                    $('#profileImage').attr('src', `${BaseUrl}${data.profileImageUrl}`);
+                    $('#profileName').text(data.name);
+                    $('#documentButton').attr('href', `/Admin/JyotishDocs?id=${data.id}`);
+
+                    // Populate Right Section
+                    const profileHTML = `
+                        <div class="profile-info"><h3>Email:</h3> <p>${data.email}</p></div>
+                        <div class="profile-info"><h3>Mobile:</h3> <p>${data.mobile}</p></div>
+                        <div class="profile-info"><h3>Alternate Mobile:</h3> <p>${data.alternateMobile}</p></div>
+                        <div class="profile-info"><h3>Role:</h3> <p>${data.role}</p></div>
+                        <div class="profile-info"><h3>Gender:</h3> <p>${data.gender}</p></div>
+                        <div class="profile-info"><h3>Language:</h3> <p>${data.language}</p></div>
+                        <div class="profile-info"><h3>Expertise:</h3> <p>${data.expertise}</p></div>
+                        <div class="profile-info"><h3>Country:</h3> <p>${data.country}</p></div>
+                        <div class="profile-info"><h3>State:</h3> <p>${data.state}</p></div>
+                        <div class="profile-info"><h3>City:</h3> <p>${data.city}</p></div>
+                        <div class="profile-info"><h3>Date of Birth:</h3> <p>${data.dateOfBirth}</p></div>
+                        <div class="profile-info"><h3>Experience:</h3> <p>${data.experience} years</p></div>
+                        <div class="profile-info"><h3>Address:</h3> <p>${data.address}</p></div>
+                        <div class="profile-info"><h3>About:</h3> <p>${data.about}</p></div>
+                    `;
+
+                    $('#profileDetails').html(profileHTML);
+                } else {
+                    alert("No record found");
+                }
+            },
+            error: function () {
+                alert("Error loading data");
+            }
+        });
+    });
+</script>

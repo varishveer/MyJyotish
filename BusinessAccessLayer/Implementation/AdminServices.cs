@@ -1145,7 +1145,11 @@ namespace BusinessAccessLayer.Implementation
             return data;
         }
 
-
+        public JyotishModel JyotishProfile(int Id)
+        {
+            var data = _context.JyotishRecords.Where(x => x.Id == Id).FirstOrDefault();
+            return data;
+        }
 
 
 
