@@ -1091,7 +1091,50 @@ namespace BusinessAccessLayer.Implementation
             return result;
         }
 
+        public string ReschduledInterview(ReschduledInterviewViewModel model)
+        {
+            var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.Id).FirstOrDefault();
+            if(Jyotish == null) { return "Jyotish Not Found"; }
 
+            var Slot = _context.Slots.Where(x => x.Id == model.SlotId).FirstOrDefault();
+            if(Slot == null) { return "Slot Not Found"; }
+
+            var SlotBook = _context.SlotBooking.Where(x => x.JyotishId == model.Id).FirstOrDefault();
+            if (SlotBook == null) { return "Jyotish slot details not found"; }
+
+            SlotBook.SlotId = model.SlotId;
+            SlotBook.Date = DateTime.Now;
+            _context.SlotBooking.Update(SlotBook);
+            if (_context.SaveChanges() > 0)
+            {
+                return "Successful";
+            }
+            else
+            {
+                return "Internal Server Error.";
+            }
+        }
+
+       /* public List<InteviewListViewModel> InteviewList()
+        {
+            var data = _context.JyotishRecords.Include(a => a.Slots).ThenInclude(b => b.SlotRecords).Select
+                (x => new InteviewListViewModel
+                {
+
+                    Id = x.Id,
+                    Name = x.Name,
+                    Mobile = x.Mobile,
+                    Email = x.Email,
+                    Expertise = x.Expertise,
+                    Experience = (int)x.Experience,
+                    Language = x.Language,
+                    Date = x.Slots.SlotRecords.Date,
+                    Time = x.Slots.SlotRecords.Time,
+                    SlotId = x.Slots.Id,
+
+                }).ToList();
+
+        }*/
 
 
     }

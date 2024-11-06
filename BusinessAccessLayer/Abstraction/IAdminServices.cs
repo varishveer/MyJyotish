@@ -16,7 +16,7 @@ namespace BusinessAccessLayer.Abstraction
         public List<TeamMemberModel> GetAllTeamMember();
         public List<AppointmentListAdminViewModel> GetAllAppointment();
         public bool ApproveJyotish(IdViewModel JyotishId);
-        public bool RejectJyotish(IdViewModel JyotishId);
+        public bool RejectJyotish(JyotishRejectMailViewModel model);
         public bool RemoveJyotish(IdViewModel JyotishId);
     /*    public bool AddPoojaCategory(PoojaCategoryViewModel _pooja);*/
      /*   public bool AddNewPoojaList(PoojaListViewModel model);*/
@@ -42,7 +42,7 @@ namespace BusinessAccessLayer.Abstraction
         public DocumentModel GetJyotishDocs(int id);
         public JyotishModel GetJyotishDetails(int id);
         public string UpdateJyotishDetails(JyotishDetailsViewModel model);
-        public string ApproveJyotishDocs(EmailDocumentViewModel model);
+        public string ApproveJyotishDocs(JyotishDocApproveViewModel model);
         public string RejectJyotishDocs(EmailDocumentViewModel model);
         public string AddSlot(SlotViewModel slot);
         public List<SlotModel> SlotList();
@@ -64,6 +64,9 @@ namespace BusinessAccessLayer.Abstraction
      
          public ProblemSolutionAdminViewModel GetProblemSolution(int Id);
 
-        
+        public string ReschduledInterview(ReschduledInterviewViewModel model);
+
+
+
     }
 }

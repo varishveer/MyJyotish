@@ -15,7 +15,7 @@ namespace BusinessAccessLayer.Abstraction
         public DocumentModel Documents(int Id);
         public  Task<JyotishModel> ProfileData(int Id);
         public  Task<JyotishTempRecord> ProfileTempData(int Id);
-        public string UploadProfileImage(UploadProfileImagePJViewModel model, string? path)
+        public string UploadProfileImage(UploadProfileImagePJViewModel model, string? path);
         public string UpdateProfile(JyotishTempViewModel model, string? path);
         public string Role(string Email);
         public string ProfileImage(string Email);

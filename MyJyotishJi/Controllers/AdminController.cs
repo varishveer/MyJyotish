@@ -110,7 +110,7 @@ namespace MyJyotishJiApi.Controllers
 
         }
         [HttpPost("RejectJyotish")]
-        public IActionResult RejectJyotish(IdViewModel model)
+        public IActionResult RejectJyotish(JyotishRejectMailViewModel model)
         {
           
 
@@ -397,7 +397,7 @@ namespace MyJyotishJiApi.Controllers
         }*/
 
         [HttpPost("ApproveJyotishDocs")]
-        public IActionResult  ApproveJyotishDocs(EmailDocumentViewModel model)
+        public IActionResult  ApproveJyotishDocs(JyotishDocApproveViewModel model)
         {
             try
             {
@@ -475,7 +475,7 @@ namespace MyJyotishJiApi.Controllers
             catch { return StatusCode(500, new { Status = 500, Message = "Internal Server Error " }); }
         }
         [HttpPost("ApproveDocument")]
-        public IActionResult ApproveDocument(EmailDocumentViewModel model)
+        public IActionResult ApproveDocument(JyotishDocApproveViewModel model)
         {
             try 
             {
@@ -790,5 +790,32 @@ namespace MyJyotishJiApi.Controllers
             { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
 
         }
+
+        [HttpPost("RescheduleInterview")]
+        public IActionResult RescheduleInterview( ReschduledInterviewViewModel model)
+        {
+            try
+            {
+                var result = _admin.ReschduledInterview(model);
+
+                if (result == "Successful")
+                {
+                    return Ok(new { Status = 200, Message = result });
+                }
+                else if (result == "Jyotish Not Found" || result == "Slot Not Found" || result == "Jyotish slot details not found")
+                {
+                    return Ok(new { Status = 404, Message = result });
+                }
+                else
+                {
+                    return StatusCode(500, new { Status = 500, Message = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message });
+            }
+        }
+
     }
 }

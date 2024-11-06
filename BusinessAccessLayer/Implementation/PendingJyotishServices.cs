@@ -58,7 +58,7 @@ namespace BusinessAccessLayer.Implementation
             if (model.Image != null)
             {
                 
-                // Generate a unique file name
+               
                 var uniqueFileName = $"{Guid.NewGuid()}_{model.Image.FileName}";
                 filePath = $"wwwroot/Images/Jyotish/{uniqueFileName}";
                 ImageUrl = $"Images/Jyotish/{uniqueFileName}";
