@@ -362,7 +362,7 @@ namespace BusinessAccessLayer.Implementation
                     isJyotishValid.State = tempData.State;
                     isJyotishValid.City = tempData.City;
                     isJyotishValid.DateOfBirth = tempData.DateOfBirth;
-                    isJyotishValid.ProfileImageUrl = tempData.Image;
+                    isJyotishValid.ProfileImageUrl = tempData.Image!=null? tempData.Image: isJyotishValid.ProfileImageUrl;
                     isJyotishValid.Experience = tempData.Experience;
                     isJyotishValid.Pooja = tempData.Pooja;
                     isJyotishValid.Call = tempData.Call;
