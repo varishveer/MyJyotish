@@ -380,7 +380,12 @@ namespace BusinessAccessLayer.Implementation
                     isJyotishValid.NewStatus = false;
                     _context.JyotishRecords.Update(isJyotishValid);
                     if (_context.SaveChanges() > 0)
-                    { return "Successful"; }
+                    {
+                        var deleteTemp = _context.jyotishTempRecords.Where(x => x.JyotishId == model.JyotishId).FirstOrDefault();
+                        _context.jyotishTempRecords.Remove(deleteTemp);
+                        _context.SaveChanges();
+                        return "Successful";
+                    }
                     else
                     {
                         return "Internal Server Error.";

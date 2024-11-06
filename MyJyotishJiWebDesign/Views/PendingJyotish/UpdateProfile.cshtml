@@ -456,32 +456,32 @@
                     Swal.showLoading();
                 }
             })
-            let documents = {
-                JyotishId: localStorage.getItem("Id")
-            };
+           let formData=new FormData();
+                
+           formData.append("JyotishId",localStorage.getItem("Id"))
             let addressdoc = $("#addressdoc").get(0).files[0]
             let iddoc = $("#idProof").get(0).files[0]
             let profdoc = $("#professionaldoc").get(0).files[0]
             let metrics = $("#metricdocs").get(0).files[0]
             let postmetrics = $("#postmetricdocs").get(0).files[0]
             if (addressdoc) {
-                documents.AddressProof = addressdoc;
+                 formData.append("AddressProof" , addressdoc);
             }
 
             if (iddoc) {
-                documents.IdProof = iddoc;
+                formData.append("IdProof", iddoc);
             }
 
             if (profdoc) {
-                documents.ProfessionalCertificate = profdoc;
+                 formData.append("ProfessionalCertificate" , profdoc);
             }
 
             if (metrics) {
-                documents.TenthCertificate = metrics;
+                 formData.append("TenthCertificate" ,metrics);
             }
 
             if (postmetrics) {
-                documents.TwelveCertificate = postmetrics;
+                 formData.append("TwelveCertificate" ,postmetrics);
             }
             debugger
             $.ajax({
@@ -492,7 +492,7 @@
                 },
                 processData:false,
                 contentType:false,
-                data: documents,
+                data: formData,
                 success: function (response) {
                     if (response.status == 200) {
                         Swal.fire({
