@@ -149,7 +149,7 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-12">
-                            <textarea rows="4" name="address" placeholder="Enter your full address" class="form-control"></textarea>
+                            <textarea rows="4" name="address" id="addresstext" placeholder="Enter your full address" class="form-control"></textarea>
                         </div></div>
                         </form>
                     <div class="text-end mt-3"><button type="button" role="button" class="btn btn-primary nxtBtn" data-page="3">Next</button></div>
@@ -193,28 +193,28 @@
                         <div class="row">
                             <div class="col-sm-6">
                             <label for="expertise">Expertise:</label>
-                            <select id="expertise" name="expertise" class="form-control select2 form-control-sm" multiple>
+                                    <select id="expertise" name="Expertise" class="form-control select2 form-control-sm" multiple>
                                 <option value="" selected disabled>Select Expertise</option>
                             </select>
                             </div>
                             <div class="col-sm-6">
                             <label for="specialization">Specialization:</label>
-                            <input type="text" id="specialization" name="specialization" class="form-control form-control-sm" required>
+                                    <input type="text" id="specialization" name="Specialization" class="form-control form-control-sm" required>
                             </div>
                         </div>
                         <div class="row my-3">
                             <div class="col-sm-6">
                             <label for="awardsAndAchievement">Awards and Achievement:</label>
-                            <input type="text" id="awardsAndAchievement" name="awardsAndAchievement" class="form-control form-control-sm">
+                                    <input type="text" id="awardsAndAchievement" name="AwordsAndAchievement" class="form-control form-control-sm">
                             </div>
                             <div class="col-sm-6">
                             <label for="experiance">Experiance:</label>
-                            <input type="number" id="experiance" name="experiance" class="form-control form-control-sm">
+                                    <input type="number" id="experiance" name="Experience" class="form-control form-control-sm">
                             </div>
                         </div>
                     <div class="row">
                         <div class="col-sm-12">
-                            <textarea rows="4" placeholder="About us" name="aboutus" id="aboutus" class="form-control"></textarea>
+                                    <textarea rows="4" placeholder="About us" name="About" id="aboutus" class="form-control"></textarea>
                             </div>
                             </div>
                         </form>
@@ -244,7 +244,7 @@
 
 </div>
 </div>
-                    <div class="text-end mt-3"><input type="submit" value="Submit" class="btn fw-bold btn-primary " /></div>
+                    <div class="text-end mt-3"><input type="submit" id="finalSubmit" value="Submit" class="btn fw-bold btn-primary " /></div>
                 </div>
         </div>
     </div>
@@ -359,6 +359,9 @@
                     }
                 })
                 if (enablenxt == basicData.length) {
+                    basicData.push({ name: "Id", value: localStorage.getItem("Id") })
+                    basicData.push({ name: "AddressSection", value: true })
+                    addDataonTemp(basicData)
                     $(".active3").attr("disabled", false)
                 } else {
                     $(".active3").attr("disabled", true)
@@ -396,6 +399,17 @@
                     $(".active4").attr("disabled", true)
            }
                 if ($(".active4").attr("disabled") === undefined) {
+                    let availability = []
+                    availability.push({ name: "Id", value: localStorage.getItem("Id") })
+                    availability.push({ name: "AvailbilitySection", value: true })
+                    availability.push({ name: "pooja", value: $("#poojaCheckbox:checked").length>0?true:false })
+                    availability.push({ name: "Call", value: $("#callCheckbox:checked").length > 0 ? true : false })
+                    availability.push({ name: "Chat", value: $("#chatCheckbox:checked").length > 0 ? true : false })
+                    availability.push({ name: "CallCharges", value: $("#callCheckbox:checked").length > 0 ? callPrice:0 })
+                    availability.push({ name: "ChatCharges", value: $("#chatCheckbox:checked").length > 0 ? chatPrice:0 })
+                    availability.push({ name: "TimeFrom", value: $("#timefrom").val() })
+                    availability.push({ name: "TimeTo", value: $("#timeto").val() })
+                    addDataonTemp(availability)
             $("#availability").hide();
             $("#address").hide();
             $("#basicDetails").hide()
@@ -419,6 +433,9 @@
 
                 }
                 if ($(".active5").attr("disabled") === undefined) {
+                    basicData.push({ name: "Id", value: localStorage.getItem("Id") })
+                    basicData.push({ name: "AboutSection", value: true })
+                    addDataonTemp(basicData)
             $("#availability").hide();
             $("#address").hide();
             $("#basicDetails").hide()
@@ -428,6 +445,78 @@
 
         }
     }
+
+        $("#finalSubmit").click(function () {
+        var token = localStorage.getItem('Token3');
+
+            Swal.fire({
+                title: "Processing Your Request",
+                allowOutsideClick:false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            })
+            let documents = {
+                JyotishId: localStorage.getItem("Id")
+            };
+            let addressdoc = $("#addressdoc").get(0).files[0]
+            let iddoc = $("#idProof").get(0).files[0]
+            let profdoc = $("#professionaldoc").get(0).files[0]
+            let metrics = $("#metricdocs").get(0).files[0]
+            let postmetrics = $("#postmetricdocs").get(0).files[0]
+            if (addressdoc) {
+                documents.AddressProof = addressdoc;
+            }
+
+            if (iddoc) {
+                documents.IdProof = iddoc;
+            }
+
+            if (profdoc) {
+                documents.ProfessionalCertificate = profdoc;
+            }
+
+            if (metrics) {
+                documents.TenthCertificate = metrics;
+            }
+
+            if (postmetrics) {
+                documents.TwelveCertificate = postmetrics;
+            }
+            debugger
+            $.ajax({
+                url: "https://localhost:7118/Api/PendingJyotish/UploadDocument",
+                type: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                processData:false,
+                contentType:false,
+                data: documents,
+                success: function (response) {
+                    if (response.status == 200) {
+                        Swal.fire({
+                            title: "Success!",
+                            text: "Profile Updated Successfully",
+                            icon: "success",
+                            didClose: () => { location.href = "/pendingJyotish/documents"; }
+                        });
+                    }else{
+                        Swal.fire({
+                            title: "error",
+                            text: response.messsage,
+                            icon: "error"
+                        });
+                    }
+                },error:function(err){
+                    Swal.fire({
+                        title: "error",
+                        text: "some error occured",
+                        icon: "error"
+                    });
+                }
+            })
+        });
 
     $(".navigatorBtn").click(function(){
         $(".navigatorBtn").each(function (i, d) {
@@ -797,7 +886,83 @@ $("#language").select2({
     })
             function loadJyotishProfile() {
                 var Id = localStorage.getItem('Id');
+                let checkData = true;
+            $.ajax({
 
+                url: "https://localhost:7118/Api/PendingJyotish/ProfileTempData",
+                type: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token3")}`
+
+                },
+                data: { Id: Id },
+                success: function (response) {
+                    console.log(response)
+                    if (response.status === 200) {
+                        checkData = false;
+                        $("#name").val(response.data.name)
+                        $("#email").val(response.data.email)
+                        $("#mobno").val(response.data.mobile)
+                        $("#gender").val(response.data.gender)
+                        $("#altmobno").val(response.data.alternateMobile)
+                        $("#dob").val(response.data.dateOfBirth)
+                        $("#language").val(response.data.language).change()
+                        $("#expertise").val(response.data.expertise).change()
+
+                        
+                        $("#pincode").val(response.data.pincode)
+                        $("#addresstext").val(response.data.address)
+                        $("#timefrom").val(response.data.timeFrom)
+                        $("#timeto").val(response.data.timeTo)
+                        $("#poojaCheckbox").attr("checked", response.data.pooja)
+                        $("#callCheckbox").attr("checked", response.data.call)
+                        $("#chatCheckbox").attr("checked", response.data.chat)
+                        document.getElementById('chatInputBox').style.display = $("#chatCheckbox:checked").length>0 ? 'block' : 'none';
+                        document.getElementById('callInputBox').style.display = $("#callCheckbox:checked").length>0 ? 'block' : 'none';
+                        if ($('.checkboxforavail:checked').length == 0) {
+                            $(".alertforbox").show();
+
+                        } else {
+                            $(".alertforbox").hide();
+
+                        }
+                        $("#chatprice").val(response.data.chatCharges)
+                        $("#callprice").val(response.data.callCharges)
+                        $("#timeto").val(response.data.timeTo)
+                        $("#specialization").val(response.data.specialization)
+                        $("#experiance").val(response.data.experience)
+                        $("#awardsAndAchievement").val(response.data.awordsAndAchievement)
+                        $("#aboutus").val(response.data.about)
+                        if(response.data.Image!=null){
+
+                        $("#profileImage").attr("src", "@BaseUrl" + response.data.image)
+                        }
+                        if (response.data.basicSection){
+                            $(".active2").attr("disabled",false)
+                        } if (response.data.addressSection) {
+                            $(".active3").attr("disabled",false)
+                        } if (response.data.availbilitySection) {
+                            $(".active4").attr("disabled",false)
+                        } if (response.data.aboutSection) {
+                            $(".active5").attr("disabled",false)
+                        }
+                        $("#country option").filter(function () {
+                            return $(this).text() === response.data.country;
+                        }).prop("selected", true).change()
+                        setTimeout(() => {
+                            $("#state option").filter(function () {
+                                return $(this).text() === response.data.state;
+                            }).prop("selected", true).change()
+                        }, 1000)
+                        setTimeout(() => {
+                            $("#city option").filter(function () {
+                                return $(this).text() === response.data.city;
+                            }).prop("selected", true).change()
+                        }, 2000)
+                    }
+                }
+            })
+            if(checkData){
                 $.ajax({
 
                     url: "https://localhost:7118/Api/PendingJyotish/ProfileData",
@@ -837,6 +1002,7 @@ $("#language").select2({
                         }
                     }
                 })
+            }
             }
             loadJyotishProfile()
 
