@@ -54,12 +54,14 @@
     <h3 class="text-center text-secondary border-bottom py-2 mb-5">Update Profile</h3>
     <div  class=col-sm-12>
         <div class="row">
-                <div class="text-center my-3 mb-5">
-                        <img src="/user-not-found.png" accept="image/*" id="profileImage" height="130" width="130" class="rounded-circle" /><br /><br />
-                    <label for="profile" class="btn btn-primary">Edit Profile</label>
-                    <input type="file" hidden name="profile" id="profile"/>
-                </div>
+               
             <div class="col-sm-3 border-end">
+                        <div class="text-center my-3 mb-5">
+                            <img src="/user-not-found.png" accept="image/*" id="profileImage" height="130" width="130" class="rounded-circle" /><br /><br />
+                            <label for="profile" class="btn btn-primary">Edit Profile</label>
+                            <button class="btn btn-success d-none saveProfile" >Save</button>
+                            <input type="file" hidden name="profile" id="profile" />
+                        </div>
                 <button data-page="1" class="btn active1 bg-primary text-light navigatorBtn rounded-0 btn-outline-primary w-100">Basic Information</button>
                     <button data-page="2" disabled class="btn active2 navigatorBtn rounded-0 btn-outline-primary w-100">Address</button>
 
@@ -103,7 +105,7 @@
                         </div>
                         <div class="col-sm-6">
                             <label for="language">Language</label>
-                                    <select id="language" name="Language" class="form-control form-control-sm " multiple>
+                                    <select id="language" name="lang" class="form-control form-control-sm " multiple>
                                 <option value="">Select Language</option>
                             </select>
                         </div>
@@ -193,7 +195,7 @@
                         <div class="row">
                             <div class="col-sm-6">
                             <label for="expertise">Expertise:</label>
-                                    <select id="expertise" name="Expertise" class="form-control select2 form-control-sm" multiple>
+                                    <select id="expertise" name="Expert" class="form-control select2 form-control-sm" multiple>
                                 <option value="" selected disabled>Select Expertise</option>
                             </select>
                             </div>
@@ -298,7 +300,9 @@
             const file = this.files[0]; 
             if (file) {
                 const url = URL.createObjectURL(file); 
-                $("#profileImage").attr("src", url).show(); 
+                $("#profileImage").attr("src", url).show();
+                $(".saveProfile").removeClass("d-none")
+
             } else {
                 $("#profileImage").attr("src", "/user-not-found.png");
             }
@@ -313,7 +317,7 @@
     $("#about").hide();
     $("#document").hide();
 
-    function pagination(page) {
+    function pagination(page,clickby) {
         if (page == 1) {
                
             $("#basicDetails").show()
@@ -339,9 +343,11 @@
 
             }
             if ($(".active2").attr("disabled") === undefined) {
+                if(clickby=="btn"){
                 basicData.push({name:"Id",value:localStorage.getItem("Id")})
                     basicData.push({ name:"BasicSection",value: true })
                     addDataonTemp(basicData)
+                }
             $("#basicDetails").hide()
             $("#address").show();
             $("#availability").hide();
@@ -359,15 +365,18 @@
                     }
                 })
                 if (enablenxt == basicData.length) {
-                    basicData.push({ name: "Id", value: localStorage.getItem("Id") })
-                    basicData.push({ name: "AddressSection", value: true })
-                    addDataonTemp(basicData)
+                    
                     $(".active3").attr("disabled", false)
                 } else {
                     $(".active3").attr("disabled", true)
 
                 }
                 if ($(".active3").attr("disabled") === undefined) {
+                    if (clickby == "btn") {
+                        basicData.push({ name: "Id", value: localStorage.getItem("Id") })
+                        basicData.push({ name: "AddressSection", value: true })
+                        addDataonTemp(basicData)
+                    }
             $("#availability").show();
             $("#address").hide();
             $("#basicDetails").hide()
@@ -399,17 +408,20 @@
                     $(".active4").attr("disabled", true)
            }
                 if ($(".active4").attr("disabled") === undefined) {
-                    let availability = []
-                    availability.push({ name: "Id", value: localStorage.getItem("Id") })
-                    availability.push({ name: "AvailbilitySection", value: true })
-                    availability.push({ name: "pooja", value: $("#poojaCheckbox:checked").length>0?true:false })
-                    availability.push({ name: "Call", value: $("#callCheckbox:checked").length > 0 ? true : false })
-                    availability.push({ name: "Chat", value: $("#chatCheckbox:checked").length > 0 ? true : false })
-                    availability.push({ name: "CallCharges", value: $("#callCheckbox:checked").length > 0 ? callPrice:0 })
-                    availability.push({ name: "ChatCharges", value: $("#chatCheckbox:checked").length > 0 ? chatPrice:0 })
-                    availability.push({ name: "TimeFrom", value: $("#timefrom").val() })
-                    availability.push({ name: "TimeTo", value: $("#timeto").val() })
-                    addDataonTemp(availability)
+                    if (clickby == "btn") {
+
+                        let availability = []
+                        availability.push({ name: "Id", value: localStorage.getItem("Id") })
+                        availability.push({ name: "AvailbilitySection", value: true })
+                        availability.push({ name: "pooja", value: $("#poojaCheckbox:checked").length > 0 ? true : false })
+                        availability.push({ name: "Call", value: $("#callCheckbox:checked").length > 0 ? true : false })
+                        availability.push({ name: "Chat", value: $("#chatCheckbox:checked").length > 0 ? true : false })
+                        availability.push({ name: "CallCharges", value: $("#callCheckbox:checked").length > 0 ? callPrice : 0 })
+                        availability.push({ name: "ChatCharges", value: $("#chatCheckbox:checked").length > 0 ? chatPrice : 0 })
+                        availability.push({ name: "TimeFrom", value: $("#timefrom").val() })
+                        availability.push({ name: "TimeTo", value: $("#timeto").val() })
+                        addDataonTemp(availability)
+                    }
             $("#availability").hide();
             $("#address").hide();
             $("#basicDetails").hide()
@@ -433,9 +445,12 @@
 
                 }
                 if ($(".active5").attr("disabled") === undefined) {
-                    basicData.push({ name: "Id", value: localStorage.getItem("Id") })
-                    basicData.push({ name: "AboutSection", value: true })
-                    addDataonTemp(basicData)
+                    if (clickby == "btn") {
+
+                        basicData.push({ name: "Id", value: localStorage.getItem("Id") })
+                        basicData.push({ name: "AboutSection", value: true })
+                        addDataonTemp(basicData)
+                    }
             $("#availability").hide();
             $("#address").hide();
             $("#basicDetails").hide()
@@ -526,7 +541,7 @@
         let page=$(this).attr("data-page")
             $(this).addClass("bg-primary")
             $(this).addClass("text-light")
-        pagination(page)
+        pagination(page,"nbtn")
     })
 
     $(".nxtBtn").click(function(){
@@ -537,7 +552,7 @@
             let page = $(this).attr("data-page")
             $(".active"+page).addClass("bg-primary")
             $(".active" + page).addClass("text-light")
-        pagination(page)
+            pagination(page, "btn")
     })
 
     document.getElementById('callCheckbox').addEventListener('change', function () {
@@ -877,7 +892,57 @@ $("#language").select2({
             });
         });
 
-           
+
+            $(".saveProfile").click(function () {
+                Swal.fire({
+                    title: "Processing Your Request",
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                })
+            let profileImage=$("#profile").get(0).files[0]
+            if(profileImage!=null){
+                let formData = new FormData();
+                formData.append("Id",localStorage.getItem("Id"))
+                    formData.append("Image", profileImage)
+                $.ajax({
+                    url: "https://localhost:7118/Api/PendingJyotish/UploadProfileImage",
+                    type: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem("Token3")}`
+
+                    },
+                    processData:false,
+                    contentType:false,
+                        data: formData,
+                    success: function (response) {
+                        if(response.status==200){
+                                Swal.fire({
+                                    title: "success",
+                                    text: "Profile Image Saved",
+                                    icon: "success",
+                                    didClose:()=>{
+                                        $(".saveProfile").addClass("d-none")
+                                    }
+                                });
+                        }else{
+                                Swal.fire({
+                                    title: "error",
+                                    text: response.messsage,
+                                    icon: "error"
+                                });
+                        }
+                    },error:function(){
+                            Swal.fire({
+                                title: "error",
+                                text: "Some error occured",
+                                icon: "error"
+                            });
+                    }
+                })
+            }
+        })
         // Load data on page load
        
         loadLanguage();
@@ -885,6 +950,13 @@ $("#language").select2({
         loadCountries();
     })
             function loadJyotishProfile() {
+            Swal.fire({
+                title: "Processing Your Request",
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            })
                 var Id = localStorage.getItem('Id');
                 let checkData = true;
             $.ajax({
@@ -906,8 +978,8 @@ $("#language").select2({
                         $("#gender").val(response.data.gender)
                         $("#altmobno").val(response.data.alternateMobile)
                         $("#dob").val(response.data.dateOfBirth)
-                        $("#language").val(response.data.language).change()
-                        $("#expertise").val(response.data.expertise).change()
+                        $("#language").val(response.data.language != null ? response.data.language.split(",") : response.data.language).change()
+                        $("#expertise").val(response.data.expertise != null ? response.data.expertise.split(",") : response.data.expertise).change()
 
                         
                         $("#pincode").val(response.data.pincode)
@@ -946,19 +1018,24 @@ $("#language").select2({
                         } if (response.data.aboutSection) {
                             $(".active5").attr("disabled",false)
                         }
-                        $("#country option").filter(function () {
-                            return $(this).text() === response.data.country;
-                        }).prop("selected", true).change()
+                        setTimeout(()=>{
+                            $("#country option").filter(function () {
+                                return $(this).text() === response.data.country;
+                            }).prop("selected", true).change()
+                        },1000)
+                        
                         setTimeout(() => {
+                            
                             $("#state option").filter(function () {
                                 return $(this).text() === response.data.state;
                             }).prop("selected", true).change()
-                        }, 1000)
+                        }, 2000)
                         setTimeout(() => {
                             $("#city option").filter(function () {
                                 return $(this).text() === response.data.city;
                             }).prop("selected", true).change()
-                        }, 2000)
+                        }, 3000)
+                        Swal.close()
                     }
                 }
             })
@@ -979,14 +1056,14 @@ $("#language").select2({
                             $("#email").val(response.data.email)
                             $("#mobno").val(response.data.mobile)
                             $("#gender").val(response.data.gender)
-                            $("#language").val(response.data.language).change()
-                            $("#expertise").val(response.data.expertise).change()
+                            $("#language").val(response.data.language != null ? response.data.language.split(",") : response.data.language).change()
+                            $("#expertise").val(response.data.expertise != null ? response.data.expertise.split(",") : response.data.expertise).change()
 
                             $("#state").val()
                             $("#city").val()
                             $("#profileImage").attr("src", "@BaseUrl" + response.data.profileImageUrl)
 
-                            $("#country option").filter(function () {
+                             $("#country option").filter(function () {
                                 return $(this).text() === response.data.country;
                             }).prop("selected", true).change()
                             setTimeout(()=>{
@@ -999,6 +1076,8 @@ $("#language").select2({
                                 return $(this).text() === response.data.city;
                             }).prop("selected", true).change()
                         },2000)
+                            Swal.close()
+
                         }
                     }
                 })
@@ -1010,10 +1089,22 @@ $("#language").select2({
             {
             var token = localStorage.getItem('Token3');
             debugger
+            let language=[]
+            let expertise=[]
                 let formData=new FormData();
                 sArray.forEach(function(d){
                     formData.append(d.name,d.value)
+                    if(d.name=="lang"){
+                    language.push(d.value)
+                    }
+                if (d.name == "Expert"){
+                    expertise.push(d.value)
+                }
                 })
+                let joinlang = language.toString();
+                formData.append("Language",joinlang)
+            let joinexpert = expertise.toString();
+                formData.append("Expertise", joinexpert)
             $.ajax({
                 url: "https://localhost:7118/Api/PendingJyotish/UpdateProfile",
                 type: 'POST',
