@@ -227,6 +227,7 @@ namespace BusinessAccessLayer.Implementation
         {
             if (model == null) return "Invalid Data";
 
+            var jyotish = _context.JyotishRecords.Where(x=>x.Id == model.Id).FirstOrDefault();
             // Find the existing record
             var existingRecord = _context.jyotishTempRecords
                 .FirstOrDefault(x => x.JyotishId == model.Id);
@@ -234,10 +235,11 @@ namespace BusinessAccessLayer.Implementation
             if (existingRecord == null)
             {
                 JyotishTempRecord newRecord = new JyotishTempRecord();
+                newRecord.JyotishId = model.Id;
                 newRecord.BasicSection = true;
                 newRecord.Name = model.Name;
-                newRecord.Email = existingRecord.Email;
-                newRecord.Mobile = existingRecord.Mobile;
+                newRecord.Email = jyotish.Email;
+                newRecord.Mobile = jyotish.Mobile;
                 newRecord.AlternateMobile = model.AlternateMobile;
                 newRecord.Gender = model.Gender;
                 newRecord.Language = model.Language;
@@ -271,12 +273,12 @@ namespace BusinessAccessLayer.Implementation
             /*-----------------------------Basic-----------------------------------------*/
             if (model.BasicSection == true)
             {
-                var Record = _context.jyotishTempRecords.Where(x => x.JyotishId == existingRecord.Id).FirstOrDefault();
+                var Record = _context.jyotishTempRecords.Where(x => x.JyotishId == model.Id).FirstOrDefault();
                 if(Record == null) { return "Invalid Data"; }
                 Record.BasicSection = true;
                 Record.Name = model.Name;
-                Record.Email = existingRecord.Email;
-                Record.Mobile = existingRecord.Mobile;
+                Record.Email = jyotish.Email;
+                Record.Mobile = jyotish.Mobile;
                 Record.AlternateMobile = model.AlternateMobile;
                 Record.Gender = model.Gender;
                 Record.Language = model.Language;
@@ -303,7 +305,7 @@ namespace BusinessAccessLayer.Implementation
             /*-----------------------------Address-----------------------------------------*/
             if (model.AddressSection == true) 
             {
-                var Record = _context.jyotishTempRecords.Where(x => x.JyotishId == existingRecord.Id).FirstOrDefault();
+                var Record = _context.jyotishTempRecords.Where(x => x.JyotishId == model.Id).FirstOrDefault();
                 if (Record == null) { return "Invalid Data"; }
 
                 var countryName = _context.Countries
@@ -339,7 +341,7 @@ namespace BusinessAccessLayer.Implementation
             if (model.AvailbilitySection == true)
             {
 
-                var Record = _context.jyotishTempRecords.Where(x => x.JyotishId == existingRecord.Id).FirstOrDefault();
+                var Record = _context.jyotishTempRecords.Where(x => x.JyotishId == model.Id).FirstOrDefault();
                 if (Record == null) { return "Invalid Data"; }
 
                 Record.AvailbilitySection = true;
@@ -360,7 +362,7 @@ namespace BusinessAccessLayer.Implementation
             if (model.AboutSection == true)
             {
 
-                var Record = _context.jyotishTempRecords.Where(x => x.JyotishId == existingRecord.Id).FirstOrDefault();
+                var Record = _context.jyotishTempRecords.Where(x => x.JyotishId == model.Id).FirstOrDefault();
                 if (Record == null) { return "Invalid Data"; }
 
                 Record.AboutSection = true;
