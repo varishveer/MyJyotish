@@ -92,7 +92,7 @@ namespace MyJyotishGApi.Controllers
         public async Task<IActionResult> ProfileTempData(int Id)
         {
             var result = await _pendingJyotishServices.ProfileTempData(Id);
-            if (result == null) { return Ok(new { Status = 400, Message = "No User Found" }); }
+            if (result == null) { return Ok(new { Status = 404, Message = "No User Found" }); }
             else { return Ok(new { Status = 200, data = result }); }
         }
 
@@ -106,7 +106,7 @@ namespace MyJyotishGApi.Controllers
                 if (result == "Successful")
                 { return Ok(new { Status = 200, Message = "Successful" }); }
                 if (result == "Invalid Data")
-                { return Ok(new { Status = 400, Message = result }); }
+                { return Ok(new { Status = 404, Message = result }); }
                 if (result == "Jyotish Not Found")
                 { return Ok(new { Status = 400, Message = result }); }
                 else { return Ok(new { Status = 400, Message = result }); }

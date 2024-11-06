@@ -850,19 +850,25 @@ $("#language").select2({
                 })
             $.ajax({
                 url: "https://localhost:7118/Api/PendingJyotish/UpdateProfile",
-                type: 'Post',
+                type: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`
                 },
                 contentType: "application/json",
-                data:JSON.stringify(formData),
-                success: function (response) 
-                {
-                    console.log(response)
-                },error:function(){
-                    console.log("some error occured","err")
+                data: JSON.stringify(formData),
+                success: function (response) {
+                    console.log("Profile updated successfully:", response);
+                },
+                error: function (err) {
+                    console.error("Error occurred:", err);
+                    if (err.responseJSON) {
+                        console.error("Response JSON:", err.responseJSON);
+                    } else {
+                        console.error("Status:", err.status);
+                        console.error("Status Text:", err.statusText);
+                    }
                 }
-            })
+            });
             }
     
 </script>
