@@ -9,7 +9,7 @@ namespace ModelAccessLayer.ViewModels
 {
     public  class UploadProfileImagePJViewModel
     {
-        public int Id { get; }
+        public int Id { get; set; }
         public IFormFile Image { get; set; }
     }
 }

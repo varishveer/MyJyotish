@@ -904,7 +904,8 @@ $("#language").select2({
             let profileImage=$("#profile").get(0).files[0]
             if(profileImage!=null){
                 let formData = new FormData();
-                formData.append("Id",localStorage.getItem("Id"))
+                var Id =localStorage.getItem("Id");
+                formData.append("id",Id)
                     formData.append("Image", profileImage)
                 $.ajax({
                     url: "https://localhost:7118/Api/PendingJyotish/UploadProfileImage",
