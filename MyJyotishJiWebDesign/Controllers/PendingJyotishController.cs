@@ -4,6 +4,8 @@ namespace MyJyotishGWeb.Controllers
 {
     public class PendingJyotishController : Controller
     {
+        [Route("Dashboard")]
+
         public IActionResult Dashboard()
         {
             return View();

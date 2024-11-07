@@ -282,15 +282,20 @@
 
     .skipDays{
         min-width:217px !important;
-        border: 1px solid black;
+        border: 1px solid gray;
         padding: 5px;
         border-radius: 5px;
         box-shadow: 1px 1px 7px gray;
         box-sizing:border-box;
+        height:60px;
     }
 
     #updateskipDate {
         font-size:12px !important;
+    }
+
+    .skipmodal-content {
+        height:400px !important;
     }
 </style>
 
@@ -386,7 +391,7 @@
                             <th>Time From</th>
                             <th>Time To</th>
                             <th>Status</th>
-                           <th>Action</th>
+                          
                         </tr>
                     </thead>
                     <tbody>
@@ -402,24 +407,27 @@
 
 <!-- Modal -->
 <div class="modal fade" id="editAppointmentModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content skipmodal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Remove Appointment Slot</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body d-flex gap-2">
+            <div class="modal-body skipmodal-body">
+<p >Please Select any option to remove your slot. please select carefully if you remove any slot you are not able to recover it again</p>
+                <div class="justify-content-center d-flex gap-4">
                 <div class="static ">
                     <div class="input-container" id="date-picker-container">
                         <label for="date-from">Skip Date (Optional)</label>
-                        <input type="date" id="updateskipDate" class="date-field" name"">
+                        <input type="date" id="updateskipDate" class="date-field text-secondary" name"">
                     </div>
 
                 </div>
-                <div class=" static skipDays">
+                <div class=" skipDays">
                     <p class="m-0 text-primary">Skip Days (Optional)</p>
                     <input type="checkbox" id="updatesaturday" name="saturday" class="form-check-inline" value="1" />Satuday &nbsp;
                     <input type="checkbox" name="sunday" id="updatesunday" class="form-check-inline" value="2" />Sunday
+                </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -437,32 +445,43 @@
         // Add New Slot
         $("#btnsubmit").on('click', function (e) {
             e.preventDefault();
-            Swal.fire({
-                title: "Processing Your Request",
-                allowOutsideClick: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                }
-            })
-            // Collect form data
             const date = $("#date-checkin").val();
             const dateTo = $("#date-checkout").val();
             const timeDuration = $("#timeDuration").val()
-            const skipDate = $("#skipDate").val()!=""? $("#skipDate").val():"1001-01-01"
-            const saturday = $("#saturday:checked").length>0?$("#saturday").val():0
+            const skipDate = $("#skipDate").val() != "" ? $("#skipDate").val() : "1001-01-01"
+            const saturday = $("#saturday:checked").length > 0 ? $("#saturday").val() : 0
             const sunday = $("#sunday:checked").length > 0 ? $("#sunday").val() : 0
             const jyotishId = localStorage.getItem('Id');
             debugger
             // Validate the form
             if (!date || !dateTo || !timeDuration) {
                 Swal.fire({
-                    title: 'Error!',
+                    title: 'Warning!',
                     text: 'All fields are required.',
-                    icon: 'error',
+                    icon: 'warning',
                     confirmButtonText: 'Close'
                 });
                 return;
             }
+            Swal.fire({
+                title: "Are you sure?",
+                text: "Please choose your appointment slot carefully",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes",
+            }).then((result) => {
+                
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: "Processing Your Request",
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    })
+           
 
             
             $.ajax({
@@ -504,12 +523,14 @@
                     console.error("Error:", xhr.responseText);
                     Swal.fire({
                         title: 'Error!',
-                        text: 'Failed to add appointment slot: ' + xhr.responseText,
+                        text: 'Failed to add appointment slot: ' + xhr.responseText.title,
                         icon: 'error',
                         confirmButtonText: 'Close'
                     });
                 }
             });
+                }
+            })
         });
 
 
@@ -544,20 +565,7 @@
                         <td>${slot.timeFrom}</td>
                         <td>${slot.timeTo}</td>
                         <td>${slot.status}</td>
-                        <td style='cursor:pointer;'>
-                            <a class="editfeature"
-                               data-id="${slot.id}"
-                               data-date="${formattedDate}"
-                               data-timefrom="${slot.timeFrom}"
-                               data-timeto="${slot.timeTo}"
-                               data-duration="${slot.timeDuration}">
-                                <i class="fa-solid fa-pen-to-square text-success"></i>
-                            </a>
-                                <a id="deletebtn"
-                                   data-id="${slot.id}">
-                                    <i class="fa-solid fa-trash text-success"></i>
-                                </a>
-                        </td>
+                       
                     </tr>`);
                     });
                 });
@@ -567,37 +575,92 @@
 
             },
             error: function (error) {
-                console.error(error);
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Failed to add appointment slot: ' + xhr.responseText.title,
+                    icon: 'error',
+                    confirmButtonText: 'Close'
+                });
             }
         });
 
 
         $("#updateAppointmentslot").click(function(){
-          
             const skipDate = $("#updateskipDate").val() != "" ? $("#updateskipDate").val() : "1001-01-01"
             const saturday = $("#updatesaturday:checked").length > 0 ? $("#updatesaturday").val() : 0
             const sunday = $("#updatesunday:checked").length > 0 ? $("#updatesunday").val() : 0
             const jyotishId = localStorage.getItem('Id');
-            debugger
-            $.ajax({
-                url: `https://localhost:7118/api/Jyotish/removeAppointmentSlot`,
-                type: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
-                    'Content-Type': 'application/json',
-                },
-                data:JSON.stringify({
-                    skipDate: skipDate,
-                    saturday: saturday,
-                    sunday: sunday,
-                    jyotishId: parseInt(jyotishId, 10)
-                }),
-                success: function (res) {
-                    console.log(res);
-                },error:function(err){
-                    console.log(err)
-                }
-            })
+            if (skipDate != "1001-01-01" || saturday != 0 || sunday != 0) {
+
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes",
+                }).then((result) => {
+                   
+                    if (result.isConfirmed) {
+                        Swal.fire({
+                            title: "Processing Your Request",
+                            allowOutsideClick: false,
+                            didOpen: () => {
+                                Swal.showLoading();
+                            }
+                        })
+                        debugger
+                        $.ajax({
+                            url: `https://localhost:7118/api/Jyotish/removeAppointmentSlot`,
+                            type: 'POST',
+                            headers: {
+                                'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+                                'Content-Type': 'application/json',
+                            },
+                            data: JSON.stringify({
+                                skipDate: skipDate,
+                                saturday: saturday,
+                                sunday: sunday,
+                                jyotishId: parseInt(jyotishId, 10)
+                            }),
+                            success: function (res) {
+                                if (res.status === 200) {
+                                    Swal.fire({
+                                        title: 'Success!',
+                                        text: res.message,
+                                        icon: 'success',
+                                    }).then(() => {
+                                        window.location.reload();
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        title: 'Error!',
+                                        text: res.message || 'Failed to add appointment slot.',
+                                        icon: 'error',
+                                        confirmButtonText: 'Close'
+                                    });
+                                }
+                            }, error: function (err) {
+                                Swal.fire({
+                                    title: 'Error!',
+                                    text: 'Failed to add appointment slot: ' + xhr.responseText.title,
+                                    icon: 'error',
+                                    confirmButtonText: 'Close'
+                                });
+                            }
+                        })
+                    }
+                })
+            }else{
+                Swal.fire({
+                    title: 'Warning!',
+                    text: 'Please select Atleast one.',
+                    icon: 'warning',
+                    confirmButtonText: 'Close'
+                });
+             
+            }
         })
 
         // Handle edit button click

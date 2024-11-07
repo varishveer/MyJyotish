@@ -522,7 +522,11 @@ namespace BusinessAccessLayer.Implementation
             { return "Invalid Date"; }
 
             var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
-            var slots = _context.AppointmentSlots.Where(x => x.Id == model.JyotishId).Select(e=>e.Date).ToList();
+            var existingSlots = _context.AppointmentSlots
+         .Where(x => x.JyotishId == model.JyotishId &&
+                      x.Date >= model.Date)
+         .Select(e => e.Date)
+         .ToList();
 
             if (Jyotish == null) { return "Invalid Jyotish"; }
             if (DateTime.Compare(model.Date, model.DateTo) <= 90)
@@ -530,6 +534,12 @@ namespace BusinessAccessLayer.Implementation
                     List<AppointmentSlotModel> slotsToAdd = new List<AppointmentSlotModel>();
                 for (DateTime date = model.Date; date <= model.DateTo; date = date.AddDays(1))
                 {
+                    if (existingSlots.Contains(date.Date))
+                    {
+                        continue; 
+                    }
+
+
                     TimeOnly startTime = (TimeOnly)Jyotish.TimeFrom;
                     TimeOnly endTime = (TimeOnly)Jyotish.TimeTo;
 
