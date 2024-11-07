@@ -215,8 +215,8 @@
                 type: 'POST',
                 contentType: 'application/json',
                 success: function (response) {
-
-                    if (reponse.status === 200) {
+                    debugger;
+                    if (response.status === 200) {
                         Swal.fire({
                             title: "Otp Send Successfully",
                             text: "Please Enter Otp ",
@@ -225,18 +225,22 @@
 
                         });
 
-                        $("#verifyOtp-container").show();
-                        $("#otp").show().prop('required', true);
-                        $("#verifyOtp").show();
+                        $("#verifyOtp-container").removeClass("d-none");
+                       
+                      
 
                     }
-                    else{
+                    else if (response.status === 409) {
                         Swal.fire({
                             title: "Invalid Email",
-                            text: "Please Enter Otp ",
+                            text: "Please Enter Different Email",
                             icon: "success",
-
-
+                        });
+                    }
+                    else {
+                        Swal.fire({
+                            title: "Something went wrong",
+                            icon: "warning",
                         });
                     }
                  
@@ -268,10 +272,10 @@
                     switch (response.status) {
                         case 200:
                                 Swal.fire({
-                                    title: "OTP Check " + response.message,
+                                    title: "OTP Verified " + response.message,
                                     icon: "success",   
                                 });
-                           
+                                $("#verifyOtp-container").addClass("d-none");
                             break;
                         case 409:
                                 Swal.fire({

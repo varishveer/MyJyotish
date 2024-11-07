@@ -418,12 +418,7 @@
     }
 
     /* Header */
-    #slots-title {
-        font-size: 1.2em;
-        font-weight: bold;
-        color: #007bff;
-        text-align: center;
-    }
+    
 
     /* Date Picker Container */
     .dates {
@@ -656,7 +651,7 @@
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="slotBookingModalLabel">Interview Slot Booking</h5>
+                <h5 class="modal-title  fw-light" id="slotBookingModalLabel" >Interview Slot Booking</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -664,14 +659,14 @@
                 <div class="container-fluid pt-4 px-4">
                     <div class="text-center border border-1 rounded p-3">
                         <div class="row">
-                            <div class="col-md-6 offset-md-3">
-                                <div class="alert" role="alert">
-                                    <span id="slots-title">Interview Slot Booking</span>
+                            <div class="col ">
+                                <div class="alert p-0 m-0 justify-content-center" role="alert">
+                                    <span id="slots-title" class="fw-light text-primary fs-3">Interview Slot Booking</span>
                                 </div>
                             </div>
                         </div>
                         <div class="row" id="BookingDetails">
-                            <div class="col-md-6 offset-md-3"></div>
+                            <div class="col-md-6 "></div>
                         </div>
                         <div class="slotBookingDiv">
                             <div class="container">
@@ -784,7 +779,7 @@
                 'Content-Type': 'application/json'
             },
             success: function (response) {
-                 
+                debugger;
                 // Parse the API response
                 const dateTimeMap = {};
                 response.data.forEach(item => {
@@ -795,6 +790,7 @@
                     }
                     item.times.forEach(timeSlot => {
                         dateTimeMap[dateKey].push({
+                            id:timeSlot.id,
                             time: timeSlot.time,
                             status: timeSlot.status
                         });
@@ -893,8 +889,7 @@
 
                     // Define the payload to send to the API
                     const postData = {
-                        Date: selectedDate,
-                        Time: selectedTime,
+                       
                         JyotishId: userId
                     };
                     console.log('Post Data:', postData); // Debugging
