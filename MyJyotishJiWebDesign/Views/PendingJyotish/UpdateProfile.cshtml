@@ -33,6 +33,26 @@
        background:orange;
        border-radius:10px;
    }
+   
+  
+  
+   .nav-container{
+       height:auto !important;
+   }
+
+        .detail-container {
+       min-height:500px !important;
+   }
+   .profile-container{
+       max-height:300px;
+   }
+   .nexbtn-container{
+       bottom:10px;
+       right:10px;
+   }
+   input,select,textarea{
+       border-radius:0 !important;
+   }
 </style>
 
 <!-- Bootstrap CSS -->
@@ -48,54 +68,77 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </head>
-<body class="w-100">
-<div class="container mh-75 w-100 mb-3 mt-5 border p-3 rounded shadow-sm">
-<div class="row">
-    <h3 class="text-center text-secondary border-bottom py-2 mb-5">Update Profile</h3>
-    <div  class=col-sm-12>
-        <div class="row">
-               
-            <div class="col-sm-3 border-end">
-                        <div class="text-center my-3 mb-5">
-                            <img src="/user-not-found.png" accept="image/*" id="profileImage" height="130" width="130" class="rounded-circle" /><br /><br />
-                            <label for="profile" class="btn btn-primary">Edit Profile</label>
-                            <button class="btn btn-success d-none saveProfile" >Save</button>
-                            <input type="file" hidden name="profile" id="profile" />
+<body class="h-100 pt-5 bg-light">
+<div class="container-fluid  mb-5 h-100 mt-5 w-100">
+<div class="row gap-2 justify-content-center">
+            
+    </div>
+            <div class="col-sm-12 rounded p-3 bg-light">
+        <div class="row ">
+                   
+                <div class="col-sm-12" >      
+                    <div class="row justify-content-end">
+                            <div class="col-sm-12  rounded mb-4">
+                            <div class="row gap-2 justify-content-center">
+                            <div class="col-sm-3">
+                                    </div>
+                                <div class="col-sm-8">
+
+                                <div class=" border-end d-flex">
+
+                                <button data-page="1" class="btn btn-sm active1 border-0 border-top border-start bg-dark text-light navigatorBtn rounded-0 btn-outline-primary w-100">Basic Information</button>
+                                    <button data-page="2" disabled class="btn border-0 border-top active2 navigatorBtn rounded-0 btn-outline-primary w-100">Address</button>
+
+                                <button data-page="3" disabled class="btn border-0 border-top btn-sm active3 navigatorBtn rounded-0 btn-outline-primary w-100">Availability</button>
+                                    <button data-page="4" disabled class="btn border-0 border-top btn-sm active4 navigatorBtn rounded-0 btn-outline-primary w-100">About</button>
+                                <button data-page="5" disabled class="btn border-0 btn-sm border-top border-end active5 navigatorBtn rounded-0 btn-outline-primary w-100">Documents</button>
+                                </div>
+                                </div>
                         </div>
-                <button data-page="1" class="btn active1 bg-primary text-light navigatorBtn rounded-0 btn-outline-primary w-100">Basic Information</button>
-                    <button data-page="2" disabled class="btn active2 navigatorBtn rounded-0 btn-outline-primary w-100">Address</button>
+                        </div>
 
-                        <button data-page="3" disabled class="btn active3 navigatorBtn rounded-0 btn-outline-primary w-100">Availability</button>
-                        <button data-page="4" disabled class="btn active4 navigatorBtn rounded-0 btn-outline-primary w-100">About</button>
-                        <button data-page="5" disabled class="btn active5 navigatorBtn rounded-0 btn-outline-primary w-100">Documents</button>
-            </div>
-             <!--basic Detail-->
+                        <div class="col-sm-12">
+                                <div class="row justify-content-center gap-2">
+                            <div class="col-sm-3 border  position-sticky top-0 p-2 rounded bg-light profile-container">
+                                <div class="w-100">
+                                    <div class="text-center my-3 mb-5">
+                                        <img src="/user-not-found.png" accept="image/*" id="profileImage" height="130" width="130" class="rounded-circle" /><br /><br />
+                                        <p id="expertise-profile"></p>
+                                        <label for="profile" class="btn btn-dark text-light">Edit Profile</label>
+                                        <button class="btn btn-success d-none saveProfile">Save</button>
+                                        <input type="file" hidden name="profile" id="profile" />
+                                    </div>
+                                </div>
+                                </div>
+                                <div class="col-sm-8  detail-container position-relative rounded border">
+                                    <div class="row">   
+                                        <!--basic Detail-->
 
-                <div class="col-sm-9" id="basicDetails">
+                                    <div class="col-sm-12 " id="basicDetails">
                  <form id="basicForm">
                     <div class="row">
                         <div class="col-sm-6">
-                            <label for="name">Name</label>
+                            <label for="name">Name <span class="text-danger">*</span></label>
                                     <input type="text" id="name" name="Name" class="form-control" placeholder="Enter your name" />
                         </div>
                         <div class="col-sm-6">
-                            <label for="email">Email</label>
+                            <label for="email">Email <span class="text-danger">*</span></label>
                                     <input type="email" id="email" disabled name="email" class="form-control" placeholder="Enter your email" />
                         </div>
                     </div>
                     <div class="row my-3">
                         <div class="col-sm-6">
-                            <label for="mobno">Mobile Number</label>
+                            <label for="mobno">Mobile Number <span class="text-danger">*</span></label>
                                     <input type="number" name="mobno" disabled id="mobno" class="form-control" placeholder="Enter your Phone Number" />
                         </div>
                         <div class="col-sm-6">
-                            <label for="altmobno">Alternate Number</label>
+                            <label for="altmobno">Alternate Number <span class="text-danger">*</span></label>
                                     <input type="number" id="altmobno" name="AlternateMobile" class="form-control" placeholder="Enter alternate Phone Number" />
                         </div>
                     </div> 
                     <div class="row">
                         <div class="col-sm-6">
-                        <label for="gender">Gender</label>
+                                    <label for="gender">Gender <span class="text-danger">*</span></label>
                                     <select class="form-control" id="gender" name="Gender">
                         <option selected disabled>--select gender--</option>
                         <option value="Male">Male</option>
@@ -104,7 +147,7 @@
                     </select>
                         </div>
                         <div class="col-sm-6">
-                            <label for="language">Language</label>
+                            <label for="language">Language <span class="text-danger">*</span></label>
                                     <select id="language" name="lang" class="form-control form-control-sm " multiple>
                                 <option value="">Select Language</option>
                             </select>
@@ -112,54 +155,56 @@
                     </div>
                     <div class="row my-3">
                         <div class="col-sm-6">
-                            <label for="dob">Date of Birth</label>
+                                    <label for="dob">Date of Birth <span class="text-danger">*</span></label>
                                     <input type="date" id="dob" name="DateOfBirth" class="form-control" />
                         </div>
                        
                     </div>
                         </form>
 
-                    <div class="text-end"><button type="button" role="button" class="btn btn-primary nxtBtn basicnxtBtn" data-page="2">Next</button></div>
-                </div>
-
+                                            <div class="text-end position-absolute nexbtn-container"><button type="button" role="button" class="btn btn-dark nxtBtn basicnxtBtn" data-page="2">Save</button></div>
+                    </div>
                 <!--Address-->
-                <div class="col-sm-9" id="address">
+                <div class="col-sm-12" id="address">
+
                     <form id="addressform">
                     <div class="row">
                         <div class="col-sm-6 mb-3">
-                            <label for="country">Country:</label>
+                                    <label for="country">Country: <span class="text-danger">*</span></label>
                             <select id="country" name="country" class="form-control form-control-sm select2" required>
                                 <option selected disabled>Select Country</option>
                             </select>
                         </div>
                         <div class="col-sm-6 mb-3">
-                            <label for="state">State:</label>
+                                    <label for="state">State: <span class="text-danger">*</span></label>
                             <select id="state" name="state" class="form-control select2 form-control-sm" disabled>
                                 <option selected disabled>Select State</option>
                             </select>
                         </div>
                         <div class="col-sm-6 mb-3">
-                            <label for="city">City:</label>
+                                    <label for="city">City: <span class="text-danger">*</span></label>
                             <select id="city" name="city" class="form-control select2 form-control-sm" disabled>
                                 <option selected disabled>Select City</option>
                             </select>
                         </div>
                         <div class="col-sm-6 mb-3">
-                            <label for="pincode">Pincode</label>
+                                    <label for="pincode">Pincode <span class="text-danger">*</span></label>
                             <input type="number" id="pincode" name="pincode" class="form-control" placeholder="Enter your pincode" />
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-12">
+                                    <label for="addresstext">Address <span class="text-danger">*</span></label>
                             <textarea rows="4" name="address" id="addresstext" placeholder="Enter your full address" class="form-control"></textarea>
                         </div></div>
                         </form>
-                    <div class="text-end mt-3"><button type="button" role="button" class="btn btn-primary nxtBtn" data-page="3">Next</button></div>
+                                            <div class="text-end mt-3 position-absolute nexbtn-container"><button type="button" role="button" class="btn btn-dark nxtBtn" data-page="3">Save</button></div>
                 </div>
 
                 <!--Availability-->
               
-                    <div class="col-sm-9" id="availability">
+                    <div class="col-sm-12" id="availability">
+
                         <div class="row">
 
                         <div class="col-sm-6">
@@ -176,8 +221,8 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="d-flex justify-content-between">
-                            <label for="timefrom">Time From</label>
-                            <label for="timeto">Time To</label>
+                                    <label for="timefrom">Time From <span class="text-danger">*</span></label>
+                                    <label for="timeto">Time To <span class="text-danger">*</span></label>
                             </div>
                             <div class="d-flex gap-2 justify-content-between">
                             <input type="time" name="timeFrom" class="form-control" id="timefrom" />
@@ -185,69 +230,82 @@
                             </div>
                         </div>
                         </div>
-                  <div class="text-end mt-3"><button type="button" role="button" class="btn btn-primary nxtBtn" data-page="4">Next</button></div>
+                                            <div class="text-end mt-3 position-absolute nexbtn-container"><button type="button" role="button" class="btn btn-dark nxtBtn" data-page="4">Save</button></div>
                 </div>
 
                 <!--About-->
                 
-                    <div class="col-sm-9" id="about">
+                    <div class="col-sm-12" id="about">
+
                         <form id="aboutForm">
                         <div class="row">
                             <div class="col-sm-6">
-                            <label for="expertise">Expertise:</label>
+                                    <label for="expertise">Expertise: <span class="text-danger">*</span></label>
                                     <select id="expertise" name="Expert" class="form-control select2 form-control-sm" multiple>
                                 <option value="" selected disabled>Select Expertise</option>
                             </select>
                             </div>
                             <div class="col-sm-6">
-                            <label for="specialization">Specialization:</label>
+                            <label for="specialization">Specialization: <span class="text-danger">*</span></label>
                                     <input type="text" id="specialization" name="Specialization" class="form-control form-control-sm" required>
                             </div>
                         </div>
                         <div class="row my-3">
                             <div class="col-sm-6">
-                            <label for="awardsAndAchievement">Awards and Achievement:</label>
+                                    <label for="awardsAndAchievement">Awards and Achievement: <span class="text-danger">*</span></label>
                                     <input type="text" id="awardsAndAchievement" name="AwordsAndAchievement" class="form-control form-control-sm">
                             </div>
                             <div class="col-sm-6">
-                            <label for="experiance">Experiance:</label>
+                                    <label for="experiance">Experiance: <span class="text-danger">*</span></label>
                                     <input type="number" id="experiance" name="Experience" class="form-control form-control-sm">
                             </div>
                         </div>
                     <div class="row">
                         <div class="col-sm-12">
+                                    <label for="aboutus">About <span class="text-danger">*</span></label>
                                     <textarea rows="4" placeholder="About us" name="About" id="aboutus" class="form-control"></textarea>
                             </div>
                             </div>
                         </form>
-                    <div class="text-end mt-3"><button type="button" role="button" class="btn btn-primary nxtBtn" data-page="5">Next</button></div>
+                                            <div class="text-end mt-3 position-absolute nexbtn-container"><button type="button" role="button" class="btn btn-dark nxtBtn" data-page="5">Save</button></div>
                 </div>
 
                 <!--Documents-->
-                <div class="col-sm-9 " id="document">
-                    <div class="row">
+                <div class="col-sm-12 " id="document">
+
+                                <div class="row h-100 overflow-auto">
 <div class="col-sm-6 mb-3">
+                                <label for="addressdoc">Address Document <span class="text-danger">*</span></label>
     <input type="file" name="addressdoc" id="addressdoc"/>
 </div>
 <div class="col-sm-6  mb-3">
+                                <label for="idProof">Id Proof <span class="text-danger">*</span></label>
     <input type="file" name="idProof" id="idProof"/>
 
 </div>
                         <div class="col-sm-6  mb-3">
+                                <label for="professionaldoc">Professional Certificate <span class="text-danger">*</span></label>
                    <input type="file" name="professionaldoc" id="professionaldoc" />
 
 </div>
                         <div class="col-sm-6  mb-3">
+                                <label for="metricdocs">10th Marksheet</label>
                <input type="file" name="metricdocs" id="metricdocs" />
 
 </div>
                         <div class="col-sm-6  mb-3">
+                                <label for="postmetricdocs">12th Marksheet</label>
                   <input type="file" name="postmetricdocs" id="postmetricdocs" />
 
 </div>
+                    <div class="text-end mt-3 mb-3"><input type="submit" id="finalSubmit" value="Submit" class="btn fw-bold btn-dark" /></div>
 </div>
-                    <div class="text-end mt-3"><input type="submit" id="finalSubmit" value="Submit" class="btn fw-bold btn-primary " /></div>
                 </div>
+                    </div>
+                        </div>
+                            </div>
+                        </div>
+                        </div>
         </div>
     </div>
 </div>
@@ -318,8 +376,13 @@
     $("#document").hide();
 
     function pagination(page,clickby) {
+            $(".navigatorBtn").each(function (i, d) {
+                d.classList.remove("bg-dark")
+                d.classList.remove("text-light")
+            });
         if (page == 1) {
-               
+                $(".active1").addClass("bg-dark")
+                $(".active1").addClass("text-light")
             $("#basicDetails").show()
             $("#address").hide();
             $("#availability").hide();
@@ -340,6 +403,8 @@
                 $(".active2").attr("disabled", false)
             }else{
                 $(".active2").attr("disabled", true)
+                    $(".active1").addClass("bg-dark")
+                    $(".active1").addClass("text-light")
 
             }
             if ($(".active2").attr("disabled") === undefined) {
@@ -348,6 +413,8 @@
                     basicData.push({ name:"BasicSection",value: true })
                     addDataonTemp(basicData)
                 }
+                    $(".active2").addClass("bg-dark")
+                    $(".active2").addClass("text-light")
             $("#basicDetails").hide()
             $("#address").show();
             $("#availability").hide();
@@ -369,7 +436,8 @@
                     $(".active3").attr("disabled", false)
                 } else {
                     $(".active3").attr("disabled", true)
-
+                    $(".active2").addClass("bg-dark")
+                    $(".active2").addClass("text-light")
                 }
                 if ($(".active3").attr("disabled") === undefined) {
                     if (clickby == "btn") {
@@ -377,6 +445,8 @@
                         basicData.push({ name: "AddressSection", value: true })
                         addDataonTemp(basicData)
                     }
+                    $(".active3").addClass("bg-dark")
+                    $(".active3").addClass("text-light")
             $("#availability").show();
             $("#address").hide();
             $("#basicDetails").hide()
@@ -406,6 +476,8 @@
                 }
            }else{
                     $(".active4").attr("disabled", true)
+                    $(".active3").addClass("bg-dark")
+                    $(".active3").addClass("text-light")
            }
                 if ($(".active4").attr("disabled") === undefined) {
                     if (clickby == "btn") {
@@ -422,6 +494,8 @@
                         availability.push({ name: "TimeTo", value: $("#timeto").val() })
                         addDataonTemp(availability)
                     }
+                    $(".active4").addClass("bg-dark")
+                    $(".active4").addClass("text-light")
             $("#availability").hide();
             $("#address").hide();
             $("#basicDetails").hide()
@@ -442,7 +516,8 @@
                     $(".active5").attr("disabled", false)
                 } else {
                     $(".active5").attr("disabled", true)
-
+                    $(".active4").addClass("bg-dark")
+                    $(".active4").addClass("text-light")
                 }
                 if ($(".active5").attr("disabled") === undefined) {
                     if (clickby == "btn") {
@@ -451,6 +526,8 @@
                         basicData.push({ name: "AboutSection", value: true })
                         addDataonTemp(basicData)
                     }
+                    $(".active5").addClass("bg-dark")
+                    $(".active5").addClass("text-light")
             $("#availability").hide();
             $("#address").hide();
             $("#basicDetails").hide()
@@ -534,24 +611,16 @@
         });
 
     $(".navigatorBtn").click(function(){
-        $(".navigatorBtn").each(function (i, d) {
-            d.classList.remove("bg-primary")
-            d.classList.remove("text-light")
-        });
+        
         let page=$(this).attr("data-page")
-            $(this).addClass("bg-primary")
-            $(this).addClass("text-light")
+           
         pagination(page,"nbtn")
     })
 
     $(".nxtBtn").click(function(){
-            $(".navigatorBtn").each(function (i, d) {
-                d.classList.remove("bg-primary")
-                d.classList.remove("text-light")
-            });
+          
             let page = $(this).attr("data-page")
-            $(".active"+page).addClass("bg-primary")
-            $(".active" + page).addClass("text-light")
+          
             pagination(page, "btn")
     })
 
@@ -979,10 +1048,11 @@ $("#language").select2({
                         $("#gender").val(response.data.gender)
                         $("#altmobno").val(response.data.alternateMobile)
                         $("#dob").val(response.data.dateOfBirth)
+                        setTimeout(() => { 
                         $("#language").val(response.data.language != null ? response.data.language.split(",") : response.data.language).change()
                         $("#expertise").val(response.data.expertise != null ? response.data.expertise.split(",") : response.data.expertise).change()
-
-                        
+                        },1000)
+                        $("#expertise-profile").text(response.data.expertise)
                         $("#pincode").val(response.data.pincode)
                         $("#addresstext").val(response.data.address)
                         $("#timefrom").val(response.data.timeFrom)
@@ -1008,7 +1078,7 @@ $("#language").select2({
                         $("#aboutus").val(response.data.about)
                         if(response.data.Image!=null){
 
-                        $("#profileImage").attr("src", "@BaseUrl" + response.data.image)
+                            $("#profileImage").attr("src", "https://localhost:7118/" + response.data.image)
                         }
                         if (response.data.basicSection){
                             $(".active2").attr("disabled",false)
@@ -1059,10 +1129,11 @@ $("#language").select2({
                             $("#gender").val(response.data.gender)
                             $("#language").val(response.data.language != null ? response.data.language.split(",") : response.data.language).change()
                             $("#expertise").val(response.data.expertise != null ? response.data.expertise.split(",") : response.data.expertise).change()
+                            $("#expertise-profile").text(response.data.expertise)
 
                             $("#state").val()
                             $("#city").val()
-                            $("#profileImage").attr("src", "@BaseUrl" + response.data.profileImageUrl)
+                            $("#profileImage").attr("src", "https://localhost:7118/" + response.data.profileImageUrl)
 
                              $("#country option").filter(function () {
                                 return $(this).text() === response.data.country;
@@ -1088,6 +1159,13 @@ $("#language").select2({
 
             function addDataonTemp(sArray)
             {
+            Swal.fire({
+                title: "Processing Your Request",
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            })
             var token = localStorage.getItem('Token3');
             debugger
             let language=[]
@@ -1116,15 +1194,21 @@ $("#language").select2({
                 contentType:false,
                 data: formData,
                 success: function (response) {
-                    console.log("Profile updated successfully:", response);
+                    Swal.fire({
+                        title: "success",
+                        text: "Date Saved Successfully",
+                        icon: "success",
+                        
+                    });
                 },
                 error: function (err) {
-                    console.error("Error occurred:", err);
                     if (err.responseJSON) {
-                        console.error("Response JSON:", err.responseJSON);
                     } else {
-                        console.error("Status:", err.status);
-                        console.error("Status Text:", err.statusText);
+                        Swal.fire({
+                            title: "error",
+                            text: "Some error occured",
+                            icon: "error"
+                        });
                     }
                 }
             });

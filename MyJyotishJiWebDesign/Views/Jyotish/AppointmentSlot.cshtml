@@ -6,7 +6,10 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/@@phosphor-icons/web"></script>
 <style>
     body {
         margin: 0;
@@ -57,44 +60,296 @@
         height: 0.02125rem !important;
     }
 
+    .input-container input[type="date"],
+    .input-container input[type="text"] {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        background: transparent;
+        border: none;
+        outline: none;
+        box-shadow: none;
+    }
 
+    /* INPUT CONTAINER  */
+    .input-container {
+        display: flex;
+        flex-direction: column;
+        width: auto;
+        height: auto;
+        min-width: 217px;
+        height: 60px;
+        padding: 5px 10px 10px 10px;
+        background: #fff;
+        border-radius: 8px;
+        filter: drop-shadow(0px 0px 3px #000);
+        -webkit-filter: drop-shadow(0px 0px 3px #000);
+        overflow: hidden;
+        cursor: pointer;
+    }
+
+        .input-container:hover,
+        .input-container:focus,
+        .input-container:active {
+            transform: scale(1.1);
+            -webkit-transform: scale(1.1);
+        }
+
+        .input-container label {
+            position: relative;
+            width: 100%;
+            font-family: "Segoe UI";
+            font-weight: 600;
+            font-size: 11px;
+            letter-spacing: 0.1em;
+            line-height: 20px;
+            color: #09f;
+            margin-left: 2px;
+            text-transform: uppercase;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .input-container input {
+            position: relative;
+            align-items: center;
+            width: auto;
+            height: auto;
+            font-family: "Lekton", Arial, sans-serif;
+            font-weight: 600;
+            font-size: 22px;
+            letter-spacing: 0.05em;
+            line-height: 21px;
+            text-transform: uppercase;
+            margin-left: 0px;
+        }
+
+    /* BUTTON CONTAINER */
+    .button-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: auto;
+        min-width: 197px;
+        height: 65px;
+        padding: 1px;
+        padding-bottom: 2px;
+        background: #09f;
+        border-radius: 8px;
+        filter: drop-shadow(0px 0px 3px #000);
+        -webkit-filter: drop-shadow(0px 0px 3px #000);
+        overflow: hidden;
+        cursor: pointer;
+    }
+
+        .button-container:hover,
+        .button-container:focus {
+            background: #09f;
+            filter: drop-shadow(0px 0px 3px #09f);
+            -webkit-filter: drop-shadow(0px 0px 3px #09f);
+        }
+        /* -- button -- */
+        .button-container .button {
+            position: relative;
+            width: 100%;
+            min-height: 63px;
+            height: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 7px;
+            background: #fff;
+            color: #000;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .button-container:hover .button:hover {
+            background: #000;
+            color: #fff;
+        }
+
+        .button-container:hover .button:active {
+            background: #000;
+            color: #fff;
+            background: #09f;
+            filter: drop-shadow(0px 0px 3px #09f);
+            -webkit-filter: drop-shadow(0px 0px 3px #09f);
+        }
+        /* -- button ok -- */
+        .button-container .button.ok {
+            background: #131313;
+            color: #fff;
+        }
+
+        .button-container:hover .button.ok:hover {
+            background: #131313;
+            color: #09f;
+            text-shadow: 0px 0px 10px #09f;
+            -webkit-text-shadow: 0px 0px 10px #09f;
+        }
+
+        .button-container:hover .button.ok:active {
+            color: #fff;
+            background: #09f;
+            filter: drop-shadow(0px 0px 3px #000);
+            -webkit-filter: drop-shadow(0px 0px 3px #000);
+        }
+
+    /* RESERVATION BOX */
+    .reservation-box {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+        height: auto;
+        padding: 20px;
+        border-radius: 7px;
+        background-color: rgba(255,255,255,1);
+    }
+
+        .reservation-box .static {
+            position: relative;
+            display: flex;
+            align-items: center;
+            float: left;
+            width: auto;
+            margin-right: 20px;
+        }
+
+        .reservation-box .flex {
+            position: relative;
+            display: flex;
+            float: left;
+            flex-direction: table;
+            align-items: center;
+            gap: 20px;
+            width: auto;
+        }
+
+        .reservation-box .top {
+            display: flex;
+            flex-direction: table;
+        }
+
+        .reservation-box .bottom {
+            position: relative;
+            width: 100%;
+            text-align: right;
+        }
+
+        .reservation-box .info {
+            width: auto;
+            color: #000;
+            font-weight: 500;
+            text-decoration: none;
+            text-align: right;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+
+            .reservation-box .info:hover,
+            .reservation-box .info:focus,
+            .reservation-box .info:active {
+                color: #000;
+                border-bottom: 2px solid #09f;
+            }
+
+        /* RESERVATION BOX SMALL */
+        .reservation-box.small, .reservation-box.small .flex {
+            flex-direction: column;
+        }
+
+            .reservation-box.small .top {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .reservation-box.small .static {
+                margin-right: 0px;
+            }
+
+            .reservation-box.small .bottom {
+                text-align: center;
+            }
+
+            .reservation-box.small .button-container {
+                min-width: 217px;
+            }
+
+    .skipDays{
+        min-width:217px !important;
+    }
 </style>
 
-<div class="container-fluid d-flex justify-content-center align-items-center min-vh-90 mt-4">
-    <div class="main-container row w-75 rounded-3">
+<div class="container d-flex justify-content-center align-items-center min-vh-90 mt-4">
+    <div class="main-container row w-100 rounded-3">
         <!-- Form Section -->
         <div class="col-lg-12 col-md-12 p-2 bg-white right-part">
-            <h5 class="mb-3 text-primary">Add Slot</h5>
+            <h5 class="mb-3 text-primary fw-bold">Add Appointment Slot</h5>
             <hr />
             <form>
-                <div class="form-row">
-                  
-                    <div class="form-group col-md-10 mb-3">
-                      
-                       
-                        <label for="date">Date:</label>
-                        <input type="date" class="form-control" id="date" name="date" >
-                        <label for="timeDuration">Time Duration:</label>
-                        <input type="text" class="form-control" id="timeDuration" name="timeDuration" placeholder="Enter timeDuration">
-                    </div>
-                    <div class="form-group col-md-10 mb-3">
-                        <label for="timeFrom">Time From:</label>
-                        <input type="time" class="form-control" id="timeFrom">
-                        <label for="timeTo">Time To:</label>
-                        <input type="time" class="form-control" id="timeTo">
-                    </div>
-                    <div class="form-group col-md-10 mb-3">
+               <div class="row">
+                   <div class="col-sm-12">
+                       <div class="row">
+                           <div class="col-sm-12">
+                               Appointment Date
+                                <div class="reservation-box">
+                                    <div class="top d-flex flex-wrap">
+                                        <div class="static">
+                                            <div class="input-container" id="date-picker-container">
+                                                <label for="date-from">Start</label>
+                                                <input type="date" id="date-checkin" class="date-field" name"date-from">
+                                            </div>
+                                        </div>
+                                        <div class="static">
+                                            <div class="input-container" id="date-picker-container">
+                                                <label for="date-from">End</label>
+                                                <input type="date" id="date-checkout" class="date-field" name"">
+                                            </div>
+                                            
+                                            
+                                        </div>
+                                        <div class="static">
+                                            <div class="input-container" id="date-picker-container">
+                                                <label for="date-from" class="m-0">Appointment Time</label>
+                                                <select class="date-field border-0">
+                                                    <option value="" disabled>--Select Appointment Time--</option>
+                                                    <option value="15" selected>15 min</option>
+                                                    <option value="30">30 min</option>
+                                                    <option value="60">60 min</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                       
+                                        <div class="static mt-4">
+                                            <div class="input-container" id="date-picker-container">
+                                                <label for="date-from">Skip Date (Optional)</label>
+                                                <input type="date" id="date-checkout" class="date-field" name"">
+                                            </div>
 
-                        <input type="hidden" class="form-control" id="id">
-                        <input type="hidden" class="form-control" id="jyotishId">
-                    </div>
-                </div>
+                                        </div>
+                                        <div class="mt-4 static skipDays d-block">
+                                            <p class="m-0 text-primary">Skip Days (Optional)</p>
+                                            <input type="checkbox" name="saturday" class="form-check-inline" value="1" />Satuday &nbsp;
+                                            <input type="checkbox" name="sunday" class="form-check-inline" value="2" />Sunday
+                                        </div>
+                                        <div class="button-container  mt-4">
+                                            <span class="button ok">Create</span>
+                                        </div> 
+                                    </div>
+                                    <div class="bottom">
+                                    </div>
+                                </div>
 
-                <div class="form-group d-flex justify-content-center">
-
-                    <button id="btnupdate" class="btn btn-success px-3" style="display:none;">Update</button>
-                    <button id="btnsubmit" class="btn btn-success px-3">Submit</button>
-                </div>
+                               
+                           </div>
+                       </div>
+                   </div>
+               </div>                    
 
             </form>
         </div>
@@ -402,3 +657,66 @@
     });
 </script>
 
+<script>
+    const dateContainers = document.querySelectorAll('.input-container');
+    dateContainers.forEach(dateContainer => {
+        const dateInput = dateContainer.querySelector('.date-field');
+        if (dateInput) {
+            dateContainer.addEventListener('click', function (event) {
+                dateInput.select();
+            });
+        }
+    });
+
+    /* ----------------------------------------------------------------------------- */
+    /* -- Automatically set the date for check-in (today) and checkout (tomorrow) -- */
+    /* ----------------------------------------------------------------------------- */
+    document.addEventListener("DOMContentLoaded", function () {
+        const dateCheckin = document.getElementById("date-checkin");
+        const dateCheckout = document.getElementById("date-checkout");
+        const today = new Date();
+        const tomorrow = new Date(today); tomorrow.setDate(tomorrow.getDate() + 1);
+        dateCheckin.valueAsDate = today;
+        dateCheckout.valueAsDate = tomorrow;
+        dateCheckin.addEventListener("input", function () {
+            const checkinDate = dateCheckin.valueAsDate;
+            const checkoutDate = dateCheckout.valueAsDate;
+            if (checkinDate > checkoutDate) {
+                const newCheckoutDate = new Date(checkinDate);
+                newCheckoutDate.setDate(newCheckoutDate.getDate() + 1);
+                dateCheckout.valueAsDate = newCheckoutDate;
+            }
+        });
+        dateCheckout.addEventListener("input", function () {
+            const checkinDate = dateCheckin.valueAsDate;
+            const checkoutDate = dateCheckout.valueAsDate;
+            if (checkoutDate < checkinDate) {
+                const newCheckinDate = new Date(checkoutDate);
+                newCheckinDate.setDate(newCheckinDate.getDate() - 1);
+                dateCheckin.valueAsDate = newCheckinDate;
+            }
+        });
+    });
+
+
+    const today = new Date();
+
+const formattedToday = today.toISOString().split('T')[0];
+
+// Set the min and max attributes on the date input
+    const dateFrom = document.getElementById('date-checkin');
+    const dateTo = document.getElementById('date-checkout');
+dateFrom.setAttribute('min', formattedToday); // Current date
+dateFrom.addEventListener("input",function(){
+        let fromDate = new Date(this.value);
+        dateTo.setAttribute('min', this.value);
+        const maxDate = new Date(fromDate);
+        maxDate.setDate(fromDate.getDate() + 90); // Add 90 days
+
+        // Format the max date as YYYY-MM-DD
+        const formattedMaxDate = maxDate.toISOString().split('T')[0];
+        dateTo.setAttribute('max', formattedMaxDate);
+        dateTo.value = formattedMaxDate
+
+})
+</script>
