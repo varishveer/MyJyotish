@@ -209,13 +209,19 @@
        
         $("#getOtp").click(function () {
             var email = $("#email").val();
-            debugger;
+            Swal.fire({
+                title: "Processing Your Request",
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            })
             $.ajax({
                 url: BaseUrl + `Api/Account/RegisterJyotish?email=${encodeURIComponent(email)}`,
                 type: 'POST',
                 contentType: 'application/json',
                 success: function (response) {
-                    debugger;
+                  
                     if (response.status === 200) {
                         Swal.fire({
                             title: "Otp Send Successfully",
@@ -260,9 +266,21 @@
         $("#verifyOtp").click(function () {
             var email = $("#email").val();
             var otp = $("#otp").val();
-
+            if (otp == null|| otp =="") {
+                Swal.fire({
+                    title: "Please Enter Otp",
+                    icon: "warning",
+                });
+                return 
+            }
             var data = { Email: email, Otp: otp };
-
+            Swal.fire({
+                title: "Processing Your Request",
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            })
             $.ajax({
                 url: BaseUrl + `Api/Account/VerifyJyotish`,
                 type: 'POST',
@@ -286,7 +304,7 @@
                             break;
                         case 400:
                                 Swal.fire({
-                                    title: "Bad Request:" + response.message,
+                                    title:  response.message,
                                     icon: "warning",   
                                 });
                           
@@ -427,7 +445,13 @@
 
         $("#registrationForm").on("submit", function (event) {
             event.preventDefault();
-
+            Swal.fire({
+                title: "Processing Your Request",
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            })
             // Check if the OTP is required and empty
             if ($("#otp").is(':hidden') && !$("#otp").val()) {
                  Swal.fire({
@@ -446,7 +470,18 @@
               
                 return; 
             }
+            if (!$('#name').val() || !$('#email').val() || !$('#gender').val() || !$('#mobile').val() ||
+                !$('#language').val() || !$('#expertise').val() || !$('#country').val() ||
+                !$('#state').val() || !$('#city').val()) {
 
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Incomplete Form',
+                    text: 'Please fill in all required fields before submitting.',
+
+                });
+                return; // Exit if any field is empty
+            }
             const formData = new FormData();
             formData.append('name', $('#name').val());
             formData.append('email', $('#email').val());
@@ -471,12 +506,16 @@
                 contentType: false,
                 success: function (response) {
                     Swal.fire({
-                            title: "Form submitted successfully!" ,
-                            icon: "success",   
-                        });
+                        title: "Form submitted successfully!",
+                        icon: "success",
+                        allowOutsideClick: false,  // Disable background click
+                        allowEscapeKey: false,     // Disable escape key to close alert
+                    }).then(() => {
+                        location.replace('/Jyotish/login'); // Redirect after user clicks OK
+                    });
                    
                     $('#registrationForm')[0].reset();
-                    location.replace('/Jyotish/login');
+                    
                 },
                 error: function (xhr) {
                     try {

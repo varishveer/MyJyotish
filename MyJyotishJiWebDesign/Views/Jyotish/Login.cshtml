@@ -241,7 +241,13 @@
 
                 error: function (xhr) {
                     console.error("Error:", xhr.responseText);
-                    alert("An error occurred. Please try again.");
+                    Swal.fire({
+                        title: "Something went wrong",
+
+                        icon: "warning",
+
+
+                    });
                 }
             });
         });

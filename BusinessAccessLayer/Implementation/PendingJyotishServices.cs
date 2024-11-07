@@ -50,37 +50,39 @@ namespace BusinessAccessLayer.Implementation
         }
         public string UploadProfileImage(UploadProfileImagePJViewModel model, string? path)
         {
+            var record = _context.JyotishRecords.FirstOrDefault(x => x.Id == model.Id);
+            if (record == null) return "Jyotish Not Found";
 
-            var record = _context.jyotishTempRecords.Where(x => x.JyotishId == model.Id).FirstOrDefault();
-            if(record == null) { return "Jyotish Not Found"; }
-            string filePath = string.Empty;
-            string ImageUrl = string.Empty;
-            if (model.Image != null)
+            var tempRecord = _context.jyotishTempRecords.FirstOrDefault(x => x.JyotishId == model.Id);
+            if (model.Image == null) return "Invalid Data";
+
+            // Generate the image file path and URL
+            var uniqueFileName = $"{Guid.NewGuid()}_{model.Image.FileName}";
+            var filePath = $"wwwroot/Images/Jyotish/{uniqueFileName}";
+            var imageUrl = $"Images/Jyotish/{uniqueFileName}";
+            var fullPath = Path.Combine(path, filePath);
+
+            // Upload the file
+            UploadFile(model.Image, fullPath);
+
+            if (tempRecord == null)
             {
-                
-               
-                var uniqueFileName = $"{Guid.NewGuid()}_{model.Image.FileName}";
-                filePath = $"wwwroot/Images/Jyotish/{uniqueFileName}";
-                ImageUrl = $"Images/Jyotish/{uniqueFileName}";
-                var fullPath = path + "/" + filePath;
-                UploadFile(model.Image, fullPath);
-
-
-                record.Image = ImageUrl;
+                // Create new temp record if it doesn't exist
+                tempRecord = new JyotishTempRecord
+                {
+                    JyotishId = model.Id,
+                    Image = imageUrl
+                };
+                _context.jyotishTempRecords.Add(tempRecord);
             }
             else
             {
-                return "Invalid Data";
+                // Update existing temp record
+                tempRecord.Image = imageUrl;
+                _context.jyotishTempRecords.Update(tempRecord);
             }
-            _context.jyotishTempRecords.Update(record);
-            if (_context.SaveChanges() > 0)
-            {
-                return "Successful";
-            }
-            else
-            {
-                return "Internal Server Error.";
-            }
+
+            return _context.SaveChanges() > 0 ? "Successful" : "Internal Server Error.";
         }
         public string UpdateProfile(JyotishTempViewModel model, string? path)
         {
