@@ -529,38 +529,77 @@ namespace BusinessAccessLayer.Implementation
             {
                 if (Jyotish.TimeFrom != null && Jyotish.TimeTo!=null)
                 {
-                    for (TimeOnly time = (TimeOnly)Jyotish.TimeFrom; time <= (TimeOnly)Jyotish.TimeTo; date = date.AddDays(1))
+                    for (TimeOnly time = (TimeOnly)Jyotish.TimeFrom; time <= (TimeOnly)Jyotish.TimeTo; time = time.AddMinutes(model.TimeDuration))
                     {
+                        AppointmentSlotModel data = new AppointmentSlotModel();
+                        data.Date = model.Date;
+                        data.TimeFrom = time;
+                        data.TimeTo = time.AddMinutes(model.TimeDuration);
+                        data.JyotishId = model.JyotishId;
+                        data.TimeDuration = model.TimeDuration;
+                        data.Status = "Vacant";
+                        if (model.saturday == 1)
+                                {
+                                    if (date.DayOfWeek == DayOfWeek.Saturday)
+                                    {
+                                        
+                                        data.ActiveStatus = 0;
+                                    }
+                            else
+                            {
+                                data.ActiveStatus = 1;
+
+                            }
+                        }
+                        else
+                        {
+                            data.ActiveStatus = 1;
+
+                        }
+                        if (model.sunday == 2)
+                        { 
+                                    if (date.DayOfWeek == DayOfWeek.Sunday)
+                                    {
+                                       
+                                        data.ActiveStatus = 0;
+                                        
+                                    }
+                            else
+                            {
+                                data.ActiveStatus = 1;
+
+                            }
+                        }
+                        else
+                        {
+                            data.ActiveStatus = 1;
+
+                        }
+
+                        if (model.skipDate != null)
+                        {
+                            if (DateTime.Compare((DateTime)model.skipDate, date) == 0)
+                            {
+                                data.ActiveStatus = 0;
+
+                            }
+                            else
+                            {
+                                data.ActiveStatus = 1;
+
+                            }
+                        }
+
+                        if (model.saturday==0 && model.sunday==0 & model.skipDate == null)
+                        {
+                            
+                            data.ActiveStatus = 1;
+                        }
+                        _context.AppointmentSlots.Add(data);
+
                     }
                 }
             }
-
-                // Calculate total duration in minutes
-                double totalDuration = (model.TimeTo.ToTimeSpan() - model.TimeFrom.ToTimeSpan()).TotalMinutes;
-
-            // Calculate number of intervals
-            int intervals = (int)(totalDuration / model.TimeDuration);
-
-            // Calculate and store the time intervals
-            List<(TimeOnly Start, TimeOnly End)> timeIntervals = new List<(TimeOnly, TimeOnly)>();
-            for (int i = 0; i < intervals; i++)
-            {
-                TimeOnly intervalStart = model.TimeFrom.AddMinutes(i * model.TimeDuration);
-                TimeOnly intervalEnd = intervalStart.AddMinutes(model.TimeDuration);
-                timeIntervals.Add((intervalStart, intervalEnd));
-                AppointmentSlotModel data = new AppointmentSlotModel();
-                data.Date = model.Date;
-                data.TimeFrom = intervalStart;
-                data.TimeTo = intervalEnd;
-                data.JyotishId = model.JyotishId;
-                data.TimeDuration = model.TimeDuration;
-                data.Status = "Vacant";
-                _context.AppointmentSlots.Add(data);
-            }
-
-
-
-
 
            /* AppointmentSlotModel data = new AppointmentSlotModel();
             data.Date = model.Date;

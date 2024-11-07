@@ -302,13 +302,13 @@
                                         <div class="static">
                                             <div class="input-container" id="date-picker-container">
                                                 <label for="date-from">Start</label>
-                                                <input type="date" id="date-checkin" class="date-field" name"date-from">
+                                                <input type="date" id="date-checkin" class="date-field" name"dateFrom">
                                             </div>
                                         </div>
                                         <div class="static">
                                             <div class="input-container" id="date-picker-container">
                                                 <label for="date-from">End</label>
-                                                <input type="date" id="date-checkout" class="date-field" name"">
+                                                <input type="date" id="date-checkout" class="date-field" name"dateTo">
                                             </div>
                                             
                                             
@@ -316,7 +316,7 @@
                                         <div class="static">
                                             <div class="input-container" id="date-picker-container">
                                                 <label for="date-from" class="m-0">Appointment Time</label>
-                                                <select class="date-field border-0">
+                                                <select class="date-field border-0" id="timeDuration">
                                                     <option value="" disabled>--Select Appointment Time--</option>
                                                     <option value="15" selected>15 min</option>
                                                     <option value="30">30 min</option>
@@ -328,17 +328,17 @@
                                         <div class="static mt-4">
                                             <div class="input-container" id="date-picker-container">
                                                 <label for="date-from">Skip Date (Optional)</label>
-                                                <input type="date" id="date-checkout" class="date-field" name"">
+                                                <input type="date" id="skipDate" class="date-field" name"">
                                             </div>
 
                                         </div>
                                         <div class="mt-4 static skipDays d-block">
                                             <p class="m-0 text-primary">Skip Days (Optional)</p>
-                                            <input type="checkbox" name="saturday" class="form-check-inline" value="1" />Satuday &nbsp;
-                                            <input type="checkbox" name="sunday" class="form-check-inline" value="2" />Sunday
+                                            <input type="checkbox" id="saturday" name="saturday" class="form-check-inline" value="1" />Satuday &nbsp;
+                                            <input type="checkbox" name="sunday" id="sunday" class="form-check-inline" value="2" />Sunday
                                         </div>
                                         <div class="button-container  mt-4">
-                                            <span class="button ok">Create</span>
+                                            <span class="button ok" id="btnsubmit">Create</span>
                                         </div> 
                                     </div>
                                     <div class="bottom">
@@ -395,16 +395,24 @@
         // Add New Slot
         $("#btnsubmit").on('click', function (e) {
             e.preventDefault();
-
+            Swal.fire({
+                title: "Processing Your Request",
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            })
             // Collect form data
-            const date = $("#date").val();
-            const timeFrom = $("#timeFrom").val(); // Get time in HH:MM format
-            const timeTo = $("#timeTo").val(); // Get time in HH:MM format
-            const timeDuration = $("#timeDuration").val();
+            const date = $("#date-checkin").val();
+            const dateTo = $("#date-checkout").val();
+            const timeDuration = $("#timeDuration").val()
+            const skipDate = $("#skipDate:checked").length>0? $("#skipDate").val():null
+            const saturday = $("#saturday:checked").length>0?$("#saturday").val():0
+            const sunday = $("#sunday:checked").length > 0 ? $("#sunday").val() : 0
             const jyotishId = localStorage.getItem('Id');
 
             // Validate the form
-            if (!date || !timeFrom || !timeTo || !timeDuration) {
+            if (!date || !dateTo || !timeDuration) {
                 Swal.fire({
                     title: 'Error!',
                     text: 'All fields are required.',
@@ -414,15 +422,9 @@
                 return;
             }
 
-            // Convert time to HH:MM:SS format
-            const timeFromFormatted = timeFrom + ':00'; // Append seconds
-            const timeToFormatted = timeTo + ':00'; // Append seconds
-
-            // Debug: Log the values before the AJAX call
-            console.log("Submitting:", { date, timeFromFormatted, timeToFormatted, timeDuration, jyotishId });
-
+            
             $.ajax({
-                url: BaseUrl + 'api/Jyotish/AddAppointmentSlot',
+                url: 'https://localhost:7118/api/Jyotish/AddAppointmentSlot',
                 type: 'POST',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
@@ -430,8 +432,10 @@
                 },
                 data: JSON.stringify({
                     date: date,
-                    timeFrom: timeFromFormatted, // Use the formatted time
-                    timeTo: timeToFormatted, // Use the formatted time
+                    dateTo: dateTo,
+                    skipDate: skipDate, 
+                    saturday: saturday, 
+                    sunday: sunday, 
                     timeDuration: parseInt(timeDuration, 10),
                     jyotishId: parseInt(jyotishId, 10)
                 }),
