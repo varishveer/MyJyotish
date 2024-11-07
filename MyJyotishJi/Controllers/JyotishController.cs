@@ -453,7 +453,28 @@ namespace MyJyotishGApi.Controllers
             catch (Exception ex)
             { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
         }
-        
+
+
+        [HttpPost("removeAppointmentSlot")]
+        public IActionResult RemoveAppointmentSlot(AppointmentSlotViewModel model)
+        {
+            try
+            {
+                var result = _jyotish.RemoveSlotWithskipDates(model);
+                if (result == "Changes applied successfully")
+                {
+                    return Ok(new { Status = 200, Message = "Changes applied successfully" });
+                }
+                else
+                {
+                    return Ok(new { Status = 500, Message = "Internal server error" });
+
+                }
+            }
+            catch (Exception ex)
+            { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
+        }
+
         [HttpPost("UpdateAppointmentSlot")]
         public IActionResult UpdateAppointmentSlot(AppointmentSlotViewModel model)
         {

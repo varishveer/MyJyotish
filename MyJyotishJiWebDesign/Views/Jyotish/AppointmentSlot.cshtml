@@ -282,6 +282,15 @@
 
     .skipDays{
         min-width:217px !important;
+        border: 1px solid black;
+        padding: 5px;
+        border-radius: 5px;
+        box-shadow: 1px 1px 7px gray;
+        box-sizing:border-box;
+    }
+
+    #updateskipDate {
+        font-size:12px !important;
     }
 </style>
 
@@ -362,6 +371,7 @@
     <div class="card">
         <div class="d-flex flex-row justify-content-between align-items-center pt-2 px-4">
             <h5 class="text-primary">Appointment Slot List</h5>
+            <button class="btn btn-warning text-light" data-bs-toggle="modal" data-bs-target="#editAppointmentModal">Edit</button>
         </div>
         <hr />
 
@@ -388,6 +398,38 @@
         </div>
     </div>
 </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="editAppointmentModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Remove Appointment Slot</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body d-flex gap-2">
+                <div class="static ">
+                    <div class="input-container" id="date-picker-container">
+                        <label for="date-from">Skip Date (Optional)</label>
+                        <input type="date" id="updateskipDate" class="date-field" name"">
+                    </div>
+
+                </div>
+                <div class=" static skipDays">
+                    <p class="m-0 text-primary">Skip Days (Optional)</p>
+                    <input type="checkbox" id="updatesaturday" name="saturday" class="form-check-inline" value="1" />Satuday &nbsp;
+                    <input type="checkbox" name="sunday" id="updatesunday" class="form-check-inline" value="2" />Sunday
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="updateAppointmentslot">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- The same form structure remains here, we'll focus on the script -->
 
 <script>
@@ -528,6 +570,35 @@
                 console.error(error);
             }
         });
+
+
+        $("#updateAppointmentslot").click(function(){
+          
+            const skipDate = $("#updateskipDate").val() != "" ? $("#updateskipDate").val() : "1001-01-01"
+            const saturday = $("#updatesaturday:checked").length > 0 ? $("#updatesaturday").val() : 0
+            const sunday = $("#updatesunday:checked").length > 0 ? $("#updatesunday").val() : 0
+            const jyotishId = localStorage.getItem('Id');
+            debugger
+            $.ajax({
+                url: `https://localhost:7118/api/Jyotish/removeAppointmentSlot`,
+                type: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+                    'Content-Type': 'application/json',
+                },
+                data:JSON.stringify({
+                    skipDate: skipDate,
+                    saturday: saturday,
+                    sunday: sunday,
+                    jyotishId: parseInt(jyotishId, 10)
+                }),
+                success: function (res) {
+                    console.log(res);
+                },error:function(err){
+                    console.log(err)
+                }
+            })
+        })
 
         // Handle edit button click
         $(document).on('click', '.editfeature', function () {
