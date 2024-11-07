@@ -322,9 +322,13 @@
                                
                                 <span id="idProofStatus" class="docStatus"> </span>
                             </div>
-                            <div class="flex-row">
-                                <i class="fas fa-check-circle approved" data-toggle="modal" data-target="#approvedDocModal" data-whatever="ID Proof" title="Approved"></i>&nbsp;
-                                <i class="fas fa-times-circle rejected" data-toggle="modal" data-target="#rejectedDocModal" title="Rejected"></i>
+                            <div class="flex-row justify-content-center">
+
+                             
+                                <button class="btn btn-success btn-sm  approvedBtn"  data-status="idProofStatus" title="Approve">Approve</button>
+
+                                <button class="btn btn-danger btn-sm rejected" data-toggle="modal" data-target="#rejectedDocModal" title="Rejected" data-status="idProofStatus"> Reject</button>
+                             
                             </div>
                         </div>
                         <!-- Address Proof -->
@@ -337,9 +341,10 @@
                               
                                 <span id="addressProofStatus" class="docStatus"> </span>
                             </div>
-                            <div class="flex-row">
-                                <i class="fas fa-check-circle approved" data-toggle="modal" data-target="#approvedDocModal" data-whatever="Address Proof" title="Approved"></i>&nbsp;
-                                <i class="fas fa-times-circle rejected" data-toggle="modal" data-target="#rejectedDocModal" title="Rejected"></i>
+                            <div class="flex-row justify-content-center">
+                                <button class="btn btn-success btn-sm approvedBtn" data-status="addressProofStatus" title="Approved"> Approve</button>
+                                <button class="btn btn-danger btn-sm rejected" data-toggle="modal" data-target="#rejectedDocModal" title="Rejected" data-status="addressProofStatus"> Reject</button>
+                            
                             </div>
                         </div>
                         <!-- Tenth Certificate -->
@@ -352,9 +357,10 @@
                               
                                 <span id="tenthCertificateStatus" class="docStatus"> </span>
                             </div>
-                            <div class="flex-row">
-                                <i class="fas fa-check-circle approved" data-toggle="modal" data-target="#approvedDocModal" data-whatever="Tenth Certificate" title="Approved"></i>&nbsp;
-                                <i class="fas fa-times-circle rejected" data-toggle="modal" data-target="#rejectedDocModal" title="Rejected"></i>
+                            <div class="flex-row justify-content-center">
+                                <button class="btn btn-success btn-sm approvedBtn" data-status="tenthCertificateStatus" title="Approved"> Approve</button>
+                                <button class="btn btn-danger btn-sm rejected" data-toggle="modal" data-target="#rejectedDocModal" title="Rejected" data-status="tenthCertificateStatus"> Reject</button>
+                            
                             </div>
                         </div>
                         <!-- Twelve Certificate -->
@@ -367,9 +373,10 @@
                              
                                 <span id="twelveCertificateStatus" class="docStatus"> </span>
                             </div>
-                            <div class="flex-row">
-                                <i class="fas fa-check-circle approved" data-toggle="modal" data-target="#approvedDocModal" data-whatever="Twelve Certificate" title="Approved"></i>&nbsp;
-                                <i class="fas fa-times-circle rejected" data-toggle="modal" data-target="#rejectedDocModal" title="Rejected"></i>
+                            <div class="flex-row justify-content-center">
+                                <button class="btn btn-success btn-sm approvedBtn" data-status="twelveCertificateStatus" title="Approved"> Approve</button>
+                                <button class="btn btn-danger btn-sm rejected" data-toggle="modal" data-target="#rejectedDocModal" data-status="twelveCertificateStatus" title="Rejected"> Reject</button>
+                             
                             </div>
                         </div>
                         <!-- Professional Certificate -->
@@ -382,9 +389,10 @@
                                
                                 <span id="professionalCertificateStatus" class="docStatus"> </span>
                             </div>
-                            <div class="flex-row">
-                                <i class="fas fa-check-circle approved" data-toggle="modal" data-target="#approvedDocModal" data-whatever="Professional Certificate" title="Approved"></i>&nbsp;
-                                <i class="fas fa-times-circle rejected" data-toggle="modal" data-target="#rejectedDocModal" title="Rejected"></i>
+                            <div class="flex-row justify-content-center">
+                                <button class="btn btn-success btn-sm approvedBtn " data-status="professionalCertificateStatus" title="Approved"> Approve</button>
+                                <button class="btn btn-danger btn-sm rejected" data-toggle="modal" data-target="#rejectedDocModal" data-status="professionalCertificateStatus" title="Rejected"> Reject</button>
+                             
                             </div>
                         </div>
                     </div>
@@ -398,34 +406,6 @@
 </div>
 
 <!-- Approved Doc Modal -->
-<div class="modal fade" id="approvedDocModal" tabindex="-1" role="dialog" aria-labelledby="approvedDocModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Approved message</h5>
-                <button type="button" class="close btn text-danger" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Subject:</label>
-                        <input type="text" class="form-control" id="recipient-name">
-                    </div>
-                    <div class="form-group">
-                        <label for="message-text" class="col-form-label">Message:</label>
-                        <textarea class="form-control" id="message-text" style="resize:none;"></textarea>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button id="approvedBtn" type="button" class="btn btn-primary">Send message</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 <!-- Rejected Doc Modal -->
 <div class="modal fade" id="rejectedDocModal" tabindex="-1" role="dialog" aria-labelledby="rejectedDocModalLabel" aria-hidden="true">
@@ -439,6 +419,10 @@
             </div>
             <div class="modal-body">
                 <form>
+                    
+                      
+                        <input type="hidden" class="form-control" id="status" >
+                  
                     <div class="form-group">
                         <label for="recipient-name" class="col-form-label">Subject:</label>
                         <input type="text" class="form-control" id="recipient-name">
@@ -532,63 +516,63 @@
             getJyotishDocs(id);
 
             // Event listener for Approve button (open modal)
-            $(document).on("click", ".approved", function () {
-                var imageContainer = $(this).closest('.col-md-3, .col-lg-2');
-                var docType = imageContainer.find('img').attr('id'); // Get the ID from the image element
-                var status = $("#" + docType + "Status").text(); // Get the status from the span element
-                openModal('Approved', docType, status); // Open the modal with the correct values
-            });
+           
 
             // Event listener for Reject button (open modal)
             $(document).on("click", ".rejected", function () {
-                var imageContainer = $(this).closest('.col-md-3, .col-lg-2');
-                var docType = imageContainer.find('img').attr('id'); // Get the ID from the image element
-                var status = $("#" + docType + "Status").text(); // Get the status from the span element
-                openModal('Rejected', docType, status); // Open the modal with the correct values
+               
+                let status= $(this).attr("data-status");
+               
+                openModal(status); // Open the modal with the correct values
             });
 
             // Function to open the modal and set data
-            function openModal(action, docType, status) {
-                var modal = action === 'Approved' ? $('#exampleModal') : $('#rejectedModal');
-                modal.find('.modal-title').text(`${action} message for ${docType}`);
-                modal.find('.modal-body input').val(`${docType} ${action}`); // Set the subject
+            function openModal( status) {
+                var modal =  $('#rejectedModal');
+                $("#status").val(status);
                 modal.modal('show'); // Show the modal
             }
 
             // Use event delegation for the approve button inside the modal
-            $(document).on('click', '#approvedBtn', function () {
-                var modal = $('#exampleModal');
-                var docType = modal.find('.modal-title').text().split(' ')[3]; // Extract the document type from the modal title
-                var subject = modal.find('#recipient-name').val(); // Get subject
-                var message = modal.find('#message-text').val(); // Get message
-
-                // Call API to update status
-                sendStatusUpdate(docType, 'Approved', subject, message);
-            });
+           
 
             // Use event delegation for the reject button inside the modal
             $(document).on('click', '#rejectBtn', function () {
-                var modal = $('#rejectedModal');
-                var docType = modal.find('.modal-title').text().split(' ')[3]; // Extract the document type from the modal title
-                var subject = modal.find('#recipient-name').val(); // Get subject
-                var message = modal.find('#message-text').val(); // Get message
+                var modal = $('#rejectedDocModal');
 
-                // Call API to update status
-                sendStatusUpdate(docType, 'Rejected', subject, message);
+               
+               
+                var status = modal.find('#status').val();
+
+               
+                var subject = modal.find('#recipient-name').val();
+
+              
+                var message = modal.find('#message-text').val();
+
+               
+                var id = getIdFromUrl(); 
+
+               
+                sendRejectedStatus(status, subject, message, id);
             });
 
+
+
+
+
+
             // Function to send status update to the API
-            function sendStatusUpdate(docType, status, subject, message) {
+        function sendRejectedStatus(status, subject, message, id) {
                 var payload = {
-                    ImageStatus: docType + "Status",
+                    ImageStatus: status,
                     subject: subject,
                     message: message,
-                    id: id // Send the user ID as well
+                    id: id 
                 };
 
-                var ApiUrl
-                if (status == 'Rejected') { ApiUrl = `${BaseUrl}` + 'Api/Admin/RejectJyotishDocs' }
-                else { ApiUrl = `${BaseUrl}` + 'Api/Admin/ApproveJyotishDocs' }
+                var ApiUrl = `${BaseUrl}` + 'Api/Admin/RejectJyotishDocs';
+                
 
                 $.ajax({
                     url: ApiUrl,
@@ -620,6 +604,79 @@
                     }
                 });
             }
+
+
+
+            // -------------------------------------------
+            $(document).on('click', '.approvedBtn', function () {
+
+            var id = getIdFromUrl();
+            var status = $(this).data('status');
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'Do you want to approve this document?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, approve it!',
+                    cancelButtonText: 'No, cancel',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // If the user confirmed, call the API to approve the document
+                    sendApprovedStatus(Id, status);
+                    } else {
+                        // If the user canceled, no action is taken
+                        Swal.fire(
+                            'Cancelled',
+                            'The document approval was cancelled.',
+                            'error'
+                        );
+                    }
+                });
+            
+               
+            });
+
+            // Function to send status update to the API
+            function sendApprovedStatus(Id, status) {
+                var payload = {
+                    ImageStatus: status,
+                    id: Id
+                };
+
+               
+                  var  ApiUrl = `${BaseUrl}Api/Admin/ApproveJyotishDocs`;
+                
+
+                $.ajax({
+                    url: ApiUrl,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(payload),
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem("Token")}`
+                    },
+                    success: function (response) {
+                        if (response.status === 200) {
+                            Swal.fire({
+                                title: "Status updated successfully!",
+                                icon: "success",
+                                showConfirmButton: true, // Ensure the OK button is shown
+                            });
+
+                            location.reload(); // Reload the page after successful status update
+                        } else {
+                            alert(response.message); // Show error message from the API
+                        }
+                    },
+                    error: function () {
+                        alert('Error updating document status.');
+                    }
+                });
+            }
+
+
         } else {
             alert('ID parameter is missing in the URL.');
         }
@@ -627,3 +684,5 @@
     $(document).ready(function () {
     });
 </script>
+
+
