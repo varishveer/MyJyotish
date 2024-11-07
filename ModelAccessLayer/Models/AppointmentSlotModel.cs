@@ -17,5 +17,6 @@ namespace ModelAccessLayer.Models
         public TimeOnly TimeTo { get; set; }
         public int JyotishId { get; set; }
         public string Status { get; set; }
+        public int ActiveStatus { get; set; }
     }
 }
