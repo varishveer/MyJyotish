@@ -525,11 +525,18 @@ namespace BusinessAccessLayer.Implementation
             var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
             if (Jyotish == null) { return "Invalid Jyotish"; }
 
+            for (DateTime date = model.Date; date <= model.DateTo; date = date.AddDays(1))
+            {
+                if (Jyotish.TimeFrom != null && Jyotish.TimeTo!=null)
+                {
+                    for (TimeOnly time = (TimeOnly)Jyotish.TimeFrom; time <= (TimeOnly)Jyotish.TimeTo; date = date.AddDays(1))
+                    {
+                    }
+                }
+            }
 
-          
-
-            // Calculate total duration in minutes
-            double totalDuration = (model.TimeTo.ToTimeSpan() - model.TimeFrom.ToTimeSpan()).TotalMinutes;
+                // Calculate total duration in minutes
+                double totalDuration = (model.TimeTo.ToTimeSpan() - model.TimeFrom.ToTimeSpan()).TotalMinutes;
 
             // Calculate number of intervals
             int intervals = (int)(totalDuration / model.TimeDuration);
