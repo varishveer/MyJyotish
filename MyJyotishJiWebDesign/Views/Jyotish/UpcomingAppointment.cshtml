@@ -91,9 +91,16 @@
     $(document).ready(function () {
         // Fetch and display all appointments on page load
         function fetchData() {
+            Swal.fire({
+                title: "Processing Your Request",
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            })
             var Id = localStorage.getItem('Id');
             $.ajax({
-                url: BaseUrl + `api/Jyotish/UpcomingAppointment?Id=${encodeURIComponent(Id)}`,
+                url:  `https://localhost:7118/api/Jyotish/UpcomingAppointment?Id=${Id}`,
                 type: 'GET',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
@@ -123,6 +130,7 @@
                     });
                     $('#DataTable tbody').html(htmls);
                     $('#DataTable').DataTable();
+                    Swal.close()
                 },
                 error: function (errormessage) {
                     console.error('Error fetching data:', errormessage.responseText);

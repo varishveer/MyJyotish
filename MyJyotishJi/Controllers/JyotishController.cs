@@ -536,6 +536,22 @@ namespace MyJyotishGApi.Controllers
             catch (Exception ex)
             { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
         }
+         [HttpGet("GetAllBookedAppointmentSlot")]
+        public IActionResult GetAllbookedAppointment(int Id)
+        {
+            try
+            {
+                var Result = _jyotish.GetAllbookedAppointment(Id);
+                if (Result.Count==0)
+                { return Ok(new { Status = 400, Message = "Data Not Found" }); }
+
+
+                else
+                { return Ok(new { Status = 200,data = Result, Message = "Successful" }); }
+            }
+            catch (Exception ex)
+            { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
+        }
 
 
         [HttpPost("AddProblemSolution")]

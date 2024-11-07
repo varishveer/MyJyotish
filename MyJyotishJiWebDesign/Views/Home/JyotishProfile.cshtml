@@ -113,9 +113,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <select class="form-select my-2" id="appoinmentDate">
-                </select>
-                <div id="appoinmentDetail"></div>
+               <input type="Date" name="date" id="appointmentDate" class="form-control" />
+                <div id="appoinmentDetail" class="py-3"></div>
                 <div id="problem">
                     <textarea class="form-control" id="problem-desc" placeholder="Describe Your Problem"></textarea>
                 </div>
@@ -178,6 +177,13 @@
         const urlParams = new URLSearchParams(window.location.search);
         var astrologerId = urlParams.get('Id');
         var apiUrl = BaseUrl + `Api/User/AstrologerProfile?Id=${astrologerId}`;
+        Swal.fire({
+            title: "Processing Your Request",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
         $.ajax({
             url: apiUrl,
             method: 'GET',
@@ -261,8 +267,14 @@ $(".callBtn").hide()
                     $('#totalReviews').text('(6587)'); // Placeholder for total reviews
                     // Add reviews dynamically if you have review data
                 } else {
-                    console.error('Error fetching data: ', response.message);
+                    Swal.fire({
+                        title: "error!",
+                        text: response.message,
+                        icon: "error"
+                    })
+
                 }
+                Swal.close()
             },
             error: function (error) {
                 Swal.fire({
@@ -330,19 +342,10 @@ $(".callBtn").hide()
 
                     var data = response.data;
                     appoinmentArray = data;
-                    console.log(data)
-                    $("#appoinmentDate").append(`
-                            <option disabled>--Select Appoinment Date--</option>
-
-                                `)
-                    data.forEach(function (d, i) {
-                       
-                        $("#appoinmentDate").append(
-                            `
-                                    <option ${i == 0 ? "selected" : ""} value='${d.date}'>${reverseDate(d.date.split("T")[0])}</option>
-                            `
-                        )
-                    })
+                        console.log(appoinmentArray)
+                        $("#appointmentDate").attr("min", appoinmentArray[0].date.split("T")[0])
+                        $("#appointmentDate").attr("max", appoinmentArray[appoinmentArray.length - 1].date.split("T")[0])
+                        $("#appointmentDate").val(appoinmentArray[0].date.split("T")[0])
                 }
             }, error: function (err) {
                     Swal.fire({
@@ -356,15 +359,22 @@ $(".callBtn").hide()
             
             let newArray = [];
             function setAppoinment(appdata) {
+                    Swal.fire({
+                        title: "Processing Your Request",
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    })
                 newArray = appoinmentArray.filter((e) => {
-                    return e.date == appdata;
+                        return e.date.split("T")[0] == appdata;
                 })
-
-                console.log(newArray)
+                debugger
                 $("#appoinmentDetail").empty();
-                newArray[0].slotList.forEach(function (d) {
-                    $("#appoinmentDetail").append(
-                        `<label class='w-100 '>
+                if (newArray.length > 0) {
+                    newArray[0].slotList.forEach(function (d) {
+                        $("#appoinmentDetail").append(
+                            `<label class='w-100'>
                                <div class='d-flex  bg-light-sec border rounded text-secondary fw-semi-bold my-2 p-2 justify-content-between align-items-center'>
                                    <div class='row w-100 position-relative'>
                                     ${d.status == 'Booked' ? '<div class="position-absolute bookedContainer text-light rounded d-flex justify-content-center align-items-center z-3 h-100 w-100">Booked</div>' : ""}
@@ -375,7 +385,7 @@ $(".callBtn").hide()
                                            <div class='col-sm-5'>
 
                                <span> ${d.timeFrom
-                        } - ${d.timeTo} </span>
+                            } - ${d.timeTo} </span>
                            </div>
                                                <div class='col-sm-4'>
                            <span class=''>Time :&nbsp;${d.timeDuration}min</span>
@@ -384,16 +394,21 @@ $(".callBtn").hide()
                            </div>
                            </label>
                         `
-                    )
-                })
+                        )
+
+                    })
+                }else{
+                        $("#appoinmentDetail").append(`<p class='mt-4 text-center text-secondary'>No record found</p>`)
+                }
+                Swal.close()
             }
-            $("#appoinmentDate").on("change", function () {
+                $("#appointmentDate").on("input", function () {
                 setAppoinment($(this).val())
             });
 
-            
 
-            setAppoinment($("#appoinmentDate").val())
+
+                setAppoinment($("#appointmentDate").val())
 
             $("#next-btn").click(function(){
                 if($(this).text()=="Book"){

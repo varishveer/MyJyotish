@@ -39,6 +39,7 @@ namespace BusinessAccessLayer.Abstraction
          public string UpdateAppointmentSlot(AppointmentSlotViewModel model);
          public string DeleteAppointmentSlot(int Id);
         public List<AppointmentSlotUserViewModel> GetAllAppointmentSlot(int id);
+        public List<AppointmentSlotUserViewModel> GetAllbookedAppointment(int id);
         public string AddProblemSolution(ProblemSolutionViewModel model);
         public ProblemSolutionJyotishGetViewModel GetProblemSolution(int appointmentId);
         public List<ProblemSolutionJyotishGetAllViewModel> GetAllProblemSolution(int JyotishId);

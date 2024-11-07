@@ -760,7 +760,7 @@ namespace BusinessAccessLayer.Implementation
         public List<AppointmentSlotUserViewModel> GetAllAppointmentSlot(int id)
         {
             var result = (from slot in _context.AppointmentSlots
-                          where slot.JyotishId == id && slot.ActiveStatus == 1
+                          where slot.JyotishId == id && slot.ActiveStatus == 1 && slot.Status== "Vacant"
                           group slot by slot.Date into g
                                                    
                           select new AppointmentSlotUserViewModel
@@ -781,7 +781,34 @@ namespace BusinessAccessLayer.Implementation
                           ).ToList();
 
             return result;
-        } 
+        }
+
+        public List<AppointmentSlotUserViewModel> GetAllbookedAppointment(int id)
+        {
+            var result = (from slot in _context.AppointmentSlots
+                          where slot.JyotishId == id && slot.ActiveStatus == 1 && slot.Status == "Booked"
+                          group slot by slot.Date into g
+
+                          select new AppointmentSlotUserViewModel
+                          {
+                              Date = g.Key, // Date is the grouping key
+                              SlotList = (from s in g
+                                          select new AppointmentSlotDateUserViewModel
+                                          {
+                                              Id = s.Id,
+                                              TimeDuration = s.TimeDuration,
+                                              TimeFrom = s.TimeFrom,
+                                              TimeTo = s.TimeTo,
+                                              JyotishId = s.JyotishId,
+                                              Status = s.Status
+                                          }).ToList()
+
+                          }
+                          ).ToList();
+
+            return result;
+        }
+
         public dynamic GetTodayAppointment(int jyotishId)
         {
             var result = (
