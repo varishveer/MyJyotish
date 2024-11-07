@@ -83,11 +83,11 @@
     <h2 class="mb-3 d-flex justify-content-center">Sign Up</h2>
       <form id="registrationForm">
         <div class="form-row">
-                    <div class="form-group col-md-6" style="margin-bottom: 0.2rem;">
-                        <label for="name" class="form-label" style="margin-bottom: 0.2rem;">Name:</label>
+                    <div class="form-group col-md-6" style="margin-bottom: 0.1rem;">
+                        <label for="name" class="form-label" >Name:</label>
                 <input type="text" id="name" name="name" placeholder="Enter your name" class="form-control" required>
             </div>
-                    <div class="form-group col-md-6" style="margin-bottom: 0.2rem;">
+                    <div class="form-group col-md-6" style="margin-bottom: 0.1rem;">
                 <label for="email" class="form-label">Email:</label>
                 <div class="input-group">
                     <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email" aria-label="Recipient's username" required>
@@ -96,12 +96,12 @@
             </div>
         </div>
         
-        <div class="form-row">
+        <div class="form-row d-none" id="verifyOtp-container">
                     <div class="form-group col-md-12" style="margin-bottom: 0.2rem;">
-                        <label for="otp" class="form-label" style="display:none">Verification:</label>
+                        <label for="otp" class="form-label" >Verification:</label>
                 <div class="input-group">
-                            <input type="number" id="otp" name="otp" class="form-control" style="display:none" placeholder="Enter OTP" >
-                            <button class="btn btn-outline-secondary" type="button" id="verifyOtp" style="display:none">Verify OTP</button>
+                            <input type="number" id="otp" name="otp" class="form-control" placeholder="Enter OTP" >
+                            <button class="btn btn-outline-secondary" type="button" id="verifyOtp" >Verify OTP</button>
                 </div>
             </div>
         </div>
@@ -149,7 +149,7 @@
                     <!-- Add country options here -->
                 </select>
             </div>
-                    <div class="form-group col-md-6" style="margin-bottom: 0.6rem;">
+                    <div class="form-group col-md-6" style="margin-bottom: 0.2rem;">
                         <label for="Image" class="form-label">Profile Image:</label>
                         <input id="image" type="file" class="form-control" />
                     </div>
@@ -209,25 +209,37 @@
        
         $("#getOtp").click(function () {
             var email = $("#email").val();
-
+            debugger;
             $.ajax({
                 url: BaseUrl + `Api/Account/RegisterJyotish?email=${encodeURIComponent(email)}`,
                 type: 'POST',
                 contentType: 'application/json',
-                success: function () {
+                success: function (response) {
+
+                    if (reponse.status === 200) {
+                        Swal.fire({
+                            title: "Otp Send Successfully",
+                            text: "Please Enter Otp ",
+                            icon: "success",
 
 
-                   Swal.fire({
-                        title: "Otp Send Successfully",
-                       text: "Please Enter Otp ",
-                       icon: "success",
-                   
-                       
-                   });
-                   
-                    $("#otpLabel").show();
-                    $("#otp").show().prop('required', true); 
-                    $("#verifyOtp").show();
+                        });
+
+                        $("#verifyOtp-container").show();
+                        $("#otp").show().prop('required', true);
+                        $("#verifyOtp").show();
+
+                    }
+                    else{
+                        Swal.fire({
+                            title: "Invalid Email",
+                            text: "Please Enter Otp ",
+                            icon: "success",
+
+
+                        });
+                    }
+                 
                 },
                 error: function (xhr) {
                      Swal.fire({

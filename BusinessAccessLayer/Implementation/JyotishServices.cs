@@ -532,7 +532,7 @@ namespace BusinessAccessLayer.Implementation
                     for (TimeOnly time = (TimeOnly)Jyotish.TimeFrom; time <= (TimeOnly)Jyotish.TimeTo; time = time.AddMinutes(model.TimeDuration))
                     {
                         AppointmentSlotModel data = new AppointmentSlotModel();
-                        data.Date = model.Date;
+                        data.Date = date;
                         data.TimeFrom = time;
                         data.TimeTo = time.AddMinutes(model.TimeDuration);
                         data.JyotishId = model.JyotishId;
