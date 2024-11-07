@@ -399,9 +399,22 @@
         profileSpan.textContent = name;
 
         $("#logout").click(function () {
-            alert("Logout");
-            localStorage.clear();
-            window.location.replace("/Jyotish/Login");
+            Swal.fire({
+                title: "Are you sure you want to logout?",
+                text: "You will be redirected to the login page.",
+                icon: "warning", // Changed to "warning" for a logout confirmation
+                showCancelButton: true, // Show cancel button
+                confirmButtonColor: "#3085d6", // Customize confirm button color
+                cancelButtonColor: "#d33", // Customize cancel button color
+                confirmButtonText: "Yes, logout!", // Confirm button text
+                cancelButtonText: "Cancel" // Cancel button text
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    localStorage.clear(); // Clear local storage
+                    window.location.replace("/Jyotish/Login"); // Redirect to login page
+                }
+            });
+           
         })
 
 
@@ -442,13 +455,7 @@
             });
 
             // Logout
-            $("#logout").click(function () {
-                if (confirm("Are you sure you want to logout?")) {  // Confirm logout
-                    localStorage.clear();
-                    window.location.replace("/Jyotish/Login");
-                }
-            });
-
+           
             // Use hover to handle mouse enter and leave
             $(".sidebar").hover(
                 function () {

@@ -815,11 +815,14 @@
                             data: JSON.stringify(postData),
                             success: function (response) {
                                 if (response.status === 200) {
+
                                     Swal.fire({
                                         title: "Slot successfully booked",
                                         text: `Slot successfully booked for: ${selectedDate} at ${selectedTime}`,
                                         icon: "success"
                                     });
+                                    location.reload();
+
                                 } else {
                                     Swal.fire({
                                         title: `${response.message}`,
@@ -880,7 +883,8 @@
                 }
 
                 $('#tenthCertificate').attr('src', response.data.tenthCertificate ? BaseUrl + response.data.tenthCertificate : '/Img/SampleDoc.jpeg');
-
+                var tenthLink = document.getElementById('tenthCertificateLink');
+                tenthLink.href = BaseUrl + response.data.tenthCertificate;
 
 
                 if (response.data.twelveCertificate == null) {
@@ -891,7 +895,9 @@
                 }
 
                 $('#twelveCertificate').attr('src', response.data.twelveCertificate ? BaseUrl + response.data.twelveCertificate : '/Img/SampleDoc.jpeg');
-
+               
+                var twelveLink = document.getElementById('twelveCertificateLink');
+                twelveLink.href = BaseUrl + response.data.twelveCertificate;
 
 
                 $('#professionalCertificate').attr('src', response.data.professionalCertificate ? BaseUrl + response.data.professionalCertificate : '/Img/SampleDoc.jpeg');
