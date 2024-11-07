@@ -518,8 +518,7 @@ namespace BusinessAccessLayer.Implementation
 
         public string AddAppointmentSlot(AppointmentSlotViewModel model)
         {
-            var today = DateOnly.FromDateTime(DateTime.Now);
-            if (model.Date < today.ToDateTime(TimeOnly.MinValue))
+            if (DateTime.Compare(model.Date,DateTime.Now)<0)
             { return "Invalid Date"; }
 
             var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
@@ -552,6 +551,11 @@ namespace BusinessAccessLayer.Implementation
             }
 
 
+                            if (model.skipDate != null && model.skipDate.ToString()!= "1001-01-01")
+                            {
+                                if (DateTime.Compare((DateTime)model.skipDate, date) == 0)
+                                {
+                                    data.ActiveStatus = 0;
 
 
 
@@ -699,23 +703,26 @@ namespace BusinessAccessLayer.Implementation
 
         public List<AppointmentSlotUserViewModel> GetAllAppointmentSlot(int id)
         {
-            var result = _context.AppointmentSlots.Where(x => x.JyotishId == id)
-                   .GroupBy(x => x.Date)
-                   .Select(g => new AppointmentSlotUserViewModel
-                   {
-
-                       Date = g.Key, // Date is the grouping key
-                       SlotList = g.Select(x => new AppointmentSlotDateUserViewModel
-                       {
-                           Id = x.Id,
-                           TimeDuration = x.TimeDuration,
-                           TimeFrom = x.TimeFrom,
-                           TimeTo = x.TimeTo,
-                           JyotishId = x.JyotishId,
-                           Status = x.Status
-                       }).ToList()
-                   })
-                   .ToList();
+            var result = (from slot in _context.AppointmentSlots
+                          where slot.JyotishId == id && slot.ActiveStatus == 1
+                          group slot by slot.Date into g
+                                                   
+                          select new AppointmentSlotUserViewModel
+                          {
+                              Date = g.Key, // Date is the grouping key
+                              SlotList = (from s in g
+                                          select new AppointmentSlotDateUserViewModel
+                                          {
+                                              Id = s.Id,
+                                              TimeDuration = s.TimeDuration,
+                                              TimeFrom = s.TimeFrom,
+                                              TimeTo = s.TimeTo,
+                                              JyotishId = s.JyotishId,
+                                              Status = s.Status
+                                          }).ToList()
+                                          
+                          }                    
+                          ).ToList();
 
             return result;
         } 

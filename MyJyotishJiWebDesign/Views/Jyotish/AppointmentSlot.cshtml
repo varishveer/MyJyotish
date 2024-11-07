@@ -380,12 +380,14 @@
             e.preventDefault();
 
             // Collect form data
-            const date = $("#date").val();
-            const timeFrom = $("#timeFrom").val(); // Get time in HH:MM format
-            const timeTo = $("#timeTo").val(); // Get time in HH:MM format
-            const timeDuration = $("#timeDuration").val();
+            const date = $("#date-checkin").val();
+            const dateTo = $("#date-checkout").val();
+            const timeDuration = $("#timeDuration").val()
+            const skipDate = $("#skipDate").val()!=""? $("#skipDate").val():"1001-01-01"
+            const saturday = $("#saturday:checked").length>0?$("#saturday").val():0
+            const sunday = $("#sunday:checked").length > 0 ? $("#sunday").val() : 0
             const jyotishId = localStorage.getItem('Id');
-
+            debugger
             // Validate the form
             if (!date || !timeFrom || !timeTo || !timeDuration) {
                 Swal.fire({
@@ -452,6 +454,13 @@
 
 
         // Fetch and display the appointment slots
+        Swal.fire({
+            title: "Processing Your Request",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
         $.ajax({
             url: BaseUrl +`api/Jyotish/GetAllAppointmentSlot?Id=${localStorage.getItem('Id')}`,
             type: 'GET',
@@ -461,7 +470,6 @@
             },
             success: function (res) {
                 $('tbody').empty(); // Clear the table body first
-
                 $.each(res.data, function (index, item) {
                     const formattedDate = new Date(item.date).toLocaleDateString(); // Format the date
 
@@ -493,6 +501,8 @@
                 });
 
                 $('#DataTable').DataTable(); // Initialize the DataTable after adding all rows
+                Swal.close()
+
             },
             error: function (error) {
                 console.error(error);
