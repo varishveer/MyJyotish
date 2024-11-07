@@ -634,6 +634,13 @@
         const token = localStorage.getItem('Token3');
         const userId = localStorage.getItem('Id');
         function getJyotishSlotDetails() {
+            Swal.fire({
+                title: "Processing Your Request",
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            })
             $.ajax({
                 url: BaseUrl + `Api/PendingJyotish/JyotishSlotDetails?id=${userId}`, // Adjust the URL as needed
                 type: 'GET',
@@ -671,6 +678,7 @@
 
                         // Hide the modal using Bootstrap 5 native JavaScript API
                             checkBookinStatus= true
+                            Swal.close()
 
                     } else {
                         console.log("Error:", response.Message);
@@ -689,7 +697,13 @@
 
         getJyotishSlotDetails()
         function SlotBooking() {
-
+            Swal.fire({
+                title: "Processing Your Request",
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            })
             const apiUrl = BaseUrl + `Api/PendingJyotish/SlotList`;
 
             let selectedDate = null;
@@ -771,9 +785,14 @@
                             $(this).addClass('selected');
                         });
                     });
+                    Swal.close()
                 },
                 error: function (error) {
-                    console.error('Error fetching slot data:', error);
+                    Swal.fire({
+                        title: "error",
+                        text: `some error occurred`,
+                        icon: "error"
+                    });
                 }
             });
 
@@ -804,7 +823,13 @@
                             JyotishId: userId,
                             SlotId: selectedSlotId // Include slot ID for the booking request
                         };
-
+                        Swal.fire({
+                            title: "Processing Your Request",
+                            allowOutsideClick: false,
+                            didOpen: () => {
+                                Swal.showLoading();
+                            }
+                        })
                         $.ajax({
                             url: BaseUrl + 'Api/PendingJyotish/AddSlotBooking',
                             method: 'POST',
@@ -831,7 +856,11 @@
                                 }
                             },
                             error: function (error) {
-                                console.error('Error booking slot:', error);
+                                Swal.fire({
+                                    title: "error",
+                                    text: `some error occurred`,
+                                    icon: "error"
+                                });
                             }
                         });
                     }
@@ -850,6 +879,13 @@
 
 
 
+            Swal.fire({
+                title: "Processing Your Request",
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            })
             try {
 
                 const token = localStorage.getItem('Token3');
@@ -864,7 +900,7 @@
                     }
                 });
 
-
+               
 
 
                 $('#idProof').attr('src', response.data.idProof ? BaseUrl + response.data.idProof : '/Img/SampleDoc.jpeg');
@@ -917,7 +953,7 @@
                         SlotBooking()
                    }
                 }
-
+                Swal.close()
             } catch (error) {
                 console.error('Error:', error);
                 $('#statusMessage').text(`Error: ${error.message}`);
