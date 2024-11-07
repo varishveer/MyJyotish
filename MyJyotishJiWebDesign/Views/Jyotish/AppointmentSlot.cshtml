@@ -279,6 +279,10 @@
             .reservation-box.small .button-container {
                 min-width: 217px;
             }
+
+    .skipDays{
+        min-width:217px !important;
+    }
 </style>
 
 <div class="container d-flex justify-content-center align-items-center min-vh-90 mt-4">
@@ -294,25 +298,25 @@
                            <div class="col-sm-12">
                                Appointment Date
                                 <div class="reservation-box">
-                                    <div class="top ">
+                                    <div class="top d-flex gap-3 flex-wrap">
                                         <div class="static">
                                             <div class="input-container" id="date-picker-container">
                                                 <label for="date-from">Start</label>
-                                                <input type="date" id="date-checkin" class="date-field" name"date-from">
+                                                <input type="date" id="date-checkin" class="date-field" name"dateFrom">
                                             </div>
                                         </div>
                                         <div class="static">
                                             <div class="input-container" id="date-picker-container">
                                                 <label for="date-from">End</label>
-                                                <input type="date" id="date-checkout" class="date-field" name"">
+                                                <input type="date" id="date-checkout" class="date-field" name"dateTo">
                                             </div>
                                             
                                             
                                         </div>
                                         <div class="static">
                                             <div class="input-container" id="date-picker-container">
-                                                <label for="date-from" class="m-0">Appointment Time</label>
-                                                <select class="date-field border-0">
+                                                <label for="date-from" class="m-0">Appointment Duration</label>
+                                                <select class="date-field border-0" id="timeDuration">
                                                     <option value="" disabled>--Select Appointment Time--</option>
                                                     <option value="15" selected>15 min</option>
                                                     <option value="30">30 min</option>
@@ -320,9 +324,22 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="button-container">
-                                            <span class="button ok">Create</span>
+                                       
+                                        <div class="static ">
+                                            <div class="input-container" id="date-picker-container">
+                                                <label for="date-from">Skip Date (Optional)</label>
+                                                <input type="date" id="skipDate" class="date-field" name"">
+                                            </div>
+
                                         </div>
+                                        <div class=" static skipDays d-block">
+                                            <p class="m-0 text-primary">Skip Days (Optional)</p>
+                                            <input type="checkbox" id="saturday" name="saturday" class="form-check-inline" value="1" />Satuday &nbsp;
+                                            <input type="checkbox" name="sunday" id="sunday" class="form-check-inline" value="2" />Sunday
+                                        </div>
+                                        <div class="button-container  ">
+                                            <span class="button ok" id="btnsubmit">Create</span>
+                                        </div> 
                                     </div>
                                     <div class="bottom">
                                     </div>
@@ -378,7 +395,13 @@
         // Add New Slot
         $("#btnsubmit").on('click', function (e) {
             e.preventDefault();
-
+            Swal.fire({
+                title: "Processing Your Request",
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            })
             // Collect form data
             const date = $("#date-checkin").val();
             const dateTo = $("#date-checkout").val();
@@ -389,7 +412,7 @@
             const jyotishId = localStorage.getItem('Id');
             debugger
             // Validate the form
-            if (!date || !timeFrom || !timeTo || !timeDuration) {
+            if (!date || !dateTo || !timeDuration) {
                 Swal.fire({
                     title: 'Error!',
                     text: 'All fields are required.',
@@ -399,15 +422,9 @@
                 return;
             }
 
-            // Convert time to HH:MM:SS format
-            const timeFromFormatted = timeFrom + ':00'; // Append seconds
-            const timeToFormatted = timeTo + ':00'; // Append seconds
-
-            // Debug: Log the values before the AJAX call
-            console.log("Submitting:", { date, timeFromFormatted, timeToFormatted, timeDuration, jyotishId });
-
+            
             $.ajax({
-                url: BaseUrl + 'api/Jyotish/AddAppointmentSlot',
+                url: 'https://localhost:7118/api/Jyotish/AddAppointmentSlot',
                 type: 'POST',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
@@ -415,8 +432,10 @@
                 },
                 data: JSON.stringify({
                     date: date,
-                    timeFrom: timeFromFormatted, // Use the formatted time
-                    timeTo: timeToFormatted, // Use the formatted time
+                    dateTo: dateTo,
+                    skipDate: skipDate,
+                    saturday: saturday, 
+                    sunday: sunday, 
                     timeDuration: parseInt(timeDuration, 10),
                     jyotishId: parseInt(jyotishId, 10)
                 }),
@@ -462,13 +481,14 @@
             }
         })
         $.ajax({
-            url: BaseUrl +`api/Jyotish/GetAllAppointmentSlot?Id=${localStorage.getItem('Id')}`,
+            url:`https://localhost:7118/api/Jyotish/GetAllAppointmentSlot?Id=${localStorage.getItem('Id')}`,
             type: 'GET',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
                 'Content-Type': 'application/json',
             },
             success: function (res) {
+                console.log(res)
                 $('tbody').empty(); // Clear the table body first
                 $.each(res.data, function (index, item) {
                     const formattedDate = new Date(item.date).toLocaleDateString(); // Format the date
@@ -651,45 +671,6 @@
 </script>
 
 <script>
-    const dateContainers = document.querySelectorAll('.input-container');
-    dateContainers.forEach(dateContainer => {
-        const dateInput = dateContainer.querySelector('.date-field');
-        if (dateInput) {
-            dateContainer.addEventListener('click', function (event) {
-                dateInput.select();
-            });
-        }
-    });
-
-    /* ----------------------------------------------------------------------------- */
-    /* -- Automatically set the date for check-in (today) and checkout (tomorrow) -- */
-    /* ----------------------------------------------------------------------------- */
-    document.addEventListener("DOMContentLoaded", function () {
-        const dateCheckin = document.getElementById("date-checkin");
-        const dateCheckout = document.getElementById("date-checkout");
-        const today = new Date();
-        const tomorrow = new Date(today); tomorrow.setDate(tomorrow.getDate() + 1);
-        dateCheckin.valueAsDate = today;
-        dateCheckout.valueAsDate = tomorrow;
-        dateCheckin.addEventListener("input", function () {
-            const checkinDate = dateCheckin.valueAsDate;
-            const checkoutDate = dateCheckout.valueAsDate;
-            if (checkinDate > checkoutDate) {
-                const newCheckoutDate = new Date(checkinDate);
-                newCheckoutDate.setDate(newCheckoutDate.getDate() + 1);
-                dateCheckout.valueAsDate = newCheckoutDate;
-            }
-        });
-        dateCheckout.addEventListener("input", function () {
-            const checkinDate = dateCheckin.valueAsDate;
-            const checkoutDate = dateCheckout.valueAsDate;
-            if (checkoutDate < checkinDate) {
-                const newCheckinDate = new Date(checkoutDate);
-                newCheckinDate.setDate(newCheckinDate.getDate() - 1);
-                dateCheckin.valueAsDate = newCheckinDate;
-            }
-        });
-    });
 
 
     const today = new Date();
@@ -710,6 +691,7 @@ dateFrom.addEventListener("input",function(){
         const formattedMaxDate = maxDate.toISOString().split('T')[0];
         dateTo.setAttribute('max', formattedMaxDate);
         dateTo.value = formattedMaxDate
-
+        $("#skipDate").attr("min", this.value)
+        $("#skipDate").attr("max", formattedMaxDate)
 })
 </script>

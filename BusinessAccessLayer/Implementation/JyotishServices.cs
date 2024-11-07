@@ -522,34 +522,62 @@ namespace BusinessAccessLayer.Implementation
             { return "Invalid Date"; }
 
             var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
+            var slots = _context.AppointmentSlots.Where(x => x.Id == model.JyotishId).Select(e=>e.Date).ToList();
+
             if (Jyotish == null) { return "Invalid Jyotish"; }
-
-
-          
-
-            // Calculate total duration in minutes
-            double totalDuration = (model.TimeTo.ToTimeSpan() - model.TimeFrom.ToTimeSpan()).TotalMinutes;
-
-            // Calculate number of intervals
-            int intervals = (int)(totalDuration / model.TimeDuration);
-
-            // Calculate and store the time intervals
-            List<(TimeOnly Start, TimeOnly End)> timeIntervals = new List<(TimeOnly, TimeOnly)>();
-            for (int i = 0; i < intervals; i++)
+            if (DateTime.Compare(model.Date, model.DateTo) <= 90)
             {
-                TimeOnly intervalStart = model.TimeFrom.AddMinutes(i * model.TimeDuration);
-                TimeOnly intervalEnd = intervalStart.AddMinutes(model.TimeDuration);
-                timeIntervals.Add((intervalStart, intervalEnd));
-                AppointmentSlotModel data = new AppointmentSlotModel();
-                data.Date = model.Date;
-                data.TimeFrom = intervalStart;
-                data.TimeTo = intervalEnd;
-                data.JyotishId = model.JyotishId;
-                data.TimeDuration = model.TimeDuration;
-                data.Status = "Vacant";
-                _context.AppointmentSlots.Add(data);
-            }
+                for (DateTime date = model.Date; date <= model.DateTo; date = date.AddDays(1))
+                {
+                    if (Jyotish.TimeFrom != null && Jyotish.TimeTo != null && !slots.Contains(date))
+                    {
+                        for (TimeOnly time = (TimeOnly)Jyotish.TimeFrom; time <= (TimeOnly)Jyotish.TimeTo; time = time.AddMinutes(model.TimeDuration))
+                        {
+                            AppointmentSlotModel data = new AppointmentSlotModel();
+                            data.Date = model.Date;
+                            data.TimeFrom = time;
+                            data.TimeTo = time.AddMinutes(model.TimeDuration);
+                            data.JyotishId = model.JyotishId;
+                            data.TimeDuration = model.TimeDuration;
+                            data.Status = "Vacant";
+                            if (model.saturday == 1)
+                            {
+                                if (date.DayOfWeek == DayOfWeek.Saturday)
+                                {
 
+                                    data.ActiveStatus = 0;
+                                }
+                                else
+
+                                {
+                                    data.ActiveStatus = 1;
+
+                                }
+                            }
+                            else
+                            {
+                                data.ActiveStatus = 1;
+
+                            }
+                            if (model.sunday == 2)
+                            {
+                                if (date.DayOfWeek == DayOfWeek.Sunday)
+                                {
+
+                                    data.ActiveStatus = 0;
+
+                                }
+                                else
+                                {
+                                    data.ActiveStatus = 1;
+
+                                }
+                            }
+                            else
+                            {
+                                data.ActiveStatus = 1;
+
+                            }
 
                             if (model.skipDate != null && model.skipDate.ToString()!= "1001-01-01")
                             {
@@ -557,22 +585,85 @@ namespace BusinessAccessLayer.Implementation
                                 {
                                     data.ActiveStatus = 0;
 
+                                }
+                                else
+                                {
+                                    data.ActiveStatus = 1;
 
+                                }
+                            }
 
-           /* AppointmentSlotModel data = new AppointmentSlotModel();
-            data.Date = model.Date;
-            data.TimeFrom = model.TimeFrom;
-            data.TimeTo = model.TimeTo;
-            data.JyotishId = model.JyotishId;
-            data.TimeDuration = model.TimeDuration;
-            data.Status = "Vacant";
-            _context.AppointmentSlots.Add(data);*/
+                            if (model.saturday == 0 && model.sunday == 0 & model.skipDate == null)
+                            {
+
+                                data.ActiveStatus = 1;
+                            }
+                            _context.AppointmentSlots.Add(data);
+
+                        }
+                    }
+                }
+            }
             if (_context.SaveChanges() > 0) { return "Successful"; }
             else { return "Data Not Saved"; }
         }
 
-        //add wallet
-        public string AddWallet(JyotishWalletViewmodel pr)
+        public string RemoveSlotWithskipDates(AppointmentSlotViewModel model)
+        {
+            var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
+            var slotsId = _context.AppointmentSlots.Where(x => x.JyotishId == model.JyotishId && x.ActiveStatus==1).Select(e=>e.Id).ToList();
+
+            if (Jyotish == null) { return "Invalid Jyotish"; }
+            bool checkSkipDate = true;
+            
+                for(var i=0;i < slotsId.Count; i++)
+                {
+                    var slots = _context.AppointmentSlots.Where(x => x.Id == slotsId[i]).FirstOrDefault();
+                    if (slots != null)
+                    {
+                    if (model.saturday == 1)
+                    {
+                        if (slots.Date.DayOfWeek == DayOfWeek.Saturday)
+                        {
+                            slots.ActiveStatus = 0;
+                            _context.AppointmentSlots.Update(slots);
+                        }
+                    }
+                    if (model.sunday == 2)
+                    {
+                        if (slots.Date.DayOfWeek == DayOfWeek.Sunday)
+                        {
+                            slots.ActiveStatus = 0;
+                            _context.AppointmentSlots.Update(slots);
+                        }
+                    }
+                    if (model.skipDate!=null && checkSkipDate)
+                    {
+                        if (DateTime.Compare((DateTime)model.skipDate, slots.Date)==0)
+                        {
+                            slots.ActiveStatus = 0;
+                            _context.AppointmentSlots.Update(slots);
+                            checkSkipDate = false;
+                          
+                        }
+                    }
+                }
+            }
+
+            if (_context.SaveChanges() > 0)
+                {
+                    return "Changes applied successfully";
+                }
+                else
+                {
+                    return "There is some problem while applied changes";
+
+                }
+
+            
+        }
+            //add wallet
+            public string AddWallet(JyotishWalletViewmodel pr)
         {
             var Jyotish = _context.JyotishRecords.Where(x => x.Id == pr.jyotishId).FirstOrDefault();
             if (Jyotish == null) { return null; }

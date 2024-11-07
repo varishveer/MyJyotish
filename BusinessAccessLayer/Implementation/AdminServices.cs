@@ -662,13 +662,13 @@ namespace BusinessAccessLayer.Implementation
             if (record == null) return "Documents not found";
 
             var statusMapping = new Dictionary<string, Action>
-    {
-        { "idProofStatus", () => record.IdProofStatus = "Rejected" },
-        { "addressProofStatus", () => record.AddressProofStatus = "Rejected" },
-        { "tenthCertificateStatus", () => record.TenthCertificateStatus = "Rejected" },
-        { "twelveCertificateStatus", () => record.TwelveCertificateStatus = "Rejected" },
-        { "professionalCertificateStatus", () => record.ProfessionalCertificateStatus = "Rejected" }
-    };
+                {
+                    { "idProofStatus", () => record.IdProofStatus = "Rejected" },
+                    { "addressProofStatus", () => record.AddressProofStatus = "Rejected" },
+                    { "tenthCertificateStatus", () => record.TenthCertificateStatus = "Rejected" },
+                    { "twelveCertificateStatus", () => record.TwelveCertificateStatus = "Rejected" },
+                    { "professionalCertificateStatus", () => record.ProfessionalCertificateStatus = "Rejected" }
+                };
 
             if (statusMapping.ContainsKey(model.ImageStatus))
             {
@@ -1124,23 +1124,23 @@ namespace BusinessAccessLayer.Implementation
         public List<InteviewListViewModel> InteviewList()
         {
             var data = _context.JyotishRecords
-                .Include(j => j.Slots)
-                .ThenInclude(s => s.SlotRecords) 
-                .SelectMany(j => j.Slots.Select(s => new InteviewListViewModel
-                {
-                    Id = j.Id,
-                    Name = j.Name,
-                    Mobile = j.Mobile,
-                    Email = j.Email,
-                    Expertise = j.Expertise,
-                    Experience = (int)j.Experience,
-                    Language = j.Language,
-                    Date = s.SlotRecords.Date, 
-                    Time = s.SlotRecords.Time,
-                    SlotId = s.Id
-                }))
-                .OrderBy(i => i.Date) 
-                .ToList();
+             .Include(j => j.Slots)
+             .ThenInclude(s => s.SlotRecords)
+             .SelectMany(j => j.Slots.Select(s => new InteviewListViewModel
+             {
+                 Id = j.Id,
+                 Name = j.Name,
+                 Mobile = j.Mobile,
+                 Email = j.Email,
+                 Expertise = j.Expertise,
+                 Experience = (int)j.Experience,
+                 Language = j.Language,
+                 Date = s.SlotRecords.Date,
+                 Time = s.SlotRecords.Time,
+                 SlotId = s.Id
+             }))
+             .OrderByDescending(i => i.Date) // Order by date in descending order
+             .ToList();
 
             return data;
         }

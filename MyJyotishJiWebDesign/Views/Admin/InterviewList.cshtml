@@ -1,0 +1,89 @@
+﻿
+@{
+    Layout = "AdminLayout";
+}
+
+
+<style>
+    .card-body {
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+    }
+</style>
+
+
+<div class="container-fluid mt-4">
+    <div class="card">
+
+        <div class="d-flex flex-row justify-content-between align-items-center  px-4">
+            <h5 class="text-primary mt-2">Interview List</h5>
+
+        </div>
+        <hr />
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="DataTable" class="table table-bordered table-striped">
+                    <!-- Table content goes here -->
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        function fetchData() {
+            $.ajax({
+                url:  BaseUrl +"api/Admin/Inter",
+                type: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                    'Content-Type': 'application/json',
+                },
+                success: function (result) {
+                    console.log(result); // Log the API response
+                    let htmls = '<thead><tr><th>Id</th><th>Name</th><th>Mobile</th><th>Email</th><th>Expertise</th> <th>Experience</th><th>Language</th><th>Date</th><th>Time</th></tr></thead><tbody>';
+                    let idCounter = 1;
+                    $.each(result.data, function (key, item) {
+                        htmls += '<tr>';
+                        htmls += `<td class="text-center">${idCounter}</td>`;
+                        htmls += `<td class="text-center">${item.name}</td>`;
+                        htmls += `<td class="text-center">${item.mobile}</td>`;
+
+                        htmls += `<td class="text-center">${item.email}</td>`;
+                        htmls += `<td class="text-center">${item.expertise}</td>`;
+
+                        htmls += `<td class="text-center">${item.experience}</td>`;
+                        htmls += `<td class="text-center">${item.language}</td>`;
+                        htmls += `<td class="text-center">${item.date}</td>`;
+                        htmls += `<td class="text-center">${item.time}</td>`;
+                      
+                        htmls += '</tr>';
+                        idCounter++;
+                    });
+
+                    htmls += '</tbody>';
+                    $('#DataTable').html(htmls);
+                    // Initialize DataTable after the data is loaded
+                    $('#DataTable').DataTable({
+                        "paging": true,
+                        "searching": true,
+                        "ordering": true,
+                        "info": true
+                    });
+                },
+                error: function (errormessage) {
+                    console.error('Error fetching data:', errormessage.responseText);
+                }
+            });
+        }
+
+        fetchData(); // Call the function to load data
+    });
+</script>
+
+
+
+
+
