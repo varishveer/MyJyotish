@@ -10,6 +10,9 @@ namespace ModelAccessLayer.ViewModels
     {
         public int? Id { get; set; }
         public DateTime Date { get; set; }
+        public DateTime DateTo { get; set; }
+        public int skipDays { get; set; }
+        public DateTime skipDate { get; set; }
         public int TimeDuration { get; set; }
         public TimeOnly TimeFrom { get; set; }
         public TimeOnly TimeTo { get; set; }
