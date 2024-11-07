@@ -467,8 +467,7 @@ namespace MyJyotishGApi.Controllers
                 }
                 else
                 {
-                    return Ok(new { Status = 500, Message = "Internal server error" });
-
+                    return Ok(new { Status = 404, Message = "No changes found" });
                 }
             }
             catch (Exception ex)
