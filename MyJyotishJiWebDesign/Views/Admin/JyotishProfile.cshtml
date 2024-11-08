@@ -405,7 +405,6 @@
     </div>
 </div>
 
-<!-- Approved Doc Modal -->
 
 <!-- Rejected Doc Modal -->
 <div class="modal fade" id="rejectedDocModal" tabindex="-1" role="dialog" aria-labelledby="rejectedDocModalLabel" aria-hidden="true">
@@ -512,7 +511,13 @@
             function updateStatus(elementId, status, docType) {
 
                 if (status == null) { status = "Not Uploaded Yet"; }
-                $("#" + elementId).text(status);
+                if(status == "Verified"){
+                     $("#" + elementId).html(status + ' <i class="fas fa-check-circle"></i>');
+                  $("#" + elementId).addClass("text-primary");
+
+                }
+                else{ $("#" + elementId).text(status);}
+               
 
                 $("#" + docType).data('status', status); // Store status in data attribute for use later
             }
