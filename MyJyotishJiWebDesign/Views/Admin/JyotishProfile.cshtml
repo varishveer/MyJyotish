@@ -316,13 +316,13 @@
                         <div class="col-md-3 col-lg-2 mb-4 ">
                             <p class="docName"> Id Proof</p>
                             <div class="image-container bg-light rounded">
-                                <img id="idProof" alt="ID Proof" class="img-fluid" src="">
+                                <img id="idProof" alt="ID Proof" class="img-fluid imgLink" src="" >
                             </div>
                             <div class="docStatus mb-2">
                                
                                 <span id="idProofStatus" class="docStatus"> </span>
                             </div>
-                            <div class="flex-row justify-content-center">
+                            <div class="flex-row justify-content-center" id="idBtn">
 
                              
                                 <button class="btn btn-success btn-sm  approvedBtn"  data-status="idProofStatus" title="Approve">Approve</button>
@@ -335,13 +335,13 @@
                         <div class="col-md-3 col-lg-2 mb-4">
                             <p class="docName"> Address Proof</p>
                             <div class="image-container bg-light rounded">
-                                <img id="addressProof" alt="Address Proof" class="img-fluid" src="">
+                                <img id="addressProof" alt="Address Proof" class="img-fluid imgLink" src="">
                             </div>
                             <div class="docStatus mb-2">
                               
                                 <span id="addressProofStatus" class="docStatus"> </span>
                             </div>
-                            <div class="flex-row justify-content-center">
+                            <div class="flex-row justify-content-center" id="addressBtn">
                                 <button class="btn btn-success btn-sm approvedBtn" data-status="addressProofStatus" title="Approved"> Approve</button>
                                 <button class="btn btn-danger btn-sm rejected" data-toggle="modal" data-target="#rejectedDocModal" title="Rejected" data-status="addressProofStatus"> Reject</button>
                             
@@ -351,13 +351,13 @@
                         <div class="col-md-3 col-lg-2 mb-4">
                             <p class="docName"> Tenth Certificate</p>
                             <div class="image-container bg-light rounded">
-                                <img id="tenthCertificate" alt="Tenth Certificate" class="img-fluid" src="" >
+                                <img id="tenthCertificate" alt="Tenth Certificate" class="img-fluid imgLink" src="" >
                             </div>
                             <div class="docStatus mb-2">
                               
                                 <span id="tenthCertificateStatus" class="docStatus"> </span>
                             </div>
-                            <div class="flex-row justify-content-center">
+                            <div class="flex-row justify-content-center" id="tenthBtn">
                                 <button class="btn btn-success btn-sm approvedBtn" data-status="tenthCertificateStatus" title="Approved"> Approve</button>
                                 <button class="btn btn-danger btn-sm rejected" data-toggle="modal" data-target="#rejectedDocModal" title="Rejected" data-status="tenthCertificateStatus"> Reject</button>
                             
@@ -367,13 +367,13 @@
                         <div class="col-md-3 col-lg-2 mb-4">
                             <p class="docName"> Twelve Certificate</p>
                             <div class="image-container bg-light rounded">
-                                <img id="twelveCertificate" alt="Twelve Certificate" class="img-fluid" src="">
+                                <img id="twelveCertificate" alt="Twelve Certificate" class="img-fluid imgLink" src="">
                             </div>
                             <div class="docStatus mb-2">
                              
                                 <span id="twelveCertificateStatus" class="docStatus"> </span>
                             </div>
-                            <div class="flex-row justify-content-center">
+                            <div class="flex-row justify-content-center" id="twelveBtn">
                                 <button class="btn btn-success btn-sm approvedBtn" data-status="twelveCertificateStatus" title="Approved"> Approve</button>
                                 <button class="btn btn-danger btn-sm rejected" data-toggle="modal" data-target="#rejectedDocModal" data-status="twelveCertificateStatus" title="Rejected"> Reject</button>
                              
@@ -383,13 +383,13 @@
                         <div class="col-md-3 col-lg-2 mb-4">
                             <p class="docName"> Professional </p>
                             <div class="image-container bg-light rounded">
-                                <img id="professionalCertificate" alt="Professional Certificate" class="img-fluid" src="">
+                                <img id="professionalCertificate" alt="Professional Certificate" class="img-fluid imgLink" src="">
                             </div>
                             <div class="docStatus mb-2">
                                
                                 <span id="professionalCertificateStatus" class="docStatus"> </span>
                             </div>
-                            <div class="flex-row justify-content-center">
+                            <div class="flex-row justify-content-center" id="professionalBtn">
                                 <button class="btn btn-success btn-sm approvedBtn " data-status="professionalCertificateStatus" title="Approved"> Approve</button>
                                 <button class="btn btn-danger btn-sm rejected" data-toggle="modal" data-target="#rejectedDocModal" data-status="professionalCertificateStatus" title="Rejected"> Reject</button>
                              
@@ -489,18 +489,23 @@
             function updateDocumentStatus(docs) {
                 $("#idProof").attr("src", docs.idProof ? BaseUrl + docs.idProof : '/Img/SampleDoc.jpeg');
                 updateStatus("idProofStatus", docs.idProofStatus, "idProof");
+                if (docs.idProofStatus == "Verified") { $('#idBtn').hide(); }
 
                 $("#addressProof").attr("src", docs.addressProof ? BaseUrl + docs.addressProof : '/Img/SampleDoc.jpeg');
                 updateStatus("addressProofStatus", docs.addressProofStatus, "addressProof");
+            if (docs.addressProofStatus == "Verified") { $('#addressBtn').hide(); }
 
                 $("#tenthCertificate").attr("src", docs.tenthCertificate ? BaseUrl + docs.tenthCertificate : '/Img/SampleDoc.jpeg');
                 updateStatus("tenthCertificateStatus", docs.tenthCertificateStatus, "tenthCertificate");
+            if (docs.tenthCertificateStatus == "Verified") { $('#tenthBtn').hide(); }
 
                 $("#twelveCertificate").attr("src", docs.twelveCertificate ? BaseUrl + docs.twelveCertificate : '/Img/SampleDoc.jpeg');
                 updateStatus("twelveCertificateStatus", docs.twelveCertificateStatus, "twelveCertificate");
+            if (docs.twelveCertificateStatus == "Verified") { $('#twelveBtn').hide(); }
 
                 $("#professionalCertificate").attr("src", docs.professionalCertificate ? BaseUrl + docs.professionalCertificate : '/Img/SampleDoc.jpeg');
                 updateStatus("professionalCertificateStatus", docs.professionalCertificateStatus, "professionalCertificate");
+            if (docs.professionalCertificateStatus == "Verified") { $('#professionalBtn').hide(); }
             }
 
            
@@ -680,7 +685,17 @@
         } else {
             alert('ID parameter is missing in the URL.');
         }
+    $('.imgLink').on('click', function () {
+        // Get the URL from the 'src' attribute
+        const url = $(this).attr('src');
 
+        // Open the URL in a new tab
+        if (url) {
+            window.open(url, '_blank');
+        } else {
+            console.error("URL not found in 'src' attribute.");
+        }
+    });
     $(document).ready(function () {
     });
 </script>
