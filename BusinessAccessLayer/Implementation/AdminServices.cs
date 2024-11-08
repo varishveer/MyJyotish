@@ -1133,7 +1133,7 @@ namespace BusinessAccessLayer.Implementation
                  Mobile = j.Mobile,
                  Email = j.Email,
                  Expertise = j.Expertise,
-                 Experience = (int)j.Experience,
+                 Experience = j.Experience,
                  Language = j.Language,
                  Date = s.SlotRecords.Date,
                  Time = s.SlotRecords.Time,

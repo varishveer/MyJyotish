@@ -35,7 +35,7 @@
     $(document).ready(function () {
         function fetchData() {
             $.ajax({
-                url:  BaseUrl +"api/Admin/Inter",
+                url: BaseUrl + "api/Admin/GetInterviewList",
                 type: 'GET',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("Token")}`,
@@ -43,7 +43,7 @@
                 },
                 success: function (result) {
                     console.log(result); // Log the API response
-                    let htmls = '<thead><tr><th>Id</th><th>Name</th><th>Mobile</th><th>Email</th><th>Expertise</th> <th>Experience</th><th>Language</th><th>Date</th><th>Time</th></tr></thead><tbody>';
+                    let htmls = '<thead><tr><th>Id</th><th>Name</th><th>Mobile</th><th>Email</th><th>Expertise</th> <th>Experience</th><th>Language</th><th>Date</th><th>Time</th> <th>Reschedule</th></tr> </thead><tbody>';
                     let idCounter = 1;
                     $.each(result.data, function (key, item) {
                         htmls += '<tr>';
@@ -58,7 +58,11 @@
                         htmls += `<td class="text-center">${item.language}</td>`;
                         htmls += `<td class="text-center">${item.date}</td>`;
                         htmls += `<td class="text-center">${item.time}</td>`;
-                      
+                        htmls += `<td class="text-center">
+                        <button type="button" class="btn btn-primary" data-id="${item.id}" data-name="${item.name}" data-toggle="modal" data-target="#dynamicModal">
+                               Reschedule
+                            </button></td>`;
+                        
                         htmls += '</tr>';
                         idCounter++;
                     });
@@ -87,3 +91,137 @@
 
 
 
+
+<!-- Modal Structure -->
+<div class="modal fade" id="dynamicModal" tabindex="-1" aria-labelledby="dynamicModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="dynamicModalLabel">reschedule Modal</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Hidden ID Field -->
+                <input type="hidden" id="hiddenId" value="">
+
+                <!-- Readonly Name Field -->
+                <div class="form-group">
+                    <label for="readonlyName">Name</label>
+                    <input type="text" class="form-control" id="readonlyName" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label for="slotList">Select an Slot:</label>
+                    <select  class="form-control" id="slotList" name="slotList">
+                       
+                    </select>
+                </div>
+              <button btn btn-success> Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        // Function to fetch data and populate the modal slot list
+        function fetchDataAndPopulateModal() {
+            $.ajax({
+                url: BaseUrl + 'Api/Admin/SlotList',
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('Token'), // Adjust token if needed
+                    'Content-Type': 'application/json'
+                },
+                success: function (response) {
+                    if (response.status === 200) {
+                        // Clear previous list items
+                        $('#slotList').empty();
+
+                        // Add list items dynamically
+                        response.data.forEach(item => {
+                            const today = new Date();
+                            today.setHours(0, 0, 0, 0);
+
+                            const itemDate = new Date(item.date);
+                            itemDate.setHours(0, 0, 0, 0);
+
+                            // Only show vacant slots for today and in the future
+                            if (item.status === "Vacant" && itemDate >= today) {
+                                const listItem = `
+                                        <option value="${item.id}">Time: ${item.time} &nbsp Date: ${item.date} &nbsp Duration: ${item.timeDuration} minutes</option>
+                                    `;
+                                $('#slotList').append(listItem);
+                            }
+                        });
+                    } else {
+                        Swal.fire('Error', response.message, 'error');
+                    }
+                },
+                error: function (error) {
+                    console.error('Error fetching data:', error);
+                    Swal.fire('Error', 'Failed to retrieve data. Please try again later.', 'error');
+                }
+            });
+        }
+
+      
+        $('button[data-toggle="modal"]').on('click', function () {
+            debugger;
+            var id = $(this).data('id');
+            var name = $(this).data('name');
+
+            // Set the values to the modal fields
+            $('#hiddenId').val(id);       
+            $('#readonlyName').val(name);
+        });
+
+       
+        $('#dynamicModal').on('show.bs.modal', function () {
+            fetchDataAndPopulateModal();
+        });
+
+
+        $('#submitBtn').on('click', function () {
+            var id = $('#hiddenId').val();  // Get the hidden ID field value
+            var slotId = $('#slotList').val();  // Get the selected SlotId
+
+            // Validate if both fields have been selected
+            if (!id || !slotId) {
+                Swal.fire('Error', 'Please select a slot and ensure the ID is valid.', 'error');
+                return; // Exit the function if validation fails
+            }
+
+            // Create the data object to send in the request
+            var data = {
+                Id: id,
+                SlotId: slotId
+            };
+
+            // Send the data to the server using AJAX
+            $.ajax({
+                url: BaseUrl + 'Api/Admin/RescheduleInterview', // Replace with your API endpoint
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('Token'),
+                    'Content-Type': 'application/json'
+                },
+                data: JSON.stringify(data),
+                success: function (response) {
+                    if (response.status === 200) {
+                        Swal.fire('Success', 'Interview rescheduled successfully.', 'success');
+                        $('#dynamicModal').modal('hide');  // Hide the modal on success
+                        fetchData();  // Reload the interview list (if applicable)
+                    } else {
+                        Swal.fire('Error', response.message, 'error');
+                    }
+                },
+                error: function (error) {
+                    console.error('Error submitting data:', error);
+                    Swal.fire('Error', 'An error occurred. Please try again later.', 'error');
+                }
+            });
+        });
+    });
+</script>
