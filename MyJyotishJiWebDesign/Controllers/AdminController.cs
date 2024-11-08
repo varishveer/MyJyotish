@@ -23,6 +23,8 @@ namespace MyJyotishJiWebDesign.Controllers
         public IActionResult JyotishDocument() { return View(); }
         public IActionResult JyotishProfile() { return View(); }
 
+        public IActionResult InterviewList() { return View(); }
+
 
 
 
