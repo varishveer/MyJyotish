@@ -156,7 +156,7 @@
 
 
                         <span>Id Proof</span>
-
+                        <p id="idStatus"> </p>
                     </div>
                 </a>
 
@@ -170,7 +170,7 @@
 
                         <span>Address Proof</span>
 
-
+                        <p id="addressStatus"></p>
                     </div>
                 </a>
 
@@ -183,6 +183,7 @@
                     <div class="img-text">
 
                         <span>Tenth Certificate</span>
+                        <p id="tenthStatus"></p>
                     </div>
                 </a>
 
@@ -195,6 +196,7 @@
                     <div class="img-text">
 
                         <span>Twelve Certificate</span>
+                        <p id="twelveStatus"></p>
                     </div>
                 </a>
 
@@ -207,6 +209,7 @@
                     <div class="img-text">
 
                         <span>Professional Certificate</span>
+                        <p id="professionalStatus"></p>
                     </div>
                 </a>
 
@@ -906,10 +909,29 @@
                 $('#idProof').attr('src', response.data.idProof ? BaseUrl + response.data.idProof : '/Img/SampleDoc.jpeg');
                 var idLink = document.getElementById('idProofLink');
                 $("#idProofLink").attr("href", BaseUrl + response.data.idProof);
+                if (response.data.idProofStatus === "Verified") {
+                    var idStatus = document.getElementById('idStatus');
+                    idStatus.innerHTML = 'Verified <i class="fas fa-check-circle"></i>';
+                } else if (response.data.idProofStatus === "Rejected") {
+                    var idStatus = document.getElementById('idStatus');
+                    idStatus.innerHTML = 'Rejected <i class="fas fa-times-circle"></i>';
+                }
+
+
                 
                 $('#addressProof').attr('src', response.data.addressProof ? BaseUrl + response.data.addressProof : '/Img/SampleDoc.jpeg');
                 var addressLink = document.getElementById('addressProofLink');
                 addressLink.href = BaseUrl + response.data.addressProof;
+                               if (response.data.addressProofStatus === "Verified") {
+                    var addressStatus = document.getElementById('addressStatus');
+                    addressStatus.innerHTML = 'Verified <i class="fas fa-check-circle"></i>';
+                } else if (response.data.addressProofStatus === "Rejected") {
+                    var addressStatus = document.getElementById('addressStatus');
+                    addressStatus.innerHTML = 'Rejected <i class="fas fa-times-circle"></i>';
+                }
+
+
+
 
                 if (response.data.tenthCertificate == null) {
                     var tenthDiv = document.getElementById('tenthCertificateDiv');
@@ -921,6 +943,15 @@
                 $('#tenthCertificate').attr('src', response.data.tenthCertificate ? BaseUrl + response.data.tenthCertificate : '/Img/SampleDoc.jpeg');
                 var tenthLink = document.getElementById('tenthCertificateLink');
                 tenthLink.href = BaseUrl + response.data.tenthCertificate;
+                 if (response.data.tenthCertificateStatus === "Verified") {
+                    var tenthStatus = document.getElementById('tenthStatus');
+                    tenthStatus.innerHTML = 'Verified <i class="fas fa-check-circle"></i>';
+                } else if (response.data.tenthCertificateStatus === "Rejected") {
+                    var tenthStatus = document.getElementById('tenthStatus');
+                    tenthStatus.innerHTML = 'Rejected <i class="fas fa-times-circle"></i>';
+                }
+
+
 
 
                 if (response.data.twelveCertificate == null) {
@@ -934,12 +965,29 @@
                
                 var twelveLink = document.getElementById('twelveCertificateLink');
                 twelveLink.href = BaseUrl + response.data.twelveCertificate;
+                  if (response.data.twelveCertificateStatus === "Verified") {
+                    var twelveStatus = document.getElementById('twelveStatus');
+                    twelveStatus.innerHTML = 'Verified <i class="fas fa-check-circle"></i>';
+                } else if (response.data.twelveCertificate === "Rejected") {
+                    var twelveStatus = document.getElementById('twelveStatus');
+                    twelveStatus.innerHTML = 'Rejected <i class="fas fa-times-circle"></i>';
+                }
+
+
+
+
 
 
                 $('#professionalCertificate').attr('src', response.data.professionalCertificate ? BaseUrl + response.data.professionalCertificate : '/Img/SampleDoc.jpeg');
                 var ProfessionalLink = document.getElementById('professionalCertificateLink');
                 ProfessionalLink.href = BaseUrl + response.data.professionalCertificate;
-
+                  if (response.data.professionalCertificateStatus === "Verified") {
+                    var ProfesstionalStatus = document.getElementById('professtionalStatus');
+                    ProfesstionalStatus.innerHTML = 'Verified <i class="fas fa-check-circle"></i>';
+                } else if (response.data.professionalCertificateStatus === "Rejected") {
+                    var ProfesstionalStatus = document.getElementById('professtionalStatus');
+                    ProfesstionalStatus.innerHTML = 'Rejected <i class="fas fa-times-circle"></i>';
+                }
 
                 $('#loading').hide();
                 debugger;

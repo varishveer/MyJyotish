@@ -488,23 +488,23 @@
             function updateDocumentStatus(docs) {
                 $("#idProof").attr("src", docs.idProof ? BaseUrl + docs.idProof : '/Img/SampleDoc.jpeg');
                 updateStatus("idProofStatus", docs.idProofStatus, "idProof");
-                if (docs.idProofStatus == "Verified") { $('#idBtn').hide(); }
+                if (docs.idProofStatus == "Verified" ||docs.idProofStatus == "Rejected") { $('#idBtn').hide(); }
 
                 $("#addressProof").attr("src", docs.addressProof ? BaseUrl + docs.addressProof : '/Img/SampleDoc.jpeg');
                 updateStatus("addressProofStatus", docs.addressProofStatus, "addressProof");
-            if (docs.addressProofStatus == "Verified") { $('#addressBtn').hide(); }
+            if (docs.addressProofStatus == "Verified" || docs.addressProofStatus == "Rejected") { $('#addressBtn').hide(); }
 
                 $("#tenthCertificate").attr("src", docs.tenthCertificate ? BaseUrl + docs.tenthCertificate : '/Img/SampleDoc.jpeg');
                 updateStatus("tenthCertificateStatus", docs.tenthCertificateStatus, "tenthCertificate");
-            if (docs.tenthCertificateStatus == "Verified") { $('#tenthBtn').hide(); }
+            if (docs.tenthCertificateStatus == "Verified" || docs.tenthCertificateStatus == "Rejected") { $('#tenthBtn').hide(); }
 
                 $("#twelveCertificate").attr("src", docs.twelveCertificate ? BaseUrl + docs.twelveCertificate : '/Img/SampleDoc.jpeg');
                 updateStatus("twelveCertificateStatus", docs.twelveCertificateStatus, "twelveCertificate");
-            if (docs.twelveCertificateStatus == "Verified") { $('#twelveBtn').hide(); }
+            if (docs.twelveCertificateStatus == "Verified" || docs.twelveCertificateStatus == "Rejected") { $('#twelveBtn').hide(); }
 
                 $("#professionalCertificate").attr("src", docs.professionalCertificate ? BaseUrl + docs.professionalCertificate : '/Img/SampleDoc.jpeg');
                 updateStatus("professionalCertificateStatus", docs.professionalCertificateStatus, "professionalCertificate");
-            if (docs.professionalCertificateStatus == "Verified") { $('#professionalBtn').hide(); }
+            if (docs.professionalCertificateStatus == "Verified" ||docs.professionalCertificateStatus == "Rejected") { $('#professionalBtn').hide(); }
             }
 
            
@@ -514,6 +514,11 @@
                 if(status == "Verified"){
                      $("#" + elementId).html(status + ' <i class="fas fa-check-circle"></i>');
                   $("#" + elementId).addClass("text-primary");
+
+                }
+                else if(status == "Rejected"){
+                     $("#" + elementId).html(status + '<i class="fas fa-times-circle"></i>');
+                  $("#" + elementId).addClass("text-danger");
 
                 }
                 else{ $("#" + elementId).text(status);}
