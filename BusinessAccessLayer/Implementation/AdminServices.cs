@@ -662,13 +662,13 @@ namespace BusinessAccessLayer.Implementation
             if (record == null) return "Documents not found";
 
             var statusMapping = new Dictionary<string, Action>
-    {
-        { "idProofStatus", () => record.IdProofStatus = "Rejected" },
-        { "addressProofStatus", () => record.AddressProofStatus = "Rejected" },
-        { "tenthCertificateStatus", () => record.TenthCertificateStatus = "Rejected" },
-        { "twelveCertificateStatus", () => record.TwelveCertificateStatus = "Rejected" },
-        { "professionalCertificateStatus", () => record.ProfessionalCertificateStatus = "Rejected" }
-    };
+                {
+                    { "idProofStatus", () => record.IdProofStatus = "Rejected" },
+                    { "addressProofStatus", () => record.AddressProofStatus = "Rejected" },
+                    { "tenthCertificateStatus", () => record.TenthCertificateStatus = "Rejected" },
+                    { "twelveCertificateStatus", () => record.TwelveCertificateStatus = "Rejected" },
+                    { "professionalCertificateStatus", () => record.ProfessionalCertificateStatus = "Rejected" }
+                };
 
             if (statusMapping.ContainsKey(model.ImageStatus))
             {

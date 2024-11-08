@@ -406,7 +406,7 @@
             const date = $("#date-checkin").val();
             const dateTo = $("#date-checkout").val();
             const timeDuration = $("#timeDuration").val()
-            const skipDate = $("#skipDate:checked").length>0? $("#skipDate").val():null
+            const skipDate = $("#skipDate")!=""? $("#skipDate").val():null
             const saturday = $("#saturday:checked").length>0?$("#saturday").val():0
             const sunday = $("#sunday:checked").length > 0 ? $("#sunday").val() : 0
             const jyotishId = localStorage.getItem('Id');
@@ -433,7 +433,7 @@
                 data: JSON.stringify({
                     date: date,
                     dateTo: dateTo,
-                    skipDate: skipDate, 
+                    skipDate: skipDate,
                     saturday: saturday, 
                     sunday: sunday, 
                     timeDuration: parseInt(timeDuration, 10),

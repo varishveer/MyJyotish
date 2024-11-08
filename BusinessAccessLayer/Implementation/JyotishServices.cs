@@ -530,6 +530,16 @@ namespace BusinessAccessLayer.Implementation
                 {
                     if (Jyotish.TimeFrom != null && Jyotish.TimeTo != null)
                     {
+
+                        AppointmentSlotModel data = new AppointmentSlotModel();
+                        data.Date = date;
+                        data.TimeFrom = time;
+                        data.TimeTo = time.AddMinutes(model.TimeDuration);
+                        data.JyotishId = model.JyotishId;
+                        data.TimeDuration = model.TimeDuration;
+                        data.Status = "Vacant";
+                        if (model.saturday == 1)
+
                         for (TimeOnly time = (TimeOnly)Jyotish.TimeFrom; time <= (TimeOnly)Jyotish.TimeTo; time = time.AddMinutes(model.TimeDuration))
                         {
                             AppointmentSlotModel data = new AppointmentSlotModel();
@@ -547,6 +557,7 @@ namespace BusinessAccessLayer.Implementation
                                     data.ActiveStatus = 0;
                                 }
                                 else
+
                                 {
                                     data.ActiveStatus = 1;
 

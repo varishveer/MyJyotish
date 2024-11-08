@@ -15,12 +15,34 @@
             border-right: 1px solid #ddd;
             text-align: center;
         }
-        .left-section img {
+       /*  .left-section img {
             max-width: 100%;
-            height: auto;
+            height: 250px;
+            width:250px;
             border-radius: 10px;
             margin-bottom: 15px;
+        } */
+        .left-section img {
+            width: 250px;
+            height: 250px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            object-fit: cover;
+            background-color: #f0f0f0; 
         }
+
+          
+
+            
+
+
+
+
+
+
+
+
+
         .document-btn {
             display: inline-block;
             margin-top: 10px;
@@ -36,22 +58,43 @@
         }
         .profile-info {
             margin-bottom: 10px;
+           
         }
-        .profile-info h3 {
-            margin: 0;
-            color: #333;
+
+        .profile-info h6 {
+            margin: 5px 0;
+            font-weight:300;
+          
         }
         .profile-info p {
             margin: 5px 0;
             color: #666;
         }
+        #about{
+            text-align:justify;
+        }
     </style>
 
 <div class="container">
     <div class="left-section">
-        <img id="profileImage" src="" alt="Profile Image">
-        <h3 id="profileName"></h3>
-        <a href="#" class="document-btn" id="documentButton">View Documents</a>
+        <img id="profileImage" src="" alt="Profile Image" >
+        <h3 id="profileName" class="fw-light"></h3>
+       @*  <a href="#" class="document-btn" id="documentButton">View Documents</a> *@
+        <!-- Button to Open Modal -->
+        <button type="button" id="opendocumentModal" class="btn btn-primary" data-toggle="modal" data-target="#documentModal">
+            View Documents
+        </button>
+
+        <div class="d-flex my-2 justify-content-center gap-2">
+            
+            <button class="approveButton btn btn-success btn-sm ">Approve</button>
+            <button class="rejectButton  btn btn-danger btn-sm">Reject</button>
+           @*  <i class="fas fa-check "></i>
+            <i class="fas fa-times rejectButton fs-3 px-2 text-danger"></i> *@
+        </div>
+       
+        <h6 class="fw-light mt-3">About</h6>
+        <p id="about" ></p>
     </div>
     <div class="right-section" id="profileDetails">
         <!-- Dynamic profile details go here -->
@@ -59,10 +102,10 @@
 </div>
 
 <script>
-    $(document).ready(function () {
+   
         const urlParams = new URLSearchParams(window.location.search);
         const Id = urlParams.get('Id');
-
+      
         $.ajax({
             url: `${BaseUrl}Api/Admin/JyotishProfile?Id=${Id}`,
             type: 'GET',
@@ -79,25 +122,143 @@
                     $('#profileImage').attr('src', `${BaseUrl}${data.profileImageUrl}`);
                     $('#profileName').text(data.name);
                     $('#documentButton').attr('href', `/Admin/JyotishDocs?id=${data.id}`);
+                    $('#about').html(data.about.slice(0, 200) + `...<span class='text-primary' onClick='SeemoreAbout()' role='button'>more</span>`);
+                    const approveButton = document.querySelector('.approveButton');
+                    const rejectButton = document.querySelector('.rejectButton');
+                    approveButton.setAttribute('data-id', data.id);
+                    rejectButton.setAttribute('data-id', data.id);
 
-                    // Populate Right Section
+                    if (data.call == true) { var Call = "Yes"; }
+                    else { var Call = "No"; }
+                    if (data.chat == true) { var Chat = "Yes"; }
+                    else { var Chat = "No"; }
+
                     const profileHTML = `
-                        <div class="profile-info"><h3>Email:</h3> <p>${data.email}</p></div>
-                        <div class="profile-info"><h3>Mobile:</h3> <p>${data.mobile}</p></div>
-                        <div class="profile-info"><h3>Alternate Mobile:</h3> <p>${data.alternateMobile}</p></div>
-                        <div class="profile-info"><h3>Role:</h3> <p>${data.role}</p></div>
-                        <div class="profile-info"><h3>Gender:</h3> <p>${data.gender}</p></div>
-                        <div class="profile-info"><h3>Language:</h3> <p>${data.language}</p></div>
-                        <div class="profile-info"><h3>Expertise:</h3> <p>${data.expertise}</p></div>
-                        <div class="profile-info"><h3>Country:</h3> <p>${data.country}</p></div>
-                        <div class="profile-info"><h3>State:</h3> <p>${data.state}</p></div>
-                        <div class="profile-info"><h3>City:</h3> <p>${data.city}</p></div>
-                        <div class="profile-info"><h3>Date of Birth:</h3> <p>${data.dateOfBirth}</p></div>
-                        <div class="profile-info"><h3>Experience:</h3> <p>${data.experience} years</p></div>
-                        <div class="profile-info"><h3>Address:</h3> <p>${data.address}</p></div>
-                        <div class="profile-info"><h3>About:</h3> <p>${data.about}</p></div>
+                       <div class="row">
+                            <div class="col-md-6">
+                                <div class="profile-info">
+                                    <h6>Email:</h6>
+                                    <p>${data.email}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="profile-info">
+                                    <h6>Mobile:</h6>
+                                    <p>${data.mobile}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="profile-info">
+                                    <h6>Alternate Mobile:</h6>
+                                    <p>${data.alternateMobile}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="profile-info">
+                                    <h6>Experience:</h6>
+                                    <p>${data.experience} years</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="profile-info">
+                                    <h6>Gender:</h6>
+                                    <p>${data.gender}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="profile-info">
+                                    <h6>Language:</h6>
+                                    <p>${data.language}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="profile-info">
+                                    <h6>Date of Birth:</h6>
+                                    <p>${data.dateOfBirth}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="profile-info">
+                                    <h6>Expertise:</h6>
+                                    <p>${data.expertise}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="profile-info">
+                                    <h6>City:</h6>
+                                    <p>${data.city}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="profile-info">
+                                    <h6>State:</h6>
+                                    <p>${data.state}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="profile-info">
+                                    <h6>Country:</h6>
+                                    <p>${data.country}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="profile-info">
+                                    <h6>Address:</h6>
+                                    <p>${data.address}</p>
+                                </div>
+                            </div>
+       
+                                 <div class="col-md-6">
+                                    <div class="profile-info">
+                                        <h6>Available Time:</h6>
+                                        <p>${data.timeFrom} - ${data.timeTo}</p>
+                                    </div>
+                                </div>
+                            <div class="col-md-6">
+                                <div class="profile-info">
+                                    <h6>Pooja:</h6>
+                                    <p>${data.pooja}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="profile-info">
+                                    <h6>Call:</h6>
+                                    <p>${Call}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="profile-info">
+                                    <h6>Call Charges:</h6>
+                                            <p>₹${data.callCharges?? "N/A"}/min</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="profile-info">
+                                    <h6>Chat:</h6>
+                                    <p>${Chat}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="profile-info">
+                                    <h6>Chat Charges:</h6>
+                                        <p>₹${data.chatCharges ?? "N/A"}/min</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="profile-info">
+                                    <h6>Specialization:</h6>
+                                    <p>${data.specialization}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="profile-info">
+                                    <h6>Awards and Achievements:</h6>
+                                    <p>${data.awordsAndAchievement}</p>
+                                </div>
+                            </div>
+                        </div>
                     `;
-
+                    allAbout = data.about;
                     $('#profileDetails').html(profileHTML);
                 } else {
                     alert("No record found");
@@ -107,5 +268,421 @@
                 alert("Error loading data");
             }
         });
+
+       
+    function SeemoreAbout() {
+        cropAbout = $("#about").html()
+        $("#about").html(
+            `
+                                  ${allAbout} <span class='text-primary' onClick='SeelessAbout()' role='button'>less</span>
+                          `
+        )
+    }
+    function SeelessAbout() {
+        $("#about").html(cropAbout)
+    }
+
+   
+</script>
+
+
+
+
+<style>
+    .docName{
+        color:black;
+        text-align:center;
+    }
+
+    .docStatus {
+        text-align: center;
+
+    }
+</style>
+
+<div class="modal  fade" id="documentModal" tabindex="-1" role="dialog" aria-labelledby="documentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="documentModalLabel">Jyotish Documents</h5>
+                <button type="button" class="close btn text-danger" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid ">
+                    <div class="row justify-content-around">
+                        <!-- ID Proof -->
+                        <div class="col-md-3 col-lg-2 mb-4 ">
+                            <p class="docName"> Id Proof</p>
+                            <div class="image-container bg-light rounded">
+                                <img id="idProof" alt="ID Proof" class="img-fluid" src="">
+                            </div>
+                            <div class="docStatus mb-2">
+                               
+                                <span id="idProofStatus" class="docStatus"> </span>
+                            </div>
+                            <div class="flex-row justify-content-center">
+
+                             
+                                <button class="btn btn-success btn-sm  approvedBtn"  data-status="idProofStatus" title="Approve">Approve</button>
+
+                                <button class="btn btn-danger btn-sm rejected" data-toggle="modal" data-target="#rejectedDocModal" title="Rejected" data-status="idProofStatus"> Reject</button>
+                             
+                            </div>
+                        </div>
+                        <!-- Address Proof -->
+                        <div class="col-md-3 col-lg-2 mb-4">
+                            <p class="docName"> Address Proof</p>
+                            <div class="image-container bg-light rounded">
+                                <img id="addressProof" alt="Address Proof" class="img-fluid" src="">
+                            </div>
+                            <div class="docStatus mb-2">
+                              
+                                <span id="addressProofStatus" class="docStatus"> </span>
+                            </div>
+                            <div class="flex-row justify-content-center">
+                                <button class="btn btn-success btn-sm approvedBtn" data-status="addressProofStatus" title="Approved"> Approve</button>
+                                <button class="btn btn-danger btn-sm rejected" data-toggle="modal" data-target="#rejectedDocModal" title="Rejected" data-status="addressProofStatus"> Reject</button>
+                            
+                            </div>
+                        </div>
+                        <!-- Tenth Certificate -->
+                        <div class="col-md-3 col-lg-2 mb-4">
+                            <p class="docName"> Tenth Certificate</p>
+                            <div class="image-container bg-light rounded">
+                                <img id="tenthCertificate" alt="Tenth Certificate" class="img-fluid" src="" >
+                            </div>
+                            <div class="docStatus mb-2">
+                              
+                                <span id="tenthCertificateStatus" class="docStatus"> </span>
+                            </div>
+                            <div class="flex-row justify-content-center">
+                                <button class="btn btn-success btn-sm approvedBtn" data-status="tenthCertificateStatus" title="Approved"> Approve</button>
+                                <button class="btn btn-danger btn-sm rejected" data-toggle="modal" data-target="#rejectedDocModal" title="Rejected" data-status="tenthCertificateStatus"> Reject</button>
+                            
+                            </div>
+                        </div>
+                        <!-- Twelve Certificate -->
+                        <div class="col-md-3 col-lg-2 mb-4">
+                            <p class="docName"> Twelve Certificate</p>
+                            <div class="image-container bg-light rounded">
+                                <img id="twelveCertificate" alt="Twelve Certificate" class="img-fluid" src="">
+                            </div>
+                            <div class="docStatus mb-2">
+                             
+                                <span id="twelveCertificateStatus" class="docStatus"> </span>
+                            </div>
+                            <div class="flex-row justify-content-center">
+                                <button class="btn btn-success btn-sm approvedBtn" data-status="twelveCertificateStatus" title="Approved"> Approve</button>
+                                <button class="btn btn-danger btn-sm rejected" data-toggle="modal" data-target="#rejectedDocModal" data-status="twelveCertificateStatus" title="Rejected"> Reject</button>
+                             
+                            </div>
+                        </div>
+                        <!-- Professional Certificate -->
+                        <div class="col-md-3 col-lg-2 mb-4">
+                            <p class="docName"> Professional </p>
+                            <div class="image-container bg-light rounded">
+                                <img id="professionalCertificate" alt="Professional Certificate" class="img-fluid" src="">
+                            </div>
+                            <div class="docStatus mb-2">
+                               
+                                <span id="professionalCertificateStatus" class="docStatus"> </span>
+                            </div>
+                            <div class="flex-row justify-content-center">
+                                <button class="btn btn-success btn-sm approvedBtn " data-status="professionalCertificateStatus" title="Approved"> Approve</button>
+                                <button class="btn btn-danger btn-sm rejected" data-toggle="modal" data-target="#rejectedDocModal" data-status="professionalCertificateStatus" title="Rejected"> Reject</button>
+                             
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Approved Doc Modal -->
+
+<!-- Rejected Doc Modal -->
+<div class="modal fade" id="rejectedDocModal" tabindex="-1" role="dialog" aria-labelledby="rejectedDocModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="rejectedModalLabel">Rejected message</h5>
+                <button type="button" class="close btn text-danger" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    
+                      
+                        <input type="hidden" class="form-control" id="status" >
+                  
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Subject:</label>
+                        <input type="text" class="form-control" id="recipient-name">
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Message:</label>
+                        <textarea class="form-control" id="message-text" style="resize:none;"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button id="rejectBtn" type="button" class="btn btn-primary">Send message</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+    
+        // Open the document modal
+    $('#opendocumentModal').on('click', function () {
+        $('#documentModal').modal('show');
+    });
+
+
+        // Function to get 'id' from the URL parameters
+        function getIdFromUrl() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('Id'); // Get the value of 'id' param
+        }
+
+        var id = getIdFromUrl(); // Get the ID from the URL
+
+        if (id) {
+            // Function to get Jyotish documents using Ajax
+            function getJyotishDocs(id) {
+                $.ajax({
+                    url: BaseUrl + `Api/Admin/GetJyotishDocs?Id=${id}`,
+                    type: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem("Token")}`
+                    },
+                    success: function (response) {
+
+                        if (response.status === 200) {
+                            updateDocumentStatus(response.data); // Call function to update document status
+                        } else {
+                            alert("No Record Found");
+                            window.location.replace("/Admin/PendingJyotish");
+                        }
+                    },
+                    error: function () {
+                        alert('Error fetching Jyotish documents.');
+                        window.location.replace("/Admin/PendingJyotish");
+                    }
+                });
+            }
+
+            // Function to update document status in the UI
+            function updateDocumentStatus(docs) {
+                $("#idProof").attr("src", docs.idProof ? BaseUrl + docs.idProof : '/Img/SampleDoc.jpeg');
+                updateStatus("idProofStatus", docs.idProofStatus, "idProof");
+
+                $("#addressProof").attr("src", docs.addressProof ? BaseUrl + docs.addressProof : '/Img/SampleDoc.jpeg');
+                updateStatus("addressProofStatus", docs.addressProofStatus, "addressProof");
+
+                $("#tenthCertificate").attr("src", docs.tenthCertificate ? BaseUrl + docs.tenthCertificate : '/Img/SampleDoc.jpeg');
+                updateStatus("tenthCertificateStatus", docs.tenthCertificateStatus, "tenthCertificate");
+
+                $("#twelveCertificate").attr("src", docs.twelveCertificate ? BaseUrl + docs.twelveCertificate : '/Img/SampleDoc.jpeg');
+                updateStatus("twelveCertificateStatus", docs.twelveCertificateStatus, "twelveCertificate");
+
+                $("#professionalCertificate").attr("src", docs.professionalCertificate ? BaseUrl + docs.professionalCertificate : '/Img/SampleDoc.jpeg');
+                updateStatus("professionalCertificateStatus", docs.professionalCertificateStatus, "professionalCertificate");
+            }
+
+           
+            function updateStatus(elementId, status, docType) {
+
+                if (status == null) { status = "Not Uploaded Yet"; }
+                $("#" + elementId).text(status);
+
+                $("#" + docType).data('status', status); // Store status in data attribute for use later
+            }
+
+            // Call the function to get Jyotish Docs when the page loads
+            getJyotishDocs(id);
+
+            // Event listener for Approve button (open modal)
+           
+
+            // Event listener for Reject button (open modal)
+            $(document).on("click", ".rejected", function () {
+               
+                let status= $(this).attr("data-status");
+               
+                openModal(status); // Open the modal with the correct values
+            });
+
+            // Function to open the modal and set data
+            function openModal( status) {
+                var modal =  $('#rejectedModal');
+                $("#status").val(status);
+                modal.modal('show'); // Show the modal
+            }
+
+            // Use event delegation for the approve button inside the modal
+           
+
+            // Use event delegation for the reject button inside the modal
+            $(document).on('click', '#rejectBtn', function () {
+                var modal = $('#rejectedDocModal');
+
+               
+               
+                var status = modal.find('#status').val();
+
+               
+                var subject = modal.find('#recipient-name').val();
+
+              
+                var message = modal.find('#message-text').val();
+
+               
+                var id = getIdFromUrl(); 
+
+               
+                sendRejectedStatus(status, subject, message, id);
+            });
+
+
+
+
+
+
+            // Function to send status update to the API
+        function sendRejectedStatus(status, subject, message, id) {
+                var payload = {
+                    ImageStatus: status,
+                    subject: subject,
+                    message: message,
+                    id: id 
+                };
+
+                var ApiUrl = `${BaseUrl}` + 'Api/Admin/RejectJyotishDocs';
+                
+
+                $.ajax({
+                    url: ApiUrl,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(payload),
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem("Token")}`
+                    },
+                    success: function (response) {
+
+                        if (response.status === 200) {
+                            Swal.fire({
+                                title: "Status updated successfully!",
+
+                                icon: "success",
+
+                                showConfirmButton: true, // Ensure the OK button is shown
+                            });
+
+                            location.reload();
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function () {
+
+                        alert('Error updating document status.');
+                    }
+                });
+            }
+
+
+
+            // -------------------------------------------
+            $(document).on('click', '.approvedBtn', function () {
+
+            var id = getIdFromUrl();
+            var status = $(this).data('status');
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'Do you want to approve this document?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, approve it!',
+                    cancelButtonText: 'No, cancel',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // If the user confirmed, call the API to approve the document
+                    sendApprovedStatus(Id, status);
+                    } else {
+                        // If the user canceled, no action is taken
+                        Swal.fire(
+                            'Cancelled',
+                            'The document approval was cancelled.',
+                            'error'
+                        );
+                    }
+                });
+            
+               
+            });
+
+            // Function to send status update to the API
+            function sendApprovedStatus(Id, status) {
+                var payload = {
+                    ImageStatus: status,
+                    id: Id
+                };
+
+               
+                  var  ApiUrl = `${BaseUrl}Api/Admin/ApproveJyotishDocs`;
+                
+
+                $.ajax({
+                    url: ApiUrl,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(payload),
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem("Token")}`
+                    },
+                    success: function (response) {
+                        if (response.status === 200) {
+                            Swal.fire({
+                                title: "Status updated successfully!",
+                                icon: "success",
+                                showConfirmButton: true, // Ensure the OK button is shown
+                            });
+
+                            location.reload(); // Reload the page after successful status update
+                        } else {
+                            alert(response.message); // Show error message from the API
+                        }
+                    },
+                    error: function () {
+                        alert('Error updating document status.');
+                    }
+                });
+            }
+
+
+        } else {
+            alert('ID parameter is missing in the URL.');
+        }
+
+    $(document).ready(function () {
     });
 </script>
+
+
