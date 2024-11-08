@@ -524,13 +524,13 @@ namespace BusinessAccessLayer.Implementation
 
             var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
             if (Jyotish == null) { return "Invalid Jyotish"; }
-
-            for (DateTime date = model.Date; date <= model.DateTo; date = date.AddDays(1))
+            if (DateTime.Compare(model.Date, model.DateTo) <= 90)
             {
-                if (Jyotish.TimeFrom != null && Jyotish.TimeTo!=null)
+                for (DateTime date = model.Date; date <= model.DateTo; date = date.AddDays(1))
                 {
-                    for (TimeOnly time = (TimeOnly)Jyotish.TimeFrom; time <= (TimeOnly)Jyotish.TimeTo; time = time.AddMinutes(model.TimeDuration))
+                    if (Jyotish.TimeFrom != null && Jyotish.TimeTo != null)
                     {
+
                         AppointmentSlotModel data = new AppointmentSlotModel();
                         data.Date = date;
                         data.TimeFrom = time;
@@ -539,82 +539,86 @@ namespace BusinessAccessLayer.Implementation
                         data.TimeDuration = model.TimeDuration;
                         data.Status = "Vacant";
                         if (model.saturday == 1)
+
+                        for (TimeOnly time = (TimeOnly)Jyotish.TimeFrom; time <= (TimeOnly)Jyotish.TimeTo; time = time.AddMinutes(model.TimeDuration))
+                        {
+                            AppointmentSlotModel data = new AppointmentSlotModel();
+                            data.Date = model.Date;
+                            data.TimeFrom = time;
+                            data.TimeTo = time.AddMinutes(model.TimeDuration);
+                            data.JyotishId = model.JyotishId;
+                            data.TimeDuration = model.TimeDuration;
+                            data.Status = "Vacant";
+                            if (model.saturday == 1)
+                            {
+                                if (date.DayOfWeek == DayOfWeek.Saturday)
                                 {
-                                    if (date.DayOfWeek == DayOfWeek.Saturday)
-                                    {
-                                        
-                                        data.ActiveStatus = 0;
-                                    }
-                            else
-                            {
-                                data.ActiveStatus = 1;
 
-                            }
-                        }
-                        else
-                        {
-                            data.ActiveStatus = 1;
+                                    data.ActiveStatus = 0;
+                                }
+                                else
 
-                        }
-                        if (model.sunday == 2)
-                        { 
-                                    if (date.DayOfWeek == DayOfWeek.Sunday)
-                                    {
-                                       
-                                        data.ActiveStatus = 0;
-                                        
-                                    }
-                            else
-                            {
-                                data.ActiveStatus = 1;
+                                {
+                                    data.ActiveStatus = 1;
 
-                            }
-                        }
-                        else
-                        {
-                            data.ActiveStatus = 1;
-
-                        }
-
-                        if (model.skipDate != null)
-                        {
-                            if (DateTime.Compare((DateTime)model.skipDate, date) == 0)
-                            {
-                                data.ActiveStatus = 0;
-
+                                }
                             }
                             else
                             {
                                 data.ActiveStatus = 1;
 
                             }
-                        }
+                            if (model.sunday == 2)
+                            {
+                                if (date.DayOfWeek == DayOfWeek.Sunday)
+                                {
 
-                        if (model.saturday==0 && model.sunday==0 & model.skipDate == null)
-                        {
-                            
-                            data.ActiveStatus = 1;
-                        }
-                        _context.AppointmentSlots.Add(data);
+                                    data.ActiveStatus = 0;
 
+                                }
+                                else
+                                {
+                                    data.ActiveStatus = 1;
+
+                                }
+                            }
+                            else
+                            {
+                                data.ActiveStatus = 1;
+
+                            }
+
+                            if (model.skipDate != null)
+                            {
+                                if (DateTime.Compare((DateTime)model.skipDate, date) == 0)
+                                {
+                                    data.ActiveStatus = 0;
+
+                                }
+                                else
+                                {
+                                    data.ActiveStatus = 1;
+
+                                }
+                            }
+
+                            if (model.saturday == 0 && model.sunday == 0 & model.skipDate == null)
+                            {
+
+                                data.ActiveStatus = 1;
+                            }
+                            _context.AppointmentSlots.Add(data);
+
+                        }
                     }
                 }
             }
-
-           /* AppointmentSlotModel data = new AppointmentSlotModel();
-            data.Date = model.Date;
-            data.TimeFrom = model.TimeFrom;
-            data.TimeTo = model.TimeTo;
-            data.JyotishId = model.JyotishId;
-            data.TimeDuration = model.TimeDuration;
-            data.Status = "Vacant";
-            _context.AppointmentSlots.Add(data);*/
             if (_context.SaveChanges() > 0) { return "Successful"; }
             else { return "Data Not Saved"; }
         }
-
-        //add wallet
-        public string AddWallet(JyotishWalletViewmodel pr)
+        
+            //add wallet
+            public string AddWallet(JyotishWalletViewmodel pr)
         {
             var Jyotish = _context.JyotishRecords.Where(x => x.Id == pr.jyotishId).FirstOrDefault();
             if (Jyotish == null) { return null; }
@@ -745,23 +749,24 @@ namespace BusinessAccessLayer.Implementation
 
         public List<AppointmentSlotUserViewModel> GetAllAppointmentSlot(int id)
         {
-            var result = _context.AppointmentSlots.Where(x => x.JyotishId == id)
-                   .GroupBy(x => x.Date)
-                   .Select(g => new AppointmentSlotUserViewModel
-                   {
-
-                       Date = g.Key, // Date is the grouping key
-                       SlotList = g.Select(x => new AppointmentSlotDateUserViewModel
-                       {
-                           Id = x.Id,
-                           TimeDuration = x.TimeDuration,
-                           TimeFrom = x.TimeFrom,
-                           TimeTo = x.TimeTo,
-                           JyotishId = x.JyotishId,
-                           Status = x.Status
-                       }).ToList()
-                   })
-                   .ToList();
+            var result = (from slot in _context.AppointmentSlots
+                          where slot.JyotishId == id && slot.ActiveStatus == 1
+                          orderby slot.Date.Month descending
+                          group slot by slot.Date into g
+                          select new AppointmentSlotUserViewModel
+                          {
+                              Date = g.Key, // Date is the grouping key
+                              SlotList = (from s in g
+                                          select new AppointmentSlotDateUserViewModel
+                                          {
+                                              Id = s.Id,
+                                              TimeDuration = s.TimeDuration,
+                                              TimeFrom = s.TimeFrom,
+                                              TimeTo = s.TimeTo,
+                                              JyotishId = s.JyotishId,
+                                              Status = s.Status
+                                          }).ToList()
+                          }).ToList();
 
             return result;
         } 
