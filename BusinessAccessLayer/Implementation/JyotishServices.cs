@@ -543,7 +543,7 @@ namespace BusinessAccessLayer.Implementation
                     {
                         var data = new AppointmentSlotModel
                         {
-                            Date = model.Date,
+                            Date = date,
                             TimeFrom = time,
                             TimeTo = time.AddMinutes(model.TimeDuration),
                             JyotishId = model.JyotishId,
@@ -597,7 +597,7 @@ namespace BusinessAccessLayer.Implementation
                 if (shouldDeactivate)
                 {
                     slot.ActiveStatus = 0; 
-                    slotsToUpdate.Add(new AppointmentSlotModel { Id = slot.Id, ActiveStatus = 0 });
+                    slotsToUpdate.Add(slot);
                 }
             }
 
