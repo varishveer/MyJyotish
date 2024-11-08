@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ namespace ModelAccessLayer.ViewModels
         public DateTime DateTo { get; set; }
         public int saturday { get; set; }
         public int sunday { get; set; }
+        [AllowNull]
         public DateTime? skipDate { get; set; }
         public int TimeDuration { get; set; }
         public TimeOnly TimeFrom { get; set; }

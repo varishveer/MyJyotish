@@ -518,8 +518,7 @@ namespace BusinessAccessLayer.Implementation
 
         public string AddAppointmentSlot(AppointmentSlotViewModel model)
         {
-            var today = DateOnly.FromDateTime(DateTime.Now);
-            if (model.Date < today.ToDateTime(TimeOnly.MinValue))
+            if (DateTime.Compare(model.Date,DateTime.Now)<0)
             { return "Invalid Date"; }
 
             var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
@@ -580,7 +579,7 @@ namespace BusinessAccessLayer.Implementation
 
                             }
 
-                            if (model.skipDate != null)
+                            if (model.skipDate != null && model.skipDate.ToString()!= "1001-01-01")
                             {
                                 if (DateTime.Compare((DateTime)model.skipDate, date) == 0)
                                 {
@@ -798,6 +797,7 @@ namespace BusinessAccessLayer.Implementation
             var result = (from slot in _context.AppointmentSlots
                           where slot.JyotishId == id && slot.ActiveStatus == 1
                           group slot by slot.Date into g
+                                                   
                           select new AppointmentSlotUserViewModel
                           {
                               Date = g.Key, // Date is the grouping key
@@ -811,7 +811,9 @@ namespace BusinessAccessLayer.Implementation
                                               JyotishId = s.JyotishId,
                                               Status = s.Status
                                           }).ToList()
-                          }).ToList();
+                                          
+                          }                    
+                          ).ToList();
 
             return result;
         } 
