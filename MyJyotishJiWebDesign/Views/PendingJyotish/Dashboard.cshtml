@@ -866,8 +866,8 @@
 
                 $('#idProof').attr('src', response.data.idProof ? BaseUrl + response.data.idProof : '/Img/SampleDoc.jpeg');
                 var idLink = document.getElementById('idProofLink');
-                idLink.href = BaseUrl + response.data.idProof;
-
+                $("#idProofLink").attr("href", BaseUrl + response.data.idProof);
+                
                 $('#addressProof').attr('src', response.data.addressProof ? BaseUrl + response.data.addressProof : '/Img/SampleDoc.jpeg');
                 var addressLink = document.getElementById('addressProofLink');
                 addressLink.href = BaseUrl + response.data.addressProof;

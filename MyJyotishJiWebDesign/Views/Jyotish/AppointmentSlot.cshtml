@@ -474,7 +474,7 @@
 
         // Fetch and display the appointment slots
         $.ajax({
-            url:+`https://localhost:7118/api/Jyotish/GetAllAppointmentSlot?Id=${localStorage.getItem('Id')}`,
+            url:`https://localhost:7118/api/Jyotish/GetAllAppointmentSlot?Id=${localStorage.getItem('Id')}`,
             type: 'GET',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
