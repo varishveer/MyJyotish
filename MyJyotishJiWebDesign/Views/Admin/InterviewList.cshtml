@@ -59,9 +59,9 @@
                         htmls += `<td class="text-center">${item.date}</td>`;
                         htmls += `<td class="text-center">${item.time}</td>`;
                         htmls += `<td class="text-center">
-                        <button type="button" class="btn btn-primary" data-id="${item.id}" data-name="${item.name}" data-toggle="modal" data-target="#dynamicModal">
-                               Reschedule
-                            </button></td>`;
+                           <button type="button" class="btn btn-primary" data-id="${item.id}" data-name="${item.name}" data-toggle="modal" data-target="#dynamicModal">
+        Reschedule
+    </button></td>`;
                         
                         htmls += '</tr>';
                         idCounter++;
@@ -108,8 +108,8 @@
 
                 <!-- Readonly Name Field -->
                 <div class="form-group">
-                    <label for="readonlyName">Name</label>
-                    <input type="text" class="form-control" id="readonlyName" readonly>
+                        Name:
+                    <p  id="readonlyName"> </p>
                 </div>
 
                 <div class="form-group">
@@ -118,7 +118,7 @@
                        
                     </select>
                 </div>
-              <button btn btn-success> Submit</button>
+                <button class="btn btn-success" id="submitBtn"> Submit</button>
             </div>
         </div>
     </div>
@@ -166,23 +166,23 @@
             });
         }
 
-      
-        $('button[data-toggle="modal"]').on('click', function () {
+        $(document).on('click', 'button[data-toggle="modal"]', function () {
             debugger;
+            // Get the values of data-id and data-name
             var id = $(this).data('id');
             var name = $(this).data('name');
 
             // Set the values to the modal fields
-            $('#hiddenId').val(id);       
-            $('#readonlyName').val(name);
+            $('#hiddenId').val(id);        // Populate the hidden ID field
+            $('#readonlyName').text(name);  // Populate the readonly Name field
         });
 
-       
+        // When the modal opens, fetch the slot list
         $('#dynamicModal').on('show.bs.modal', function () {
             fetchDataAndPopulateModal();
         });
 
-
+        // Submit the form
         $('#submitBtn').on('click', function () {
             var id = $('#hiddenId').val();  // Get the hidden ID field value
             var slotId = $('#slotList').val();  // Get the selected SlotId
@@ -212,7 +212,7 @@
                     if (response.status === 200) {
                         Swal.fire('Success', 'Interview rescheduled successfully.', 'success');
                         $('#dynamicModal').modal('hide');  // Hide the modal on success
-                        fetchData();  // Reload the interview list (if applicable)
+                        location.reload();
                     } else {
                         Swal.fire('Error', response.message, 'error');
                     }
