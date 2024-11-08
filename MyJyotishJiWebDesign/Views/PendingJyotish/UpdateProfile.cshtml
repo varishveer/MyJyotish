@@ -1110,6 +1110,7 @@ $("#language").select2({
             })
                 var Id = localStorage.getItem('Id');
                 let checkData = true;
+                let checkImage=true
             $.ajax({
 
                 url: "https://localhost:7118/Api/PendingJyotish/ProfileTempData",
@@ -1122,7 +1123,13 @@ $("#language").select2({
                 success: function (response) {
                     if (response.status === 200) {
                         console.log(response)
+                        if (response.data.name != null) {
                         checkData = false;
+
+                        }
+                        if (response.data.image!=null) {
+                            checkImage = false;
+                        }
                         $("#name").val(response.data.name)
                         $("#email").val(response.data.email)
                         $("#mobno").val(response.data.mobile)
@@ -1219,8 +1226,9 @@ $("#language").select2({
 
                             $("#state").val()
                             $("#city").val()
-                            $("#profileImage").attr("src", "https://localhost:7118/" + response.data.profileImageUrl)
-
+                            if (checkImage) {
+                                $("#profileImage").attr("src", "https://localhost:7118/" + response.data.profileImageUrl)
+                            }
                              $("#country option").filter(function () {
                                 return $(this).text() === response.data.country;
                             }).prop("selected", true).change()
