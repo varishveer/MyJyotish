@@ -527,81 +527,39 @@ namespace BusinessAccessLayer.Implementation
             if (Jyotish == null) { return "Invalid Jyotish"; }
             if (DateTime.Compare(model.Date, model.DateTo) <= 90)
             {
+                    List<AppointmentSlotModel> slotsToAdd = new List<AppointmentSlotModel>();
                 for (DateTime date = model.Date; date <= model.DateTo; date = date.AddDays(1))
                 {
-                    if (Jyotish.TimeFrom != null && Jyotish.TimeTo != null && !slots.Contains(date))
+                    TimeOnly startTime = (TimeOnly)Jyotish.TimeFrom;
+                    TimeOnly endTime = (TimeOnly)Jyotish.TimeTo;
+
+
+                    bool isSaturdaySkipped = model.saturday == 1 && date.DayOfWeek == DayOfWeek.Saturday;
+                    bool isSundaySkipped = model.sunday == 2 && date.DayOfWeek == DayOfWeek.Sunday;
+                    bool isSkipDateMatched = model.skipDate != null && model.skipDate.ToString() != "1001-01-01" &&
+                    DateTime.Compare((DateTime)model.skipDate, date) == 0;
+
+                    for (TimeOnly time = startTime; time <= endTime; time = time.AddMinutes(model.TimeDuration))
                     {
-                        for (TimeOnly time = (TimeOnly)Jyotish.TimeFrom; time <= (TimeOnly)Jyotish.TimeTo; time = time.AddMinutes(model.TimeDuration))
+                        var data = new AppointmentSlotModel
                         {
-                            AppointmentSlotModel data = new AppointmentSlotModel();
-                            data.Date = model.Date;
-                            data.TimeFrom = time;
-                            data.TimeTo = time.AddMinutes(model.TimeDuration);
-                            data.JyotishId = model.JyotishId;
-                            data.TimeDuration = model.TimeDuration;
-                            data.Status = "Vacant";
-                            if (model.saturday == 1)
-                            {
-                                if (date.DayOfWeek == DayOfWeek.Saturday)
-                                {
+                            Date = model.Date,
+                            TimeFrom = time,
+                            TimeTo = time.AddMinutes(model.TimeDuration),
+                            JyotishId = model.JyotishId,
+                            TimeDuration = model.TimeDuration,
+                            Status = "Vacant",
+                            ActiveStatus = (isSaturdaySkipped || isSundaySkipped || isSkipDateMatched) ? 0 : 1
+                        };
 
-                                    data.ActiveStatus = 0;
-                                }
-                                else
-
-                                {
-                                    data.ActiveStatus = 1;
-
-                                }
-                            }
-                            else
-                            {
-                                data.ActiveStatus = 1;
-
-                            }
-                            if (model.sunday == 2)
-                            {
-                                if (date.DayOfWeek == DayOfWeek.Sunday)
-                                {
-
-                                    data.ActiveStatus = 0;
-
-                                }
-                                else
-                                {
-                                    data.ActiveStatus = 1;
-
-                                }
-                            }
-                            else
-                            {
-                                data.ActiveStatus = 1;
-
-                            }
-
-                            if (model.skipDate != null && model.skipDate.ToString()!= "1001-01-01")
-                            {
-                                if (DateTime.Compare((DateTime)model.skipDate, date) == 0)
-                                {
-                                    data.ActiveStatus = 0;
-
-                                }
-                                else
-                                {
-                                    data.ActiveStatus = 1;
-
-                                }
-                            }
-
-                            if (model.saturday == 0 && model.sunday == 0 & model.skipDate == null)
-                            {
-
-                                data.ActiveStatus = 1;
-                            }
-                            _context.AppointmentSlots.Add(data);
-
-                        }
+                        slotsToAdd.Add(data);
                     }
+
+                    // Batch insert
+                }
+                if (slotsToAdd.Count > 0)
+                {
+                    _context.AppointmentSlots.AddRange(slotsToAdd);
                 }
             }
             if (_context.SaveChanges() > 0) { return "Successful"; }
@@ -610,45 +568,44 @@ namespace BusinessAccessLayer.Implementation
 
         public string RemoveSlotWithskipDates(AppointmentSlotViewModel model)
         {
-            var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
-            var slotsId = _context.AppointmentSlots.Where(x => x.JyotishId == model.JyotishId && x.ActiveStatus==1).Select(e=>e.Id).ToList();
+            var Jyotish = _context.JyotishRecords.Find(model.JyotishId);
+            if (Jyotish == null)
+            {
+                return "Invalid Jyotish";
+            }
 
-            if (Jyotish == null) { return "Invalid Jyotish"; }
-            bool checkSkipDate = true;
-            
-                for(var i=0;i < slotsId.Count; i++)
+            var slots = _context.AppointmentSlots
+                .Where(x => x.JyotishId == model.JyotishId && x.ActiveStatus == 1)
+                .ToList();
+
+            List<AppointmentSlotModel> slotsToUpdate = new List<AppointmentSlotModel>();
+
+            DateTime? skipDate = model.skipDate;
+            bool isSkipDateValid = skipDate.HasValue && skipDate.Value != new DateTime(1001, 1, 1);
+
+            foreach (var slot in slots)
+            {
+                bool shouldDeactivate = false;
+
+                if ((model.saturday == 1 && slot.Date.DayOfWeek == DayOfWeek.Saturday) ||
+                    (model.sunday == 2 && slot.Date.DayOfWeek == DayOfWeek.Sunday) ||
+                    (isSkipDateValid && slot.Date.Date == skipDate.Value.Date))
                 {
-                    var slots = _context.AppointmentSlots.Where(x => x.Id == slotsId[i]).FirstOrDefault();
-                    if (slots != null)
-                    {
-                    if (model.saturday == 1)
-                    {
-                        if (slots.Date.DayOfWeek == DayOfWeek.Saturday)
-                        {
-                            slots.ActiveStatus = 0;
-                            _context.AppointmentSlots.Update(slots);
-                        }
-                    }
-                    if (model.sunday == 2)
-                    {
-                        if (slots.Date.DayOfWeek == DayOfWeek.Sunday)
-                        {
-                            slots.ActiveStatus = 0;
-                            _context.AppointmentSlots.Update(slots);
-                        }
-                    }
-                    if (model.skipDate!=null && checkSkipDate)
-                    {
-                        if (DateTime.Compare((DateTime)model.skipDate, slots.Date)==0)
-                        {
-                            slots.ActiveStatus = 0;
-                            _context.AppointmentSlots.Update(slots);
-                            checkSkipDate = false;
-                          
-                        }
-                    }
+                    shouldDeactivate = true;
+                }
+
+                if (shouldDeactivate)
+                {
+                    slot.ActiveStatus = 0; 
+                    slotsToUpdate.Add(new AppointmentSlotModel { Id = slot.Id, ActiveStatus = 0 });
                 }
             }
+
+            if (slotsToUpdate.Count > 0)
+            {
+                _context.AppointmentSlots.UpdateRange(slotsToUpdate); 
+            }
+
 
             if (_context.SaveChanges() > 0)
                 {
@@ -658,9 +615,7 @@ namespace BusinessAccessLayer.Implementation
                 {
                     return "There is some problem while applied changes";
 
-                }
-
-            
+                }            
         }
             //add wallet
             public string AddWallet(JyotishWalletViewmodel pr)
