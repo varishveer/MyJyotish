@@ -215,9 +215,12 @@
 
         <div class="row justify-content-center">
             <h5 id="registrationNumber" style="font-weight:300"></h5>
-            Your profile and documents are currently under processing and verification.<br />
-            Updates will be available within 24 to 72 hours.<br />
-            Please check back within this timeframe for further information.
+            <p id="details">
+                Your profile and documents are currently under processing and verification.<br />
+                Updates will be available within 24 to 72 hours.<br />
+                Please check back within this timeframe for further information.
+            </p>
+           
         </div>
     </div>
 </div>
@@ -227,87 +230,7 @@
 
 <script>
 
-    $(document).ready(function () {
-        async function fetchDocuments() {
-            const Id = localStorage.getItem('Id');
-            if (!Id) {
-               location.replace('/Jyotish/Login')
-                return;
-            }
-            var RegistrationNumber = document.getElementById('registrationNumber');
-            RegistrationNumber.textContent = 'Registration No :'+'MYJYOTISHG' + Id;
-
-
-
-            try {
-
-                const token = localStorage.getItem('Token3');
-                const imageApiUrl = BaseUrl + `Api/PendingJyotish/Documents?id=${encodeURIComponent(Id)}`; // Replace with your API endpoint for images
-
-                const response = await $.ajax({
-                    url: imageApiUrl,
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    }
-                });
-
-
-
-
-                $('#idProof').attr('src', response.data.idProof ? BaseUrl + response.data.idProof :  '/Img/SampleDoc.jpeg');
-                var idLink = document.getElementById('idProofLink');
-                idLink.href = BaseUrl + response.data.idProof;
-
-                $('#addressProof').attr('src', response.data.addressProof ? BaseUrl + response.data.addressProof : '/Img/SampleDoc.jpeg');
-                var addressLink = document.getElementById('addressProofLink');
-                addressLink.href = BaseUrl + response.data.addressProof;
-
-                if (response.data.tenthCertificate == null)
-                {
-                    var tenthDiv = document.getElementById('tenthCertificateDiv');
-                    tenthDiv.hidden = true;
-                    var tenthLink = document.getElementById('tenthCertificateLink');
-                    tenthLink.href = BaseUrl + response.data.tenthCertificate;
-                }
-
-                $('#tenthCertificate').attr('src', response.data.tenthCertificate ? BaseUrl + response.data.tenthCertificate :  '/Img/SampleDoc.jpeg');
-
-
-
-                if (response.data.twelveCertificate == null) {
-                    var tenthDiv = document.getElementById('twelveCertificateDiv');
-                    tenthDiv.hidden = true;
-                    var twelveLink = document.getElementById('twelveCertificateLink');
-                    twelveLink.href = BaseUrl + response.data.twelveCertificate;
-                }
-
-                $('#twelveCertificate').attr('src', response.data.twelveCertificate ? BaseUrl + response.data.twelveCertificate :  '/Img/SampleDoc.jpeg');
-
-
-
-                $('#professionalCertificate').attr('src', response.data.professionalCertificate ? BaseUrl + response.data.professionalCertificate :   '/Img/SampleDoc.jpeg');
-                var ProfessionalLink = document.getElementById('professionalCertificateLink');
-                ProfessionalLink.href = BaseUrl + response.data.professionalCertificate;
-
-
-                $('#loading').hide();
-                debugger;
-                if (response.data.idProofStatus == "Verified" && response.data.addressProofStatus == "Verified" && response.data.professionalCertificateStatus == "Verified") {
-                    $('#slotBookingModal').modal('show');
-                }
-               
-            } catch (error) {
-                console.error('Error:', error);
-                $('#statusMessage').text(`Error: ${error.message}`);
-            }
-
-        }
-
-        fetchDocuments();
-    });
-
+    
 </script>
 
 
@@ -375,15 +298,7 @@
         flex: wrap;
     }
 
-    #time-slots {
-        width: 70%; /* Ensures the child div takes full width of its parent */
-        display: flex; /* Enable flexbox */
-        justify-content: center;
-        /* Optional: space out time slots evenly */
-        flex-wrap: wrap;
-        flex-direction: row;
-        gap: 8px; /* Vertical gap between each time slot */
-    }
+   
 
     .time-slot {
         padding: 10px;
@@ -646,27 +561,26 @@
 
 
 
-<!-- Bootstrap Modal Structure -->
-<div class="modal fade" id="slotBookingModal" tabindex="-1" aria-labelledby="slotBookingModalLabel" aria-hidden="true">
+<!-- Bootstrap Modal Structure --> 
+<div class="modal fade" id="slotBookingModal" data-bs-backdrop="static"  tabindex="-1" aria-labelledby="slotBookingModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title  fw-light" id="slotBookingModalLabel" >Interview Slot Booking</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <!-- Slot Booking Content Starts Here -->
                 <div class="container-fluid pt-4 px-4">
                     <div class="text-center border border-1 rounded p-3">
                         <div class="row">
-                            <div class="col ">
+                            <div class="col-sm-12">
                                 <div class="alert p-0 m-0 justify-content-center" role="alert">
                                     <span id="slots-title" class="fw-light text-primary fs-3">Interview Slot Booking</span>
                                 </div>
                             </div>
                         </div>
                         <div class="row" id="BookingDetails">
-                            <div class="col-md-6 "></div>
+                            <div class="col-md-6"></div>
                         </div>
                         <div class="slotBookingDiv">
                             <div class="container">
@@ -678,8 +592,10 @@
                                 </div>
                                 <div class="time-slot-container" id="time-slot-container">
                                     <div class="row">
-                                        <div class="row d-inline-flex" id="time-slots"></div>
-                                    </div>
+                                        <div class="col-sm-12" ></div>
+                                        <div class="row gap-2 justify-content-center" id="time-slots">
+                                            </div>
+                                        </div>
                                 </div>
                             </div>
                         </div>
@@ -696,14 +612,8 @@
     </div>
 </div>
 
-<!-- Include necessary scripts -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script>
-    $(document).ready(function () {
-        // Your existing JavaScript and jQuery code for slot booking functionality
-    });
-</script>
+
+
 
 <!-- Script to handle dynamic date selection and time slots -->
 
@@ -714,6 +624,310 @@
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
 <script>
+
+
+
+
+
+    $(document).ready(function () {
+        let checkBookinStatus=false;
+        const token = localStorage.getItem('Token3');
+        const userId = localStorage.getItem('Id');
+        function getJyotishSlotDetails() {
+            $.ajax({
+                url: BaseUrl + `Api/PendingJyotish/JyotishSlotDetails?id=${userId}`, // Adjust the URL as needed
+                type: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                dataType: 'json',
+                // Check if the response status is 200 and then hide the modal
+                success: function (response) {
+                    debugger;
+                    if (response.status === 200) {
+                        console.log("Data retrieved successfully:", response.data);
+                        const $detailsContainer = $('#details');
+
+                        const dateObject = new Date(response.data.date);
+                        const formattedDate = dateObject.toLocaleDateString('en-CA');
+
+                        const $detailsElement = $(`
+                <div class="interview-details p-3 border rounded">
+                    <h5 class="font-weight-bold mb-2">Upcoming Interview Details</h5>
+                    <p>
+                            <span class="d-inline-block me-3">
+                            <i class="far fa-calendar-alt"></i> <strong>Date:</strong> ${formattedDate}
+                        </span>
+                        <span class="d-inline-block">
+                            <i class="far fa-clock"></i> <strong>Time:</strong> ${response.data.time}
+                        </span>
+                    </p>
+                    <p>We look forward to having you! Please ensure to be prepared and join promptly at the scheduled time.</p>
+                </div>
+                `);
+                        $detailsContainer.html($detailsElement);
+
+
+                        // Hide the modal using Bootstrap 5 native JavaScript API
+                            checkBookinStatus= true
+
+                    } else {
+                        console.log("Error:", response.Message);
+                            checkBookinStatus= false
+                    }
+                }
+                ,
+                error: function (jqXHR, textStatus, errorThrown) {
+
+                    console.error("AJAX error:", textStatus, errorThrown);
+                }
+            }).then(()=>{
+                fetchDocuments()
+            })
+        }
+
+        getJyotishSlotDetails()
+        function SlotBooking() {
+
+            const apiUrl = BaseUrl + `Api/PendingJyotish/SlotList`;
+
+            let selectedDate = null;
+            let selectedTime = null;
+            let selectedSlotId = null; // Store the slot ID
+
+            // Make an AJAX GET request to retrieve the data
+            $.ajax({
+                url: apiUrl,
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                success: function (response) {
+                    const dateTimeMap = {};
+                    response.data.forEach(item => {
+                        const dateKey = new Date(item.date).toLocaleDateString('en-CA');
+                        if (!dateTimeMap[dateKey]) {
+                            dateTimeMap[dateKey] = [];
+                        }
+                        item.times.forEach(timeSlot => {
+                            dateTimeMap[dateKey].push({
+                                id: timeSlot.id,
+                                time: timeSlot.time,
+                                status: timeSlot.status
+                            });
+                        });
+                    });
+
+                    const $dateContainer = $('.dates');
+                    const $timeContainer = $('#time-slots');
+
+                    for (const date in dateTimeMap) {
+                        const dateObject = new Date(date);
+                        const dayName = dateObject.toLocaleString('en-US', { weekday: 'short' });
+                        const dayNumber = dateObject.getDate();
+                        const monthName = dateObject.toLocaleString('en-US', { month: 'short' });
+
+                        const $dateElement = $(`
+                                <div class="date-item date" data-date='${date}'>
+                                    <button class="btn btn-light date-btn" data-date="${date}">
+                                        <div>${dayName}</div>
+                                        <div class="day">${dayNumber}</div>
+                                        <div>${monthName}</div>
+                                    </button>
+                                </div>
+                            `);
+                        $dateContainer.append($dateElement);
+                    }
+
+                    $('.date').on('click', function () {
+                        $timeContainer.empty();
+                        selectedDate = $(this).data('date');
+
+                        dateTimeMap[selectedDate].forEach(slot => {
+                            const { id, time, status } = slot;
+                            const slotStatusClass = status === 'Booked' ? 'btn-danger' : 'btn-success';
+
+                            const $timeElement = $(`
+                                    <div class="col-md">
+                                        <button class="btn btn-outline-secondary rounded-3 text-success time-button"
+                                                data-date='${selectedDate}'
+                                                data-time='${time}'
+                                                data-id='${id}'  // Add ID here for form submission
+                                                ${status === 'Booked' ? 'disabled' : 'style="background-color: green; color: black !important;"'}>
+                                            ${time}
+                                        </button>
+                                    </div>
+                                `);
+                            $timeContainer.append($timeElement);
+                        });
+
+                        $('.time-button').on('click', function () {
+                            selectedTime = $(this).data('time');
+                            selectedSlotId = $(this).data('id'); // Capture slot ID
+
+                            $('.time-button').removeClass('selected');
+                            $(this).addClass('selected');
+                        });
+                    });
+                },
+                error: function (error) {
+                    console.error('Error fetching slot data:', error);
+                }
+            });
+
+            $('#book-now').on('click', function () {
+                if (!selectedDate || !selectedTime || !selectedSlotId) {
+                    Swal.fire({
+                        title: 'Warning',
+                        text: `"Please select both a date, time slot, and ensure slot ID is present before booking."`,
+                        icon: 'warning',
+
+
+                    });
+
+                    return;
+                }
+
+                Swal.fire({
+                    title: 'Confirm Booking',
+                    text: `Do you want to book the slot on ${selectedDate} at ${selectedTime}?`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, book it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const postData = {
+                            JyotishId: userId,
+                            SlotId: selectedSlotId // Include slot ID for the booking request
+                        };
+
+                        $.ajax({
+                            url: BaseUrl + 'Api/PendingJyotish/AddSlotBooking',
+                            method: 'POST',
+                            headers: {
+                                'Authorization': `Bearer ${token}`,
+                                'Content-Type': 'application/json'
+                            },
+                            data: JSON.stringify(postData),
+                            success: function (response) {
+                                if (response.status === 200) {
+                                    Swal.fire({
+                                        title: "Slot successfully booked",
+                                        text: `Slot successfully booked for: ${selectedDate} at ${selectedTime}`,
+                                        icon: "success"
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        title: `${response.message}`,
+                                        icon: response.status === 409 ? "warning" : "error"
+                                    });
+                                }
+                            },
+                            error: function (error) {
+                                console.error('Error booking slot:', error);
+                            }
+                        });
+                    }
+                });
+            });
+        }
+
+        async function fetchDocuments() {
+            const Id = localStorage.getItem('Id');
+            if (!Id) {
+                location.replace('/Jyotish/Login')
+                return;
+            }
+            var RegistrationNumber = document.getElementById('registrationNumber');
+            RegistrationNumber.textContent = 'Registration No :' + 'MYJYOTISHG' + Id;
+
+
+
+            try {
+
+                const token = localStorage.getItem('Token3');
+                const imageApiUrl = BaseUrl + `Api/PendingJyotish/Documents?id=${encodeURIComponent(Id)}`; // Replace with your API endpoint for images
+
+                const response = await $.ajax({
+                    url: imageApiUrl,
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+
+
+
+                $('#idProof').attr('src', response.data.idProof ? BaseUrl + response.data.idProof : '/Img/SampleDoc.jpeg');
+                var idLink = document.getElementById('idProofLink');
+                $("#idProofLink").attr("href", BaseUrl + response.data.idProof);
+                
+                $('#addressProof').attr('src', response.data.addressProof ? BaseUrl + response.data.addressProof : '/Img/SampleDoc.jpeg');
+                var addressLink = document.getElementById('addressProofLink');
+                addressLink.href = BaseUrl + response.data.addressProof;
+
+                if (response.data.tenthCertificate == null) {
+                    var tenthDiv = document.getElementById('tenthCertificateDiv');
+                    tenthDiv.hidden = true;
+                    var tenthLink = document.getElementById('tenthCertificateLink');
+                    tenthLink.href = BaseUrl + response.data.tenthCertificate;
+                }
+
+                $('#tenthCertificate').attr('src', response.data.tenthCertificate ? BaseUrl + response.data.tenthCertificate : '/Img/SampleDoc.jpeg');
+
+
+
+                if (response.data.twelveCertificate == null) {
+                    var tenthDiv = document.getElementById('twelveCertificateDiv');
+                    tenthDiv.hidden = true;
+                    var twelveLink = document.getElementById('twelveCertificateLink');
+                    twelveLink.href = BaseUrl + response.data.twelveCertificate;
+                }
+
+                $('#twelveCertificate').attr('src', response.data.twelveCertificate ? BaseUrl + response.data.twelveCertificate : '/Img/SampleDoc.jpeg');
+
+
+
+                $('#professionalCertificate').attr('src', response.data.professionalCertificate ? BaseUrl + response.data.professionalCertificate : '/Img/SampleDoc.jpeg');
+                var ProfessionalLink = document.getElementById('professionalCertificateLink');
+                ProfessionalLink.href = BaseUrl + response.data.professionalCertificate;
+
+
+                $('#loading').hide();
+                debugger;
+                if (response.data.idProofStatus == "Verified" && response.data.addressProofStatus == "Verified" && response.data.professionalCertificateStatus == "Verified") {
+                    if (checkBookinStatus) {
+                        $('#slotBookingModal').modal('hide');
+
+                   }else{
+
+                    $('#slotBookingModal').modal('show');
+                        SlotBooking()
+                   }
+                }
+
+            } catch (error) {
+                console.error('Error:', error);
+                $('#statusMessage').text(`Error: ${error.message}`);
+            }
+
+        }
+
+     
+       
+    });
+
+</script>
+
+
+
+@* <script>
     $(document).ready(function () {
 
         const token = localStorage.getItem('Token3');
@@ -934,7 +1148,7 @@
             });
         });
     });
-</script>
+</script> *@
 
 
 
