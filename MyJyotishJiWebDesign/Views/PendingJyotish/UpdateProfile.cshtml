@@ -267,6 +267,10 @@
                                                         <label for="chatprice" class="mt-4">Chat Price <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control " id="chatprice" name="chatprice" placeholder="Enter chat price" />
                             </div>
+                            <div id="appointmentCharges" class="input-box">
+                                                        <label for="AppointmentCharges" class="mt-4">Appointment Charges <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control " id="AppointmentCharges" name="AppointmentCharges" placeholder="Enter Appointment Charges" />
+                            </div>
                             <p class=" my-4 text-secondary alertforbox">Please check boxes if you are available</p>
                         </div>
                         <div class="col-sm-6">
@@ -555,6 +559,7 @@
                         availability.push({ name: "Chat", value: $("#chatCheckbox:checked").length > 0 ? true : false })
                         availability.push({ name: "CallCharges", value: $("#callCheckbox:checked").length > 0 ? callPrice : 0 })
                         availability.push({ name: "ChatCharges", value: $("#chatCheckbox:checked").length > 0 ? chatPrice : 0 })
+                        availability.push({ name: "AppointmentCharges", value: $("#AppointmentCharges").val() })
                         availability.push({ name: "TimeFrom", value: $("#timefrom").val() })
                         availability.push({ name: "TimeTo", value: $("#timeto").val() })
                         addDataonTemp(availability)

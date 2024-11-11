@@ -42,6 +42,8 @@ namespace ModelAccessLayer.ViewModels
         public int? CallCharges { get; set; }
         public bool? Chat { get; set; }
         public int? ChatCharges { get; set; }
+        public int? AppointmentCharges { get; set; }
+
         public TimeOnly? TimeTo { get; set; }
         public TimeOnly? TimeFrom { get; set; }
 

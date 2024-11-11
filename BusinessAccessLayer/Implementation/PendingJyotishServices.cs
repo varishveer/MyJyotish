@@ -213,6 +213,7 @@ namespace BusinessAccessLayer.Implementation
                 Record.CallCharges = model.CallCharges;
                 Record.Chat = model.Chat;
                 Record.ChatCharges = model.ChatCharges;
+                Record.AppointmentCharges = model.AppointmentCharges;
                 Record.TimeFrom = model.TimeFrom;
                 Record.TimeTo = model.TimeTo;
 
