@@ -408,7 +408,6 @@
     }
     loadExpertise();
 
-        <script>
             function loadCountries() {
                 $.ajax({
                     url: "@BaseUrl" + 'Api/Jyotish/Country',
@@ -479,7 +478,6 @@
                 });
                 }
             });
-    </script>
 
 
         $("#profile").on("change",function(){
@@ -595,7 +593,7 @@
         } else if (page == 4) {
                 let callPrice = $("#callprice").val()
                 let chatPrice = $("#chatprice").val()
-                if ($("#timefrom").val() != "" & $("#timefrom").val() != "" & $("#timeto").val() != "" & $("#timeto").val() != "") {
+                if ($("#timefrom").val() != "" & $("#timefrom").val() != "" & $("#timeto").val() != "" & $("#timeto").val() != "" & $("#AppointmentCharges").val()!="") {
                     $(".active4").attr("disabled", false)
 
                     if ($("#callCheckbox:checked").length > 0 && callPrice != "") {
@@ -1156,6 +1154,7 @@ $("#language").select2({
                         $("#poojaCheckbox").attr("checked", response.data.pooja)
                         $("#callCheckbox").attr("checked", response.data.call)
                         $("#chatCheckbox").attr("checked", response.data.chat)
+                        $("#AppointmentCharges").val(response.data.appointmentCharges)
                         document.getElementById('chatInputBox').style.display = $("#chatCheckbox:checked").length>0 ? 'block' : 'none';
                         document.getElementById('callInputBox').style.display = $("#callCheckbox:checked").length>0 ? 'block' : 'none';
                         if ($('.checkboxforavail:checked').length == 0) {
