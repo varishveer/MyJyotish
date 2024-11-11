@@ -95,6 +95,7 @@
 
     const params2 = new URLSearchParams(window.location.search);
     const Ids = params2.get('Id'); 
+    const Id = params2.get('Id'); 
         $.ajax({
             url: `${BaseUrl}Api/Admin/JyotishProfile?Id=${Ids}`,
             type: 'GET',
@@ -306,11 +307,11 @@
                 Swal.fire(
                     'success',
                     'Profile approved successfully',
-                    'success',
-                    didClose:()=>{
-                                location.href = "/Admin/PendingJyotish"
-                    }
-                );
+                    'success'
+                    
+                ).then(()=>{
+                            location.href = "/Admin/PendingJyotish"
+                })
             },error:function(){
                         Swal.fire({
                             title: "error",
