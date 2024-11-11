@@ -485,7 +485,7 @@
 
             
             $.ajax({
-                url: 'https://localhost:7118/api/Jyotish/AddAppointmentSlot',
+                url: BaseUrl+'api/Jyotish/AddAppointmentSlot',
                 type: 'POST',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
@@ -544,7 +544,7 @@
             }
         })
         $.ajax({
-            url:`https://localhost:7118/api/Jyotish/GetAllAppointmentSlot?Id=${localStorage.getItem('Id')}`,
+            url:BaseUrl+`api/Jyotish/GetAllAppointmentSlot?Id=${localStorage.getItem('Id')}`,
             type: 'GET',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
@@ -613,7 +613,7 @@
                         })
                         debugger
                         $.ajax({
-                            url: `https://localhost:7118/api/Jyotish/removeAppointmentSlot`,
+                            url: BaseUrl+`api/Jyotish/removeAppointmentSlot`,
                             type: 'POST',
                             headers: {
                                 'Authorization': `Bearer ${localStorage.getItem("Token2")}`,

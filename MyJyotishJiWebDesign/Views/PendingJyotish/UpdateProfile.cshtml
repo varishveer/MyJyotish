@@ -1,11 +1,14 @@
 ﻿@{
     Layout = null;
-    var BaseUrl = "https:/api.myjyotishg.in/";
+    var BaseUrl = "https://api.myjyotishg.in/";
 
 }
 <html>
     <head>
+        <script>
+        var BaseUrl = "https://api.myjyotishg.in/";
 
+        </script>
 <style>
     .select2{
         min-width:100%;
@@ -723,7 +726,7 @@
             debugger
             if (addressdoc && iddoc && profdoc) {
             $.ajax({
-                url: BaseUrl+"Api/PendingJyotish/UploadDocument",
+                    url: "@BaseUrl" + "Api/PendingJyotish/UploadDocument",
                 type: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -1064,7 +1067,7 @@ $("#language").select2({
                 formData.append("id",Id)
                     formData.append("Image", profileImage)
                 $.ajax({
-                    url: BaseUrl+"api/PendingJyotish/UploadProfileImage",
+                        url: "@BaseUrl" + "api/PendingJyotish/UploadProfileImage",
                     type: 'POST',
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem("Token3")}`
@@ -1119,7 +1122,7 @@ $("#language").select2({
                 let checkImage=true
             $.ajax({
 
-                url:BaseUrl+ "api/PendingJyotish/ProfileTempData",
+                url: "@BaseUrl" + "api/PendingJyotish/ProfileTempData",
                 type: 'GET',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("Token3")}`
@@ -1173,7 +1176,7 @@ $("#language").select2({
                         $("#aboutus").val(response.data.about)
                         if(response.data.image!=null){
 
-                            $("#profileImage").attr("src", BaseUrl + response.data.image)
+                            $("#profileImage").attr("src", "@BaseUrl" + response.data.image)
                         }
                         if (response.data.basicSection){
                             $(".active2").attr("disabled",false)
@@ -1234,7 +1237,7 @@ $("#language").select2({
                             $("#state").val()
                             $("#city").val()
                             if (checkImage) {
-                                $("#profileImage").attr("src", BaseUrl + response.data.profileImageUrl)
+                                    $("#profileImage").attr("src", "@BaseUrl" + response.data.profileImageUrl)
                             }
                              $("#country option").filter(function () {
                                 return $(this).text() === response.data.country;
@@ -1289,7 +1292,7 @@ $("#language").select2({
             let joinexpert = expertise.toString();
                 formData.append("Expertise", joinexpert)
             $.ajax({
-                url: BaseUrl"Api/PendingJyotish/UpdateProfile",
+                url: "@BaseUrl" + "Api/PendingJyotish/UpdateProfile",
                 type: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`

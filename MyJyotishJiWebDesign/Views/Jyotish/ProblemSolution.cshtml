@@ -157,7 +157,7 @@
         // Load data from API and filter by date
         function loadData() {
             $.ajax({
-                url:`https://localhost:7118/Api/Jyotish/GetTodayAppointment?id=${localStorage.getItem("Id")}`,
+                url:BaseUrl+`Api/Jyotish/GetTodayAppointment?id=${localStorage.getItem("Id")}`,
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("Token2")}`,

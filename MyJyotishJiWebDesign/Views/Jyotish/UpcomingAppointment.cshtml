@@ -95,7 +95,7 @@
             })
             var Id = localStorage.getItem('Id');
             $.ajax({
-                url:  `https://localhost:7118/api/Jyotish/UpcomingAppointment?Id=${Id}`,
+                url:  BaseUrl+`api/Jyotish/UpcomingAppointment?Id=${Id}`,
                 type: 'GET',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
@@ -159,7 +159,7 @@
                 })
                 var Id = localStorage.getItem('Id');
                 $.ajax({
-                    url: `https://localhost:7118/api/Jyotish/updateArrivedClient`,
+                    url: BaseUrl+`api/Jyotish/updateArrivedClient`,
                     type: 'GET',
                     data: { appointmentId: appointmentId, jyotishId: Id },
                     headers: {
