@@ -3,7 +3,7 @@
 *@
 @{
     Layout = "PendingJyotishLayout";
-    var BaseUrl = "https://api.myjyotishg.in/";
+  
 }
 <style>
     body {
@@ -259,7 +259,7 @@
                     </div>
                     
                 </div>
-                <a class="btn btn-outline-secondary" href="UpdateProfile"> Update </a>
+              
 
                
               
@@ -284,15 +284,15 @@
     // Function to fetch data from API using email from local storage
     function fetchData() {
         // Retrieve the email from local storage
-        const email = localStorage.getItem('userEmail');
+        const Id = localStorage.getItem('Id');
 
-        if (!email) {
-            $('#result').text('No email found in local storage.');
+        if (!Id) {
+          
             return;
         }
 
         // Construct the API URL with the email as a query parameter
-        const apiUrl = "@BaseUrl"+`Api/PendingJyotish/Profile?email=${encodeURIComponent(email)}`;
+        const apiUrl = BaseUrl+`Api/PendingJyotish/ProfileData?Id=${encodeURIComponent(Id)}`;
 
         // Get the token from local storage
         const token = localStorage.getItem('Token3');
@@ -321,7 +321,7 @@
                 $('#language').text(data.language || 'N/A');
                 $('#expertise').text(data.expertise || 'N/A');
                 if (data.profileImageUrl) {
-                    $('#profileImageUrl').attr('src', "@BaseUrl" + data.profileImageUrl);
+                    $('#profileImageUrl').attr('src', BaseUrl + data.profileImageUrl);
                 } else {
                     $('#profileImageUrl').attr('src', "https://via.placeholder.com/300");
                 }

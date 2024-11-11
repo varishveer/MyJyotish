@@ -69,7 +69,7 @@
 
     .otpcolour {
         color:white;
-        background-color:lightslategray;
+        
     }
 
 </style>
@@ -91,7 +91,7 @@
                 <label for="email" class="form-label">Email:</label>
                 <div class="input-group">
                     <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email" aria-label="Recipient's username" required>
-                            <button class="btn btn-outline-secondary otpcolour" type="button" id="getOtp">Get OTP</button>
+                            <button class="btn btn-outline-secondary otpcolour bg-info" type="button" id="getOtp">Get OTP</button>
                 </div>
             </div>
         </div>
@@ -101,11 +101,11 @@
                         <label for="otp" class="form-label" >Verification:</label>
                 <div class="input-group">
                             <input type="number" id="otp" name="otp" class="form-control" placeholder="Enter OTP" >
-                            <button class="btn btn-outline-secondary" type="button" id="verifyOtp" >Verify OTP</button>
+                            <button class="btn btn-outline-secondary bg-info text-white" type="button" id="verifyOtp">Verify OTP</button>
                 </div>
             </div>
         </div>
-
+ 
         <div class="form-row">
                     <div class="form-group col-md-6" style="margin-bottom: 0.2rem;">
                 <label for="mobile" class="form-label">Number:</label>
@@ -208,7 +208,25 @@
     $(document).ready(function () {
        
         $("#getOtp").click(function () {
+
+            debugger;
             var email = $("#email").val();
+            if (email == "") {
+                Swal.fire({
+                    title: "Invalid Email",
+                    text: "Please Enter Email",
+                    icon: "error",
+                    showConfirmButton: true,
+                }).then(() => {
+                    $("#email").focus();
+                    return; // Exit the function to prevent further execution
+                });
+                return; // Exit the function to prevent AJAX call
+            }
+
+
+
+           
             Swal.fire({
                 title: "Processing Your Request",
                 allowOutsideClick: false,
@@ -216,6 +234,11 @@
                     Swal.showLoading();
                 }
             })
+         
+             
+              
+
+            
             $.ajax({
                 url: BaseUrl + `Api/Account/RegisterJyotish?email=${encodeURIComponent(email)}`,
                 type: 'POST',
@@ -233,8 +256,6 @@
 
                         $("#verifyOtp-container").removeClass("d-none");
                        
-                      
-
                     }
                     else if (response.status === 409) {
                         Swal.fire({
@@ -304,7 +325,7 @@
                             break;
                         case 400:
                                 Swal.fire({
-                                    title:  response.message,
+                                    title:  response.message ,
                                     icon: "warning",   
                                 });
                           
@@ -496,6 +517,21 @@
             const fileInput = document.querySelector('input[type="file"]');
             if (fileInput && fileInput.files.length > 0) {
                 formData.append('image', fileInput.files[0]);
+            }
+            else{
+
+             
+
+                Swal.fire({
+                    title: "Incomplete Form",
+                    text: "Please fill in all required fields before submitting.",
+                    icon: "warning",
+                    showConfirmButton: true,
+                }).then(() => {
+                   
+                    return; // Exit the function to prevent further execution
+                });
+                return; // Exit the function to prevent AJAX call
             }
 
             $.ajax({
