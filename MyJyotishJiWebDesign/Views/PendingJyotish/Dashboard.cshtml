@@ -113,7 +113,7 @@
             font-size: 14px;
         }
     }
-
+  
     /* For screens between 576px and 768px (tablets) */
     @@media (min-width: 576px) and (max-width: 767.98px) {
         .col-md-3 {
@@ -511,67 +511,7 @@
 
 
 
-@* <div class="container-fluid pt-4 px-4">
-    <div class="text-center border border-1 rounded p-3">
-        <!-- Status Alert -->
-        <div class="row">
-            <div class="col-md-6 offset-md-3">
-                <div class="alert" role="alert">
-                    <span  id="slots-title">Interview Slot Booking</span>
-                    
-                </div>
-            </div>
-        </div>
 
-        <div class="row" id="BookingDetails">
-            <div class="col-md-6 offset-md-3">
-              
-            </div>
-        </div>
-
-        <!-- Slot Booking Section -->
-        <div class="slotBookingDiv">
-            <div class="container">
-                <div class="font-weight-boldx">Select a Date and Time</div>
-
-                <!-- Date Picker Container -->
-                <div class="d-flex align-items-center justify-content-center">
-                    <!-- Left Scroll Button -->
-                    <button class="btn btn-outline-primary" id="scroll-left">&#8592;</button>
-
-                    <!-- Dates -->
-                    <div class="dates">
-                        <!-- Updated date items -->
-                     
-
-                        <!-- More date items as needed -->
-                    </div>
-
-                    <!-- Right Scroll Button -->
-                    <button class="btn btn-outline-primary" id="scroll-right">&#8594;</button>
-                </div>
-
-                <!-- Time Slot Selection -->
-                <div class="time-slot-container " id="time-slot-container">
-                    <div class="row " >
-                        <div class="row d-inline-flex" id="time-slots">
-                            <!-- Time slots will be populated dynamically -->
-                        </div>
-                       
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="row mt-4" id="bookingbtn">
-            <div class="col-md-12 d-flex justify-content-center">
-                <button id="book-now" class="btn btn-primary rounded-2">Book Now</button>
-            </div>
-        </div>
-    </div>
-</div>
- *@
 
 
 
@@ -632,7 +572,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="rejectedDocUploadModalLabel">Upload File</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close btn" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -947,15 +887,26 @@
                 $('#idProof').attr('src', response.data.idProof ? BaseUrl + response.data.idProof : '/Img/SampleDoc.jpeg');
                 var idLink = document.getElementById('idProofLink');
                 $("#idProofLink").attr("href", BaseUrl + response.data.idProof);
-                if (response.data.idProofStatus === "Verified") {
+                
+                if (response.data.idProofStatus === "Verified")
+                {
                     var idStatus = document.getElementById('idStatus');
                     idStatus.innerHTML = 'Verified <i class="fas fa-check-circle"></i>';
-                } else if (response.data.idProofStatus === "Rejected") {
+                } 
+                else if (response.data.idProofStatus === "Rejected") 
+                {
                     var idStatus = document.getElementById('idStatus');
-                    idStatus.innerHTML = 'Rejected <i class="fas fa-times-circle"></i>';
+                    idStatus.innerHTML = `Rejected <i class="fas fa-times-circle" data-bs-toggle="idTooltip" data-bs-placement="top"
+                                    data-bs-custom-class="custom-tooltip"
+                                        data-bs-title="${response.data.idProofMessage}"></i>`;
                     $('#idStatus').addClass('text-danger');
-                    $('#idProofUploadRejectDoc').html(`<button class="btn btn-primary btn-sm" data-name="idProof" id='rejectedDocUploadBtn'> Upload</button> `);
-
+                    $('#idProofUploadRejectDoc').html(`<button class="btn btn-primary btn-sm rejectedDocUploadBtn" data-name="idProof" > Upload</button> `);
+                    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="idTooltip"]');
+                    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => {
+                        const tooltipInstance = new bootstrap.Tooltip(tooltipTriggerEl);
+                        tooltipInstance.show();
+                        return tooltipInstance;
+                    });
                    
                 }
 
@@ -964,14 +915,25 @@
                 $('#addressProof').attr('src', response.data.addressProof ? BaseUrl + response.data.addressProof : '/Img/SampleDoc.jpeg');
                 var addressLink = document.getElementById('addressProofLink');
                 addressLink.href = BaseUrl + response.data.addressProof;
-                               if (response.data.addressProofStatus === "Verified") {
+                 if (response.data.addressProofStatus === "Verified") 
+                 {
                     var addressStatus = document.getElementById('addressStatus');
                     addressStatus.innerHTML = 'Verified <i class="fas fa-check-circle"></i>';
-                } else if (response.data.addressProofStatus === "Rejected") {
+                }
+                else if (response.data.addressProofStatus === "Rejected") 
+                {
                     var addressStatus = document.getElementById('addressStatus');
-                    addressStatus.innerHTML = 'Rejected <i class="fas fa-times-circle"></i>';
-                    $('#addressStatus').addClass('text-danger');
-                    $('#addressProofUploadRejectDoc').html(`<button class="btn btn-primary btn-sm" data-name="addressProof" id='rejectedDocUploadBtn'> Upload</button> `);
+                    addressStatus.innerHTML = `Rejected <i class="fas fa-times-circle" data-bs-toggle="addressTooltip" data-bs-placement="top"
+                                        data-bs-custom-class="custom-tooltip"
+                                            data-bs-title="${response.data.addressProofMessage}"></i>`;
+                    $('#addressStatus').addClass('text-danger'); 
+                    $('#addressProofUploadRejectDoc').html(`<button class="btn btn-primary btn-sm rejectedDocUploadBtn" data-name="addressProof" > Upload</button> `);
+                    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="addressTooltip"]')
+                     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => {
+                         const tooltipInstance = new bootstrap.Tooltip(tooltipTriggerEl);
+                         tooltipInstance.show();
+                         return tooltipInstance;
+                     });
                 }
 
 
@@ -992,9 +954,17 @@
                     tenthStatus.innerHTML = 'Verified <i class="fas fa-check-circle"></i>';
                 } else if (response.data.tenthCertificateStatus === "Rejected") {
                     var tenthStatus = document.getElementById('tenthStatus');
-                    tenthStatus.innerHTML = 'Rejected <i class="fas fa-times-circle"></i>';
+                        tenthStatus.innerHTML = `Rejected <i class="fas fa-times-circle" data-bs-toggle="tenthCertificateTooltip" data-bs-placement="top"
+                                            data-bs-custom-class="custom-tooltip"
+                                                    data-bs-title="${response.data.tenthCertificateMessage}"></i>`;
                      $('#tenthStatus').addClass('text-danger');
-                    $('#tenthCertificateUploadRejectDoc').html(`<button class="btn btn-primary btn-sm" data-name="tenthCertificate" id='rejectedDocUploadBtn'> Upload</button> `);
+                    $('#tenthCertificateUploadRejectDoc').html(`<button class="btn btn-primary btn-sm rejectedDocUploadBtn" data-name="tenthCertificate" > Upload</button> `);
+                        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tenthCertificateTooltip"]')
+                        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => {
+                            const tooltipInstance = new bootstrap.Tooltip(tooltipTriggerEl)
+                            tooltipInstance.show()
+                            return tooltipInstance;
+                    });
                 }
 
 
@@ -1016,9 +986,17 @@
                     twelveStatus.innerHTML = 'Verified <i class="fas fa-check-circle"></i>';
                 } else if (response.data.twelveCertificate === "Rejected") {
                     var twelveStatus = document.getElementById('twelveStatus');
-                    twelveStatus.innerHTML = 'Rejected <i class="fas fa-times-circle"></i>';
+                            twelveStatus.innerHTML = `Rejected <i class="fas fa-times-circle" data-bs-toggle="twelveCertificateTooltip" data-bs-placement="top"
+                                                data-bs-custom-class="custom-tooltip"
+                                                            data-bs-title="${response.data.twelveCertificateMessage}"></i>`;
                     $('#twelveStatus').addClass('text-danger');
-                    $('#twelveCertificateUploadRejectDoc').html(`<button class="btn btn-primary btn-sm" data-name="twelveCertificate" id='rejectedDocUploadBtn'> Upload</button> `);
+                    $('#twelveCertificateUploadRejectDoc').html(`<button class="btn btn-primary btn-sm rejectedDocUploadBtn" data-name="twelveCertificate" > Upload</button> `);
+                            const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="twelveCertificateTooltip"]')
+                            const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => {
+                                const tooltipInstance = new bootstrap.Tooltip(tooltipTriggerEl)
+                                tooltipInstance.show()
+                                return tooltipInstance;
+                    });
                 }
 
 
@@ -1034,9 +1012,18 @@
                     ProfesstionalStatus.innerHTML = 'Verified <i class="fas fa-check-circle"></i>';
                 } else if (response.data.professionalCertificateStatus === "Rejected") {
                     var ProfesstionalStatus = document.getElementById('professtionalStatus');
-                    ProfesstionalStatus.innerHTML = 'Rejected <i class="fas fa-times-circle"></i>';
+                                ProfesstionalStatus.innerHTML = `Rejected <i class="fas fa-times-circle" data-bs-toggle="professionalCertificateTooltip" data-bs-placement="top"
+                                                    data-bs-custom-class="custom-tooltip"
+                                                                data-bs-title="${response.data.professionalCertificateMessage}"></i>`;
                     $('#professtionalStatus').addClass('text-danger');
-                    $('#professionalCertificateUploadRejectDoc').html(`<button class="btn btn-primary btn-sm" data-name="professionalCertificate" id='rejectedDocUploadBtn'> Upload</button> `);
+                    $('#professionalCertificateUploadRejectDoc').html(`<button class="btn btn-primary btn-sm rejectedDocUploadBtn" data-name="professionalCertificate" > Upload</button> `);
+
+                                const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="professionalCertificateTooltip"]')
+                                const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => {
+                                    const tooltipInstance = new bootstrap.Tooltip(tooltipTriggerEl)
+                                    tooltipInstance.show()
+                                    return tooltipInstance;
+                    });
                 }
 
                 $('#loading').hide();
@@ -1059,28 +1046,13 @@
 
         }
 
-        $('#rejectedDocUploadBtn').click(function () {
-            var dataName = $(this).data('name'); // Get the value of the 'data-name' attribute
 
-            // Update modal title and hidden input field with the data-name value
-            $('#rejectedDocUploadModalLabel').text('Upload ' + dataName + ' File');
-            $('#dataNameInput').val(dataName); // Set the hidden field value
-            $('#rejectedDocUploadModal').modal('show'); // Show the modal
-        });
 
+
+
+       
         // Handle file upload button click
-        $('#rejectedDocSubmitFile').click(function () {
-            var fileInput = $('#fileInput')[0].files[0];
-            var dataName = $('#dataNameInput').val(); // Get the 'data-name' value from the hidden field
-
-            if (fileInput) {
-                alert('File ready to be uploaded: ' + fileInput.name + '\nData Name: ' + dataName);
-                // Here you can implement the actual file upload logic
-                // Example: Use AJAX to send the file and the data-name to the server
-            } else {
-                alert('Please select a file before uploading.');
-            }
-        });
+        
 
        
     });
@@ -1317,4 +1289,64 @@
 
 
 
+@* <div class="container-fluid pt-4 px-4">
+    <div class="text-center border border-1 rounded p-3">
+        <!-- Status Alert -->
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="alert" role="alert">
+                    <span  id="slots-title">Interview Slot Booking</span>
 
+                </div>
+            </div>
+        </div>
+
+        <div class="row" id="BookingDetails">
+            <div class="col-md-6 offset-md-3">
+
+            </div>
+        </div>
+
+        <!-- Slot Booking Section -->
+        <div class="slotBookingDiv">
+            <div class="container">
+                <div class="font-weight-boldx">Select a Date and Time</div>
+
+                <!-- Date Picker Container -->
+                <div class="d-flex align-items-center justify-content-center">
+                    <!-- Left Scroll Button -->
+                    <button class="btn btn-outline-primary" id="scroll-left">&#8592;</button>
+
+                    <!-- Dates -->
+                    <div class="dates">
+                        <!-- Updated date items -->
+
+
+                        <!-- More date items as needed -->
+                    </div>
+
+                    <!-- Right Scroll Button -->
+                    <button class="btn btn-outline-primary" id="scroll-right">&#8594;</button>
+                </div>
+
+                <!-- Time Slot Selection -->
+                <div class="time-slot-container " id="time-slot-container">
+                    <div class="row " >
+                        <div class="row d-inline-flex" id="time-slots">
+                            <!-- Time slots will be populated dynamically -->
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row mt-4" id="bookingbtn">
+            <div class="col-md-12 d-flex justify-content-center">
+                <button id="book-now" class="btn btn-primary rounded-2">Book Now</button>
+            </div>
+        </div>
+    </div>
+</div>
+ *@

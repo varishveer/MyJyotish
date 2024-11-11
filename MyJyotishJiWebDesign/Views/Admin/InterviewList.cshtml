@@ -94,11 +94,11 @@
 
 <!-- Modal Structure -->
 <div class="modal fade" id="dynamicModal" tabindex="-1" aria-labelledby="dynamicModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog ">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="dynamicModalLabel">reschedule Modal</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <h5 class="modal-title" id="dynamicModalLabel">Reschedule Interview Slot</h5>
+                <button type="button" class="close btn" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -107,12 +107,12 @@
                 <input type="hidden" id="hiddenId" value="">
 
                 <!-- Readonly Name Field -->
-                <div class="form-group">
+                <div class="form-group d-flex mb-0">
                         Name:
                     <p  id="readonlyName"> </p>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group mb-3">
                     <label for="slotList">Select an Slot:</label>
                     <select  class="form-control" id="slotList" name="slotList">
                        
@@ -184,6 +184,13 @@
 
         // Submit the form
         $('#submitBtn').on('click', function () {
+            Swal.fire({
+                title: "Processing Your Request",
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            })
             var id = $('#hiddenId').val();  // Get the hidden ID field value
             var slotId = $('#slotList').val();  // Get the selected SlotId
 
