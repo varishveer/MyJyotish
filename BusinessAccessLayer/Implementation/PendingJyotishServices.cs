@@ -372,6 +372,7 @@ namespace BusinessAccessLayer.Implementation
                     isJyotishValid.CallCharges = tempData.CallCharges;
                     isJyotishValid.Chat = tempData.Chat;
                     isJyotishValid.ChatCharges = tempData.ChatCharges;
+                    isJyotishValid.AppointmentCharges = tempData.AppointmentCharges;
                     isJyotishValid.TimeTo = tempData.TimeTo;
                     isJyotishValid.TimeFrom = tempData.TimeFrom;
                     isJyotishValid.About = tempData.About;
