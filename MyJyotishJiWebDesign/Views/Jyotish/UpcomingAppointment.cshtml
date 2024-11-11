@@ -88,7 +88,6 @@
     </div>
 </div>
 <script>
-    $(document).ready(function () {
         // Fetch and display all appointments on page load
         function fetchData() {
             Swal.fire({
@@ -110,7 +109,7 @@
                     let htmls = '';
                     $.each(result.data, function (key, item) {
                         htmls += '<tr>';
-                        htmls += `<td class="text-center">${item.id}</td>`;
+                        htmls += `<td class="text-center">${key+1}</td>`;
                         htmls += `<td class="text-center">${item.userName}</td>`;
                  
                         htmls += `<td class="text-center">${new Date(item.date).toLocaleDateString()}</td>`;
@@ -125,6 +124,8 @@
                                            <svg data-id="${item.id}" class="edit-appointment" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24" data-toggle="modal" data-target="#updateModal">
                                                 <path fill="currentColor" d="M13.654 21v-2.21l5.96-5.934l2.19 2.204l-5.94 5.94zm6.885-5.94l-.926-.945zm-6 5.056h.95l3.467-3.474l-.45-.494l-.475-.47l-3.493 3.488zM5 21V3h9.5L19 7.5v2.596h-1V8h-4V4H6v16h5.27v1zm13.506-4.852l-.475-.47l.925.964z"/>
                                             </svg>
+
+                                                                    <i class="fas fa-user-check text-success arrivedClientBtn" onClick='updateArrivedClient(${item.id})'></i>
                                           </td>`;
                         htmls += '</tr>';
                     });
@@ -137,6 +138,67 @@
                 }
             });
         }
+
+    function updateArrivedClient(id) {
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'Do you want to approve this document?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, approve it!',
+            cancelButtonText: 'No, cancel',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let appointmentId = id
+                Swal.fire({
+                    title: "Processing Your Request",
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                })
+                var Id = localStorage.getItem('Id');
+                $.ajax({
+                    url: `https://localhost:7118/api/Jyotish/updateArrivedClient`,
+                    type: 'GET',
+                    data: { appointmentId: appointmentId, jyotishId: Id },
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+                        'Content-Type': 'application/json'
+                    },
+                    success: function (result) {
+                        if (result.status == 200) {
+                            Swal.fire({
+                                title: "Success",
+                                text: result.message,
+                                icon: "success",
+
+                            });
+                        } else {
+                            Swal.fire({
+                                title: "error",
+                                text: result.message,
+                                icon: "error",
+
+                            });
+                        }
+                    }, error: function () {
+                        Swal.fire({
+                            title: "error",
+                            text: "some error occured",
+                            icon: "error",
+
+                        });
+                    }
+                })
+            }
+        })
+    }
+
+    $(document).ready(function () {
+        
 
         // Fetch and populate modal form with appointment data
         $(document).on('click', '.edit-appointment', function () {

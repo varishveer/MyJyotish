@@ -91,8 +91,25 @@ namespace MyJyotishGApi.Controllers
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
         }
 
+        [HttpGet("updateArrivedClient")]
+        public IActionResult UpdateArrivedClient(int appointmentId,int jyotishId)
+        {
+            try
+            {
+                var result = _jyotish.updateArrivedClient(appointmentId, jyotishId);
+                
+                if (!result)
+                {
+                    return Ok(new { Status = 400, Message = "Invalid Data or maybe some error internal error occured" });
+                }
 
-        
+                else if (result) { return Ok(new { Status = 200, message = "Client Marked Arrived" }); }
+                else { return Ok(new { Status = 500, message = "Internal server error" }); }
+            }
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
+        }
+
+
         [AllowAnonymous]
         [HttpGet("Country")]
         public IActionResult Country()
