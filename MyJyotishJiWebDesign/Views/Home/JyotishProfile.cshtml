@@ -116,7 +116,7 @@
                <input type="Date" name="date" id="appointmentDate" class="form-control" />
                 <div id="appoinmentDetail" class="py-3"></div>
                 <div id="problem">
-                    <textarea class="form-control" id="problem-desc" placeholder="Describe Your Problem mt-3"></textarea>
+                    <textarea class="form-control mt-3" id="problem-desc" placeholder="Describe Your Problem "></textarea>
                 </div>
             </div>
             <div class="modal-footer">
@@ -191,7 +191,6 @@
                  
                 if (response.status === 200) {
                     var data = response.data;
-                    console.log(data)
                     // Update Profile Section
                     $('#profilePicture').attr('src', BaseUrl+data.profileImageUrl);
                     $('#profileName').text(data.name + ' ✅');
@@ -274,16 +273,14 @@ $(".callBtn").hide()
                     })
 
                 }
-                Swal.close()
             },
             error: function (error) {
-                Swal.fire({
-                    title: "error!",
-                    text: "An error occured please try again later",
-                    icon: "error"
-                })
+              
             }
-        });
+        }).then(()=>{
+                Swal.close()
+
+        })
 
         //handle specialization aboutus and achievement
 
@@ -348,11 +345,7 @@ $(".callBtn").hide()
                         $("#appointmentDate").val(appoinmentArray[0].date.split("T")[0])
                 }
             }, error: function (err) {
-                    Swal.fire({
-                        title: "error!",
-                        text: "An error occured please try again later",
-                        icon: "error"
-                    })
+                   
                 
             }
         }).then(() => {
@@ -505,13 +498,6 @@ var bookAppoinmentUrl = BaseUrl + `api/User/bookAppointment`;
                                     },
                                     error: function (err) {
                                     
-
-                                        Swal.fire({
-                                            title: "error!",
-                                            text: "An error occured please try again later",
-                                            icon: "error"
-                                        })
-                                    
                                     }
 
                                 });
@@ -548,7 +534,7 @@ var bookAppoinmentUrl = BaseUrl + `api/User/bookAppointment`;
             const tooltip1 = bootstrap.Tooltip.getOrCreateInstance(tooltipTriggerList1)
             tooltip.show()
             tooltip1.show()
-            $("#appoinmentDetail").text("")
+            $("#problem-desc").text("")
 
         });
     });

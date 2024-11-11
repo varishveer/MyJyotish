@@ -91,12 +91,12 @@
 </div>
 
 <script>
-   
-        const urlParams = new URLSearchParams(window.location.search);
-        const Id = urlParams.get('Id');
-      
+
+
+    const params2 = new URLSearchParams(window.location.search);
+    const Ids = params2.get('Id'); 
         $.ajax({
-            url: `${BaseUrl}Api/Admin/JyotishProfile?Id=${Id}`,
+            url: `${BaseUrl}Api/Admin/JyotishProfile?Id=${Ids}`,
             type: 'GET',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Example of an authorization header
@@ -270,8 +270,79 @@
     function SeelessAbout() {
         $("#about").html(cropAbout)
     }
+    
 
+    $(".approveButton").click(function(){
+        const urlParams = new URLSearchParams(window.location.search);
+        const Id = urlParams.get('Id');
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'Do you want to approve this jyotish?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, approve it!',
+            cancelButtonText: 'No, cancel',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+        $.ajax({
+            url:BaseUrl+"Admin/ApproveJyotish",
+            type:"post",
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Example of an authorization header
+                        'Content-Type': 'application/json', // Example of a content type header
+
+                    },
+            data: { Id:Ids},
+            success:function(res){
+                Swal.fire(
+                    'success',
+                    'Profile approved successfully',
+                    'success'
+                );
+            },error:function(){
+
+            }
+        })
+            }
+        })
+    })
    
+    $(".rejectButton").click(function () {
+      
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'Do you want to reject this jyotish?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, reject it!',
+            cancelButtonText: 'No, cancel',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: BaseUrl + "Admin/RejectJyotish",
+                    type: "post",
+                    data: { Id: Ids },
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Example of an authorization header
+                        'Content-Type': 'application/json', // Example of a content type header
+
+                    },
+                    success: function (res) {
+                        Swal.fire(
+                            'success',
+                            'Profile Rejected successfully',
+                            'success'
+                        );
+                    }, error: function () {
+
+                    }
+                })
+            }
+        })
+    })
+
 </script>
 
 
@@ -604,10 +675,14 @@
 
                                 icon: "success",
 
-                                showConfirmButton: true, // Ensure the OK button is shown
-                            }).Then(()=>{
-                            location.reload();
-                            });
+                                showConfirmButton: true, 
+                                didClose:()=>{
+                                    $("#documentModal").modal("hide")
+                                getJyotishDocs(id);
+
+                                }
+                            })
+                            
 
                            
                         } else {

@@ -134,7 +134,7 @@ namespace BusinessAccessLayer.Implementation
 
             // Fetch appointment records for the given Jyotish and filter by future dates
             var allRecords = _context.AppointmentRecords
-     .Where(record => record.JyotishId == Id && record.ArrivedStatus==0)
+     .Where(record => record.JyotishId == Id )
      .Join(_context.Users,
            record => record.UserId,
            user => user.Id,
@@ -153,7 +153,8 @@ namespace BusinessAccessLayer.Implementation
                Date = slot.Date,
                Time = slot.TimeFrom,
                Status = combined.record.Status,
-               Amount = combined.record.Amount
+               Amount = combined.record.Amount,
+               ArriveStatus = combined.record.ArrivedStatus
            })
      .ToList();  // Retrieve all records for the Jyotish
 
@@ -238,6 +239,7 @@ namespace BusinessAccessLayer.Implementation
 
 
             appointment.Status = "Upcomming";
+            appointment.ArrivedStatus =0;
             _context.AppointmentRecords.Update(appointment);
 
             if (_context.SaveChanges() > 0) { return "Successful"; }
@@ -865,50 +867,7 @@ namespace BusinessAccessLayer.Implementation
             }
 }
 
-        public dynamic selectTodayArrivedClient(int jyotishId)
-        {
-            var Jyotish = _context.JyotishRecords.Where(x => x.Id == jyotishId).FirstOrDefault();
-            if (Jyotish == null) { return null; }
-
-
-            DateTime today = DateTime.Now;
-            DateTime yesterday = today.AddDays(-1);
-
-            DateTime yesterdayDateOnly = yesterday.Date;
-
-            // Fetch appointment records for the given Jyotish and filter by future dates
-            var allRecords = _context.AppointmentRecords
-     .Where(record => record.JyotishId == jyotishId && record.ArrivedStatus == 1)
-     .Join(_context.Users,
-           record => record.UserId,
-           user => user.Id,
-           (record, user) => new { record, user })
-     .Join(_context.AppointmentSlots,
-           combined => combined.record.SlotId,
-           slot => slot.Id,
-           (combined, slot) => new AppointmentDetailViewModel
-           {
-               Id = combined.record.Id,
-               UserName = combined.user.Name,
-               UserMobile = combined.user.Mobile,
-               UserEmail = combined.user.Email,
-               UserId = combined.record.UserId,
-               Problem = combined.record.Problem,
-               Date = slot.Date,
-               Time = slot.TimeFrom,
-               Status = combined.record.Status,
-               Amount = combined.record.Amount
-           })
-     .ToList();  // Retrieve all records for the Jyotish
-
-
-
-            var Records = allRecords.Where(x => x.Date > yesterdayDateOnly).ToList();
-
-            return Records;
-        }
-
-
+       
 
         public string AddProblemSolution(ProblemSolutionViewModel model)
         {

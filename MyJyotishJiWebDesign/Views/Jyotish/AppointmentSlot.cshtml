@@ -552,6 +552,7 @@
             },
             success: function (res) {
                 console.log(res)
+                let slotIndexCount=1
                 $('tbody').empty(); // Clear the table body first
                 $.each(res.data, function (index, item) {
                     const formattedDate = new Date(item.date).toLocaleDateString(); // Format the date
@@ -559,7 +560,7 @@
                     // Loop through each slot in the slotList
                     $.each(item.slotList, function (slotIndex, slot) {
                         $('tbody').append(`<tr>
-                        <td>${index = index + 1}</td>
+                                <td>${slotIndexCount++}</td>
                         <td>${formattedDate}</td>
                         <td>${slot.timeDuration} minutes</td>
                         <td>${slot.timeFrom}</td>

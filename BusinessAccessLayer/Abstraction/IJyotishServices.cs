@@ -40,7 +40,6 @@ namespace BusinessAccessLayer.Abstraction
          public string DeleteAppointmentSlot(int Id);
         public List<AppointmentSlotUserViewModel> GetAllAppointmentSlot(int id);
         public List<AppointmentSlotUserViewModel> GetAllbookedAppointment(int id);
-        public dynamic selectTodayArrivedClient(int jyotishId);
         public bool updateArrivedClient(int appointmentId,int jyotishId);
 
         public string AddProblemSolution(ProblemSolutionViewModel model);
