@@ -273,6 +273,7 @@
     
 
     $(".approveButton").click(function(){
+       
         const urlParams = new URLSearchParams(window.location.search);
         const Id = urlParams.get('Id');
         Swal.fire({
@@ -285,23 +286,37 @@
             reverseButtons: true
         }).then((result) => {
             if (result.isConfirmed) {
+                Swal.fire({
+                    title: "Processing Your Request",
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                })
         $.ajax({
-            url:BaseUrl+"Admin/ApproveJyotish",
+                    url: BaseUrl + "api/Admin/ApproveJyotish",
             type:"post",
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Example of an authorization header
                         'Content-Type': 'application/json', // Example of a content type header
 
                     },
-            data: { Id:Ids},
+            data: JSON.stringify({ Id:Ids}),
             success:function(res){
                 Swal.fire(
                     'success',
                     'Profile approved successfully',
-                    'success'
+                    'success',
+                    didClose:()=>{
+                                location.href = "/Admin/PendingJyotish"
+                    }
                 );
             },error:function(){
-
+                        Swal.fire({
+                            title: "error",
+                            text: "some error occured",
+                            icon: "error"
+                        });
             }
         })
             }
@@ -320,10 +335,17 @@
             reverseButtons: true
         }).then((result) => {
             if (result.isConfirmed) {
+                Swal.fire({
+            title: "Processing Your Request",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
                 $.ajax({
-                    url: BaseUrl + "Admin/RejectJyotish",
+                    url: BaseUrl + "api/Admin/RejectJyotish",
                     type: "post",
-                    data: { Id: Ids },
+                    data: JSON.stringify({ jyotishId: Ids }),
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Example of an authorization header
                         'Content-Type': 'application/json', // Example of a content type header
@@ -336,7 +358,11 @@
                             'success'
                         );
                     }, error: function () {
-
+                        Swal.fire({
+                            title: "error",
+                            text: "some error occured",
+                            icon: "error"
+                        });
                     }
                 })
             }
@@ -697,7 +723,11 @@
                     },
                     error: function () {
 
-                        alert('Error updating document status.');
+                    Swal.fire({
+                        title: "error",
+                        text: "some error occured",
+                        icon: "error"
+                    });
                     }
                 });
             }
