@@ -578,7 +578,13 @@
                     message: message,
                     id: id 
                 };
-
+                Swal.fire({
+                    title: "Processing Your Request",
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                })
                 var ApiUrl = `${BaseUrl}` + 'Api/Admin/RejectJyotishDocs';
                 
 
@@ -599,11 +605,19 @@
                                 icon: "success",
 
                                 showConfirmButton: true, // Ensure the OK button is shown
+                            }).Then(()=>{
+                            location.reload();
                             });
 
-                            location.reload();
+                           
                         } else {
-                            alert(response.message);
+                        Swal.fire({
+                            title: "Something Went Wrong Please Try Againg Later",
+
+                            icon: "error",
+
+                            showConfirmButton: true, // Ensure the OK button is shown
+                        });
                         }
                     },
                     error: function () {
@@ -648,6 +662,13 @@
 
             // Function to send status update to the API
             function sendApprovedStatus(Id, status) {
+                Swal.fire({
+                    title: "Processing Your Request",
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                })
                 var payload = {
                     ImageStatus: status,
                     id: Id
@@ -675,7 +696,13 @@
 
                             location.reload(); // Reload the page after successful status update
                         } else {
-                            alert(response.message); // Show error message from the API
+                        Swal.fire({
+                            title: "Something Went Wrong Please Try Againg Later",
+
+                            icon: "error",
+
+                            showConfirmButton: true, // Ensure the OK button is shown
+                        });
                         }
                     },
                     error: function () {

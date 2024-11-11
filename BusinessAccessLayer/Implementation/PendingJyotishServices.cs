@@ -584,11 +584,33 @@ namespace BusinessAccessLayer.Implementation
                         if (ValidateFile(file, MaxFileSize, allowedExtensions))
                         {
                             // Set the document status to "Unverified" for the specific document
-                            if (file == model.IdProof) existingDocument.IdProofStatus = "Unverified";
-                            else if (file == model.AddressProof) existingDocument.AddressProofStatus = "Unverified";
-                            else if (file == model.TenthCertificate) existingDocument.TenthCertificateStatus = "Unverified";
-                            else if (file == model.TwelveCertificate) existingDocument.TwelveCertificateStatus = "Unverified";
-                            else if (file == model.ProfessionalCertificate) existingDocument.ProfessionalCertificateStatus = "Unverified";
+                            if (file == model.IdProof)
+                            {
+                                existingDocument.IdProofStatus = "Unverified";
+                                existingDocument.IdProofMessage = null;
+                            }
+
+                            else if (file == model.AddressProof) 
+                            { 
+                                existingDocument.AddressProofStatus = "Unverified";
+                                existingDocument.AddressProofMessage = null;
+                            }
+                            else if (file == model.TenthCertificate)
+                            {
+                                existingDocument.TenthCertificateStatus = "Unverified";
+                                existingDocument.TenthCertificateMessage = null;
+                            }
+                            else if (file == model.TwelveCertificate)
+                            {
+                                existingDocument.TwelveCertificateStatus = "Unverified";
+                                existingDocument.TwelveCertificateMessage = null;
+                            }
+
+                            else if (file == model.ProfessionalCertificate) 
+                            { 
+                                existingDocument.ProfessionalCertificateStatus = "Unverified";
+                                existingDocument.ProfessionalCertificateMessage = null;
+                            }
 
                             var filePath = await SaveFileAsync(file);
                             setPath(filePath);
