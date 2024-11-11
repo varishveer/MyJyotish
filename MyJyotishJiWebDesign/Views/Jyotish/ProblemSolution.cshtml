@@ -28,9 +28,14 @@
         <div class="d-flex flex-row justify-content-between align-items-center pt-2 px-4">
             <h6 class="text-primary">Problem's Solution's</h6>
             <div id="buttonContainer1"></div>
+            <div>
+            <a href="/Jyotish/UpcomingAppointment" class="btn btn-primary">
+                Upcomming Appointment
+            </a>
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#dynamicModal">
                 Add Problem Solution
             </button>
+            </div>
         </div>
         <hr />
 
@@ -185,7 +190,7 @@
             results.forEach(item => {
                 resultsList.append(`
                         <li class="list-group-item" data-id="${item.appId}">
-                                            ${item.userName} - ${item.appoinDate.split("T")[0]} ${item.appoinTimeFrom.slice(0, 5)}-${item.appoinTimeTo.slice(0, 5)}
+                                            ${item.userName}-${item.userMobile} - ${item.appoinDate.split("T")[0]} ${item.appoinTimeFrom.slice(0, 5)}-${item.appoinTimeTo.slice(0, 5)}
                         </li>
                     `);
             });

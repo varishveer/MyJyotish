@@ -31,6 +31,7 @@
                             
                             <th>Date</th>
                             <th>Time</th>
+                            <th>Mobile Number</th>
                           
                             <th>Problem</th>
                             
@@ -110,6 +111,7 @@
                         htmls += `<td class="text-center">${item.userName}</td>`;
 
                         htmls += `<td class="text-center">${new Date(item.date).toLocaleDateString()}</td>`;
+                    htmls += `<td class="text-center">${item.userMobile}</td>`;
                         htmls += `<td class="text-center">${item.time}</td>`;
 
 
