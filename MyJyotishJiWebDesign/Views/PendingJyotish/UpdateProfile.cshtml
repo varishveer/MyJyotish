@@ -408,6 +408,80 @@
     }
     loadExpertise();
 
+        <script>
+            function loadCountries() {
+                $.ajax({
+                    url: "@BaseUrl" + 'Api/Jyotish/Country',
+                    type: 'GET',
+
+                    success: function (response) {
+                        var countryDropdown = $('#country');
+                        countryDropdown.empty().append('<option value="">Select Country</option>');
+                        response.data.forEach(country => {
+                            countryDropdown.append(`<option class='country' value="${country.id}">${country.name}</option>`);
+                        });
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.error('Error fetching countries:', textStatus, errorThrown);
+                    }
+                });
+            }
+            loadCountries();
+            // Fetch States based on selected Country
+            $('#country').change(function () {
+                var countryId = $(this).val();
+            $('#state').prop('disabled', false).empty().append('<option value="">Select State</option>'); // Reset State dropdown
+            $('#city').prop('disabled', true).empty().append('<option value="">Select City</option>'); // Reset City dropdown
+
+            if (countryId) {
+                $.ajax({
+                    url: "@BaseUrl" + 'Api/Jyotish/State',
+                    type: 'GET',
+                    data: { Id: countryId },
+
+                    success: function (response) {
+                        var stateDropdown = $('#state');
+                        stateDropdown.empty().append('<option value="">Select State</option>');
+                        response.data.forEach(state => {
+                            stateDropdown.append(`<option class='state' value="${state.id}">${state.name}</option>`);
+                        });
+                        stateDropdown.prop('disabled', false);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.error('Error fetching states:', textStatus, errorThrown);
+                    }
+                });
+                }
+            });
+
+            // Fetch Cities based on selected State
+            $('#state').change(function () {
+                var stateId = $(this).val();
+            $('#city').prop('disabled', false).empty().append('<option value="">Select City</option>'); // Reset City dropdown
+
+            if (stateId) {
+                $.ajax({
+                    url: "@BaseUrl" + 'Api/Jyotish/City',
+                    type: 'GET',
+                    data: { Id: stateId },
+
+                    success: function (response) {
+                        var cityDropdown = $('#city');
+                        cityDropdown.empty().append('<option value="">Select City</option>');
+                        response.data.forEach(city => {
+                            cityDropdown.append(`<option class='city' value="${city.id}">${city.name}</option>`);
+                        });
+                        cityDropdown.prop('disabled', false);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.error('Error fetching cities:', textStatus, errorThrown);
+                    }
+                });
+                }
+            });
+    </script>
+
+
         $("#profile").on("change",function(){
             const file = this.files[0]; 
             if (file) {
@@ -745,78 +819,7 @@
     </script>
 
 
-    <script>
-    function loadCountries() {
-        $.ajax({
-            url: "@BaseUrl" + 'Api/Jyotish/Country',
-            type: 'GET',
-
-            success: function (response) {
-                var countryDropdown = $('#country');
-                countryDropdown.empty().append('<option value="">Select Country</option>');
-                response.data.forEach(country => {
-                    countryDropdown.append(`<option class='country' value="${country.id}">${country.name}</option>`);
-                });
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.error('Error fetching countries:', textStatus, errorThrown);
-            }
-        });
-    }
-        loadCountries();
-    // Fetch States based on selected Country
-    $('#country').change(function () {
-        var countryId = $(this).val();
-        $('#state').prop('disabled', false).empty().append('<option value="">Select State</option>'); // Reset State dropdown
-        $('#city').prop('disabled', true).empty().append('<option value="">Select City</option>'); // Reset City dropdown
-
-        if (countryId) {
-            $.ajax({
-                url: "@BaseUrl" + 'Api/Jyotish/State',
-                type: 'GET',
-                data: { Id: countryId },
-
-                success: function (response) {
-                    var stateDropdown = $('#state');
-                    stateDropdown.empty().append('<option value="">Select State</option>');
-                    response.data.forEach(state => {
-                        stateDropdown.append(`<option class='state' value="${state.id}">${state.name}</option>`);
-                    });
-                    stateDropdown.prop('disabled', false);
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    console.error('Error fetching states:', textStatus, errorThrown);
-                }
-            });
-        }
-    });
-
-    // Fetch Cities based on selected State
-    $('#state').change(function () {
-        var stateId = $(this).val();
-        $('#city').prop('disabled', false).empty().append('<option value="">Select City</option>'); // Reset City dropdown
-
-        if (stateId) {
-            $.ajax({
-                url: "@BaseUrl" + 'Api/Jyotish/City',
-                type: 'GET',
-                data: { Id: stateId },
-
-                success: function (response) {
-                    var cityDropdown = $('#city');
-                    cityDropdown.empty().append('<option value="">Select City</option>');
-                    response.data.forEach(city => {
-                        cityDropdown.append(`<option class='city' value="${city.id}">${city.name}</option>`);
-                    });
-                    cityDropdown.prop('disabled', false);
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    console.error('Error fetching cities:', textStatus, errorThrown);
-                }
-            });
-        }
-    });
-    </script>
+   
 
 <script>
     $(document).ready(function () {
