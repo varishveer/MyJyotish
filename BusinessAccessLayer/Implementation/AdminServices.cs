@@ -1147,13 +1147,15 @@ namespace BusinessAccessLayer.Implementation
 
             var Slot = _context.Slots.Where(x => x.Id == model.SlotId).FirstOrDefault();
             if(Slot == null) { return "Slot Not Found"; }
-
+            
             var SlotBook = _context.SlotBooking.Where(x => x.JyotishId == model.Id).FirstOrDefault();
             if (SlotBook == null) { return "Jyotish slot details not found"; }
-
+            Slot.Status = "Booked";
+           
             SlotBook.SlotId = model.SlotId;
             SlotBook.Date = DateTime.Now;
             _context.SlotBooking.Update(SlotBook);
+            _context.Slots.Update(Slot);
             if (_context.SaveChanges() > 0)
             {
                 return "Successful";
