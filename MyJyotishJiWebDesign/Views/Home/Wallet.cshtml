@@ -296,7 +296,7 @@
             data: JSON.stringify({ userId: Id, WalletAmount: amount }),
             success: function (res) {
                 console.log(res)
-                if (res.Status == 200) {
+                if (res.status == 200) {
                     Swal.fire({
                         title: "Success",
                         text: "Amount Added to your wallet Successfully",

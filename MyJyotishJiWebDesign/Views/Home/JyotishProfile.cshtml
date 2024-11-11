@@ -116,7 +116,7 @@
                <input type="Date" name="date" id="appointmentDate" class="form-control" />
                 <div id="appoinmentDetail" class="py-3"></div>
                 <div id="problem">
-                    <textarea class="form-control mt-3" id="problem-desc" placeholder="Describe Your Problem "></textarea>
+                    <textarea class="form-control mt-1" id="problem-desc" placeholder="Describe Your Problem "></textarea>
                 </div>
             </div>
             <div class="modal-footer">
@@ -563,7 +563,7 @@ var bookAppoinmentUrl = BaseUrl + `api/User/bookAppointment`;
 
     //handle modal for book appoinment
     $("#exampleModal").on("show.bs.modal", function () {
-        if (localStorage.getItem("userId") == null & localStorage.getItem("Token")==null) {
+        if (localStorage.getItem("userId") == null || localStorage.getItem("Token")==null) {
             setTimeout(() => {
                 $("#exampleModal").modal("hide")
             Swal.fire({
