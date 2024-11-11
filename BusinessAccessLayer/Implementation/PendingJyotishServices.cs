@@ -529,11 +529,6 @@ namespace BusinessAccessLayer.Implementation
             file.CopyTo(stream);
 
         }
-
-
-
-
-
         public string Role(string Email)
         {
             var Jyotish = _context.JyotishRecords.Where(x => x.Email == Email).FirstOrDefault();
@@ -549,16 +544,81 @@ namespace BusinessAccessLayer.Implementation
             return Jyotish.ProfileImageUrl;
         }
 
+        public async Task<string> UploadRejectedDocumentAsync(DocumentViewModel model)
+        {
+            const long MaxFileSize = 5 * 1024 * 1024;
+            var allowedExtensions = new[] { ".pdf", ".jpg", ".jpeg", ".png" };
+
+            var isJyotishValid = await _context.JyotishRecords
+                .FirstOrDefaultAsync(x => x.Id == model.JyotishId);
+
+            if (isJyotishValid == null)
+            {
+                return "Invalid Jyotish";
+            }
+
+            var existingDocument = await _context.Documents
+                .FirstOrDefaultAsync(x => x.JId == isJyotishValid.Id);
+
+            if (existingDocument == null)
+            {
+                return "Document record not found for the given Jyotish ID";
+            }
+
+            try
+            {
+                var documentsToUpload = new[]
+                {
+                    (model.IdProof, (Action<string>)(path => existingDocument.IdProof = path), existingDocument.IdProofStatus),
+                    (model.AddressProof, (Action<string>)(path => existingDocument.AddressProof = path), existingDocument.AddressProofStatus),
+                    (model.TenthCertificate, (Action<string>)(path => existingDocument.TenthCertificate = path), existingDocument.TenthCertificateStatus),
+                    (model.TwelveCertificate, (Action<string>)(path => existingDocument.TwelveCertificate = path), existingDocument.TwelveCertificateStatus),
+                    (model.ProfessionalCertificate, (Action<string>)(path => existingDocument.ProfessionalCertificate = path), existingDocument.ProfessionalCertificateStatus),
+                };
+
+                foreach (var (file, setPath, status) in documentsToUpload)
+                {
+                    // Only proceed if file is not null and status is "Rejected"
+                    if (file != null && status == "Rejected")
+                    {
+                        if (ValidateFile(file, MaxFileSize, allowedExtensions))
+                        {
+                            // Set the document status to "Unverified" for the specific document
+                            if (file == model.IdProof) existingDocument.IdProofStatus = "Unverified";
+                            else if (file == model.AddressProof) existingDocument.AddressProofStatus = "Unverified";
+                            else if (file == model.TenthCertificate) existingDocument.TenthCertificateStatus = "Unverified";
+                            else if (file == model.TwelveCertificate) existingDocument.TwelveCertificateStatus = "Unverified";
+                            else if (file == model.ProfessionalCertificate) existingDocument.ProfessionalCertificateStatus = "Unverified";
+
+                            var filePath = await SaveFileAsync(file);
+                            setPath(filePath);
+                        }
+                        else
+                        {
+                            return $"Invalid File Extension or Size for {file.FileName}";
+                        }
+                    }
+                }
+
+                _context.Documents.Update(existingDocument);
+                return await _context.SaveChangesAsync() > 0 ? "Successful" : "Internal server DB error";
+            }
+            catch (Exception ex)
+            {
+                return $"Internal server EX error = {ex.Message}";
+            }
+        }
 
 
-       
-       
-
-      
-     
 
 
 
-     
+
+
+
+
+
+
+
     }
 }

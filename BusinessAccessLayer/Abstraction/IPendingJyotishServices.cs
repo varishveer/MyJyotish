@@ -23,5 +23,7 @@ namespace BusinessAccessLayer.Abstraction
         public List<SlotListViewModel> SlotList();
         public SlotBookingDetailViewModel JyotishSlotDetails(int id);
 
+        public  Task<string> UploadRejectedDocumentAsync(DocumentViewModel model);
+
     }
 }

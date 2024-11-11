@@ -261,5 +261,38 @@ namespace MyJyotishGApi.Controllers
             }
         }
 
+        
+        [HttpPost("UploadRejectedDocumentAsync")]
+        public async Task<IActionResult> UploadRejectedDocumentAsync(DocumentViewModel model)
+        {
+
+
+            try
+            {
+                var result = await _pendingJyotishServices.UploadRejectedDocumentAsync(model);
+
+                if (result == "Invalid Jyotish")
+                {
+                    return Ok(new { Status = 404, Message = result });
+                }
+                else if (result == "Document record not found for the given Jyotish ID")
+                {
+                    return Ok(new { Status = 404, Message = result });
+                }
+                else if (result == "Internal server DB error")
+                {
+                    return Ok(new { Status = 500, Message = result });
+                }
+                else if (result == "Successful")
+                {
+                    return Ok(new { Status = 200, Message = "Files and data uploaded successfully." });
+                }
+                else
+                {
+                    return Ok(new { Status = 400, Message = result });
+                }
+            }
+            catch { return StatusCode(500, new { Message = "Internal Server Error" }); }
+        }
     }
 }
