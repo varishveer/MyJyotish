@@ -213,6 +213,7 @@ namespace BusinessAccessLayer.Implementation
                 Record.CallCharges = model.CallCharges;
                 Record.Chat = model.Chat;
                 Record.ChatCharges = model.ChatCharges;
+                Record.AppointmentCharges = model.AppointmentCharges;
                 Record.TimeFrom = model.TimeFrom;
                 Record.TimeTo = model.TimeTo;
 
@@ -371,6 +372,7 @@ namespace BusinessAccessLayer.Implementation
                     isJyotishValid.CallCharges = tempData.CallCharges;
                     isJyotishValid.Chat = tempData.Chat;
                     isJyotishValid.ChatCharges = tempData.ChatCharges;
+                    isJyotishValid.AppointmentCharges = tempData.AppointmentCharges;
                     isJyotishValid.TimeTo = tempData.TimeTo;
                     isJyotishValid.TimeFrom = tempData.TimeFrom;
                     isJyotishValid.About = tempData.About;
