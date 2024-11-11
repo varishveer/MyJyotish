@@ -18,7 +18,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace BusinessAccessLayer.Implementation
 {
-    public class JyotishServices:IJyotishServices
+    public class JyotishServices : IJyotishServices
     {
         private readonly ApplicationContext _context;
         private readonly string _uploadDirectory;
@@ -55,7 +55,7 @@ namespace BusinessAccessLayer.Implementation
 
 
 
-            if (model.ProfileImageUrl !=null)
+            if (model.ProfileImageUrl != null)
             {
 
                 var ProfileGuid = Guid.NewGuid().ToString();
@@ -87,12 +87,12 @@ namespace BusinessAccessLayer.Implementation
             existingRecord.Country = CountryName.Name;
             existingRecord.State = StateName.Name;
             existingRecord.City = CityName.Name;
-        
+
             existingRecord.DateOfBirth = model.DateOfBirth;
 
             existingRecord.Otp = model.Otp;
             existingRecord.Experience = model.Experience;
-          
+
             existingRecord.Call = model.Call;
             existingRecord.CallCharges = model.CallCharges;
             existingRecord.Chat = model.Chat;
@@ -104,7 +104,7 @@ namespace BusinessAccessLayer.Implementation
             existingRecord.About = model.About;
             existingRecord.Specialization = model.Specialization;
             existingRecord.AwordsAndAchievement = model.AwordsAndAchievement;
-            
+
             _context.JyotishRecords.Update(existingRecord);
             // Save changes to the database
             if (_context.SaveChanges() > 0)
@@ -126,15 +126,15 @@ namespace BusinessAccessLayer.Implementation
             var Jyotish = _context.JyotishRecords.Where(x => x.Id == Id).FirstOrDefault();
             if (Jyotish == null) { return null; }
 
-           
+
             DateTime today = DateTime.Now;
-            DateTime yesterday = today.AddDays(-1); 
-            
+            DateTime yesterday = today.AddDays(-1);
+
             DateTime yesterdayDateOnly = yesterday.Date;
 
             // Fetch appointment records for the given Jyotish and filter by future dates
             var allRecords = _context.AppointmentRecords
-     .Where(record => record.JyotishId == Id)
+     .Where(record => record.JyotishId == Id && record.ArrivedStatus==0)
      .Join(_context.Users,
            record => record.UserId,
            user => user.Id,
@@ -157,95 +157,95 @@ namespace BusinessAccessLayer.Implementation
            })
      .ToList();  // Retrieve all records for the Jyotish
 
-      
+
 
             var Records = allRecords.Where(x => x.Date > yesterdayDateOnly).ToList();
 
             return Records;
         }
-        public string AddAppointment(AddAppointmentJyotishModel model) 
-         {   
-             var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
-             var User = _context.Users.FirstOrDefault(x => x.Email == model.Email || x.Mobile == model.Mobile);
-         
+        public string AddAppointment(AddAppointmentJyotishModel model)
+        {
+            var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
+            var User = _context.Users.FirstOrDefault(x => x.Email == model.Email || x.Mobile == model.Mobile);
+
             var appointmentRecord = _context.AppointmentRecords.Where(x => x.SlotId == model.SlotId).FirstOrDefault();
 
             var Slot = _context.AppointmentSlots.Where(x => x.Id == model.SlotId).FirstOrDefault();
-             if (Jyotish == null || Slot == null || Slot.Status == "Booked" || appointmentRecord != null) { return "invalid Data"; }
+            if (Jyotish == null || Slot == null || Slot.Status == "Booked" || appointmentRecord != null) { return "invalid Data"; }
 
-             AppointmentModel appointment = new AppointmentModel();
-          
-         
-             appointment.Date = Slot.Date;
+            AppointmentModel appointment = new AppointmentModel();
 
-         
-             appointment.JyotishId = model.JyotishId;
+
+            appointment.Date = Slot.Date;
+
+
+            appointment.JyotishId = model.JyotishId;
             appointment.SlotId = model.SlotId;
-         
 
-             if(User == null)
-             {
-                 ModelAccessLayer.Models.UserModel userModel = new ModelAccessLayer.Models.UserModel();
-                 userModel.Email = model.Email;
-                 userModel.Mobile = model.Mobile;
-                 userModel.Name = model.Name;
-                 userModel.Password = (new Random().Next(10000000, 100000000)).ToString();
+
+            if (User == null)
+            {
+                ModelAccessLayer.Models.UserModel userModel = new ModelAccessLayer.Models.UserModel();
+                userModel.Email = model.Email;
+                userModel.Mobile = model.Mobile;
+                userModel.Name = model.Name;
+                userModel.Password = (new Random().Next(10000000, 100000000)).ToString();
                 _context.Users.Add(userModel);
                 if (_context.SaveChanges() > 0)
                 { appointment.UserId = userModel.Id; }
-                  
-                 AccountServices.SendEmail("Password" + userModel.Password, model.Email, "MyJyotishG Password");
-             }
-             else { appointment.UserId = User.Id; }  
-             appointment.Problem = model.Problem;
-             appointment.Amount = Jyotish.AppointmentCharges;
-             appointment.Status = "Upcomming";
-             _context.AppointmentRecords.Add(appointment);
+
+                AccountServices.SendEmail("Password" + userModel.Password, model.Email, "MyJyotishG Password");
+            }
+            else { appointment.UserId = User.Id; }
+            appointment.Problem = model.Problem;
+            appointment.Amount = Jyotish.AppointmentCharges;
+            appointment.Status = "Upcomming";
+            _context.AppointmentRecords.Add(appointment);
             Slot.Status = "Booked";
             _context.AppointmentSlots.Update(Slot);
-             if (_context.SaveChanges() > 0) 
-            { 
+            if (_context.SaveChanges() > 0)
+            {
                 return "Successful"; }
-             return "internal Server Error.";
-         }
+            return "internal Server Error.";
+        }
 
-         public string UpdateAppointment(UpdateAppointmentJyotishViewModel model) 
-         {
-             var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
-             var User = _context.Users.Where(x => x.Email == model.Email).FirstOrDefault();
-             var appointment = _context.AppointmentRecords.Where(x => x.Id == model.Id).FirstOrDefault();
+        public string UpdateAppointment(UpdateAppointmentJyotishViewModel model)
+        {
+            var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
+            var User = _context.Users.Where(x => x.Email == model.Email).FirstOrDefault();
+            var appointment = _context.AppointmentRecords.Where(x => x.Id == model.Id).FirstOrDefault();
             var slot = _context.AppointmentSlots.Where(x => x.Id == model.SlotId).FirstOrDefault();
-             if (User == null || Jyotish == null || appointment == null || slot == null) { return "invalid Data"; }
+            if (User == null || Jyotish == null || appointment == null || slot == null) { return "invalid Data"; }
 
 
-            
-            
-            
-             
-             appointment.JyotishId = Jyotish.Id;
-             appointment.UserId = User.Id;
-             appointment.Problem = model.Problem;
-             appointment.Amount = Jyotish.AppointmentCharges;
+
+
+
+
+            appointment.JyotishId = Jyotish.Id;
+            appointment.UserId = User.Id;
+            appointment.Problem = model.Problem;
+            appointment.Amount = Jyotish.AppointmentCharges;
             if (appointment.SlotId == model.SlotId)
             {
-              
+
                 appointment.Date = slot.Date;
             }
-            
+
 
             appointment.SlotId = model.SlotId;
             appointment.Date = slot.Date;
-         
+
 
             appointment.Status = "Upcomming";
-             _context.AppointmentRecords.Update(appointment);
+            _context.AppointmentRecords.Update(appointment);
 
-             if (_context.SaveChanges() > 0) { return "Successful"; }
-             return "internal Server Error.";
-         }
+            if (_context.SaveChanges() > 0) { return "Successful"; }
+            return "internal Server Error.";
+        }
 
-         public AppointmentDetailViewModel GetAppointment(int Id)
-         {
+        public AppointmentDetailViewModel GetAppointment(int Id)
+        {
             var Record = _context.AppointmentRecords
       .Where(x => x.Id == Id) // Filter by appointmentId
       .Join(_context.Users,
@@ -270,21 +270,21 @@ namespace BusinessAccessLayer.Implementation
             })
       .FirstOrDefault();
             if (Record == null) { return null; }
-             else { return Record; }
-         }
+            else { return Record; }
+        }
         public List<TeamMemberModel> TeamMember(int Id)
         {
             var Jyotish = _context.JyotishRecords.Where(x => x.Id == Id).FirstOrDefault();
-            if(Jyotish == null)
+            if (Jyotish == null)
             { return null; }
             else
             {
                 var records = _context.TeamMemberRecords.Where(x => x.JyotishId == Jyotish.Id).ToList();
                 return records;
             }
-            
+
         }
-        public string AddTeamMember(TeamMemberViewModel teamMember,string path) 
+        public string AddTeamMember(TeamMemberViewModel teamMember, string path)
         {
             var IsEmailValid = _context.TeamMemberRecords.Where(x => x.Email == teamMember.Email).FirstOrDefault();
             var IsMobileValid = _context.TeamMemberRecords.Where(x => x.Mobile == teamMember.Mobile).FirstOrDefault();
@@ -292,8 +292,8 @@ namespace BusinessAccessLayer.Implementation
             { return "Email or Mobile no. Already Exist"; }
 
             var IsJyotishValid = _context.JyotishRecords.Where(x => x.Id == teamMember.Id).FirstOrDefault();
-            if (IsJyotishValid == null) 
-            { return "Jyotish Not found";}
+            if (IsJyotishValid == null)
+            { return "Jyotish Not found"; }
 
             Random random = new Random();
             // Generate a random number between 1000000000 and 9999999999
@@ -313,17 +313,17 @@ namespace BusinessAccessLayer.Implementation
                 Email = teamMember.Email,
                 Role = "TeamMember",
                 JyotishId = IsJyotishValid.Id,
-                Password =newPassword
+                Password = newPassword
             };
 
             _context.TeamMemberRecords.Add(model);
-             var result = _context.SaveChanges();
+            var result = _context.SaveChanges();
             if (result > 0)
             {
                 AccountServices.SendEmail(newPassword, teamMember.Email, "Password");
                 return "Record Saved Successfully";
             }
-            else 
+            else
             {
                 return "Records Not Saved";
             }
@@ -333,37 +333,37 @@ namespace BusinessAccessLayer.Implementation
             FileStream stream = new FileStream(fullPath, FileMode.Create);
             file.CopyTo(stream);
         }
-       /* public bool CreateAPooja(PoojaRecordModel model)
-        {
-            var isPoojaValid = _context.PoojaCategory.Where(x => x.Name == model.Name).FirstOrDefault();
-            if (isPoojaValid != null)
-            { return false; }
-            _context.PoojaRecord.Add(model);
-            int result = _context.SaveChanges();
-            if (result > 0)
-            { return true; }
-            else { return false; }
-        }*/
-        public List<Country> CountryList() 
+        /* public bool CreateAPooja(PoojaRecordModel model)
+         {
+             var isPoojaValid = _context.PoojaCategory.Where(x => x.Name == model.Name).FirstOrDefault();
+             if (isPoojaValid != null)
+             { return false; }
+             _context.PoojaRecord.Add(model);
+             int result = _context.SaveChanges();
+             if (result > 0)
+             { return true; }
+             else { return false; }
+         }*/
+        public List<Country> CountryList()
         {
             var Record = _context.Countries.ToList();
             return Record;
         }
-        public List<State> StateList(int Id) 
-        { 
+        public List<State> StateList(int Id)
+        {
             var Record = _context.States.Where(x => x.CountryId == Id).ToList();
             return Record;
         }
-        public List<City> CityList(int Id) 
+        public List<City> CityList(int Id)
         {
-            var Record = _context.Cities.Where(x=>x.StateId == Id).ToList();
+            var Record = _context.Cities.Where(x => x.StateId == Id).ToList();
             return Record;
         }
 
         public List<ExpertiseModel> ExpertiseList()
         {
             var Records = _context.ExpertiseRecords.ToList();
-            return Records; 
+            return Records;
         }
         public List<PoojaListModel> GetPoojaList()
         {
@@ -398,7 +398,7 @@ namespace BusinessAccessLayer.Implementation
         {
             if (model == null) { return "invalid data"; }
             JyotishVideosModel data = new JyotishVideosModel();
-            if(model.Image != null)
+            if (model.Image != null)
             {
                 const long MaxFileSize = 5 * 1024 * 1024; // 5 MB
                 var allowedExtensions = new[] { ".pdf", ".jpg", ".jpeg", ".png" };
@@ -451,7 +451,7 @@ namespace BusinessAccessLayer.Implementation
             if (_context.SaveChanges() > 0) { return "Successful"; }
             else { return "internal server Error"; }
         }
-       
+
 
         public List<JyotishVideosModel> JyotishVideos(int Id)
         {
@@ -504,13 +504,13 @@ namespace BusinessAccessLayer.Implementation
         {
             var Jyotish = _context.JyotishRecords.Where(x => x.Id == Id).FirstOrDefault();
             if (Jyotish == null) { return null; }
-            var record = _context.JyotishPaymentRecord.Where(x => x.JyotishId == Id).OrderBy(x=>x.Id).Reverse().ToList();
+            var record = _context.JyotishPaymentRecord.Where(x => x.JyotishId == Id).OrderBy(x => x.Id).Reverse().ToList();
             if (record.Count > 0) { return record; }
             else { return null; }
         }
         public JyotishPaymentRecordModel JyotishPaymentDetail(int Id)
         {
-           
+
             var record = _context.JyotishPaymentRecord.Where(x => x.Id == Id).FirstOrDefault();
             if (record != null) { return record; }
             else { return null; }
@@ -518,7 +518,7 @@ namespace BusinessAccessLayer.Implementation
 
         public string AddAppointmentSlot(AppointmentSlotViewModel model)
         {
-            if (DateTime.Compare(model.Date,DateTime.Now)<0)
+            if (DateTime.Compare(model.Date, DateTime.Now) < 0)
             { return "Invalid Date"; }
 
             var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
@@ -531,12 +531,12 @@ namespace BusinessAccessLayer.Implementation
             if (Jyotish == null) { return "Invalid Jyotish"; }
             if (DateTime.Compare(model.Date, model.DateTo) <= 90)
             {
-                    List<AppointmentSlotModel> slotsToAdd = new List<AppointmentSlotModel>();
+                List<AppointmentSlotModel> slotsToAdd = new List<AppointmentSlotModel>();
                 for (DateTime date = model.Date; date <= model.DateTo; date = date.AddDays(1))
                 {
                     if (existingSlots.Contains(date.Date))
                     {
-                        continue; 
+                        continue;
                     }
 
 
@@ -606,29 +606,29 @@ namespace BusinessAccessLayer.Implementation
 
                 if (shouldDeactivate)
                 {
-                    slot.ActiveStatus = 0; 
+                    slot.ActiveStatus = 0;
                     slotsToUpdate.Add(slot);
                 }
             }
 
             if (slotsToUpdate.Count > 0)
             {
-                _context.AppointmentSlots.UpdateRange(slotsToUpdate); 
+                _context.AppointmentSlots.UpdateRange(slotsToUpdate);
             }
 
 
             if (_context.SaveChanges() > 0)
-                {
-                    return "Changes applied successfully";
-                }
-                else
-                {
-                    return "There is some problem while applied changes";
+            {
+                return "Changes applied successfully";
+            }
+            else
+            {
+                return "There is some problem while applied changes";
 
-                }            
+            }
         }
-            //add wallet
-            public string AddWallet(JyotishWalletViewmodel pr)
+        //add wallet
+        public string AddWallet(JyotishWalletViewmodel pr)
         {
             var Jyotish = _context.JyotishRecords.Where(x => x.Id == pr.jyotishId).FirstOrDefault();
             if (Jyotish == null) { return null; }
@@ -653,10 +653,10 @@ namespace BusinessAccessLayer.Implementation
                 else { return "Data Not Saved"; }
             }
         }
-         public long GetWallet(int JyotishId)
+        public long GetWallet(int JyotishId)
         {
             var Jyotish = _context.JyotishWallets.Where(x => x.jyotishId == JyotishId).FirstOrDefault();
-            if ( Jyotish == null) { return 0; }
+            if (Jyotish == null) { return 0; }
             else
             {
                 return Jyotish.WalletAmount;
@@ -671,11 +671,11 @@ namespace BusinessAccessLayer.Implementation
             if (Jyotish == null) { return null; }
             Random rnd = new Random();
             var rndnum = rnd.Next(100, 999);
-            var paymentId = Jyotish.Name + DateTime.Now.ToString("ddMMyyyy")+ pr.JId + rndnum;
+            var paymentId = Jyotish.Name + DateTime.Now.ToString("ddMMyyyy") + pr.JId + rndnum;
             var paymentUnqId = _context.WalletHistroy.Where(x => x.PaymentId == paymentId).FirstOrDefault();
             if (paymentUnqId != null)
             {
-                paymentId=paymentId + 1;
+                paymentId = paymentId + 1;
             }
             WalletHistoryModel jw = new WalletHistoryModel
             {
@@ -686,9 +686,9 @@ namespace BusinessAccessLayer.Implementation
                 date = DateTime.Now.ToString("dd-MM-yyyy hh:mm:ss"),
                 PaymentId = paymentId,
                 status = 1,
-                PaymentBy="jyotish",
-                PaymentFor=pr.PaymentFor,
-                UId=pr.UId!=0?pr.UId:null
+                PaymentBy = "jyotish",
+                PaymentFor = pr.PaymentFor,
+                UId = pr.UId != 0 ? pr.UId : null
             };
             _context.WalletHistroy.Add(jw);
             if (_context.SaveChanges() > 0) { return "Successful"; }
@@ -697,24 +697,24 @@ namespace BusinessAccessLayer.Implementation
         }
         public dynamic GetWalletHistory(int JyotishId)
         {
-            var Jyotish =(from wallet in _context.WalletHistroy join user in _context.Users on wallet.UId equals user.Id into userGroup
-                          from user in userGroup.DefaultIfEmpty()
-                          where wallet.JId == JyotishId
-                          orderby wallet.Id descending
-                          select new
-                          {
-                              UserName= wallet.UId != null ? user.Name : null,
-                              paymentDate=wallet.date,
-                              amount=wallet.amount,
-                              paymentId=wallet.PaymentId,
-                              paymentBy=wallet.PaymentBy,
-                              paymentAction=wallet.PaymentAction,
-                              profile= wallet.UId != null ? user.ProfilePictureUrl : null,
-                              paymentFor=wallet.PaymentFor,
-                              paymentStatus=wallet.PaymentStatus,
-                              Id=wallet.Id
-                          }
-                          
+            var Jyotish = (from wallet in _context.WalletHistroy join user in _context.Users on wallet.UId equals user.Id into userGroup
+                           from user in userGroup.DefaultIfEmpty()
+                           where wallet.JId == JyotishId
+                           orderby wallet.Id descending
+                           select new
+                           {
+                               UserName = wallet.UId != null ? user.Name : null,
+                               paymentDate = wallet.date,
+                               amount = wallet.amount,
+                               paymentId = wallet.PaymentId,
+                               paymentBy = wallet.PaymentBy,
+                               paymentAction = wallet.PaymentAction,
+                               profile = wallet.UId != null ? user.ProfilePictureUrl : null,
+                               paymentFor = wallet.PaymentFor,
+                               paymentStatus = wallet.PaymentStatus,
+                               Id = wallet.Id
+                           }
+
                           );
 
             return Jyotish;
@@ -728,17 +728,17 @@ namespace BusinessAccessLayer.Implementation
             var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
             if (Jyotish == null) { return "Invalid Jyotish"; }
 
-            var slot = _context.AppointmentSlots.Where(x => x.Id == model.Id).Where(x=>x.JyotishId == model.JyotishId).FirstOrDefault();
+            var slot = _context.AppointmentSlots.Where(x => x.Id == model.Id).Where(x => x.JyotishId == model.JyotishId).FirstOrDefault();
             if (slot == null)
             {
                 return "Invalid Data";
             }
-            if(slot.Status == "Booked")
+            if (slot.Status == "Booked")
             { return "Slot Has Been Booked It Can't Be Updated."; }
             slot.Date = model.Date;
             slot.TimeFrom = model.TimeFrom;
             slot.TimeTo = model.TimeTo;
-           
+
             slot.TimeDuration = model.TimeDuration;
             slot.Status = "Vacant";
             _context.AppointmentSlots.Update(slot);
@@ -747,10 +747,10 @@ namespace BusinessAccessLayer.Implementation
         }
 
 
-        public string DeleteAppointmentSlot(int Id )
+        public string DeleteAppointmentSlot(int Id)
         {
             var slot = _context.AppointmentSlots.Where(x => x.Id == Id).FirstOrDefault();
-            if(slot == null) { return "Invalid Id"; }
+            if (slot == null) { return "Invalid Id"; }
 
             _context.AppointmentSlots.Remove(slot);
             if (_context.SaveChanges() > 0) { return "Successful"; }
@@ -760,9 +760,9 @@ namespace BusinessAccessLayer.Implementation
         public List<AppointmentSlotUserViewModel> GetAllAppointmentSlot(int id)
         {
             var result = (from slot in _context.AppointmentSlots
-                          where slot.JyotishId == id && slot.ActiveStatus == 1 && slot.Status== "Vacant"
+                          where slot.JyotishId == id && slot.ActiveStatus == 1 && slot.Status == "Vacant"
                           group slot by slot.Date into g
-                                                   
+
                           select new AppointmentSlotUserViewModel
                           {
                               Date = g.Key, // Date is the grouping key
@@ -776,8 +776,8 @@ namespace BusinessAccessLayer.Implementation
                                               JyotishId = s.JyotishId,
                                               Status = s.Status
                                           }).ToList()
-                                          
-                          }                    
+
+                          }
                           ).ToList();
 
             return result;
@@ -816,8 +816,8 @@ namespace BusinessAccessLayer.Implementation
                 join user in _context.Users
                 on appointmentRecords.UserId equals user.Id
                 join slots in _context.AppointmentSlots on appointmentRecords.SlotId equals slots.Id
-                where (appointmentRecords.JyotishId==jyotishId
-                && DateTime.Compare(slots.Date.Date,DateTime.Now.Date)==0)
+                where (appointmentRecords.JyotishId == jyotishId
+                && DateTime.Compare(slots.Date.Date, DateTime.Now.Date) == 0 )
                 select new
                 {
                     appId = appointmentRecords.Id,
@@ -825,18 +825,90 @@ namespace BusinessAccessLayer.Implementation
                     userName = user.Name,
                     userMobile = user.Mobile,
                     problem = appointmentRecords.Problem,
-                    userEmail=user.Email,
-                    userProfile=user.ProfilePictureUrl,
-                    appoinDate=slots.Date,
-                    appoinTimeFrom=slots.TimeFrom,
-                    appoinTimeTo=slots.TimeTo
+                    userEmail = user.Email,
+                    userProfile = user.ProfilePictureUrl,
+                    appoinDate = slots.Date,
+                    appoinTimeFrom = slots.TimeFrom,
+                    appoinTimeTo = slots.TimeTo
 
                 }
                 );
 
-           
+
             return result;
         }
+
+        public bool updateArrivedClient(int appointmentId,int jyotishId)
+        {
+            var jyotish = _context.JyotishRecords.Where(e => e.Id == jyotishId).FirstOrDefault();
+            if (jyotish == null)
+            {
+                return false;
+            }
+            var appointentDetail = _context.AppointmentRecords.Where(e=>e.Id==appointmentId).FirstOrDefault();
+            if (appointentDetail != null)
+            {
+                appointentDetail.ArrivedStatus = 1;
+                _context.AppointmentRecords.Update(appointentDetail);
+                if (_context.SaveChanges() > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+}
+
+        public dynamic selectTodayArrivedClient(int jyotishId)
+        {
+            var Jyotish = _context.JyotishRecords.Where(x => x.Id == jyotishId).FirstOrDefault();
+            if (Jyotish == null) { return null; }
+
+
+            DateTime today = DateTime.Now;
+            DateTime yesterday = today.AddDays(-1);
+
+            DateTime yesterdayDateOnly = yesterday.Date;
+
+            // Fetch appointment records for the given Jyotish and filter by future dates
+            var allRecords = _context.AppointmentRecords
+     .Where(record => record.JyotishId == jyotishId && record.ArrivedStatus == 1)
+     .Join(_context.Users,
+           record => record.UserId,
+           user => user.Id,
+           (record, user) => new { record, user })
+     .Join(_context.AppointmentSlots,
+           combined => combined.record.SlotId,
+           slot => slot.Id,
+           (combined, slot) => new AppointmentDetailViewModel
+           {
+               Id = combined.record.Id,
+               UserName = combined.user.Name,
+               UserMobile = combined.user.Mobile,
+               UserEmail = combined.user.Email,
+               UserId = combined.record.UserId,
+               Problem = combined.record.Problem,
+               Date = slot.Date,
+               Time = slot.TimeFrom,
+               Status = combined.record.Status,
+               Amount = combined.record.Amount
+           })
+     .ToList();  // Retrieve all records for the Jyotish
+
+
+
+            var Records = allRecords.Where(x => x.Date > yesterdayDateOnly).ToList();
+
+            return Records;
+        }
+
+
 
         public string AddProblemSolution(ProblemSolutionViewModel model)
         {
