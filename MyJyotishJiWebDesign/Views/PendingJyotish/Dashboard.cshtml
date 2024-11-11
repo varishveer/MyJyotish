@@ -89,7 +89,7 @@
     }
 
     .img-text {
-        display: flex;
+        
         justify-content: center;
     }
 </style>
@@ -113,7 +113,7 @@
             font-size: 14px;
         }
     }
-
+  
     /* For screens between 576px and 768px (tablets) */
     @@media (min-width: 576px) and (max-width: 767.98px) {
         .col-md-3 {
@@ -152,13 +152,17 @@
                     <div class="image-container bg-light rounded">
                         <img id="idProof" alt="ID Proof" class="img-fluid" src="">
                     </div>
+                </a>
                     <div class="img-text">
 
 
                         <span>Id Proof</span>
+                        <br />
                         <p id="idStatus"> </p>
                     </div>
-                </a>
+                <div id="idProofUploadRejectDoc">
+
+                </div>    
 
             </div>
             <div class="col-md-3 col-lg-2 mb-4 increased-width">
@@ -166,13 +170,15 @@
                     <div class="image-container bg-light rounded">
                         <img id="addressProof" alt="Address Proof" src="">
                     </div>
+                </a>
                     <div class="img-text">
 
                         <span>Address Proof</span>
-
+                        <br />
                         <p id="addressStatus"></p>
                     </div>
-                </a>
+                <div id="addressProofUploadRejectDoc">
+                </div>
 
             </div>
             <div class="col-md-3 col-lg-2 mb-4 increased-width" id="tenthCertificateDiv">
@@ -180,12 +186,15 @@
                     <div class="image-container bg-light rounded">
                         <img id="tenthCertificate" alt="Tenth Certificate" src="https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp">
                     </div>
+                </a>
                     <div class="img-text">
 
                         <span>Tenth Certificate</span>
+                        <br />
                         <p id="tenthStatus"></p>
                     </div>
-                </a>
+                <div id="tenthCertificateUploadRejectDoc">
+                </div>
 
             </div>
             <div class="col-md-3 col-lg-2 mb-4 increased-width" id="twelveCertificateDiv">
@@ -193,12 +202,15 @@
                     <div class="image-container bg-light rounded">
                         <img id="twelveCertificate" alt="Twelve Certificate" src="https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp">
                     </div>
+                </a>
                     <div class="img-text">
 
                         <span>Twelve Certificate</span>
+                        <br />
                         <p id="twelveStatus"></p>
                     </div>
-                </a>
+                <div id="twelveCertificateUploadRejectDoc">
+                </div>
 
             </div>
             <div class="col-md-3 col-lg-2 mb-4 increased-width">
@@ -206,12 +218,15 @@
                     <div class="image-container bg-light rounded">
                         <img id="professionalCertificate" alt="Professional Certificate" src="https://localhost:7118/Images/Placeholder/DocumentPlaceHolder.webp">
                     </div>
+                </a>
                     <div class="img-text">
 
                         <span>Professional Certificate</span>
+                        <br />
                         <p id="professionalStatus"></p>
                     </div>
-                </a>
+                <div id="professionalCertificateUploadRejectDoc">
+                </div>
 
             </div>
         </div>
@@ -231,10 +246,7 @@
 
 
 
-<script>
 
-    
-</script>
 
 
 
@@ -499,67 +511,7 @@
 
 
 
-@* <div class="container-fluid pt-4 px-4">
-    <div class="text-center border border-1 rounded p-3">
-        <!-- Status Alert -->
-        <div class="row">
-            <div class="col-md-6 offset-md-3">
-                <div class="alert" role="alert">
-                    <span  id="slots-title">Interview Slot Booking</span>
-                    
-                </div>
-            </div>
-        </div>
 
-        <div class="row" id="BookingDetails">
-            <div class="col-md-6 offset-md-3">
-              
-            </div>
-        </div>
-
-        <!-- Slot Booking Section -->
-        <div class="slotBookingDiv">
-            <div class="container">
-                <div class="font-weight-boldx">Select a Date and Time</div>
-
-                <!-- Date Picker Container -->
-                <div class="d-flex align-items-center justify-content-center">
-                    <!-- Left Scroll Button -->
-                    <button class="btn btn-outline-primary" id="scroll-left">&#8592;</button>
-
-                    <!-- Dates -->
-                    <div class="dates">
-                        <!-- Updated date items -->
-                     
-
-                        <!-- More date items as needed -->
-                    </div>
-
-                    <!-- Right Scroll Button -->
-                    <button class="btn btn-outline-primary" id="scroll-right">&#8594;</button>
-                </div>
-
-                <!-- Time Slot Selection -->
-                <div class="time-slot-container " id="time-slot-container">
-                    <div class="row " >
-                        <div class="row d-inline-flex" id="time-slots">
-                            <!-- Time slots will be populated dynamically -->
-                        </div>
-                       
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="row mt-4" id="bookingbtn">
-            <div class="col-md-12 d-flex justify-content-center">
-                <button id="book-now" class="btn btn-primary rounded-2">Book Now</button>
-            </div>
-        </div>
-    </div>
-</div>
- *@
 
 
 
@@ -615,7 +567,33 @@
     </div>
 </div>
 
-
+<div class="modal fade" id="rejectedDocUploadModal" tabindex="-1" role="dialog" aria-labelledby="rejectedDocUploadModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="rejectedDocUploadModalLabel">Upload File</h5>
+                <button type="button" class="close btn" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- File upload input field -->
+                <form id="fileUploadForm">
+                    <div class="form-group">
+                        <label for="fileInput">Choose a file:</label>
+                        <input type="file" class="form-control-file" id="fileInput" name="fileInput">
+                    </div>
+                    <!-- Hidden field to store the 'data-name' value -->
+                    <input type="hidden" id="dataNameInput" name="dataName" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="rejectedDocSubmitFile">Upload</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <!-- Script to handle dynamic date selection and time slots -->
@@ -909,12 +887,27 @@
                 $('#idProof').attr('src', response.data.idProof ? BaseUrl + response.data.idProof : '/Img/SampleDoc.jpeg');
                 var idLink = document.getElementById('idProofLink');
                 $("#idProofLink").attr("href", BaseUrl + response.data.idProof);
-                if (response.data.idProofStatus === "Verified") {
+                
+                if (response.data.idProofStatus === "Verified")
+                {
                     var idStatus = document.getElementById('idStatus');
                     idStatus.innerHTML = 'Verified <i class="fas fa-check-circle"></i>';
-                } else if (response.data.idProofStatus === "Rejected") {
+                } 
+                else if (response.data.idProofStatus === "Rejected") 
+                {
                     var idStatus = document.getElementById('idStatus');
-                    idStatus.innerHTML = 'Rejected <i class="fas fa-times-circle"></i>';
+                    idStatus.innerHTML = `Rejected <i class="fas fa-times-circle" data-bs-toggle="idTooltip" data-bs-placement="top"
+                                    data-bs-custom-class="custom-tooltip"
+                                        data-bs-title="${response.data.idProofMessage}"></i>`;
+                    $('#idStatus').addClass('text-danger');
+                    $('#idProofUploadRejectDoc').html(`<button class="btn btn-primary btn-sm rejectedDocUploadBtn" data-name="idProof" > Upload</button> `);
+                    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="idTooltip"]');
+                    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => {
+                        const tooltipInstance = new bootstrap.Tooltip(tooltipTriggerEl);
+                        tooltipInstance.show();
+                        return tooltipInstance;
+                    });
+                   
                 }
 
 
@@ -922,12 +915,25 @@
                 $('#addressProof').attr('src', response.data.addressProof ? BaseUrl + response.data.addressProof : '/Img/SampleDoc.jpeg');
                 var addressLink = document.getElementById('addressProofLink');
                 addressLink.href = BaseUrl + response.data.addressProof;
-                               if (response.data.addressProofStatus === "Verified") {
+                 if (response.data.addressProofStatus === "Verified") 
+                 {
                     var addressStatus = document.getElementById('addressStatus');
                     addressStatus.innerHTML = 'Verified <i class="fas fa-check-circle"></i>';
-                } else if (response.data.addressProofStatus === "Rejected") {
+                }
+                else if (response.data.addressProofStatus === "Rejected") 
+                {
                     var addressStatus = document.getElementById('addressStatus');
-                    addressStatus.innerHTML = 'Rejected <i class="fas fa-times-circle"></i>';
+                    addressStatus.innerHTML = `Rejected <i class="fas fa-times-circle" data-bs-toggle="addressTooltip" data-bs-placement="top"
+                                        data-bs-custom-class="custom-tooltip"
+                                            data-bs-title="${response.data.addressProofMessage}"></i>`;
+                    $('#addressStatus').addClass('text-danger'); 
+                    $('#addressProofUploadRejectDoc').html(`<button class="btn btn-primary btn-sm rejectedDocUploadBtn" data-name="addressProof" > Upload</button> `);
+                    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="addressTooltip"]')
+                     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => {
+                         const tooltipInstance = new bootstrap.Tooltip(tooltipTriggerEl);
+                         tooltipInstance.show();
+                         return tooltipInstance;
+                     });
                 }
 
 
@@ -948,7 +954,17 @@
                     tenthStatus.innerHTML = 'Verified <i class="fas fa-check-circle"></i>';
                 } else if (response.data.tenthCertificateStatus === "Rejected") {
                     var tenthStatus = document.getElementById('tenthStatus');
-                    tenthStatus.innerHTML = 'Rejected <i class="fas fa-times-circle"></i>';
+                        tenthStatus.innerHTML = `Rejected <i class="fas fa-times-circle" data-bs-toggle="tenthCertificateTooltip" data-bs-placement="top"
+                                            data-bs-custom-class="custom-tooltip"
+                                                    data-bs-title="${response.data.tenthCertificateMessage}"></i>`;
+                     $('#tenthStatus').addClass('text-danger');
+                    $('#tenthCertificateUploadRejectDoc').html(`<button class="btn btn-primary btn-sm rejectedDocUploadBtn" data-name="tenthCertificate" > Upload</button> `);
+                        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tenthCertificateTooltip"]')
+                        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => {
+                            const tooltipInstance = new bootstrap.Tooltip(tooltipTriggerEl)
+                            tooltipInstance.show()
+                            return tooltipInstance;
+                    });
                 }
 
 
@@ -970,7 +986,17 @@
                     twelveStatus.innerHTML = 'Verified <i class="fas fa-check-circle"></i>';
                 } else if (response.data.twelveCertificate === "Rejected") {
                     var twelveStatus = document.getElementById('twelveStatus');
-                    twelveStatus.innerHTML = 'Rejected <i class="fas fa-times-circle"></i>';
+                            twelveStatus.innerHTML = `Rejected <i class="fas fa-times-circle" data-bs-toggle="twelveCertificateTooltip" data-bs-placement="top"
+                                                data-bs-custom-class="custom-tooltip"
+                                                            data-bs-title="${response.data.twelveCertificateMessage}"></i>`;
+                    $('#twelveStatus').addClass('text-danger');
+                    $('#twelveCertificateUploadRejectDoc').html(`<button class="btn btn-primary btn-sm rejectedDocUploadBtn" data-name="twelveCertificate" > Upload</button> `);
+                            const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="twelveCertificateTooltip"]')
+                            const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => {
+                                const tooltipInstance = new bootstrap.Tooltip(tooltipTriggerEl)
+                                tooltipInstance.show()
+                                return tooltipInstance;
+                    });
                 }
 
 
@@ -986,7 +1012,18 @@
                     ProfesstionalStatus.innerHTML = 'Verified <i class="fas fa-check-circle"></i>';
                 } else if (response.data.professionalCertificateStatus === "Rejected") {
                     var ProfesstionalStatus = document.getElementById('professtionalStatus');
-                    ProfesstionalStatus.innerHTML = 'Rejected <i class="fas fa-times-circle"></i>';
+                                ProfesstionalStatus.innerHTML = `Rejected <i class="fas fa-times-circle" data-bs-toggle="professionalCertificateTooltip" data-bs-placement="top"
+                                                    data-bs-custom-class="custom-tooltip"
+                                                                data-bs-title="${response.data.professionalCertificateMessage}"></i>`;
+                    $('#professtionalStatus').addClass('text-danger');
+                    $('#professionalCertificateUploadRejectDoc').html(`<button class="btn btn-primary btn-sm rejectedDocUploadBtn" data-name="professionalCertificate" > Upload</button> `);
+
+                                const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="professionalCertificateTooltip"]')
+                                const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => {
+                                    const tooltipInstance = new bootstrap.Tooltip(tooltipTriggerEl)
+                                    tooltipInstance.show()
+                                    return tooltipInstance;
+                    });
                 }
 
                 $('#loading').hide();
@@ -1009,7 +1046,14 @@
 
         }
 
-     
+
+
+
+
+       
+        // Handle file upload button click
+        
+
        
     });
 
@@ -1245,4 +1289,64 @@
 
 
 
+@* <div class="container-fluid pt-4 px-4">
+    <div class="text-center border border-1 rounded p-3">
+        <!-- Status Alert -->
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="alert" role="alert">
+                    <span  id="slots-title">Interview Slot Booking</span>
 
+                </div>
+            </div>
+        </div>
+
+        <div class="row" id="BookingDetails">
+            <div class="col-md-6 offset-md-3">
+
+            </div>
+        </div>
+
+        <!-- Slot Booking Section -->
+        <div class="slotBookingDiv">
+            <div class="container">
+                <div class="font-weight-boldx">Select a Date and Time</div>
+
+                <!-- Date Picker Container -->
+                <div class="d-flex align-items-center justify-content-center">
+                    <!-- Left Scroll Button -->
+                    <button class="btn btn-outline-primary" id="scroll-left">&#8592;</button>
+
+                    <!-- Dates -->
+                    <div class="dates">
+                        <!-- Updated date items -->
+
+
+                        <!-- More date items as needed -->
+                    </div>
+
+                    <!-- Right Scroll Button -->
+                    <button class="btn btn-outline-primary" id="scroll-right">&#8594;</button>
+                </div>
+
+                <!-- Time Slot Selection -->
+                <div class="time-slot-container " id="time-slot-container">
+                    <div class="row " >
+                        <div class="row d-inline-flex" id="time-slots">
+                            <!-- Time slots will be populated dynamically -->
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row mt-4" id="bookingbtn">
+            <div class="col-md-12 d-flex justify-content-center">
+                <button id="book-now" class="btn btn-primary rounded-2">Book Now</button>
+            </div>
+        </div>
+    </div>
+</div>
+ *@
