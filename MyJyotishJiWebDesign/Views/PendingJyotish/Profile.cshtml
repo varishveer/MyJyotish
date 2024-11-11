@@ -194,13 +194,9 @@
             <div class="profile-header text-center">
 
                 <img id="profileImageUrl" src="" alt="Profile Image" class="profile-image">
-                <h2 class="mt-3 name"></h2>
-                <p>Jyotish</p>
-                <div class="social-icons">
-                    <i class="fab fa-facebook"></i>
-                    <i class="fab fa-twitter"></i>
-                    <i class="fab fa-linkedin"></i>
-                </div>
+                <h6 class="mt-3 name"></h6>
+                
+                
             </div>
         </div>
 
@@ -256,6 +252,10 @@
                     <div class="col-md-6">
                         <div class="detail-label">City</div>
                         <div id="city" class="detail-value"></div>
+                    </div>
+                     <div class="col-md-6">
+                        <div class="detail-label">Alternative Number</div>
+                        <div id="alternateMobile" class="detail-value"></div>
                     </div>
                     
                 </div>
@@ -320,6 +320,7 @@
                 $('#city').text(data.city || 'N/A');
                 $('#language').text(data.language || 'N/A');
                 $('#expertise').text(data.expertise || 'N/A');
+                $('#alternateMobile').text(data.alternateMobile || 'N/A');
                 if (data.profileImageUrl) {
                     $('#profileImageUrl').attr('src', BaseUrl + data.profileImageUrl);
                 } else {
