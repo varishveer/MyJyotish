@@ -267,17 +267,7 @@ namespace BusinessAccessLayer.Implementation
             _context.AppointmentRecords.Add(appointment);
             var result = _context.SaveChanges();
             if (result > 0) {
-                ClientMembers member = new ClientMembers
-                {
-                    Name = User.Name,
-                    dob = User.DoB,
-                    gender = User.Gender,
-                    AppointmentId=model.SlotId,
-                    status = 1,
-
-                };
-                _context.ClientMembers.Add(member);
-                _context.SaveChanges();
+               
                 return "Successful"; 
             }
             return "internal Server Error.";

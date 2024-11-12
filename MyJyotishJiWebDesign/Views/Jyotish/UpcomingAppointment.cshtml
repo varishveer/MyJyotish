@@ -611,32 +611,32 @@
             },
             data: { appointmentId: appointmentId, jyotishId: Id },
             success: function (result) {
-                console.log(result)
-                // if (result.status == 200) {
-                //     if(result.data.memberList.length>0){
-                //         result.data.memberList.forEach(function (d, i) {
-                //             $("#memberbody").append(`
-                //             <tr class='text-center'>
-                //             <td>${i+1}</td>
-                //             <td>${d.name}</td>
-                //             <td>${d.dob}</td>
-                //             <td>${d.gender}</td>
-                //             <td>${d.relation}</td>
-                //             </tr>
-                //             `)
-                //         })
-                //     }else{
-                //         $("#memberbody").append(`
-                //               <tr>
-                //                 <td></td>
-                //                 <td></td>
-                //                 <td>No record found</td>
-                //                 <td></td>
-                //                 <td></td>
-                //                 </tr>
-                //         `)
-                //     }
-                // }
+                // console.log(result)
+                if (result.status == 200) {
+                    if(result.data.memberList.length>0){
+                        result.data.memberList.forEach(function (d, i) {
+                            $("#memberbody").append(`
+                            <tr class='text-center'>
+                            <td>${i+1}</td>
+                            <td>${d.name}</td>
+                            <td>${d.dob}</td>
+                            <td>${d.gender}</td>
+                            <td>${d.relation}</td>
+                            </tr>
+                            `)
+                        })
+                    }else{
+                        $("#memberbody").append(`
+                              <tr>
+                                <td></td>
+                                <td></td>
+                                <td>No record found</td>
+                                <td></td>
+                                <td></td>
+                                </tr>
+                        `)
+                    }
+                }
                 Swal.close()
             },error:function(){
                 Swal.fire({

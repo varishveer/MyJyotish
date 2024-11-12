@@ -12,8 +12,8 @@ namespace ModelAccessLayer.Models
     {
         [Key]
         public int Id { get; set; }
-        public int AppointmentId { get; set; }
-        public int memberId { get; set; }
+        public int? AppointmentId { get; set; }
+        public int? memberId { get; set; }
         public string Problem { get; set; }
         public string Solution { get; set; }
         [AllowNull]
