@@ -49,6 +49,7 @@ namespace DataAccessLayer.DbServices
         public DbSet<JyotishUserAttachmentModel> JyotishUserAttachmentRecord { get; set; }
         public DbSet<WalletHistoryModel> WalletHistroy { get; set; }
         public DbSet<JyotishTempRecord> jyotishTempRecords { get; set; }
+        public DbSet<ClientMembers> ClientMembers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         { 
@@ -99,6 +100,7 @@ namespace DataAccessLayer.DbServices
             modelBuilder.Entity<WalletHistoryModel>().HasOne(c => c.jyotish).WithMany(j => j.JytoishWalletHistoryRecord).HasForeignKey(c => c.JId);
                         
             modelBuilder.Entity<WalletHistoryModel>().HasOne(c => c.Users).WithMany(j => j.UserWalletHistoryRecords).HasForeignKey(c => c.UId);
+            modelBuilder.Entity<ClientMembers>().HasOne(c => c.appointment).WithMany(j => j.ClientMembers).HasForeignKey(c => c.Id);
         }
 
 
