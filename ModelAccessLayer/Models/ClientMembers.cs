@@ -18,5 +18,7 @@ namespace ModelAccessLayer.Models
         public int status { get; set; }
         [AllowNull]
         public AppointmentModel? appointment { get; set; }
+        public ICollection<ProblemSolutionModel> Solution { get; set; }
+
     }
 }
