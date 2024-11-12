@@ -258,6 +258,50 @@
                         <div id="alternateMobile" class="detail-value"></div>
                     </div>
                     
+                </div> <div class="row">
+                    <div class="col-md-6">
+                        <div class="detail-label">Date Of Birth</div>
+                        <div id="dateOfBirth" class="detail-value"></div>
+                    </div>
+                     <div class="col-md-6">
+                        <div class="detail-label">Experience</div>
+                        <div id="experience" class="detail-value"></div>
+                    </div>
+                    
+                </div>
+               </div> <div class="row">
+                    <div class="col-md-6">
+                    <div class="detail-label">Pooja</div>
+                    <div id="pooja" class="detail-value"></div>
+                    </div>
+                     <div class="col-md-6">
+                    <div class="detail-label">Appointment Charges</div>
+                    <div id="appointmentCharges" class="detail-value"></div>
+                    </div>
+                    
+                </div> 
+                </div> <div class="row">
+                    <div class="col-md-6">
+                    <div class="detail-label">Address</div>
+                        <div id="address" class="detail-value"></div>
+                    </div>
+                     <div class="col-md-6">
+                        <div class="detail-label">Available Time</div>
+                        <div id="availableTime" class="detail-value"></div>
+                    </div>
+                    
+                </div>
+              
+                 </div> <div class="row">
+                    <div class="col-md-6">
+            <div class="detail-label">Awords And Achievement</div>
+            <div id="awordsAndAchievement" class="detail-value"></div>
+                    </div>
+                     <div class="col-md-6">
+            <div class="detail-label">specialization</div>
+                        <div id="availableTime" class="detail-value"></div>
+                    </div>
+                    
                 </div>
               
 
@@ -321,6 +365,13 @@
                 $('#language').text(data.language || 'N/A');
                 $('#expertise').text(data.expertise || 'N/A');
                 $('#alternateMobile').text(data.alternateMobile || 'N/A');
+                $('#dateOfBirth').text(data.dateOfBirth || 'N/A');
+                $('#experience').text(data.experience || 'N/A');
+                $('#pooja').text(data.pooja || 'N/A');
+                $('#appointmentCharges').text(data.appointmentCharges || 'N/A');
+                $('#address').text(data.address || 'N/A');
+                $('#availableTime').text(data.timeTo + " - " + timeFrom || 'N/A');
+                $('#awordsAndAchievement').text(data.awordsAndAchievement || 'N/A');
                 if (data.profileImageUrl) {
                     $('#profileImageUrl').attr('src', BaseUrl + data.profileImageUrl);
                 } else {
