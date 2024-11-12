@@ -404,7 +404,7 @@
                 <div class="container-fluid ">
                     <div class="row justify-content-around">
                         <!-- ID Proof -->
-                        <div class="col-md-3 col-lg-2 mb-4 ">
+                        <div class="col-md-3 col-lg-2 mb-4 " >
                             <p class="docName"> Id Proof</p>
                             <div class="image-container bg-light rounded">
                                 <img id="idProof" alt="ID Proof" class="img-fluid imgLink" src="" >
@@ -439,7 +439,7 @@
                             </div>
                         </div>
                         <!-- Tenth Certificate -->
-                        <div class="col-md-3 col-lg-2 mb-4">
+                        <div class="col-md-3 col-lg-2 mb-4" id="tenthCertificateDiv">
                             <p class="docName"> Tenth Certificate</p>
                             <div class="image-container bg-light rounded">
                                 <img id="tenthCertificate" alt="Tenth Certificate" class="img-fluid imgLink" src="" >
@@ -455,7 +455,7 @@
                             </div>
                         </div>
                         <!-- Twelve Certificate -->
-                        <div class="col-md-3 col-lg-2 mb-4">
+                        <div class="col-md-3 col-lg-2 mb-4" id="twelveCertificateDiv">
                             <p class="docName"> Twelve Certificate</p>
                             <div class="image-container bg-light rounded">
                                 <img id="twelveCertificate" alt="Twelve Certificate" class="img-fluid imgLink" src="">
@@ -578,28 +578,35 @@
             // Function to update document status in the UI
             function updateDocumentStatus(docs) {
                 $("#idProof").attr("src", docs.idProof ? BaseUrl + docs.idProof : '/Img/SampleDoc.jpeg');
-                updateStatus("idProofStatus", docs.idProofStatus, "idProof");
+                updateStatus("idProofStatus", docs.idProofStatus, "idProof",docs.idProofMessage);
                 if (docs.idProofStatus == "Verified" ||docs.idProofStatus == "Rejected") { $('#idBtn').hide(); }
 
                 $("#addressProof").attr("src", docs.addressProof ? BaseUrl + docs.addressProof : '/Img/SampleDoc.jpeg');
-                updateStatus("addressProofStatus", docs.addressProofStatus, "addressProof");
+                updateStatus("addressProofStatus", docs.addressProofStatus, "addressProof",docs.addressProofMessage);
             if (docs.addressProofStatus == "Verified" || docs.addressProofStatus == "Rejected") { $('#addressBtn').hide(); }
 
                 $("#tenthCertificate").attr("src", docs.tenthCertificate ? BaseUrl + docs.tenthCertificate : '/Img/SampleDoc.jpeg');
-                updateStatus("tenthCertificateStatus", docs.tenthCertificateStatus, "tenthCertificate");
+            updateStatus("tenthCertificateStatus", docs.tenthCertificateStatus, "tenthCertificate", docs.tenthCertificateMessage);
             if (docs.tenthCertificateStatus == "Verified" || docs.tenthCertificateStatus == "Rejected") { $('#tenthBtn').hide(); }
+            if (docs.tenthCertificate == null){
+                $("#tenthCertificateDiv").hide();
+            }
+          
 
                 $("#twelveCertificate").attr("src", docs.twelveCertificate ? BaseUrl + docs.twelveCertificate : '/Img/SampleDoc.jpeg');
-                updateStatus("twelveCertificateStatus", docs.twelveCertificateStatus, "twelveCertificate");
+                updateStatus("twelveCertificateStatus", docs.twelveCertificateStatus, "twelveCertificate" , docs.twelveCertificateMessage);
             if (docs.twelveCertificateStatus == "Verified" || docs.twelveCertificateStatus == "Rejected") { $('#twelveBtn').hide(); }
+            if (docs.twelveCertificate == null){
+                $("#twelveCertificateDiv").hide();
+            }
 
                 $("#professionalCertificate").attr("src", docs.professionalCertificate ? BaseUrl + docs.professionalCertificate : '/Img/SampleDoc.jpeg');
-                updateStatus("professionalCertificateStatus", docs.professionalCertificateStatus, "professionalCertificate");
+            updateStatus("professionalCertificateStatus", docs.professionalCertificateStatus, "professionalCertificate", docs.professionalCertificateMessage);
             if (docs.professionalCertificateStatus == "Verified" ||docs.professionalCertificateStatus == "Rejected") { $('#professionalBtn').hide(); }
             }
 
            
-            function updateStatus(elementId, status, docType) {
+            function updateStatus(elementId, status, docType,message) {
 
                 if (status == null) { status = "Not Uploaded Yet"; }
                 if(status == "Verified"){
@@ -608,8 +615,18 @@
 
                 }
                 else if(status == "Rejected"){
-                     $("#" + elementId).html(status + '<i class="fas fa-times-circle"></i>');
+
+                $("#" + elementId).html(status + `<i class="fas fa-times-circle" data-bs-toggle="${docType}" data-bs-placement="top"  
+                data-bs-custom-class="custom-tooltip"
+                data-bs-title="${message}"></i>`);
                   $("#" + elementId).addClass("text-danger");
+
+                const tooltipTriggerList = document.querySelectorAll(`[data-bs-toggle="${docType}"]`);
+                const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => {
+                    const tooltipInstance = new bootstrap.Tooltip(tooltipTriggerEl);
+                    tooltipInstance.show();
+                    return tooltipInstance;
+                });
 
                 }
                 else{ $("#" + elementId).text(status);}

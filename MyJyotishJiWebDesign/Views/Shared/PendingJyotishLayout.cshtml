@@ -367,6 +367,9 @@
                 // var BaseUrl = "https://localhost:7118/";
                 var BaseUrl = "https://api.myjyotishg.in/";
             </script>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.all.min.js"></script>
+
             @RenderBody()
             <!-- Footer Start -->
             
@@ -398,7 +401,7 @@
         const profileSpan = document.getElementById('profileName');
         profileSpan.textContent = name;
 
-        $("#logout").click(function () {
+        document.getElementById("logout").addEventListener("click", function () {
             Swal.fire({
                 title: "Are you sure you want to logout?",
                 text: "You will be redirected to the login page.",
@@ -414,8 +417,8 @@
                     window.location.replace("/Jyotish/Login"); // Redirect to login page
                 }
             });
-           
-        })
+        });
+
 
 
     </script>
