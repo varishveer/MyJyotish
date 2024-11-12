@@ -921,7 +921,7 @@ namespace BusinessAccessLayer.Implementation
 
         public bool AddClientMembers(ClientMembersViewModel model)
         {
-            var Appointment = _context.AppointmentRecords.Where(x => x.Id == model.AppointmentId).FirstOrDefault();
+            var Appointment = _context.AppointmentRecords.Where(x => x.Id == model.appointmentId).FirstOrDefault();
             if (Appointment != null)
             {
                 ClientMembers memebers = new ClientMembers
@@ -931,7 +931,7 @@ namespace BusinessAccessLayer.Implementation
                     gender=model.gender,
                     relation=model.relation,
                     status=1,
-                    AppointmentId=model.AppointmentId
+                    AppointmentId=model.appointmentId
                 };
 
                 _context.ClientMembers.Add(memebers);
