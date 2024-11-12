@@ -54,6 +54,8 @@ namespace BusinessAccessLayer.Abstraction
         public string DeleteUserAttachment(int id);
        public bool AddClientMembers(ClientMembersViewModel model);
 
+        public dynamic getClientMembers(int AppointmentId, int jyotishId);
+        public dynamic GetAllUpcommingAppointment(int jyotishId);
 
         public string AddWallet(JyotishWalletViewmodel pr);
         public long GetWallet(int JyotishId);

@@ -840,6 +840,52 @@ namespace BusinessAccessLayer.Implementation
             return result;
         }
 
+
+        public dynamic GetAllUpcommingAppointment (int jyotishId)
+        {
+            var result = (
+                from appointmentRecords in _context.AppointmentRecords
+                join user in _context.Users
+                    on appointmentRecords.UserId equals user.Id
+                join slots in _context.AppointmentSlots
+                    on appointmentRecords.SlotId equals slots.Id
+                
+                where (appointmentRecords.JyotishId == jyotishId
+                       && DateTime.Compare(slots.Date.Date, DateTime.Now.Date) >= 0)
+                select new
+                {
+                    Id = appointmentRecords.Id,
+                    uId = appointmentRecords.UserId,
+                    userName = user.Name,
+                    userMobile = user.Mobile,
+                    problem = appointmentRecords.Problem,
+                    userEmail = user.Email,
+                    userProfile = user.ProfilePictureUrl,
+                    appoinDate = slots.Date.ToString("dd-MM-yyyy"),
+                    appoinTimeFrom = slots.TimeFrom,
+                    appoinTimeTo = slots.TimeTo,
+                    amount=appointmentRecords.Amount,
+                    memberList = (
+            from m in _context.ClientMembers
+            where m.AppointmentId == appointmentRecords.Id && m.status==1
+            select new
+            {
+                memberId = m.Id,
+                memberName = m.Name,
+                memberRelation = m.relation,
+                memberDob = m.dob,
+                memberGender = m.gender
+            }
+        ).ToList()
+
+                }
+                ).ToList();
+
+
+            return result;
+        }
+
+
         public bool updateArrivedClient(int appointmentId,int jyotishId)
         {
             var jyotish = _context.JyotishRecords.Where(e => e.Id == jyotishId).FirstOrDefault();
@@ -947,6 +993,46 @@ namespace BusinessAccessLayer.Implementation
             else
             {
                 return false;
+            }
+
+        }
+
+        public dynamic getClientMembers(int AppointmentId,int jyotishId)
+        {
+            var Appointment = _context.AppointmentRecords.Where(x => x.Id == AppointmentId).FirstOrDefault();
+            if (Appointment != null)
+            {
+                var clientMember = (
+                    from appointment in _context.AppointmentRecords
+                    join user in _context.Users on appointment.UserId equals user.Id
+                    join member in _context.ClientMembers on appointment.Id equals member.AppointmentId into memberGroup // Group join
+                    from member in memberGroup.DefaultIfEmpty() // Left join
+                    where appointment.JyotishId == jyotishId &&  member.AppointmentId == AppointmentId // Adjust where clause for null check
+                    orderby member.Id descending
+                    select new
+                    {
+                        appId=appointment.Id,
+                        userName=user.Name,
+                        memberList = (
+            from m in _context.ClientMembers
+            where m.AppointmentId == appointment.Id && m.status == 1
+            select new
+            {
+                id = m.Id,
+                name = m.Name,
+                relation = m.relation,
+                dob = m.dob,
+                gender = m.gender
+            }
+        ).ToList()
+                    }
+                    ).FirstOrDefault();
+
+                return clientMember;
+            }
+            else
+            {
+                return "not found";
             }
 
         }
