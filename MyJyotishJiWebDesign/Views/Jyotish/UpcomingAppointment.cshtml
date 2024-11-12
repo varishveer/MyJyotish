@@ -101,7 +101,7 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 Name:
-                                <input required type="text" name="Name" class="form-control" placeholder="Enter Member Name" />
+                                <input required type="text" name="name" class="form-control" placeholder="Enter Member Name" />
                                 
                             </div>
                             <div class="col-sm-6">
@@ -351,10 +351,10 @@
         }).then((result) => {
             if (result.isConfirmed) {
 
-        let formData=new FormData();
+                let memberObject = {}
         let arrayData = $(this).serializeArray();
         arrayData.forEach(function(d){
-            formData.append(d.name, d.value);
+                    memberObject[d.name]= d.value;
         })
       debugger
                 // let appointmentId = id
@@ -374,7 +374,7 @@
                     },
                   
                     contentType: "application/json",
-                    data: JSON.stringify(formData),
+                    data: JSON.stringify(memberObject),
                     success: function (result) {
                         if (result.status == 200) {
                             Swal.fire({
