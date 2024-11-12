@@ -109,7 +109,7 @@ namespace MyJyotishGApi.Controllers
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
         }
 
-        /*[HttpPost("AddClientMembers")]
+        [HttpPost("AddClientMembers")]
 
         public IActionResult AddClientMembers(ClientMembersViewModel model)
         {
@@ -122,13 +122,13 @@ namespace MyJyotishGApi.Controllers
                 }
                 else
                 {
-                    return Ok(new { Status =400, Message = "something went wrong or maybe appointment is invalid" });
+                    return Ok(new { Status = 400, Message = "something went wrong or maybe appointment is invalid" });
 
                 }
             }
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
         }
-*/
+
         [AllowAnonymous]
         [HttpGet("Country")]
         public IActionResult Country()
