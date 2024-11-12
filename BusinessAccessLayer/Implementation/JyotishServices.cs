@@ -919,7 +919,7 @@ namespace BusinessAccessLayer.Implementation
         }
 
 
-        public bool AddClientMembers(ClientMembersViewModel model)
+      /*  public bool AddClientMembers(ClientMembersViewModel model)
         {
             var Appointment = _context.AppointmentRecords.Where(x => x.Id == model.appointmentId).FirstOrDefault();
             if (Appointment != null)
@@ -949,7 +949,7 @@ namespace BusinessAccessLayer.Implementation
                 return false;
             }
 
-        }
+        }*/
 
         public ProblemSolutionJyotishGetViewModel GetProblemSolution(int appointmentId)
         {

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20241112052642_12-11-2024b Some changes")]
-    partial class _12112024bSomechanges
+    [Migration("20241112053620_12-11-2024d Some changes")]
+    partial class _12112024dSomechanges
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
