@@ -82,6 +82,39 @@
         </div>
     </div>
 </div>
+
+
+
+<!--Add Member Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Add Another Member</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <input type="text" name="memberName" class="form-control" placeholder="Enter Member Name" />
+                                <select class="form-select" name="gender">
+                                    <option value="" disabled>--Select Gender--</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
         // Fetch and display all appointments on page load
         function fetchData() {
@@ -123,8 +156,9 @@
                                             </svg>
 
                                             <i class="fas ${item.arriveStatus == 0 || item.arriveStatus==null  ? "fa-user-slash text-secondary" : "fa-user-check text-success"
-                        } arrivedClientBtn" ${item.arriveStatus == 0 || item.arriveStatus == null ? `onClick = 'updateArrivedClient(${item.id})' 'title="click here if user arrived"' role='button'` : ""
+                        } arrivedClientBtn" ${item.arriveStatus == 0 || item.arriveStatus == null ? `onClick = 'updateArrivedClient(${item.id})' title="click here if user arrived" role='button'` : ""
                 } ></i >
+                    <i class="fas fa-user-plus text-warning" role='button'></i>
                                           </td>`;
                         htmls += '</tr>';
                     });
