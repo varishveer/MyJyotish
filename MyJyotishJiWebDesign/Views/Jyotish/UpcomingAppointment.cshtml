@@ -97,6 +97,7 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <form id="memberForm">
+                            <input type="hidden" name="appointmentId" id="appointmentId" />
                         <div class="row">
                             <div class="col-sm-6">
                                 Name:
@@ -125,13 +126,12 @@
 
                             </div>
                         </div>
+                        <input type="submit" value="Add" class="btn btn-primary" />
                         </form>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div>
     </div>
@@ -180,7 +180,7 @@
                                             <i class="fas ${item.arriveStatus == 0 || item.arriveStatus==null  ? "fa-user-slash text-secondary" : "fa-user-check text-success"
                         } arrivedClientBtn" ${item.arriveStatus == 0 || item.arriveStatus == null ? `onClick = 'updateArrivedClient(${item.id})' title="click here if user arrived" role='button'` : ""
                 } ></i >
-                            <i class="fas fa-user-plus text-warning" role='button' data-bs-toggle="modal" data-bs-target="#addmembermodal" data-id='${item.id}'></i>
+                                    <i class="fas fa-user-plus text-warning Addmember" onClick='openAddMemberModal(${item.id})'  role='button'  data-id='${item.id}'></i>
                                           </td>`;
                         htmls += '</tr>';
                     });
@@ -329,7 +329,17 @@
         fetchData(); // Initial data fetch
     });
 
-    $("#memberForm").submit(function(){
+    function openAddMemberModal(id){
+        $("#appointmentId").val(id)
+        $("#addmembermodal").modal("show")
+    }
+
+    $(".Addmember").click(function () {
+        
+    })
+
+    $("#memberForm").submit(function(e){
+        e.preventDefault()
         Swal.fire({
             title: 'Are you sure?',
             text: 'Client Are Arrived?',
@@ -346,8 +356,8 @@
         arrayData.forEach(function(d){
             formData.append(d.name, d.value);
         })
-      
-                let appointmentId = id
+      debugger
+                // let appointmentId = id
                 Swal.fire({
                     title: "Processing Your Request",
                     allowOutsideClick: false,
@@ -362,15 +372,34 @@
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem("Token2")}`
                     },
-                    processData:false,
-                    contentType: false;
-                    data: formData,
+                  
+                    contentType: "application/json",
+                    data: JSON.stringify(formData),
                     success: function (result) {
                         if (result.status == 200) {
+                            Swal.fire({
+                                title: "Success",
+                                text: result.message,
+                                icon: "success",
+                                didClose: () => {
+                                    fetchData()
+                                }
+                            });
+                        } else {
+                            Swal.fire({
+                                title: "error",
+                                text: result.message,
+                                icon: "error",
 
+                            });
                         }
                     },error:function(){
+                        Swal.fire({
+                            title: "error",
+                            text: "some error occured",
+                            icon: "error",
 
+                        });
                         }
                     })
                 }
