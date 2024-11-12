@@ -26,6 +26,7 @@ namespace ModelAccessLayer.Models
         public JyotishModel JyotishRecord { get; set; }
         public UserModel UserRecord { get; set; }
         public ICollection<ProblemSolutionModel> Solution { get; set; }
+        public ICollection<ClientMembers> ClientMembers { get; set; }
 
     }
 }
