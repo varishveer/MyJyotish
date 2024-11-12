@@ -39,5 +39,6 @@ namespace ModelAccessLayer.Models
         public ICollection<UserPaymentRecordModel> UserPaymentRecords { get; set; } = new List<UserPaymentRecordModel>();
         public ICollection<JyotishUserAttachmentModel> JyotishUserAttachmentRecords { get; set; } = new List<JyotishUserAttachmentModel>(); 
         public ICollection<WalletHistoryModel> UserWalletHistoryRecords { get; set; } = new List<WalletHistoryModel>();
+        public ICollection<ClientMembers> memebers { get; set; } = new List<ClientMembers>();
     }
 }

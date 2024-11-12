@@ -100,7 +100,7 @@ namespace DataAccessLayer.DbServices
             modelBuilder.Entity<WalletHistoryModel>().HasOne(c => c.jyotish).WithMany(j => j.JytoishWalletHistoryRecord).HasForeignKey(c => c.JId);
                         
             modelBuilder.Entity<WalletHistoryModel>().HasOne(c => c.Users).WithMany(j => j.UserWalletHistoryRecords).HasForeignKey(c => c.UId);
-            modelBuilder.Entity<ClientMembers>().HasOne(c => c.appointment).WithMany(j => j.ClientMembers).HasForeignKey(c => c.AppointmentId);
+            modelBuilder.Entity<ClientMembers>().HasOne(c => c.user).WithMany(j => j.memebers).HasForeignKey(c => c.UId);
             modelBuilder.Entity<ProblemSolutionModel>().HasOne(c => c.Member).WithMany(j => j.Solution).HasForeignKey(c => c.memberId);
         }
 
