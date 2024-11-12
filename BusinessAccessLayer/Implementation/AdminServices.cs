@@ -45,7 +45,7 @@ namespace BusinessAccessLayer.Implementation
         public List<JyotishModel> GetAllPendingJyotish()
         {
             var Records = _context.JyotishRecords
-                             .Where(record => record.Role == "pending")
+                             .Where(record => record.Role == "pending" && record.Status == true)
                              .ToList();
             return Records;
         }
@@ -134,6 +134,7 @@ namespace BusinessAccessLayer.Implementation
             if (Jyotish == null)
             { return false; }
             Jyotish.ApprovedStatus = "Rejected";
+            Jyotish.Status =false;
             _context.JyotishRecords.Update(Jyotish);
             var result = _context.SaveChanges();
             if (result > 0) 

@@ -14,6 +14,7 @@ using System.Reflection.Metadata;
 using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace BusinessAccessLayer.Implementation
@@ -1300,5 +1301,44 @@ namespace BusinessAccessLayer.Implementation
             return _context.SaveChanges() > 0 ? "Successful" : "Deletion failed.";
         }
 
+
+        public AppointmentSlotDetailsJyotish AppointmentSlotDtails(int Id)
+        {
+            var Jyotish = _context.JyotishRecords.Where(x => x.Id == Id).FirstOrDefault();
+            var appointmentSlots = _context.AppointmentSlots
+                .Where(slot => slot.JyotishId == Id && slot.Date >= DateTime.Now)
+                .OrderBy(slot => slot.Date)
+                .ToList();
+
+          
+            if (!appointmentSlots.Any())
+                return null;
+
+          
+            var firstDate = appointmentSlots.First().Date;
+            var lastDate = appointmentSlots.Last().Date;
+
+            
+            var appointmentDetails = appointmentSlots
+                .Where(slot => slot.ActiveStatus != 0)
+                .GroupBy(slot => slot.Date.Date) 
+                .Select(group => new AppointmentSlotDetailsJyotish
+                {
+                    dateFrom = DateOnly.FromDateTime(firstDate),
+                    dateTo = DateOnly.FromDateTime(lastDate),   
+                    timeFrom = (TimeOnly)Jyotish.TimeFrom,           
+                    timeTo = (TimeOnly)Jyotish.TimeTo,               
+                    timeDuration = group.First().TimeDuration,   
+                   
+                })
+                .FirstOrDefault();
+            return appointmentDetails;
+        }
+
+        public  List<AppointmentSlotModel> SkipDateList(int Id)
+        {
+            var SkipDate = _context.AppointmentSlots.Where(x => x.JyotishId == Id && x.ActiveStatus == 0 && x.Date >= DateTime.Now).ToList();
+            return SkipDate;
+        }
     }
 }

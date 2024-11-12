@@ -890,5 +890,48 @@ namespace MyJyotishGApi.Controllers
                 return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message });
             }
         }
+
+        [AllowAnonymous]
+        [HttpGet("AppointmentSlotDtails")]
+        public IActionResult AppointmentSlotDtails(int Id)
+        {
+            try
+            {
+                var result = _jyotish.AppointmentSlotDtails(Id);
+
+                if (result == null )
+                {
+                    return Ok(new { Status = 400, Message = "No appointment found for the provided Jyotish Id." });
+                }
+
+                return Ok(new { Status = 200, Data = result, Message = "Successful" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message });
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpGet("SkipDateList")]
+        public IActionResult SkipDateList(int Id)
+        {
+            try
+            {
+                var result = _jyotish.SkipDateList(Id);
+
+                if (result == null|| result.Count ==0)
+                {
+                    return Ok(new { Status = 400, Message = "No skip Date found for the provided Jyotish Id." });
+                }
+
+                return Ok(new { Status = 200, Data = result, Message = "Successful" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message });
+            }
+        }
+
     }
 }
