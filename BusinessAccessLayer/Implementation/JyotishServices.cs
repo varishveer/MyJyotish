@@ -919,6 +919,38 @@ namespace BusinessAccessLayer.Implementation
         }
 
 
+        public bool AddClientMembers(ClientMembersViewModel model)
+        {
+            var Appointment = _context.AppointmentRecords.Where(x => x.Id == model.AppointmentId).FirstOrDefault();
+            if (Appointment != null)
+            {
+                ClientMembers memebers = new ClientMembers
+                {
+                    Name = model.Name,
+                    dob = model.dob,
+                    gender=model.gender,
+                    relation=model.relation,
+                    status=1,
+                    AppointmentId=model.AppointmentId
+                };
+
+                _context.ClientMembers.Add(memebers);
+                if (_context.SaveChanges() > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
         public ProblemSolutionJyotishGetViewModel GetProblemSolution(int appointmentId)
         {
            

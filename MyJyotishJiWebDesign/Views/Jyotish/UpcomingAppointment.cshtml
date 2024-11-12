@@ -86,7 +86,7 @@
 
 
 <!--Add Member Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="addmembermodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -96,14 +96,36 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-sm-12">
+                        <form id="memberForm">
                         <div class="row">
                             <div class="col-sm-6">
-                                <input type="text" name="memberName" class="form-control" placeholder="Enter Member Name" />
-                                <select class="form-select" name="gender">
-                                    <option value="" disabled>--Select Gender--</option>
+                                Name:
+                                <input required type="text" name="Name" class="form-control" placeholder="Enter Member Name" />
+                                
+                            </div>
+                            <div class="col-sm-6">
+                                Gender:
+                                <select required class="form-select" name="gender">
+                                    <option value="" disabled selected>--Select Gender--</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
                                 </select>
                             </div>
                         </div>
+
+                        <div class="row my-3">
+                            <div class="col-sm-6">
+                                Date of Birth:
+                                <input required type="date" name="dob" class="form-control" />
+
+                            </div>
+                            <div class="col-sm-6">
+                                Relationship:
+                                <input required type="text" name="relation" class="form-control" placeholder="Enter relation with member" />
+
+                            </div>
+                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -158,7 +180,7 @@
                                             <i class="fas ${item.arriveStatus == 0 || item.arriveStatus==null  ? "fa-user-slash text-secondary" : "fa-user-check text-success"
                         } arrivedClientBtn" ${item.arriveStatus == 0 || item.arriveStatus == null ? `onClick = 'updateArrivedClient(${item.id})' title="click here if user arrived" role='button'` : ""
                 } ></i >
-                    <i class="fas fa-user-plus text-warning" role='button'></i>
+                            <i class="fas fa-user-plus text-warning" role='button' data-bs-toggle="modal" data-bs-target="#addmembermodal" data-id='${item.id}'></i>
                                           </td>`;
                         htmls += '</tr>';
                     });
@@ -306,4 +328,52 @@
 
         fetchData(); // Initial data fetch
     });
+
+    $("#memberForm").submit(function(){
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'Client Are Arrived?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No, cancel',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+        let formData=new FormData();
+        let arrayData = $(this).serializeArray();
+        arrayData.forEach(function(d){
+            formData.append(d.name, d.value);
+        })
+      
+                let appointmentId = id
+                Swal.fire({
+                    title: "Processing Your Request",
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                })
+                var Id = localStorage.getItem('Id');
+                $.ajax({
+                    url: BaseUrl + `api/Jyotish/AddClientMembers`,
+                    type: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem("Token2")}`
+                    },
+                    processData:false,
+                    contentType: false;
+                    data: formData,
+                    success: function (result) {
+                        if (result.status == 200) {
+
+                        }
+                    },error:function(){
+
+                        }
+                    })
+                }
+            })
+    })
 </script>
