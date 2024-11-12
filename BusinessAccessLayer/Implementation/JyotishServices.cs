@@ -868,7 +868,7 @@ namespace BusinessAccessLayer.Implementation
                     amount=appointmentRecords.Amount,
                     memberList = (
             from m in _context.ClientMembers
-            where m.AppointmentId == appointmentRecords.Id && m.status==1
+            where m.UId == appointmentRecords.UserId && m.status==1
             select new
             {
                 memberId = m.Id,
@@ -968,7 +968,7 @@ namespace BusinessAccessLayer.Implementation
 
         public bool AddClientMembers(ClientMembersViewModel model)
         {
-            var Appointment = _context.AppointmentRecords.Where(x => x.Id == model.appointmentId).FirstOrDefault();
+            var Appointment = _context.AppointmentRecords.Where(x => x.UserId == model.UId).FirstOrDefault();
             if (Appointment != null)
             {
                 ClientMembers memebers = new ClientMembers
@@ -978,7 +978,7 @@ namespace BusinessAccessLayer.Implementation
                     gender = model.gender,
                     relation = model.relation,
                     status = 1,
-                    AppointmentId = model.appointmentId
+                    UId = model.UId
                 };
 
                 _context.ClientMembers.Add(memebers);
@@ -1006,9 +1006,9 @@ namespace BusinessAccessLayer.Implementation
                 var clientMember = (
                     from appointment in _context.AppointmentRecords
                     join user in _context.Users on appointment.UserId equals user.Id
-                    join member in _context.ClientMembers on appointment.Id equals member.AppointmentId into memberGroup // Group join
+                    join member in _context.ClientMembers on appointment.UserId equals member.UId into memberGroup // Group join
                     from member in memberGroup.DefaultIfEmpty() // Left join
-                    where appointment.JyotishId == jyotishId &&  member.AppointmentId == AppointmentId // Adjust where clause for null check
+                    where appointment.JyotishId == jyotishId &&  member.UId == AppointmentId // Adjust where clause for null check
                     orderby member.Id descending
                     select new
                     {
@@ -1016,7 +1016,7 @@ namespace BusinessAccessLayer.Implementation
                         userName=user.Name,
                         memberList = (
             from m in _context.ClientMembers
-            where m.AppointmentId == appointment.Id && m.status == 1
+            where m.UId == appointment.Id && m.status == 1
             select new
             {
                 id = m.Id,
@@ -1067,7 +1067,7 @@ namespace BusinessAccessLayer.Implementation
             {
 
                 Id = record.Id,
-                AppointmentId = record.AppointmentId,
+                AppointmentId = (int)record.AppointmentId,
                 UserId = User.Id,
                 UserName = User.Name,
                 
