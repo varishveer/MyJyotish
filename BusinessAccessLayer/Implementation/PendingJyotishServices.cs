@@ -631,7 +631,14 @@ namespace BusinessAccessLayer.Implementation
             }
         }
 
-
+        public bool IsJyotishValid(int Id)
+        {
+            var jyotish = _context.JyotishRecords.Where(x => x.Id == Id && x.Status == true).FirstOrDefault();
+            if(jyotish == null)
+            { return false; }
+            else { return true; }
+           
+        }
 
 
 

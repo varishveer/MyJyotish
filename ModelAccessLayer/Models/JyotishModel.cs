@@ -62,22 +62,33 @@ namespace ModelAccessLayer.Models
         public string? Rating { get; set; }
         public string? SuccessRate { get; set; }
         public int? Pincode { get; set; }
-       // public int? TempRecordId { get; set; }
+        // public int? TempRecordId { get; set; }
 
-
+        [JsonIgnore]
         public DocumentModel DocumentModel { get; set; }
+        [JsonIgnore]
         public ICollection<CallingModel> CallingModelRecord { get; set; } = new List<CallingModel>();
+        [JsonIgnore]
         public ICollection<ChattingModel> ChattingModelRecord { get; set; } = new List<ChattingModel>();
+        [JsonIgnore]
         public ICollection<SlotBookingModel> Slots { get; set; }
+        [JsonIgnore]
         public ICollection<JyotishGalleryModel> JyotishGallery { get; set; }
+        [JsonIgnore]
         public ICollection<JyotishVideosModel> JyotishVideos { get; set; }
+        [JsonIgnore]
 
         public ICollection<ChatedUser> ChatedUserRecord { get; set; } = new List<ChatedUser>();
+        [JsonIgnore]
         public ICollection<AppointmentModel> AppointmentRecord { get; set; } = new List<AppointmentModel>();
+        [JsonIgnore]
         public ICollection<jyotishWallet> JyotishRecord { get; set; } = new List<jyotishWallet>();
+        [JsonIgnore]
         public ICollection<JyotishPaymentRecordModel> jyotishPaymentRecords { get; set; } = new List<JyotishPaymentRecordModel>();
+        [JsonIgnore]
 
         public ICollection<JyotishUserAttachmentModel> JyotishUserAttachmentRecords { get; set; } = new List<JyotishUserAttachmentModel>();
+        [JsonIgnore]
         public ICollection<WalletHistoryModel> JytoishWalletHistoryRecord { get; set; } = new List<WalletHistoryModel>();
 
     }

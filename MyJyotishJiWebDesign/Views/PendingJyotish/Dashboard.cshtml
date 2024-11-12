@@ -93,8 +93,7 @@
         
         justify-content: center;
     }
-</style>
-<style>
+
     /* For screens smaller than 576px (mobile) */
     @@media (max-width: 575.98px) {
         .container {
@@ -114,7 +113,7 @@
             font-size: 14px;
         }
     }
-  
+
     /* For screens between 576px and 768px (tablets) */
     @@media (min-width: 576px) and (max-width: 767.98px) {
         .col-md-3 {
@@ -136,127 +135,7 @@
             width: 20% !important;
         }
     }
-</style>
 
-<div class="container-fluid pt-4 px-4">
-    <div class=" text-center  border border-1 rounded p-3">
-
-        <div class="row">
-            <div class="col-md-12 d-flex justify-content-center mb-3 fw-bold fs-2 text-primary">
-                <div style="font-weight:300;"> Uploaded Documents</div>
-            </div>
-        </div>
-
-        <div class="row justify-content-center">
-            <div class="col-md-3 col-lg-2 mb-4 increased-width">
-                <a id="idProofLink">
-                    <div class="image-container bg-light rounded">
-                        <img id="idProof" alt="ID Proof" class="img-fluid" src="">
-                    </div>
-                </a>
-                    <div class="img-text">
-
-
-                        <span>Id Proof</span>
-                        <br />
-                        <p id="idStatus"> </p>
-                    </div>
-                <div id="idProofUploadRejectDoc">
-
-                </div>    
-
-            </div>
-            <div class="col-md-3 col-lg-2 mb-4 increased-width">
-                <a id="addressProofLink">
-                    <div class="image-container bg-light rounded">
-                        <img id="addressProof" alt="Address Proof" src="">
-                    </div>
-                </a>
-                    <div class="img-text">
-
-                        <span>Address Proof</span>
-                        <br />
-                        <p id="addressStatus"></p>
-                    </div>
-                <div id="addressProofUploadRejectDoc">
-                </div>
-
-            </div>
-            <div class="col-md-3 col-lg-2 mb-4 increased-width" id="tenthCertificateDiv">
-                <a id="tenthCertificateLink">
-                    <div class="image-container bg-light rounded">
-                        <img id="tenthCertificate" alt="Tenth Certificate" src="https://api.myjyotishg.in/Images/Placeholder/DocumentPlaceHolder.webp">
-                    </div>
-                </a>
-                    <div class="img-text">
-
-                        <span>Tenth Certificate</span>
-                        <br />
-                        <p id="tenthStatus"></p>
-                    </div>
-                <div id="tenthCertificateUploadRejectDoc">
-                </div>
-
-            </div>
-            <div class="col-md-3 col-lg-2 mb-4 increased-width" id="twelveCertificateDiv">
-                <a id="twelveCertificateLink">
-                    <div class="image-container bg-light rounded">
-                        <img id="twelveCertificate" alt="Twelve Certificate" src="https://api.myjyotishg.in/Images/Placeholder/DocumentPlaceHolder.webp">
-                    </div>
-                </a>
-                    <div class="img-text">
-
-                        <span>Twelve Certificate</span>
-                        <br />
-                        <p id="twelveStatus"></p>
-                    </div>
-                <div id="twelveCertificateUploadRejectDoc">
-                </div>
-
-            </div>
-            <div class="col-md-3 col-lg-2 mb-4 increased-width">
-                <a id="professionalCertificateLink">
-                    <div class="image-container bg-light rounded">
-                        <img id="professionalCertificate" alt="Professional Certificate" src="https://api.myjyotishg.in/Images/Placeholder/DocumentPlaceHolder.webp">
-                    </div>
-                </a>
-                    <div class="img-text">
-
-                        <span>Professional Certificate</span>
-                        <br />
-                        <p id="professionalStatus"></p>
-                    </div>
-                <div id="professionalCertificateUploadRejectDoc">
-                </div>
-
-            </div>
-        </div>
-
-        <div class="row justify-content-center">
-            <h5 id="registrationNumber" style="font-weight:300"></h5>
-            <p id="details">
-                Your profile and documents are currently under processing and verification.<br />
-                Updates will be available within 24 to 72 hours.<br />
-                Please check back within this timeframe for further information.
-            </p>
-           
-        </div>
-    </div>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<style>
     .dates {
         display: flex;
         overflow: hidden;
@@ -314,7 +193,7 @@
         flex: wrap;
     }
 
-   
+
 
     .time-slot {
         padding: 10px;
@@ -323,9 +202,6 @@
         border-radius: 5px;
         text-align: center;
     }
-</style>
-
-<style>
 
     .container {
         font-family: sans-serif;
@@ -349,7 +225,7 @@
     }
 
     /* Header */
-    
+
 
     /* Date Picker Container */
     .dates {
@@ -506,7 +382,141 @@
         }
     }
 
+    .swal2-overlay {
+        backdrop-filter: blur(5px); /* Apply the blur effect */
+        -webkit-backdrop-filter: blur(5px); /* Safari support */
+    }
 </style>
+
+
+<div class="container-fluid pt-4 px-4" id="dashboardMainDiv"  >
+    <div class=" text-center  border border-1 rounded p-3">
+
+        <div class="row">
+            <div class="col-md-12 d-flex justify-content-center mb-3 fw-bold fs-2 text-primary">
+                <div style="font-weight:300;"> Uploaded Documents</div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-3 col-lg-2 mb-4 increased-width">
+                <a id="idProofLink">
+                    <div class="image-container bg-light rounded">
+                        <img id="idProof" alt="ID Proof" class="img-fluid" src="">
+                    </div>
+                </a>
+                    <div class="img-text">
+
+
+                        <span>Id Proof</span>
+                        <br />
+                        <p id="idStatus"> </p>
+                    </div>
+                <div id="idProofUploadRejectDoc">
+
+                </div>    
+
+            </div>
+            <div class="col-md-3 col-lg-2 mb-4 increased-width">
+                <a id="addressProofLink">
+                    <div class="image-container bg-light rounded">
+                        <img id="addressProof" alt="Address Proof" src="">
+                    </div>
+                </a>
+                    <div class="img-text">
+
+                        <span>Address Proof</span>
+                        <br />
+                        <p id="addressStatus"></p>
+                    </div>
+                <div id="addressProofUploadRejectDoc">
+                </div>
+
+            </div>
+            <div class="col-md-3 col-lg-2 mb-4 increased-width" id="tenthCertificateDiv">
+                <a id="tenthCertificateLink">
+                    <div class="image-container bg-light rounded">
+                        <img id="tenthCertificate" alt="Tenth Certificate" src="">
+                    </div>
+                </a>
+                    <div class="img-text">
+
+                        <span>Tenth Certificate</span>
+                        <br />
+                        <p id="tenthStatus"></p>
+                    </div>
+                <div id="tenthCertificateUploadRejectDoc">
+                </div>
+
+            </div>
+            <div class="col-md-3 col-lg-2 mb-4 increased-width" id="twelveCertificateDiv">
+                <a id="twelveCertificateLink">
+                    <div class="image-container bg-light rounded">
+                        <img id="twelveCertificate" alt="Twelve Certificate" src="">
+                    </div>
+                </a>
+                    <div class="img-text">
+
+                        <span>Twelve Certificate</span>
+                        <br />
+                        <p id="twelveStatus"></p>
+                    </div>
+                <div id="twelveCertificateUploadRejectDoc">
+                </div>
+
+            </div>
+            <div class="col-md-3 col-lg-2 mb-4 increased-width">
+                <a id="professionalCertificateLink">
+                    <div class="image-container bg-light rounded">
+                        <img id="professionalCertificate" alt="Professional Certificate" src="">
+                    </div>
+                </a>
+                    <div class="img-text">
+
+                        <span>Professional Certificate</span>
+                        <br />
+                        <p id="professionalStatus"></p>
+                    </div>
+                <div id="professionalCertificateUploadRejectDoc">
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <h5 id="registrationNumber" style="font-weight:300"></h5>
+            <p id="details">
+                Your profile and documents are currently under processing and verification.<br />
+                Updates will be available within 24 to 72 hours.<br />
+                Please check back within this timeframe for further information.
+            </p>
+           
+        </div>
+    </div>
+</div>
+
+
+
+<div id="dashboardAlternateDiv" class="d-flex justify-content-center align-items-center mt-2">
+    <div class="border border-danger bg-light p-3 rounded" style="width: 80%; max-width: 600px;">
+        
+        <h4 class="text-danger">Your Profile Has Been Rejected</h4>
+        <p class="text-danger">Unfortunately, your profile submission has been rejected. Please review your information and try again. If you need further assistance, feel free to contact support.</p>
+      
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -573,7 +583,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="rejectedDocUploadModalLabel">Upload File</h5>
-                <button type="button" class="close btn" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close btn" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -589,7 +599,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" id="rejectedDocSubmitFile">Upload</button>
             </div>
         </div>
@@ -615,6 +625,47 @@
         let checkBookinStatus=false;
         const token = localStorage.getItem('Token3');
         const userId = localStorage.getItem('Id');
+        Swal.fire({
+            title: "Processing Your Request",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+        
+            var Id = localStorage.getItem('Id');
+            $.ajax({
+            url: "https://localhost:7118/" + `api/PendingJyotish/IsJyotishValid?Id=${Id}`,
+                type: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+               
+                success: function (response) {
+                    debugger;
+                    // Check the status returned by the API
+                    if (response.status === 200) {
+                    $('#dashboardAlternateDiv').addClass('d-none');
+                   
+                        getJyotishSlotDetails()
+                    Swal.close();
+                    } else {
+                        // Handle invalid Jyotish case
+                    $('#dashboardMainDiv').addClass('d-none');
+                    Swal.close();
+                    }
+                },
+                error: function (xhr, status, error) {
+                    debugger;
+                    // Handle any error that occurs during the request
+                    alert('Error occurred: ' + error);
+                    console.log(xhr.responseText);  // Log any detailed error message
+                }
+            });
+        
+
+
         function getJyotishSlotDetails() {
             Swal.fire({
                 title: "Processing Your Request",
@@ -633,8 +684,9 @@
                 dataType: 'json',
                 // Check if the response status is 200 and then hide the modal
                 success: function (response) {
-                    debugger;
+                  
                     if (response.status === 200) {
+                     
                         console.log("Data retrieved successfully:", response.data);
                         const $detailsContainer = $('#details');
 
@@ -663,13 +715,14 @@
                             Swal.close()
 
                     } else {
+                      
                         console.log("Error:", response.Message);
                             checkBookinStatus= false
                     }
                 }
                 ,
                 error: function (jqXHR, textStatus, errorThrown) {
-
+                   
                     console.error("AJAX error:", textStatus, errorThrown);
                 }
             }).then(()=>{
@@ -677,7 +730,7 @@
             })
         }
 
-        getJyotishSlotDetails()
+        
         function SlotBooking() {
             Swal.fire({
                 title: "Processing Your Request",
@@ -901,7 +954,7 @@
                                     data-bs-custom-class="custom-tooltip"
                                         data-bs-title="${response.data.idProofMessage}"></i>`;
                     $('#idStatus').addClass('text-danger');
-                    $('#idProofUploadRejectDoc').html(`<button class="btn btn-primary btn-sm rejectedDocUploadBtn" data-name="idProof" > Upload</button> `);
+                    $('#idProofUploadRejectDoc').html(`<button class="btn btn-primary btn-sm rejectedDocUploadBtn" data-name="idProof" > Reupload</button> `);
                     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="idTooltip"]');
                     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => {
                         const tooltipInstance = new bootstrap.Tooltip(tooltipTriggerEl);
@@ -928,7 +981,7 @@
                                         data-bs-custom-class="custom-tooltip"
                                             data-bs-title="${response.data.addressProofMessage}"></i>`;
                     $('#addressStatus').addClass('text-danger'); 
-                    $('#addressProofUploadRejectDoc').html(`<button class="btn btn-primary btn-sm rejectedDocUploadBtn" data-name="addressProof" > Upload</button> `);
+                    $('#addressProofUploadRejectDoc').html(`<button class="btn btn-primary btn-sm rejectedDocUploadBtn" data-name="addressProof" > Reupload</button> `);
                     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="addressTooltip"]')
                      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => {
                          const tooltipInstance = new bootstrap.Tooltip(tooltipTriggerEl);
@@ -959,7 +1012,7 @@
                                             data-bs-custom-class="custom-tooltip"
                                                     data-bs-title="${response.data.tenthCertificateMessage}"></i>`;
                      $('#tenthStatus').addClass('text-danger');
-                    $('#tenthCertificateUploadRejectDoc').html(`<button class="btn btn-primary btn-sm rejectedDocUploadBtn" data-name="tenthCertificate" > Upload</button> `);
+                    $('#tenthCertificateUploadRejectDoc').html(`<button class="btn btn-primary btn-sm rejectedDocUploadBtn" data-name="tenthCertificate" > Reupload</button> `);
                         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tenthCertificateTooltip"]')
                         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => {
                             const tooltipInstance = new bootstrap.Tooltip(tooltipTriggerEl)
@@ -991,7 +1044,7 @@
                                                 data-bs-custom-class="custom-tooltip"
                                                             data-bs-title="${response.data.twelveCertificateMessage}"></i>`;
                     $('#twelveStatus').addClass('text-danger');
-                    $('#twelveCertificateUploadRejectDoc').html(`<button class="btn btn-primary btn-sm rejectedDocUploadBtn" data-name="twelveCertificate" > Upload</button> `);
+                    $('#twelveCertificateUploadRejectDoc').html(`<button class="btn btn-primary btn-sm rejectedDocUploadBtn" data-name="twelveCertificate" > Reupload</button> `);
                             const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="twelveCertificateTooltip"]')
                             const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => {
                                 const tooltipInstance = new bootstrap.Tooltip(tooltipTriggerEl)
@@ -1017,7 +1070,7 @@
                                                     data-bs-custom-class="custom-tooltip"
                                                                 data-bs-title="${response.data.professionalCertificateMessage}"></i>`;
                     $('#professtionalStatus').addClass('text-danger');
-                    $('#professionalCertificateUploadRejectDoc').html(`<button class="btn btn-primary btn-sm rejectedDocUploadBtn" data-name="professionalCertificate" > Upload</button> `);
+                    $('#professionalCertificateUploadRejectDoc').html(`<button class="btn btn-primary btn-sm rejectedDocUploadBtn" data-name="professionalCertificate" > Reupload</button> `);
 
                                 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="professionalCertificateTooltip"]')
                                 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => {
@@ -1049,11 +1102,105 @@
 
 
 
+        $('#fileInput').dropify({
+            messages: {
+                default: 'max size 2mb',
+                replace: 'Drag and drop or click to replace',
+                remove: 'Remove',
+                error: 'Oops, something went wrong.'
+            },
+            maxFileSize: '2M',  // Limit file size to 2 MB
 
+        });
+
+
+
+
+        // Click event for the submit button
+        $('#rejectedDocSubmitFile').click(function () {
+            Swal.fire({
+                title: "Processing Your Request",
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            })
+            var fileInput = $('#fileInput')[0].files[0];
+            var dataName = $('#dataNameInput').val();
+            var JyotishId = localStorage.getItem('Id');
+
+            if (fileInput) {
+                
+
+          
+                var formData = new FormData();
+              
+                formData.append(dataName, fileInput);
+                formData.append('JyotishId', JyotishId);
+
+                // Perform AJAX request to upload the file
+                $.ajax({
+                    url: BaseUrl + "Api/PendingJyotish/UploadRejectedDocumentAsync",
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                    data: formData,
+                    processData: false, // Important: prevents jQuery from converting the data
+                    contentType: false, // Important: prevents jQuery from setting the Content-Type header
+                    success: function (response) {
+                        if (response.status == 200) {
+                            Swal.fire({
+                                title: "Success",
+                                text: "Your file has been uploaded successfully!",
+                                icon: "success",
+                                confirmButtonText: "OK"
+                            }).then(function () {
+                                // Refresh the page when OK is clicked
+                                location.reload();
+                            });
+                        }
+                        else {
+                            Swal.fire({
+                                title: "Error",
+                                text: response.messsage,
+                                icon: "error",
+
+                            });
+                        }
+                       
+                    },
+                    error: function (error) {
+                        Swal.fire({
+                            title: "Error",
+                            text: `An error occurred: ${error.responseText}`,
+                            icon: "error"
+                        });
+                    }
+                });
+            } else {
+                Swal.fire({
+                    title: "warning",
+                    text: `Please select a file before uploading.`,
+                    icon: "warning"
+                });
+               
+            }
+        });
+
+        // Click event for the rejected doc upload button
+        $(document).on('click', '.rejectedDocUploadBtn', function () {
+            debugger;
+            var dataName = $(this).data('name'); // Get the value of the 'data-name' attribute
+
+            // Update modal title and hidden input field with the data-name value
+           
+            $('#dataNameInput').val(dataName); // Set the hidden field value
+            $('#rejectedDocUploadModal').modal('show'); // Show the modal
+        });
 
        
-        // Handle file upload button click
-        
+      
 
        
     });

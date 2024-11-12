@@ -64,5 +64,7 @@ namespace BusinessAccessLayer.Abstraction
         public dynamic GetWalletHistory(int JyotishId);
         public string RemoveSlotWithskipDates(AppointmentSlotViewModel model);
         public dynamic GetTodayAppointment(int JyotishId);
+        public AppointmentSlotDetailsJyotish AppointmentSlotDtails(int Id);
+        public List<AppointmentSlotModel> SkipDateList(int Id);
     }
 }
