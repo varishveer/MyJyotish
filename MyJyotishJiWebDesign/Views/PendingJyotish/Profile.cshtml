@@ -294,12 +294,23 @@
               
                  </div> <div class="row">
                     <div class="col-md-6">
-            <div class="detail-label">Awords And Achievement</div>
-            <div id="awordsAndAchievement" class="detail-value"></div>
+                        <div class="detail-label">Awords And Achievement</div>
+                        <div id="awordsAndAchievement" class="detail-value"></div>
                     </div>
-                     <div class="col-md-6">
-            <div class="detail-label">specialization</div>
-                        <div id="availableTime" class="detail-value"></div>
+                    <div class="col-md-6">
+                        <div class="detail-label">Specialization</div>
+                        <div id="specialization" class="detail-value"></div>
+                    </div>
+                    
+                </div>
+                </div> <div class="row">
+                    <div class="col-md-6">
+                        <div class="detail-label">Pincode</div>
+                        <div id="pincode" class="detail-value"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="detail-label">Specialization</div>
+                        <div id="specialization" class="detail-value"></div>
                     </div>
                     
                 </div>
@@ -372,6 +383,8 @@
                 $('#address').text(data.address || 'N/A');
                 $('#availableTime').text(data.timeTo + " - " + timeFrom || 'N/A');
                 $('#awordsAndAchievement').text(data.awordsAndAchievement || 'N/A');
+                $('#specialization').text(data.specialization || 'N/A');
+                $('#pincode').text(data.pincode || 'N/A');
                 if (data.profileImageUrl) {
                     $('#profileImageUrl').attr('src', BaseUrl + data.profileImageUrl);
                 } else {
