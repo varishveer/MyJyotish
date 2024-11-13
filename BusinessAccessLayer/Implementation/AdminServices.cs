@@ -1197,7 +1197,20 @@ namespace BusinessAccessLayer.Implementation
             return data;
         }
 
+        public List<AdminNoticationDataViewModel> NotificationData()
+        {
+            var Data = _context.SlotBooking.Include(x => x.SlotRecords).Include(x => x.JyotishRecords).Where(x => x.SlotRecords.Date == DateOnly.FromDateTime(DateTime.Now.Date) && x.SlotRecords.Status == "Booked").Take(5).Select(x => new AdminNoticationDataViewModel
+            {
+                Name = x.JyotishRecords.Name,
+                Date = x.SlotRecords.Date.ToString(),
+                Time = x.SlotRecords.Time.ToString(),
+                TimeDuration = x.SlotRecords.TimeDuration,
 
+            }).ToList();
+
+            return Data;
+
+        }
 
 
 

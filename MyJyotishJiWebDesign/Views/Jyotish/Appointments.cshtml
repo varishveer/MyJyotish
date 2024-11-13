@@ -2,6 +2,15 @@
     Layout = "JyotishLayout";
 
 }
+
+<script>
+    Swal.fire({
+        title: "Processing Your Request",
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    })
+ </script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -77,7 +86,7 @@
    
 <script>
     $(document).ready(function () {
-        // Fetch and display all appointments on page load
+        
         function fetchData() {
             var Id = localStorage.getItem('Id');
             $.ajax({
@@ -116,8 +125,10 @@
                     });
                     $('#DataTable tbody').html(htmls);
                     $('#DataTable').DataTable();
+                    Swal.close();
                 },
                 error: function (errormessage) {
+                    Swal.close();
                     console.error('Error fetching data:', errormessage.responseText);
                 }
             });
@@ -125,6 +136,12 @@
 
         // Fetch and populate modal form with appointment data
         $(document).on('click', '.edit-appointment', function () {
+            Swal.fire({
+                title: "Processing Your Request",
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            })
             const appointmentId = $(this).attr('data-id');
             $.ajax({
                 url: BaseUrl + `api/Jyotish/GetAppointment?Id=${appointmentId}`,
@@ -145,15 +162,22 @@
                     $('#Problem').val(appointment.problem);
                   
                    
-                 
+                    Swal.close();
                 },
                 error: function (errormessage) {
+                    Swal.close();
                     console.error('Error loading appointment details:', errormessage.responseText);
                 }
             });
         });
 
         $('#updateButton').on('click', async function () {
+            Swal.fire({
+                title: "Processing Your Request",
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            })
             const formData = {
                 id: parseInt($('#Id').val(), 10),
               
@@ -179,18 +203,37 @@
                 });
 
                 if (response.ok) {
-                    alert('Appointment updated successfully!');
-                    $('#updateModal').modal('hide');
-                   location.reload();
+                    Swal.fire({
+                        title: "Successful!",
+                        text: "Appointment updated successfully!",
+                        icon: "success",
+
+                        showConfirmButton: true,
+                    }).then(() => {
+
+
+                        location.reload();
+
+                    });
+                  
+                    
                 } else {
                     const error = await response.json();
-                    alert('Error updating appointment: ' + error.message);
+                    Swal.fire({
+                        title: "Warning!",
+                        text: "Please enter correct data",
+                        icon: "warning",
+
+                        showConfirmButton: true,
+                    });
+                    
                 }
             } catch (error) {
+                Swal.close();
                 console.error('Error updating appointment:', error);
             }
         });
 
-        fetchData(); // Initial data fetch
+        fetchData(); 
     });
 </script>

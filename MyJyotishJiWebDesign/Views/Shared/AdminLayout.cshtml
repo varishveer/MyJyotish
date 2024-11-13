@@ -338,14 +338,66 @@
 
                 <div class="navbar-nav align-items-center ms-auto">
 
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+
+                        <span class=" d-lg-inline-flex">Notification</span>
+                        <i class="fa fa-bell me-lg-2"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                        <div id="notificationData">
+                            @*  <a href="#" class="dropdown-item">
+                            <div class="row">
+                            <div class="col-9">
+                            <div class="d-flex">
+                            <p>Veer</p>
+                            <p> 13-11-2024</p>
+                            </div>
+                            <div class="d-flex">
+
+                            <p> 20-11-2024</p>
+                            <p>18:00</p>
+                            </div>
+                            </div>
+                            <div class="col-3">
+
+                            <p>15 minutes</p>
+                            </div>
+                            </div>
+                            <h6 class="fw-normal mb-0">Profile updated</h6>
+                            <small>15 minutes ago</small>
+                            </a>
+                            <hr class="dropdown-divider">
+                            <a href="#" class="dropdown-item">
+                            <h6 class="fw-normal mb-0">New user added</h6>
+                            <small>15 minutes ago</small>
+                            </a>
+                            <hr class="dropdown-divider">
+                            <a href="#" class="dropdown-item">
+                            <h6 class="fw-normal mb-0">Password changed</h6>
+                            <small>15 minutes ago</small>
+                            </a>
+                            <hr class="dropdown-divider">
+                            <a href="#" class="dropdown-item text-center">See all notifications</a> *@
+                        </div>
+
+                    </div>
+
+
+
                     <div class="nav-item dropdown">
-                
+                        
+
+
+
+
+
                         <!-- Dropdown Toggle -->
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                           
                             <span class="d-none d-lg-inline-flex">Admin</span>
                         </a>
 
+                       
                         <!-- Dropdown Menu -->
                         <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
                             <a href="/Admin/AdminProfile" class="dropdown-item">My Profile</a>
@@ -358,8 +410,8 @@
             </nav>
             <!-- Navbar End -->
             <script>
-               var BaseUrl = "https://api.myjyotishg.in/"
-                //var BaseUrl = "https://localhost:7118/"
+               //var BaseUrl = "https://api.myjyotishg.in/"
+                var BaseUrl = "https://localhost:7118/"
             </script>
             @RenderBody()
         </div>
@@ -368,8 +420,152 @@
         <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
     </div>
 
+    <style>
+        /* Main container for the notification list */
+        .notification-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px; /* Space between notifications */
+        }
 
+        /* Each notification will have a card-like style */
+        .notification-item {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+
+            /* Hover effect for notification item */
+            .notification-item:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            }
+
+            /* Left column (Name and Appointment Info) */
+            .notification-item .left {
+                flex: 1;
+                padding-right: 15px;
+            }
+
+            /* Right column (Booking Date and Duration) */
+            .notification-item .right {
+                color: #555;
+            }
+
+        /* Name Styling */
+        .notification-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #333;
+        }
+
+        /* Appointment Date and Time Styling */
+        .notification-time {
+            font-size: 0.95rem;
+            color: #777;
+        }
+
+        /* Booking Date Styling */
+        .notification-booking-date {
+            text-align: center;
+            font-size: 0.85rem;
+            color: #aaa;
+        }
+
+        /* Time Duration Badge */
+        .notification-duration {
+            font-weight: 500;
+            padding: 5px 10px;
+            border-radius: 20px;
+            margin-top: 0px;
+        }
+
+        /* Small text under each notification */
+        .notification-small {
+            font-size: 0.85rem;
+            color: #888;
+        }
+
+        /* For mobile responsiveness */
+        @@media (max-width: 576px) {
+            .notification-item {
+                flex-direction: column; /* Stack the content vertically on smaller screens */
+                text-align: left;
+            }
+
+                .notification-item .right {
+                    text-align: left; /* Align the right column to the left on mobile */
+                }
+
+            .notification-duration {
+                margin-top: 5px;
+            }
+        }
+    </style>
     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Your API URL
+            var apiUrl = BaseUrl + 'Api/Admin/NotificationData';
+            var headers = {
+                'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                'Content-Type': 'application/json',
+            };
+            // Make the API call using fetch()
+            fetch(apiUrl, { headers: headers })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();  // Parse the JSON data from the response
+                })
+                .then(data => {
+                   
+                    const notificationDataContainer = document.getElementById('notificationData');
+
+                    // Iterate over each notification data item
+                    data.data.forEach(item => {
+                        // Create the notification item <a> element
+                        const notificationItem = document.createElement('a');
+                        notificationItem.href = '#';
+                        notificationItem.classList.add('dropdown-item');
+
+                        const shortName = item.name.length > 15 ? item.name.substring(0, 15) + '...' : item.name;
+                        notificationItem.innerHTML = `
+                                <div class="d-flex">
+                                    <div class="left">
+                                                <h6 class="notification-name">${shortName}</h6>
+                                        <small class="notification-time">${item.Date} at ${item.Time}</small>
+                                    </div>
+                                    <div class="right ms-1">
+                                       
+                                        <br/>
+                                                <div class="notification-duration btn btn-success ">${item.timeDuration} minutes</div>
+                                    </div>
+                                </div>
+                            `;
+
+                        // Append the notification item to the container
+                        notificationDataContainer.appendChild(notificationItem);
+                    });
+                })
+                .catch(error => {
+                    // Handle any errors that occur during the fetch
+                    console.error('There was a problem with the fetch operation:', error);
+                    const container = document.getElementById('notificationData');
+                    container.innerHTML = '<p>Error loading notifications. Please try again later.</p>';
+                });
+        });
+
+
+
+
+
+
         $(document).ready(function () {
             // Sidebar Toggler
             let hide = true;
