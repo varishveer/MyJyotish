@@ -157,6 +157,16 @@ namespace MyJyotishGApi.Controllers
             }
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
         }
+        [HttpGet("GetAllAppointmentHistory")]
+        public IActionResult GetAllAppointmentHistroy(int jyotishId)
+        {
+            try {
+                var result = _jyotish.GetAllAppointmentHistory(jyotishId);
+                
+                return Ok(new { Status = 200,Data = result,Message="Data Retrieve Successfully"});
+            }
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
+        }
             [AllowAnonymous]
         [HttpGet("Country")]
         public IActionResult Country()

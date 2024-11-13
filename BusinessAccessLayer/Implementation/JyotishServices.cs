@@ -867,6 +867,7 @@ namespace BusinessAccessLayer.Implementation
                     appoinTimeTo = slots.TimeTo,
                     amount=appointmentRecords.Amount,
                     arriveStatus=appointmentRecords.ArrivedStatus,
+                    currentDate=DateTime.Now.ToString("dd-MM-yyyy"),
                     memberList = (
             from m in _context.ClientMembers
             where m.UId == appointmentRecords.UserId && m.status==1
@@ -887,6 +888,51 @@ namespace BusinessAccessLayer.Implementation
             return result;
         }
 
+        public dynamic GetAllAppointmentHistory(int jyotishId)
+        {
+            var result = (
+                from appointmentRecords in _context.AppointmentRecords
+                join user in _context.Users
+                    on appointmentRecords.UserId equals user.Id
+                join slots in _context.AppointmentSlots
+                    on appointmentRecords.SlotId equals slots.Id
+
+                where (appointmentRecords.JyotishId == jyotishId
+                       && DateTime.Compare(slots.Date.Date, DateTime.Now.Date) < 0)
+                select new
+                {
+                    Id = appointmentRecords.Id,
+                    uId = appointmentRecords.UserId,
+                    userName = user.Name,
+                    userMobile = user.Mobile,
+                    problem = appointmentRecords.Problem,
+                    userEmail = user.Email,
+                    userProfile = user.ProfilePictureUrl,
+                    appoinDate = slots.Date.ToString("dd-MM-yyyy"),
+                    appoinTimeFrom = slots.TimeFrom,
+                    appoinTimeTo = slots.TimeTo,
+                    amount = appointmentRecords.Amount,
+                    arriveStatus = appointmentRecords.ArrivedStatus,
+                    currentDate = DateTime.Now.ToString("dd-MM-yyyy"),
+                    memberList = (
+            from m in _context.ClientMembers
+            where m.UId == appointmentRecords.UserId && m.status == 1
+            select new
+            {
+                memberId = m.Id,
+                memberName = m.Name,
+                memberRelation = m.relation,
+                memberDob = m.dob,
+                memberGender = m.gender
+            }
+        ).ToList()
+
+                }
+                ).ToList();
+
+
+            return result;
+        }
 
         public bool updateArrivedClient(int appointmentId,int jyotishId)
         {
