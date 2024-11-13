@@ -919,7 +919,7 @@ namespace MyJyotishGApi.Controllers
             }
         }
 
-        [AllowAnonymous]
+        
         [HttpGet("AppointmentSlotDtails")]
         public IActionResult AppointmentSlotDtails(int Id)
         {
@@ -940,7 +940,7 @@ namespace MyJyotishGApi.Controllers
             }
         }
 
-        [AllowAnonymous]
+        
         [HttpGet("SkipDateList")]
         public IActionResult SkipDateList(int Id)
         {
@@ -951,6 +951,25 @@ namespace MyJyotishGApi.Controllers
                 if (result == null|| result.Count ==0)
                 {
                     return Ok(new { Status = 400, Message = "No skip Date found for the provided Jyotish Id." });
+                }
+
+                return Ok(new { Status = 200, Data = result, Message = "Successful" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message });
+            }
+        }
+         [HttpGet("NotificationData")]
+        public IActionResult NotificationData(int Id)
+        {
+            try
+            {
+                var result = _jyotish.NotificationData(Id);
+
+                if (result == null|| result.Count ==0)
+                {
+                    return Ok(new { Status = 400, Message = "No Data found for the provided Jyotish Id." });
                 }
 
                 return Ok(new { Status = 200, Data = result, Message = "Successful" });

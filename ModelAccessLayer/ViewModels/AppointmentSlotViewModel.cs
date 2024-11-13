@@ -21,4 +21,7 @@ namespace ModelAccessLayer.ViewModels
         public TimeOnly TimeTo { get; set; }
         public int JyotishId { get; set; }
     }
+
+
+    
 }

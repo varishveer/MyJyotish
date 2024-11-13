@@ -79,7 +79,7 @@ namespace BusinessAccessLayer.Implementation
                UserMobile = combined.user.Mobile,
                UserEmail = combined.user.Email,
                UserId = combined.record.UserId,
-               JyotishId = _context.AppointmentSlots.Where(x => x.Id == slot.Id).Select(y => y.JyotishId).FirstOrDefault(),
+               JyotishId = (int)_context.AppointmentSlots.Where(x => x.Id == slot.Id).Select(y => y.JyotishId).FirstOrDefault(),
                JyotishName = _context.JyotishRecords.Where(x=>x.Id == _context.AppointmentSlots.Where(x => x.Id == slot.Id).Select(y => y.JyotishId).FirstOrDefault()).Select(z=>z.Name).FirstOrDefault(),
                JyotishEmail = _context.JyotishRecords.Where(x => x.Id == _context.AppointmentSlots.Where(x => x.Id == slot.Id).Select(y => y.JyotishId).FirstOrDefault()).Select(z => z.Email).FirstOrDefault(),
                Problem = combined.record.Problem,

@@ -776,7 +776,7 @@ namespace BusinessAccessLayer.Implementation
                                               TimeDuration = s.TimeDuration,
                                               TimeFrom = s.TimeFrom,
                                               TimeTo = s.TimeTo,
-                                              JyotishId = s.JyotishId,
+                                              JyotishId = (int)s.JyotishId,
                                               Status = s.Status
                                           }).ToList()
 
@@ -802,7 +802,7 @@ namespace BusinessAccessLayer.Implementation
                                               TimeDuration = s.TimeDuration,
                                               TimeFrom = s.TimeFrom,
                                               TimeTo = s.TimeTo,
-                                              JyotishId = s.JyotishId,
+                                              JyotishId = (int)s.JyotishId,
                                               Status = s.Status
                                           }).ToList()
 
@@ -1419,10 +1419,43 @@ namespace BusinessAccessLayer.Implementation
             return appointmentDetails;
         }
 
-        public  List<AppointmentSlotModel> SkipDateList(int Id)
+        public  List<SkipdateJyotishViewModel> SkipDateList(int Id)
         {
-            var SkipDate = _context.AppointmentSlots.Where(x => x.JyotishId == Id && x.ActiveStatus == 0 && x.Date >= DateTime.Now).ToList();
-            return SkipDate;
+
+            var appointmentSlots = _context.AppointmentSlots
+            .Where(x => x.JyotishId == Id && x.ActiveStatus == 0 && x.Date >= DateTime.Now)
+            .GroupBy(x => x.Date.Date)
+            .Select(group => new SkipdateJyotishViewModel
+            {
+                Date = group.Key.ToString("dd-MM-yyyy"),  // Format the date as "DD-MM-YYYY"
+                TimeDuration = group.First().TimeDuration
+            })
+            .ToList();
+            return appointmentSlots;
         }
-    }
+
+        public List<JyotishNotificationDataViewModel> NotificationData(int Id)
+        {
+            var data = _context.AppointmentRecords
+            .Where(x => x.JyotishId == Id)
+            .OrderByDescending(x => x.Date)
+            .Take(5)
+            .Include(a => a.UserRecord)  // Include related UserRecord
+            .Include(a => a.AppointmentSlotData) // Include related AppointmentSlot data
+            .Select(x => new JyotishNotificationDataViewModel
+            {
+                Name = x.UserRecord.Name,
+
+                BookingDate = x.Date.ToString("dd-MM-yyyy"),
+                AppointmentDate = x.AppointmentSlotData.Date.ToString("dd-MM-yyyy"), 
+                AppointmentTime = x.AppointmentSlotData.TimeFrom.ToString(@"hh\:mm"),
+                TimeDuration = x.AppointmentSlotData.TimeDuration
+            })
+            .ToList();
+
+            return data;
+        }
+
+
+    } 
 }

@@ -4,6 +4,7 @@ using DataAccessLayer.DbServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20241112130237_12-11-2024g Some changes")]
+    partial class _12112024gSomechanges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -89,8 +92,6 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("JyotishId");
 
-                    b.HasIndex("SlotId");
-
                     b.HasIndex("UserId");
 
                     b.ToTable("AppointmentRecords");
@@ -110,7 +111,7 @@ namespace DataAccessLayer.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("JyotishId")
+                    b.Property<int>("JyotishId")
                         .HasColumnType("int");
 
                     b.Property<string>("Status")
@@ -127,8 +128,6 @@ namespace DataAccessLayer.Migrations
                         .HasColumnType("time");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("JyotishId");
 
                     b.ToTable("AppointmentSlots");
                 });
@@ -1343,32 +1342,15 @@ namespace DataAccessLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ModelAccessLayer.Models.AppointmentSlotModel", "AppointmentSlotData")
-                        .WithMany("AppointmentData")
-                        .HasForeignKey("SlotId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("ModelAccessLayer.Models.UserModel", "UserRecord")
                         .WithMany("AppointmentRecord")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("AppointmentSlotData");
-
                     b.Navigation("JyotishRecord");
 
                     b.Navigation("UserRecord");
-                });
-
-            modelBuilder.Entity("ModelAccessLayer.Models.AppointmentSlotModel", b =>
-                {
-                    b.HasOne("ModelAccessLayer.Models.JyotishModel", "JyotishData")
-                        .WithMany("AppointmentSlotData")
-                        .HasForeignKey("JyotishId");
-
-                    b.Navigation("JyotishData");
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.CallingModel", b =>
@@ -1610,11 +1592,6 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("Solution");
                 });
 
-            modelBuilder.Entity("ModelAccessLayer.Models.AppointmentSlotModel", b =>
-                {
-                    b.Navigation("AppointmentData");
-                });
-
             modelBuilder.Entity("ModelAccessLayer.Models.ClientMembers", b =>
                 {
                     b.Navigation("Solution");
@@ -1623,8 +1600,6 @@ namespace DataAccessLayer.Migrations
             modelBuilder.Entity("ModelAccessLayer.Models.JyotishModel", b =>
                 {
                     b.Navigation("AppointmentRecord");
-
-                    b.Navigation("AppointmentSlotData");
 
                     b.Navigation("CallingModelRecord");
 

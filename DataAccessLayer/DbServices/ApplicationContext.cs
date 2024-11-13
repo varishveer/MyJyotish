@@ -73,14 +73,9 @@ namespace DataAccessLayer.DbServices
             modelBuilder.Entity<JyotishModel>().HasOne(j => j.DocumentModel).WithOne(d => d.Jyotish).HasForeignKey<DocumentModel>(d => d.JId);
 
           
-            modelBuilder.Entity<SlotBookingModel>()
-     .HasOne(c => c.JyotishRecords)
-     .WithMany(j => j.Slots)
-     .HasForeignKey(c => c.JyotishId);
-            modelBuilder.Entity<SlotBookingModel>()
-    .HasOne(c => c.SlotRecords)
-    .WithMany(j => j.SlotBookingRecords)
-    .HasForeignKey(c => c.SlotId);
+            modelBuilder.Entity<SlotBookingModel>().HasOne(c => c.JyotishRecords).WithMany(j => j.Slots).HasForeignKey(c => c.JyotishId);
+
+            modelBuilder.Entity<SlotBookingModel>().HasOne(c => c.SlotRecords).WithMany(j => j.SlotBookingRecords).HasForeignKey(c => c.SlotId);
 
 
             modelBuilder.Entity<JyotishVideosModel>().HasOne(c => c.Jyotish).WithMany(j => j.JyotishVideos).HasForeignKey(c => c.JyotishId);
@@ -100,8 +95,30 @@ namespace DataAccessLayer.DbServices
             modelBuilder.Entity<WalletHistoryModel>().HasOne(c => c.jyotish).WithMany(j => j.JytoishWalletHistoryRecord).HasForeignKey(c => c.JId);
                         
             modelBuilder.Entity<WalletHistoryModel>().HasOne(c => c.Users).WithMany(j => j.UserWalletHistoryRecords).HasForeignKey(c => c.UId);
+
             modelBuilder.Entity<ClientMembers>().HasOne(c => c.user).WithMany(j => j.memebers).HasForeignKey(c => c.UId);
+
             modelBuilder.Entity<ProblemSolutionModel>().HasOne(c => c.Member).WithMany(j => j.Solution).HasForeignKey(c => c.memberId);
+
+            modelBuilder.Entity<ProblemSolutionModel>().HasOne(c => c.Member).WithMany(j => j.Solution).HasForeignKey(c => c.memberId);
+            modelBuilder.Entity<AppointmentSlotModel>()
+       .HasOne(c => c.JyotishData)  // Each AppointmentSlot is linked to one Jyotish
+       .WithMany(j => j.AppointmentSlotData) // Each Jyotish can have multiple AppointmentSlots
+       .HasForeignKey(c => c.JyotishId);
+
+            // Configure AppointmentModel and AppointmentSlotModel relationship (Many-to-One)
+            modelBuilder.Entity<AppointmentModel>()
+                .HasOne(a => a.AppointmentSlotData)   // Each AppointmentModel has one AppointmentSlot
+                .WithMany(s => s.AppointmentData)     // Each AppointmentSlot can have multiple AppointmentModels
+                .HasForeignKey(a => a.SlotId);
+
+            // Optionally, configure cascading delete behavior if required
+            modelBuilder.Entity<AppointmentSlotModel>()
+                .HasOne(c => c.JyotishData)
+                .WithMany(j => j.AppointmentSlotData)
+                .HasForeignKey(c => c.JyotishId);
+                
+
         }
 
 
