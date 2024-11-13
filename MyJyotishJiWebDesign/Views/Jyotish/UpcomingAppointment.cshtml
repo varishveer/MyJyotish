@@ -224,6 +224,60 @@
     </div>
 </div>
 
+<!--solution modal-->
+
+<div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Modal 1</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body ">
+                    <div class="table-responsive">
+                        <table id="DataTable2" class="table py-3 table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Name</th>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="appAppointmentModal">
+                                <!-- Table content will be inserted here dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+
+<div class="modal-dialog modal-dialog-scrollable ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Modal 2</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+               <div class="row">
+                    <div class="col-sm-12" id="problemSolutionContent"></div>
+               </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Back to first</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
         // Fetch and display all appointments on page load
     let appointmentslots=[]
@@ -262,6 +316,120 @@
             showAppointmentSlots(upcommingAppointment);
             })
         }
+
+    function fetchProblemDate(uid) {
+        Swal.fire({
+            title: "Processing Your Request",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
+        var Id = localStorage.getItem('Id');
+        debugger
+        $.ajax({
+            url: BaseUrl + `api/Jyotish/GetAllProblemSolutionByUser`,
+            type: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token2")}`
+               
+            },
+            data: { JyotishId: Id, UId: uid },
+            success: function (result) {
+                console.log(result)
+                $("#exampleModalToggle").modal("show")
+                Swal.close();
+                var counterForId = 1;
+                let htmls = '';
+                $.each(result.data, function (key, item) {
+                    htmls += '<tr>';
+                    htmls += `<td class="text-center">${counterForId}</td>`;
+                    htmls += `<td class="text-center">${item.userName}</td>`;
+
+                    htmls += `<td class="text-center">${item.date}</td>`;
+                    htmls += `<td class="text-center">${item.time}</td>`;
+                    htmls += `<td class="text-center"> <a onClick='GetProblemSolutionDetail(${item.id})'" class="btn btn-success"> View </a></td>`
+
+                    htmls += '</tr>';
+                    counterForId++;
+                });
+                $('#appAppointmentModal').html(htmls);
+                $('#DataTable2').DataTable();
+            },
+            error: function (errormessage) {
+                console.error('Error fetching data:', errormessage.responseText);
+            }
+        });
+    }
+
+    function GetProblemSolutionDetail(id) {
+        Swal.fire({
+            title: "Processing Your Request",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
+        $.ajax({
+            url: `${BaseUrl}Api/Jyotish/GetProblemSolutionDetail`,
+            method: "GET",
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token2")}`
+
+            },
+            data: { appointmentId: Id },
+            success: function (response) {
+                Swal.close()
+                console.log(response)
+                if (response.status === 200) {
+                    const data = response.data;
+                    $("#exampleModalToggle").modal("hide")
+                    $("#exampleModalToggle2").modal("show")
+
+                    if (data.length > 0) {
+                        data.forEach(function (d) {
+                            const content = `
+                                       ${d.appointmentDate == d.currentDate.split("T")[0] ? ` <div class="container my-3 text-end">
+                                    <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#updateProblemSolutionModal"
+                                       onclick='populateUpdateModal(${JSON.stringify(d)})'>Update</a>
+                                </div>`: ""}
+                                <div class="problem-solution-container">
+                                    <div class="d-flex justify-content-between">
+                                                            <div><div class="section-title">${d.memberName != null ? "Member Name" : "User Name"}:</div><p>${d.memberName != null ? d.memberName : d.userName}</p></div>
+                                        <div><div class="section-title">Date:</div><p>${d.appointmentDate}</p></div>
+                                            <div><div class="section-title">Time:</div><p>${d.appointmentTime}</p></div>
+                                    </div>
+                                    <div class="section-title">Problems:</div>
+                                    <ul>${d.problems.map(problem => `<li>${problem}</li>`).join('')}</ul>
+                                    <div class="section-title">Solutions:</div>
+                                    <div>${d.solution}</div>
+                                </div>
+                            `;
+                            $('#problemSolutionContent').append(content);
+                        })
+                    } else {
+                        $('#problemSolutionContent').html('<p>No data available.</p>');
+                    }
+                } else {
+                    $('#problemSolutionContent').html('<p>No data available.</p>');
+                }
+            },
+            error: function () {
+                $('#problemSolutionContent').html('<p>Error loading data.</p>');
+            }
+        });
+    }
+
+    $("#exampleModalToggle").on("show.bs.modal",function(){
+        fetchProblemDate()
+    })
+    $("#exampleModalToggle").on("hide.bs.modal",function(){
+        $("#exampleModalToggle2").modal("hide")
+
+    })
+    $("#exampleModalToggle2").on("show.bs.modal", function () {
+        $("#exampleModalToggle").modal("hide")
+    })
 
     function reverseDate(dateString) {
         // Check if the date string is in the correct format (DD-MM-YYYY)
@@ -305,6 +473,7 @@
 
                                             <i class="fas fa-user-plus text-warning Addmember" onClick='openAddMemberModal(${item.uId})'  role='button' ></i>
                                                      <i class="fas fa-users text-info Addmember" onClick='getClientMember(${item.uId})'  role='button' role='show member'></i>
+                                                                 <a onClick='fetchProblemDate(${item.uId})'><i class="fas fa-eye"></i></a>
                                               </td>`;
                 htmls += '</tr>';
             });
@@ -732,8 +901,8 @@
                         icon: "success",
                         text: response.message,
                         didClose: () => {
-                        
-                    $('#dynamicModal').modal('hide');
+
+                            $('#dynamicModal').modal('hide');
                     
                         }
                     });

@@ -1058,7 +1058,7 @@ namespace BusinessAccessLayer.Implementation
             string SolutionString = record.Solution;
           
             string[] problemArray = problemString.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries);
-            string[] SolutionArray = SolutionString.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries);
+            
 
 
             ProblemSolutionJyotishGetViewModel Result = new ProblemSolutionJyotishGetViewModel
@@ -1070,7 +1070,7 @@ namespace BusinessAccessLayer.Implementation
                 UserName = User.Name,
                 
                 Problem = problemArray,
-                Solution = SolutionArray
+                Solution = SolutionString
 
             };
             return Result;
@@ -1101,35 +1101,76 @@ namespace BusinessAccessLayer.Implementation
 
             return data;
         }
-
-        public ProblemSolutionJyotishDetailViewModel GetProblemSolutionDetail(int id)
+        public List<ProblemSolutionJyotishGetAllViewModel> GetAllProblemSolutionByUser(int jyotishId ,int UId)
         {
             var data = _context.ProblemSolution
-                .Where(x => x.Id == id)
                 .Include(x => x.Appointment)
                     .ThenInclude(y => y.UserRecord)
+                .Where(x => x.Appointment.JyotishId == jyotishId && x.Appointment.UserId==UId)
                 .Select(x => new
                 {
                     ProblemSolution = x,
                     AppointmentSlot = _context.AppointmentSlots.FirstOrDefault(s => s.Id == x.Appointment.SlotId)
                 })
-                .Select(x => new ProblemSolutionJyotishDetailViewModel
+                .Select(x => new ProblemSolutionJyotishGetAllViewModel
                 {
                     Id = x.ProblemSolution.Id,
                     UserName = x.ProblemSolution.Appointment.UserRecord.Name,
                     UserId = x.ProblemSolution.Appointment.UserRecord.Id,
                     Date = x.AppointmentSlot != null ? DateOnly.FromDateTime(x.AppointmentSlot.Date) : DateOnly.MinValue,
-                    Time = x.AppointmentSlot != null ? x.AppointmentSlot.TimeFrom: TimeOnly.MinValue,
-                    AppointmentId = x.ProblemSolution.AppointmentId,
-                    Problem = x.ProblemSolution.Problem != null ?
-                        x.ProblemSolution.Problem.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries) : Array.Empty<string>(),
-                    Solution = x.ProblemSolution.Solution != null ?
-                        x.ProblemSolution.Solution.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries) : Array.Empty<string>()
-                })
-                .FirstOrDefault();
+                    Time = x.AppointmentSlot != null ? x.AppointmentSlot.TimeFrom : TimeOnly.MinValue,
+                    AppointmentId = x.ProblemSolution.AppointmentId
+                })    
+                .ToList();
 
             return data;
         }
+
+       
+            public dynamic GetProblemSolutionDetail(int appointmentId)
+            {
+
+
+                var Appointment = _context.AppointmentRecords.Where(x => x.Id == appointmentId).FirstOrDefault();
+                if (appointmentId == 0 || Appointment == null)
+                {
+                    return null;
+                }
+
+                var User = _context.Users.Where(x => x.Id == Appointment.UserId).FirstOrDefault();
+
+                var record = (
+                     from problem in _context.ProblemSolution
+                     join appointment in _context.AppointmentRecords on problem.AppointmentId equals appointment.Id
+                     join slot in _context.AppointmentSlots on appointment.SlotId equals slot.Id
+                     join user in _context.Users on appointment.UserId equals user.Id
+                     // Perform a left join on ClientMembers
+                     join member in _context.ClientMembers on problem.memberId equals member.Id into memberGroup
+                     from member in memberGroup.DefaultIfEmpty() // This allows for the left join behavior
+                     where problem.AppointmentId == appointmentId
+                     orderby problem.Id descending
+                     select new
+                     {
+                         problemId = problem.Id,
+                         problems = problem.Problem.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries),
+                         solution = problem.Solution,
+                         appointmentId = appointment.Id,
+                         appointmentDate = slot.Date.ToString("dd-MM-yyyy"),
+                         appointmentTime = slot.TimeFrom,
+                         duration = slot.TimeDuration,
+                         UId = user.Id,
+                         userName = user.Name,
+                         currentDate =DateTime.Now,
+                         memberName = member != null ? member.Name : null,
+                         memberReltion = member != null ? member.relation : null,
+                     }
+                     ).ToList();
+
+
+
+                return record;
+            }
+
 
 
         public string UpdateProblemSolution(ProblemSolutionViewModel model)
