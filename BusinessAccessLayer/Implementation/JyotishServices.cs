@@ -1447,7 +1447,6 @@ namespace BusinessAccessLayer.Implementation
             .Select(x => new JyotishNotificationDataViewModel
             {
                 Name = x.UserRecord.Name,
-
                 BookingDate = x.Date.ToString("dd-MM-yyyy"),
                 AppointmentDate = x.AppointmentSlotData.Date.ToString("dd-MM-yyyy"), 
                 AppointmentTime = x.AppointmentSlotData.TimeFrom.ToString(@"hh\:mm"),
