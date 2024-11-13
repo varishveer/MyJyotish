@@ -666,18 +666,13 @@ namespace MyJyotishGApi.Controllers
         }
 
         [HttpGet("GetProblemSolutionDetail")]
-        public IActionResult GetProblemSolutionDetail(int id)
+        public IActionResult GetProblemSolutionDetail(int UId,int JyotishId)
         {
             try
             {
 
-                var result = _jyotish.GetProblemSolutionDetail(id);
+                var result = _jyotish.GetProblemSolutionDetail(UId,JyotishId);
 
-
-                if (result == null)
-                {
-                    return Ok(new { Status = 400, Message = "Data Not Found" });
-                }
 
 
                 return Ok(new { Status = 200, Data = result, Message = "Successful" });

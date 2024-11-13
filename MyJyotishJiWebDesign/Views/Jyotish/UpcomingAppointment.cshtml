@@ -305,6 +305,7 @@
 
                                             <i class="fas fa-user-plus text-warning Addmember" onClick='openAddMemberModal(${item.uId})'  role='button' ></i>
                                                      <i class="fas fa-users text-info Addmember" onClick='getClientMember(${item.uId})'  role='button' role='show member'></i>
+                                                                 <a href='/Jyotish/ProblemSolutionDetail?id=${item.uId}'><i class="fas fa-eye"></i></a>
                                               </td>`;
                 htmls += '</tr>';
             });
@@ -732,8 +733,8 @@
                         icon: "success",
                         text: response.message,
                         didClose: () => {
-                        
-                    $('#dynamicModal').modal('hide');
+
+                            $('#dynamicModal').modal('hide');
                     
                         }
                     });

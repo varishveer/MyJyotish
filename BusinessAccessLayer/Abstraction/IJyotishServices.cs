@@ -45,7 +45,8 @@ namespace BusinessAccessLayer.Abstraction
         public string AddProblemSolution(ProblemSolutionViewModel model);
         public ProblemSolutionJyotishGetViewModel GetProblemSolution(int appointmentId);
         public List<ProblemSolutionJyotishGetAllViewModel> GetAllProblemSolution(int JyotishId);
-        public ProblemSolutionJyotishDetailViewModel GetProblemSolutionDetail(int id);
+        public dynamic GetProblemSolutionDetail(int UId, int JyotishId)
+
         public string UpdateProblemSolution(ProblemSolutionViewModel model);
         public string DeleteProblemSolution(int Id);
         public string AddUserAttachment(JyotishUserAttachmentViewModel model);
