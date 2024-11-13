@@ -178,7 +178,7 @@ namespace BusinessAccessLayer.Implementation
             AppointmentModel appointment = new AppointmentModel();
 
 
-            appointment.Date = Slot.Date;
+            appointment.Date = DateTime.Now;
 
 
             appointment.JyotishId = model.JyotishId;

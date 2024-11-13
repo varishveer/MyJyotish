@@ -857,5 +857,27 @@ namespace MyJyotishJiApi.Controllers
                 return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message });
             }
         }
+
+
+
+        [HttpGet("NotificationData")]
+        public IActionResult NotificationData()
+        {
+            try
+            {
+                var result = _admin.NotificationData();
+
+                if (result == null || result.Count == 0)
+                {
+                    return Ok(new { Status = 400, Message = "No Data Found." });
+                }
+
+                return Ok(new { Status = 200, Data = result, Message = "Successful" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message });
+            }
+        }
     }
 }

@@ -68,6 +68,6 @@ namespace BusinessAccessLayer.Abstraction
         public List<InteviewListViewModel> InteviewList();
 
         public JyotishModel JyotishProfile(int Id);
-
+        public List<AdminNoticationDataViewModel> NotificationData();
     }
 }
