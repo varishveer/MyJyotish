@@ -255,73 +255,7 @@
 </div>
 
 
-<!-- Modal for add solution -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
 
-
-<div class="modal fade" id="dynamicModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add Problem Solution</h5>
-                <button type="button" class="btn-close" id="closeAddProblemModal" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form id="modalForm">
-                <input type="hidden" name="appointmentId" id="appointmentId" />
-                <div class="modal-body">
-                    <!-- Search Box and Results List -->
-                    <div class="mb-3"> 
-                       <select class="form-select" id="selectmember" name="memberId">
-                           <option disabled>--select member--</option>
-                       </select>
-                    </div>
-
-                    <!-- Problem Section with Add More Feature -->
-                    <div id="problemSection" class="mb-3" style="max-height: 300px; overflow-y: auto;">
-                        <!-- Added scrolling -->
-                        <div class="d-flex mb-1 justify-content-between">
-                        <label class="form-label">Problem</label>
-                            <button type="button" class="btn btn-outline-success add-more-problem"><i class="fas fa-plus"></i></button>
-                        </div>
-                        <div class="input-group mb-2">
-                            <textarea class="form-control" rows="2" name="problem[]" placeholder="Enter problem"></textarea>
-                        </div>
-                    </div>
-
-                    <!-- Solution Section with Add More Feature -->
-                    <div id="solutionSection" class="mb-3" style="max-height: 300px; overflow-y: auto;">
-                        <!-- Added scrolling -->
-                        <div class="d-flex mb-1 justify-content-between">
-
-                        <label class="form-label">Solution</label>
-
-                        </div>
-                            <textarea class="w-100 summernote " rows="2" id="solution" name="solution" placeholder="Enter solution"></textarea>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" id="submitForm" class="btn btn-primary">Add</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 
 <!--solution modal-->
 
@@ -329,7 +263,7 @@
     <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Modal 1</h1>
+                <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Appointment History</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -362,7 +296,7 @@
     <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Modal 2</h1>
+                <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Conclusions</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -373,6 +307,57 @@
             <div class="modal-footer">
                 <button class="btn btn-primary" id="previousBtn">Previous</button>
             </div>
+        </div>
+    </div>
+</div>
+<!-- Modal for add solution -->
+
+
+
+<div class="modal fade" id="dynamicModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Problem Solution</h5>
+                <button type="button" class="btn-close" id="closeAddProblemModal" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="modalForm">
+                <input type="hidden" name="appointmentId" id="appointmentId" />
+                <div class="modal-body">
+                    <!-- Search Box and Results List -->
+                    <div class="mb-3">
+                        <select class="form-select" id="selectmember" name="memberId">
+                            <option disabled>--select member--</option>
+                        </select>
+                    </div>
+
+                    <!-- Problem Section with Add More Feature -->
+                    <div id="problemSection" class="mb-3" style="max-height: 300px; overflow-y: auto;">
+                        <!-- Added scrolling -->
+                        <div class="d-flex mb-1 justify-content-between">
+                            <label class="form-label">Problem</label>
+                            <button type="button" class="btn btn-outline-success add-more-problem"><i class="fas fa-plus"></i></button>
+                        </div>
+                        <div class="input-group mb-2">
+                            <textarea class="form-control" rows="2" name="problem[]" placeholder="Enter problem"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Solution Section with Add More Feature -->
+                    <div id="solutionSection" class="mb-3" style="max-height: 300px; overflow-y: auto;">
+                        <!-- Added scrolling -->
+                        <div class="d-flex mb-1 justify-content-between">
+
+                            <label class="form-label">Solution</label>
+
+                        </div>
+                        <textarea class="w-100 summernote " rows="2" id="solution" name="solution" placeholder="Enter solution"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="submitForm" class="btn btn-primary">Add</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -561,7 +546,7 @@
                 htmls += `<td class="text-center">${item.problem.slice(0, 10)}...</td>`;
                 htmls += `<td class="text-center">${item.amount || 'N/A'}</td>`;
                 htmls += `<td class="text-center">
-                                                                       <svg role='button' onclick='setMembers(${item.uId},${item.id})'  data-id="${item.id}" class="edit-appointment" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24" data-toggle="modal" data-target="#exampleModal">
+                                                               <svg role='button' onclick='setMembers(${item.uId},${item.id})'  data-id="${item.id}" class="edit-appointment" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24" data-toggle="modal" data-target="#dynamicModal">
                                                     <path fill="currentColor" d="M13.654 21v-2.21l5.96-5.934l2.19 2.204l-5.94 5.94zm6.885-5.94l-.926-.945zm-6 5.056h.95l3.467-3.474l-.45-.494l-.475-.47l-3.493 3.488zM5 21V3h9.5L19 7.5v2.596h-1V8h-4V4H6v16h5.27v1zm13.506-4.852l-.475-.47l.925.964z"/>
                                                 </svg>
 
@@ -582,7 +567,7 @@
         }
     }
 
- 
+
 
     $("#todayAppointment").click(function(){
         const today = new Date();
