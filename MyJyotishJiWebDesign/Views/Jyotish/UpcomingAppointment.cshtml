@@ -11,6 +11,87 @@
         padding-left: 15px !important;
         padding-right: 15px !important;
     }
+
+    .content-container {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 30px;
+        border-radius: 12px;
+        background-color: #ffffff;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    .header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+        .header h2 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+        }
+
+    .problem-solution-container {
+        margin-top: 20px;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 15px;
+        background-color: #f9f9f9;
+    }
+
+    .section-title {
+        font-weight: bold;
+        color: #2980b9;
+        margin-bottom: 10px;
+    }
+
+    .btn-custom {
+        background-color: #2980b9;
+        color: #fff;
+    }
+
+        .btn-custom:hover {
+            background-color: #1a5276;
+        }
+
+    .form-control {
+        border-radius: 5px;
+        border: 1px solid #bdc3c7;
+    }
+
+        .form-control:focus {
+            border-color: #2980b9;
+            box-shadow: 0 0 5px rgba(41, 128, 185, 0.5);
+        }
+
+    /* Ensure the modal covers the full screen and expands with content */
+   
+
+    .modal-content {
+        display: flex;
+        flex-direction: column;
+       
+    }
+
+    .modal-body {
+        flex: 1;
+        overflow-y: auto;
+    }
+
+    .expandable-content {
+        max-height: 50vh; /* Adjust as needed */
+        overflow-y: auto;
+    }
+
+    /* Optional styling for modal headers and footers */
+    .modal-header, .modal-footer {
+        background-color: #f5f5f5;
+    }
 </style>
 
 <div class="container-fluid mt-4">
@@ -175,12 +256,31 @@
 
 
 <!-- Modal for add solution -->
-<div class="modal fade" id="dynamicModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="dynamicModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Add Problem Solution</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" id="closeAddProblemModal" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form id="modalForm">
                 <input type="hidden" name="appointmentId" id="appointmentId" />
@@ -216,7 +316,6 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="button" id="submitForm" class="btn btn-primary">Add</button>
                 </div>
             </form>
@@ -260,7 +359,7 @@
 </div>
 <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
 
-<div class="modal-dialog modal-dialog-scrollable ">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Modal 2</h1>
@@ -272,7 +371,7 @@
                </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Back to first</button>
+                <button class="btn btn-primary" id="previousBtn">Previous</button>
             </div>
         </div>
     </div>
@@ -348,7 +447,7 @@
 
                     htmls += `<td class="text-center">${item.date}</td>`;
                     htmls += `<td class="text-center">${item.time}</td>`;
-                    htmls += `<td class="text-center"> <a onClick='GetProblemSolutionDetail(${item.id})'" class="btn btn-success"> View </a></td>`
+                    htmls += `<td class="text-center"> <a onClick='GetProblemSolutionDetail(${item.appointmentId})'" class="btn btn-success"> View </a></td>`
 
                     htmls += '</tr>';
                     counterForId++;
@@ -377,7 +476,7 @@
                 'Authorization': `Bearer ${localStorage.getItem("Token2")}`
 
             },
-            data: { appointmentId: Id },
+            data: { appointmentId: id },
             success: function (response) {
                 Swal.close()
                 console.log(response)
@@ -385,7 +484,7 @@
                     const data = response.data;
                     $("#exampleModalToggle").modal("hide")
                     $("#exampleModalToggle2").modal("show")
-
+                    $('#problemSolutionContent').empty()
                     if (data.length > 0) {
                         data.forEach(function (d) {
                             const content = `
@@ -422,15 +521,14 @@
 
     $("#exampleModalToggle").on("show.bs.modal",function(){
         fetchProblemDate()
+      
     })
-    $("#exampleModalToggle").on("hide.bs.modal",function(){
+    
+    $("#previousBtn").click(function(){
         $("#exampleModalToggle2").modal("hide")
+        $("#exampleModalToggle").modal("show")
 
     })
-    $("#exampleModalToggle2").on("show.bs.modal", function () {
-        $("#exampleModalToggle").modal("hide")
-    })
-
     function reverseDate(dateString) {
         // Check if the date string is in the correct format (DD-MM-YYYY)
         const datePattern = /^\d{2}-\d{2}-\d{4}$/;
@@ -463,7 +561,7 @@
                 htmls += `<td class="text-center">${item.problem.slice(0, 10)}...</td>`;
                 htmls += `<td class="text-center">${item.amount || 'N/A'}</td>`;
                 htmls += `<td class="text-center">
-                                                           <svg role='button' onclick='setMembers(${item.uId})'  data-id="${item.id}" class="edit-appointment" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24" data-toggle="modal" data-target="#dynamicModal">
+                                                                       <svg role='button' onclick='setMembers(${item.uId},${item.id})'  data-id="${item.id}" class="edit-appointment" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24" data-toggle="modal" data-target="#exampleModal">
                                                     <path fill="currentColor" d="M13.654 21v-2.21l5.96-5.934l2.19 2.204l-5.94 5.94zm6.885-5.94l-.926-.945zm-6 5.056h.95l3.467-3.474l-.45-.494l-.475-.47l-3.493 3.488zM5 21V3h9.5L19 7.5v2.596h-1V8h-4V4H6v16h5.27v1zm13.506-4.852l-.475-.47l.925.964z"/>
                                                 </svg>
 
@@ -484,7 +582,7 @@
         }
     }
 
-
+ 
 
     $("#todayAppointment").click(function(){
         const today = new Date();
@@ -594,7 +692,7 @@
         })
     }
 
-    function setMembers(UId) {
+    function setMembers(UId,appId) {
         $("#selectmember").empty()
         Swal.fire({
             title: "Processing Your Request",
@@ -611,10 +709,10 @@
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("Token2")}`
             },
-            data: { Id: UId, jyotishId: Id },
+            data: { Id: UId},
             success: function (result) {
                 if (result.status == 200) {
-                    $("#appointmentId").val(result.data.appId)
+                    $("#appointmentId").val(appId)
                         $("#selectmember").append(`
                                          <option value='0'>${result.data.userName} </option>
                                     `)
@@ -827,7 +925,7 @@
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("Token2")}`
             },
-            data: { Id: UId, jyotishId: Id },
+            data: { Id: UId },
             success: function (result) {
                  console.log(result)
                 if (result.status == 200) {

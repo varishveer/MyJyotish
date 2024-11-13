@@ -996,25 +996,23 @@ namespace BusinessAccessLayer.Implementation
 
         }
 
-        public dynamic getClientMembers(int Id,int jyotishId)
+        public dynamic getClientMembers(int Id)
         {
             var Appointment = _context.AppointmentRecords.Where(x => x.UserId == Id).FirstOrDefault();
             if (Appointment != null)
             {
                 var clientMember = (
-                    from appointment in _context.AppointmentRecords
-                    join user in _context.Users on appointment.UserId equals user.Id
-                    join member in _context.ClientMembers on appointment.UserId equals member.UId into memberGroup // Group join
-                    from member in memberGroup.DefaultIfEmpty() // Left join
-                    where appointment.JyotishId == jyotishId &&  member.UId == Id // Adjust where clause for null check
-                    orderby member.Id descending
+                    from  user in _context.Users 
+                    where user.Id == Id // Adjust where clause for null check
                     select new
                     {
-                        appId=appointment.Id,
+                        uId=user.Id,
                         userName=user.Name,
                         memberList = (
             from m in _context.ClientMembers
-            where m.UId == appointment.UserId && m.status == 1
+            where m.UId == Id && m.status == 1
+            orderby m.Id descending
+
             select new
             {
                 id = m.Id,
@@ -1148,7 +1146,7 @@ namespace BusinessAccessLayer.Implementation
                      join member in _context.ClientMembers on problem.memberId equals member.Id into memberGroup
                      from member in memberGroup.DefaultIfEmpty() // This allows for the left join behavior
                      where problem.AppointmentId == appointmentId
-                     orderby problem.Id descending
+                   
                      select new
                      {
                          problemId = problem.Id,
