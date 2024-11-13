@@ -666,12 +666,12 @@ namespace MyJyotishGApi.Controllers
         }
 
         [HttpGet("GetProblemSolutionDetail")]
-        public IActionResult GetProblemSolutionDetail(int UId,int JyotishId)
+        public IActionResult GetProblemSolutionDetail(int appointmentId)
         {
             try
             {
 
-                var result = _jyotish.GetProblemSolutionDetail(UId,JyotishId);
+                var result = _jyotish.GetProblemSolutionDetail(appointmentId);
 
 
 
@@ -689,6 +689,22 @@ namespace MyJyotishGApi.Controllers
             try
             {
                 var Result = _jyotish.GetAllProblemSolution(Id);
+                if (Result.Count == 0 || Result == null)
+                { return Ok(new { Status = 404, Message = "Data Not Found" }); }
+
+                else
+                { return Ok(new { Status = 200, Data = Result, Message = "Successful" }); }
+            }
+            catch (Exception ex)
+            { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+
+        } 
+        [HttpGet("GetAllProblemSolutionByUser")]
+        public IActionResult GetAllProblemSolutionByUser(int JyotishId,int UId)
+        {
+            try
+            {
+                var Result = _jyotish.GetAllProblemSolutionByUser(JyotishId,UId);
                 if (Result.Count == 0 || Result == null)
                 { return Ok(new { Status = 404, Message = "Data Not Found" }); }
 

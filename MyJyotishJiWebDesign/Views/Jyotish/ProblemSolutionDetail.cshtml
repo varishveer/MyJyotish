@@ -104,44 +104,53 @@
 <script>
     $(document).ready(function () {
         const id = new URLSearchParams(window.location.search).get('id');
+        function GetProblemSolutionDetail(id) {
+            $.ajax({
+                url: `${BaseUrl}Api/Jyotish/GetProblemSolutionDetail`,
+                method: "GET",
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token2")}`
 
-        $.ajax({
-            url: `${BaseUrl}Api/Jyotish/GetProblemSolutionDetail?id=${id}`,
-            method: "GET",
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
-                'Content-Type': 'application/json',
-            },
-            success: function (response) {
-                if (response.status === 200) {
-                    const data = response.data;
-                    const content = `
-                            <div class="container my-3">
+                },
+                data: { appointmentId: Id },
+                success: function (response) {
+                    console.log(response)
+                    if (response.status === 200) {
+                        const data = response.data;
+
+                        if (data.length > 0) {
+                            data.forEach(function (d) {
+                                const content = `
+                                   ${d.appointmentDate == d.currentDate.split("T")[0] ? ` <div class="container my-3 text-end">
                                 <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#updateProblemSolutionModal"
-                                   onclick='populateUpdateModal(${JSON.stringify(data)})'>Update</a>
-                            </div>
+                                   onclick='populateUpdateModal(${JSON.stringify(d)})'>Update</a>
+                            </div>`: ""}
                             <div class="problem-solution-container">
                                 <div class="d-flex justify-content-between">
-                                    <div><div class="section-title">User Name:</div><p>${data.userName}</p></div>
-                                    <div><div class="section-title">Date:</div><p>${data.date}</p></div>
-                                    <div><div class="section-title">Time:</div><p>${data.time}</p></div>
+                                                        <div><div class="section-title">${d.memberName != null ? "Member Name" : "User Name"}:</div><p>${d.memberName != null ? d.memberName : d.userName}</p></div>
+                                    <div><div class="section-title">Date:</div><p>${d.appointmentDate}</p></div>
+                                        <div><div class="section-title">Time:</div><p>${d.appointmentTime}</p></div>
                                 </div>
                                 <div class="section-title">Problems:</div>
-                                <ul>${data.problem.map(problem => `<li>${problem}</li>`).join('')}</ul>
+                                <ul>${d.problems.map(problem => `<li>${problem}</li>`).join('')}</ul>
                                 <div class="section-title">Solutions:</div>
-                                <ul>${data.solution.map(solution => `<li>${solution}</li>`).join('')}</ul>
+                                <div>${d.solution}</div>
                             </div>
                         `;
-                    $('#problemSolutionContent').html(content);
-                } else {
-                    $('#problemSolutionContent').html('<p>No data available.</p>');
+                                $('#problemSolutionContent').append(content);
+                            })
+                        } else {
+                            $('#problemSolutionContent').html('<p>No data available.</p>');
+                        }
+                    } else {
+                        $('#problemSolutionContent').html('<p>No data available.</p>');
+                    }
+                },
+                error: function () {
+                    $('#problemSolutionContent').html('<p>Error loading data.</p>');
                 }
-            },
-            error: function () {
-                $('#problemSolutionContent').html('<p>Error loading data.</p>');
-            }
-        });
-
+            });
+        }
         window.populateUpdateModal = function (data) {
             $('#modalUserName').text(data.userName);
             $('#modalDate').text(data.date);
