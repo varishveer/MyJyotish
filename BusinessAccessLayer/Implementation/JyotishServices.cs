@@ -853,6 +853,7 @@ namespace BusinessAccessLayer.Implementation
                 
                 where (appointmentRecords.JyotishId == jyotishId
                        && DateTime.Compare(slots.Date.Date, DateTime.Now.Date) >= 0)
+                       orderby appointmentRecords.Id descending
                 select new
                 {
                     Id = appointmentRecords.Id,
