@@ -866,6 +866,7 @@ namespace BusinessAccessLayer.Implementation
                     appoinTimeFrom = slots.TimeFrom,
                     appoinTimeTo = slots.TimeTo,
                     amount=appointmentRecords.Amount,
+                    arriveStatus=appointmentRecords.ArrivedStatus,
                     memberList = (
             from m in _context.ClientMembers
             where m.UId == appointmentRecords.UserId && m.status==1
@@ -930,36 +931,33 @@ namespace BusinessAccessLayer.Implementation
             {
                 return "Invalid Data: AppointmentId does not exist.";
             }
-            if (appointment.Date > DateTime.Now)
-            {
-                return "Appointment is Upcoming";
-            }
-            if (model.Problem.Length > 10 || model.Solution.Length > 10) 
+            //if (appointment.Date > DateTime.Now)
+            //{
+            //    return "Appointment is Upcoming";
+            //}
+            if (model.Problem.Length > 10 ) 
             {
                 return "Problem or Solution Limit Exceed";
             }
-
-            var isValid = _context.ProblemSolution.Where(x => x.AppointmentId == model.AppointmentId).FirstOrDefault();
+            string member = model.memberId != 0 ? model.memberId.ToString() : null;
+            var isValid = _context.ProblemSolution.Where(x => x.AppointmentId == model.AppointmentId && x.memberId.ToString() == member).FirstOrDefault();
             if(isValid != null)
             {
                 return "Record Already Present.";
             }
             string problems = "";
-            string Solutions = "";
             foreach (var it in model.Problem)
             {
                 problems += it + "$%^";
             }
 
-            foreach (var it in model.Solution)
-            {
-                Solutions += it + "$%^";
-            }
+           
             ProblemSolutionModel data = new ProblemSolutionModel
             {
                 AppointmentId = appointment.Id,
+                memberId = model.memberId==0?null:model.memberId,
                 Problem = problems,
-                Solution = Solutions
+                Solution = model.Solution
             };
             _context.ProblemSolution.Add(data);
             return _context.SaveChanges() > 0 ? "Successful" : "Internal Server Error";
@@ -998,9 +996,9 @@ namespace BusinessAccessLayer.Implementation
 
         }
 
-        public dynamic getClientMembers(int AppointmentId,int jyotishId)
+        public dynamic getClientMembers(int Id,int jyotishId)
         {
-            var Appointment = _context.AppointmentRecords.Where(x => x.Id == AppointmentId).FirstOrDefault();
+            var Appointment = _context.AppointmentRecords.Where(x => x.UserId == Id).FirstOrDefault();
             if (Appointment != null)
             {
                 var clientMember = (
@@ -1008,7 +1006,7 @@ namespace BusinessAccessLayer.Implementation
                     join user in _context.Users on appointment.UserId equals user.Id
                     join member in _context.ClientMembers on appointment.UserId equals member.UId into memberGroup // Group join
                     from member in memberGroup.DefaultIfEmpty() // Left join
-                    where appointment.JyotishId == jyotishId &&  member.UId == AppointmentId // Adjust where clause for null check
+                    where appointment.JyotishId == jyotishId &&  member.UId == Id // Adjust where clause for null check
                     orderby member.Id descending
                     select new
                     {
@@ -1016,7 +1014,7 @@ namespace BusinessAccessLayer.Implementation
                         userName=user.Name,
                         memberList = (
             from m in _context.ClientMembers
-            where m.UId == appointment.Id && m.status == 1
+            where m.UId == appointment.UserId && m.status == 1
             select new
             {
                 id = m.Id,

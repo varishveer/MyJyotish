@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
@@ -13,8 +14,12 @@ namespace ModelAccessLayer.ViewModels
         [AllowNull]
         public int Id { get; set; }
         public int AppointmentId { get; set; }
+        public int memberId { get; set; }
+
         public string[] Problem { get; set; }
-        public string[] Solution { get; set; }
+
+        [DataType(DataType.Html)]
+        public string Solution { get; set; }
 
     }
 }

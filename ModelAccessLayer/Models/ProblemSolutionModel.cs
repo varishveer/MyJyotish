@@ -15,6 +15,7 @@ namespace ModelAccessLayer.Models
         public int AppointmentId { get; set; }
         public int? memberId { get; set; }
         public string Problem { get; set; }
+        [DataType(DataType.Html)]
         public string Solution { get; set; }
         [AllowNull]
         public AppointmentModel? Appointment { get; set; }
