@@ -1531,7 +1531,7 @@ namespace BusinessAccessLayer.Implementation
             {
 
                 Name = x.UserRecord.Name,
-                BookingDate = x.Date.ToString("dd-MM-yyyy"),
+                BookingDate = x.Date.ToString("dd-MM-yyyy HH:mm"),
                 AppointmentDate = x.AppointmentSlotData.Date.ToString("dd-MM-yyyy"), 
                 AppointmentTime = x.AppointmentSlotData.TimeFrom.ToString(@"hh\:mm"),
                 TimeDuration = x.AppointmentSlotData.TimeDuration
