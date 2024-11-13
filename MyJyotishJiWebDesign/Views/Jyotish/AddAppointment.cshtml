@@ -211,34 +211,36 @@
         }
 
         // Initialize the appointment URL
-        var appoinmentUrl = BaseUrl + `api/User/getAllAppointmentSlot?Id=${astrologerId}`;
+        var appoinmentUrl = BaseUrl + `api/Jyotish/getAllAppointmentSlot?Id=${localStorage.getItem('Id')}`;
         let appoinmentArray;
 
         // Check if the user is authenticated
-        if (localStorage.getItem("userId") != null && localStorage.getItem("Token") != null) {
-            // Fetch appointment slots from the server
+        if (localStorage.getItem("Id") != null && localStorage.getItem("Token2") != null) {
+        
             $.ajax({
                 url: appoinmentUrl,
                 method: 'GET',
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                    'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
                     'Content-Type': 'application/json'
                 },
                 success: function (response) {
-                    $("#problem").hide();
-                    $("#prev-btn").hide();
+                    debugger;
+                    //$("#problem").hide();
+                   // $("#prev-btn").hide();
 
                     if (response.status === 200) {
                         var data = response.data;
                         appoinmentArray = data;
                         console.log(appoinmentArray);
 
-                        // Set the min and max values for the date picker
+                        
                         $("#datePicker").attr("min", appoinmentArray[0].date.split("T")[0]);
                         $("#datePicker").attr("max", appoinmentArray[appoinmentArray.length - 1].date.split("T")[0]);
 
-                        // Set the default value of the date picker to the first available date
+                        
                         $("#datePicker").val(appoinmentArray[0].date.split("T")[0]);
+                        fetchSlotsForDate(appoinmentArray[0].date.split("T")[0]);
                     }
                 },
                 error: function (err) {
@@ -283,7 +285,7 @@
                             // Populate the slot options for the selected date
                             $.each(item.slotList, function (slotIndex, slot) {
                                 $('#slotSelect').append(`
-                                    <option value="${slot.id}">
+                                    <option  value="${slot.id}">
                                         ${item.date.split('T')[0]} - ${slot.timeFrom} to ${slot.timeTo}
                                         (${slot.timeDuration} mins, Status: ${slot.status})
                                     </option>
@@ -319,7 +321,12 @@
         $('#appointmentForm').on('submit', function (event) {
              
             event.preventDefault(); // Prevent default form submission
-          
+            Swal.fire({
+                title: "Processing Your Request",
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            })
 
             // Capture form data
             var formData = {
@@ -329,7 +336,7 @@
                 mobile: $('#mobile').val(),
                 jyotishId: localStorage.getItem('Id'),
                 problem: $('#problem').val(),
-                slotId: $('#yourSelectElementId').val(),
+                slotId: $('#slotSelect').val(),
               
             };
              
@@ -347,19 +354,59 @@
                 dataType: 'json',
                
                 success: function (response) {
-                    if (response.status === 200) { alert('Appointment booked successfully!'); }
-                    else if (response.status === 400) {
+                    if (response.status === 200) {
+                        Swal.fire({
+                            title: "Successful!",
+                            text: "Appointment booked successfully!",
+                            icon: "success",
 
-                        alert('Invalid Data');
+                            showConfirmButton: true,
+                        }).then(() => {
+
+
+                            location.reload();
+
+                        });
+                        
+                        
+                        
+                        }
+                    else if (response.status === 400) {
+                        Swal.fire({
+                            title: "Invalid Data!",
+                            text: "Please enter correct data",
+                            icon: "warning",
+
+                            showConfirmButton: true, 
+                        });
+                        
+
+
+                       
                     }
                     else {
-                        alert(`${response.message}`);
+
+                        Swal.fire({
+                            title: "Something went wrong.",
+                            text: "Please try again later.",
+                            icon: "error",
+
+                            showConfirmButton: true, // Ensure the OK button is shown
+                        });
+                       
                     }
 
                 },
                 error: function (xhr, status, error) {
                     console.error('Error submitting form:', error, status, xhr);
-                    alert('An error occurred while submitting the form. Please try again.');
+                    Swal.fire({
+                        title: "Something went wrong.",
+                        text: "Please try again later.",
+                        icon: "error",
+
+                        showConfirmButton: true, // Ensure the OK button is shown
+                    });
+                  
                 }
             });
         });

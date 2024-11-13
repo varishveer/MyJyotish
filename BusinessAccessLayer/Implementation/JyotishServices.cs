@@ -1479,12 +1479,13 @@ namespace BusinessAccessLayer.Implementation
         {
             var data = _context.AppointmentRecords
             .Where(x => x.JyotishId == Id)
-            .OrderByDescending(x => x.Date)
+            .OrderByDescending(x=>x.Id)
             .Take(5)
             .Include(a => a.UserRecord)  // Include related UserRecord
             .Include(a => a.AppointmentSlotData) // Include related AppointmentSlot data
             .Select(x => new JyotishNotificationDataViewModel
             {
+
                 Name = x.UserRecord.Name,
                 BookingDate = x.Date.ToString("dd-MM-yyyy"),
                 AppointmentDate = x.AppointmentSlotData.Date.ToString("dd-MM-yyyy"), 
