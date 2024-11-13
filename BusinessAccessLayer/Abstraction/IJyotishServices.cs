@@ -65,6 +65,7 @@ namespace BusinessAccessLayer.Abstraction
         public string RemoveSlotWithskipDates(AppointmentSlotViewModel model);
         public dynamic GetTodayAppointment(int JyotishId);
         public AppointmentSlotDetailsJyotish AppointmentSlotDtails(int Id);
-        public List<AppointmentSlotModel> SkipDateList(int Id);
+        public List<SkipdateJyotishViewModel> SkipDateList(int Id);
+        public List<JyotishNotificationDataViewModel> NotificationData(int Id);
     }
 }

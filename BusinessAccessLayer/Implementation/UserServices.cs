@@ -545,7 +545,7 @@ namespace BusinessAccessLayer.Implementation
                             TimeDuration = x.TimeDuration,
                             TimeFrom = x.TimeFrom,
                             TimeTo = x.TimeTo,
-                            JyotishId = x.JyotishId,
+                            JyotishId = (int)x.JyotishId,
                             Status = x.Status
                         }).ToList()
                     })

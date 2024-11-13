@@ -372,62 +372,42 @@
 
 <div class="container mt-5">
     <div class="card shadow-sm">
-        <div class="card-header bg-primary text-white text-center">
-            <h3>Appointment Slot Details</h3>
+        <div class=" text-center p-1" style="background-color:#009CFF;">
+            <h3 class=" text-white p-0 m-0">Appointment Slot Details</h3>
         </div>
         <div class="card-body">
             <div class="row mb-3">
-                <div class="col-md-6">
-                    <div class="col-md-4">
+                <div class="col-md-4">
+                    
                         <strong>From Date:</strong>
-                    </div>
-                    <div class="col-md-8">
                         <span id="fromDate" class="badge bg-secondary"></span>
-                    </div>
+                   
+                    
                 </div>
-                <div class="col-md-6">
-                    <div class="col-md-4">
-                        <strong>To Date:</strong>
-                    </div>
-                    <div class="col-md-8">
-                        <span id="toDate" class="badge bg-secondary"></span>
-                    </div>
+
+                <div class="col-md-4">
+                    <strong>To Date:</strong>
+                    <span id="toDate" class="badge bg-secondary"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong>Duration:</strong>
+                    <span id="duration" class="badge bg-secondary"></span> minutes
+                </div>
+                <div class="col-md-4">
+                    
+                        <strong>From Time:</strong>
+                        <span id="fromTime" class="badge bg-secondary"></span>
+                  
+                </div>
+
+                <div class="col-md-4">
+                    <strong>To Time:</strong>
+                    <span id="toTime" class="badge bg-secondary"></span>
                 </div>
             </div>
           
-            <div class="row mb-3">
-                <div class="col-md-6">
-
-                    <div class="col-md-4">
-                        <strong>From Time:</strong>
-                    </div>
-                    <div class="col-md-8">
-                        <span id="fromTime" class="badge bg-secondary"></span>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="col-md-4">
-                        <strong>To Time:</strong>
-                    </div>
-                    <div class="col-md-8">
-                        <span id="toTime" class="badge bg-secondary"></span>
-                    </div>
-                </div>
-
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    <div class="col-md-4">
-                        <strong>Duration:</strong>
-                    </div>
-                    <div class="col-md-8">
-                        <span id="duration" class="badge bg-secondary"></span> minutes
-                    </div>
-                </div>
-                <div class="col-md-6">
-                </div>
-               
-            </div>
+           
+           
            
         </div>
     </div>
@@ -470,11 +450,9 @@
     <div class="card">
         <div class="d-flex flex-row justify-content-between align-items-center pt-2 px-4">
             <h5 class="text-primary fw-bold">Skip Date List</h5>
-           
         </div>
         <hr />
-
-        <div class="card-body ">
+        <div class="card-body">
             <div class="table-responsive">
                 <table id="skipDateDataTable" class="table table-bordered table-striped">
                     <thead>
@@ -482,15 +460,11 @@
                             <th>Id</th>
                             <th>Date</th>
                             <th>Time Duration</th>
-                            <th>Time From</th>
-                            <th>Time To</th>
-                          
-                          
+                         
                         </tr>
                     </thead>
                     <tbody class="skipDateTBody">
-                        <!-- Dynamic Data goes here -->
-
+                        <!-- Dynamic Data will be inserted here -->
                     </tbody>
                 </table>
             </div>
@@ -500,7 +474,7 @@
 
 
 
-<div class="container mt-4">
+@* <div class="container mt-4">
     <div class="card">
         <div class="d-flex flex-row justify-content-between align-items-center pt-2 px-4">
             <h5 class="text-primary fw-bold">Appointment Slot List</h5>
@@ -530,7 +504,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> *@
 
 
 <!-- Modal -->
@@ -671,47 +645,47 @@
                 Swal.showLoading();
             }
         })
-        $.ajax({
-            url:BaseUrl+`api/Jyotish/GetAllAppointmentSlot?Id=${localStorage.getItem('Id')}`,
-            type: 'GET',
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
-                'Content-Type': 'application/json',
-            },
-            success: function (res) {
-                console.log(res)
-                let slotIndexCount=1
-                $('tbody').empty(); // Clear the table body first
-                $.each(res.data, function (index, item) {
-                    const formattedDate = new Date(item.date).toLocaleDateString(); // Format the date
+        // $.ajax({
+        //     url:BaseUrl+`api/Jyotish/GetAllAppointmentSlot?Id=${localStorage.getItem('Id')}`,
+        //     type: 'GET',
+        //     headers: {
+        //         'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+        //         'Content-Type': 'application/json',
+        //     },
+        //     success: function (res) {
+        //         console.log(res)
+        //         let slotIndexCount=1
+        //         $('tbody').empty(); // Clear the table body first
+        //         $.each(res.data, function (index, item) {
+        //             const formattedDate = new Date(item.date).toLocaleDateString(); // Format the date
 
-                    // Loop through each slot in the slotList
-                    $.each(item.slotList, function (slotIndex, slot) {
-                        $('tbody').append(`<tr>
-                                <td>${slotIndexCount++}</td>
-                        <td>${formattedDate}</td>
-                        <td>${slot.timeDuration} minutes</td>
-                        <td>${slot.timeFrom}</td>
-                        <td>${slot.timeTo}</td>
-                        <td>${slot.status}</td>
+        //             // Loop through each slot in the slotList
+        //             $.each(item.slotList, function (slotIndex, slot) {
+        //                 $('tbody').append(`<tr>
+        //                         <td>${slotIndexCount++}</td>
+        //                 <td>${formattedDate}</td>
+        //                 <td>${slot.timeDuration} minutes</td>
+        //                 <td>${slot.timeFrom}</td>
+        //                 <td>${slot.timeTo}</td>
+        //                 <td>${slot.status}</td>
                        
-                    </tr>`);
-                    });
-                });
+        //             </tr>`);
+        //             });
+        //         });
 
-                $('#DataTable').DataTable(); // Initialize the DataTable after adding all rows
-                Swal.close()
+        //         $('#DataTable').DataTable(); // Initialize the DataTable after adding all rows
+        //         Swal.close()
 
-            },
-            error: function (error) {
-                Swal.fire({
-                    title: 'Error!',
-                    text: 'Failed to add appointment slot: ' + xhr.responseText.title,
-                    icon: 'error',
-                    confirmButtonText: 'Close'
-                });
-            }
-        });
+        //     },
+        //     error: function (error) {
+        //         Swal.fire({
+        //             title: 'Error!',
+        //             text: 'Failed to add appointment slot: ' + xhr.responseText.title,
+        //             icon: 'error',
+        //             confirmButtonText: 'Close'
+        //         });
+        //     }
+        // });
 
         $.ajax({
             url: BaseUrl + `api/Jyotish/SkipDateList?Id=${localStorage.getItem('Id')}`,
@@ -721,43 +695,35 @@
                 'Content-Type': 'application/json',
             },
             success: function (res) {
-                console.log(res);
+                console.log(res); // Log the response to check the data structure
                 let slotIndexCount = 1;
-                $('.skipDateTbody').empty(); // Clear the table body first
+                $('.skipDateTBody').empty(); // Clear the table body first
 
-                // Loop through each date in the response
+                // Loop through each date object in the response
                 $.each(res.data, function (index, item) {
-                    const formattedDate = new Date(item.date).toLocaleDateString(); // Format the date
+                   
 
-                    // Loop through each slot in the slotList
-                    $.each(item.slotList, function (slotIndex, slot) {
-                        $('.skipDateTbody').append(`
-                        <tr>
-                            <td>${slotIndexCount++}</td>
-                            <td>${formattedDate}</td>
-                            <td>${slot.timeDuration} minutes</td>
-                            <td>${slot.timeFrom}</td>
-                            <td>${slot.timeTo}</td>
-                           
-                        </tr>
-                    `);
-                    });
+                    // Construct the row for the table
+                    $('.skipDateTBody').append(`
+                    <tr>
+                        <td>${slotIndexCount++}</td>
+                        <td>${item.date}</td>
+                        <td>${item.timeDuration} minutes</td>
+                      
+                    </tr>
+                `);
                 });
 
-                // Destroy any existing DataTable before initializing a new one (to avoid multiple instances)
-                if ($.fn.dataTable.isDataTable('#skipDateDataTable')) {
-                    $('#skipDateDataTable').DataTable().clear().destroy();
-                }
-
-                // Initialize the DataTable after adding all rows
+                // Re-initialize the DataTable after data is inserted
                 $('#skipDateDataTable').DataTable({
-                    "paging": true,          // Enable pagination
-                    "searching": true,       // Enable search box
-                    "info": true,            // Show info (e.g. "Showing 1 to 10 of 50 entries")
-                    "lengthChange": true     // Allow the user to change the page size
+                    "paging": true,
+                    "searching": true,
+                    "ordering": true,
+                    "info": true,
+                    "autoWidth": false
                 });
 
-                Swal.close();  // Close any SweetAlert popup
+                Swal.close();  // Close any SweetAlert popups
             },
             error: function (error) {
                 Swal.fire({
@@ -847,7 +813,7 @@
             }
         })
 
-        // Handle edit button click
+       
         $(document).on('click', '.editfeature', function () {
             const id = $(this).data('id');
             const date = $(this).data('date'); // Assuming this is in MM/DD/YYYY format
@@ -871,9 +837,7 @@
             $('#btnsubmit').hide();
         });
 
-        // Update Appointment Slot
-        // Update Appointment Slot
-        // Update Appointment Slot
+       
         $("#btnupdate").on('click', function (e) {
             e.preventDefault();
              

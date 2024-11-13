@@ -15,8 +15,11 @@ namespace ModelAccessLayer.Models
         public int TimeDuration { get; set; }
         public TimeOnly TimeFrom { get; set; }
         public TimeOnly TimeTo { get; set; }
-        public int JyotishId { get; set; }
+        public int? JyotishId { get; set; }
         public string Status { get; set; }
         public int ActiveStatus { get; set; }
+
+        public JyotishModel JyotishData { get; set; }
+        public ICollection<AppointmentModel> AppointmentData { get; set; }
     }
 }
