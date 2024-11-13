@@ -191,6 +191,7 @@ namespace BusinessAccessLayer.Implementation
                 userModel.Email = model.Email;
                 userModel.Mobile = model.Mobile;
                 userModel.Name = model.Name;
+                userModel.a = model.Name;
                 userModel.Password = (new Random().Next(10000000, 100000000)).ToString();
                 _context.Users.Add(userModel);
                 if (_context.SaveChanges() > 0)
@@ -1349,6 +1350,7 @@ namespace BusinessAccessLayer.Implementation
                         UserId = model.UserId,
                         Image = model.ImageUrl,
                         Title = model.Title,
+                        AppointmentId = model.appointmentId,
                         MemberId = model.member!=0?model.member:null
                         
                     };
