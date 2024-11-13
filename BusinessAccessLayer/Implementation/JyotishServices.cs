@@ -1349,7 +1349,7 @@ namespace BusinessAccessLayer.Implementation
                         UserId = model.UserId,
                         Image = model.ImageUrl,
                         Title = model.Title,
-                        memberId = model.member!=0?model.member:null
+                        MemberId = model.member!=0?model.member:null
                         
                     };
 
