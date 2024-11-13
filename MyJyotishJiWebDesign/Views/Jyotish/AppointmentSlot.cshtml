@@ -418,9 +418,12 @@
         document.addEventListener('DOMContentLoaded', function () {
             var jyotishId = localStorage.getItem('Id');
         var apiUrl = BaseUrl + `Api/Jyotish/AppointmentSlotDtails?Id=${jyotishId}`;
-
+        var headers = {
+            'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+            'Content-Type': 'application/json',
+        };
             // Make the API call using fetch()
-            fetch(apiUrl)
+        fetch(apiUrl, { headers: headers })
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
