@@ -98,13 +98,7 @@
 
 
 
-               @*  <div class="form-row">
-                    <div class="form-group col-md-12">
-                        <label for="list" class="form-label">List</label>
-                        <select id="yourSelectElementId"></select>
-                      
-                    </div>
-                </div> *@
+               
 
            
                 <div class="form-row">
@@ -125,96 +119,21 @@
 <script>
     $(document).ready(function () {
 
-        // $.ajax({
-        //     url: BaseUrl +`Api/Jyotish/GetAllAppointmentSlot?Id=${localStorage.getItem('Id')}`,
-        //     type: 'GET',
-        //     headers: {
-        //         'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
-        //         'Content-Type': 'application/json',
-        //     },
-        //     success: function (res) {
-                 
-        //         // Loop through the response data
-        //         $.each(res.data, function (index, item) {
-        //             // For each date, loop through the slotList to append options
-        //             $.each(item.slotList, function (slotIndex, slot) {
-        //                 $('#yourSelectElementId').append(`
-        //                 <option value="${slot.id}">
-        //                     ${item.date.split('T')[0]} - ${slot.timeFrom} to ${slot.timeTo}
-        //                     (${slot.timeDuration} mins, Status: ${slot.status})
-        //                 </option>
-        //             `);
-        //             });
-        //         });
-        //     },
-        //     error: function (error) {
-                 
-        //         console.error(error);
-        //     }
-        // });
+        
 
 
-        // $('#datePicker').on('change', function () {
-        //     var selectedDate = $(this).val(); // Get the selected date
-        //     if (selectedDate) {
-        //         fetchSlotsForDate(selectedDate);
-        //     }
-        // });
-
-        // function fetchSlotsForDate(date) {
-        //     // Clear previous slot options
-        //     $('#slotSelect').empty();
-        //     $('#slotSelect').append('<option value="">Loading slots...</option>');
-
-        //     // Fetch slots based on the selected date
-        //     $.ajax({
-        //         url: BaseUrl + `Api/Jyotish/GetAllAppointmentSlot?Id=${localStorage.getItem('Id')}`,
-        //         type: 'GET',
-        //         headers: {
-        //             'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
-        //             'Content-Type': 'application/json',
-        //         },
-        //         success: function (res) {
-        //             var slotsFound = false;
-        //             $.each(res.data, function (index, item) {
-        //                 var apiDate = item.date.split('T')[0]; // Get the date part from API response
-        //                 if (apiDate === date) {  // Match the selected date
-        //                     slotsFound = true;
-        //                     $.each(item.slotList, function (slotIndex, slot) {
-        //                         $('#slotSelect').append(`
-        //                             <option value="${slot.id}">
-        //                                 ${item.date.split('T')[0]} - ${slot.timeFrom} to ${slot.timeTo}
-        //                                 (${slot.timeDuration} mins, Status: ${slot.status})
-        //                             </option>
-        //                         `);
-        //                     });
-        //                 }
-        //             });
-
-        //             if (!slotsFound) {
-        //                 $('#slotSelect').append('<option value="">No slots available for this date</option>');
-        //             }
-        //         },
-        //         error: function (error) {
-        //             console.error(error);
-        //             $('#slotSelect').append('<option value="">Error fetching slots</option>');
-        //         }
-        //     });
-        // }
-
-
-        // Helper function to reverse the date (if needed)
+       
         function reverseDate(dateString) {
             const parts = dateString.split('-');
             const reversedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
             return reversedDate;
         }
 
-        // Initialize the appointment URL
+        
         var appoinmentUrl = BaseUrl + `api/Jyotish/getAllAppointmentSlot?Id=${localStorage.getItem('Id')}`;
         let appoinmentArray;
 
-        // Check if the user is authenticated
+        
         if (localStorage.getItem("Id") != null && localStorage.getItem("Token2") != null) {
         
             $.ajax({
@@ -226,8 +145,7 @@
                 },
                 success: function (response) {
                     debugger;
-                    //$("#problem").hide();
-                   // $("#prev-btn").hide();
+                   
 
                     if (response.status === 200) {
                         var data = response.data;
