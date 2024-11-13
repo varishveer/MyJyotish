@@ -427,7 +427,7 @@
                 .then(response => {
                     if (response.status !== 200 ) {
                         throw new Error('Network response was not ok');
-                        $('appointmentSlotDetailDiv').hide();
+                        $('#appointmentSlotDetailDiv').hide();
                     }
                     return response.json();  // Parse the JSON data from the response
                 })
@@ -690,56 +690,63 @@
         //         });
         //     }
         // });
+        function skipDateList() {
+            $.ajax({
+                url: BaseUrl + `api/Jyotish/SkipDateList?Id=${localStorage.getItem('Id')}`,
+                type: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+                    'Content-Type': 'application/json',
+                },
+                success: function (res) {
+                    debugger;
+                    if (res.status !== 200) {
+                        $('#skipDateDiv').hide();
+                        Swal.close();
+                        return
+                    }
+                    let slotIndexCount = 1;
+                    $('.skipDateTBody').empty(); // Clear the table body first
 
-        $.ajax({
-            url: BaseUrl + `api/Jyotish/SkipDateList?Id=${localStorage.getItem('Id')}`,
-            type: 'GET',
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
-                'Content-Type': 'application/json',
-            },
-            success: function (res) {
-                if (res.status !== 200) { 
-                    $('skipDateDiv').hide();
+                    // Loop through each date object in the response
+                    $.each(res.data, function (index, item) {
+
+
+                        // Construct the row for the table
+                        $('.skipDateTBody').append(`
+                        <tr>
+                            <td>${slotIndexCount++}</td>
+                            <td>${item.date}</td>
+                            <td>${item.timeDuration} minutes</td>
+
+                        </tr>
+                    `);
+                    });
+
+                    // Re-initialize the DataTable after data is inserted
+                    $('#skipDateDataTable').DataTable({
+                        "paging": true,
+                        "searching": true,
+                        "ordering": true,
+                        "info": true,
+                        "autoWidth": false
+                    });
+
+                    Swal.close();  // Close any SweetAlert popups
+                },
+                error: function (error) {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'Failed to fetch appointment slots: ' + error.responseText,
+                        icon: 'error',
+                        confirmButtonText: 'Close'
+                    });
                 }
-                let slotIndexCount = 1;
-                $('.skipDateTBody').empty(); // Clear the table body first
+            });
+        
+        }
 
-                // Loop through each date object in the response
-                $.each(res.data, function (index, item) {
-                   
-
-                    // Construct the row for the table
-                    $('.skipDateTBody').append(`
-                    <tr>
-                        <td>${slotIndexCount++}</td>
-                        <td>${item.date}</td>
-                        <td>${item.timeDuration} minutes</td>
-                      
-                    </tr>
-                `);
-                });
-
-                // Re-initialize the DataTable after data is inserted
-                $('#skipDateDataTable').DataTable({
-                    "paging": true,
-                    "searching": true,
-                    "ordering": true,
-                    "info": true,
-                    "autoWidth": false
-                });
-
-                Swal.close();  // Close any SweetAlert popups
-            },
-            error: function (error) {
-                Swal.fire({
-                    title: 'Error!',
-                    text: 'Failed to fetch appointment slots: ' + error.responseText,
-                    icon: 'error',
-                    confirmButtonText: 'Close'
-                });
-            }
-        });
+        skipDateList();
 
         $("#updateAppointmentslot").click(function(){
             const skipDate = $("#updateskipDate").val() != "" ? $("#updateskipDate").val() : "1001-01-01"

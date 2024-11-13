@@ -314,8 +314,8 @@
                         <div class="detail-value" id="specialization"></div>
                     </div>
                     <div class="col-md-6">
-                        <div class="detail-value">Awards and Achievements</div>
-                        <div class="detail-label" id="awardsAndAchievement"></div>
+                        <div class="detail-label">Awards and Achievements</div>
+                        <div class="detail-value" id="awardsAndAchievement"></div>
                     </div>
                 </div>
 
@@ -363,7 +363,9 @@
                     $('#chatCharges').text("₹"+profile.chatCharges+"/min");
                    const dateOfBirth = profile.dateOfBirth.split('T')[0];
                     $('#dateOfBirth').text(dateOfBirth);
-                    $('#pooja').text(profile.pooja);
+
+                  
+                $('#pooja').text(profile.pooja || 'No');
                     $('#appointmentCharges').text(profile.appointmentCharges);
                     $('#address').text(profile.address);
                     $('#timeTo').text(profile.timeTo);
