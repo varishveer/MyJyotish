@@ -796,58 +796,62 @@ namespace MyJyotishGApi.Controllers
                 var httpRequest = HttpContext.Request;
 
                 // Collect Titles
-                List<string> titleList = httpRequest.Form["Title"].ToList();
+                var titleList = httpRequest.Form["Title"];
+                var member = Convert.ToInt32(httpRequest.Form["member"]);
 
                 // Collect Image URLs
-                List<string> urlList = new List<string>();
-                var images = httpRequest.Form.Files;
-
-                // Ensure directory exists for file upload
-                string uploadsFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Jyotish/ProblemSolution");
-                if (!Directory.Exists(uploadsFolderPath))
+                var images = httpRequest.Form.Files["attachment"];
+                if (images != null)
                 {
-                    Directory.CreateDirectory(uploadsFolderPath);
-                }
+                    // Ensure directory exists for file upload
+                    string uploadsFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Jyotish/ProblemSolution");
+                    if (!Directory.Exists(uploadsFolderPath))
+                    {
+                        Directory.CreateDirectory(uploadsFolderPath);
+                    }
 
-                // Process each uploaded file
-                foreach (var image in images)
-                {
+                    // Process each uploaded file
+
                     string uniqueString = Guid.NewGuid().ToString("N").Substring(0, 10);
 
-                    string filePath = Path.Combine(uploadsFolderPath,uniqueString+ image.FileName);
-                    string accessPath = Path.Combine("/Images/Jyotish/ProblemSolution", uniqueString + image.FileName);
+                    string filePath = Path.Combine(uploadsFolderPath, uniqueString + images.FileName);
+                    string accessPath = Path.Combine("/Images/Jyotish/ProblemSolution", uniqueString + images.FileName);
 
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
-                        image.CopyTo(stream);
+                        images.CopyTo(stream);
                     }
-                    urlList.Add(accessPath);
-                }
-
-                // Prepare ViewModel
-                JyotishUserAttachmentViewModel model = new JyotishUserAttachmentViewModel
-                {
-                    UserId = int.Parse(httpRequest.Form["UserId"]),
-                    JyotishId = int.Parse(httpRequest.Form["JyotishId"]),
-                    Title = titleList,
-                    ImageUrl = urlList
-                };
-
-                // Save to Database
-                var result = _jyotish.AddUserAttachment(model);
-                if (result == "Invalid data provided for the attachment.")
-                {
-                    return Ok(new { Status = 400, Message = result });
-                }
-                else if(result == "Failed to save attachments.")
-                {
+                    // Prepare ViewModel
+                    JyotishUserAttachmentViewModel model = new JyotishUserAttachmentViewModel
+                    {
+                        UserId = int.Parse(httpRequest.Form["UserId"]),
+                        JyotishId = int.Parse(httpRequest.Form["JyotishId"]),
+                        Title = titleList,
+                        ImageUrl = filePath,
+                        member = member
+                    };
+                    var result = _jyotish.AddUserAttachment(model);
+                    if (result == "Invalid data provided for the attachment.")
+                    {
+                        return Ok(new { Status = 400, Message = result });
+                    }
+                    else if (result == "Failed to save attachments.")
+                    {
+                        return Ok(new { Status = 500, Message = result });
+                    }
+                    else if (result == "Successful")
+                    {
+                        return Ok(new { Status = 200, Message = result });
+                    }
                     return Ok(new { Status = 500, Message = result });
                 }
-                else if( result == "Successful")
+                else
                 {
-                    return Ok(new { Status = 200, Message = result });
+                    return Ok(new { Status = 400, Message = "Attachment file are required" });
+
                 }
-                return Ok(new { Status = 500, Message = result });
+
+                // Save to Database
             }
             catch (Exception ex)
             {

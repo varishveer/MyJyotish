@@ -320,6 +320,44 @@
         </div>
     </div>
 </div>
+
+<!--Add Attachment-->
+<!-- Modal -->
+<div class="modal fade" id="attachmentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Add Attachment</h1>
+                <button type="button" class="btn-close" id="closeAttachmentModal" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <form id="attachmentForm">
+                            <input type="hidden" name="userId" id="userId" />
+                        <div class="row justify-content-center align-items-end">
+                            <div class="col-sm-5">
+                                <label for="title">Title</label>
+                                <input type="text" id="title" name="title" placeholder="Enter Title" class="form-control" />
+                            </div>
+                            <div class="col-sm-5">
+                                <label for="attachment">Attachment</label>
+                                <input type="file" id="attachment" name="attachment"  class="form-control" />
+                            </div>
+                            <div class="col-sm-2">
+                                <input type="submit" value="Add" class="btn btn-success" />
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Modal for add solution -->
 
 
@@ -333,11 +371,14 @@
             <div class="modal-body">
                 <form id="modalForm">
                     <input type="hidden" name="appointmentId" id="appointmentId" />
+                    <input type="hidden" name="userId" id="userId" />
                     <!-- Search Box and Results List -->
-                    <div class="mb-3">
+                    <div class="mb-3 d-flex gap-2">
                         <select class="form-select" id="selectmember" name="memberId">
                             <option disabled>--select member--</option>
                         </select>
+                            
+                        <button role="button" type="button" class="btn btn-secondary" id="attachmentModaltrigger"><i class="fa-solid fa-paperclip"></i></button>
                     </div>
 
                     <!-- Problem Section with Add More Feature -->
@@ -413,7 +454,70 @@
 </div>
 
 <script>
-        // Fetch and display all appointments on page load
+    $("#attachmentModaltrigger").click(function () {
+        $("#staticBackdrop").modal("hide")
+        $("#attachmentModal").modal("show")
+    });
+    $("#closeAttachmentModal").on("click", function () {
+        $("#staticBackdrop").modal("show")
+
+    })
+
+    $("#attachmentForm").submit(function(e){
+        e.preventDefault();
+        let formData =new FormData();
+        let arrayData=$(this).serializeArray();
+        arrayData.push("jyotishId",localStorage.getItem("Id"))
+        arrayData.push("member", $("#selectmember").val())
+        arrayData.push("userId", $("#userId").val())
+        arrayData.forEach(function(d)
+        {
+            formData.append(d.name, d.value);
+        })
+        Swal.fire({
+            title: "Processing Your Request",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
+        var Id = localStorage.getItem('Id');
+        $.ajax({
+            url: BaseUrl + `Api/Jyotish/AddUserAttachment`,
+            method: 'Post',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+            },
+            processData:false,
+            contentType:false,
+            data: formData,
+            success: function (result) {
+                if(result.status==200){
+                     Swal.fire({
+                    title: "success",
+                    text:result.message,
+                    icon: "success",
+
+                });
+                }else{
+                    Swal.fire({
+                        title: "warning",
+                        text: result.message,
+                        icon: "warning",
+                    })
+                }
+            },error:function(){
+                Swal.fire({
+                    title: "error",
+                    text: "some error occured",
+                    icon: "error",
+
+                });
+            }
+        })
+    })
+
+    // Fetch and display all appointments on page load
     let appointmentslots=[]
     let upcommingAppointment=[];
     let newAppointmentArray = [];
@@ -561,6 +665,9 @@
         $("#exampleModalToggle").modal("show")
 
     })
+
+
+   
     function reverseDate(dateString) {
         // Check if the date string is in the correct format (DD-MM-YYYY)
         const datePattern = /^\d{2}-\d{2}-\d{4}$/;
@@ -807,6 +914,7 @@
             data: { Id: UId},
             success: function (result) {
                 if (result.status == 200) {
+                    $("#userId").val(UId)
                     $("#appointmentId").val(appId)
                         $("#selectmember").append(`
                                          <option value='0'>${result.data.userName} </option>

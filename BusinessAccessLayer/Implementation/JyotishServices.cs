@@ -1338,25 +1338,23 @@ namespace BusinessAccessLayer.Implementation
             try
             {
                 // Validate model data
-                if (model.JyotishId <= 0 || model.UserId <= 0 || model.ImageUrl == null || !model.ImageUrl.Any()|| model.ImageUrl.Count>5)
+                if (model.JyotishId <= 0 || model.UserId <= 0 || model.ImageUrl == null )
                 {
                     return "Invalid data provided for the attachment.";
                 }
 
-
-                // Keep Titles synchronized with Image URLs
-                for (int i = 0; i < model.ImageUrl.Count; i++)
-                {
                     var attachmentRecord = new JyotishUserAttachmentModel
                     {
                         JyotishId = model.JyotishId,
                         UserId = model.UserId,
-                        Image = model.ImageUrl[i],
-                        Title = i < model.Title.Count ? model.Title[i] : null // Use Title if available
+                        Image = model.ImageUrl,
+                        Title = model.Title,
+                        memberId = model.member!=0?model.member:null
+                        
                     };
 
                     _context.JyotishUserAttachmentRecord.Add(attachmentRecord);
-                }
+                
 
                 return _context.SaveChanges() > 0 ? "Successful" : "Failed to save attachments.";
             }
