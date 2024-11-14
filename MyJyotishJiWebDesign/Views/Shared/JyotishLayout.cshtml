@@ -517,7 +517,7 @@
             fetch(apiUrl, { headers: headers })
                 .then(response => {
                     if (response.status == 400) {
-                        $(NotificationNewText).hide();
+                        $('NotificationNewText').hide();
                         throw new Error('Network response was not ok');
                     }
                     return response.json();  // Parse the JSON data from the response
