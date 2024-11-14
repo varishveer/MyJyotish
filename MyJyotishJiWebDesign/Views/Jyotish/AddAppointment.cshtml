@@ -5,6 +5,7 @@
 }
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <style>
     .main-container {
         overflow: hidden;
@@ -181,7 +182,7 @@
         function fetchSlotsForDate(date) {
             // Clear previous slot options
             $('#slotSelect').empty();
-            $('#slotSelect').append('<option value="">Loading slots...</option>');
+            $('#slotSelect').append('<option value="" disable>Select a slot</option>');
 
             // Fetch slots based on the selected date
             $.ajax({
@@ -236,98 +237,108 @@
 
         // ---------------------------------------------
 
-        $('#appointmentForm').on('submit', function (event) {
-             
-            event.preventDefault(); // Prevent default form submission
-            Swal.fire({
-                title: "Processing Your Request",
-                didOpen: () => {
-                    Swal.showLoading();
-                }
-            })
 
-            // Capture form data
+
+        function finalSubmit() {
+            debugger;
+            let Email = $('#email').val();
+            let Name = $('#name').val();
+            let Mobile = $('#mobile').val();
+            let JyotishId = localStorage.getItem('Id');
+            let Problem = $('#problem').val();
+            let SlotId = $('#slotSelect').val();
+
             var formData = {
-              
-                email: $('#email').val(),
-                name: $('#name').val(),
-                mobile: $('#mobile').val(),
-                jyotishId: localStorage.getItem('Id'),
-                problem: $('#problem').val(),
-                slotId: $('#slotSelect').val(),
-              
+                email: Email,
+                name: Name,
+                mobile: Mobile,
+                jyotishId: JyotishId,
+                problem: Problem,
+                slotId: SlotId,
             };
-             
-            // Send data using AJAX
-            $.ajax({
-                url: BaseUrl+ 'Api/Jyotish/AddAppointment', // Replace with your API endpoint
-                type: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem("Token2")}`, // Example of an authorization header
-                    'Content-Type': 'application/json', // Example of a content type header
 
-                },
-                data: JSON.stringify(formData),
-                contentType: 'application/json; charset=utf-8',
-                dataType: 'json',
-               
-                success: function (response) {
-                    if (response.status === 200) {
-                        Swal.fire({
-                            title: "Successful!",
-                            text: "Appointment booked successfully!",
-                            icon: "success",
+            let checkValidation = true;
 
-                            showConfirmButton: true,
-                        }).then(() => {
+            if (Email == "" || Name == "" || Mobile == "" || JyotishId == "" || Problem == "" ||  SlotId == "") {
+                checkValidation = false;
+                Swal.fire({
+                    title: "Warning!",
+                    text: "Please fill in all the required fields.",
+                    icon: "warning",
+                    confirmButtonText: "OK",
+                    showCancelButton: false,  
+                    showConfirmButton: true
+                    
+                });
+            }
 
-
-                            location.reload();
-
-                        });
-                        
-                        
-                        
-                        }
-                    else if (response.status === 400) {
-                        Swal.fire({
-                            title: "Invalid Data!",
-                            text: "Please enter correct data",
-                            icon: "warning",
-
-                            showConfirmButton: true, 
-                        });
-                        
-
-
-                       
+            if (checkValidation) {
+                Swal.fire({
+                    title: "Processing Your Request",
+                    didOpen: () => {
+                        Swal.showLoading();
                     }
-                    else {
-
+                });
+                $.ajax({
+                    url: BaseUrl + 'Api/Jyotish/AddAppointment',
+                    type: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+                        'Content-Type': 'application/json',
+                    },
+                    data: JSON.stringify(formData),
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.status === 200) {
+                            Swal.fire({
+                                title: "Successful!",
+                                text: "Appointment booked successfully!",
+                                icon: "success",
+                                confirmButtonText: "OK",
+                            }).then(() => {
+                                location.reload();
+                            });
+                        } else if (response.status === 400) {
+                            Swal.fire({
+                                title: "Invalid Data!",
+                                text: "Please enter correct data",
+                                icon: "warning",
+                                confirmButtonText: "OK",
+                            });
+                        } else {
+                            Swal.fire({
+                                title: "Something went wrong.",
+                                text: "Please try again later.",
+                                icon: "error",
+                                confirmButtonText: "OK",
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error submitting form:', error, status, xhr);
                         Swal.fire({
                             title: "Something went wrong.",
                             text: "Please try again later.",
                             icon: "error",
-
-                            showConfirmButton: true, // Ensure the OK button is shown
+                            confirmButtonText: "OK",
                         });
-                       
                     }
+                });
+            }
+        }
 
-                },
-                error: function (xhr, status, error) {
-                    console.error('Error submitting form:', error, status, xhr);
-                    Swal.fire({
-                        title: "Something went wrong.",
-                        text: "Please try again later.",
-                        icon: "error",
+        // Handle form submission
+        $('#appointmentForm').on('submit', function (event) {
+            event.preventDefault(); // Prevent default form submission
 
-                        showConfirmButton: true, // Ensure the OK button is shown
-                    });
-                  
-                }
-            });
+            // Show loading state while processing
+            
+
+            // Call finalSubmit to handle the actual submission
+            finalSubmit();
         });
+
     });
 </script>
 

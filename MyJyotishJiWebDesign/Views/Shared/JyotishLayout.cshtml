@@ -299,8 +299,13 @@
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                            
-                            <span class=" d-lg-inline-flex"></span>
-                            <i class="fa fa-bell me-lg-2"></i>
+                            
+                            <i class="fa fa-bell me-lg-2  position-relative">
+                                <span id="NotificationNewText" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="letter-spacing: 2px;">
+                                    New
+                                    </span>
+                                    <span class="visually-hidden">unread messages</span>
+                            </i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
                             <div id="notificationData">
@@ -468,7 +473,7 @@
        
     }
 
-    /* Time Duration Badge */
+    /* Time Duration Badge 
     .notification-duration {
       
         font-weight: 500;
@@ -476,7 +481,7 @@
         border-radius: 20px;
         margin-top: 0px;
     }
-
+            */
     /* Small text under each notification */
     .notification-small {
         font-size: 0.85rem;
@@ -511,7 +516,8 @@
             // Make the API call using fetch()
             fetch(apiUrl, { headers: headers })
                 .then(response => {
-                    if (!response.ok) {
+                    if (response.status == 400) {
+                        $(NotificationNewText).hide();
                         throw new Error('Network response was not ok');
                     }
                     return response.json();  // Parse the JSON data from the response
@@ -519,7 +525,7 @@
                 .then(data => {
                     // Get the container where you want to insert the notification data
                     const notificationDataContainer = document.getElementById('notificationData');
-
+                    
                     // Iterate over each notification data item
                     data.data.forEach(item => {
                         // Create the notification item <a> element
@@ -529,17 +535,20 @@
 
                         const shortName = item.name.length > 15 ? item.name.substring(0, 15) + '...' : item.name;
                         notificationItem.innerHTML = `
-                        <div class="d-flex"> 
-                            <div class="left">
+                               <div class="d-flex p-1 mb-2 bg-light rounded shadow-sm">
+                                    <div class="left me-3">
                                         <h6 class="notification-name">${shortName}</h6>
-                                <small class="notification-time">${item.appointmentDate} at ${item.appointmentTime}</small>
-                            </div>
-                            <div class="right ms-1">
-                                <small class="notification-booking-date">${item.bookingDate}</small>
-                                <br/>
-                                        <div class="notification-duration btn btn-success ">${item.timeDuration} minutes</div>
-                            </div>
-                        </div>
+                                        <small class="notification-time">${item.appointmentDate} at ${item.appointmentTime}</small>
+                                    </div>
+                                    <div class="right ms-1">
+                                        <small class="notification-booking-date">${item.bookingDate}</small>
+                                        <br/>
+                                        <div class="justify-content-center d-flex">
+                                                                    <button class=" btn btn-success fs-6 py-0 px-1 m-0 rounded-lg">${item.timeDuration} min</button>
+                                        </div>
+                                    </div>
+                                </div>
+
                     `;
 
                         // Append the notification item to the container
