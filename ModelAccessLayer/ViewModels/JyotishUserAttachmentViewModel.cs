@@ -14,7 +14,7 @@ namespace ModelAccessLayer.ViewModels
         public int JyotishId { get; set;  }
         public int  UserId { get; set; }
         public int member { get; set; }
-        public int appointmentId { get;set }
+        public int appointmentId { get; set; }
         public string Title { get; set; }
         public string ImageUrl { get; set; }
     }

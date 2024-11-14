@@ -842,7 +842,7 @@ namespace MyJyotishGApi.Controllers
                     }
                     else if (result == "Successful")
                     {
-                        return Ok(new { Status = 200, Message = result });
+                        return Ok(new { Status = 200, Message = "Attachment Added Successfully" });
                     }
                     return Ok(new { Status = 500, Message = result });
                 }

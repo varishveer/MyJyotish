@@ -518,7 +518,7 @@
             // Make the API call using fetch()
             fetch(apiUrl, { headers: headers })
                 .then(response => {
-                    if (!response.ok) {
+                    if (response.status !== 200 ) {
                         throw new Error('Network response was not ok');
                     }
                     return response.json();  // Parse the JSON data from the response

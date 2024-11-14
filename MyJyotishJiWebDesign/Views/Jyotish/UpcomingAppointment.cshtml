@@ -491,15 +491,15 @@
         e.preventDefault();
         let formData =new FormData();
         let arrayData=$(this).serializeArray();
-        arrayData.push("jyotishId",localStorage.getItem("Id"))
-        arrayData.push("member", $("#selectmember").val())
-        arrayData.push("userId", $("#userId").val())
-        arrayData.push("appointmentId", $("#appointmentId").val())
-        arrayData.push("attachment", $("#attachment").files[0])
+        arrayData.push({name:"jyotishId",value:localStorage.getItem("Id")})
+        arrayData.push({name:"member", value:$("#selectmember").val()})
+        arrayData.push({name:"appointmentId",value: $("#appointmentId").val()})
+        arrayData.push({name:"attachment", value:$("#attachment").get(0).files[0]})
         arrayData.forEach(function(d)
         {
             formData.append(d.name, d.value);
         })
+        debugger
         Swal.fire({
             title: "Processing Your Request",
             allowOutsideClick: false,

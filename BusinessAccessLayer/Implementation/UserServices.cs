@@ -263,6 +263,7 @@ namespace BusinessAccessLayer.Implementation
             appointment.Amount = Jyotish.AppointmentCharges;
             appointment.Status = "Upcomming";
             Slot.Status = "Booked";
+            appointment.ArrivedStatus = 0;
             _context.AppointmentSlots.Update(Slot);
             _context.AppointmentRecords.Add(appointment);
             var result = _context.SaveChanges();

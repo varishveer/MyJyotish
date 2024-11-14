@@ -113,9 +113,9 @@
                     $('#documentButton').attr('href', `/Admin/JyotishDocs?id=${data.id}`);
                     $('#about').html(data.about.slice(0, 200) + `...<span class='text-primary' onClick='SeemoreAbout()' role='button'>more</span>`);
                     const approveButton = document.querySelector('.approveButton');
-                    const rejectButton = document.querySelector('.rejectButton');
+                   
                     approveButton.setAttribute('data-id', data.id);
-                    rejectButton.setAttribute('data-id', data.id);
+                  
 
                     if (data.call == true) { var Call = "Yes"; }
                     else { var Call = "No"; }
