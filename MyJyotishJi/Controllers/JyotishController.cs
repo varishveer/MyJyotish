@@ -813,8 +813,8 @@ namespace MyJyotishGApi.Controllers
                     // Process each uploaded file
 
                     string uniqueString = Guid.NewGuid().ToString("N").Substring(0, 10);
-
-                    string filePath = Path.Combine(uploadsFolderPath, uniqueString + images.FileName);
+                    var filename = uniqueString + images.FileName;
+                    string filePath = Path.Combine(uploadsFolderPath, filename);
                     string accessPath = Path.Combine("/Images/Jyotish/ProblemSolution", uniqueString + images.FileName);
 
                     using (var stream = new FileStream(filePath, FileMode.Create))
@@ -828,7 +828,7 @@ namespace MyJyotishGApi.Controllers
                         JyotishId = int.Parse(httpRequest.Form["jyotishId"]),
                         appointmentId = int.Parse(httpRequest.Form["appointmentId"]),
                         Title = titleList,
-                        ImageUrl = filePath,
+                        ImageUrl = accessPath,
                         member = member
                     };
                     var result = _jyotish.AddUserAttachment(model);
@@ -871,6 +871,25 @@ namespace MyJyotishGApi.Controllers
                 if (result == null || result.Count == 0)
                 {
                     return Ok(new { Status = 404, Message = "No attachments found for the provided JyotishId." });
+                }
+
+                return Ok(new { Status = 200, Data = result, Message = "Successful" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message });
+            }
+        }
+        [HttpGet("GetAllUserAttachmentsByAppointmentId")]
+        public IActionResult GetAllUserAttachmentsByAppointment(int Id,int memberId)
+        {
+            try
+            {
+                var result = _jyotish.GetAttachmentByAppointment(Id,memberId);
+
+                if (result == null || result.Count == 0)
+                {
+                    return Ok(new { Status = 404, Message = "No attachments found " });
                 }
 
                 return Ok(new { Status = 200, Data = result, Message = "Successful" });

@@ -135,7 +135,7 @@ namespace BusinessAccessLayer.Implementation
 
             // Fetch appointment records for the given Jyotish and filter by future dates
             var allRecords = _context.AppointmentRecords
-     .Where(record => record.JyotishId == Id )
+     .Where(record => record.JyotishId == Id)
      .Join(_context.Users,
            record => record.UserId,
            user => user.Id,
@@ -242,7 +242,7 @@ namespace BusinessAccessLayer.Implementation
 
 
             appointment.Status = "Upcomming";
-            appointment.ArrivedStatus =0;
+            appointment.ArrivedStatus = 0;
             _context.AppointmentRecords.Update(appointment);
 
             if (_context.SaveChanges() > 0) { return "Successful"; }
@@ -822,7 +822,7 @@ namespace BusinessAccessLayer.Implementation
                 on appointmentRecords.UserId equals user.Id
                 join slots in _context.AppointmentSlots on appointmentRecords.SlotId equals slots.Id
                 where (appointmentRecords.JyotishId == jyotishId
-                && DateTime.Compare(slots.Date.Date, DateTime.Now.Date) == 0 )
+                && DateTime.Compare(slots.Date.Date, DateTime.Now.Date) == 0)
                 select new
                 {
                     appId = appointmentRecords.Id,
@@ -844,7 +844,7 @@ namespace BusinessAccessLayer.Implementation
         }
 
 
-        public dynamic GetAllUpcommingAppointment (int jyotishId)
+        public dynamic GetAllUpcommingAppointment(int jyotishId)
         {
             var result = (
                 from appointmentRecords in _context.AppointmentRecords
@@ -852,10 +852,10 @@ namespace BusinessAccessLayer.Implementation
                     on appointmentRecords.UserId equals user.Id
                 join slots in _context.AppointmentSlots
                     on appointmentRecords.SlotId equals slots.Id
-                
+
                 where (appointmentRecords.JyotishId == jyotishId
                        && DateTime.Compare(slots.Date.Date, DateTime.Now.Date) >= 0)
-                       orderby appointmentRecords.Id descending
+                orderby appointmentRecords.Id descending
                 select new
                 {
                     Id = appointmentRecords.Id,
@@ -868,12 +868,12 @@ namespace BusinessAccessLayer.Implementation
                     appoinDate = slots.Date.ToString("dd-MM-yyyy"),
                     appoinTimeFrom = slots.TimeFrom,
                     appoinTimeTo = slots.TimeTo,
-                    amount=appointmentRecords.Amount,
-                    arriveStatus=appointmentRecords.ArrivedStatus,
-                    currentDate=DateTime.Now.ToString("dd-MM-yyyy"),
+                    amount = appointmentRecords.Amount,
+                    arriveStatus = appointmentRecords.ArrivedStatus,
+                    currentDate = DateTime.Now.ToString("dd-MM-yyyy"),
                     memberList = (
             from m in _context.ClientMembers
-            where m.UId == appointmentRecords.UserId && m.status==1
+            where m.UId == appointmentRecords.UserId && m.status == 1
             select new
             {
                 memberId = m.Id,
@@ -937,14 +937,14 @@ namespace BusinessAccessLayer.Implementation
             return result;
         }
 
-        public bool updateArrivedClient(int appointmentId,int jyotishId)
+        public bool updateArrivedClient(int appointmentId, int jyotishId)
         {
             var jyotish = _context.JyotishRecords.Where(e => e.Id == jyotishId).FirstOrDefault();
             if (jyotish == null)
             {
                 return false;
             }
-            var appointentDetail = _context.AppointmentRecords.Where(e=>e.Id==appointmentId).FirstOrDefault();
+            var appointentDetail = _context.AppointmentRecords.Where(e => e.Id == appointmentId).FirstOrDefault();
             if (appointentDetail != null)
             {
                 appointentDetail.ArrivedStatus = 1;
@@ -962,13 +962,13 @@ namespace BusinessAccessLayer.Implementation
             {
                 return false;
             }
-}
+        }
 
-       
+
 
         public string AddProblemSolution(ProblemSolutionViewModel model)
         {
-            if (model == null )
+            if (model == null)
             {
                 return "No data provided";
             }
@@ -984,13 +984,13 @@ namespace BusinessAccessLayer.Implementation
             //{
             //    return "Appointment is Upcoming";
             //}
-            if (model.Problem.Length > 10 ) 
+            if (model.Problem.Length > 10)
             {
                 return "Problem or Solution Limit Exceed";
             }
             string member = model.memberId != 0 ? model.memberId.ToString() : null;
             var isValid = _context.ProblemSolution.Where(x => x.AppointmentId == model.AppointmentId && x.memberId.ToString() == member).FirstOrDefault();
-            if(isValid != null)
+            if (isValid != null)
             {
                 return "Record Already Present.";
             }
@@ -1000,11 +1000,11 @@ namespace BusinessAccessLayer.Implementation
                 problems += it + "$%^";
             }
 
-           
+
             ProblemSolutionModel data = new ProblemSolutionModel
             {
                 AppointmentId = appointment.Id,
-                memberId = model.memberId==0?null:model.memberId,
+                memberId = model.memberId == 0 ? null : model.memberId,
                 Problem = problems,
                 Solution = model.Solution
             };
@@ -1051,12 +1051,12 @@ namespace BusinessAccessLayer.Implementation
             if (Appointment != null)
             {
                 var clientMember = (
-                    from  user in _context.Users 
+                    from user in _context.Users
                     where user.Id == Id // Adjust where clause for null check
                     select new
                     {
-                        uId=user.Id,
-                        userName=user.Name,
+                        uId = user.Id,
+                        userName = user.Name,
                         memberList = (
             from m in _context.ClientMembers
             where m.UId == Id && m.status == 1
@@ -1085,27 +1085,27 @@ namespace BusinessAccessLayer.Implementation
 
         public ProblemSolutionJyotishGetViewModel GetProblemSolution(int appointmentId)
         {
-           
+
 
             var Appointment = _context.AppointmentRecords.Where(x => x.Id == appointmentId).FirstOrDefault();
-            if (appointmentId == 0 || Appointment ==null)
+            if (appointmentId == 0 || Appointment == null)
             {
                 return null;
             }
 
-            var User = _context.Users.Where(x => x.Id == Appointment.UserId).FirstOrDefault(); 
+            var User = _context.Users.Where(x => x.Id == Appointment.UserId).FirstOrDefault();
 
-           var record = _context.ProblemSolution.Where(x => x.AppointmentId == appointmentId).FirstOrDefault();
-            if(record == null)
+            var record = _context.ProblemSolution.Where(x => x.AppointmentId == appointmentId).FirstOrDefault();
+            if (record == null)
             {
                 return null;
             }
 
             string problemString = record.Problem;
             string SolutionString = record.Solution;
-          
+
             string[] problemArray = problemString.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries);
-            
+
 
 
             ProblemSolutionJyotishGetViewModel Result = new ProblemSolutionJyotishGetViewModel
@@ -1115,7 +1115,7 @@ namespace BusinessAccessLayer.Implementation
                 AppointmentId = (int)record.AppointmentId,
                 UserId = User.Id,
                 UserName = User.Name,
-                
+
                 Problem = problemArray,
                 Solution = SolutionString
 
@@ -1143,17 +1143,17 @@ namespace BusinessAccessLayer.Implementation
                     Date = x.AppointmentSlot != null ? DateOnly.FromDateTime(x.AppointmentSlot.Date) : DateOnly.MinValue,
                     Time = x.AppointmentSlot != null ? x.AppointmentSlot.TimeFrom : TimeOnly.MinValue,
                     AppointmentId = x.ProblemSolution.AppointmentId
-                })    
+                })
                 .ToList();
 
             return data;
         }
-        public List<ProblemSolutionJyotishGetAllViewModel> GetAllProblemSolutionByUser(int jyotishId ,int UId)
+        public List<ProblemSolutionJyotishGetAllViewModel> GetAllProblemSolutionByUser(int jyotishId, int UId)
         {
             var data = _context.ProblemSolution
                 .Include(x => x.Appointment)
                     .ThenInclude(y => y.UserRecord)
-                .Where(x => x.Appointment.JyotishId == jyotishId && x.Appointment.UserId==UId)
+                .Where(x => x.Appointment.JyotishId == jyotishId && x.Appointment.UserId == UId)
                 .Select(x => new
                 {
                     ProblemSolution = x,
@@ -1167,56 +1167,56 @@ namespace BusinessAccessLayer.Implementation
                     Date = x.AppointmentSlot != null ? DateOnly.FromDateTime(x.AppointmentSlot.Date) : DateOnly.MinValue,
                     Time = x.AppointmentSlot != null ? x.AppointmentSlot.TimeFrom : TimeOnly.MinValue,
                     AppointmentId = x.ProblemSolution.AppointmentId
-                })    
+                })
                 .ToList();
 
             return data;
         }
 
-       
-            public dynamic GetProblemSolutionDetail(int appointmentId)
+
+        public dynamic GetProblemSolutionDetail(int appointmentId)
+        {
+
+
+            var Appointment = _context.AppointmentRecords.Where(x => x.Id == appointmentId).FirstOrDefault();
+            if (appointmentId == 0 || Appointment == null)
             {
-
-
-                var Appointment = _context.AppointmentRecords.Where(x => x.Id == appointmentId).FirstOrDefault();
-                if (appointmentId == 0 || Appointment == null)
-                {
-                    return null;
-                }
-
-                var User = _context.Users.Where(x => x.Id == Appointment.UserId).FirstOrDefault();
-
-                var record = (
-                     from problem in _context.ProblemSolution
-                     join appointment in _context.AppointmentRecords on problem.AppointmentId equals appointment.Id
-                     join slot in _context.AppointmentSlots on appointment.SlotId equals slot.Id
-                     join user in _context.Users on appointment.UserId equals user.Id
-                     // Perform a left join on ClientMembers
-                     join member in _context.ClientMembers on problem.memberId equals member.Id into memberGroup
-                     from member in memberGroup.DefaultIfEmpty() // This allows for the left join behavior
-                     where problem.AppointmentId == appointmentId
-                   
-                     select new
-                     {
-                         problemId = problem.Id,
-                         problems = problem.Problem.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries),
-                         solution = problem.Solution,
-                         appointmentId = appointment.Id,
-                         appointmentDate = slot.Date.ToString("dd-MM-yyyy"),
-                         appointmentTime = slot.TimeFrom,
-                         duration = slot.TimeDuration,
-                         UId = user.Id,
-                         userName = user.Name,
-                         currentDate =DateTime.Now,
-                         memberName = member != null ? member.Name : null,
-                         memberReltion = member != null ? member.relation : null,
-                     }
-                     ).ToList();
-
-
-
-                return record;
+                return null;
             }
+
+            var User = _context.Users.Where(x => x.Id == Appointment.UserId).FirstOrDefault();
+
+            var record = (
+                 from problem in _context.ProblemSolution
+                 join appointment in _context.AppointmentRecords on problem.AppointmentId equals appointment.Id
+                 join slot in _context.AppointmentSlots on appointment.SlotId equals slot.Id
+                 join user in _context.Users on appointment.UserId equals user.Id
+                 // Perform a left join on ClientMembers
+                 join member in _context.ClientMembers on problem.memberId equals member.Id into memberGroup
+                 from member in memberGroup.DefaultIfEmpty() // This allows for the left join behavior
+                 where problem.AppointmentId == appointmentId
+
+                 select new
+                 {
+                     problemId = problem.Id,
+                     problems = problem.Problem.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries),
+                     solution = problem.Solution,
+                     appointmentId = appointment.Id,
+                     appointmentDate = slot.Date.ToString("dd-MM-yyyy"),
+                     appointmentTime = slot.TimeFrom,
+                     duration = slot.TimeDuration,
+                     UId = user.Id,
+                     userName = user.Name,
+                     currentDate = DateTime.Now,
+                     memberName = member != null ? member.Name : null,
+                     memberReltion = member != null ? member.relation : null,
+                 }
+                 ).ToList();
+
+
+
+            return record;
+        }
 
 
 
@@ -1340,30 +1340,44 @@ namespace BusinessAccessLayer.Implementation
             try
             {
                 // Validate model data
-                if (model.JyotishId <= 0 || model.UserId <= 0 || model.ImageUrl == null )
+                if (model.JyotishId <= 0 || model.UserId <= 0 || model.ImageUrl == null)
                 {
                     return "Invalid data provided for the attachment.";
                 }
 
-                    var attachmentRecord = new JyotishUserAttachmentModel
-                    {
-                        JyotishId = model.JyotishId,
-                        UserId = model.UserId,
-                        Image = model.ImageUrl,
-                        Title = model.Title,
-                        AppointmentId = model.appointmentId,
-                        MemberId = model.member!=0?model.member:null
-                        
-                    };
+                var attachmentRecord = new JyotishUserAttachmentModel
+                {
+                    JyotishId = model.JyotishId,
+                    UserId = model.UserId,
+                    Image = model.ImageUrl,
+                    Title = model.Title,
+                    AppointmentId = model.appointmentId,
+                    MemberId = model.member != 0 ? model.member : null
 
-                    _context.JyotishUserAttachmentRecord.Add(attachmentRecord);
-                
+                };
+
+                _context.JyotishUserAttachmentRecord.Add(attachmentRecord);
+
 
                 return _context.SaveChanges() > 0 ? "Successful" : "Failed to save attachments.";
             }
             catch (Exception)
             {
                 return "Internal Server Error";
+            }
+        }
+
+        public dynamic GetAttachmentByAppointment(int appointmentId,int memberId)
+        {
+            if (appointmentId != 0)
+            {
+                 string member = memberId != 0 ? memberId.ToString() : null;
+                var res = _context.JyotishUserAttachmentRecord.Where(e => e.AppointmentId == appointmentId && e.MemberId.ToString()== member).OrderByDescending(e => e.Id).ToList();
+                return res;
+            }
+            else
+            {
+                return "invalid Request";
             }
         }
 
