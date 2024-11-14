@@ -99,7 +99,7 @@ namespace DataAccessLayer.DbServices
             modelBuilder.Entity<ClientMembers>().HasOne(c => c.user).WithMany(j => j.memebers).HasForeignKey(c => c.UId);
 
             modelBuilder.Entity<ProblemSolutionModel>().HasOne(c => c.Member).WithMany(j => j.Solution).HasForeignKey(c => c.memberId);
-            modelBuilder.Entity<JyotishUserAttachmentModel>().HasOne(c => c.member).WithMany(j => j.Attachment).HasForeignKey(c => c.memberId);
+            modelBuilder.Entity<JyotishUserAttachmentModel>().HasOne(c => c.Member).WithMany(j => j.Attachment).HasForeignKey(c => c.MemberId);
 
             modelBuilder.Entity<ProblemSolutionModel>().HasOne(c => c.Member).WithMany(j => j.Solution).HasForeignKey(c => c.memberId);
             modelBuilder.Entity<AppointmentSlotModel>()
@@ -118,6 +118,11 @@ namespace DataAccessLayer.DbServices
                 .HasOne(c => c.JyotishData)
                 .WithMany(j => j.AppointmentSlotData)
                 .HasForeignKey(c => c.JyotishId);
+            
+            modelBuilder.Entity<JyotishUserAttachmentModel>()
+                .HasOne(c => c.Appointment)
+                .WithMany(j => j.JyotishUserAttachmentRecords)
+                .HasForeignKey(c => c.AppointmentId);
                 
 
         }
