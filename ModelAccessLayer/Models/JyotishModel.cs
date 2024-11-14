@@ -62,6 +62,8 @@ namespace ModelAccessLayer.Models
         public string? Rating { get; set; }
         public string? SuccessRate { get; set; }
         public int? Pincode { get; set; }
+
+        public string? Message { get; set; }
         // public int? TempRecordId { get; set; }
 
         [JsonIgnore]

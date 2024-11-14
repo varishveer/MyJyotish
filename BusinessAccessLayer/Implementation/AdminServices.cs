@@ -135,6 +135,7 @@ namespace BusinessAccessLayer.Implementation
             { return false; }
             Jyotish.ApprovedStatus = "Rejected";
             Jyotish.Status =false;
+            Jyotish.Message = model.Message;
             _context.JyotishRecords.Update(Jyotish);
             var result = _context.SaveChanges();
             if (result > 0) 

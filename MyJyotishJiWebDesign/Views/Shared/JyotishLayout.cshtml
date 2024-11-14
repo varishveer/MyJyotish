@@ -342,8 +342,8 @@
             <!-- Navbar End -->
             
                 <script>
-                      //var BaseUrl = "https://api.myjyotishg.in/"
-               var BaseUrl = "https://localhost:7118/"
+                      var BaseUrl = "https://api.myjyotishg.in/"
+               //var BaseUrl = "https://localhost:7118/"
                 </script>
               
            
@@ -425,7 +425,8 @@
             fetch(apiUrl, { headers: headers })
                 .then(response => {
                     if (response.status == 400) {
-                        $('NotificationNewText').hide();
+
+                        $('#NotificationNewText').hide();
                         throw new Error('Network response was not ok');
                     }
                     return response.json();  // Parse the JSON data from the response
@@ -443,19 +444,25 @@
 
                         const shortName = item.name.length > 15 ? item.name.substring(0, 15) + '...' : item.name;
                         notificationItem.innerHTML = `
-                               <div class="d-flex p-1 mb-2 bg-light rounded shadow-sm">
-                                    <div class="left me-3">
-                                        <h6 class="notification-name">${shortName}</h6>
-                                        <small class="notification-time">${item.appointmentDate} at ${item.appointmentTime}</small>
-                                    </div>
-                                    <div class="right ms-1">
-                                        <small class="notification-booking-date">${item.bookingDate}</small>
-                                        <br/>
-                                        <div class="justify-content-center d-flex">
-                                                                    <button class=" btn btn-success fs-6 py-0 px-1 m-0 rounded-lg">${item.timeDuration} min</button>
+
+                                      <div class="p-1 mb-2 bg-light rounded shadow-sm">
+                                         <a href="/Jyotish/UpcomingAppointment" class="w-100">
+                                         <div class="d-flex">
+                                                <div class="left me-3">
+                                                    <h6 class="notification-name">${shortName}</h6>
+                                                    <small class="notification-time">${item.appointmentDate} at ${item.appointmentTime}</small>
+                                                </div>
+                                                <div class="right ms-1">
+                                                    <small class="notification-booking-date">${item.bookingDate}</small>
+                                                    <br/>
+                                                    <div class="justify-content-center d-flex">
+                                                        <button class="btn btn-success fs-6 py-0 px-1 m-0 rounded-lg">${item.timeDuration} min</button>
+                                                    </div>
+                                                </div>
+                                                        </div>
+                                            </a>
                                         </div>
-                                    </div>
-                                </div>
+
 
                     `;
 

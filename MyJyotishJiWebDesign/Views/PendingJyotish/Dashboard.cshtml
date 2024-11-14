@@ -501,7 +501,7 @@
     <div class="border border-danger bg-light p-3 rounded" style="width: 80%; max-width: 600px;">
         
         <h4 class="text-danger">Your Profile Has Been Rejected</h4>
-        <p class="text-danger">Unfortunately, your profile submission has been rejected. Please review your information and try again. If you need further assistance, feel free to contact support.</p>
+        <p class="text-danger" id="RejectedMessage">Unfortunately, your profile submission has been rejected. Please review your information and try again. If you need further assistance, feel free to contact support.</p>
       
 
     </div>
@@ -649,6 +649,7 @@
                     $('#dashboardAlternateDiv').addClass('d-none');
                    
                         getJyotishSlotDetails()
+
                     Swal.close();
                     } else {
                         // Handle invalid Jyotish case
