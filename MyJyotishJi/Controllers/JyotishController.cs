@@ -796,7 +796,7 @@ namespace MyJyotishGApi.Controllers
                 var httpRequest = HttpContext.Request;
 
                 // Collect Titles
-                var titleList = httpRequest.Form["Title"];
+                var titleList = httpRequest.Form["title"];
                 var member = Convert.ToInt32(httpRequest.Form["member"]);
 
                 // Collect Image URLs
@@ -824,8 +824,9 @@ namespace MyJyotishGApi.Controllers
                     // Prepare ViewModel
                     JyotishUserAttachmentViewModel model = new JyotishUserAttachmentViewModel
                     {
-                        UserId = int.Parse(httpRequest.Form["UserId"]),
-                        JyotishId = int.Parse(httpRequest.Form["JyotishId"]),
+                        UserId = int.Parse(httpRequest.Form["userId"]),
+                        JyotishId = int.Parse(httpRequest.Form["jyotishId"]),
+                        appointmentId = int.Parse(httpRequest.Form["appointmentId"]),
                         Title = titleList,
                         ImageUrl = filePath,
                         member = member
