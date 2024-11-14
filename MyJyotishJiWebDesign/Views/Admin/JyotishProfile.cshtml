@@ -77,9 +77,8 @@
         <div class="d-flex my-2 justify-content-center gap-2">
             
             <button class="approveButton btn btn-success btn-sm ">Approve</button>
-            <button class="rejectButton  btn btn-danger btn-sm">Reject</button>
-           @*  <i class="fas fa-check "></i>
-            <i class="fas fa-times rejectButton fs-3 px-2 text-danger"></i> *@
+            <button type="button" class="btn btn-danger btn-sm"  data-toggle="modal" data-target="#rejectedJyotishModal">Reject</button>
+     
         </div>
        
         <h6 class="fw-light mt-3">About</h6>
@@ -207,7 +206,7 @@
                             <div class="col-md-6">
                                 <div class="profile-info">
                                     <h6>Pooja:</h6>
-                                    <p>${data.pooja}</p>
+                                        <p>${data.pooja === false ? "no" : "yes"}</p>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -323,8 +322,9 @@
             }
         })
     })
-   
-    $(".rejectButton").click(function () {
+
+   //---------Reject Button-------------------
+    $(".rejectJyotishBtn").click(function () {
       
         Swal.fire({
             title: 'Are you sure?',
@@ -335,18 +335,30 @@
             cancelButtonText: 'No, cancel',
             reverseButtons: true
         }).then((result) => {
+
             if (result.isConfirmed) {
                 Swal.fire({
-            title: "Processing Your Request",
-            allowOutsideClick: false,
-            didOpen: () => {
-                Swal.showLoading();
-            }
-        })
+                    title: "Processing Your Request",
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                })
+                    const urlParams = new URLSearchParams(window.location.search);
+
+                    let Id = urlParams.get('Id');
+                    let Subject = $('#JyotishSubject').val();
+                    let Message = $('JyotishMessage').val();
+
+                    var data ={
+                        id: Id,
+                        subject:Subject,
+                        message: Message
+                    }
                 $.ajax({
                     url: BaseUrl + "api/Admin/RejectJyotish",
                     type: "post",
-                    data: JSON.stringify({ jyotishId: Ids }),
+                    data: JSON.stringify(data),
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Example of an authorization header
                         'Content-Type': 'application/json', // Example of a content type header
@@ -532,6 +544,39 @@
 </div>
 
 
+<!-- Rejected Jyotish Modal -->
+<div class="modal fade" id="rejectedJyotishModal" tabindex="-1" role="dialog" aria-labelledby="rejectedJyotishModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="rejectedJyotishModalLabel">Rejected message</h5>
+                <button type="button" class="close btn text-danger" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    
+                      
+                     
+                  
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Subject:</label>
+                        <input type="text" class="form-control" id="JyotishSubject">
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Message:</label>
+                        <textarea class="form-control" id="JyotishMessage" style="resize:none;"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button id="rejectJyotishBtn" type="button" class="btn btn-primary">Send message</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <script>
