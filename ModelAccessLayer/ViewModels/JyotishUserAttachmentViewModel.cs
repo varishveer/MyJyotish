@@ -13,8 +13,8 @@ namespace ModelAccessLayer.ViewModels
         [AllowNull]
         public int JyotishId { get; set;  }
         public int  UserId { get; set; }
-
-        public List<string> Title { get; set; }
-        public List< string> ImageUrl { get; set; }
+        public int member { get; set; }
+        public string Title { get; set; }
+        public string ImageUrl { get; set; }
     }
 }

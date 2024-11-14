@@ -19,6 +19,7 @@ namespace ModelAccessLayer.Models
         [AllowNull]
         public UserModel? user { get; set; }
         public ICollection<ProblemSolutionModel> Solution { get; set; }
+        public ICollection<JyotishUserAttachmentModel> Attachment { get; set; }
 
     }
 }

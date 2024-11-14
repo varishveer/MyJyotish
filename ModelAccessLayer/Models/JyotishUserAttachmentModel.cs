@@ -14,10 +14,12 @@ namespace ModelAccessLayer.Models
         public int Id { get; set; }
         public int JyotishId { get; set; }
         public int UserId { get; set; }
+        public int? memberId { get; set; }
         public string Title { get; set; }
         public string Image { get; set; }
         [JsonIgnore]
         public JyotishModel Jyotish { get; set; }
+        public ClientMembers member { get; set; }
         [JsonIgnore]
         public UserModel User { get; set; }
 
