@@ -872,7 +872,7 @@ namespace MyJyotishJiApi.Controllers
                     return Ok(new { Status = 400, Message = "No Data Found." });
                 }
 
-                return Ok(new { Status = 400, Data = result, Message = "Successful" });
+                return Ok(new { Status = 200, Data = result, Message = "Successful" });
             }
             catch (Exception ex)
             {

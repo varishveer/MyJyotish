@@ -498,10 +498,12 @@
 
 
 <div id="dashboardAlternateDiv" class="d-flex justify-content-center align-items-center mt-2">
-    <div class="border border-danger bg-light p-3 rounded" style="width: 80%; max-width: 600px;">
+    <div class="border border-danger bg-light p-3 rounded justify-content-center text-center" style="width: 80%; max-width: 600px;">
         
         <h4 class="text-danger">Your Profile Has Been Rejected</h4>
-        <p class="text-danger" id="RejectedMessage">Unfortunately, your profile submission has been rejected. Please review your information and try again. If you need further assistance, feel free to contact support.</p>
+        <p class="text-danger" id="RejectedMessage"></p>
+
+      <p class="text-danger" >Please review your information and try again. If you need further assistance, feel free to contact support.</p>
       
 
     </div>
@@ -635,7 +637,7 @@
         
             var Id = localStorage.getItem('Id');
             $.ajax({
-            url: "https://localhost:7118/" + `api/PendingJyotish/IsJyotishValid?Id=${Id}`,
+            url: BaseUrl + `api/PendingJyotish/IsPendingJyotishValid?Id=${Id}`,
                 type: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -651,10 +653,16 @@
                         getJyotishSlotDetails()
 
                     Swal.close();
-                    } else {
-                        // Handle invalid Jyotish case
+                    } else if(response.status === 201){
+
+                     $('#RejectedMessage').text(response.message);
                     $('#dashboardMainDiv').addClass('d-none');
+
+
                     Swal.close();
+                    }
+                    else{
+                    location.href="/Jyotish/Login";
                     }
                 },
                 error: function (xhr, status, error) {

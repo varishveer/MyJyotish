@@ -250,11 +250,22 @@
                     allAbout = data.about;
                     $('#profileDetails').html(profileHTML);
                 } else {
-                    alert("No record found");
+                    Swal.fire({
+                          icon: 'info',
+                          title: 'No record found',
+                          text: 'Sorry, we couldn\'t find any records matching your search.',
+                          confirmButtonText: 'OK'
+                        });
                 }
             },
             error: function () {
-                alert("Error loading data");
+                Swal.fire({
+                  icon: 'error',                // Set the icon to 'error'
+                  title: 'Error',               // Title of the alert
+                  text: 'Error loading data',   // Body text of the alert
+                  confirmButtonText: 'OK'       // Text for the confirm button
+                });
+                               
             }
         });
 
@@ -324,8 +335,8 @@
     })
 
    //---------Reject Button-------------------
-    $(".rejectJyotishBtn").click(function () {
-      
+    $(document).on('click', '#rejectJyotishBtn', function () {
+      debugger;
         Swal.fire({
             title: 'Are you sure?',
             text: 'Do you want to reject this jyotish?',
@@ -348,10 +359,10 @@
 
                     let Id = urlParams.get('Id');
                     let Subject = $('#JyotishSubject').val();
-                    let Message = $('JyotishMessage').val();
+                    let Message = $('#JyotishMessage').val();
 
                     var data ={
-                        id: Id,
+                        JyotishId: Id,
                         subject:Subject,
                         message: Message
                     }
@@ -370,6 +381,9 @@
                             'Profile Rejected successfully',
                             'success'
                         );
+
+                        location.href = "/Admin/PendingJyotish";  
+
                     }, error: function () {
                         Swal.fire({
                             title: "error",
@@ -562,11 +576,11 @@
                   
                     <div class="form-group">
                         <label for="recipient-name" class="col-form-label">Subject:</label>
-                        <input type="text" class="form-control" id="JyotishSubject">
+                        <input type="text" class="form-control" id="JyotishSubject" placeholder="Please enter subject for Email">
                     </div>
                     <div class="form-group">
                         <label for="message-text" class="col-form-label">Message:</label>
-                        <textarea class="form-control" id="JyotishMessage" style="resize:none;"></textarea>
+                        <textarea class="form-control" id="JyotishMessage" style="resize:none;" placeholder="Please enter message for Email"></textarea>
                     </div>
                 </form>
             </div>
@@ -662,10 +676,8 @@
                 else if(status == "Rejected"){
 
                 $("#" + elementId).html(status + `<i class="fas fa-times-circle" data-bs-toggle="${docType}" data-bs-placement="top"  
-                data-bs-custom-class="custom-tooltip"
                 data-bs-title="${message}"></i>`);
                   $("#" + elementId).addClass("text-danger");
-
                 const tooltipTriggerList = document.querySelectorAll(`[data-bs-toggle="${docType}"]`);
                 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => {
                     const tooltipInstance = new bootstrap.Tooltip(tooltipTriggerEl);

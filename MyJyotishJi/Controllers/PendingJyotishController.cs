@@ -314,5 +314,29 @@ namespace MyJyotishGApi.Controllers
             catch { return StatusCode(500, new { Message = "Internal Server Error" }); }
         }
 
+
+        [HttpGet("IsPendingJyotishValid")]
+        public IActionResult IsPendingJyotishValid(int Id)
+        {
+            try
+            {
+                var result =  _pendingJyotishServices.IsPendingJyotishValid(Id);
+
+                if (result == "Jyotish Not Found")
+                {
+                    return Ok(new { Status = 400, Message = result });
+                }
+                 else if(result == "Jyotish Is Valid")
+                {
+                    return Ok(new { Status = 200, Message = result });
+                }
+               
+                else {
+                    return Ok(new { Status = 201, Message = result });
+                }
+            }
+            catch { return StatusCode(500, new { Message = "Internal Server Error" }); }
+        }
+
     }
 }

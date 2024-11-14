@@ -640,7 +640,22 @@ namespace BusinessAccessLayer.Implementation
            
         }
 
-        
+        public string IsPendingJyotishValid(int Id)
+        {
+            var data = _context.JyotishRecords.Where(x => x.Id == Id).FirstOrDefault();
+            if(data == null) { return "Jyotish Not Found"; }
+            else
+            {
+                if(data.ApprovedStatus == "Rejected")
+                {
+                    return data.Message;
+                }
+                else
+                {
+                    return "Jyotish Is Valid";
+                }
+            }
+        }
 
 
 

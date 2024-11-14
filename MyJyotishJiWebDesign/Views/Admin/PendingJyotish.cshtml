@@ -42,6 +42,13 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     $(document).ready(function () {
+          Swal.fire({
+                    title: "Processing Your Request",
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                })
         function fetchData() {
             $.ajax({
                 url: BaseUrl +'Api/Admin/PendingJyotish',
@@ -79,6 +86,7 @@
                     htmls += '</tbody>';
                     $('#DataTable').html(htmls);
                     $('#DataTable').DataTable(); // Reinitialize the DataTable
+                    Swal.close();
                 }
                 ,
                 error: function (errormessage) {
