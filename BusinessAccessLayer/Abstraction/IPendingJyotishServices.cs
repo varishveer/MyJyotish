@@ -24,10 +24,9 @@ namespace BusinessAccessLayer.Abstraction
         public SlotBookingDetailViewModel JyotishSlotDetails(int id);
 
         public  Task<string> UploadRejectedDocumentAsync(DocumentViewModel model);
-        public bool IsJyotishValid(int Id);
-
-        public string IsPendingJyotishValid(int Id);
-
+       
+        public LayoutDataViewModel LayoutData(int Id);
+        public string RejectedMessage(int Id);
 
     }
 }
