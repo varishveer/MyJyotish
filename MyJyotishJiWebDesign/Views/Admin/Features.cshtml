@@ -212,10 +212,10 @@
                                         <td class='featureName'>${item.name}</td>
                                         <td class='url'>${item.serviceUrl}</td>
                                         <td style='cursor:pointer;'>
-                                        <a class="deletefeature" data-id="${item.featureId}">
+                                            <a class="deletefeature" data-id="${item.id}">
                                            <i class="fa-solid fa-trash-can text-danger"></i>
                                        </a>
-                                        <a class="editfeature" data-id="${item.featureId} ">
+                                            <a class="editfeature" data-id="${item.id} ">
                                               <i class="fa-solid fa-pen-to-square text-success"></i>
                                        </a>
 
@@ -249,6 +249,23 @@
                 return;
             }
 
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'Do you really want to delete?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No, cancel',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: "Processing Your Request",
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    })
             $.ajax({
                 url: BaseUrl + 'api/Admin/DeleteFeature',
                 type: 'GET',
@@ -277,6 +294,8 @@
                     });
                 }
             });
+                }
+            })
         });
 
     });
