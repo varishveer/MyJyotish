@@ -18,6 +18,7 @@ namespace MyJyotishJiWebDesign.Controllers
         public IActionResult AdminProfile() { return View(); }
         public IActionResult SlotList() { return View(); }
         public IActionResult Subscription() { return View(); }
+        public IActionResult Services() { return View(); }
         public IActionResult Features() { return View(); }
         public IActionResult Documents() { return View(); }
         public IActionResult JyotishDocument() { return View(); }
