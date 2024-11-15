@@ -40,5 +40,7 @@ namespace BusinessAccessLayer.Abstraction
 
         public string AddWalletHistory(WalletHistoryViewmodel pr);
         public dynamic GetWalletHistory(int UserId);
+        public LayoutDataViewModel LayoutData(int Id);
+
     }
 }

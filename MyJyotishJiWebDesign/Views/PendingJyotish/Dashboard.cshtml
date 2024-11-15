@@ -475,7 +475,7 @@
 
                         <span>Professional Certificate</span>
                         <br />
-                        <p id="professionalStatus"></p>
+                    <p id="professionalStatus"></p>
                     </div>
                 <div id="professionalCertificateUploadRejectDoc">
                 </div>
@@ -497,17 +497,7 @@
 
 
 
-<div id="dashboardAlternateDiv" class="d-flex justify-content-center align-items-center mt-2">
-    <div class="border border-danger bg-light p-3 rounded justify-content-center text-center" style="width: 80%; max-width: 600px;">
-        
-        <h4 class="text-danger">Your Profile Has Been Rejected</h4>
-        <p class="text-danger" id="RejectedMessage"></p>
 
-      <p class="text-danger" >Please review your information and try again. If you need further assistance, feel free to contact support.</p>
-      
-
-    </div>
-</div>
 
 
 
@@ -635,43 +625,7 @@
             }
         });
         
-            var Id = localStorage.getItem('Id');
-            $.ajax({
-            url: BaseUrl + `api/PendingJyotish/IsPendingJyotishValid?Id=${Id}`,
-                type: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-               
-                success: function (response) {
-                    debugger;
-                    // Check the status returned by the API
-                    if (response.status === 200) {
-                    $('#dashboardAlternateDiv').addClass('d-none');
-                   
-                        getJyotishSlotDetails()
-
-                    Swal.close();
-                    } else if(response.status === 201){
-
-                     $('#RejectedMessage').text(response.message);
-                    $('#dashboardMainDiv').addClass('d-none');
-
-
-                    Swal.close();
-                    }
-                    else{
-                    location.href="/Jyotish/Login";
-                    }
-                },
-                error: function (xhr, status, error) {
-                    debugger;
-                    // Handle any error that occurs during the request
-                    alert('Error occurred: ' + error);
-                    console.log(xhr.responseText);  // Log any detailed error message
-                }
-            });
+           
         
 
 
@@ -693,7 +647,7 @@
                 dataType: 'json',
                 // Check if the response status is 200 and then hide the modal
                 success: function (response) {
-                  
+                    debugger;
                     if (response.status === 200) {
                      
                         console.log("Data retrieved successfully:", response.data);
@@ -703,19 +657,19 @@
                         const formattedDate = dateObject.toLocaleDateString('en-CA');
 
                         const $detailsElement = $(`
-                <div class="interview-details p-3 border rounded">
-                    <h5 class="font-weight-bold mb-2">Upcoming Interview Details</h5>
-                    <p>
-                            <span class="d-inline-block me-3">
-                            <i class="far fa-calendar-alt"></i> <strong>Date:</strong> ${formattedDate}
-                        </span>
-                        <span class="d-inline-block">
-                            <i class="far fa-clock"></i> <strong>Time:</strong> ${response.data.time}
-                        </span>
-                    </p>
-                    <p>We look forward to having you! Please ensure to be prepared and join promptly at the scheduled time.</p>
-                </div>
-                `);
+                                <div class="interview-details p-3 border rounded">
+                                    <h5 class="font-weight-bold mb-2">Upcoming Interview Details</h5>
+                                    <p>
+                                            <span class="d-inline-block me-3">
+                                            <i class="far fa-calendar-alt"></i> <strong>Date:</strong> ${formattedDate}
+                                        </span>
+                                        <span class="d-inline-block">
+                                            <i class="far fa-clock"></i> <strong>Time:</strong> ${response.data.time}
+                                        </span>
+                                    </p>
+                                    <p>We look forward to having you! Please ensure to be prepared and join promptly at the scheduled time.</p>
+                                </div>
+                                `);
                         $detailsContainer.html($detailsElement);
 
 
@@ -739,7 +693,7 @@
             })
         }
 
-        
+        getJyotishSlotDetails()
         function SlotBooking() {
             Swal.fire({
                 title: "Processing Your Request",
@@ -912,6 +866,17 @@
             });
         }
 
+       
+
+
+
+
+
+
+
+
+
+
         async function fetchDocuments() {
             const Id = localStorage.getItem('Id');
             if (!Id) {
@@ -948,21 +913,21 @@
 
 
                 $('#idProof').attr('src', response.data.idProof ? BaseUrl + response.data.idProof : '/Img/SampleDoc.jpeg');
-                var idLink = document.getElementById('idProofLink');
-                $("#idProofLink").attr("href", BaseUrl + response.data.idProof);
+                $('#idProofLink').attr('href', `${BaseUrl}${response.data.idProof}`);
+
                 
                 if (response.data.idProofStatus === "Verified")
                 {
-                    var idStatus = document.getElementById('idStatus');
-                    idStatus.innerHTML = 'Verified <i class="fas fa-check-circle"></i>';
+                    $('#idStatus').addClass('text-primary').html('Verified <i class="fas fa-check-circle"></i>');
+
                 } 
                 else if (response.data.idProofStatus === "Rejected") 
                 {
-                    var idStatus = document.getElementById('idStatus');
-                    idStatus.innerHTML = `Rejected <i class="fas fa-times-circle" data-bs-toggle="idTooltip" data-bs-placement="top"
-                                    data-bs-custom-class="custom-tooltip"
-                                        data-bs-title="${response.data.idProofMessage}"></i>`;
-                    $('#idStatus').addClass('text-danger');
+                    $('#idStatus')
+                        .addClass('text-danger')
+                        .html(`Rejected <i class="fas fa-times-circle" data-bs-toggle="idTooltip" data-bs-placement="top"
+             data-bs-custom-class="custom-tooltip" data-bs-title="${response.data.idProofMessage}"></i>`);
+
                     $('#idProofUploadRejectDoc').html(`<button class="btn btn-primary btn-sm rejectedDocUploadBtn" data-name="idProof" > Reupload</button> `);
                     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="idTooltip"]');
                     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => {
@@ -976,20 +941,21 @@
 
                 
                 $('#addressProof').attr('src', response.data.addressProof ? BaseUrl + response.data.addressProof : '/Img/SampleDoc.jpeg');
-                var addressLink = document.getElementById('addressProofLink');
-                addressLink.href = BaseUrl + response.data.addressProof;
+                $('#addressProofLink').attr('href', `${BaseUrl}${response.data.addressProof}`);
+
                  if (response.data.addressProofStatus === "Verified") 
                  {
-                    var addressStatus = document.getElementById('addressStatus');
-                    addressStatus.innerHTML = 'Verified <i class="fas fa-check-circle"></i>';
+                    $('#addressStatus').addClass('text-primary').html('Verified <i class="fas fa-check-circle"></i>');
+
                 }
                 else if (response.data.addressProofStatus === "Rejected") 
                 {
-                    var addressStatus = document.getElementById('addressStatus');
-                    addressStatus.innerHTML = `Rejected <i class="fas fa-times-circle" data-bs-toggle="addressTooltip" data-bs-placement="top"
-                                        data-bs-custom-class="custom-tooltip"
-                                            data-bs-title="${response.data.addressProofMessage}"></i>`;
-                    $('#addressStatus').addClass('text-danger'); 
+                    $('#addressStatus')
+                        .addClass('text-danger')
+                        .html(`Rejected <i class="fas fa-times-circle" data-bs-toggle="addressTooltip" data-bs-placement="top"
+            data-bs-custom-class="custom-tooltip"
+            data-bs-title="${response.data.addressProofMessage}"></i>`);
+
                     $('#addressProofUploadRejectDoc').html(`<button class="btn btn-primary btn-sm rejectedDocUploadBtn" data-name="addressProof" > Reupload</button> `);
                     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="addressTooltip"]')
                      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => {
@@ -1003,24 +969,28 @@
 
 
                 if (response.data.tenthCertificate == null) {
-                    var tenthDiv = document.getElementById('tenthCertificateDiv');
-                    tenthDiv.hidden = true;
-                    var tenthLink = document.getElementById('tenthCertificateLink');
-                    tenthLink.href = BaseUrl + response.data.tenthCertificate;
+                    // Hide the 'tenthCertificateDiv' if it exists
+                    $('#tenthCertificateDiv').hide();
+
+                    // Set the 'href' for the 'tenthCertificateLink' if it exists
+                    $('#tenthCertificateLink').attr('href', `${BaseUrl}${response.data.tenthCertificate}`);
+
                 }
 
                 $('#tenthCertificate').attr('src', response.data.tenthCertificate ? BaseUrl + response.data.tenthCertificate : '/Img/SampleDoc.jpeg');
-                var tenthLink = document.getElementById('tenthCertificateLink');
-                tenthLink.href = BaseUrl + response.data.tenthCertificate;
+                // Check if the element exists and set the href
+                $('#tenthCertificateLink').attr('href', `${BaseUrl}${response.data.tenthCertificate}`);
+
                  if (response.data.tenthCertificateStatus === "Verified") {
-                    var tenthStatus = document.getElementById('tenthStatus');
-                    tenthStatus.innerHTML = 'Verified <i class="fas fa-check-circle"></i>';
+                    $('#tenthStatus').addClass('text-primary').html('Verified <i class="fas fa-check-circle"></i>');
+
                 } else if (response.data.tenthCertificateStatus === "Rejected") {
-                    var tenthStatus = document.getElementById('tenthStatus');
-                        tenthStatus.innerHTML = `Rejected <i class="fas fa-times-circle" data-bs-toggle="tenthCertificateTooltip" data-bs-placement="top"
-                                            data-bs-custom-class="custom-tooltip"
-                                                    data-bs-title="${response.data.tenthCertificateMessage}"></i>`;
-                     $('#tenthStatus').addClass('text-danger');
+                    $('#tenthStatus')
+                        .addClass('text-danger')
+                        .html(`Rejected <i class="fas fa-times-circle" data-bs-toggle="tenthCertificateTooltip" data-bs-placement="top"
+              data-bs-custom-class="custom-tooltip"
+              data-bs-title="${response.data.tenthCertificateMessage}"></i>`);
+
                     $('#tenthCertificateUploadRejectDoc').html(`<button class="btn btn-primary btn-sm rejectedDocUploadBtn" data-name="tenthCertificate" > Reupload</button> `);
                         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tenthCertificateTooltip"]')
                         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => {
@@ -1034,25 +1004,27 @@
 
 
                 if (response.data.twelveCertificate == null) {
-                    var tenthDiv = document.getElementById('twelveCertificateDiv');
-                    tenthDiv.hidden = true;
-                    var twelveLink = document.getElementById('twelveCertificateLink');
-                    twelveLink.href = BaseUrl + response.data.twelveCertificate;
+                    // Hide the 'twelveCertificateDiv' if it exists
+                    $('#twelveCertificateDiv').hide();
+
+                    // Set the href for 'twelveCertificateLink' if it exists
+                    $('#twelveCertificateLink').attr('href', `${BaseUrl}${response.data.twelveCertificate}`);
+
                 }
 
                 $('#twelveCertificate').attr('src', response.data.twelveCertificate ? BaseUrl + response.data.twelveCertificate : '/Img/SampleDoc.jpeg');
-               
-                var twelveLink = document.getElementById('twelveCertificateLink');
-                twelveLink.href = BaseUrl + response.data.twelveCertificate;
+
+                $('#twelveCertificateLink').attr('href', `${BaseUrl}${response.data.twelveCertificate}`);
+
                   if (response.data.twelveCertificateStatus === "Verified") {
-                    var twelveStatus = document.getElementById('twelveStatus');
-                    twelveStatus.innerHTML = 'Verified <i class="fas fa-check-circle"></i>';
+                    $('#twelveStatus').addClass('text-primary').html('Verified <i class="fas fa-check-circle"></i>');
+
                 } else if (response.data.twelveCertificate === "Rejected") {
-                    var twelveStatus = document.getElementById('twelveStatus');
-                            twelveStatus.innerHTML = `Rejected <i class="fas fa-times-circle" data-bs-toggle="twelveCertificateTooltip" data-bs-placement="top"
-                                                data-bs-custom-class="custom-tooltip"
-                                                            data-bs-title="${response.data.twelveCertificateMessage}"></i>`;
-                    $('#twelveStatus').addClass('text-danger');
+                    $('#twelveStatus')
+                        .addClass('text-danger')
+                        .html(`Rejected <i class="fas fa-times-circle" data-bs-toggle="twelveCertificateTooltip" data-bs-placement="top"
+        data-bs-custom-class="custom-tooltip" data-bs-title="${response.data.twelveCertificateMessage}"></i>`);
+
                     $('#twelveCertificateUploadRejectDoc').html(`<button class="btn btn-primary btn-sm rejectedDocUploadBtn" data-name="twelveCertificate" > Reupload</button> `);
                             const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="twelveCertificateTooltip"]')
                             const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => {
@@ -1068,17 +1040,17 @@
 
 
                 $('#professionalCertificate').attr('src', response.data.professionalCertificate ? BaseUrl + response.data.professionalCertificate : '/Img/SampleDoc.jpeg');
-                var ProfessionalLink = document.getElementById('professionalCertificateLink');
-                ProfessionalLink.href = BaseUrl + response.data.professionalCertificate;
+                $('#professionalCertificateLink').attr('href', BaseUrl + response.data.professionalCertificate);
+
+              
                   if (response.data.professionalCertificateStatus === "Verified") {
-                    var ProfesstionalStatus = document.getElementById('professtionalStatus');
-                    ProfesstionalStatus.innerHTML = 'Verified <i class="fas fa-check-circle"></i>';
+                    $('#professionalStatus').addClass('text-primary').html('Verified <i class="fas fa-check-circle"></i>');
+                  
                 } else if (response.data.professionalCertificateStatus === "Rejected") {
-                    var ProfesstionalStatus = document.getElementById('professtionalStatus');
-                                ProfesstionalStatus.innerHTML = `Rejected <i class="fas fa-times-circle" data-bs-toggle="professionalCertificateTooltip" data-bs-placement="top"
-                                                    data-bs-custom-class="custom-tooltip"
-                                                                data-bs-title="${response.data.professionalCertificateMessage}"></i>`;
-                    $('#professtionalStatus').addClass('text-danger');
+
+                   
+                    $('#professionalStatus').html(`Rejected <i class="fas fa-times-circle text-danger" data-bs-toggle="professionalCertificateTooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="${response.data.professionalCertificateMessage}"></i>`);
+
                     $('#professionalCertificateUploadRejectDoc').html(`<button class="btn btn-primary btn-sm rejectedDocUploadBtn" data-name="professionalCertificate" > Reupload</button> `);
 
                                 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="professionalCertificateTooltip"]')

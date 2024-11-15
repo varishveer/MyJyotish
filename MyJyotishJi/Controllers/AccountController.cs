@@ -171,18 +171,24 @@ namespace MyJyotishJiApi.Controllers
                 else
                 {
                     var Response = JsonConvert.DeserializeObject<JyotishModel>(result);
-                    
+
                     if (Response.Role == "Jyotish")
-                    { 
+                    {
                         var token = GenerateJwtToken(jyotishLogin.Email, "Scheme2");
-                        return Ok(new { Status = 200, Message = Response.Role, Token = token, User = Response.Email, UserName = Response.Name, Role = Response.Role , Id = Response.Id});
+                        return Ok(new { Status = 200, Message = Response.Role, Token = token, User = Response.Email, UserName = Response.Name, Role = Response.Role, Id = Response.Id });
                     }
-                    else
+                    else if (Response.Role == "Pending")
                     {
                         var token = GenerateJwtToken(jyotishLogin.Email, "Scheme3");
-                        return Ok(new { Status = 200,newStatus= Response.NewStatus, Message = Response.Role, Token = token, User = Response.Email, UserName = Response.Name, Role = Response.Role, Id = Response.Id });
+                        return Ok(new { Status = 200, newStatus = Response.NewStatus, Message = Response.Role, Token = token, User = Response.Email, UserName = Response.Name, Role = Response.Role, Id = Response.Id });
                     }
-                   
+                    else if (Response.Role == "Rejected")
+                    {
+                        return Ok(new { Status = 200,  UserName = Response.Name, Role = Response.Role, Id = Response.Id });
+                    }
+                    else {
+                        return Ok(new { status = 500, Message = "Something Went Wrong" });
+                    }
                    
                 }
                

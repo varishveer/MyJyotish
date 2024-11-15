@@ -1557,5 +1557,24 @@ namespace BusinessAccessLayer.Implementation
         }
 
 
+        public LayoutDataViewModel LayoutData(int Id)
+        {
+            var record = _context.JyotishRecords.Where(x => x.Id == Id && x.Status == true).FirstOrDefault();
+            if (record == null)
+            {
+                return null;
+            }
+            else 
+            {
+                LayoutDataViewModel layoutData = new LayoutDataViewModel
+                {
+                    Id = record.Id,
+                    Name = record.Name,
+                    Image = record.ProfileImageUrl
+                };
+                return layoutData;
+            }
+        }
+
     } 
 }
