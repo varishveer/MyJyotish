@@ -727,10 +727,17 @@ namespace MyJyotishGApi.Controllers
         }
 
         [HttpPost("UpdateProblemSolution")]
-        public IActionResult UpdateProblemSolution(ProblemSolutionViewModel model)
+        public IActionResult UpdateProblemSolution()
         {
             try
             {
+                var httpRequest = HttpContext.Request;
+                ProblemSolutionViewModel model = new ProblemSolutionViewModel
+                {
+                    Id = Convert.ToInt32(httpRequest.Form["Id"]),
+                    Problem = httpRequest.Form["problems"],
+                    Solution = httpRequest.Form["solutions"].ToString(),
+                };
                 // Call the service layer to update the problem solution
                 var result = _jyotish.UpdateProblemSolution(model);
 

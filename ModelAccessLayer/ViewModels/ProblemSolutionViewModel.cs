@@ -13,7 +13,9 @@ namespace ModelAccessLayer.ViewModels
     {
         [AllowNull]
         public int Id { get; set; }
+        [AllowNull]
         public int AppointmentId { get; set; }
+        [AllowNull]
         public int memberId { get; set; }
 
         public string[] Problem { get; set; }

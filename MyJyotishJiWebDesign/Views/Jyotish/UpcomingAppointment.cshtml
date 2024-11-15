@@ -102,6 +102,15 @@
         background:silver;
         border-radius:5px;
     }
+    #updateproblemSection::-webkit-scrollbar{
+        width:4px;
+        height:4px;
+    }
+
+    #updateproblemSection::-webkit-scrollbar-thumb{
+        background:silver;
+        border-radius:5px;
+    }
 
     #DataTable_filter{
         display:none !important;
@@ -467,6 +476,59 @@
     </div>
 </div>
 
+<!-- Update Problem and Solution Modal -->
+<div class="modal fade" id="updateProblemSolutionModal" tabindex="-1" aria-labelledby="updateProblemSolutionModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">  
+                <h5 class="modal-title" id="updateProblemSolutionModalLabel">Update Problem and Solution</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+
+                <div class="d-flex justify-content-between">
+                    <div><div class="section-title">User Name: <span id="modalUserName"></span></div></div>
+                    <div><div class="section-title">Date: <span id="modalDate"></span></div></div>
+                    <div><div class="section-title">Time: <span id="modalTime"></span></div></div>
+                </div>
+
+
+                <!-- Hidden input to store AppointmentId -->
+                <input type="hidden" id="problemId" />
+
+                <div class="container-fluid">
+                    <div class="row">
+                        <!-- Column for Problems -->
+                        <!-- Problem Section with Add More Feature -->
+                        <div id="updateproblemSection" class="my-3 col-sm-12" style="max-height: 300px; overflow-y: auto;">
+                            <!-- Added scrolling -->
+                            <div class="d-flex mb-1 justify-content-between">
+                                <label class="form-label">Problem</label>
+                                <button type="button" class="btn btn-outline-success add-more-problemup"><i class="fas fa-plus"></i></button>
+                            </div>
+                            <div class="input-group mb-2">
+                                <textarea class="form-control" rows="2" name="problem[]" placeholder="Enter problem"></textarea>
+                                <div id="addProblemSolutionContainer" class="w-100"></div>
+                            </div>
+                        </div>
+
+                        <!-- Column for Solutions -->
+                        <div class="col-md-12">
+                            <h6>Solution</h6>
+                            <div class="mb-3"><textarea class="form-control summernote" rows="3" id="updateSolutionText" placeholder="Enter updated solution"></textarea></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-custom" onclick="updateData()">Update</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     $("#attachmentModaltrigger").click(function () {
         $("#staticBackdrop").modal("hide")
@@ -809,17 +871,15 @@
     }
 
     function updateData() {
-        const id = $('#updateId').val(); // Assuming a hidden input for the unique id
-        const appointmentId = $('#updateAppointmentId').val();
-        const problems = Array.from($('#updateProblemFields textarea')).map(input => input.value);
-        const solutions = Array.from($('#updateSolutionFields textarea')).map(input => input.value);
+        const Id = $('#problemId').val();
+        const problems = Array.from($('textarea[name="problem[]"]')).map(input => input.value).filter(d=>d.value!="");
+        const solutions = $("#updateSolutionText").val();
 
-        const data = {
-            Id: id, // The unique identifier
-            AppointmentId: appointmentId, // Appointment-specific ID
-            Problem: problems,
-            Solution: solutions
-        };
+        let formData=new FormData()
+        formData.append("Id",Id)
+        formData.append("Problem",problems)
+        formData.append("Solution",solutions)
+       
 
         $.ajax({
             url: `${BaseUrl}Api/Jyotish/UpdateProblemSolution`,
@@ -827,19 +887,38 @@
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
             },
-            contentType: 'application/json',
-            data: JSON.stringify(data),
+            processData:false,
+            contentType: false,
+            data: formData,
             success: function (response) {
                 if (response.status === 200) {
-                    alert('Data updated successfully!');
+                     Swal.fire({
+                    title: "success",
+                    text:"Record Updated Successfully",
+                    icon: "success",
+                    didClose:()=>{
+
                     $('#updateProblemSolutionModal').modal('hide');
-                    location.reload();
+                    }
+
+                });
                 } else {
-                    alert('Error: ' + response.Message);
+                    Swal.fire({
+                    title: "error",
+                    text: response.message,
+                    icon: "error",
+
+                });
                 }
             },
-            error: function () {
-                alert('Error updating data.'); 
+            error: function (err) {
+                console.log(err)
+              Swal.fire({
+                    title: "error",
+                    text: "some error occured",
+                    icon: "error",
+
+                });
             }
         });
     }
@@ -855,6 +934,46 @@
 
     })
 
+    function populateUpdateModal(data) {
+       console.log(data,"mem")
+        $("#modalUserName").text(data.userName)
+        $("#modalDate").text(data.appointmentDate)
+        $("#modalTime").text(data.appointmentTime)
+        $("#problemId").text(data.problemId)
+        $('#updateSolutionText').summernote('code', data.solution);
+        let problemhtml="";
+        data.problems.forEach(function(d){
+      problemhtml+=`
+                        <div class="w-100 my-2">
+                        <div class='d-flex justify-content-end mb-1 w-100'>
+                                    <button type="button" class="btn btn-outline-danger remove-problem"><i class="fas fa-trash-alt"></i></button>
+                            </div>
+                                <textarea class="form-control" rows="2" name="problem[]" placeholder="Enter problem">${d}</textarea>
+                        </div>
+                    `
+    
+        })
+        $('#addProblemSolutionContainer').html(problemhtml)
+
+
+
+    }
+
+              $('.add-more-problemup').click(function () {
+        $('#addProblemSolutionContainer').append(`
+                        <div class="w-100 my-2">
+                        <div class='d-flex justify-content-end mb-1 w-100'>
+                                    <button type="button" class="btn btn-outline-danger remove-problem"><i class="fas fa-trash-alt"></i></button>
+                            </div>
+                                <textarea class="form-control" rows="2" name="problem[]" placeholder="Enter problem"></textarea>
+                        </div>
+                    `);
+    });
+
+    
+    $(document).on('click', '.remove-problem', function () {
+        $(this).parent().parent().remove();
+    });
 
    
     function reverseDate(dateString) {
@@ -1377,61 +1496,4 @@
 
 
 
-<!-- Update Problem and Solution Modal -->
-<div class="modal fade" id="updateProblemSolutionModal" tabindex="-1" aria-labelledby="updateProblemSolutionModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="updateProblemSolutionModalLabel">Update Problem and Solution</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
 
-
-                <div class="d-flex justify-content-between">
-                    <div><div class="section-title">User Name:</div><p id="modalUserName"></p></div>
-                    <div><div class="section-title">Date:</div><p id="modalDate"></p></div>
-                    <div><div class="section-title">Time:</div><p id="modalTime"></p></div>
-                </div>
-
-
-                <!-- Hidden input to store AppointmentId -->
-                <input type="hidden" id="updateId" />
-                <input type="hidden" id="updateAppointmentId" />
-
-                <div class="container-fluid">
-                    <div class="row">
-                        <!-- Column for Problems -->
-                        <div class="col-md-6">
-                            <h6>Problem(s)</h6>
-                            <div id="updateProblemFields" class="expandable-content">
-                                <div class="mb-3"><textarea class="form-control" rows="3" placeholder="Enter updated problem"></textarea></div>
-                            </div>
-                            <button type="button" class="btn btn-secondary mb-3" onclick="addUpdateProblemField()">Add More Problem</button>
-                        </div>
-
-                        <!-- Column for Solutions -->
-                        <div class="col-md-6">
-                            <h6>Solution(s)</h6>
-                            <div class="mb-3"><textarea class="form-control" rows="3" placeholder="Enter updated solution"></textarea></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-custom" onclick="updateData()">Update</button>
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    function addUpdateProblemField() {
-        $('#updateProblemFields').append(`<div class="mb-3"><textarea class="form-control" rows="3" placeholder="Enter updated problem"></textarea></div>`);
-    }
-
-    function addUpdateSolutionField() {
-        $('#updateSolutionFields').append(`<div class="mb-3"><textarea class="form-control" rows="3" placeholder="Enter updated solution"></textarea></div>`);
-    }
-</script>
