@@ -13,6 +13,8 @@ namespace ModelAccessLayer.Models
         public int Id { get; set; }
         public int SubscriptionId { get; set; }
         public int FeatureId { get; set; }
+        public int ServiceCount { get; set; }
+        public bool Status { get; set; }
         public SubscriptionModel Subscription { get; set; }
         public SubscriptionFeaturesModel Feature { get; set; }
     }

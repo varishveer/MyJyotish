@@ -631,34 +631,41 @@ namespace BusinessAccessLayer.Implementation
             }
         }
 
-        public bool IsJyotishValid(int Id)
-        {
-            var jyotish = _context.JyotishRecords.Where(x => x.Id == Id && x.Status == true).FirstOrDefault();
-            if(jyotish == null)
-            { return false; }
-            else { return true; }
-           
-        }
+      
 
-        public string IsPendingJyotishValid(int Id)
+        public LayoutDataViewModel LayoutData(int Id)
         {
-            var data = _context.JyotishRecords.Where(x => x.Id == Id).FirstOrDefault();
-            if(data == null) { return "Jyotish Not Found"; }
+            var record = _context.JyotishRecords.Where(x => x.Id == Id && x.Status == true && x.Role=="Pending").FirstOrDefault();
+            if (record == null)
+            {
+                return null;
+            }
             else
             {
-                if(data.ApprovedStatus == "Rejected")
+                LayoutDataViewModel layoutData = new LayoutDataViewModel
                 {
-                    return data.Message;
-                }
-                else
-                {
-                    return "Jyotish Is Valid";
-                }
+                    Id = record.Id,
+                    Name = record.Name,
+                    Image = record.ProfileImageUrl
+                };
+                return layoutData;
             }
         }
 
 
+        public string RejectedMessage(int Id)
+        {
+            var record = _context.JyotishRecords.Where(x => x.Id == Id && x.Status == false && x.Role == "Rejected").FirstOrDefault();
+            if(record == null)
+            {
+                return null;
+            }
+            else
+            {
+                return record.Message;
+            }
 
+        }
 
 
 

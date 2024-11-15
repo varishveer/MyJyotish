@@ -12,6 +12,9 @@ namespace ModelAccessLayer.Models
         [Key]
         public int FeatureId { get; set; }
         public string Name { get; set; }
+        public string ServiceUrl { get; set; }
+        public bool Status { get; set; }
+
         public ICollection<ManageSubscriptionModel> ManageSubscription { get; set; } = new List<ManageSubscriptionModel>();
     }
 }

@@ -295,48 +295,42 @@ namespace MyJyotishGApi.Controllers
             catch { return StatusCode(500, new { Message = "Internal Server Error" }); }
         }
 
-        [HttpGet("IsJyotishValid")]
-        public IActionResult IsJyotishValid(int Id)
+        [HttpGet("LayoutData")]
+        public IActionResult LayoutData(int Id)
         {
             try
             {
-                var result =  _pendingJyotishServices.IsJyotishValid(Id);
+                var result = _pendingJyotishServices.LayoutData(Id);
+                if (result == null)
+                {
+                    return Ok(new { Status = 404, Message = "Not Found" });
+                }
 
-                if (result)
-                {
-                    return Ok(new { Status = 200, Message = result });
-                }
-                else
-                {
-                    return Ok(new { Status = 400, Message = result });
-                }
+                else { return Ok(new { Status = 200, Data = result }); }
+
             }
-            catch { return StatusCode(500, new { Message = "Internal Server Error" }); }
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
+
         }
-
-
-        [HttpGet("IsPendingJyotishValid")]
-        public IActionResult IsPendingJyotishValid(int Id)
+        [AllowAnonymous]
+        [HttpGet("RejectedMessage")]
+        public IActionResult RejectedMessage(int Id)
         {
             try
             {
-                var result =  _pendingJyotishServices.IsPendingJyotishValid(Id);
+                var result = _pendingJyotishServices.RejectedMessage(Id);
+                if (result == null)
+                {
+                    return Ok(new { Status = 404, Message = "Not Found" });
+                }
 
-                if (result == "Jyotish Not Found")
-                {
-                    return Ok(new { Status = 400, Message = result });
-                }
-                 else if(result == "Jyotish Is Valid")
-                {
-                    return Ok(new { Status = 200, Message = result });
-                }
-               
-                else {
-                    return Ok(new { Status = 201, Message = result });
-                }
+                else { return Ok(new { Status = 200, Data = result }); }
+
             }
-            catch { return StatusCode(500, new { Message = "Internal Server Error" }); }
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
+
         }
+
 
     }
 }

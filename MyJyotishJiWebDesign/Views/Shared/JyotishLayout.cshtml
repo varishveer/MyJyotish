@@ -239,6 +239,32 @@
             top: 50px; /* Adjust this based on your layout */
             z-index: 1050; /* Keeps it above other content */
         }
+
+
+        /* Name Styling */
+        .notification-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #333;
+        }
+
+        /* Appointment Date and Time Styling */
+        .notification-time {
+            font-size: 0.95rem;
+            color: #777;
+        }
+
+        /* Booking Date Styling */
+        .notification-booking-date {
+            text-align: center;
+            font-size: 0.85rem;
+            color: #aaa;
+        }
+
+        #NotificationNewText{
+            letter-spacing: 2px;
+            font-size: 0.5rem;
+        }
     </style>
 </head>
 
@@ -309,10 +335,10 @@
                            
                             
                             <i class="fa fa-bell me-lg-2  position-relative">
-                                <span id="NotificationNewText" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="letter-spacing: 2px;">
+                                <span id="NotificationNewText" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                                     New
                                     </span>
-                                    <span class="visually-hidden">unread messages</span>
+                                   
                             </i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0 position-fixed" style="right: 0; top: 50px;"> 
@@ -389,29 +415,7 @@
       
     </script>
 
-    <style>
-    
-    /* Name Styling */
-    .notification-name {
-        font-weight: 600;
-        font-size: 1.1rem;
-        color: #333;
-    }
-
-    /* Appointment Date and Time Styling */
-    .notification-time {
-        font-size: 0.95rem;
-        color: #777;
-    }
-
-    /* Booking Date Styling */
-    .notification-booking-date {
-        text-align:center;
-        font-size: 0.85rem;
-        color: #aaa; 
-    }
-
-</style>
+ 
     <script>
 
         document.addEventListener('DOMContentLoaded', function () {

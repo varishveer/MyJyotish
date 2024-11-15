@@ -1559,7 +1559,7 @@ namespace BusinessAccessLayer.Implementation
 
         public LayoutDataViewModel LayoutData(int Id)
         {
-            var record = _context.JyotishRecords.Where(x => x.Id == Id && x.Status == true).FirstOrDefault();
+            var record = _context.JyotishRecords.Where(x => x.Id == Id && x.Status == true && x.Role == "Jyotish").FirstOrDefault();
             if (record == null)
             {
                 return null;
