@@ -410,7 +410,8 @@ namespace BusinessAccessLayer.Implementation
                        Name = _Jyotish.Name,
                        Email =  _Jyotish.Email,
                        Role = _Jyotish.Role,
-                       NewStatus=_Jyotish.NewStatus
+                       NewStatus=_Jyotish.NewStatus,
+                      
 
                     });
                 }

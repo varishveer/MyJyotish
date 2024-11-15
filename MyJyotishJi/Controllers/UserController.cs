@@ -421,6 +421,24 @@ namespace MyJyotishGApi.Controllers
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
 
         }
+         
+        [HttpGet("LayoutData")]
+        public IActionResult LayoutData(int Id)
+        {
+            try
+            {
+                var result = _services.LayoutData(Id);
+                if (result == null)
+                {
+                    return Ok(new { Status = 404, Message = "Not Found" });
+                }
+
+                else { return Ok(new { Status = 200, Data = result }); }
+
+            }
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
+
+        }
 
         /* [AllowAnonymous]
          [HttpGet("GetPoojaList")]

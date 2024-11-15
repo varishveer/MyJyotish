@@ -636,7 +636,24 @@ namespace BusinessAccessLayer.Implementation
             return result;
         }
 
-
+        public LayoutDataViewModel LayoutData(int Id)
+        {
+            var record = _context.Users.Where(x => x.Id == Id ).FirstOrDefault();
+            if (record == null)
+            {
+                return null;
+            }
+            else
+            {
+                LayoutDataViewModel layoutData = new LayoutDataViewModel
+                {
+                    Id = record.Id,
+                    Name = record.Name,
+                    Image = record.ProfilePictureUrl
+                };
+                return layoutData;
+            }
+        }
 
 
 

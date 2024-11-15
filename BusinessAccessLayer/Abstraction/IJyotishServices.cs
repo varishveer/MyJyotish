@@ -71,5 +71,6 @@ namespace BusinessAccessLayer.Abstraction
         public AppointmentSlotDetailsJyotish AppointmentSlotDtails(int Id);
         public List<SkipdateJyotishViewModel> SkipDateList(int Id);
         public List<JyotishNotificationDataViewModel> NotificationData(int Id);
+        public LayoutDataViewModel LayoutData(int Id);
     }
 }

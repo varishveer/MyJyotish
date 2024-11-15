@@ -35,7 +35,7 @@ namespace BusinessAccessLayer.Implementation
         public async Task<JyotishModel> ProfileData(int Id)
         {
 
-            var result = await _context.JyotishRecords.Where(x => x.Id == Id).FirstOrDefaultAsync();
+            var result = await _context.JyotishRecords.Where(x => x.Id == Id && x.Status == true).FirstOrDefaultAsync();
             if (result == null) { return null; }
 
             return result;

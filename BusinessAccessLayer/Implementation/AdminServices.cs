@@ -133,7 +133,7 @@ namespace BusinessAccessLayer.Implementation
             var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
             if (Jyotish == null)
             { return false; }
-            Jyotish.ApprovedStatus = "Rejected";
+            Jyotish.Role = "Rejected";
             Jyotish.Status =false;
             Jyotish.Message = model.Message;
             _context.JyotishRecords.Update(Jyotish);

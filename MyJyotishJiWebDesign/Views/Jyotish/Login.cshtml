@@ -161,13 +161,12 @@
                      
                       
                       
-                        if(response.role == "Pending")
-                        {
+                        if (response.role == "Pending") {
                             Swal.fire({
                                 title: "Successful!",
                                 text: "You successfully login",
                                 icon: "success",
-                               
+
                                 showConfirmButton: true, // Ensure the OK button is shown
                             }).then(() => {
 
@@ -181,15 +180,14 @@
                             });
 
 
-                           
+
                         }
-                        else if(response.role == "Jyotish")
-                        {
+                        else if (response.role == "Jyotish") {
                             Swal.fire({
                                 title: "Login Successful!",
                                 text: "Redirecting to dashboard...",
                                 icon: "success",
-                              
+
                                 showConfirmButton: true, // Ensure the OK button is shown
                             }).then(() => {
 
@@ -197,10 +195,13 @@
                                 localStorage.setItem("Id", response.id);
                                 window.location.href = "/Jyotish/Dashboard";
                             });
-
-
-
-                           
+                        }
+                        else if (response.role == "Rejected") {
+                            localStorage.setItem("Id", response.id);
+                            localStorage.setItem("Role", response.role);
+                            localStorage.setItem("UserName", response.userName);
+                          
+                            window.location.href = "/PendingJyotish/Rejeted";
                         }
 
                         } else if (response.status === 409) {

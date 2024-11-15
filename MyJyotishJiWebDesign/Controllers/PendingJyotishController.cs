@@ -19,7 +19,7 @@ namespace MyJyotishGWeb.Controllers
         public IActionResult UpdateProfile() { return View(); }
         public IActionResult ForgotPasswordRequest() { return View(); }
         public IActionResult ForgotPasswordOtp() { return View(); }
-        
+        public IActionResult Rejected() { return View(); }
 
     }
 }
