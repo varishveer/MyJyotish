@@ -1069,9 +1069,10 @@ namespace BusinessAccessLayer.Implementation
 
             ManageSubscriptionModel NewData = new ManageSubscriptionModel()
             {
-                SubscriptionId= model.SubscriptionId,
+                SubscriptionId = model.SubscriptionId,
                 FeatureId = model.FeatureId,
-                ServiceCount = model.ServiceCount
+                ServiceCount = model.ServiceCount,
+                Status = true
             };
             _context.ManageSubscriptionModels.Add(NewData);
             if (_context.SaveChanges() > 0)
