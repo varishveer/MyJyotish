@@ -235,6 +235,96 @@
             box-shadow: none;
         }
 
+        #NotificationNewText {
+            letter-spacing: 2px;
+            font-size: 0.5rem;
+        }
+
+        /* Main container for the notification list */
+        .notification-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px; /* Space between notifications */
+        }
+
+        /* Each notification will have a card-like style */
+        .notification-item {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+
+            /* Hover effect for notification item */
+            .notification-item:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            }
+
+            /* Left column (Name and Appointment Info) */
+            .notification-item .left {
+                flex: 1;
+                padding-right: 15px;
+            }
+
+            /* Right column (Booking Date and Duration) */
+            .notification-item .right {
+                color: #555;
+            }
+
+        /* Name Styling */
+        .notification-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #333;
+        }
+
+        /* Appointment Date and Time Styling */
+        .notification-time {
+            font-size: 0.95rem;
+            color: #777;
+        }
+
+        /* Booking Date Styling */
+        .notification-booking-date {
+            text-align: center;
+            font-size: 0.85rem;
+            color: #aaa;
+        }
+
+        /* Time Duration Badge */
+        .notification-duration {
+            font-weight: 500;
+            padding: 5px 10px;
+            border-radius: 20px;
+            margin-top: 0px;
+        }
+
+        /* Small text under each notification */
+        .notification-small {
+            font-size: 0.85rem;
+            color: #888;
+        }
+
+        /* For mobile responsiveness */
+        @@media (max-width: 576px) {
+            .notification-item {
+                flex-direction: column; /* Stack the content vertically on smaller screens */
+                text-align: left;
+            }
+
+                .notification-item .right {
+                    text-align: left; /* Align the right column to the left on mobile */
+                }
+
+            .notification-duration {
+                margin-top: 5px;
+            }
+        }
     </style>
 
 
@@ -340,8 +430,13 @@
 
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
 
-                        <span class=" d-lg-inline-flex">Notification</span>
-                        <i class="fa fa-bell me-lg-2"></i>
+                       
+                        <i class="fa fa-bell me-lg-2  position-relative">
+
+                            <span id="NotificationNewText" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                New
+                            </span>
+                        </i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
                         <div id="notificationData">
@@ -410,8 +505,8 @@
             </nav>
             <!-- Navbar End -->
             <script>
-               var BaseUrl = "https://api.myjyotishg.in/"
-             //   var BaseUrl = "https://localhost:7118/"
+              // var BaseUrl = "https://api.myjyotishg.in/"
+               var BaseUrl = "https://localhost:7118/"
             </script>
             @RenderBody()
         </div>
@@ -420,93 +515,7 @@
         <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
     </div>
 
-    <style>
-        /* Main container for the notification list */
-        .notification-list {
-            display: flex;
-            flex-direction: column;
-            gap: 15px; /* Space between notifications */
-        }
-
-        /* Each notification will have a card-like style */
-        .notification-item {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            padding: 15px;
-            border-radius: 10px;
-            background-color: #ffffff;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-        }
-
-            /* Hover effect for notification item */
-            .notification-item:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            }
-
-            /* Left column (Name and Appointment Info) */
-            .notification-item .left {
-                flex: 1;
-                padding-right: 15px;
-            }
-
-            /* Right column (Booking Date and Duration) */
-            .notification-item .right {
-                color: #555;
-            }
-
-        /* Name Styling */
-        .notification-name {
-            font-weight: 600;
-            font-size: 1.1rem;
-            color: #333;
-        }
-
-        /* Appointment Date and Time Styling */
-        .notification-time {
-            font-size: 0.95rem;
-            color: #777;
-        }
-
-        /* Booking Date Styling */
-        .notification-booking-date {
-            text-align: center;
-            font-size: 0.85rem;
-            color: #aaa;
-        }
-
-        /* Time Duration Badge */
-        .notification-duration {
-            font-weight: 500;
-            padding: 5px 10px;
-            border-radius: 20px;
-            margin-top: 0px;
-        }
-
-        /* Small text under each notification */
-        .notification-small {
-            font-size: 0.85rem;
-            color: #888;
-        }
-
-        /* For mobile responsiveness */
-        @@media (max-width: 576px) {
-            .notification-item {
-                flex-direction: column; /* Stack the content vertically on smaller screens */
-                text-align: left;
-            }
-
-                .notification-item .right {
-                    text-align: left; /* Align the right column to the left on mobile */
-                }
-
-            .notification-duration {
-                margin-top: 5px;
-            }
-        }
-    </style>
+    
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // Your API URL
@@ -527,31 +536,31 @@
                    
                     const notificationDataContainer = document.getElementById('notificationData');
 
-                    // Iterate over each notification data item
-                    // data.data.forEach(item => {
-                    //     // Create the notification item <a> element
-                    //     const notificationItem = document.createElement('a');
-                    //     notificationItem.href = '#';
-                    //     notificationItem.classList.add('dropdown-item');
+                   // Iterate over each notification data item
+                    data.data.forEach(item => {
+                        // Create the notification item <a> element
+                        const notificationItem = document.createElement('a');
+                        notificationItem.href = '#';
+                        notificationItem.classList.add('dropdown-item');
 
-                    //     const shortName = item.name.length > 15 ? item.name.substring(0, 15) + '...' : item.name;
-                    //     notificationItem.innerHTML = `
-                    //             <div class="d-flex">
-                    //                 <div class="left">
-                    //                             <h6 class="notification-name">${shortName}</h6>
-                    //                     <small class="notification-time">${item.Date} at ${item.Time}</small>
-                    //                 </div>
-                    //                 <div class="right ms-1">
+                        const shortName = item.name.length > 15 ? item.name.substring(0, 15) + '...' : item.name;
+                        notificationItem.innerHTML = `
+                                <div class="d-flex">
+                                    <div class="left">
+                                                <h6 class="notification-name">${shortName}</h6>
+                                        <small class="notification-time">${item.Date} at ${item.Time}</small>
+                                    </div>
+                                    <div class="right ms-1">
                                        
-                    //                     <br/>
-                    //                             <div class="notification-duration btn btn-success ">${item.timeDuration} minutes</div>
-                    //                 </div>
-                    //             </div>
-                    //         `;
+                                        <br/>
+                                                <div class="notification-duration btn btn-success ">${item.timeDuration} minutes</div>
+                                    </div>
+                                </div>
+                            `;
 
-                    //     // Append the notification item to the container
-                    //     notificationDataContainer.appendChild(notificationItem);
-                    // });
+                        // Append the notification item to the container
+                        notificationDataContainer.appendChild(notificationItem);
+                    });
                 })
                 .catch(error => {
                     // Handle any errors that occur during the fetch
