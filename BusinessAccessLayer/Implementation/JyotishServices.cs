@@ -1210,6 +1210,7 @@ namespace BusinessAccessLayer.Implementation
                      currentDate = DateTime.Now,
                      memberName = member != null ? member.Name : null,
                      memberReltion = member != null ? member.relation : null,
+                     memberId = member != null ? member.Id : 0,
                  }
                  ).ToList();
 
@@ -1234,19 +1235,17 @@ namespace BusinessAccessLayer.Implementation
             }
 
             string problems = "";
-            string Solutions = "";
+            string Solutions = model.Solution;
             foreach (var it in model.Problem)
             {
                 problems += it + "$%^";
             }
 
-            foreach (var it in model.Solution)
-            {
-                Solutions += it + "$%^";
-            }
+           
             existingRecord.Problem = problems;
             existingRecord.Solution = Solutions;
-            existingRecord.AppointmentId = model.AppointmentId;
+
+            _context.ProblemSolution.Update(existingRecord);
 
             return _context.SaveChanges() > 0 ? "successful" : "Update failed";
         }
