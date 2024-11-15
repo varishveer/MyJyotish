@@ -812,12 +812,19 @@ namespace BusinessAccessLayer.Implementation
 
 
 
-        public string AddFeature(SubscriptionFeaturesModel model)
+        public string AddFeature(SubscriptionFeatureViewModel.Add model)
         {
             if(model ==null)
             { return "Invalid Data"; }
-            _context.Add(model);
-            if(_context.SaveChanges() >0)
+            SubscriptionFeaturesModel NewData = new SubscriptionFeaturesModel()
+            {
+                Name = model.Name,
+                ServiceUrl = model.ServiceUrl,
+                 Status = true
+            };
+
+            _context.SubscriptionFeatures.Add(NewData);
+            if (_context.SaveChanges() >0)
             { return "Successful"; }
             else
             {
@@ -825,30 +832,39 @@ namespace BusinessAccessLayer.Implementation
             }
 
         }
-        public List<SubscriptionFeaturesModel> GetAllFeatures()
+        public List<SubscriptionFeatureViewModel.GetAll> GetAllFeatures()
         {
-            var record = _context.SubscriptionFeatures.ToList();
-           
-                
+            var record = _context.SubscriptionFeatures.Where(x=>x.Status == true).Select(x=> new SubscriptionFeatureViewModel.GetAll
+            { 
+                Id = x.FeatureId,
+                Name = x.Name,
+                ServiceUrl= x.ServiceUrl
+            }).ToList();     
             return record;
         }
 
         public string DeleteFeature(int Id)
         {
-            var record = _context.SubscriptionFeatures.Where(x => x.FeatureId == Id).FirstOrDefault();
+            var record = _context.SubscriptionFeatures.Where(x => x.FeatureId == Id && x.Status == true).FirstOrDefault();
             if(record==null)
             { return "Invalid Data"; }
-            _context.SubscriptionFeatures.Remove(record);
+
+            record.Status = false;
+            _context.SubscriptionFeatures.Update(record);
             if (_context.SaveChanges() > 0) { return "Successful"; }
             else { return "Internal Server Error."; }
         }
 
-        public string UpdateFeature(SubscriptionFeaturesModel model)
+        public string UpdateFeature(SubscriptionFeatureViewModel.Update model)
         {
-            var record = _context.SubscriptionFeatures.Where(x => x.FeatureId == model.FeatureId).FirstOrDefault();
+            var record = _context.SubscriptionFeatures.Where(x => x.FeatureId == model.Id && x.Status == true).FirstOrDefault();
             if (record == null)
             { return "Invalid Data"; }
+
+
             record.Name = model.Name;
+            record.ServiceUrl = model.ServiceUrl;
+
             _context.SubscriptionFeatures.Update(record);
             if (_context.SaveChanges() > 0) { return "Successful"; }
             else { return "Internal Server Error."; }
@@ -1041,6 +1057,67 @@ namespace BusinessAccessLayer.Implementation
 
             return records ?? null;
         }
+
+
+        public string AddManageSubscriptionData(ManageSubscriptionViewModel.Add model)
+        {
+            var Subscription = _context.Subscriptions.Where(x => x.SubscriptionId == model.SubscriptionId).FirstOrDefault();
+            var Feature = _context.SubscriptionFeatures.Where(x => x.FeatureId == model.FeatureId).FirstOrDefault();
+
+            ManageSubscriptionModel NewData = new ManageSubscriptionModel()
+            {
+                SubscriptionId= model.SubscriptionId,
+                FeatureId = model.FeatureId,
+                ServiceCount = model.ServiceCount
+            };
+            _context.ManageSubscriptionModels.Add(NewData);
+            if (_context.SaveChanges() > 0)
+            {
+                return "Successfull";
+            }
+            else
+            {
+                return "Internsal Server Error";
+            }
+
+        }
+
+        public string UpdateManageSubscriptionData(ManageSubscriptionViewModel.Update model)
+        {
+            var Subscription = _context.Subscriptions.Where(x => x.SubscriptionId == model.SubscriptionId && x.Status == true).FirstOrDefault();
+            var Feature = _context.SubscriptionFeatures.Where(x => x.FeatureId == model.FeatureId && x.Status == true).FirstOrDefault();
+            var Record = _context.ManageSubscriptionModels.Where(x => x.Id == model.Id && x.Status == true).FirstOrDefault();
+            if (Subscription == null && Feature == null & Record == null)
+            {
+                return "Invalid Data";
+            }
+
+
+            Record.SubscriptionId = model.SubscriptionId;
+            Record.FeatureId = model.FeatureId;
+            Record.ServiceCount = model.ServiceCount;
+           
+            _context.ManageSubscriptionModels.Update(Record);
+            if (_context.SaveChanges() > 0)
+            {
+                return "Successfull";
+            }
+            else
+            {
+                return "Internsal Server Error";
+            }
+        }
+
+       /* public List<ManageSubscriptionViewModel> GetAllManageSubscriptionData()
+        {
+           
+            var Record = _context.ManageSubscriptionModels.Where(x =>  x.Status == true).Include(x=>x.Subscription).Include(x=>x.Feature).FirstOrDefault();
+            
+        }*/
+
+
+
+
         public List<JyotishPaymentRecordModel> JyotishPaymentrecords()
         {
             
