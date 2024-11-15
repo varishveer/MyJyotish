@@ -523,6 +523,7 @@ namespace MyJyotishJiApi.Controllers
         {
             try
             {
+                model.Status = true;
                 var Result = _admin.AddFeature(model);
                 if (Result == "Invalid Data")
                 { return Ok(new { Status = 409, Message = Result }); }

@@ -12,6 +12,7 @@ namespace ModelAccessLayer.ViewModels
         {
             public string Name { get; set; }
             public string ServiceUrl { get; set; }
+            public bool Status { get; set; }
         }
 
         public class Update

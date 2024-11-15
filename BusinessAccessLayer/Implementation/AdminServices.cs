@@ -834,6 +834,9 @@ namespace BusinessAccessLayer.Implementation
         }
         public List<SubscriptionFeatureViewModel.GetAll> GetAllFeatures()
         {
+            
+           
+                
             var record = _context.SubscriptionFeatures.Where(x=>x.Status == true).Select(x=> new SubscriptionFeatureViewModel.GetAll
             { 
                 Id = x.FeatureId,
