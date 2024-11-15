@@ -346,11 +346,11 @@
                         <div class="row justify-content-center align-items-end">
                             <div class="col-sm-5">
                                 <label for="title">Title</label>
-                                <input type="text" id="title" name="title" placeholder="Enter Title" class="form-control" />
+                                <input type="text" required id="title" name="title" placeholder="Enter Title" class="form-control" />
                             </div>
                             <div class="col-sm-5">
                                 <label for="attachment">Attachment</label>
-                                <input type="file" id="attachment" name="attachment"  class="form-control" />
+                                <input type="file" required id="attachment" name="attachment"  class="form-control" />
                             </div>
                             <div class="col-sm-2">
                                 <input type="submit" value="Add" class="btn btn-success" />
@@ -804,6 +804,42 @@
             },
             error: function () {
                 $('#problemSolutionContent').html('<p>Error loading data.</p>');
+            }
+        });
+    }
+
+    function updateData() {
+        const id = $('#updateId').val(); // Assuming a hidden input for the unique id
+        const appointmentId = $('#updateAppointmentId').val();
+        const problems = Array.from($('#updateProblemFields textarea')).map(input => input.value);
+        const solutions = Array.from($('#updateSolutionFields textarea')).map(input => input.value);
+
+        const data = {
+            Id: id, // The unique identifier
+            AppointmentId: appointmentId, // Appointment-specific ID
+            Problem: problems,
+            Solution: solutions
+        };
+
+        $.ajax({
+            url: `${BaseUrl}Api/Jyotish/UpdateProblemSolution`,
+            type: 'POST',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+            },
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function (response) {
+                if (response.status === 200) {
+                    alert('Data updated successfully!');
+                    $('#updateProblemSolutionModal').modal('hide');
+                    location.reload();
+                } else {
+                    alert('Error: ' + response.Message);
+                }
+            },
+            error: function () {
+                alert('Error updating data.'); 
             }
         });
     }
@@ -1337,4 +1373,65 @@
         document.getElementById("modalForm").reset()
         $("#solution").summernote('reset');
    })
+</script>
+
+
+
+<!-- Update Problem and Solution Modal -->
+<div class="modal fade" id="updateProblemSolutionModal" tabindex="-1" aria-labelledby="updateProblemSolutionModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateProblemSolutionModalLabel">Update Problem and Solution</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+
+                <div class="d-flex justify-content-between">
+                    <div><div class="section-title">User Name:</div><p id="modalUserName"></p></div>
+                    <div><div class="section-title">Date:</div><p id="modalDate"></p></div>
+                    <div><div class="section-title">Time:</div><p id="modalTime"></p></div>
+                </div>
+
+
+                <!-- Hidden input to store AppointmentId -->
+                <input type="hidden" id="updateId" />
+                <input type="hidden" id="updateAppointmentId" />
+
+                <div class="container-fluid">
+                    <div class="row">
+                        <!-- Column for Problems -->
+                        <div class="col-md-6">
+                            <h6>Problem(s)</h6>
+                            <div id="updateProblemFields" class="expandable-content">
+                                <div class="mb-3"><textarea class="form-control" rows="3" placeholder="Enter updated problem"></textarea></div>
+                            </div>
+                            <button type="button" class="btn btn-secondary mb-3" onclick="addUpdateProblemField()">Add More Problem</button>
+                        </div>
+
+                        <!-- Column for Solutions -->
+                        <div class="col-md-6">
+                            <h6>Solution(s)</h6>
+                            <div class="mb-3"><textarea class="form-control" rows="3" placeholder="Enter updated solution"></textarea></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-custom" onclick="updateData()">Update</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function addUpdateProblemField() {
+        $('#updateProblemFields').append(`<div class="mb-3"><textarea class="form-control" rows="3" placeholder="Enter updated problem"></textarea></div>`);
+    }
+
+    function addUpdateSolutionField() {
+        $('#updateSolutionFields').append(`<div class="mb-3"><textarea class="form-control" rows="3" placeholder="Enter updated solution"></textarea></div>`);
+    }
 </script>
