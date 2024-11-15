@@ -106,6 +106,7 @@
                         <tr>
                             <th>Id</th>
                             <th>Features</th>
+                            <th>Url</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -127,7 +128,13 @@
     $(document).ready(function () {
         $("#btnsubmit").on('click', function (e) { 
             e.preventDefault();
-
+            Swal.fire({
+                title: "Processing Your Request",
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            })
             var featureName = $("#Name").val(); 
             var serviceUrl = $("#Url").val();
             if (!featureName) {
@@ -203,6 +210,7 @@
                     $('tbody').append(`<tr>
                                         <td>${index + 1}</td>
                                         <td class='featureName'>${item.name}</td>
+                                        <td class='url'>${item.serviceUrl}</td>
                                         <td style='cursor:pointer;'>
                                         <a class="deletefeature" data-id="${item.featureId}">
                                            <i class="fa-solid fa-trash-can text-danger"></i>
@@ -280,8 +288,10 @@
         $(document).on('click', '.editfeature', function () {
             var Id = $(this).attr('data-id');
             var fieldValue = $(this).closest('tr').find('.featureName').text();
+            var urlValue = $(this).closest('tr').find('.url').text();
 
             $('#Name').val(fieldValue);
+            $('#url').val(urlValue);
             $('#featureId').val(Id);
             debugger
             if (Id) {

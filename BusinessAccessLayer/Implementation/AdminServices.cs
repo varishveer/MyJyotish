@@ -827,7 +827,7 @@ namespace BusinessAccessLayer.Implementation
         }
         public List<SubscriptionFeaturesModel> GetAllFeatures()
         {
-            var record = _context.SubscriptionFeatures.ToList();
+            var record = _context.SubscriptionFeatures.Where(e=>e.Status).ToList();
            
                 
             return record;
