@@ -410,8 +410,8 @@
             </nav>
             <!-- Navbar End -->
             <script>
-              // var BaseUrl = "https://api.myjyotishg.in/"
-                var BaseUrl = "https://localhost:7118/"
+               var BaseUrl = "https://api.myjyotishg.in/"
+             //   var BaseUrl = "https://localhost:7118/"
             </script>
             @RenderBody()
         </div>
@@ -528,30 +528,30 @@
                     const notificationDataContainer = document.getElementById('notificationData');
 
                     // Iterate over each notification data item
-                    data.data.forEach(item => {
-                        // Create the notification item <a> element
-                        const notificationItem = document.createElement('a');
-                        notificationItem.href = '#';
-                        notificationItem.classList.add('dropdown-item');
+                    // data.data.forEach(item => {
+                    //     // Create the notification item <a> element
+                    //     const notificationItem = document.createElement('a');
+                    //     notificationItem.href = '#';
+                    //     notificationItem.classList.add('dropdown-item');
 
-                        const shortName = item.name.length > 15 ? item.name.substring(0, 15) + '...' : item.name;
-                        notificationItem.innerHTML = `
-                                <div class="d-flex">
-                                    <div class="left">
-                                                <h6 class="notification-name">${shortName}</h6>
-                                        <small class="notification-time">${item.Date} at ${item.Time}</small>
-                                    </div>
-                                    <div class="right ms-1">
+                    //     const shortName = item.name.length > 15 ? item.name.substring(0, 15) + '...' : item.name;
+                    //     notificationItem.innerHTML = `
+                    //             <div class="d-flex">
+                    //                 <div class="left">
+                    //                             <h6 class="notification-name">${shortName}</h6>
+                    //                     <small class="notification-time">${item.Date} at ${item.Time}</small>
+                    //                 </div>
+                    //                 <div class="right ms-1">
                                        
-                                        <br/>
-                                                <div class="notification-duration btn btn-success ">${item.timeDuration} minutes</div>
-                                    </div>
-                                </div>
-                            `;
+                    //                     <br/>
+                    //                             <div class="notification-duration btn btn-success ">${item.timeDuration} minutes</div>
+                    //                 </div>
+                    //             </div>
+                    //         `;
 
-                        // Append the notification item to the container
-                        notificationDataContainer.appendChild(notificationItem);
-                    });
+                    //     // Append the notification item to the container
+                    //     notificationDataContainer.appendChild(notificationItem);
+                    // });
                 })
                 .catch(error => {
                     // Handle any errors that occur during the fetch

@@ -26,5 +26,8 @@ namespace BusinessAccessLayer.Abstraction
         public  Task<string> UploadRejectedDocumentAsync(DocumentViewModel model);
         public bool IsJyotishValid(int Id);
 
+        public string IsPendingJyotishValid(int Id);
+
+
     }
 }
