@@ -291,7 +291,7 @@
             var urlValue = $(this).closest('tr').find('.url').text();
 
             $('#Name').val(fieldValue);
-            $('#url').val(urlValue);
+            $('#Url').val(urlValue);
             $('#featureId').val(Id);
             debugger
             if (Id) {
@@ -312,6 +312,7 @@
             e.preventDefault();
 
             const featureName = $("#Name").val();
+            const url = $("#Url").val();
             const featureId = $("#featureId").val().trim();
            
             if (!featureName) {
@@ -334,9 +335,10 @@
                 contentType: 'application/json',
                 data: JSON.stringify({
                     FeatureId: featureId,
-                    Name: featureName
+                    Name: featureName,
+                    ServiceUrl: url
                 }),
-                success: function (response) {
+                success:function (response) {
                 
                     if (response.status === 200) {
                         Swal.fire({
