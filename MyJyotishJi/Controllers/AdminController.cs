@@ -596,6 +596,88 @@ namespace MyJyotishJiApi.Controllers
 
         }
 
+
+        [HttpPost("AddManageSubscriptionData")]
+        public IActionResult AddManageSubscriptionData(ManageSubscriptionViewModel.Add model)
+        {
+            try
+            {
+                var Result = _admin.AddManageSubscriptionData(model);
+                if (Result == "Invalid Data")
+                { return Ok(new { Status = 409, Message = Result }); }
+                if (Result == "Successful")
+                { return Ok(new { Status = 200, Message = Result }); }
+                else
+                { return Ok(new { Status = 500, Message = Result }); }
+
+
+            }
+
+            catch { return StatusCode(500, new { Status = 500, Message = "Internal Server Error " }); }
+
+        }
+
+        [HttpPost("UpdateManageSubscriptionData")]
+        public IActionResult UpdateManageSubscriptionData(ManageSubscriptionViewModel.Update model)
+        {
+            try
+            {
+                var Result = _admin.UpdateManageSubscriptionData(model);
+                if (Result == "Invalid Data")
+                { return Ok(new { Status = 409, Message = Result }); }
+                if (Result == "Successful")
+                { return Ok(new { Status = 200, Message = Result }); }
+                else
+                { return Ok(new { Status = 500, Message = Result }); }
+
+
+            }
+
+            catch { return StatusCode(500, new { Status = 500, Message = "Internal Server Error " }); }
+
+        }
+
+        [HttpGet("DeleteManageSubscriptionData")]
+        public IActionResult DeleteManageSubscriptionData(int Id)
+        {
+            try
+            {
+                var Result = _admin.DeleteManageSubscriptionData(Id);
+                if (Result == "Invalid Data")
+                { return Ok(new { Status = 409, Message = Result }); }
+                if (Result == "Successful")
+                { return Ok(new { Status = 200, Message = Result }); }
+                else
+                { return Ok(new { Status = 500, Message = Result }); }
+
+
+            }
+
+            catch { return StatusCode(500, new { Status = 500, Message = "Internal Server Error " }); }
+
+        }
+
+        [HttpGet("GetAllManageSubscriptionData")]
+        public IActionResult GetAllManageSubscriptionData()
+        {
+            try
+            {
+                var Result = _admin.GetAllManageSubscriptionData();
+                if (Result == null)
+                { return Ok(new { Status = 404, Message = "Data Not Found" }); }
+
+                else
+                { return Ok(new { Status = 200, Data = Result, Message = "Successful" }); }
+
+            }
+
+            catch { return StatusCode(500, new { Status = 500, Message = "Internal Server Error " }); }
+
+        }
+
+
+
+
         [HttpPost("AddSubscription")]
         public IActionResult AddSubscription(SubscriptionViewModel model)
         {

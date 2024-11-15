@@ -1073,7 +1073,7 @@ namespace BusinessAccessLayer.Implementation
             _context.ManageSubscriptionModels.Add(NewData);
             if (_context.SaveChanges() > 0)
             {
-                return "Successfull";
+                return "Successful";
             }
             else
             {
@@ -1099,8 +1099,8 @@ namespace BusinessAccessLayer.Implementation
            
             _context.ManageSubscriptionModels.Update(Record);
             if (_context.SaveChanges() > 0)
-            {
-                return "Successfull";
+            { 
+                return "Successful";
             }
             else
             {
@@ -1108,13 +1108,35 @@ namespace BusinessAccessLayer.Implementation
             }
         }
 
-       /* public List<ManageSubscriptionViewModel> GetAllManageSubscriptionData()
+        public List<ManageSubscriptionViewModel.GetAll> GetAllManageSubscriptionData()
         {
-           
-            var Record = _context.ManageSubscriptionModels.Where(x =>  x.Status == true).Include(x=>x.Subscription).Include(x=>x.Feature).FirstOrDefault();
-            
-        }*/
 
+            var Record = _context.ManageSubscriptionModels.Where(x => x.Status == true).Include(x => x.Subscription).Include(x => x.Feature).Select(x=> new ManageSubscriptionViewModel.GetAll
+            {
+                Id = x.Id,
+                SubscriptionName = x.Subscription.Name,
+                FeatureName = x.Feature.Name,
+                ServiceCount = x.ServiceCount
+            }).ToList();
+
+            return Record;
+        }
+
+        public string DeleteManageSubscriptionData(int Id)
+        {
+            var Record = _context.ManageSubscriptionModels.Where(x => x.Id == Id).FirstOrDefault();
+            if(Record == null) { return "Invalid Data"; }
+            Record.Status = false;
+            _context.ManageSubscriptionModels.Update(Record);
+            if (_context.SaveChanges() > 0)
+            {
+                return "Successful";
+            }
+            else
+            {
+                return "Internal Server Error";
+            }
+        }
 
 
 

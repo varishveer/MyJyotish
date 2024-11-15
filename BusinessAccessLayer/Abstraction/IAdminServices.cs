@@ -51,6 +51,11 @@ namespace BusinessAccessLayer.Abstraction
         public List<SubscriptionFeatureViewModel.GetAll> GetAllFeatures();
         public string DeleteFeature(int Id);
         public string UpdateFeature(SubscriptionFeatureViewModel.Update model);
+        public string AddManageSubscriptionData(ManageSubscriptionViewModel.Add model);
+        public string UpdateManageSubscriptionData(ManageSubscriptionViewModel.Update model);
+        public List<ManageSubscriptionViewModel.GetAll> GetAllManageSubscriptionData();
+        public string DeleteManageSubscriptionData(int Id);
+
         public string AddSubscription(SubscriptionViewModel model);
         public string UpdateSubscription(SubscriptionViewModel model);
         public List<SubscriptionGetViewModel> GetAllSubscription();
