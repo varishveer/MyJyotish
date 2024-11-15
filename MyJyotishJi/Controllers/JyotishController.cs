@@ -735,8 +735,8 @@ namespace MyJyotishGApi.Controllers
                 ProblemSolutionViewModel model = new ProblemSolutionViewModel
                 {
                     Id = Convert.ToInt32(httpRequest.Form["Id"]),
-                    Problem = httpRequest.Form["problems"],
-                    Solution = httpRequest.Form["solutions"].ToString(),
+                    Problem = httpRequest.Form["problem"].ToString().Split(','),
+                    Solution = httpRequest.Form["solution"],
                 };
                 // Call the service layer to update the problem solution
                 var result = _jyotish.UpdateProblemSolution(model);

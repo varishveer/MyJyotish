@@ -350,7 +350,53 @@
                         <div class="text-end">
                             <button class="btn btn-success" id="addAttachmentBtn">Add Attachment</button>
                         </div>
-                        <form id="attachmentForm" class="my-4"  method="post">
+                        <form id="" class="my-4 attachmentForm"  method="post">
+                            <input type="hidden" name="userId" id="userId" />
+                        <div class="row justify-content-center align-items-end">
+                            <div class="col-sm-5">
+                                <label for="title">Title</label>
+                                <input type="text" required id="title" name="title" placeholder="Enter Title" class="form-control" />
+                            </div>
+                            <div class="col-sm-5">
+                                <label for="attachment">Attachment</label>
+                                <input type="file" required id="attachment" name="attachment"  class="form-control" />
+                            </div>
+                            <div class="col-sm-2">
+                                <input type="submit" value="Add" class="btn btn-success" />
+                            </div>
+                        </div>
+                        </form>
+                       
+                    </div>
+                    <div class="col-sm-12 mt-4">
+                        <div class="row " id="attachmentRecord">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Add Attachment for Update-->
+<!-- Modal -->
+<div class="modal fade" id="attachmentModal2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg  modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Add Attachment</h1>
+                <button type="button" class="btn-close" id="closeAttachmentModal" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="text-end">
+                            <button class="btn btn-success" id="addAttachmentBtn2">Add Attachment</button>
+                        </div>
+                        <form id="" class="my-4 attachmentForm"  method="post">
                             <input type="hidden" name="userId" id="userId" />
                         <div class="row justify-content-center align-items-end">
                             <div class="col-sm-5">
@@ -495,7 +541,8 @@
 
 
                 <!-- Hidden input to store AppointmentId -->
-                <input type="hidden" id="problemId" />
+                <input type="hidden" id="problemId" name="problemId"/>
+                <input type="hidden" id="appointmentId"/>
 
                 <div class="container-fluid">
                     <div class="row">
@@ -541,9 +588,9 @@
 
     })
 
-    $("#attachmentForm").hide()
+    $(".attachmentForm").hide()
 
-    $("#attachmentForm").submit(function(e){
+    $(".attachmentForm").submit(function(e){
         e.preventDefault();
         let formData =new FormData();
         let arrayData=$(this).serializeArray();
@@ -604,7 +651,7 @@
     })
 
     $("#addAttachmentBtn").click(function(){
-    $("#attachmentForm").toggle()
+    $(".attachmentForm").toggle()
 
     })
 
@@ -629,7 +676,6 @@
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
             },
-           
             data: { Id: appId, memberId: memId },
             success: function (result) {
                 console.log(result)
@@ -682,7 +728,6 @@
         })
     }
 
-
     function showAppointmentSlotsHistory() {
         $.ajax({
             url: `${BaseUrl}Api/Jyotish/GetAllAppointmentHistory`,
@@ -729,8 +774,10 @@
 
     $("#appointmentHistoryBtn").click(function () {
     $("#appointmentHistoryModal").modal("show")
+    $("#updateProblemSolutionModal").modal("show")
     showAppointmentSlotsHistory()
 })
+  
 
     // Fetch and display all appointments on page load
     let appointmentslots=[]
@@ -840,6 +887,7 @@
                         data.forEach(function (d) {
                             const content = `
                                        <div class="container my-3 text-end">
+                                       <button role="button" type="button" class="btn btn-secondary attachmentModaltriggerforUpdate" onClick='showAttachmentUpdateModal(${d.appointmentId},${d.memberId})' ><i class="fa-solid fa-paperclip"></i></button>
                                     <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#updateProblemSolutionModal"
                                        onclick='populateUpdateModal(${JSON.stringify(d)})'>Update</a>
                                 </div>
@@ -850,7 +898,7 @@
                                             <div><div class="section-title">Time:</div><p>${d.appointmentTime}</p></div>
                                     </div>
                                     <div class="section-title">Problems:</div>
-                                    <ul>${d.problems.map(problem => `<li>${problem}</li>`).join('')}</ul>
+                                    <ol>${d.problems.map(problem => `<li>${problem}</li>`).join('')}</ol>
                                     <div class="section-title">Solutions:</div>
                                     <div>${d.solution}</div>
                                 </div>
@@ -870,9 +918,24 @@
         });
     }
 
+    function showAttachmentUpdateModal(appId,memId){
+        debugger
+       
+        getUserAttachment(appId,memId)
+        $("#attachmentModal2").modal("show")
+    $("#exampleModalToggle2").modal("hide")
+
+
+    }
+      $("#addAttachmentBtn2").click(function(){
+    $(".attachmentForm").toggle()
+
+    })
+
     function updateData() {
         const Id = $('#problemId').val();
-        const problems = Array.from($('textarea[name="problem[]"]')).map(input => input.value).filter(d=>d.value!="");
+        const appointmentId = $('#appointmentId').val();
+        const problems = Array.from($('textarea[name="problem[]"]')).map(input => input.value).filter(d=>d!="");
         const solutions = $("#updateSolutionText").val();
 
         let formData=new FormData()
@@ -880,7 +943,7 @@
         formData.append("Problem",problems)
         formData.append("Solution",solutions)
        
-
+        debugger
         $.ajax({
             url: `${BaseUrl}Api/Jyotish/UpdateProblemSolution`,
             type: 'POST',
@@ -897,7 +960,7 @@
                     text:"Record Updated Successfully",
                     icon: "success",
                     didClose:()=>{
-
+                       GetProblemSolutionDetail(appointmentId)
                     $('#updateProblemSolutionModal').modal('hide');
                     }
 
@@ -939,7 +1002,8 @@
         $("#modalUserName").text(data.userName)
         $("#modalDate").text(data.appointmentDate)
         $("#modalTime").text(data.appointmentTime)
-        $("#problemId").text(data.problemId)
+        $("#problemId").val(data.problemId)
+        $("#appointmentId").val(data.appointmentId)
         $('#updateSolutionText').summernote('code', data.solution);
         let problemhtml="";
         data.problems.forEach(function(d){

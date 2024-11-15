@@ -1,0 +1,103 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "AdminLayout";
+}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+
+
+<div class="row">
+
+    <form class="w-75 mt-4 mx-auto border rounded p-3">
+        <h3 class="text-center text-secondary mb-4">Add Services</h3>
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-6">
+        <select name="plan" class="form-select" id="planSelect" required>
+            <option>--select plan--</option>
+        </select>
+                </div>
+                <div class="col-sm-6">
+
+                    <select id="Features" name="Features" class="select form-select" multiple="multiple" required>
+                        <!---Dynamic Data Loaded-->
+
+                    </select>
+        </div>
+        </div>
+                <div class="col-sm-12 my-3">
+                    <div class="row">
+                <div class="col-sm-6">
+
+        <input type="number" name="serviceCount" placeholder="Enter Service Count"  class="form-control"/>
+        </div>
+        <div class="col-sm-12 my-3 text-end">
+
+        <input type="submit" value="Submit"  class="btn btn-primary"/>
+        </div>
+        </div>
+    </div>
+    </div>
+    </form>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        $.ajax({
+            url: BaseUrl +'api/Admin/GetAllSubscription',
+            type: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                'Content-Type': 'application/json',
+            },
+            success: function (res) {
+
+                $.each(res.data, function (index, item) {
+                    $("#planSelect").append(`
+                        <option value='${item.subscriptionId}'>${item.name}</option>
+
+`)
+                });
+                $('#DataTable').DataTable();
+            },
+            error: function (error) {
+                console.error('An error occurred', error);  // Log actual error for better debugging
+            }
+        });
+    });
+</script>
+
+<!----Dynamic Feature List Load--->
+<script>
+    $(".select").select2({
+        placeholder: "--Select Option--"
+    });
+    $(document).ready(function () {
+       
+        $.ajax({
+            url: BaseUrl + 'api/Admin/GetAllFeatures',
+            type: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                'Content-Type': 'application/json',
+            },
+            success: function (res) {
+                $('#Features').empty();
+
+                $.each(res.data, function (index, item) {
+                    var row = `<option value='${item.featureId}'>${item.name}</option>`;
+
+                    $('#Features').append(row);
+                });
+            },
+            error: function (error) {
+                console.error('An error occurred while loading data list:', error);
+            }
+        });
+    });
+</script>
