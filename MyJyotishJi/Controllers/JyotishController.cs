@@ -1050,6 +1050,25 @@ namespace MyJyotishGApi.Controllers
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
 
         }
+         [HttpGet("FeatureValidation")]
+        public IActionResult FeatureValidation(int Id)
+        {
+            try
+            {
+                var result =  _jyotish.FeatureValidation();
+                if (result == null)
+                {
+                    return Ok(new { Status = 404, Message = "Not Found" });
+                }
+
+                else { return Ok(new { Status = 200, Data = result }); }
+
+            }
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
+
+        }
+
+
 
     }
 }
