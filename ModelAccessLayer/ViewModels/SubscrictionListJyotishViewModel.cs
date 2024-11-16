@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ModelAccessLayer.ViewModels
 {
-    public class SubscriptionGetViewModel
+    public class SubscrictionListJyotishViewModel
     {
 
         public int? SubscriptionId { get; set; }
@@ -19,9 +19,15 @@ namespace ModelAccessLayer.ViewModels
         public string PlanType { get; set; }
         public string description { get; set; }
         public bool? Status { get; set; }
-        
-        public string[] Features { get; set; }
 
-
+        public FeatureList[] Features { get; set; }
     }
+
+    public class FeatureList
+    {
+        public int FeatureId { get; set; }
+        public string Name { get; set; }
+        public bool Status { get; set; }
+    }
+
 }
