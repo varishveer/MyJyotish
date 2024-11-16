@@ -42,11 +42,83 @@
 
 </div>
 
+<div class="container-fluid mt-4">
+    <div class="card">
+
+        <div class="d-flex flex-row justify-content-between align-items-center pt-2 px-4">
+            <h5 class="text-primary">Service List</h5>
+            
+        </div>
+        <hr />
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="DataTable" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Sr</th>
+                            <th>Plan Name</th>
+                            <th>Plan Feature</th>
+                            <th>Service Count</th>
+                            <th>Action</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
 
 <script>
     $(document).ready(function () {
+
+        $(document).ready(function () {
+
+            $.ajax({
+                url: BaseUrl + 'api/Admin/GetAllManageSubscriptionData',
+                type: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token")}`
+                },
+                success: function (res) {
+
+                    if (res.status == 200) {
+                        if (res.data.length > 0) {
+                            res.data.forEach(function (d,i) {
+                                $("tbody").append(`
+                            <tr>
+                                <td>${i+1}</td>
+                                <td>${d.subscriptionName}</td>
+                                    <td>${d.featureNames.join(",")}</td>
+                                        <td>${d.serviceCount}</td>
+                                        <td>
+                                                 <a class="deletePlan" data-id="${d.id}">
+                                                   <i class="fa-solid fa-trash-can text-danger"></i>
+                                               </a>
+                                                    <a class="editPlan" data-id="${d.id} ">
+                                                    <i class="fa-solid fa-pen-to-square text-success"></i>
+                                               </a>
+                                        </td>
+                            </tr>
+                            `)
+                            })
+                        }
+                    }
+                    
+                    $('#DataTable').DataTable();
+                },
+                error: function (error) {
+                    console.error('An error occurred', error);  // Log actual error for better debugging
+                }
+            });
+        });
+
 
         $.ajax({
             url: BaseUrl +'api/Admin/GetAllSubscription',

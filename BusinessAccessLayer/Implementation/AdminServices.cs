@@ -1078,8 +1078,10 @@ namespace BusinessAccessLayer.Implementation
             var Record = _context.ManageSubscriptionModels.Where(x => x.Status == true).Include(x => x.Subscription).Include(x => x.Feature).Select(x=> new ManageSubscriptionViewModel
             {
                 Id = x.Id,
+                SubscriptionId = x.Subscription.SubscriptionId,
+                FeatureId = (from feature in _context.SubscriptionFeatures where x.FeatureId==feature.FeatureId select feature.FeatureId).ToArray(),
                 SubscriptionName = x.Subscription.Name,
-                FeatureName = x.Feature.Name,
+                FeatureNames = (from feature in _context.SubscriptionFeatures where x.FeatureId == feature.FeatureId select feature.Name).ToArray(),
                 ServiceCount = x.ServiceCount
             }).ToList();
 
