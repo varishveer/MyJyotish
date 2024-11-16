@@ -101,17 +101,13 @@
                     var container = $(".row.justify-content-center");
                     container.empty();
 
-                    // Iterate over each subscription plan in the response
+                    
                     $.each(response.data, function (index, item) {
                         var servicesHTML = "";
+                        debugger;
 
-
-
-                        
-                      
-
-                        
                         $.each(item.features, function (index, feature) {
+                            debugger;
                             if (feature.status == true) {
                                 servicesHTML += `
                                         <li class="list-group-item availablebg rounded my-1">
@@ -149,7 +145,7 @@
                                             <span class="bg-success text-light p-1 rounded">${item.newPrice == 0 ? "Free" : "₹ " + item.newPrice}</span>
                                         </div>
                                     </div>
-                                    <ul class="list-group list-group-flush">
+                                                <ul class="list-group list-group-flush " style="max-height: 200px; overflow-y: scroll;">
                                         ${servicesHTML}
                                     </ul>
                                     <div class="card-body">
@@ -161,6 +157,10 @@
                             `;
 
                         container.append(cardHTML);
+                        delete window.servicesHTML;
+                        delete window.container;
+                        delete window.cardHTML;
+
                     });
                 } else {
                     console.log("No subscription plans available or an error occurred.");
