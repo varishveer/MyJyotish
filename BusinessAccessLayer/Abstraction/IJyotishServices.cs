@@ -73,5 +73,7 @@ namespace BusinessAccessLayer.Abstraction
         public List<JyotishNotificationDataViewModel> NotificationData(int Id);
         public LayoutDataViewModel LayoutData(int Id);
         public List<FeatureValidationViewModel> FeatureValidation();
+        public bool upgradePackages(packages packages);
+
     }
 }

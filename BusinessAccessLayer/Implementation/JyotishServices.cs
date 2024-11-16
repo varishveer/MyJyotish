@@ -562,20 +562,39 @@ namespace BusinessAccessLayer.Implementation
             return records;
         }
 
-        //public bool upgradePackages(packages packages)
-        //{
-        //    SubsciptionManagementModel model = new SubsciptionManagementModel
-        //    {
-        //        SubscriptionId = packages.SubscriptionId,
-        //        JyotishId = packages.JyotishId,
-        //        PurchaseDate = packages.PurchaseDate,
-        //        ExpiryDate = packages.ExpiryDate,
-        //        Status = true,
+        public bool upgradePackages(packages packages)
+        {
 
-        //    };
+            var plan = _context.Subscriptions.Where(e => e.SubscriptionId == packages.Id).Select(e=>e.PlanType).FirstOrDefault();
 
-        //    _context.
-        //}
+            if (plan == null)
+            {
+                return false;
+            }
+
+            var purchaseDate = DateTime.Now;
+            var expiryDate = purchaseDate.AddYears(1);
+
+            SubsciptionManagementModel model = new SubsciptionManagementModel
+            {
+                SubscriptionId = packages.SubscriptionId,
+                JyotishId = packages.JyotishId,
+                PurchaseDate = purchaseDate,
+                ExpiryDate = expiryDate,
+                Status = true,
+
+            };
+
+            _context.PackageManager.Add(model);
+            if(_context.SaveChanges() > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
         public List<JyotishPaymentRecordModel> JyotishPaymentrecords(int Id)
         {

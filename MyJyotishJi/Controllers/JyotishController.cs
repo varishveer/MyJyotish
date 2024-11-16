@@ -627,6 +627,25 @@ namespace MyJyotishGApi.Controllers
             { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
         }
 
+        [HttpPost("UpgradePackages")]
+        public IActionResult UpgradePackages(packages packages)
+        {
+            try
+            {
+                var res = _jyotish.upgradePackages(packages);
+                if (res)
+                {
+                    return Ok(new { Status = 200, Message = "Plan Puchase Successfully" });
+                }
+                else
+                {
+                    return Ok(new { Status = 500, Message = "Something went wrong" });
+
+                }
+            }
+            catch (Exception ex)
+            { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
+        }
 
         [HttpPost("AddProblemSolution")]
         public IActionResult AddProblemSolution(ProblemSolutionViewModel model)
