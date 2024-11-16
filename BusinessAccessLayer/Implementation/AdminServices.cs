@@ -960,7 +960,6 @@ namespace BusinessAccessLayer.Implementation
                                      
                                   })
                                   .ToList();
-
             return records;
         }
 
@@ -1024,7 +1023,10 @@ namespace BusinessAccessLayer.Implementation
                 {
                     SubscriptionId = model.SubscriptionId,
                     FeatureId = item,
-                    ServiceCount = model.ServiceCount
+                    ServiceCount = model.ServiceCount,
+                    Status = true
+
+
                 });
             }
             
@@ -1058,7 +1060,8 @@ namespace BusinessAccessLayer.Implementation
                 {
                     SubscriptionId = model.SubscriptionId,
                     FeatureId = item,
-                    ServiceCount = model.ServiceCount
+                    ServiceCount = model.ServiceCount,
+                    Status = true
                 });
             }
             _context.ManageSubscriptionModels.UpdateRange(mngsub);
