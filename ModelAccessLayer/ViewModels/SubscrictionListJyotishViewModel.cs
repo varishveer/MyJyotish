@@ -27,6 +27,7 @@ namespace ModelAccessLayer.ViewModels
     {
         public int FeatureId { get; set; }
         public string Name { get; set; }
+        public int ServiceCount { get; set; }
         public bool Status { get; set; }
     }
 

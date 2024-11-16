@@ -1047,11 +1047,12 @@ namespace BusinessAccessLayer.Implementation
         {
             var Subscription = _context.Subscriptions.Where(x => x.SubscriptionId == model.SubscriptionId && x.Status == true).FirstOrDefault();
            
-            var Record = _context.ManageSubscriptionModels.Where(x => x.Id == model.Id && x.Status == true).FirstOrDefault();
-            if (Subscription == null & Record == null)
+            var OldRecord = _context.ManageSubscriptionModels.Where(x => x.SubscriptionId == model.SubscriptionId && x.Status == true).ToList();
+            if (Subscription == null & OldRecord == null)
             {
                 return "Invalid Data";
             }
+           // OldRecord.Status = false; // i want all records of OldRecord Status = false but also Check Data in model which have FeatureId match with OldRecord they have Stsatus true 
 
 
             List<ManageSubscriptionModel> mngsub = new List<ManageSubscriptionModel>();

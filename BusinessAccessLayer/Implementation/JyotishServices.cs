@@ -496,7 +496,8 @@ namespace BusinessAccessLayer.Implementation
                                                {
                                                    FeatureId = ms.FeatureId,
                                                    Name = ms.Feature.Name,
-                                                   Status = ms.Feature.Status
+                                                   Status = ms.Feature.Status,
+                                                   ServiceCount = ms.ServiceCount
                                                }).ToArray()  
                         })
                         .ToList();
