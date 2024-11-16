@@ -599,10 +599,18 @@ namespace MyJyotishJiApi.Controllers
 
 
         [HttpPost("AddManageSubscriptionData")]
-        public IActionResult AddManageSubscriptionData(ManageSubscriptionViewModel model)
+        public IActionResult AddManageSubscriptionData()
         {
             try
             {
+                var httpRequest = HttpContext.Request;
+                ManageSubscriptionViewModel model = new ManageSubscriptionViewModel
+                {
+                    FeatureId = httpRequest.Form["features"].ToString().Split(",").Select(e => Convert.ToInt32(e)).ToArray(),
+                    SubscriptionId = Convert.ToInt32(httpRequest.Form["plan"]),
+                    ServiceCount = Convert.ToInt32(httpRequest.Form["serviceCount"])
+                };
+
                 var Result = _admin.AddManageSubscriptionData(model);
                 if (Result == "Invalid Data")
                 { return Ok(new { Status = 409, Message = Result }); }

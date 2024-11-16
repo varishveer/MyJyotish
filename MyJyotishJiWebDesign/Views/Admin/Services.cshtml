@@ -20,7 +20,7 @@
                 </div>
                 <div class="col-sm-6">
 
-                    <select id="Features" name="Features" class="select form-select" multiple="multiple" required>
+                    <select id="Features" name="features" class="select form-select" multiple="multiple" required>
                         <!---Dynamic Data Loaded-->
                     </select>
         </div>
@@ -120,17 +120,21 @@
                 }
             })
             
-        
-            
+            let formData=new FormData()
+            let arrData = $(this).serializeArray();
+            arrData.forEach(function(d){
+                formData.append(d.name,d.value)
+            })
+            debugger
             $.ajax({
                 url: BaseUrl + 'api/Admin/AddManageSubscriptionData',
                 type: 'POST',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("Token")}`
                 },
-              
-                contentType: 'application/json',
-                data: JSON.stringify(arrData),
+                processData:false,
+                contentType: false,
+                data: formData,
                 success: function (res) {
                     Swal.fire({
                         title: "Success",
