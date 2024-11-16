@@ -16,7 +16,7 @@ namespace ModelAccessLayer.Models
         public string ServiceUrl { get; set; }
         public bool Status { get; set; }
 
-        [JsonIgnore]
+        
         public ICollection<ManageSubscriptionModel> ManageSubscription { get; set; } = new List<ManageSubscriptionModel>();
 
     }
