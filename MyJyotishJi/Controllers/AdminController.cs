@@ -519,7 +519,7 @@ namespace MyJyotishJiApi.Controllers
         }
 
         [HttpPost("AddFeature")]
-        public IActionResult AddFeature(SubscriptionFeatureViewModel.Add model)
+        public IActionResult AddFeature(SubscriptionFeatureViewModel model)
         {
             try
             {
@@ -578,7 +578,7 @@ namespace MyJyotishJiApi.Controllers
 
         }
         [HttpPost("UpdateFeature")]
-        public IActionResult UpdateFeature(SubscriptionFeatureViewModel.Update model)
+        public IActionResult UpdateFeature(SubscriptionFeatureViewModel model)
         {
             try
             {
