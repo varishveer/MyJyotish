@@ -29,7 +29,7 @@
                     <div class="row">
                 <div class="col-sm-6">
 
-        <input type="number" name="serviceCount" placeholder="Enter Service Count"  class="form-control"/>
+        <input type="number" name="serviceCount" id="serviceCount" placeholder="Enter Service Count"  class="form-control"/>
         </div>
         <div class="col-sm-12 my-3 text-end">
 
@@ -98,10 +98,10 @@
                                     <td>${d.featureNames.join(",")}</td>
                                         <td>${d.serviceCount}</td>
                                         <td>
-                                                 <a class="deletePlan" data-id="${d.id}">
+                                                 <a class="deletePlan" role='button' data-id="${d.id}">
                                                    <i class="fa-solid fa-trash-can text-danger"></i>
                                                </a>
-                                                    <a class="editPlan" data-id="${d.id} ">
+                                                    <a class="editPlan" role='button' data-edit='${JSON.stringify(d)}'>
                                                     <i class="fa-solid fa-pen-to-square text-success"></i>
                                                </a>
                                         </td>
@@ -119,6 +119,82 @@
             });
         });
 
+
+        $(document).on('click', '.deletePlan', function () {
+
+            var planId = $(this).attr('data-id');
+
+            if (!planId) {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Invalid plan ID.',
+                    icon: 'error',
+                    confirmButtonText: 'Ok'
+                });
+                return;
+            }
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'This plan will be permanently deleted. Do you want to continue?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    $.ajax({
+                        url: BaseUrl + `api/Admin/DeleteManageSubscriptionData?Id=${planId}`,
+                        type: 'GET',
+                        headers: {
+                            'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                            'Content-Type': 'application/json',
+                        },
+
+                        success: function (response) {
+                            Swal.fire({
+                                title: 'Success!',
+                                text: 'Plan deleted successfully.',
+                                icon: 'success',
+                                confirmButtonText: 'Ok'
+                            }).then(() => {
+                                window.location.reload();
+                            });
+                        },
+                        error: function (error) {
+                            console.error('An error occurred:', error);
+                            Swal.fire({
+                                title: 'Error',
+                                text: 'There was an error deleting the plan. Please try again.',
+                                icon: 'error',
+                                confirmButtonText: 'Ok'
+                            });
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Cancelled',
+                        text: 'The plan was not deleted.',
+                        icon: 'info',
+                        confirmButtonText: 'Ok'
+                    });
+                }
+            });
+
+        });
+
+        $(document).on("click", ".editPlan",function(){
+            var plan = JSON.parse($(this).attr('data-edit'));
+            console.log(plan)
+            $("#planSelect").val(plan.subscriptionId)
+            $("#Features").val(plan.featureId).change()
+            $("#seviceCount").val(plan.serviceCount)
+           
+
+        })
+    
 
         $.ajax({
             url: BaseUrl +'api/Admin/GetAllSubscription',
