@@ -22,5 +22,7 @@ namespace ModelAccessLayer.Models
         public bool Status { get; set; }
 
         public ICollection<ManageSubscriptionModel> ManageSubscription { get; set; } = new List<ManageSubscriptionModel>();
+        public ICollection<SubsciptionManagementModel> subscriptionManage { get; set; } = new List<SubsciptionManagementModel>();
+
     }
 }

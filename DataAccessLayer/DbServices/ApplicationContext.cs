@@ -124,6 +124,15 @@ namespace DataAccessLayer.DbServices
                 .WithMany(j => j.JyotishUserAttachmentRecords)
                 .HasForeignKey(c => c.AppointmentId);
                 
+            modelBuilder.Entity<SubsciptionManagementModel>()
+                .HasOne(c => c.jyotish)
+                .WithMany(j => j.subscriptionManage)
+                .HasForeignKey(c => c.JyotishId);
+                 modelBuilder.Entity<SubsciptionManagementModel>()
+                .HasOne(c => c.subscription)
+                .WithMany(j => j.subscriptionManage)
+                .HasForeignKey(c => c.SubscriptionId);
+                
 
         }
 
