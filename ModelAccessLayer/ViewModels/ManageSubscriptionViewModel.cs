@@ -12,8 +12,7 @@ namespace ModelAccessLayer.ViewModels
 
         public int Id { get; set; }
         public int SubscriptionId { get; set; }
-        public int[] FeatureId { get; set; }
-        public int FeaturesId { get; set; }
+        public int FeatureId { get; set; }
             public int ServiceCount { get; set; }
             public string? SubscriptionName { get; set; }
             public string? FeatureName { get; set; }
