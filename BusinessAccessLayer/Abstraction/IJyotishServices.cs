@@ -32,7 +32,7 @@ namespace BusinessAccessLayer.Abstraction
         public List<JyotishGalleryModel> JyotishGallery(int Id);
         public List<JyotishVideosModel> JyotishVideos(int Id);
         public JyotishModel GetProfile(int Id);
-        public List<SubscriptionGetViewModel> GetAllSubscription();
+        public List<SubscrictionListJyotishViewModel> GetAllSubscription();
         public List<JyotishPaymentRecordModel> JyotishPaymentrecords(int Id);
         public JyotishPaymentRecordModel JyotishPaymentDetail(int Id);
         public string AddAppointmentSlot(AppointmentSlotViewModel model);

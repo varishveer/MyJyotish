@@ -475,32 +475,32 @@ namespace BusinessAccessLayer.Implementation
             return record;
         }
 
-        public List<SubscriptionGetViewModel> GetAllSubscription()
+        public List<SubscrictionListJyotishViewModel> GetAllSubscription()
         {
-            var records = _context.Subscriptions
-                                  .Select(subscription => new SubscriptionGetViewModel
-                                  {
-                                      SubscriptionId = subscription.SubscriptionId,
-                                      Name = subscription.Name,
-                                      OldPrice = subscription.OldPrice,
-                                      NewPrice = subscription.NewPrice,
-                                      Discount = subscription.Discount,
-                                      Gst = subscription.Gst,
-                                      DiscountAmount = subscription.DiscountAmount,
-                                      PlanType = subscription.PlanType,
-                                      description = subscription.description,
-                                      Status = subscription.Status,
+            var records = _context.Subscriptions.Where(x=>x.Status == true)
+                        .Select(subscription => new SubscrictionListJyotishViewModel
+                        {
+                            SubscriptionId = subscription.SubscriptionId,
+                            Name = subscription.Name,
+                            OldPrice = subscription.OldPrice,
+                            NewPrice = subscription.NewPrice,
+                            Discount = subscription.Discount,
+                            Gst = subscription.Gst,
+                            DiscountAmount = subscription.DiscountAmount,
+                            PlanType = subscription.PlanType,
+                            description = subscription.description,  
 
-                                      Features = _context.ManageSubscriptionModels
-                                            .Where(ms => ms.SubscriptionId == subscription.SubscriptionId)
-                                            .Select(ms => ms.FeatureId)
-                                            .Join(_context.SubscriptionFeatures,
-                                                  featureId => featureId,
-                                                  feature => feature.FeatureId,
-                                                  (featureId, feature) => feature.Name)
-                                            .ToArray()
-                                  })
-                                  .ToList();
+                            Features = _context.ManageSubscriptionModels
+                                               .Where(ms => ms.SubscriptionId == subscription.SubscriptionId)
+                                               .Select(ms => new FeatureList
+                                               {
+                                                   FeatureId = ms.FeatureId,
+                                                   Name = ms.Feature.Name,
+                                                   Status = ms.Feature.Status
+                                               }).ToArray()  
+                        })
+                        .ToList();
+
 
             return records;
         }

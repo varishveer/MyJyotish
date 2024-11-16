@@ -945,7 +945,7 @@ namespace BusinessAccessLayer.Implementation
 
         public List<SubscriptionViewModel> GetAllSubscription()
         {
-            var records = _context.Subscriptions
+            var records = _context.Subscriptions.Where(x=>x.Status == true)
                                   .Select(subscription => new SubscriptionViewModel
                                   {
                                       SubscriptionId = subscription.SubscriptionId,
@@ -983,7 +983,7 @@ namespace BusinessAccessLayer.Implementation
         }
         public SubscriptionGetViewModel GetSubscription(int Id)
         {
-            var records = _context.Subscriptions.Where(x=>x.SubscriptionId == Id)
+            var records = _context.Subscriptions.Where(x=>x.SubscriptionId == Id && x.Status ==  true)
                                  .Select(subscription => new SubscriptionGetViewModel
                                  {
                                      SubscriptionId = subscription.SubscriptionId,
@@ -1052,6 +1052,7 @@ namespace BusinessAccessLayer.Implementation
             {
                 return "Invalid Data";
             }
+
 
             List<ManageSubscriptionModel> mngsub = new List<ManageSubscriptionModel>();
             foreach (var item in model.FeatureId)
