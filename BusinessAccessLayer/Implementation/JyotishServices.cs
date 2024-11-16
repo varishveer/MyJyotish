@@ -477,6 +477,8 @@ namespace BusinessAccessLayer.Implementation
 
         public List<SubscrictionListJyotishViewModel> GetAllSubscription()
         {
+            var featureData = _context.SubscriptionFeatures.Where(x => x.Status == true).ToList();
+
             var records = _context.Subscriptions.Where(x=>x.Status == true)
                         .Select(subscription => new SubscrictionListJyotishViewModel
                         {
@@ -488,18 +490,16 @@ namespace BusinessAccessLayer.Implementation
                             Gst = subscription.Gst,
                             DiscountAmount = subscription.DiscountAmount,
                             PlanType = subscription.PlanType,
-                            description = subscription.description,  
+                            description = subscription.description,
 
-                            Features = _context.ManageSubscriptionModels
-                                               .Where(ms => ms.SubscriptionId == subscription.SubscriptionId)
-                                               .Select(ms => new FeatureList
-                                               {
-                                                   FeatureId = ms.FeatureId,
-                                                   Name = ms.Feature.Name,
-                                                   Status = ms.Feature.Status
-                                               }).ToArray()  
-                        })
-                        .ToList();
+                            Features = featureData.Select(feature => new FeatureList
+                            {
+                                FeatureId = feature.FeatureId,
+                                Name = feature.Name,
+                                Status = _context.ManageSubscriptionModels
+                               .Any(ms => ms.SubscriptionId == subscription.SubscriptionId && ms.FeatureId == feature.FeatureId && ms.Status == true)
+                                            }).ToArray()
+                        }).ToList();
 
 
             return records;

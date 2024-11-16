@@ -104,18 +104,21 @@
                     // Iterate over each subscription plan in the response
                     $.each(response.data, function (index, item) {
                         var servicesHTML = "";
-                        var availableServices = ['Priority Support', 'Access to Premium Content', 'Monthly Reports', 'Ad-Free Experience'];
-                        var serviceList = item.features;
 
-                        // Generate list of services
-                        availableServices.forEach(function (service) {
-                            if (serviceList.includes(service)) {
+
+
+                        
+                      
+
+                        
+                        $.each(item.features, function (index, feature) {
+                            if (feature.status == true) {
                                 servicesHTML += `
                                         <li class="list-group-item availablebg rounded my-1">
                                             <span class="me-1 text-success">
                                                 <i class="fa-solid fa-circle-check"></i>
                                             </span>
-                                            <a href="#!">${service}</a>
+                                            <a href="#!">${feature.name}</a>
                                         </li>
                                     `;
                             } else {
@@ -124,7 +127,7 @@
                                             <span class="me-1 text-danger">
                                                 <i class="fa-solid fa-ban"></i>
                                             </span>
-                                            <a href="#!" class="fs-6">${service}</a>
+                                                <a href="#!" class="fs-6">${feature.name}</a>
                                         </li>
                                     `;
                             }
