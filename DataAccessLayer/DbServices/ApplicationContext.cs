@@ -50,6 +50,7 @@ namespace DataAccessLayer.DbServices
         public DbSet<WalletHistoryModel> WalletHistroy { get; set; }
         public DbSet<JyotishTempRecord> jyotishTempRecords { get; set; }
         public DbSet<ClientMembers> ClientMembers { get; set; }
+        public DbSet<SubsciptionManagementModel> PackageManager { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         { 

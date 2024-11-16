@@ -562,7 +562,20 @@ namespace BusinessAccessLayer.Implementation
             return records;
         }
 
-        public bool
+        //public bool upgradePackages(packages packages)
+        //{
+        //    SubsciptionManagementModel model = new SubsciptionManagementModel
+        //    {
+        //        SubscriptionId = packages.SubscriptionId,
+        //        JyotishId = packages.JyotishId,
+        //        PurchaseDate = packages.PurchaseDate,
+        //        ExpiryDate = packages.ExpiryDate,
+        //        Status = true,
+
+        //    };
+
+        //    _context.
+        //}
 
         public List<JyotishPaymentRecordModel> JyotishPaymentrecords(int Id)
         {
