@@ -10,6 +10,7 @@
 <div class="row">
 
     <form class="w-75 mt-4 mx-auto border rounded p-3" id="serviceForm">
+        <input type="hidden" name="featureId" id="featureId" />
         <h3 class="text-center text-secondary mb-4">Add Services</h3>
         <div class="col-sm-12">
             <div class="row">
@@ -20,7 +21,7 @@
                 </div>
                 <div class="col-sm-6">
 
-                    <select id="Features" name="features" class="select form-select" multiple="multiple" required>
+                    <select id="Features" name="features" class="select form-select" required>
                         <!---Dynamic Data Loaded-->
                     </select>
         </div>
@@ -95,7 +96,7 @@
                             <tr>
                                 <td>${i+1}</td>
                                 <td>${d.subscriptionName}</td>
-                                    <td>${d.featureNames.join(",")}</td>
+                                    <td>${d.featureName}</td>
                                         <td>${d.serviceCount}</td>
                                         <td>
                                                  <a class="deletePlan" role='button' data-id="${d.id}">
@@ -189,8 +190,9 @@
             var plan = JSON.parse($(this).attr('data-edit'));
             console.log(plan)
             $("#planSelect").val(plan.subscriptionId)
-            $("#Features").val(plan.featureId).change()
+            $("#Features").val(plan.featuresId).change()
             $("#serviceCount").val(plan.serviceCount)
+            $("#featureId").val(plan.featuresId)
             $("#subBtn").val("update")
 
         })

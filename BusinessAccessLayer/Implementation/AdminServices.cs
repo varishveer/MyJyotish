@@ -1046,25 +1046,30 @@ namespace BusinessAccessLayer.Implementation
         public string UpdateManageSubscriptionData(ManageSubscriptionViewModel model)
         {
             var Subscription = _context.Subscriptions.Where(x => x.SubscriptionId == model.SubscriptionId && x.Status == true).FirstOrDefault();
-           
-            var OldRecord = _context.ManageSubscriptionModels.Where(x => x.SubscriptionId == model.SubscriptionId && x.Status == true).ToList();
+
+            var OldRecord = _context.ManageSubscriptionModels.Where(x => x.SubscriptionId == model.SubscriptionId && x.Status == true).Select(x=>x.FeatureId). ToList();
+          
             if (Subscription == null & OldRecord == null)
+
             {
                 return "Invalid Data";
-            }
-           // OldRecord.Status = false; // i want all records of OldRecord Status = false but also Check Data in model which have FeatureId match with OldRecord they have Stsatus true 
+            }   
+          
 
 
             List<ManageSubscriptionModel> mngsub = new List<ManageSubscriptionModel>();
             foreach (var item in model.FeatureId)
             {
-                mngsub.Add(new ManageSubscriptionModel
-                {
-                    SubscriptionId = model.SubscriptionId,
-                    FeatureId = item,
-                    ServiceCount = model.ServiceCount,
-                    Status = true
-                });
+                if(!OldRecord.Contains(item)) {
+                    mngsub.Add(new ManageSubscriptionModel
+                    {
+                        SubscriptionId = model.SubscriptionId,
+                        FeatureId = item,
+                        ServiceCount = model.ServiceCount,
+                        Status = true
+                    });
+                }
+               
             }
             _context.ManageSubscriptionModels.UpdateRange(mngsub);
             if (_context.SaveChanges() > 0)
@@ -1084,11 +1089,11 @@ namespace BusinessAccessLayer.Implementation
             {
                 Id = x.Id,
                 SubscriptionId = x.Subscription.SubscriptionId,
-                FeatureId = (from feature in _context.SubscriptionFeatures where x.FeatureId==feature.FeatureId select feature.FeatureId).ToArray(),
+                FeaturesId = x.FeatureId,
                 SubscriptionName = x.Subscription.Name,
-                FeatureNames = (from feature in _context.SubscriptionFeatures where x.FeatureId == feature.FeatureId select feature.Name).ToArray(),
+                FeatureName = (from feature in _context.SubscriptionFeatures where feature.FeatureId==x.FeatureId && feature.Status select feature.Name).FirstOrDefault(),
                 ServiceCount = x.ServiceCount
-            }).ToList();
+            }).OrderByDescending(e=>e.Id).ToList();
 
             return Record;
         }
