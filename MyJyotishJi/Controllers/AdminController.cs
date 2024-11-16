@@ -615,7 +615,7 @@ namespace MyJyotishJiApi.Controllers
                 if (Result == "Invalid Data")
                 { return Ok(new { Status = 409, Message = Result }); }
                 if (Result == "Successful")
-                { return Ok(new { Status = 200, Message = Result }); }
+                { return Ok(new { Status = 200, Message = "Record Added Successfully" }); }
                 else
                 { return Ok(new { Status = 500, Message = Result }); }
 
@@ -627,15 +627,22 @@ namespace MyJyotishJiApi.Controllers
         }
 
         [HttpPost("UpdateManageSubscriptionData")]
-        public IActionResult UpdateManageSubscriptionData(ManageSubscriptionViewModel model)
+        public IActionResult UpdateManageSubscriptionData()
         {
             try
             {
+                var httpRequest = HttpContext.Request;
+                ManageSubscriptionViewModel model = new ManageSubscriptionViewModel
+                {
+                    FeatureId = httpRequest.Form["features"].ToString().Split(",").Select(e => Convert.ToInt32(e)).ToArray(),
+                    SubscriptionId = Convert.ToInt32(httpRequest.Form["plan"]),
+                    ServiceCount = Convert.ToInt32(httpRequest.Form["serviceCount"])
+                };
                 var Result = _admin.UpdateManageSubscriptionData(model);
                 if (Result == "Invalid Data")
                 { return Ok(new { Status = 409, Message = Result }); }
                 if (Result == "Successful")
-                { return Ok(new { Status = 200, Message = Result }); }
+                { return Ok(new { Status = 200, Message = "Record Updated Successfully" }); }
                 else
                 { return Ok(new { Status = 500, Message = Result }); }
 
