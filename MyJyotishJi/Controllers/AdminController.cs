@@ -523,7 +523,7 @@ namespace MyJyotishJiApi.Controllers
         {
             try
             {
-                model.Status = true;
+               
                 var Result = _admin.AddFeature(model);
                 if (Result == "Invalid Data")
                 { return Ok(new { Status = 409, Message = Result }); }
@@ -680,7 +680,7 @@ namespace MyJyotishJiApi.Controllers
 
 
         [HttpPost("AddSubscription")]
-        public IActionResult AddSubscription(SubscriptionViewModel model)
+        public IActionResult AddSubscription(SubscriptionViewModel.Add model)
         {
             try
             {
@@ -700,7 +700,7 @@ namespace MyJyotishJiApi.Controllers
 
 
         [HttpPost("UpdateSubscription")]
-        public IActionResult UpdateSubscription(SubscriptionViewModel model)
+        public IActionResult UpdateSubscription(SubscriptionViewModel.Update model)
         {
             try
             {
