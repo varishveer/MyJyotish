@@ -562,6 +562,7 @@ namespace BusinessAccessLayer.Implementation
             return records;
         }
 
+        public bool
 
         public List<JyotishPaymentRecordModel> JyotishPaymentrecords(int Id)
         {

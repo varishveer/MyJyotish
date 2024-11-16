@@ -73,12 +73,16 @@
         right: 0;
         font-size: 0.8rem;
     }
+     .list-group-flush::-webkit-scrollbar{
+         width:2px;
+         height:2px;
+     }
 </style>
 
 <div class="container-fluid">
     <h2 class="mt-1 text-primary">Pricing Plan</h2>
     <hr />
-    <div class="row justify-content-center align-items-center gap-3 my-3">
+    <div class="row justify-content-center packageContainer h-100 align-items-center gap-3 my-3">
         <!-- Cards will be dynamically inserted here -->
     </div>
 </div>
@@ -87,7 +91,13 @@
     $(document).ready(function () {
         // API URL
         var apiUrl = BaseUrl + "Api/Jyotish/GetAllSubscription";
-
+        Swal.fire({
+            title: "Processing Your Request",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
         // Make an AJAX request to get subscription plans
         $.ajax({
             url: apiUrl,
@@ -98,40 +108,50 @@
             },
             success: function (response) {
                 if (response.status === 200 && response.data.length > 0) {
-                    var container = $(".row.justify-content-center");
+                    var container = $(".packageContainer");
                     container.empty();
 
                     
                     $.each(response.data, function (index, item) {
                         var servicesHTML = "";
                         debugger;
-
+                        let validFeature=[];
+                        let invalidFeature = [];
                         $.each(item.features, function (index, feature) {
-                            debugger;
+                            
                             if (feature.status == true) {
-                                servicesHTML += `
-                                        <li class="list-group-item availablebg rounded my-1">
-                                            <span class="me-1 text-success">
-                                                <i class="fa-solid fa-circle-check"></i>
-                                            </span>
-                                            <a href="#!">${feature.name}</a>
-                                        </li>
-                                    `;
+                                validFeature.push(feature.name)
+                               
                             } else {
-                                servicesHTML += `
-                                        <li class="list-group-item blur-bg rounded my-1">
-                                            <span class="me-1 text-danger">
-                                                <i class="fa-solid fa-ban"></i>
-                                            </span>
-                                                <a href="#!" class="fs-6">${feature.name}</a>
-                                        </li>
-                                    `;
+                                invalidFeature.push(feature.name)
+                                                               
                             }
                         });
 
+                        validFeature.forEach(function(d){
+                            servicesHTML += `
+                                            <li class="list-group-item availablebg rounded my-1">
+                                                <span class="me-1 text-success">
+                                                    <i class="fa-solid fa-circle-check"></i>
+                                                </span>
+                                                <a href="#!">${d}</a>
+                                            </li>
+                                        `;
+                        })
+                        invalidFeature.forEach(function(d){
+                            servicesHTML += `
+                                            <li class="list-group-item blur-bg rounded my-1">
+                                                <span class="me-1 text-danger">
+                                                    <i class="fa-solid fa-ban"></i>
+                                                </span>
+                                                    <a href="#!" class="fs-6">${d}</a>
+                                            </li>
+                                        `;
+                        })
+
                         // Generate the card HTML for each plan
                         var cardHTML = `
-                                <div class="card blur-bg position-relative shadow mx-3" style="width: 13.5rem;">
+                                <div class="card blur-bg position-relative shadow mx-3" style="width: 14.5rem;">
                                     <div class="card-body">
                                         <h3 class="mb-3 font-weight-400 text-center py-2 px-0 shadow title ${item.name}">${item.name}</h3>
                                         <div class="blur-bg p-2 rounded">
@@ -145,7 +165,7 @@
                                             <span class="bg-success text-light p-1 rounded">${item.newPrice == 0 ? "Free" : "₹ " + item.newPrice}</span>
                                         </div>
                                     </div>
-                                                <ul class="list-group list-group-flush " style="max-height: 200px; overflow-y: scroll;">
+                                                <ul class="list-group list-group-flush " style="max-height: 300px; overflow-y: scroll;">
                                         ${servicesHTML}
                                     </ul>
                                     <div class="card-body">
@@ -162,6 +182,7 @@
                         delete window.cardHTML;
 
                     });
+                    Swal.close()
                 } else {
                     console.log("No subscription plans available or an error occurred.");
                 }
