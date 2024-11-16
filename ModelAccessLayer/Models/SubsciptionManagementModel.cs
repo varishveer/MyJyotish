@@ -10,6 +10,8 @@ namespace ModelAccessLayer.Models
     {
         public int Id { get; set; }
         public int SubscriptionId { get; set; }
+        public int JyotishId { get; set; }
+
         public DateTime PurchaseDate { get; set; }
         public DateTime Name { get; set; }
         public bool Status { get; set; }
