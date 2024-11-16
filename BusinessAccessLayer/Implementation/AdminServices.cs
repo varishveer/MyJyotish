@@ -873,7 +873,7 @@ namespace BusinessAccessLayer.Implementation
             else { return "Internal Server Error."; }
         }
 
-        public string AddSubscription(SubscriptionViewModel.Add model)
+        public string AddSubscription(SubscriptionViewModel model)
         {
          
             if (model == null)
@@ -908,7 +908,7 @@ namespace BusinessAccessLayer.Implementation
         }
 
 
-        public string UpdateSubscription(SubscriptionViewModel.Update model)
+        public string UpdateSubscription(SubscriptionViewModel model)
         {
             if (model == null)
             {
@@ -943,10 +943,10 @@ namespace BusinessAccessLayer.Implementation
                
         }
 
-        public List<SubscriptionViewModel.GetAll> GetAllSubscription()
+        public List<SubscriptionViewModel> GetAllSubscription()
         {
             var records = _context.Subscriptions
-                                  .Select(subscription => new SubscriptionViewModel.GetAll
+                                  .Select(subscription => new SubscriptionViewModel
                                   {
                                       SubscriptionId = subscription.SubscriptionId,
                                       Name = subscription.Name,
