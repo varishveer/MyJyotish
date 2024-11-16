@@ -599,7 +599,7 @@ namespace MyJyotishJiApi.Controllers
 
 
         [HttpPost("AddManageSubscriptionData")]
-        public IActionResult AddManageSubscriptionData(ManageSubscriptionViewModel.Add model)
+        public IActionResult AddManageSubscriptionData(ManageSubscriptionViewModel model)
         {
             try
             {
@@ -619,7 +619,7 @@ namespace MyJyotishJiApi.Controllers
         }
 
         [HttpPost("UpdateManageSubscriptionData")]
-        public IActionResult UpdateManageSubscriptionData(ManageSubscriptionViewModel.Update model)
+        public IActionResult UpdateManageSubscriptionData(ManageSubscriptionViewModel model)
         {
             try
             {

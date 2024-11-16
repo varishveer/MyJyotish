@@ -1062,18 +1062,23 @@ namespace BusinessAccessLayer.Implementation
         }
 
 
-        public string AddManageSubscriptionData(ManageSubscriptionViewModel.Add model)
+        public string AddManageSubscriptionData(ManageSubscriptionViewModel model)
         {
             var Subscription = _context.Subscriptions.Where(x => x.SubscriptionId == model.SubscriptionId).FirstOrDefault();
-            var Feature = _context.SubscriptionFeatures.Where(x => x.FeatureId == model.FeatureId).FirstOrDefault();
 
-            ManageSubscriptionModel NewData = new ManageSubscriptionModel()
+            List<ManageSubscriptionModel> mngsub = new List<ManageSubscriptionModel>();
+            foreach(var item in model.FeatureId)
             {
-                SubscriptionId= model.SubscriptionId,
-                FeatureId = model.FeatureId,
-                ServiceCount = model.ServiceCount
-            };
-            _context.ManageSubscriptionModels.Add(NewData);
+                mngsub.Add(new ManageSubscriptionModel
+                {
+                    SubscriptionId = model.SubscriptionId,
+                    FeatureId = item,
+                    ServiceCount = model.ServiceCount
+                });
+            }
+            
+           
+            _context.ManageSubscriptionModels.AddRange(mngsub);
             if (_context.SaveChanges() > 0)
             {
                 return "Successful";
@@ -1085,22 +1090,27 @@ namespace BusinessAccessLayer.Implementation
 
         }
 
-        public string UpdateManageSubscriptionData(ManageSubscriptionViewModel.Update model)
+        public string UpdateManageSubscriptionData(ManageSubscriptionViewModel model)
         {
             var Subscription = _context.Subscriptions.Where(x => x.SubscriptionId == model.SubscriptionId && x.Status == true).FirstOrDefault();
-            var Feature = _context.SubscriptionFeatures.Where(x => x.FeatureId == model.FeatureId && x.Status == true).FirstOrDefault();
+           
             var Record = _context.ManageSubscriptionModels.Where(x => x.Id == model.Id && x.Status == true).FirstOrDefault();
-            if (Subscription == null && Feature == null & Record == null)
+            if (Subscription == null & Record == null)
             {
                 return "Invalid Data";
             }
 
-
-            Record.SubscriptionId = model.SubscriptionId;
-            Record.FeatureId = model.FeatureId;
-            Record.ServiceCount = model.ServiceCount;
-           
-            _context.ManageSubscriptionModels.Update(Record);
+            List<ManageSubscriptionModel> mngsub = new List<ManageSubscriptionModel>();
+            foreach (var item in model.FeatureId)
+            {
+                mngsub.Add(new ManageSubscriptionModel
+                {
+                    SubscriptionId = model.SubscriptionId,
+                    FeatureId = item,
+                    ServiceCount = model.ServiceCount
+                });
+            }
+            _context.ManageSubscriptionModels.UpdateRange(mngsub);
             if (_context.SaveChanges() > 0)
             { 
                 return "Successful";
@@ -1111,10 +1121,10 @@ namespace BusinessAccessLayer.Implementation
             }
         }
 
-        public List<ManageSubscriptionViewModel.GetAll> GetAllManageSubscriptionData()
+        public List<ManageSubscriptionViewModel> GetAllManageSubscriptionData()
         {
 
-            var Record = _context.ManageSubscriptionModels.Where(x => x.Status == true).Include(x => x.Subscription).Include(x => x.Feature).Select(x=> new ManageSubscriptionViewModel.GetAll
+            var Record = _context.ManageSubscriptionModels.Where(x => x.Status == true).Include(x => x.Subscription).Include(x => x.Feature).Select(x=> new ManageSubscriptionViewModel
             {
                 Id = x.Id,
                 SubscriptionName = x.Subscription.Name,
