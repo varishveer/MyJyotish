@@ -18,6 +18,9 @@ namespace ModelAccessLayer.ViewModels
         public double DiscountAmount { get; set; }
         public string PlanType { get; set; }
         public string description { get; set; }
-      
+        public bool? Status { get; set; }
+        public string[] Features { get; set; }
+
+
     }
 }

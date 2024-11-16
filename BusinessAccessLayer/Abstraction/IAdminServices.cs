@@ -47,10 +47,10 @@ namespace BusinessAccessLayer.Abstraction
         public string AddSlot(SlotViewModel slot);
         public List<SlotModel> SlotList();
 
-        public string AddFeature(SubscriptionFeatureViewModel.Add model);
-        public List<SubscriptionFeatureViewModel.GetAll> GetAllFeatures();
+        public string AddFeature(SubscriptionFeatureViewModel model);
+        public List<SubscriptionFeatureViewModel> GetAllFeatures();
         public string DeleteFeature(int Id);
-        public string UpdateFeature(SubscriptionFeatureViewModel.Update model);
+        public string UpdateFeature(SubscriptionFeatureViewModel model);
         public string AddManageSubscriptionData(ManageSubscriptionViewModel model);
         public string UpdateManageSubscriptionData(ManageSubscriptionViewModel model);
         public List<ManageSubscriptionViewModel> GetAllManageSubscriptionData();

@@ -812,7 +812,7 @@ namespace BusinessAccessLayer.Implementation
 
 
 
-        public string AddFeature(SubscriptionFeatureViewModel.Add model)
+        public string AddFeature(SubscriptionFeatureViewModel model)
         {
             if(model ==null)
             { return "Invalid Data"; }
@@ -832,12 +832,12 @@ namespace BusinessAccessLayer.Implementation
             }
 
         }
-        public List<SubscriptionFeatureViewModel.GetAll> GetAllFeatures()
+        public List<SubscriptionFeatureViewModel> GetAllFeatures()
         {
             
            
                 
-            var record = _context.SubscriptionFeatures.Where(x=>x.Status == true).Select(x=> new SubscriptionFeatureViewModel.GetAll
+            var record = _context.SubscriptionFeatures.Where(x=>x.Status == true).Select(x=> new SubscriptionFeatureViewModel
             { 
                 Id = x.FeatureId,
                 Name = x.Name,
@@ -858,7 +858,7 @@ namespace BusinessAccessLayer.Implementation
             else { return "Internal Server Error."; }
         }
 
-        public string UpdateFeature(SubscriptionFeatureViewModel.Update model)
+        public string UpdateFeature(SubscriptionFeatureViewModel model)
         {
             var record = _context.SubscriptionFeatures.Where(x => x.FeatureId == model.Id && x.Status == true).FirstOrDefault();
             if (record == null)

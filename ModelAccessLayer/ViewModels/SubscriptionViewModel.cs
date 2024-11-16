@@ -10,8 +10,7 @@ namespace ModelAccessLayer.ViewModels
     public  class SubscriptionViewModel
     {
 
-        public class Add
-        {
+            public int? SubscriptionId { get; set; }
             public string Name { get; set; }
             public double OldPrice { get; set; }
             public double NewPrice { get; set; }
@@ -20,36 +19,5 @@ namespace ModelAccessLayer.ViewModels
             public double DiscountAmount { get; set; }
             public string PlanType { get; set; }
             public string description { get; set; }
-        }
-        
-
-        public class Update
-        {
-            public int SubscriptionId { get; set; }
-            public string Name { get; set; }
-            public double OldPrice { get; set; }
-            public double NewPrice { get; set; }
-            public double Discount { get; set; }
-            public double Gst { get; set; }
-            public double DiscountAmount { get; set; }
-            public string PlanType { get; set; }
-            public string description { get; set; }
-        }
-       
-        public class GetAll
-        {
-            public int SubscriptionId { get; set; }
-            public string Name { get; set; }
-            public double OldPrice { get; set; }
-            public double NewPrice { get; set; }
-            public double Discount { get; set; }
-            public double Gst { get; set; }
-            public double DiscountAmount { get; set; }
-            public string PlanType { get; set; }
-            public string description { get; set; }
-        }
-       
-      
-
     }
 }
