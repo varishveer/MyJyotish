@@ -873,7 +873,7 @@ namespace BusinessAccessLayer.Implementation
             else { return "Internal Server Error."; }
         }
 
-        public string AddSubscription(SubscriptionViewModel model)
+        public string AddSubscription(SubscriptionViewModel.Add model)
         {
          
             if (model == null)
@@ -891,28 +891,10 @@ namespace BusinessAccessLayer.Implementation
                 DiscountAmount = model.DiscountAmount,
                 PlanType = model.PlanType,
                 description = model.description,
-                Status = model.Status
+                Status = true
             };
 
             _context.Subscriptions.Add(subscriptionData);
-
-          
-            _context.SaveChanges();
-
-       
-            int newSubscriptionId = subscriptionData.SubscriptionId;
-
-            
-            foreach (var featureId in model.Features)
-            {
-                var manageSubscriptionData = new ManageSubscriptionModel
-                {
-                    FeatureId = featureId,
-                    SubscriptionId = newSubscriptionId
-                };
-
-                _context.ManageSubscriptionModels.Add(manageSubscriptionData);
-            }
 
             
             if (_context.SaveChanges() > 0)
@@ -926,7 +908,7 @@ namespace BusinessAccessLayer.Implementation
         }
 
 
-        public string UpdateSubscription(SubscriptionViewModel model)
+        public string UpdateSubscription(SubscriptionViewModel.Update model)
         {
             if (model == null)
             {
@@ -950,50 +932,21 @@ namespace BusinessAccessLayer.Implementation
             record.DiscountAmount = model.DiscountAmount;
             record.PlanType = model.PlanType;
             record.description = model.description; 
-            record.Status = model.Status;
+          
 
             _context.Subscriptions.Update(record);
 
-          
-            var existingFeatures = _context.ManageSubscriptionModels
-                                            .Where(x => x.SubscriptionId == record.SubscriptionId);
-
-            _context.ManageSubscriptionModels.RemoveRange(existingFeatures);
-
-           
-            foreach (var featureId in model.Features)
-            {
-                var manageSubscriptionData = new ManageSubscriptionModel
-                {
-                    FeatureId = featureId,
-                    SubscriptionId = record.SubscriptionId
-                };
-
-                _context.ManageSubscriptionModels.Add(manageSubscriptionData);
-            }
-
-       
-            using (var transaction = _context.Database.BeginTransaction())
-            {
-                try
-                {
-                    _context.SaveChanges();
-                    transaction.Commit();
-                    return "Successful";
-                }
-                catch (Exception ex)
-                {
-                    transaction.Rollback();
-                
-                    return $"Internal Server Error: {ex.Message}";
-                }
-            }
+ 
+            _context.SaveChanges();
+                  
+            return "Successful";
+               
         }
 
-        public List<SubscriptionGetViewModel> GetAllSubscription()
+        public List<SubscriptionViewModel.GetAll> GetAllSubscription()
         {
             var records = _context.Subscriptions
-                                  .Select(subscription => new SubscriptionGetViewModel
+                                  .Select(subscription => new SubscriptionViewModel.GetAll
                                   {
                                       SubscriptionId = subscription.SubscriptionId,
                                       Name = subscription.Name,
@@ -1004,16 +957,7 @@ namespace BusinessAccessLayer.Implementation
                                       DiscountAmount = subscription.DiscountAmount,
                                       PlanType = subscription.PlanType,
                                       description = subscription.description,
-                                      Status = subscription.Status,
-
-                                       Features = _context.ManageSubscriptionModels
-                                            .Where(ms => ms.SubscriptionId == subscription.SubscriptionId)
-                                            .Select(ms => ms.FeatureId)
-                                            .Join(_context.SubscriptionFeatures,
-                                                  featureId => featureId,                     
-                                                  feature => feature.FeatureId,              
-                                                  (featureId, feature) => feature.Name)       
-                                            .ToArray()
+                                     
                                   })
                                   .ToList();
 
@@ -1024,10 +968,17 @@ namespace BusinessAccessLayer.Implementation
         {
             var Subscription = _context.Subscriptions.Where(x => x.SubscriptionId == Id).FirstOrDefault();
             if(Subscription == null) { return "Data Not Found"; }
-            _context.Subscriptions.Remove(Subscription);
-            var Feature = _context.ManageSubscriptionModels.Where(x => x.SubscriptionId == Id).ToList();
+            Subscription.Status = false;
+            _context.Subscriptions.Update(Subscription);
 
-            _context.ManageSubscriptionModels.RemoveRange(Feature);
+          /*  var Features = _context.ManageSubscriptionModels.Where(x => x.SubscriptionId == Id).ToList();
+
+            foreach (var feature in Features)
+            {
+                feature.Status = false; // Set status to false for each feature
+            }*/
+
+            
             if (_context.SaveChanges() > 0) { return "Successful"; }
             else { return "internal Server Error."; }
         }

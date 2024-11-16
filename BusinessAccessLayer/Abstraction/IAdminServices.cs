@@ -56,9 +56,9 @@ namespace BusinessAccessLayer.Abstraction
         public List<ManageSubscriptionViewModel> GetAllManageSubscriptionData();
         public string DeleteManageSubscriptionData(int Id);
 
-        public string AddSubscription(SubscriptionViewModel model);
-        public string UpdateSubscription(SubscriptionViewModel model);
-        public List<SubscriptionGetViewModel> GetAllSubscription();
+        public string AddSubscription(SubscriptionViewModel.Add model);
+        public string UpdateSubscription(SubscriptionViewModel.Update model);
+        public List<SubscriptionViewModel.GetAll> GetAllSubscription();
         public string DeleteSubsciption(int Id);
         public SubscriptionGetViewModel GetSubscription(int Id);
         public List<JyotishPaymentRecordModel> JyotishPaymentrecords();
