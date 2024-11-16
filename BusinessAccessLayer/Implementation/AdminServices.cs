@@ -1048,6 +1048,7 @@ namespace BusinessAccessLayer.Implementation
             var Subscription = _context.Subscriptions.Where(x => x.SubscriptionId == model.SubscriptionId && x.Status == true).FirstOrDefault();
            
             var Record = _context.ManageSubscriptionModels.Where(x => x.Id == model.Id && x.Status == true).FirstOrDefault();
+           
             if (Subscription == null & Record == null)
             {
                 return "Invalid Data";

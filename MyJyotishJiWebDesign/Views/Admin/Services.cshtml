@@ -33,7 +33,7 @@
         </div>
         <div class="col-sm-12 my-3 text-end">
 
-        <input type="submit" value="Submit"  class="btn btn-primary"/>
+        <input type="submit" value="Submit" id="subBtn"  class="btn btn-primary"/>
         </div>
         </div>
     </div>
@@ -190,8 +190,8 @@
             console.log(plan)
             $("#planSelect").val(plan.subscriptionId)
             $("#Features").val(plan.featureId).change()
-            $("#seviceCount").val(plan.serviceCount)
-           
+            $("#serviceCount").val(plan.serviceCount)
+            $("#subBtn").val("update")
 
         })
     
@@ -267,36 +267,79 @@
                     Swal.showLoading();
                 }
             })
-            
-            let formData=new FormData()
-            let arrData = $(this).serializeArray();
-            arrData.forEach(function(d){
-                formData.append(d.name,d.value)
-            })
-            debugger
-            $.ajax({
-                url: BaseUrl + 'api/Admin/AddManageSubscriptionData',
-                type: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem("Token")}`
-                },
-                processData:false,
-                contentType: false,
-                data: formData,
-                success: function (res) {
-                    Swal.fire({
-                        title: "Success",
-                        text: res.message,
-                        icon: "success",
-                        didClose: () => {
-                            location.reload()
-                        }
-                    })
-                },
-                error: function (error) {
-                    console.error('An error occurred while loading data list:', error);
-                }
-            });
+            if ($("#subBtn").val() != "update") {
+               
+
+                let formData = new FormData()
+                let arrData = $(this).serializeArray();
+                arrData.forEach(function (d) {
+                    formData.append(d.name, d.value)
+                })
+                debugger
+                $.ajax({
+                    url: BaseUrl + 'api/Admin/AddManageSubscriptionData',
+                    type: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem("Token")}`
+                    },
+                    processData: false,
+                    contentType: false,
+                    data: formData,
+                    success: function (res) {
+                        Swal.fire({
+                            title: "Success",
+                            text: res.message,
+                            icon: "success",
+                            didClose: () => {
+                                location.reload()
+                            }
+                        })
+                    },
+                    error: function (error) {
+                        Swal.fire({
+                            title: "error",
+                            text: "Some error occured",
+                            icon: "error"
+                           
+                        })
+                    }
+                });
+            }else{
+                let formData = new FormData()
+                let arrData = $(this).serializeArray();
+                arrData.forEach(function (d) {
+                    formData.append(d.name, d.value)
+                })
+                debugger
+                $.ajax({
+                    url: BaseUrl + 'api/Admin/UpdateManageSubscriptionData',
+                    type: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem("Token")}`
+                    },
+                    processData: false,
+                    contentType: false,
+                    data: formData,
+                    success: function (res) {
+                        Swal.fire({
+                            title: "Success",
+                            text: res.message,
+                            icon: "success",
+                            didClose: () => {
+                                location.reload()
+                            }
+                        })
+                    },
+                    error: function (error) {
+                        Swal.fire({
+                            title: "error",
+                            text: "Some error occured",
+                            icon: "error"
+
+                        })
+                    }
+                });
+            }
         });
     });
 </script>
