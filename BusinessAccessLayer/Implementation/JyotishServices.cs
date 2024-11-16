@@ -1635,5 +1635,30 @@ namespace BusinessAccessLayer.Implementation
             }
         }
 
-    } 
+        public List<FeatureValidationViewModel> FeatureValidation()
+        {
+            var data = _context.Subscriptions
+                .Where(x => x.Status == true)
+                .Include(x => x.ManageSubscription)
+                    .ThenInclude(ms => ms.Feature)
+                .Select(x => new FeatureValidationViewModel
+                {
+                    Subscription = x.ManageSubscription
+                        .Where(ms => ms.Status)  // Only active subscriptions
+                        .Select(ms => new ListData
+                        {
+                            Name = ms.Feature.Name,
+                            Url = ms.Feature.ServiceUrl,
+                            SubscriptionId = x.SubscriptionId // Use SubscriptionId for all list data items
+                        })
+                        .ToList()
+                })
+                .ToList();
+
+            return data;
+        }
+
+
+
+    }
 }

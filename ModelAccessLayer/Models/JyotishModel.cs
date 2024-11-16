@@ -93,6 +93,7 @@ namespace ModelAccessLayer.Models
         [JsonIgnore]
         public ICollection<WalletHistoryModel> JytoishWalletHistoryRecord { get; set; } = new List<WalletHistoryModel>();
         public ICollection<AppointmentSlotModel> AppointmentSlotData { get; set; } = new List<AppointmentSlotModel>();
+        public ICollection<SubsciptionManagementModel> subscriptionManage { get; set; } = new List<SubsciptionManagementModel>();
 
     }
 

@@ -72,5 +72,6 @@ namespace BusinessAccessLayer.Abstraction
         public List<SkipdateJyotishViewModel> SkipDateList(int Id);
         public List<JyotishNotificationDataViewModel> NotificationData(int Id);
         public LayoutDataViewModel LayoutData(int Id);
+        public List<FeatureValidationViewModel> FeatureValidation();
     }
 }
