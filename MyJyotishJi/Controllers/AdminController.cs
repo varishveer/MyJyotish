@@ -606,7 +606,8 @@ namespace MyJyotishJiApi.Controllers
                 var httpRequest = HttpContext.Request;
                 ManageSubscriptionViewModel model = new ManageSubscriptionViewModel
                 {
-                    FeatureId = httpRequest.Form["features"].ToString().Split(",").Select(e => Convert.ToInt32(e)).ToArray(),
+                    FeatureId = Convert.ToInt32(httpRequest.Form["features"]),
+
                     SubscriptionId = Convert.ToInt32(httpRequest.Form["plan"]),
                     ServiceCount = Convert.ToInt32(httpRequest.Form["serviceCount"])
                 };
@@ -634,7 +635,7 @@ namespace MyJyotishJiApi.Controllers
                 var httpRequest = HttpContext.Request;
                 ManageSubscriptionViewModel model = new ManageSubscriptionViewModel
                 {
-                    FeatureId = httpRequest.Form["features"].ToString().Split(",").Select(e => Convert.ToInt32(e)).ToArray(),
+                    FeatureId = Convert.ToInt32(httpRequest.Form["features"]),
                     SubscriptionId = Convert.ToInt32(httpRequest.Form["plan"]),
                     ServiceCount = Convert.ToInt32(httpRequest.Form["serviceCount"])
                 };

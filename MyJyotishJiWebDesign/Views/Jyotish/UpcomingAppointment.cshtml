@@ -350,7 +350,7 @@
                         <div class="text-end">
                             <button class="btn btn-success" id="addAttachmentBtn">Add Attachment</button>
                         </div>
-                        <form id="" class="my-4 attachmentForm"  method="post">
+                        <form id="attachmentForm" class="my-4 " method="post">
                             <input type="hidden" name="userId" id="userId" />
                         <div class="row justify-content-center align-items-end">
                             <div class="col-sm-5">
@@ -359,7 +359,7 @@
                             </div>
                             <div class="col-sm-5">
                                 <label for="attachment">Attachment</label>
-                                <input type="file" required id="attachment" name="attachment"  class="form-control" />
+                                    <input type="file" required id="attachment" name="attachment" class="form-control attachment" />
                             </div>
                             <div class="col-sm-2">
                                 <input type="submit" value="Add" class="btn btn-success" />
@@ -369,7 +369,7 @@
                        
                     </div>
                     <div class="col-sm-12 mt-4">
-                        <div class="row " id="attachmentRecord">
+                        <div class="row attachmentRecord" id="attachmentRecord">
 
                         </div>
                     </div>
@@ -396,8 +396,10 @@
                         <div class="text-end">
                             <button class="btn btn-success" id="addAttachmentBtn2">Add Attachment</button>
                         </div>
-                        <form id="" class="my-4 attachmentForm"  method="post">
-                            <input type="hidden" name="userId" id="userId" />
+                        <form id="attachmentForm2" class="my-4 "  method="post">
+                            <input type="hidden" name="userId" id="userIdup" />
+                            <input type="hidden" name="appointmentId" id="appointmentIdup" />
+                            <input type="hidden" name="member" id="memberup" />
                         <div class="row justify-content-center align-items-end">
                             <div class="col-sm-5">
                                 <label for="title">Title</label>
@@ -405,7 +407,7 @@
                             </div>
                             <div class="col-sm-5">
                                 <label for="attachment">Attachment</label>
-                                <input type="file" required id="attachment" name="attachment"  class="form-control" />
+                                    <input type="file" required id="attachment2" name="attachment" class="form-control " />
                             </div>
                             <div class="col-sm-2">
                                 <input type="submit" value="Add" class="btn btn-success" />
@@ -415,7 +417,7 @@
                        
                     </div>
                     <div class="col-sm-12 mt-4">
-                        <div class="row " id="attachmentRecord">
+                        <div class="row attachmentRecord" id="attachmentRecord">
 
                         </div>
                     </div>
@@ -588,9 +590,9 @@
 
     })
 
-    $(".attachmentForm").hide()
+    $("#attachmentForm").hide()
 
-    $(".attachmentForm").submit(function(e){
+    $("#attachmentForm").submit(function(e){
         e.preventDefault();
         let formData =new FormData();
         let arrayData=$(this).serializeArray();
@@ -628,7 +630,65 @@
                     icon: "success",
                     didClose:()=>{
                             getUserAttachment($("#appointmentId").val(), $("#selectmember").val())
-                        document.getElementById("attachmentModal").reset();
+                            document.getElementById("attachmentForm").reset();
+                    }
+
+                });
+                }else{
+                    Swal.fire({
+                        title: "warning",
+                        text: result.message,
+                        icon: "warning",
+                    })
+                }
+            },error:function(){
+                Swal.fire({
+                    title: "error",
+                    text: "some error occured",
+                    icon: "error",
+
+                });
+            }
+        })
+    }) 
+    $("#attachmentForm2").submit(function(e){
+        e.preventDefault();
+        let formData =new FormData();
+        let arrayData=$(this).serializeArray();
+        arrayData.push({name:"jyotishId",value:localStorage.getItem("Id")})
+        
+        arrayData.push({name:"attachment", value:$("#attachment2").get(0).files[0]})
+        arrayData.forEach(function(d)
+        {
+            formData.append(d.name, d.value);
+        })
+        debugger
+        Swal.fire({
+            title: "Processing Your Request",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
+        var Id = localStorage.getItem('Id');
+        $.ajax({
+            url: BaseUrl + `Api/Jyotish/AddUserAttachment`,
+            method: 'Post',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+            },
+            processData:false,
+            contentType:false,
+            data: formData,
+            success: function (result) {
+                if(result.status==200){
+                     Swal.fire({
+                    title: "success",
+                    text:result.message,
+                    icon: "success",
+                    didClose:()=>{
+                            getUserAttachment($("#appointmentIdup").val(), $("#memberup").val())
+                        document.getElementById("attachmentForm2").reset();
                     }
 
                 });
@@ -651,7 +711,7 @@
     })
 
     $("#addAttachmentBtn").click(function(){
-    $(".attachmentForm").toggle()
+    $("#attachmentForm").toggle()
 
     })
 
@@ -679,14 +739,14 @@
             data: { Id: appId, memberId: memId },
             success: function (result) {
                 console.log(result)
-                    $("#attachmentRecord").empty()
+                    $(".attachmentRecord").empty()
                 if (result.status == 200) {
                    if(result.data!=null || result.data.length>0){
                        result.data.forEach(function(d){
                         let fileExtension = getFileExtension(d.image)
                            if (fileExtension == "pdf") 
                            {
-                                $("#attachmentRecord").append(
+                                $(".attachmentRecord").append(
                                     `<a class="col-sm-4 display-block" href='${BaseUrl}${d.image}' target='_blank'>
                                        <div  class='w-100'>
                                                     <iframe frameborder="0" src="${BaseUrl}${d.image}" height="170" class="w-100  border rounded p-2"/> </iframe>
@@ -696,7 +756,7 @@
                                    `
                                 )
                            } else {
-                               $("#attachmentRecord").append(
+                               $(".attachmentRecord").append(
                                    `
                                    <div class="col-sm-4">
                                                 <a href='${BaseUrl}${d.image}' target='_blank'> <img src="${BaseUrl}${d.image}" class="w-100 border rounded p-2" height="170"/></a>
@@ -707,7 +767,7 @@
                            }
                        })
                    }else{
-                        $("#attachmentRecord").append("<p class='text-center text-secondary'>no attachment found</p>")
+                        $(".attachmentRecord").append("<p class='text-center text-secondary'>no attachment found</p>")
                    }
                 } else {
                     Swal.fire({
@@ -727,6 +787,23 @@
             }
         })
     }
+
+
+    function showAttachmentUpdateModal(appId, memId, uId) {
+        debugger
+        $("#userIdup").val(uId)
+        $("#appointmentIdup").val(appId)
+        $("#memberup").val(memId)
+        getUserAttachment(appId, memId)
+        $("#attachmentModal2").modal("show")
+        $("#exampleModalToggle2").modal("hide")
+
+
+    }
+    $("#addAttachmentBtn2").click(function () {
+        $(".attachmentForm").toggle()
+
+    })
 
     function showAppointmentSlotsHistory() {
         $.ajax({
@@ -756,7 +833,6 @@
                                                             <path fill="currentColor" d="M13.654 21v-2.21l5.96-5.934l2.19 2.204l-5.94 5.94zm6.885-5.94l-.926-.945zm-6 5.056h.95l3.467-3.474l-.45-.494l-.475-.47l-3.493 3.488zM5 21V3h9.5L19 7.5v2.596h-1V8h-4V4H6v16h5.27v1zm13.506-4.852l-.475-.47l.925.964z"/>
                                                         </svg>                                                      
 
-                                                    <i class="fas fa-user-plus text-warning Addmember" onClick='openAddMemberModal(${item.uId})'  role='button' ></i>
                                                              <i class="fas fa-users text-info Addmember" onClick='getClientMember(${item.uId})'  role='button' role='show member'></i>
                                                                          <a onClick='fetchProblemDate(${item.uId})'><i class="fas fa-eye"></i></a>
                                                       </td>`;
@@ -774,7 +850,6 @@
 
     $("#appointmentHistoryBtn").click(function () {
     $("#appointmentHistoryModal").modal("show")
-    $("#updateProblemSolutionModal").modal("show")
     showAppointmentSlotsHistory()
 })
   
@@ -887,7 +962,7 @@
                         data.forEach(function (d) {
                             const content = `
                                        <div class="container my-3 text-end">
-                                       <button role="button" type="button" class="btn btn-secondary attachmentModaltriggerforUpdate" onClick='showAttachmentUpdateModal(${d.appointmentId},${d.memberId})' ><i class="fa-solid fa-paperclip"></i></button>
+                                       <button role="button" type="button" class="btn btn-secondary attachmentModaltriggerforUpdate" onClick='showAttachmentUpdateModal(${d.appointmentId},${d.memberId},${d.uId})' ><i class="fa-solid fa-paperclip"></i></button>
                                     <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#updateProblemSolutionModal"
                                        onclick='populateUpdateModal(${JSON.stringify(d)})'>Update</a>
                                 </div>
@@ -918,19 +993,6 @@
         });
     }
 
-    function showAttachmentUpdateModal(appId,memId){
-        debugger
-       
-        getUserAttachment(appId,memId)
-        $("#attachmentModal2").modal("show")
-    $("#exampleModalToggle2").modal("hide")
-
-
-    }
-      $("#addAttachmentBtn2").click(function(){
-    $(".attachmentForm").toggle()
-
-    })
 
     function updateData() {
         const Id = $('#problemId').val();

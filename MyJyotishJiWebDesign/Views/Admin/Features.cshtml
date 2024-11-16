@@ -329,11 +329,17 @@
     $(document).ready(function () {
         $("#btnupdate").on('click', function (e) {
             e.preventDefault();
-
+            Swal.fire({
+                title: "Processing Your Request",
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            })
             const featureName = $("#Name").val();
             const url = $("#Url").val();
             const featureId = $("#featureId").val().trim();
-           
+           debugger
             if (!featureName) {
                 Swal.fire({
                     title: 'Error!',
@@ -353,7 +359,7 @@
                 },
                 contentType: 'application/json',
                 data: JSON.stringify({
-                    FeatureId: featureId,
+                    Id: featureId,
                     Name: featureName,
                     ServiceUrl: url
                 }),

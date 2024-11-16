@@ -837,7 +837,7 @@ namespace BusinessAccessLayer.Implementation
             
            
                 
-            var record = _context.SubscriptionFeatures.Where(x=>x.Status == true).Select(x=> new SubscriptionFeatureViewModel
+            var record = _context.SubscriptionFeatures.Where(x=>x.Status == true).OrderByDescending(e=>e.FeatureId).Select(x=> new SubscriptionFeatureViewModel
             { 
                 Id = x.FeatureId,
                 Name = x.Name,
@@ -1015,21 +1015,21 @@ namespace BusinessAccessLayer.Implementation
         public string AddManageSubscriptionData(ManageSubscriptionViewModel model)
         {
             var Subscription = _context.Subscriptions.Where(x => x.SubscriptionId == model.SubscriptionId).FirstOrDefault();
-
-            List<ManageSubscriptionModel> mngsub = new List<ManageSubscriptionModel>();
-            foreach(var item in model.FeatureId)
+            var OldRecord = _context.ManageSubscriptionModels.Where(x => x.SubscriptionId == model.SubscriptionId && x.Status == true).Select(x => x.FeatureId).ToList();
+            if (OldRecord.Contains(model.FeatureId))
             {
+                return "Record Already Present";
+
+            }
+            List<ManageSubscriptionModel> mngsub = new List<ManageSubscriptionModel>();
+           
                 mngsub.Add(new ManageSubscriptionModel
                 {
                     SubscriptionId = model.SubscriptionId,
-                    FeatureId = item,
+                    FeatureId = model.FeatureId,
                     ServiceCount = model.ServiceCount,
                     Status = true
-
-
                 });
-            }
-            
            
             _context.ManageSubscriptionModels.AddRange(mngsub);
             if (_context.SaveChanges() > 0)
@@ -1038,7 +1038,7 @@ namespace BusinessAccessLayer.Implementation
             }
             else
             {
-                return "Internsal Server Error";
+                return "Already Exists";
             }
 
         }
@@ -1048,7 +1048,11 @@ namespace BusinessAccessLayer.Implementation
             var Subscription = _context.Subscriptions.Where(x => x.SubscriptionId == model.SubscriptionId && x.Status == true).FirstOrDefault();
 
             var OldRecord = _context.ManageSubscriptionModels.Where(x => x.SubscriptionId == model.SubscriptionId && x.Status == true).Select(x=>x.FeatureId). ToList();
-          
+            if (OldRecord.Contains(model.FeatureId))
+            {
+                return "Nothing For Update";
+
+            }
             if (Subscription == null & OldRecord == null)
 
             {
@@ -1058,19 +1062,18 @@ namespace BusinessAccessLayer.Implementation
 
 
             List<ManageSubscriptionModel> mngsub = new List<ManageSubscriptionModel>();
-            foreach (var item in model.FeatureId)
-            {
-                if(!OldRecord.Contains(item)) {
+          
+               
                     mngsub.Add(new ManageSubscriptionModel
                     {
                         SubscriptionId = model.SubscriptionId,
-                        FeatureId = item,
+                        FeatureId = model.FeatureId,
                         ServiceCount = model.ServiceCount,
                         Status = true
                     });
-                }
-               
-            }
+                
+              
+            
             _context.ManageSubscriptionModels.UpdateRange(mngsub);
             if (_context.SaveChanges() > 0)
             { 
@@ -1078,7 +1081,7 @@ namespace BusinessAccessLayer.Implementation
             }
             else
             {
-                return "Internsal Server Error";
+                return "Nothing For Update";
             }
         }
 
@@ -1089,7 +1092,7 @@ namespace BusinessAccessLayer.Implementation
             {
                 Id = x.Id,
                 SubscriptionId = x.Subscription.SubscriptionId,
-                FeaturesId = x.FeatureId,
+                FeatureId = x.FeatureId,
                 SubscriptionName = x.Subscription.Name,
                 FeatureName = (from feature in _context.SubscriptionFeatures where feature.FeatureId==x.FeatureId && feature.Status select feature.Name).FirstOrDefault(),
                 ServiceCount = x.ServiceCount
