@@ -19,6 +19,7 @@ namespace ModelAccessLayer.Models
 
         public string Title { get; set; }
         public string Image { get; set; }
+        public bool Status { get; set; }
         [JsonIgnore]
         public JyotishModel Jyotish { get; set; }
         public ClientMembers Member { get; set; }

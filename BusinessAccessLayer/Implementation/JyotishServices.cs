@@ -512,7 +512,7 @@ namespace BusinessAccessLayer.Implementation
             var activeFeatures = _context.SubscriptionFeatures
                                          .Where(x => x.Status == true)
                                          .ToList();  // This can be done in memory because it's a small list.
-
+           
             // Now, fetch the subscriptions and join with ManageSubscriptionModels to get the Status of features
             var records = _context.Subscriptions
                                   .Where(x => x.Status == true)
@@ -527,7 +527,6 @@ namespace BusinessAccessLayer.Implementation
                                       DiscountAmount = subscription.DiscountAmount,
                                       PlanType = subscription.PlanType,
                                       description = subscription.description,
-
                                       // Here, we map over the active features and use a join to check the status from ManageSubscriptionModels
                                       Features = _context.SubscriptionFeatures
                                          .Where(x => x.Status == true).Select(x=> new FeatureList{
@@ -566,11 +565,15 @@ namespace BusinessAccessLayer.Implementation
         {
 
             var plan = _context.Subscriptions.Where(e => e.SubscriptionId == packages.SubscriptionId).Select(e=>e.PlanType).FirstOrDefault();
+            var checkPrePlan = _context.PackageManager.Where(e => e.Status && e.JyotishId==packages.JyotishId).FirstOrDefault();
+            var checkPrePlanforvalidation = _context.PackageManager.Where(e => e.Status && e.JyotishId==packages.JyotishId && e.SubscriptionId==packages.SubscriptionId).FirstOrDefault();
 
-            if (plan == null)
+            if (plan == null || checkPrePlanforvalidation!=null)
             {
                 return false;
             }
+
+            
 
             var purchaseDate = DateTime.Now;
             dynamic expiryDate=0;
@@ -588,17 +591,30 @@ namespace BusinessAccessLayer.Implementation
 
             }
 
-            SubsciptionManagementModel model = new SubsciptionManagementModel
+            if (checkPrePlan != null)
             {
-                SubscriptionId = packages.SubscriptionId,
-                JyotishId = packages.JyotishId,
-                PurchaseDate = purchaseDate,
-                ExpiryDate = expiryDate,
-                Status = true,
+                checkPrePlan.SubscriptionId = packages.SubscriptionId;
+                checkPrePlan.PurchaseDate = purchaseDate;
+                checkPrePlan.ExpiryDate = expiryDate;
+                checkPrePlan.JyotishId = checkPrePlan.JyotishId;
+                checkPrePlan.Status = true;
 
-            };
+                _context.PackageManager.Update(checkPrePlan);
+            }
+            else
+            {
+                SubsciptionManagementModel model = new SubsciptionManagementModel
+                {
+                    SubscriptionId = packages.SubscriptionId,
+                    JyotishId = packages.JyotishId,
+                    PurchaseDate = purchaseDate,
+                    ExpiryDate = expiryDate,
+                    Status = true,
 
-            _context.PackageManager.Add(model);
+                };
+
+                _context.PackageManager.Add(model);
+            }
             if(_context.SaveChanges() > 0)
             {
                 return true;
@@ -1674,6 +1690,7 @@ namespace BusinessAccessLayer.Implementation
                 {
                     Id = record.Id,
                     Name = record.Name,
+                    email = record.Email,
                     Image = record.ProfileImageUrl
                 };
                 return layoutData;
