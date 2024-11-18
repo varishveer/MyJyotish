@@ -565,7 +565,7 @@ namespace BusinessAccessLayer.Implementation
         public bool upgradePackages(packages packages)
         {
 
-            var plan = _context.Subscriptions.Where(e => e.SubscriptionId == packages.Id).Select(e=>e.PlanType).FirstOrDefault();
+            var plan = _context.Subscriptions.Where(e => e.SubscriptionId == packages.SubscriptionId).Select(e=>e.PlanType).FirstOrDefault();
 
             if (plan == null)
             {
@@ -574,15 +574,15 @@ namespace BusinessAccessLayer.Implementation
 
             var purchaseDate = DateTime.Now;
             dynamic expiryDate=0;
-            if (packages.PlanType == "Yearly")
+            if (plan == "Yearly")
             {
 
              expiryDate = purchaseDate.AddYears(1);
-            }else if (packages.PlanType == "Monthly")
+            }else if (plan == "Monthly")
             {
                 expiryDate = purchaseDate.AddMonths(1);
 
-            }else if (packages.PlanType == "Weekly")
+            }else if (plan == "Weekly")
             {
                 expiryDate = purchaseDate.AddDays(7);
 
