@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using MyJyotishGApi.RazorPay;
+using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -31,11 +32,13 @@ builder.Services.AddScoped<IChat, ChatServices>();
 builder.Services.AddSignalR();
 
 
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 })
+    
 .AddJwtBearer("Scheme1", options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters

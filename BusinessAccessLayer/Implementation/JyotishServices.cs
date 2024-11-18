@@ -573,7 +573,20 @@ namespace BusinessAccessLayer.Implementation
             }
 
             var purchaseDate = DateTime.Now;
-            var expiryDate = purchaseDate.AddYears(1);
+            dynamic expiryDate=0;
+            if (packages.PlanType == "Yearly")
+            {
+
+             expiryDate = purchaseDate.AddYears(1);
+            }else if (packages.PlanType == "Monthly")
+            {
+                expiryDate = purchaseDate.AddMonths(1);
+
+            }else if (packages.PlanType == "Weekly")
+            {
+                expiryDate = purchaseDate.AddDays(7);
+
+            }
 
             SubsciptionManagementModel model = new SubsciptionManagementModel
             {

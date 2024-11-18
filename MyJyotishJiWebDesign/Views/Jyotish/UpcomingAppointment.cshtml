@@ -809,6 +809,9 @@
 
     })
 
+    $("#staticBackdrop").on("show.bs.modal", function () {
+        $("#appointmentHistoryModal").modal('hide');
+    })
 
     function showAppointmentSlotsHistory() {
         $.ajax({
