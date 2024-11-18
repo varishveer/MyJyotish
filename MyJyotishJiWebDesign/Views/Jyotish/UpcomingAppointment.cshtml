@@ -709,12 +709,15 @@
                            if (fileExtension == "pdf") 
                            {
                                 $(".attachmentRecord").append(
-                                    `<a class="col-sm-4 display-block" href='${BaseUrl}${d.image}' target='_blank'>
+                                    
+                                    `<div>
+                                        <div class='text-end'><i class="fas fa-trash-alt"></i></div>
+                                    <a class="col-sm-4 display-block" href='${BaseUrl}${d.image}' target='_blank'>
                                        <div  class='w-100'>
                                                     <iframe frameborder="0" src="${BaseUrl}${d.image}" height="170" class="w-100  border rounded p-2"/> </iframe>
                                         <p class="text-center text-secondary">${d.title}</p>
                                     </div>
-                                        </a>
+                                        </a></div>
                                    `
                                 )
                            } else {
