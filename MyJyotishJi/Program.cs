@@ -1,13 +1,18 @@
+using Azure;
 using BusinessAccessLayer.Abstraction;
 using BusinessAccessLayer.Implementation;
 using DataAccessLayer.DbServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using MyJyotishGApi.RazorPay;
+using System.Collections.Generic;
 using System.Net;
+using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -145,8 +150,76 @@ app.Use(async (context, next) =>
         await next();
     }
 });
+builder.Services.AddHttpClient();
+
+app.MapGet("/jyotish/{name}", async (string name, HttpClient httpClient) =>
+{
+    var apiUrlForFeature = "https://localhost:7118/Api/Admin/GetAllFeatures";
+    var apiUrlForGetPlan = "https://localhost:7118/Api/Admin/getPlan";
+
+// Call the external API to get posts
+var response1 = await httpClient.GetAsync(apiUrlForFeature);
+var response2 = await httpClient.GetAsync(apiUrlForGetPlan);
+
+    dynamic features=null;
+    dynamic plan=null;
+    if (response1.IsSuccessStatusCode)
+    {
+        // Deserialize the JSON response into a list of Post objects
+        var jsonResponse = await response1.Content.ReadAsStringAsync();
+         features = JsonSerializer.Deserialize<dynamic>(jsonResponse, new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        });
+
+    } 
+    if (response2.IsSuccessStatusCode)
+    {
+        // Deserialize the JSON response into a list of Post objects
+        var jsonResponse = await response2.Content.ReadAsStringAsync();
+         plan = JsonSerializer.Deserialize <dynamic> (jsonResponse, new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        });
+
+    }
+    
+        List<string> list = new List<string>();
+        List<string> planList = new List<string>();
+    
+        if (features != null)
+        {
+            foreach (var item in features)
+            {
+                list.Add(item.serviceUrl);
+            }
+        }
+    if (list.Contains($"/jyotish/{name}")) {
+        bool checkValidation = false;
+        foreach(var data in plan)
+        {
+            planList.Add(data.url);
+        }
+
+        if (planList.Contains($"/jyotish/{name}"))
+        {
+            return Results.Ok("valid");
+
+        }
+        else
+        {
+            return Results.StatusCode(404);
+        }
+
+    }
+    else
+    {
+        return Results.Ok("valid");
+    }
+});
 
 
 app.MapControllers();
 app.MapHub<CallHub>("/callHub");
 app.Run();
+

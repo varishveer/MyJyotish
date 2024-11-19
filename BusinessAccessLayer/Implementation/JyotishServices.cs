@@ -1471,7 +1471,9 @@ namespace BusinessAccessLayer.Implementation
                     Image = model.ImageUrl,
                     Title = model.Title,
                     AppointmentId = model.appointmentId,
-                    MemberId = model.member != 0 ? model.member : null
+                    MemberId = model.member != 0 ? model.member : null,
+                    Status=true
+                    
 
                 };
 
@@ -1491,7 +1493,7 @@ namespace BusinessAccessLayer.Implementation
             if (appointmentId != 0)
             {
                  string member = memberId != 0 ? memberId.ToString() : null;
-                var res = _context.JyotishUserAttachmentRecord.Where(e => e.AppointmentId == appointmentId && e.MemberId.ToString()== member).OrderByDescending(e => e.Id).ToList();
+                var res = _context.JyotishUserAttachmentRecord.Where(e => e.AppointmentId == appointmentId && e.MemberId.ToString()== member && e.Status).OrderByDescending(e => e.Id).ToList();
                 return res;
             }
             else
@@ -1508,7 +1510,7 @@ namespace BusinessAccessLayer.Implementation
             }
 
             var record = _context.JyotishUserAttachmentRecord
-                                 .Where(x => x.JyotishId == Id)
+                                 .Where(x => x.JyotishId == Id && x.Status)
                                  .ToList();
 
             var result = record.Select(x => new JyotishUserAttachmentJyotishViewModel
@@ -1592,15 +1594,16 @@ namespace BusinessAccessLayer.Implementation
                 return "Attachment not found.";
             }
 
-            // Optionally, delete the physical file if needed
-            string filePath = Path.Combine("/wwwroot", attachment.Image.TrimStart('/'));
-            if (File.Exists(filePath))
-            {
-                File.Delete(filePath);
-            }
+            //// Optionally, delete the physical file if needed
+            //string filePath = Path.Combine("/wwwroot", attachment.Image.TrimStart('/'));
+            //if (File.Exists(filePath))
+            //{
+            //    File.Delete(filePath);
+            //}
 
             // Remove the record from the database
-            _context.JyotishUserAttachmentRecord.Remove(attachment);
+            attachment.Status = false;
+            _context.JyotishUserAttachmentRecord.Update(attachment);
 
             return _context.SaveChanges() > 0 ? "Successful" : "Deletion failed.";
         }
@@ -1697,25 +1700,22 @@ namespace BusinessAccessLayer.Implementation
             }
         }
 
-        public List<FeatureValidationViewModel> FeatureValidation()
+        public dynamic getPlan(int Id)
         {
-            var data = _context.Subscriptions
-                .Where(x => x.Status == true)
-                .Include(x => x.ManageSubscription)
-                    .ThenInclude(ms => ms.Feature)
-                .Select(x => new FeatureValidationViewModel
-                {
-                    Subscription = x.ManageSubscription
-                        .Where(ms => ms.Status)  // Only active subscriptions
-                        .Select(ms => new ListData
-                        {
-                            Name = ms.Feature.Name,
-                            Url = ms.Feature.ServiceUrl,
-                            SubscriptionId = x.SubscriptionId // Use SubscriptionId for all list data items
-                        })
-                        .ToList()
-                })
-                .ToList();
+            var data = (from plan in _context.PackageManager join subscription in _context.Subscriptions on plan.SubscriptionId equals subscription.SubscriptionId
+                       join mngsub in _context.ManageSubscriptionModels on plan.SubscriptionId equals mngsub.SubscriptionId
+                       join feature in _context.SubscriptionFeatures on mngsub.FeatureId equals feature.FeatureId
+                       where plan.JyotishId==Id && plan.Status&&subscription.Status&&feature.Status&&mngsub.Status
+                       select new
+                       {
+                           planName=subscription.Name,
+                           planId=subscription.SubscriptionId,
+                           url=feature.ServiceUrl,
+                           serviceName=feature.Name,
+                           serviceCount=mngsub.ServiceCount
+                       }
+                       ).ToList();
+           
 
             return data;
         }

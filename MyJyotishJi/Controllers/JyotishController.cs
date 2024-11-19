@@ -960,7 +960,7 @@ namespace MyJyotishGApi.Controllers
         }
 
 
-        [HttpDelete("DeleteUserAttachment")]
+        [HttpGet("DeleteUserAttachment")]
         public IActionResult DeleteUserAttachment(int id)
         {
             try
@@ -977,7 +977,7 @@ namespace MyJyotishGApi.Controllers
                 }
                 else if (result == "Successful")
                 {
-                    return Ok(new { Status = 200, Message = result });
+                    return Ok(new { Status = 200, Message = "Attachment remove successfully" });
                 }
                 else
                 {
@@ -1069,12 +1069,12 @@ namespace MyJyotishGApi.Controllers
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
 
         }
-         [HttpGet("FeatureValidation")]
-        public IActionResult FeatureValidation(int Id)
+         [HttpGet("getPlan")]
+        public IActionResult GetPlan(int Id)
         {
             try
             {
-                var result =  _jyotish.FeatureValidation();
+                var result =  _jyotish.getPlan(Id);
                 if (result == null)
                 {
                     return Ok(new { Status = 404, Message = "Not Found" });

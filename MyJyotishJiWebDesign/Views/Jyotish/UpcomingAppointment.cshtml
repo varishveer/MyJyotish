@@ -541,6 +541,7 @@
 </div>
 
 <script>
+
     $("#attachmentModaltrigger").click(function () {
         $("#staticBackdrop").modal("hide")
         $("#attachmentModal").modal("show")
@@ -710,9 +711,9 @@
                            {
                                 $(".attachmentRecord").append(
                                     
-                                    `<div>
-                                        <div class='text-end'><i class="fas fa-trash-alt"></i></div>
-                                    <a class="col-sm-4 display-block" href='${BaseUrl}${d.image}' target='_blank'>
+                                    `<div class='col-sm-4'>
+                                            <div class='text-end text-danger'><i data-id='${d.id}' role='button' onClick='removeAttachment(${d.id})' class="fas removeAttachment fa-trash-alt"></i></div>
+                                    <a class=" display-block" href='${BaseUrl}${d.image}' target='_blank'>
                                        <div  class='w-100'>
                                                     <iframe frameborder="0" src="${BaseUrl}${d.image}" height="170" class="w-100  border rounded p-2"/> </iframe>
                                         <p class="text-center text-secondary">${d.title}</p>
@@ -724,6 +725,8 @@
                                $(".attachmentRecord").append(
                                    `
                                    <div class="col-sm-4">
+                                                            <div class='text-end text-danger'><i data-id='${d.id}'  role='button' class="fas fa-trash-alt" onClick='removeAttachment(${d.id})'></i></div>
+
                                                 <a href='${BaseUrl}${d.image}' target='_blank'> <img src="${BaseUrl}${d.image}" class="w-100 border rounded p-2" height="170"/></a>
                                     <p class="text-center">${d.title}</p>
                                 </div>
@@ -732,7 +735,7 @@
                            }
                        })
                    }else{
-                        $(".attachmentRecord").append("<p class='text-center text-secondary'>no attachment found</p>")
+                        $(".attachmentRecord").append("<p class='my-3 text-center text-secondary'>no attachment found</p>")
                    }
                 } else {
                     Swal.fire({
@@ -751,6 +754,64 @@
                 });
             }
         })
+    }
+
+   function removeAttachment(id) {
+        Swal.fire({
+            title:"Are you sure",
+            text: "Do you want to Delete?",
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: "yes",
+            denyButtonText: `no`
+        }).then((result) => {
+            if (result.isConfirmed) {
+        Swal.fire({
+            title: "Processing Your Request",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
+        ;
+        $.ajax({
+            url: BaseUrl+"api/jyotish/DeleteUserAttachment",
+            type:"get",
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+            },
+            data:{Id:id},
+            success:function(res){
+                if(res.status==200){
+                    Swal.fire({
+                        title: "success",
+                        text: result.message,
+                        icon: "success",
+didClose:()=>{
+                                    $("#attachmentModaltrigger").trigger("click")
+                                    $("#attachmentModaltrigger2").trigger("click")
+
+}
+                    })
+                }else{
+                    Swal.fire({
+                        title: "error",
+                        text: result.message,
+                        icon: "error",
+                    })
+                }
+                 
+            },error:function(){
+                Swal.fire({
+                    title: "error",
+                    text: "some error occured",
+                    icon: "error",
+
+                });
+            }
+        })
+            }
+            })
     }
 
 
@@ -1059,7 +1120,7 @@
                 htmls += `<td class="text-center">${item.userMobile}</td>`;
                 htmls += `<td class="text-center">${item.appoinTimeFrom}</td>`;
                 htmls += `<td class="text-center">${item.appoinTimeTo}</td>`;
-                htmls += `<td class="text-center">${item.problem.slice(0, 10)}...</td>`;
+                htmls += `<td class="text-center">${item.problem}</td>`;
                 htmls += `<td class="text-center">${item.amount || 'N/A'}</td>`;
                 htmls += `<td class="text-center">
 

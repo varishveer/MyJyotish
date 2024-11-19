@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ModelAccessLayer.ViewModels
 {
-    public class FeatureValidationViewModel
+    public class getPlan
     {
         public List<ListData> Subscription { get; set; }
 

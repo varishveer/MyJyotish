@@ -3,89 +3,244 @@
  
 }
 
-<!-- Razorpay Script -->
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
-<!-- jQuery and Bootstrap JS -->
-
-
-
-<!-- Bootstrap CSS -->
 
 <!-- Font Awesome for icons -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <!-- Custom CSS for Styling -->
+
+
+<link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png" />
+<link rel="preconnect" href="https://fonts.gstatic.com" />
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet" />
+
 <style>
-    .title {
-        width: 145%;
-        transform: translateX(-16%);
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  color: hsl(233, 13%, 49%);
+  margin: 3.3rem 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.sub {
+  background: linear-gradient(
+    135deg,
+    rgba(163, 168, 240, 1) 0%,
+    rgba(105, 111, 221, 1) 100%
+  );
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  /* height: 25px;
+  width: 50px; */
+  height: 1.6rem;
+  width: 3.3rem;
+  border-radius: 1.6rem;
+  padding: 0.3rem;
+}
+.circle {
+  background-color: #fff;
+  height: 1.4rem;
+  width: 1.4rem;
+  border-radius: 50%;
+}
+
+.cards {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.card {
+  background: #fff;
+  color: hsl(233, 13%, 49%);
+  border-radius: 0.8rem;
+}
+
+.card:hover.active {
+  background: linear-gradient(
+    135deg,
+    rgba(163, 168, 240, 1) 0%,
+    rgba(105, 111, 221, 1) 100%
+  );
+  color: #fff;
+  display: flex;
+  align-items: center;
+  transform: scale(1.1);
+  z-index: 1;
+}
+
+    .details {
+  margin: 2.6rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+
+        .details li {
+  list-style-type: none;
+  display: flex;
+  justify-content: start;
+  width: 100%;
+  padding: 1rem 0;
+}
+
+  .details li.price {
+  font-size: 3rem;
+  color: hsl(232, 13%, 33%);
+  padding-bottom: 2rem;
+}
+.shadow {
+  box-shadow: -5px 5px 15px 1px rgba(0, 0, 0, 0.1);
+}
+
+.card:hover.active .price {
+  color: #fff;
+}
+
+.btn-package {
+  margin-top: 1rem;
+  height: 2.6rem;
+  width: 13.3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  background: linear-gradient(
+    135deg,
+    rgba(163, 168, 240, 1) 0%,
+    rgba(105, 111, 221, 1) 100%
+  );
+  color: #fff;
+  outline: none;
+  border: 0;
+  font-weight: bold;
+}
+
+   .btn-package:hover.active-btn {
+  background: #fff;
+  color: hsl(237, 63%, 64%);
+}
+.bottom-bar {
+  border-bottom: 2px solid hsla(240, 8%, 85%, 0.582);
+}
+
+.card.active .bottom-bar {
+  border-bottom: 2px solid hsla(240, 8%, 85%, 0.253);
+}
+.pack {
+  font-size: 1.1rem;
+}
+
+    .old-price{
+        text-decoration:line-through;
     }
 
-    .card {
-        transition: 0.2s linear;
-    }
+@@media (max-width: 280px) {
+        .details {
+    margin: 1rem;
+  }
+  h1 {
+    font-size: 1.2rem;
+  }
 
-    .blur-bg {
-        background-color: #8EC5FC;
-        background-image: linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%);
-    }
+        .toggle-package {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 80px;
+  }
+  .cards {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
 
-    .card:hover {
-        transform: scale(1.07);
-        z-index: 2;
-    }
+  .card {
+    transform: scale(0.8);
+    margin-bottom: 1rem;
+  }
 
-    .Platinum {
-        color: #E5E4E2;
-        background-color: #00DBDE;
-        background-image: linear-gradient(90deg, #00DBDE 0%, #FC00FF 100%);
-    }
+        .card:hover.active {
+    transform: scale(0.8);
+  }
+}
 
-    .Gold {
-        color: #FFD700;
-        background-color: #FBAB7E;
-        background-image: linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%);
-    }
+@@media (min-width: 280px) and (max-width: 320px) {
+        .details {
+    margin: 20px;
+  }
+  .cards {
+    display: flex;
+    flex-direction: column;
+  }
+  .card {
+    margin-bottom: 1rem;
+  }
 
-    .Silver {
-        color: #C0C0C0;
-        background-color: #8BC6EC;
-        background-image: linear-gradient(135deg, #8BC6EC 0%, #9599E2 100%);
-    }
+        .card:hover.active {
+    transform: scale(1);
+  }
+}
 
-    .list-group-item {
-        padding: 8px 3px !important;
-    }
+@@media (min-width: 320px) and (max-width: 414px) {
+  .cards {
+    display: flex;
+    flex-direction: column;
+  }
+  .card {
+    margin-bottom: 1rem;
+  }
 
-    .availablebg {
-        background-color: rgba(255, 255, 255, 0.6) !important;
-    }
+        .card:hover.active {
+    transform: scale(1);
+  }
+}
+@@media (min-width: 414px) and (max-width: 768px) {
+  .card {
+    margin-bottom: 1rem;
+    margin-right: 1rem;
+  }
 
-    .upgradePlan {
-        background-color: #0093E9;
-        background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%);
-        color: white !important;
-    }
+        .card:hover.active {
+    transform: scale(1);
+  }
+}
+@@media (min-width: 768px) and (max-width: 1046px) {
+  .cards {
+    display: flex;
+  }
+  .card {
+    margin-bottom: 1rem;
+    margin-right: 1rem;
+  }
+  .card:hover.active {
+    transform: scale(1);
+  }
+}
 
-    .planType {
-        right: 0;
-        font-size: 0.8rem;
-    }
-     .list-group-flush::-webkit-scrollbar{
-         width:2px;
-         height:2px;
-     }
 </style>
 
-<div class="container-fluid">
-    <h2 class="mt-1 text-primary">Pricing Plan</h2>
-    <hr />
-    <div class="row justify-content-center packageContainer h-100 align-items-center gap-3 my-3">
-        <!-- Cards will be dynamically inserted here -->
+    <header>
+        <h1>Our Pricing</h1>
+   
+    </header>
+    <div class="cards d-flex gap-3">
+ 
     </div>
-</div>
 
 <script>
     $(document).ready(function () {
@@ -107,9 +262,8 @@
                 'Content-Type': 'application/json'
             },
             success: function (response) {
-                console.log(response)
                 if (response.status === 200 && response.data.length > 0) {
-                    var container = $(".packageContainer");
+                    var container = $(".cards");
                     container.empty();
 
                     $.each(response.data, function (index, item) {
@@ -130,9 +284,9 @@
 
                         validFeature.forEach(function(d){
                             servicesHTML += `
-                                            <li class="list-group-item availablebg rounded my-1">
+                                                <li class="bottom-bar">
                                                 <span class="me-1 text-success">
-                                                    <i class="fa-solid fa-circle-check"></i>
+                                                        <i class="fa-solid fa-check"></i>
                                                 </span>
                                                 <a href="#!">${d}</a>
                                             </li>
@@ -140,9 +294,9 @@
                         })
                         invalidFeature.forEach(function(d){
                             servicesHTML += `
-                                            <li class="list-group-item blur-bg rounded my-1">
+                                                <li class="bottom-bar">
                                                 <span class="me-1 text-danger">
-                                                    <i class="fa-solid fa-ban"></i>
+                                                       <i class="fa-solid fa-xmark"></i>
                                                 </span>
                                                     <a href="#!" class="fs-6">${d}</a>
                                             </li>
@@ -151,37 +305,39 @@
 
                         // Generate the card HTML for each plan
                         var cardHTML = `
-                                <div class="card blur-bg position-relative shadow mx-3" style="width: 14.5rem;">
-                                    <div class="card-body">
-                                        <h3 class="mb-3 font-weight-400 text-center py-2 px-0 shadow title ${item.name}">${item.name}</h3>
-                                        <div class="blur-bg p-2 rounded">
-                                            <span class="position-absolute top-0 planType btn btn-success p-0 fst-italic">${item.planType}</span>
-                                            ${item.newPrice != 0 ?`
-                                                <del style="font-size:20px;text-shadow:1px 1px 1px black; color:red;" class="mt-2">
-                                                    <span class="display-30 me-1">₹${item.oldPrice}</span>
-                                                </del>
-                                                <sup style="font-size:12px;">${item.discount} %OFF</sup><br />
-                                            ` : ""}
-                                            <span class="bg-success text-light p-1 rounded">${item.newPrice == 0 ? "Free" : "₹ " + item.newPrice}</span>
-                                        </div>
-                                    </div>
-                                                <ul class="list-group list-group-flush " style="max-height: 300px; overflow-y: scroll;">
-                                        ${servicesHTML}
-                                    </ul>
-                                    <div class="card-body">
-                                        <button type="button" class="btn upgradePlan" id="upgradeBtn_${item.subscriptionId}"
-                                            data-planId="${item.subscriptionId}" data-planType="${item.planType}"
-                                            data-planPrice="${item.newPrice}">Upgrade</button>
-                                    </div>
-                                </div>
+
+
+                            <div class="card active shadow">
+                <ul class="details overflow-auto">
+                        <li class="pack mx-0 justify-content-center mb-2 fs-4 fw-bold">${item.name}</li>
+                                <li id="${item.name} class="price bottom-bar"> <span class="fs-3">${item.newPrice == 0 ? "Free" : "₹ " + item.newPrice}</span>&nbsp;&nbsp;${item.newPrice != 0 ? `
+                                                    
+                                                        <span class="text-danger old-price fs-6">₹${item.oldPrice}</span>
+                                                  
+                                                    <sup class="fs-6">${item.discount} %OFF</sup><br />
+                                                ` : ""}
+                                               </li>
+                        ${servicesHTML}
+                <li>
+                         <button type="button" class="btn-package active-btn upgradePlan" ${planData[0].planId == item.subscriptionId ? "disabled" : ""} id = "upgradeBtn_${item.subscriptionId}"
+                                                data-planId="${item.subscriptionId}" data-planType="${item.planType}"
+                                                    data-planPrice="${item.newPrice}">${planData[0].planId == item.subscriptionId ? "Purchased" : "Upgrade"}</button></li>
+                </ul>
+            </div>
+
+
+
+
+                               
                             `;
                              
                         container.append(cardHTML);
                         delete window.servicesHTML;
                         delete window.container;
                         delete window.cardHTML;
-
+                      
                     });
+                  
                     Swal.close()
                 } else {
                     console.log("No subscription plans available or an error occurred.");
@@ -226,6 +382,9 @@
                                 title: "success",
                                 text: response.message,
                                 icon: "success",
+                                didClose:()=>{
+                         location.reload()
+                                }
 
                             });
                 } else {
@@ -242,4 +401,9 @@
 
      
   
+</script>
+
+<script>
+    
+
 </script>

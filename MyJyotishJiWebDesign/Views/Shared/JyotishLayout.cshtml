@@ -99,20 +99,6 @@
             z-index: 10000;
         }
 
-        .plan-desc-btn:hover {
-            color: gray !important;
-            cursor: pointer;
-        }
-
-        .plan-desc-box {
-            z-index: 20000;
-            right: -100%;
-            width: 30%;
-            min-width: 300px;
-            border-radius: 0 0 0 6px;
-        }
-
-      
         .btn-primary{
             color:white !important;
         }
@@ -130,7 +116,14 @@
 </head>
 
 <body>
-
+    @* alert box*@
+    <div class="alert-box alert-danger d-none position-fixed w-100 d-flex justify-content-between align-items-center" role="alert">
+        <div>
+            <i class="fas fa-exclamation-circle"></i>
+            &nbsp;<span class="alert-content"></span>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
     <div class="wrapper">
        
         <!-- Sidebar -->
@@ -248,22 +241,22 @@
                             <div class="collapse" id="forms">
                                 <ul class="nav nav-collapse">
                                     <li>
-                                        <a href="/Jyotish/AddAppointment">
+                                        <a class="featureValidation" href="/Jyotish/AddAppointment">
                                             <span class="sub-item">Add Appointment</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="/Jyotish/Gallery">
+                                        <a class="featureValidation" href="/Jyotish/Gallery">
                                             <span class="sub-item">Add Gallery</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="/Jyotish/Videos">
+                                        <a class="featureValidation" href="/Jyotish/Video">
                                             <span class="sub-item">Add Videos</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="/Jyotish/TeamMembers">
+                                        <a class="featureValidation" href="/Jyotish/TeamMembers">
                                             <span class="sub-item">Add TeamMembers</span>
                                         </a>
                                     </li>
@@ -372,7 +365,11 @@
                     </nav>
 
                     <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
-
+                        <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <span class="d-none d-lg-inline-flex justify-content-center gap-2 align-items-center userPlan p-2 rounded">Free User</span>
+                                </a>
+                        </li>
                         <li class="nav-item topbar-icon dropdown hidden-caret">
                             <a class="nav-link dropdown-toggle"
                                href="#"
@@ -602,7 +599,6 @@
     </div>
         <!-- Custom template | don't include it in your project! -->
         <div class="custom-template">
-            <div class="title">Settings</div>
             <div class="custom-content">
                 <div class="switcher">
                     <div class="switch-block">
@@ -749,8 +745,8 @@
                     <nav class="pull-left">
                         <ul class="nav">
                             <li class="nav-item">
-                                <a class="nav-link" href="http://www.themekita.com">
-                                    ThemeKita
+                                <a class="nav-link" href="https://myjyotishg.in">
+                                    myjyotishg
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -762,12 +758,11 @@
                         </ul>
                     </nav>
                     <div class="copyright">
-                        2024, made with <i class="fa fa-heart heart text-danger"></i> by
-                        <a href="http://www.themekita.com">ThemeKita</a>
+                        &copy; <a href="">myjyotishg</a>, All Right Reserved. Designed By <a href="https://macreel.co.in">Macreel Infosoft</a>
                     </div>
                     <div>
-                        Distributed by
-                        <a target="_blank" href="https://themewagon.com/">ThemeWagon</a>.
+                        Created by
+                        <a target="_blank" href="https://themewagon.com/">macreel</a>.
                     </div>
                 </div>
             </footer>
@@ -819,10 +814,98 @@
     <script src="~/assets/js/demo.js"></script>
     <script src="~/summernote/dist/summernote.min.js"></script>
 
- 
+ <!--Manage Feature -->
     <script>
 
+           let planData=[]
+    $.ajax({
+    url: BaseUrl+"api/jyotish/getPlan",
+    type: "get",
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+                },
+                data:{Id:localStorage.getItem("Id")},
+    success: function (res) {
+    let planDesc = "";
+        if (res.status == 200) {
+            planData = res.data;
+            if (res.data.length > 0) {
+                let pathArray = [];
+                res.data.forEach(function (d) {
+                pathArray.push(d.url.toLowerCase())
+                    })
+
+                    //description of limit of features
+
+                    // planDesc += `
+                    // <div class='mb-2'>
+                    //     <span class='p-2'><i class="fa-solid text-primary fa-caret-right"></i></span><span class='fw-semi-bold'>
+                    //         ${d.serviceName} :
+                    //     </span><span class='usedservice
+                    //                  ${d.totalUsedService[d.serviceName] / d.serviceCount * 100>
+                    //         = 80 ? "text-success" : d.totalUsedService[d.serviceName] / d.serviceCount * 100 < 80 && d.totalUsedService[d.serviceName] / d.serviceCount * 100 > 20 ? "text-warning" : "text-danger"}'>
+                    //         ${d.totalUsedService[d.serviceName]}
+                    //     </span>/<span class='text-primary'>${d.serviceCount}</span>
+                    // </div>`
+
+                    // })
+                    // $(".plan-desc-box").html(planDesc);
+                    $(".featureValidation").each(function () {
+                        let href = $(this)
+                        console.log(href.attr("href"))
+                                if (href.attr("href")!=null || href.attr("href")!="" || href.attr("href")!=undefined){
+                        if (!pathArray.includes(href.attr("href").toLowerCase())) {
+                            href.removeAttr("href", "")
+                            href.addClass("disable_link");
+                            href.attr("onclick", "showAlert(this)")
+
+
+                        }
+                                }
+                    })
+                
+            }
+             else {
+            // $(".plan-desc-box").html("<span>You are a free user <br> for access features upgrade your <a href='/vakil/packages'>plan</a> <br> </span>");
+
+            $(".featureValidation").each(function () {
+            let href = $(this)
+            href.removeAttr("href", "")
+            href.addClass("disable_link");
+            href.attr("onclick", "showAlert(this)")
+            })
+            }
+                    $(".userPlan").html(res.data[0].planName == "Platinum" ? "Pro User"
+                        : res.data[0].planName == "Silver" ? `
+                   Upgrade to &nbsp;
+                            <a href='/jyotish/Subscription' class='Gold px-2 rounded'>Gold</a>` : res.data[0].planName.trim() == "Gold" ? `
+                     Upgrade to &nbsp;
+                                    <a href='/jyotish/Subscription' class='Platinum px-2 rounded'>Platinum</a>` : res.data[0].planName)
+                    $(".userPlan").addClass(res.data[0].planName)
+        }
+            
+     
+
+    },
+    error: function () {
+    Swal.fire({
+    title: "Error",
+    text: "Some issue found !",
+    icon: "error"
+    })
+    }
+    })
+      function showAlert(e) {
+                $(".alert-box").removeClass("d-none")
+                $(".alert-content").text(e.innerText + " : This Page is not accessible according to your plan")
+
+                setTimeout(() => {
+                    $(".alert-box").addClass("d-none")
+                }, 3000)
+            }
+
         document.addEventListener('DOMContentLoaded', function () {
+           
             let userId = localStorage.getItem('Id')
             //fetch current login user detail
 
