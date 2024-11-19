@@ -110,7 +110,6 @@ namespace MyJyotishGApi.RazorPay
         { "amount", (int)(model.Amount * 100) } // Convert amount to paise
     };
             Payment capturedPayment = payment.Capture(options);
-
             // Log successful payment in the database
             var isPaymentUpdated = _services.LogPayment(model, "success");
             if (!isPaymentUpdated)

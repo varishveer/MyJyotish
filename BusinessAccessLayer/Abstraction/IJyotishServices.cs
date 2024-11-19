@@ -43,6 +43,7 @@ namespace BusinessAccessLayer.Abstraction
         public bool updateArrivedClient(int appointmentId,int jyotishId);
         public dynamic GetAllAppointmentHistory(int jyotishId);
         public dynamic GetAttachmentByAppointment(int appointmentId, int memberId);
+        public List<SubscriptionFeatureViewModel> GetAllFeatures();
 
         public string AddProblemSolution(ProblemSolutionViewModel model);
         public ProblemSolutionJyotishGetViewModel GetProblemSolution(int appointmentId);

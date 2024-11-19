@@ -6,9 +6,7 @@
     <title>DASHMIN - Bootstrap Admin Template</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
-    <meta content="" name="description">
-
-
+    <meta content="" name="description" />
 
     <!---Font Awesome-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -24,15 +22,38 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
-    <!-- Libraries Stylesheet -->
-    <link href="~/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="~/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
-
     <!-- Customized Bootstrap Stylesheet -->
     <link href="~/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Template Stylesheet -->
-    <link href="~/css/style.css" rel="stylesheet">
+    <script src="~/assets/js/plugin/webfont/webfont.min.js"></script>
+    <script>
+        WebFont.load({
+            google: { families: ["Public Sans:300,400,500,600,700"] },
+            custom: {
+                families: [
+                    "Font Awesome 5 Solid",
+                    "Font Awesome 5 Regular",
+                    "Font Awesome 5 Brands",
+                    "simple-line-icons",
+                ],
+                urls: ["assets/css/fonts.css"],
+            },
+            active: function () {
+                sessionStorage.fonts = true;
+            },
+        });
+    </script>
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="~/assets/css/plugins.min.css" />
+    <link rel="stylesheet" href="~/assets/css/kaiadmin.min.css" />
+
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link rel="stylesheet" href="~/assets/css/demo.css" />
+    <!-- Include Select2 JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
@@ -42,32 +63,13 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <style>
 
-        .sidebar .navbar .dropdown-item {
-            font-size:14px !important;
-            font-weight:300 !important;
-        }
-          td {
-              padding-left: 5px !important;
-              padding-right: 5px !important;
-              text-align: left !important;
-          }
-
-          /* Example for table headers, if needed */
+      
           th {
               text-align: center;
               vertical-align: middle;
           }
 
-          debar .navbar .dropdown-item {
-              padding-left: 70px;
-              border-radius: 0 30px 30px 0;
-          }
-
-
-          .dropdown-item {
-              padding: .50rem 1rem;
-          }
-
+       
           table.dataTable td.dt-type-numeric {
               text-align: left;
           }
@@ -86,131 +88,10 @@
               font-size: 12px !important;
           }
 
-          .sidebar {
-              width: 100px;
-          }
+         
 
-          .sidebar2 {
-              width: 250px;
-              z-index: 10000;
-          }
+        
 
-          .content {
-              margin-left:100px;
-          }
-
-
-          .content2{
-              margin-left: 250px !important;
-          }
-          .sidebar-toggler{
-              margin-left: 10px !important;
-          }
-
-
-
-          .disable_link {
-              color: gray;
-          }
-
-          @@media (min-width: 992px) {
-              .sidebar.open {
-                  margin-left: -100px;
-              }
-
-              .content {
-                  width: calc(100% - 100px) !important;
-              }
-
-          }
-
-          @@media (max-width: 991.98px) {
-        /*       .sidebar {
-                  margin-left: -40px;
-              }
-           */ .sidebar-toggler2 {
-                  margin-left: 170px !important;
-              }
-              .sidebar3 {
-                  margin-left: -10px;
-              }
-              .content {
-                  margin-left: 0 !important;
-              }
-
-          }
-
-          .uplogo {
-              height: 0px !important;
-              text-align: center;
-              line-height: 40px;
-          }
-
-
-          .Platinum {
-              color: white !important;
-              background-color: #00DBDE;
-              background-image: linear-gradient(90deg, #00DBDE 0%, #FC00FF 100%);
-          }
-
-          .Gold {
-              color: white !important;
-              background-color: #FBAB7E;
-              background-image: linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%);
-          }
-
-          .Silver {
-              color: white !important;
-              background-color: #8BC6EC;
-              background-image: linear-gradient(135deg, #8BC6EC 0%, #9599E2 100%);
-          }
-
-          .alert {
-              z-index: 10000;
-          }
-
-          .plan-desc-btn:hover {
-              color: gray !important;
-              cursor: pointer;
-          }
-
-          .plan-desc-box {
-              z-index: 20000;
-              right: -100%;
-              width: 30%;
-              min-width: 300px;
-              border-radius: 0 0 0 6px;
-          }
-
-          .dropdown-toggle::after {
-              content: "" !important;
-          }
-
-          .adddropdown-toggle::after {
-              position: absolute;
-              top: 17px;
-              right: 15px;
-              border: none;
-              content: "\f107" !important;
-              font-family: "Font Awesome 5 Free";
-              font-weight: 900;
-              transition: .5s;
-          }
-
-          .sidebar-nav {
-              opacity: 0;
-              transition: 1s;
-              font-size:14px;
-          }
-/* 
-        .dropdown-item.active, .dropdown-item:active {
-            color: #272b2f !important ;
-            text-decoration: none;
-            background-color: #009cff !important;
-        } */
-
-
-        /* Remove the "Show" and "entries" text */
         .dataTables_length label {
             display: flex;
             justify-content: center;
@@ -235,288 +116,601 @@
             box-shadow: none;
         }
 
-        #NotificationNewText {
-            letter-spacing: 2px;
-            font-size: 0.5rem;
+        .btn-primary {
+            color: white !important;
+        }
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
         }
 
-        /* Main container for the notification list */
-        .notification-list {
-            display: flex;
-            flex-direction: column;
-            gap: 15px; /* Space between notifications */
-        }
-
-        /* Each notification will have a card-like style */
-        .notification-item {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            padding: 15px;
+        ::-webkit-scrollbar-thumb {
+            background: silver;
             border-radius: 10px;
-            background-color: #ffffff;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
         }
-
-            /* Hover effect for notification item */
-            .notification-item:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            }
-
-            /* Left column (Name and Appointment Info) */
-            .notification-item .left {
-                flex: 1;
-                padding-right: 15px;
-            }
-
-            /* Right column (Booking Date and Duration) */
-            .notification-item .right {
-                color: #555;
-            }
-
-        /* Name Styling */
-        .notification-name {
-            font-weight: 600;
-            font-size: 1.1rem;
-            color: #333;
-        }
-
-        /* Appointment Date and Time Styling */
-        .notification-time {
-            font-size: 0.95rem;
-            color: #777;
-        }
-
-        /* Booking Date Styling */
-        .notification-booking-date {
-            text-align: center;
-            font-size: 0.85rem;
-            color: #aaa;
-        }
-
-        /* Time Duration Badge */
-        .notification-duration {
-            font-weight: 500;
-            padding: 5px 10px;
-            border-radius: 20px;
-            margin-top: 0px;
-        }
-
-        /* Small text under each notification */
-        .notification-small {
-            font-size: 0.85rem;
-            color: #888;
-        }
-
-        /* For mobile responsiveness */
-        @@media (max-width: 576px) {
-            .notification-item {
-                flex-direction: column; /* Stack the content vertically on smaller screens */
-                text-align: left;
-            }
-
-                .notification-item .right {
-                    text-align: left; /* Align the right column to the left on mobile */
-                }
-
-            .notification-duration {
-                margin-top: 5px;
-            }
-        }
+      
     </style>
-
-
-
-
-
-
-    <link href="https://cdn.datatables.net/2.1.3/css/dataTables.dataTables.min.css" rel="stylesheet" />
-
-
-    <script src="https://cdn.datatables.net/2.1.3/js/dataTables.min.js"></script>
-    <!---Swal fire--->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.0/dist/sweetalert2.all.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.0/dist/sweetalert2.min.css" rel="stylesheet">
-
-
-    <!-- Include DataTables JS -->
-    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
-
-    <script src="~/lib/chart/chart.min.js"></script>
-    <script src="~/lib/easing/easing.min.js"></script>
-    <script src="~/lib/waypoints/waypoints.min.js"></script>
-    <script src="~/lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="~/lib/tempusdominus/js/moment.min.js"></script>
-    <script src="~/lib/tempusdominus/js/moment-timezone.min.js"></script>
-    <script src="~/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
-
-    <!-- Template Javascript -->
-    <script src="~/js/main.js"></script>
 
 
 </head>
 
 <body>
-    <div class="container-xxl position-relative bg-white d-flex p-0">
-        <!-- Spinner Start -->
-        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-                <span class="sr-only">Loading...</span>
+    <div class="wrapper">
+
+        <!-- Sidebar -->
+
+        <div class="sidebar" data-background-color="dark">
+            <div class="sidebar-logo">
+                <!-- Logo Header -->
+                <div class="logo-header" data-background-color="dark">
+                    <a href="/jyotish/dashboard" class="logo">
+                        <img src="https://api.myjyotishg.in/Images/Logo.png"
+                             alt="navbar brand"
+                             class="navbar-brand"
+                             height="50" />
+                    </a>
+                    <div class="nav-toggle">
+                        <button class="btn btn-toggle toggle-sidebar">
+                            <i class="gg-menu-right"></i>
+                        </button>
+                        <button class="btn btn-toggle sidenav-toggler">
+                            <i class="gg-menu-left"></i>
+                        </button>
+                    </div>
+                    <button class="topbar-toggler more">
+                        <i class="gg-more-vertical-alt"></i>
+                    </button>
+                </div>
+                <!-- End Logo Header -->
+            </div>
+            <div class="sidebar-wrapper scrollbar scrollbar-inner">
+                <div class="sidebar-content">
+                    <ul class="nav nav-secondary">
+                        <li class="nav-item active">
+                            <a data-bs-toggle="collapse"
+                               href="#dashboard"
+                               class="collapsed"
+                               aria-expanded="false">
+                                <i class="fas fa-home"></i>
+                                <p>Dashboard</p>
+                                <span class="caret"></span>
+                            </a>
+                            <div class="collapse" id="dashboard">
+                                <ul class="nav nav-collapse">
+                                    <li>
+                                        <a href="/Admin/Dashboard">
+                                            <span class="sub-item">Dashboard</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-item">
+                            <a data-bs-toggle="collapse" href="#base">
+                                <i class="fas fa-layer-group"></i>
+                                <p>Master Data</p>
+                                <span class="caret"></span>
+                            </a>
+                            <div class="collapse" id="base">
+                                <ul class="nav nav-collapse">
+                                    <li>
+                                        <a href="/Admin/ExpertiseList">
+                                            <span class="sub-item">Experties List</span>
+                                        </a>
+                                    </li>  <li>
+                                        <a href="/Admin/SlotList">
+                                            <span class="sub-item">Slot List</span>
+                                        </a>
+                                    </li>
+                                   
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-item">
+                            <a data-bs-toggle="collapse" href="#forms">
+                                <i class="fas fa-pen-square"></i>
+                                <p>InterViews</p>
+                                <span class="caret"></span>
+                            </a>
+                            <div class="collapse" id="forms">
+                                <ul class="nav nav-collapse">
+                                    <li>
+                                        <a class="featureValidation" href="/Admin/InterviewList">
+                                            <span class="sub-item">InterView List</span>
+                                        </a>
+                                    </li>
+                                    
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a data-bs-toggle="collapse" href="#sidebarLayouts">
+                                <i class="fas fa-th-list"></i>
+                                <p>jyotish Records</p>
+                                <span class="caret"></span>
+                            </a>
+                            <div class="collapse" id="sidebarLayouts">
+                                <ul class="nav nav-collapse">
+                                    <li>
+                                        <a href="/Admin/PendingJyotish">
+                                            <span class="sub-item">Pending Jyotish</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/Admin/JyotishList">
+                                            <span class="sub-item">Approved Jyotish</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/Admin/Appointments">
+                                            <span class="sub-item">Appointments</span>
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a data-bs-toggle="collapse" href="#tables">
+                                <i class="fas fa-table"></i>
+                                <p>User Records</p>
+                                <span class="caret"></span>
+                            </a>
+                            <div class="collapse" id="tables">
+                                <ul class="nav nav-collapse">
+                                    <li>
+                                        <a href="/Admin/UserList">
+                                            <span class="sub-item">User List</span>
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a data-bs-toggle="collapse" href="#maps">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <p>Subscription</p>
+                                <span class="caret"></span>
+                            </a>
+                            <div class="collapse" id="maps">
+                                <ul class="nav nav-collapse">
+                                    <li>
+                                        <a href="/Admin/Subscription">
+                                            <span class="sub-item">Add Plan</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/Admin/Features">
+                                            <span class="sub-item">Add Feature</span>
+                                        </a>
+                                    </li><li>
+                                        <a href="/Admin/Services">
+                                            <span class="sub-item">Add Service</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a data-bs-toggle="collapse" href="#maps">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <p>Reports</p>
+                                <span class="caret"></span>
+                            </a>
+                            <div class="collapse" id="maps">
+                                <ul class="nav nav-collapse">
+                                    <li>
+                                        <a href="/Admin/Subscription">
+                                            <span class="sub-item">Report</span>
+                                        </a>
+                                    </li>
+                                   
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
-        <!-- Spinner End -->
-        <!-- Sidebar Start -->
-        <div class="sidebar pe-4 pb-3">
-            <nav class="navbar bg-light navbar-light">
-                <a href="index.html" class="navbar-brand mx-4 mb-3">
-                    <h3 class="text-primary " style="color: rgba(63, 175, 165, 0.85) !important;"><i class="fa fa-hashtag me-2"></i> Admin Panel</h3>
-                </a>
-
-                <div class="navbar-nav w-100">
-                    <a href="/Admin/Dashboard" class="nav-item nav-link py-1 mb-2" style="font-weight:300;"><i class="fa fa-tachometer-alt me-2"></i><span class="sidebar-nav d-none">Dashboard</span></a>
-                    <div class="nav-item dropdown">
-@*                         <a href="#" class="nav-link dropdown-toggle py-1  mb-2" data-bs-toggle="dropdown" style="font-weight:300;"><i class="fa fa-laptop me-2"></i><span class="sidebar-nav d-none">Master Data</span></a> *@
-                        <a href="#" class="nav-link dropdown-toggle py-1 mb-2" data-toggle="dropdown" style="font-weight:300;">
-                            <i class="fa fa-laptop me-2"></i><span class="sidebar-nav d-none">Master Data</span>
+        <div class="main-panel">
+            <div class="main-header">
+                <div class="main-header-logo">
+                    <!-- Logo Header -->
+                    <div class="logo-header" data-background-color="dark">
+                        <a href="/Jyotish/Dashboard" class="logo">
+                            <img src="https://api.myjyotishg.in/Images/Logo.png"
+                                 alt="navbar brand"
+                                 class="navbar-brand"
+                                 height="50" />
                         </a>
-
-                        <div class="dropdown-menu nav-menus d-none bg-transparent border-0">
-                  @*           <a href="/Admin/PoojaCategoryList" class="dropdown-item px-5 py-1">Pooja List </a> *@
-                            <a href="/Admin/ExpertiseList" class="dropdown-item px-5 py-1">Expertiese List</a>
-                            <a href="/Admin/SlotList" class="dropdown-item px-5 py-1">Slot List</a>
-                @*             <a href="element.html" class="dropdown-item px-5 py-1">Other Elements</a> *@
+                        <div class="nav-toggle">
+                            <button class="btn btn-toggle toggle-sidebar">
+                                <i class="gg-menu-right"></i>
+                            </button>
+                            <button class="btn btn-toggle sidenav-toggler">
+                                <i class="gg-menu-left"></i>
+                            </button>
                         </div>
+                        <button class="topbar-toggler more">
+                            <i class="gg-more-vertical-alt"></i>
+                        </button>
                     </div>
-                                                                            
-                    <a href="/Admin/InterviewList" class="nav-item nav-link py-1 mb-2" style="font-weight:300;"><i class="fa fa-th me-2"></i><span class="sidebar-nav d-none">Interview List</span></a>
-                    <a href="/Admin/Appointments" class="nav-item nav-link py-1 mb-2" style="font-weight:300;"><i class="fa fa-th me-2"></i><span class="sidebar-nav d-none">Appointments</span></a>
-                    <a href="/Admin/PendingJyotish" class="nav-item nav-link py-1  mb-2" style="font-weight:300;"><i class="fa-solid fa-clock"></i> <span class="sidebar-nav d-none">Pending Jyotish</span> </a>
-                    <a href="/Admin/JyotishList" class="nav-item nav-link py-1  mb-2" style="font-weight:300;"><i class="fa-solid fa-table-list"></i> <span class="sidebar-nav d-none">Jyotish List</span></a>
-                    <a href="/Admin/UserList" class="nav-item nav-link py-1 mb-2" style="font-weight:300;"><i class="fa-solid fa-list-check"></i> <span class="sidebar-nav d-none">User List</span></a>
-                   @*  <a href="/Admin/CallingRecord" class="nav-item nav-link py-1 mb-2" style="font-weight:300;"><i class="fa-solid fa-book-medical"></i> <span class="sidebar-nav d-none">Calling Records</span> </a>
-                    <a href="/Admin/ChattingRecord" class="nav-item nav-link py-1 mb-2 " style="font-weight:300;"><i class="fa-brands fa-rocketchat"></i> <span class="sidebar-nav d-none">Chatting Records</span></a> *@
-@*                     <a href="/Admin/Subscription" class="nav-item nav-link py-1 mb-2" style="font-weight:300;"><i class="fa-solid fa-coins"></i> <span class="sidebar-nav d-none">Subscription Plan</span></a> *@
-             
-                    <div class="nav-item dropdown">
-          @*               <a href="#" class="nav-link dropdown-toggle py-1  mb-2" data-bs-toggle="dropdown" style="font-weight:300;"><i class="fa fa-laptop me-2"></i><span class="sidebar-nav d-none">Subscription Plan</span></a> *@
-                        <a href="#" class="nav-link dropdown-toggle py-1 mb-2" data-toggle="dropdown" style="font-weight:300;">
-                            <i class="fa fa-laptop me-2"></i><span class="sidebar-nav d-none">Subscription Plan</span>
-                        </a>
+                    <!-- End Logo Header -->
+                </div>
+                <!-- Navbar Header -->
+                <nav class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom">
+                    <div class="container-fluid">
+                        <nav class="navbar navbar-header-left navbar-expand-lg navbar-form nav-search p-0 d-none d-lg-flex">
 
-                        <div class="dropdown-menu nav-menus d-none bg-transparent border-0">
-                            <a href="/Admin/Features" class="dropdown-item px-5 py-1">Add Features </a>
-                            <a href="/Admin/Subscription" class="dropdown-item px-5 py-1">Add Subscription </a>
-                            <a href="/Admin/Services" class="dropdown-item px-5 py-1">Add Services </a>
-           
-                        </div>
+                        </nav>
+
+                        <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
+                           
+                           
+                            <li class="nav-item topbar-icon dropdown hidden-caret">
+                                <a class="nav-link dropdown-toggle"
+                                   href="#"
+                                   id="notifDropdown"
+                                   role="button"
+                                   data-bs-toggle="dropdown"
+                                   aria-haspopup="true"
+                                   aria-expanded="false">
+                                    <i class="fa fa-bell"></i>
+                                    <span class="notification">5</span>
+                                </a>
+                                <ul class="dropdown-menu notif-box animated fadeIn"
+                                    aria-labelledby="notifDropdown">
+                                    <li>
+                                        <div class="dropdown-title">
+                                            Booked Interviews
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="notif-scroll scrollbar-outer">
+                                            <div class="notif-center" id="notificationData">
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <a class="see-all" href="javascript:void(0);">
+                                            See all notifications<i class="fa fa-angle-right"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item topbar-icon dropdown hidden-caret">
+                                <a class="nav-link"
+                                   data-bs-toggle="dropdown"
+                                   href="#"
+                                   aria-expanded="false">
+                                    <i class="fas fa-layer-group"></i>
+                                </a>
+                                <div class="dropdown-menu quick-actions animated fadeIn">
+                                    <div class="quick-actions-header">
+                                        <span class="title mb-1">Quick Actions</span>
+                                        <span class="subtitle op-7">Shortcuts</span>
+                                    </div>
+                                    <div class="quick-actions-scroll scrollbar-outer">
+                                        <div class="quick-actions-items">
+                                            <div class="row m-0">
+                                                <a class="col-6 col-md-4 p-0" href="#">
+                                                    <div class="quick-actions-item">
+                                                        <div class="avatar-item bg-danger rounded-circle">
+                                                            <i class="far fa-calendar-alt"></i>
+                                                        </div>
+                                                        <span class="text">Calendar</span>
+                                                    </div>
+                                                </a>
+                                                <a class="col-6 col-md-4 p-0" href="#">
+                                                    <div class="quick-actions-item">
+                                                        <div class="avatar-item bg-warning rounded-circle">
+                                                            <i class="fas fa-map"></i>
+                                                        </div>
+                                                        <span class="text">Maps</span>
+                                                    </div>
+                                                </a>
+                                                <a class="col-6 col-md-4 p-0" href="#">
+                                                    <div class="quick-actions-item">
+                                                        <div class="avatar-item bg-info rounded-circle">
+                                                            <i class="fas fa-file-excel"></i>
+                                                        </div>
+                                                        <span class="text">Reports</span>
+                                                    </div>
+                                                </a>
+                                                <a class="col-6 col-md-4 p-0" href="#">
+                                                    <div class="quick-actions-item">
+                                                        <div class="avatar-item bg-success rounded-circle">
+                                                            <i class="fas fa-envelope"></i>
+                                                        </div>
+                                                        <span class="text">Emails</span>
+                                                    </div>
+                                                </a>
+                                                <a class="col-6 col-md-4 p-0" href="#">
+                                                    <div class="quick-actions-item">
+                                                        <div class="avatar-item bg-primary rounded-circle">
+                                                            <i class="fas fa-file-invoice-dollar"></i>
+                                                        </div>
+                                                        <span class="text">Invoice</span>
+                                                    </div>
+                                                </a>
+                                                <a class="col-6 col-md-4 p-0" href="#">
+                                                    <div class="quick-actions-item">
+                                                        <div class="avatar-item bg-secondary rounded-circle">
+                                                            <i class="fas fa-credit-card"></i>
+                                                        </div>
+                                                        <span class="text">Payments</span>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li class="nav-item topbar-user dropdown hidden-caret">
+                                <a class="dropdown-toggle profile-pic"
+                                   data-bs-toggle="dropdown"
+                                   href="#"
+                                   aria-expanded="false">
+                                    <div class="avatar-sm">
+                                        <img src="/user-not-found.png"
+                                             alt="..."
+                                             class="avatar-img rounded-circle userProfile" />
+                                    </div>
+                                    <span class="profile-username">
+                                        <span class="op-7">Hi,</span>
+                                        <span class="fw-bold userName">Admin</span>
+                                    </span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user animated fadeIn">
+                                    <div class="dropdown-user-scroll scrollbar-outer">
+                                    <li>
+                                        <div class="user-box">
+                                            <div class="avatar-lg">
+                                                <img src="/user-not-found.png"
+                                                     alt="image profile"
+                                                     class="avatar-img rounded userProfile" />
+                                            </div>
+                                            <div class="u-text">
+                                                <h4 class="userName">Admin</h4>
+                                                <a class=" btn btn-xs btn-secondary btn-sm" id="logout">Logout</a>
+
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="/Jyotish/wallets">My Balance</a>
+                                        <a class="dropdown-item" href="#">Inbox</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+
                     </div>
-            </nav>
-        </div>
-        <!-- Sidebar End -->
-        <!-- Content Start -->
-        <div class="content">
-            <!-- Navbar Start -->
-            <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
-                <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
-                    <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
-                </a>
-                <a href="#" class="sidebar-toggler flex-shrink-0">
-                    <i class="fa fa-bars"></i>
-                </a>
 
-                <div class="navbar-nav align-items-center ms-auto">
-
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-
-                       
-                        <i class="fa fa-bell me-lg-2  position-relative">
-
-                            <span id="NotificationNewText" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                New
-                            </span>
-                        </i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                        <div id="notificationData">
-                            @*  <a href="#" class="dropdown-item">
-                            <div class="row">
-                            <div class="col-9">
-                            <div class="d-flex">
-                            <p>Veer</p>
-                            <p> 13-11-2024</p>
+                </nav>
+                <!-- End Navbar -->
+            </div>
+            <!-- Custom template | don't include it in your project! -->
+            <div class="custom-template">
+                <div class="custom-content">
+                    <div class="switcher">
+                        <div class="switch-block">
+                            <h4>Logo Header</h4>
+                            <div class="btnSwitch">
+                                <button type="button"
+                                        class="selected changeLogoHeaderColor"
+                                        data-color="dark"></button>
+                                <button type="button"
+                                        class="changeLogoHeaderColor"
+                                        data-color="blue"></button>
+                                <button type="button"
+                                        class="changeLogoHeaderColor"
+                                        data-color="purple"></button>
+                                <button type="button"
+                                        class="changeLogoHeaderColor"
+                                        data-color="light-blue"></button>
+                                <button type="button"
+                                        class="changeLogoHeaderColor"
+                                        data-color="green"></button>
+                                <button type="button"
+                                        class="changeLogoHeaderColor"
+                                        data-color="orange"></button>
+                                <button type="button"
+                                        class="changeLogoHeaderColor"
+                                        data-color="red"></button>
+                                <button type="button"
+                                        class="changeLogoHeaderColor"
+                                        data-color="white"></button>
+                                <br />
+                                <button type="button"
+                                        class="changeLogoHeaderColor"
+                                        data-color="dark2"></button>
+                                <button type="button"
+                                        class="changeLogoHeaderColor"
+                                        data-color="blue2"></button>
+                                <button type="button"
+                                        class="changeLogoHeaderColor"
+                                        data-color="purple2"></button>
+                                <button type="button"
+                                        class="changeLogoHeaderColor"
+                                        data-color="light-blue2"></button>
+                                <button type="button"
+                                        class="changeLogoHeaderColor"
+                                        data-color="green2"></button>
+                                <button type="button"
+                                        class="changeLogoHeaderColor"
+                                        data-color="orange2"></button>
+                                <button type="button"
+                                        class="changeLogoHeaderColor"
+                                        data-color="red2"></button>
                             </div>
-                            <div class="d-flex">
-
-                            <p> 20-11-2024</p>
-                            <p>18:00</p>
-                            </div>
-                            </div>
-                            <div class="col-3">
-
-                            <p>15 minutes</p>
-                            </div>
-                            </div>
-                            <h6 class="fw-normal mb-0">Profile updated</h6>
-                            <small>15 minutes ago</small>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item">
-                            <h6 class="fw-normal mb-0">New user added</h6>
-                            <small>15 minutes ago</small>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item">
-                            <h6 class="fw-normal mb-0">Password changed</h6>
-                            <small>15 minutes ago</small>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item text-center">See all notifications</a> *@
                         </div>
-
-                    </div>
-
-
-
-                    <div class="nav-item dropdown">
-                        
-
-
-
-
-
-                        <!-- Dropdown Toggle -->
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          
-                            <span class="d-none d-lg-inline-flex">Admin</span>
-                        </a>
-
-                       
-                        <!-- Dropdown Menu -->
-                        <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                            <a href="/Admin/AdminProfile" class="dropdown-item">My Profile</a>
-                            <a href="/Admin/CustomerSupport" class="dropdown-item">Settings</a>
-                            <a href="#" id="logout" class="dropdown-item">Log Out</a>
+                        <div class="switch-block">
+                            <h4>Navbar Header</h4>
+                            <div class="btnSwitch">
+                                <button type="button"
+                                        class="changeTopBarColor"
+                                        data-color="dark"></button>
+                                <button type="button"
+                                        class="changeTopBarColor"
+                                        data-color="blue"></button>
+                                <button type="button"
+                                        class="changeTopBarColor"
+                                        data-color="purple"></button>
+                                <button type="button"
+                                        class="changeTopBarColor"
+                                        data-color="light-blue"></button>
+                                <button type="button"
+                                        class="changeTopBarColor"
+                                        data-color="green"></button>
+                                <button type="button"
+                                        class="changeTopBarColor"
+                                        data-color="orange"></button>
+                                <button type="button"
+                                        class="changeTopBarColor"
+                                        data-color="red"></button>
+                                <button type="button"
+                                        class="selected changeTopBarColor"
+                                        data-color="white"></button>
+                                <br />
+                                <button type="button"
+                                        class="changeTopBarColor"
+                                        data-color="dark2"></button>
+                                <button type="button"
+                                        class="changeTopBarColor"
+                                        data-color="blue2"></button>
+                                <button type="button"
+                                        class="changeTopBarColor"
+                                        data-color="purple2"></button>
+                                <button type="button"
+                                        class="changeTopBarColor"
+                                        data-color="light-blue2"></button>
+                                <button type="button"
+                                        class="changeTopBarColor"
+                                        data-color="green2"></button>
+                                <button type="button"
+                                        class="changeTopBarColor"
+                                        data-color="orange2"></button>
+                                <button type="button"
+                                        class="changeTopBarColor"
+                                        data-color="red2"></button>
+                            </div>
                         </div>
-
+                        <div class="switch-block">
+                            <h4>Sidebar</h4>
+                            <div class="btnSwitch">
+                                <button type="button"
+                                        class="changeSideBarColor"
+                                        data-color="white"></button>
+                                <button type="button"
+                                        class="selected changeSideBarColor"
+                                        data-color="dark"></button>
+                                <button type="button"
+                                        class="changeSideBarColor"
+                                        data-color="dark2"></button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </nav>
-            <!-- Navbar End -->
+                <div class="custom-toggle">
+                    <i class="fas fa-cog"></i>
+                </div>
+            </div>
+            <!-- End Custom template -->
+            <!-- Content Start -->
+
+
             <script>
-              //var BaseUrl = "https://api.myjyotishg.in/"
+                // var BaseUrl = "https://api.myjyotishg.in/"
                 var BaseUrl = "https://localhost:7118/"
             </script>
-            @RenderBody()
+
+            <div class="container">
+                <div class="page-inner">
+                    @RenderBody()
+                </div>
+
+            </div>
+
+            <!-- Footer Start -->
+            <footer class="footer">
+                <div class="container-fluid d-flex justify-content-between">
+                    <nav class="pull-left">
+                        <ul class="nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="https://myjyotishg.in">
+                                    myjyotishg
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"> Help </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"> Licenses </a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <div class="copyright">
+                        &copy; <a href="">myjyotishg</a>, All Right Reserved. Designed By <a href="https://macreel.co.in">Macreel Infosoft</a>
+                    </div>
+                    <div>
+                        Created by
+                        <a target="_blank" href="https://themewagon.com/">macreel</a>.
+                    </div>
+                </div>
+            </footer>
+            <!-- Footer End -->
         </div>
         <!-- Content End -->
-        <!-- Back to Top -->
-        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
     </div>
 
-    
+    <script src="~/assets/js/core/jquery-3.7.1.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>-->
+
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <!-- Include DataTables JS -->
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+
+    <!-- JavaScript Libraries -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/assets/js/core/popper.min.js"></script>
+    <!-- jQuery Scrollbar -->
+    <script src="~/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+
+    <!-- Chart JS -->
+    <script src="~/assets/js/plugin/chart.js/chart.min.js"></script>
+
+    <!-- jQuery Sparkline -->
+    <script src="~/assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
+
+    <!-- Chart Circle -->
+    <script src="~/assets/js/plugin/chart-circle/circles.min.js"></script>
+
+    <!-- Datatables -->
+    <script src="~/assets/js/plugin/datatables/datatables.min.js"></script>
+
+    <!-- Bootstrap Notify -->
+    <script src="~/assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+
+    <!-- jQuery Vector Maps -->
+    <script src="~/assets/js/plugin/jsvectormap/jsvectormap.min.js"></script>
+    <script src="~/assets/js/plugin/jsvectormap/world.js"></script>
+
+    <!-- Sweet Alert -->
+    <!-- Kaiadmin JS -->
+    <script src="~/assets/js/kaiadmin.min.js"></script>
+
+    <!-- Kaiadmin DEMO methods, don't include it in your project! -->
+    <script src="~/assets/js/setting-demo.js"></script>
+    <script src="~/assets/js/demo.js"></script>
+    <script src="~/summernote/dist/summernote.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // Your API URL
@@ -577,36 +771,7 @@
 
 
         $(document).ready(function () {
-            // Sidebar Toggler
-            let hide = true;
-
-            $('.sidebar-toggler').click(function (e) {
-                e.preventDefault();  // Prevent the default behavior
-                if (hide) {
-                    hide = false;
-                    $(".sidebar-toggler").toggleClass("sidebar-toggler2");
-                    $(".content").toggleClass("content2");
-                    $(".sidebar").toggleClass("sidebar2");
-                    $(".sidebar").toggleClass("sidebar3");
-                    $(".nav-menus").removeClass("d-none");
-                    $(".sidebar-nav").removeClass("d-none");
-                    $(".sidebar-nav").css({ opacity: "1", transition: '1s' });
-                    $(".sidebar-toggler").css({ opacity: "1", transition: '1s' });
-                    $(".dropdown-toggle").addClass("adddropdown-toggle");
-                    $(".content").addClass("content2");
-                } else {
-                    hide = true;
-                    $(".sidebar").toggleClass("sidebar2");
-                    $(".sidebar").toggleClass("sidebar3");
-                    $(".sidebar-toggler").removeClass("sidebar-toggler2");
-                    $(".logo").html('<i class="fa fa-hashtag me-2"></i>');
-                    $(".nav-menus").addClass("d-none");
-                    $(".sidebar-nav").addClass("d-none");
-                    $(".dropdown-toggle").removeClass("adddropdown-toggle");
-                    $(".content").removeClass("content2");
-                }
-            });
-
+           
             // Logout
             $("#logout").click(function () {
 
@@ -615,50 +780,27 @@
                     icon : "warning",
                     showConfirmbutton: true,
                     showCancelButton: true,
-                }).then(()=>{
-                     localStorage.clear();
-                     window.location.replace("/Admin/Login");
+                }).then((result)=>{
+                    if (result.isConfirmed){
+                        localStorage.clear();
+                        window.location.replace("/Admin/Login");
+                    }
+                     
                 })
              
             });
 
             // Use hover to handle mouse enter and leave
-            $(".sidebar").hover(
-                function () {
-                    if (hide) {
-                        // Add sidebar class and update logo
-                        $(".sidebar").addClass("sidebar2");
-                        $(".logo").html('<i class="fa fa-hashtag me-2"></i>DASHMIN');
-
-                        $(".nav-menus").removeClass("d-none");
-                        $(".sidebar-nav").removeClass("d-none").css({ opacity: "1", transition: '0.2s' });
-                        $(".sidebar-toggler").css({ opacity: "1", transition: '0.2s' });
-                        $(".dropdown-toggle").addClass("adddropdown-toggle");
-                        $(".content").addClass("content2");
-                    }
-                },
-                function () {
-                    if (hide) {
-            
-                        $(".sidebar").removeClass("sidebar2");
-                        $(".logo").html('<i class="fa fa-hashtag me-2"></i>');
-
-                        $(".nav-menus").addClass("d-none");
-                        $(".sidebar-nav").addClass("d-none").css({ opacity: "0", transition: '0.2s' });
-                        $(".dropdown-toggle").removeClass("adddropdown-toggle");
-                        $(".content").removeClass("content2");
-                    }
-                }
-            );
+           
 
             // Highlight the active link
-            $("a").each(function (i, d) {
-                if (d.href.toLowerCase() === window.location.href.toLowerCase()) {
-                    d.classList.add("active");
-                    let element = d.parentElement.previousElementSibling;
-                    if (element) element.classList.add("active");
-                }
-            });
+            // $("a").each(function (i, d) {
+            //     if (d.href.toLowerCase() === window.location.href.toLowerCase()) {
+            //         d.classList.add("active");
+            //         let element = d.parentElement.previousElementSibling;
+            //         if (element) element.classList.add("active");
+            //     }
+            // });
         });
     </script>
 

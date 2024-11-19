@@ -132,6 +132,13 @@
     var Id = localStorage.getItem('userId');
 
     $(document).ready(function () {
+        Swal.fire({
+            title: "Processing Your Request",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
         $.ajax({
             url: BaseUrl+"api/User/GetWallet",
             type: "get",
@@ -143,6 +150,7 @@
             success: function (res) {
                 if (res.status == 200) {
                     $("#walletAmount").text(res.data)
+                    Swal.close();
                 } else {
                     Swal.fire({
                         title: "error",
@@ -329,78 +337,110 @@
 
 
     //payment history
-    $.ajax({
-        url: `${BaseUrl}api/User/UserPaymentrecords`,
-        type: 'GET',
-        headers: {
-            'Authorization': `Bearer ${localStorage.getItem("Token")}`,
-            'Content-Type': 'application/json',
-        },
-        data: { Id: Id },
-        success: function (res) {
-            if (res.status == 200) {
-                paymentHistroy = res.data;
+    function getUserPaymentRecord() {
+        Swal.fire({
+            title: "Processing Your Request",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
             }
-        },
-        error: function () {
+        })
+        $.ajax({
+            url: `${BaseUrl}api/User/UserPaymentrecords`,
+            type: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                'Content-Type': 'application/json',
+            },
+            data: { Id: Id },
+            success: function (res) {
+                if (res.status == 200) {
+                    paymentHistroy = res.data;
+                }
+            },
+            error: function () {
 
-        }
-    }).then(function () {
-        function paymentHistory() {
-            $(".trans-list").empty()
-            paymentHistroy.forEach(function (d) {
-                let historycard = $(`
-                                                     <div class="col-sm-12 border rounded p-2 my-2 phistory" data-receipt='${JSON.stringify(d).replace(/'/g, "\\'")}' id="receipt_${d.id}" onClick='printReceipt(${d.id},"payment")'>
-                                    <div class="row h-100">
-                                        <div class="col-sm-2 text-center ">
-                                            <img class="w-75 h-100 rounded-circle" src="https://api.myjyotishg.in/Images/Logo.png" />
-                                        </div>
-                                        <div class="col-sm-6">
-                                            MyJyotishg<br />
-                                                                                ${d.status == 'success' ? d.dateTime.split("T")[0] : d.status == 'Pending' ? `<small><i class="fas text-warning fa-exclamation-triangle"></i>Cancelled</small>` : `<small class='text-danger'><i class="fas fa-exclamation-circle"></i>Failed</small>`}
-                                        </div>
-                                        <div class="col-sm-3 d-flex text-danger justify-content-end align-items-center">
-                                                                 ${d.status == 'success' ? `- ${d.amount}` : `<span class='text-secondary'>${d.amount}</span>`}
+            }
+        }).then(function () {
+            function paymentHistory() {
+                Swal.fire({
+                    title: "Processing Your Request",
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                })
+                $(".trans-list").empty()
+                paymentHistroy.forEach(function (d) {
+                    let historycard = $(`
+                                                         <div class="col-sm-12 border rounded p-2 my-2 phistory" data-receipt='${JSON.stringify(d).replace(/'/g, "\\'")}' id="receipt_${d.id}" onClick='printReceipt(${d.id},"payment")'>
+                                        <div class="row h-100">
+                                            <div class="col-sm-2 text-center ">
+                                                <img class="w-75 h-100 rounded-circle" src="https://api.myjyotishg.in/Images/Logo.png" />
+                                            </div>
+                                            <div class="col-sm-6">
+                                                MyJyotishg<br />
+                                                                                    ${d.status == 'success' ? d.dateTime.split("T")[0] : d.status == 'Pending' ? `<small><i class="fas text-warning fa-exclamation-triangle"></i>Cancelled</small>` : `<small class='text-danger'><i class="fas fa-exclamation-circle"></i>Failed</small>`}
+                                            </div>
+                                            <div class="col-sm-3 d-flex text-danger justify-content-end align-items-center">
+                                                                     ${d.status == 'success' ? `- ${d.amount}` : `<span class='text-secondary'>${d.amount}</span>`}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                `)
-                $(".trans-list").append(
-                    historycard
-                )
-            })
-            
-        }
+                    `)
+                    $(".trans-list").append(
+                        historycard
+                    )
+                })
+                Swal.close()
+            }
 
-        paymentHistory();
-        $(".paymenthstBtn").click(function () {
             paymentHistory();
+            $(".paymenthstBtn").click(function () {
+                paymentHistory();
+            })
         })
-    })
+    }
 
     //wallet history
-    $.ajax({
-        url: BaseUrl+"api/User/GetWalletHistroy",
-        type: "get",
-        headers: {
-            'Authorization': `Bearer ${localStorage.getItem("Token")}`,
-            'Content-Type': 'application/json'
-        },
-        data: {
-            UserId: Id,
-        },
-        success: function (res) {
-            if (res.status == 200) {
-                walletHistory = res.data;
+    function getUserWalletHistory() {
+        Swal.fire({
+            title: "Processing Your Request",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
             }
-        },
-        error: function (err) {
-            Swal.fire({ icon: "error", title: "Server Error", text: "Server down, please try later." });
+        })
+        $.ajax({
+            url: BaseUrl + "api/User/GetWalletHistroy",
+            type: "get",
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                'Content-Type': 'application/json'
+            },
+            data: {
+                UserId: Id,
+            },
+            success: function (res) {
+                if (res.status == 200) {
+                    walletHistory = res.data;
+                }
+                Swal.close()
+            },
+            error: function (err) {
+                Swal.fire({ icon: "error", title: "Server Error", text: "Server down, please try later." });
 
-        }
-    });
-
+            }
+        });
+    }
     $(".wallethstBtn").click(function () {
+        Swal.fire({
+            title: "Processing Your Request",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
         $(".trans-list").empty()
         walletHistory.forEach(function (d) {
             if (d.userName != null & d.profile != null) {
@@ -445,7 +485,7 @@
             }
         })
 
-
+        Swal.close()
     })
     function printReceipt(id, type) {
         let d = $("#receipt_" + id).attr("data-receipt")

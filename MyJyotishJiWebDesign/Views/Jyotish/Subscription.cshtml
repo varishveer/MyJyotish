@@ -87,6 +87,7 @@ header {
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
+  padding-left:0 !important;
 }
 
         .details li {
@@ -311,8 +312,8 @@ header {
                 <ul class="details overflow-auto">
                         <li class="pack mx-0 justify-content-center mb-2 fs-4 fw-bold">${item.name}</li>
                                 <li id="${item.name} class="price bottom-bar"> <span class="fs-3">${item.newPrice == 0 ? "Free" : "₹ " + item.newPrice}</span>&nbsp;&nbsp;${item.newPrice != 0 ? `
-                                                    
-                                                        <span class="text-danger old-price fs-6">₹${item.oldPrice}</span>
+
+                                                            <span class="text-danger old-price fs-6">₹${item.newPrice+item.discountAmount}</span>
                                                   
                                                     <sup class="fs-6">${item.discount} %OFF</sup><br />
                                                 ` : ""}
@@ -351,7 +352,16 @@ header {
 
     // Attach click event to dynamically created buttons
     $(document).on('click', '.upgradePlan', function () {
-       
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'Client Are Arrived?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No, cancel',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
         Swal.fire({
             title: "Please wait...",
             text: "We are processing your request!",
@@ -396,7 +406,8 @@ header {
                 Swal.fire({ icon: "error", title: "Server Error", text: "Server down, please try later." });
             }
         });
-
+            }
+        })
     });
 
      

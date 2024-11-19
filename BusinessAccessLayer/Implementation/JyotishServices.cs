@@ -119,7 +119,19 @@ namespace BusinessAccessLayer.Implementation
         }
 
 
+        public List<SubscriptionFeatureViewModel> GetAllFeatures()
+        {
 
+
+
+            var record = _context.SubscriptionFeatures.Where(x => x.Status == true).OrderByDescending(e => e.FeatureId).Select(x => new SubscriptionFeatureViewModel
+            {
+                Id = x.FeatureId,
+                Name = x.Name,
+                ServiceUrl = x.ServiceUrl
+            }).ToList();
+            return record;
+        }
 
         public List<AppointmentDetailViewModel> UpcomingAppointment(int Id)
         {

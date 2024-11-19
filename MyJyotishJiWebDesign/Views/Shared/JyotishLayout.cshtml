@@ -60,9 +60,15 @@
 
     <style>
 
-       
-       
+        .table > thead {
+            vertical-align: bottom;
+            background: #009cff;
+            color: white;
+        }
 
+        .table {
+            font-size: 12px !important;
+        }
        
         .disable_link {
             color: gray;
@@ -117,12 +123,11 @@
 
 <body>
     @* alert box*@
-    <div class="alert-box alert-danger d-none position-fixed w-100 d-flex justify-content-between align-items-center" role="alert">
+    <div class="alert-box alert alert-danger d-none position-fixed  w-100" role="alert">
         <div>
             <i class="fas fa-exclamation-circle"></i>
             &nbsp;<span class="alert-content"></span>
         </div>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     <div class="wrapper">
        
@@ -184,50 +189,12 @@
                             <div class="collapse" id="base">
                                 <ul class="nav nav-collapse">
                                     <li>
-                                        <a href="components/avatars.html">
-                                            <span class="sub-item">Avatars</span>
+                                        <a href="/Jyotish/AppointmentSlot">
+                                            <span class="sub-item">Appointment Slots</span>
                                         </a>
                                     </li>
-                                    <li>
-                                        <a href="components/buttons.html">
-                                            <span class="sub-item">Buttons</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="components/gridsystem.html">
-                                            <span class="sub-item">Grid System</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="components/panels.html">
-                                            <span class="sub-item">Panels</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="components/notifications.html">
-                                            <span class="sub-item">Notifications</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="components/sweetalert.html">
-                                            <span class="sub-item">Sweet Alert</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="components/font-awesome-icons.html">
-                                            <span class="sub-item">Font Awesome Icons</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="components/simple-line-icons.html">
-                                            <span class="sub-item">Simple Line Icons</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="components/typography.html">
-                                            <span class="sub-item">Typography</span>
-                                        </a>
-                                    </li>
+                                   
+                                  
                                 </ul>
                             </div>
                         </li>
@@ -271,11 +238,7 @@
                             </a>
                             <div class="collapse" id="sidebarLayouts">
                                 <ul class="nav nav-collapse">
-                                    <li>
-                                        <a href="/Jyotish/AppointmentSlot">
-                                            <span class="sub-item">Appointment Slots</span>
-                                        </a>
-                                    </li>
+                                  
                                     <li>
                                         <a href="/Jyotish/UpcomingAppointment">
                                             <span class="sub-item">Upcomming Appointments</span>
@@ -456,7 +419,7 @@
                                aria-haspopup="true"
                                aria-expanded="false">
                                 <i class="fa fa-bell"></i>
-                                <span class="notification">4</span>
+                                <span class="notification">5</span>
                             </a>
                             <ul class="dropdown-menu notif-box animated fadeIn"
                                 aria-labelledby="notifDropdown">
@@ -815,86 +778,101 @@
     <script src="~/summernote/dist/summernote.min.js"></script>
 
  <!--Manage Feature -->
+
     <script>
 
-           let planData=[]
-    $.ajax({
-    url: BaseUrl+"api/jyotish/getPlan",
-    type: "get",
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
-                },
-                data:{Id:localStorage.getItem("Id")},
-    success: function (res) {
-    let planDesc = "";
-        if (res.status == 200) {
-            planData = res.data;
-            if (res.data.length > 0) {
-                let pathArray = [];
-                res.data.forEach(function (d) {
-                pathArray.push(d.url.toLowerCase())
-                    })
 
-                    //description of limit of features
+        let FeaturesArray = []
+        let planUrl = []
+        let planData = []
+        $.ajax({
+            url: BaseUrl + "api/jyotish/getPlan",
+            type: "get",
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+            },
+            data: { Id: localStorage.getItem("Id") },
+            success: function (res) {
+                let planDesc = "";
+                if (res.status == 200) {
+                    planUrl = res.data.map(e => e.url.toLowerCase())
+                    planData = res.data
+                    if (res.data.length > 0) {
+                        let pathArray = [];
+                        res.data.forEach(function (d) {
+                            pathArray.push(d.url.toLowerCase())
+                        })
 
-                    // planDesc += `
-                    // <div class='mb-2'>
-                    //     <span class='p-2'><i class="fa-solid text-primary fa-caret-right"></i></span><span class='fw-semi-bold'>
-                    //         ${d.serviceName} :
-                    //     </span><span class='usedservice
-                    //                  ${d.totalUsedService[d.serviceName] / d.serviceCount * 100>
-                    //         = 80 ? "text-success" : d.totalUsedService[d.serviceName] / d.serviceCount * 100 < 80 && d.totalUsedService[d.serviceName] / d.serviceCount * 100 > 20 ? "text-warning" : "text-danger"}'>
-                    //         ${d.totalUsedService[d.serviceName]}
-                    //     </span>/<span class='text-primary'>${d.serviceCount}</span>
-                    // </div>`
+                        $(".featureValidation").each(function () {
+                            let href = $(this)
+                            if (href.attr("href") != null || href.attr("href") != "" || href.attr("href") != undefined) {
+                                if (!pathArray.includes(href.attr("href").toLowerCase())) {
+                                    href.removeAttr("href", "")
+                                    href.addClass("disable_link");
+                                    href.attr("onclick", "showAlert(this)")
 
-                    // })
-                    // $(".plan-desc-box").html(planDesc);
-                    $(".featureValidation").each(function () {
-                        let href = $(this)
-                        console.log(href.attr("href"))
-                                if (href.attr("href")!=null || href.attr("href")!="" || href.attr("href")!=undefined){
-                        if (!pathArray.includes(href.attr("href").toLowerCase())) {
+
+                                }
+                            }
+                        })
+
+                    }
+                    else {
+
+                        $(".featureValidation").each(function () {
+                            let href = $(this)
                             href.removeAttr("href", "")
                             href.addClass("disable_link");
                             href.attr("onclick", "showAlert(this)")
-
-
-                        }
-                                }
-                    })
-                
-            }
-             else {
-            // $(".plan-desc-box").html("<span>You are a free user <br> for access features upgrade your <a href='/vakil/packages'>plan</a> <br> </span>");
-
-            $(".featureValidation").each(function () {
-            let href = $(this)
-            href.removeAttr("href", "")
-            href.addClass("disable_link");
-            href.attr("onclick", "showAlert(this)")
-            })
-            }
+                        })
+                    }
                     $(".userPlan").html(res.data[0].planName == "Platinum" ? "Pro User"
                         : res.data[0].planName == "Silver" ? `
-                   Upgrade to &nbsp;
-                            <a href='/jyotish/Subscription' class='Gold px-2 rounded'>Gold</a>` : res.data[0].planName.trim() == "Gold" ? `
-                     Upgrade to &nbsp;
-                                    <a href='/jyotish/Subscription' class='Platinum px-2 rounded'>Platinum</a>` : res.data[0].planName)
+                           Upgrade to &nbsp;
+                                    <a href='/jyotish/Subscription' class='Gold px-2 rounded'>Gold</a>` : res.data[0].planName.trim() == "Gold" ? `
+                             Upgrade to &nbsp;
+                                            <a href='/jyotish/Subscription' class='Platinum px-2 rounded'>Platinum</a>` : res.data[0].planName)
                     $(".userPlan").addClass(res.data[0].planName)
-        }
-            
-     
+                }
 
-    },
-    error: function () {
-    Swal.fire({
-    title: "Error",
-    text: "Some issue found !",
-    icon: "error"
-    })
-    }
-    })
+
+
+            },
+            error: function () {
+                Swal.fire({
+                    title: "Error",
+                    text: "Some issue found !",
+                    icon: "error"
+                })
+            }
+        }).then(()=>{
+        $.ajax({
+            url: BaseUrl + "api/jyotish/GetAllFeatures",
+            type: "get",
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+            },
+            success: function (res) {
+                if (res.status == 200) {
+                    FeaturesArray = res.data.map(d => d.serviceUrl.toLowerCase());
+                }
+            }
+        }).then(() => {
+            debugger
+
+            const pathname = window.location.pathname.toLowerCase();
+            if (FeaturesArray.includes(pathname)) {
+                if (!planUrl.includes(pathname)) {
+                    location.href = "/jyotish/dashboard"
+                }
+            }
+        })
+        })
+    </script>
+
+    <script>
+
+    
       function showAlert(e) {
                 $(".alert-box").removeClass("d-none")
                 $(".alert-content").text(e.innerText + " : This Page is not accessible according to your plan")
@@ -1033,6 +1011,9 @@
         //     });
         });
     </script>
+
+   
+
 
 </body>
 
