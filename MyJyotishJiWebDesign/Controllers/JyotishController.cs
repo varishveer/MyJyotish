@@ -35,7 +35,7 @@ namespace MyJyotishJiWebDesign.Controllers
         public ActionResult ProblemSolution() { return View(); }
         public ActionResult ProblemSolutionDetail() { return View(); }
         public ActionResult Wallets() { return View(); }
-     
+        public IActionResult WalletPaymentLayout(int amount, string message,string paymentby) { return PartialView("_WalletPartialView", new { amount = amount, message = message,paymentby=paymentby }); }
 
     }
 }

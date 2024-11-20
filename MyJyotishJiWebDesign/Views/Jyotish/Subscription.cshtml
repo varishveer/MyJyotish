@@ -244,6 +244,9 @@ header {
     </div>
 
 <script>
+
+
+
     $(document).ready(function () {
         // API URL
         var apiUrl = BaseUrl + "Api/Jyotish/GetAllSubscription";
@@ -269,7 +272,6 @@ header {
 
                     $.each(response.data, function (index, item) {
                         var servicesHTML = "";
-                        debugger;
                         let validFeature=[];
                         let invalidFeature = [];
                         $.each(item.features, function (index, feature) {
@@ -351,66 +353,54 @@ header {
     });
 
     // Attach click event to dynamically created buttons
+    var planId;
     $(document).on('click', '.upgradePlan', function () {
-        Swal.fire({
-            title: 'Are you sure?',
-            text: 'Client Are Arrived?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes',
-            cancelButtonText: 'No, cancel',
-            reverseButtons: true
-        }).then((result) => {
-            if (result.isConfirmed) {
-        Swal.fire({
-            title: "Please wait...",
-            text: "We are processing your request!",
-            allowOutsideClick: false,
-            didOpen: () => { Swal.showLoading(); }
-        });
+         planId = $(this).data("planid");
+         let planPrice = $(this).data("planprice");
+        $.get('/jyotish/WalletPaymentLayout', { amount: planPrice, message: "purchase plan", paymentby: "jyotish" }, function (data) {
+                $('#walletPaymentContainer').html(data);
+            });   
+    });
 
-        var planId = $(this).data("planid");
-        var planType = $(this).data("plantype");
-        var planPrice = $(this).data("planprice");
+    function upgradePackage(){
         var JId = localStorage.getItem("Id");
-        // Make AJAX call to initiate payment
+
         $.ajax({
             url: BaseUrl + "Api/Jyotish/UpgradePackages",
             type: "POST",
-              headers: {
+            headers: {
                 'Authorization': `Bearer ${localStorage.getItem("Token2")}`
             },
             contentType: "application/json",
             data: JSON.stringify({ // Stringify the data to send as JSON
-                JyotishId: JId, // Example JyotishId
-                SubscriptionId: planId // Example amount
+                JyotishId: JId, 
+                SubscriptionId: planId 
             }),
             success: function (response) {
-                 
-                if (response.status === 200) {
-                     Swal.fire({
-                                title: "success",
-                                text: response.message,
-                                icon: "success",
-                                didClose:()=>{
-                         location.reload()
-                                }
 
-                            });
+                if (response.status === 200) {
+                    Swal.fire({
+                        title: "success",
+                        text: response.message,
+                        icon: "success",
+                        didClose: () => {
+                            location.reload()
+                        }
+
+                    });
                 } else {
                     Swal.fire({ icon: "error", title: "Error", text: response.message });
                 }
             },
             error: function () {
-                 
+
                 Swal.fire({ icon: "error", title: "Server Error", text: "Server down, please try later." });
             }
         });
-            }
-        })
-    });
-
-     
+    }
+     function makeActionAfterWalletPayment(){
+         upgradePackage();
+     }
   
 </script>
 

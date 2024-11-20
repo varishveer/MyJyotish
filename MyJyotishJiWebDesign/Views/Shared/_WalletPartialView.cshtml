@@ -275,24 +275,31 @@
             width:0;
             height:0;
         }
+
+        #staticBackdropforWallet{
+            z-index:100000;
+        }
     </style>
 </head>
 <body>
     <!-- Modal -->
     <div class="modal fade" id="staticBackdropforWallet" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-dialog modal-dialog-scrollable">
             <div class="modal-content wallet-payment-modal">
-                <div class="modal-body ">
+                <div class="modal-body" style="background: #212240;">
                     <div class="container w-100">
                         <div class="mobile">
                             <div class="header">
                                                                
                             </div>
                             <div class="content">
+                                <div class="text-center ">
+                                    <img height="80" width="80" class=" rounded-circle" src="https://api.myjyotishg.in/Images/Logo.png" />
+                                </div>
                                 <div class="total">
                                     <div class="label">Total balance</div>
                                     <div class="value" id="currentwalletAmount"></div>
-                                    <div class="balance text-danger">-@Model.amount</div>
+                                    <div class="balance text-danger" id="payamount">-@Model.amount</div>
                                 </div>
                                 <div class="d-flex justify-content-center">
                                    
@@ -301,7 +308,7 @@
                                             <div class="label fw-bold">Pay</div>
                                             <div class="value fw-bold text-dark" >₹@Model.amount</div>
                                         </div>
-                                        
+                                        <a href="/Home/Wallet" class="btn text-light fw-bold addwalletbtn d-none btn-warning">Add Wallet</a>
                                     </div>
                                 </div>
                                 <ul class="menu ">
@@ -330,8 +337,12 @@
         $(document).ready(function(){
                 $("#staticBackdropforWallet").modal("show")
         })
+        @{
+           var localStorageKey = Model.paymentby == "user" ? "userId" : "Id";
+        }
+            
+        let Id = localStorage.getItem('@localStorageKey');
 
-        var Id = localStorage.getItem('userId');
         $(document).ready(function () {
             Swal.fire({
                 title: "Processing Your Request",
@@ -351,6 +362,13 @@
                 success: function (res) {
                     if (res.status == 200) {
                         $("#currentwalletAmount").text("₹"+res.data)
+
+                        if(res.data<@Model.amount){
+                                $("#payamountfromwallet").addClass("d-none")
+                                $(".addwalletbtn").removeClass("d-none")
+                                $("#payamount").html("<p class='text-center text-danger'>Insufficient balance</p>")
+                        }
+
                         Swal.close();
                     } else {
                         Swal.fire({
@@ -389,7 +407,11 @@
                     'Content-Type': 'application/json'
                 },
                 data: {
-                    UserId: Id,
+                     @{
+                         var IdforHistory = Model.paymentby == "user" ? "UserId" : "jyotishId";
+                     }
+                    "@IdforHistory": Id
+              
                 },
                 success: function (res) {
                     console.log(res)
@@ -410,8 +432,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="section2">
-                                                  
-                                                                    <div class="value">${d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" & d.paymentBy == "user" ? `<span class='text-danger'> -${d.amount}</span>` : d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" ? `<span class='text-success'>+${d.amount}</span>` : `<span class='text-secondary'>${d.amount}</span>`}</div>
+
+                                                                                <div class="value"> ${d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" & d.paymentBy == "user" ? `<span class='text-danger'>- ${d.amount}</span>` : d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" ? `<span class='text-success'>+${d.amount}</span>` : `<span class='text-danger'>-${d.amount}</span>`}</div>
                                                 </div>
                                             </div>
                                                                        
@@ -433,7 +455,7 @@
                                         </div>
                                     </div>
                                     <div class="section2">
-                                        <div class="value">${ d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" ? `<span class='text-success'>+${d.amount}</span>` : `<span class='text-secondary'>${d.amount}</span>`}</div>
+                                                    <div class="value">${d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" ? `<span class='text-success'>+ ${d.amount}</span>` : d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "debit" ? `<span class='text-danger'>-${d.amount}</span>` : `<span class='text-secondary'>${d.amount}</span>`}</div>
                                     </div>
                                 </div>
 
@@ -458,7 +480,8 @@
         getUserWalletHistory()
     </script>
     <script>
-            function addWallet(amount) {
+       
+            function addWallet() {
                 Swal.fire({
                     title: "Are you sure?",
                     text: "Confirm your action!",
@@ -475,15 +498,16 @@
                         Swal.showLoading();
                     }
                 })
+                let checkUserType="@Model.paymentby"
                 $.ajax({
-                            url: BaseUrl + "api/User/PurchaseWithUserWallets",
-                    type: "post",
+            url: BaseUrl +  "@(Model.paymentby == "user" ? "api/User/PurchaseWithUserWallets" : "api/Jyotish/PurchaseWithJyotishWallets")",
+            type: "post",
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem("Token")}`,
                         'Content-Type': 'application/json',
                     },
                             data: JSON.stringify({
-                                userId: Id, jyotishId: @Model.jyotishId, WalletAmount: @Model.amount
+                               userId: Id, jyotishId: checkUserType=="user"?@Model.jyotishId:Id, WalletAmount: @Model.amount
                         ,paymentfor:"@Model.message"
                         }),
                     success: function (res) {
@@ -510,11 +534,10 @@
                     }
                 })
             }
-
-           
+         
             $("#payamountfromwallet").click(function(){
                 let amount=$(this).attr("data-amount")
-                addWallet(amount)
+                addWallet()
             })
     </script>
 </body>

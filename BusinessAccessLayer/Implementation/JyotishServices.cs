@@ -800,6 +800,26 @@ namespace BusinessAccessLayer.Implementation
             }
         }
 
+        public string PurchaseWithJyotishWallets(JyotishWalletViewmodel uw)
+        {
+            var users = _context.JyotishRecords.Where(x => x.Id == uw.jyotishId).FirstOrDefault();
+            if (users == null) { return null; }
+            var Jyotishwallet = _context.JyotishWallets.Where(x => x.jyotishId == uw.jyotishId).FirstOrDefault();
+
+            if (Jyotishwallet.WalletAmount > uw.WalletAmount)
+            {
+                Jyotishwallet.WalletAmount -= uw.WalletAmount;
+                _context.JyotishWallets.Update(Jyotishwallet);
+                if (_context.SaveChanges() > 0) { return "Successful"; }
+                else { return "Data Not Saved"; }
+            }
+            else
+            {
+                return "Lower Balance"; 
+
+            }
+
+        }
 
         //add wallet History
         public string AddWalletHistory(WalletHistoryViewmodel pr)

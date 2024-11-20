@@ -468,14 +468,20 @@ namespace BusinessAccessLayer.Implementation
             var users = _context.Users.Where(x => x.Id == uw.userId).FirstOrDefault();
             if (users == null) { return null; }
             var Userwallet = _context.UserWallets.Where(x => x.userId == uw.userId).FirstOrDefault();
-           
-           
+
+            if (Userwallet.WalletAmount > uw.WalletAmount)
+            {
                 Userwallet.WalletAmount -= uw.WalletAmount;
                 _context.UserWallets.Update(Userwallet);
                 if (_context.SaveChanges() > 0) { return "Successful"; }
                 else { return "Data Not Saved"; }
-            
-           
+            }
+            else
+            {
+                return "Lower Balance"; 
+
+            }
+
         }
         public long GetWallet(int UserId)
         {

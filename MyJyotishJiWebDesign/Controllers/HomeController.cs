@@ -58,6 +58,6 @@ namespace MyJyotishJiWebDesign.Controllers
 
         public IActionResult ProblemSolution() { return View(); }
         public IActionResult ProblemSolutionDetails() { return View(); }
-        public IActionResult WalletPaymentLayout(int amount,int jyotishId,string message) { return PartialView("_WalletPartialView", new { amount = amount,jyotishId=jyotishId,message=message }); }
+        public IActionResult WalletPaymentLayout(int amount,int jyotishId,string message,string paymentby) { return PartialView("_WalletPartialView", new { amount = amount,jyotishId=jyotishId,message=message, paymentby = paymentby }); }
     }
 }

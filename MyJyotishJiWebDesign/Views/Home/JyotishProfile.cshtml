@@ -175,7 +175,7 @@
     
         // Make AJAX call to the WalletPaymentLayout action
     function makePaymentWithWallet(amount,JId,message){
-        $.get('/home/WalletPaymentLayout', { amount: amount,jyotishId:JId,message:message }, function (data) {
+        $.get('/home/WalletPaymentLayout', { amount: amount, jyotishId: JId, message: message,paymentby:"user" }, function (data) {
             $('#walletPaymentContainer').html(data); 
         });
     }
@@ -416,11 +416,19 @@ $(".callBtn").hide()
     });
     $("#next-btn").click(function () {
         if ($(this).text() == "Book") {
-            let amount = $("input[name='jyotishAppoinment']:checked").attr("data-amount")
-            let JId = $("input[name='jyotishAppoinment']:checked").attr("data-jyotishId")
-            if (amount && JId) {
+            if ($("#problem-desc").val() == null || $("#problem-desc").val() == "") {
+                Swal.fire({
+                    title: "Required!",
+                    text: "Please describe your problems",
+                    icon: "warning"
+                })
+            } else {
+                let amount = $("input[name='jyotishAppoinment']:checked").attr("data-amount")
+                let JId = $("input[name='jyotishAppoinment']:checked").attr("data-jyotishId")
+                if (amount && JId) {
 
-                makePaymentWithWallet(amount, JId, "Book Appointment")
+                    makePaymentWithWallet(amount, JId, "Book Appointment")
+                }
             }
         } else {
             debugger
