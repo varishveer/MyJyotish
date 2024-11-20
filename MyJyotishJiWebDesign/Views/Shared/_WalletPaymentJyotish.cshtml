@@ -4,15 +4,13 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
-
-
     <style>
         * {
             font-family: "Open Sans", sans-serif;
             letter-spacing: 1px;
         }
 
-       
+
         .container {
             display: grid;
             grid-template-columns: auto;
@@ -99,9 +97,9 @@
 
         .card {
             min-width: 130px;
-			height: 55px;
+            height: 55px;
             border-radius: 10px;
-            
+
         }
 
         .green {
@@ -271,12 +269,12 @@
             border:none;
         }
 
-		.modal-body::-webkit-scrollbar {
+        .modal-body::-webkit-scrollbar {
             width:0;
             height:0;
         }
 
-        
+
     </style>
 </head>
 <body>
@@ -288,7 +286,6 @@
                     <div class="container w-100">
                         <div class="mobile">
                             <div class="header">
-                                                               
                             </div>
                             <div class="content">
                                 <div class="text-center ">
@@ -300,13 +297,13 @@
                                     <div class="balance text-danger" id="payamount">-@Model.amount</div>
                                 </div>
                                 <div class="d-flex justify-content-center">
-                                   
+
                                     <div class="card gray d-flex justify-content-center align-items-center p-2" role="button">
                                         <div class="item m-auto d-flex gap-2 flex-row align-items-center justify-content-center" id="payamountfromwallet" data-amount="@Model.amount">
                                             <div class="label fw-bold">Pay</div>
-                                            <div class="value fw-bold text-dark" >₹@Model.amount</div>
+                                            <div class="value fw-bold text-dark">₹@Model.amount</div>
                                         </div>
-                                        <a href="/Home/Wallet" class="btn text-light fw-bold addwalletbtn d-none btn-warning">Add Wallet</a>
+                                        <a href="/jyotish/Wallets" class="btn text-light fw-bold addwalletbtn d-none btn-warning">Add Wallet</a>
                                     </div>
                                 </div>
                                 <ul class="menu ">
@@ -318,165 +315,164 @@
                                         </label>
 
                                     </li>
-                                  
+
                                 </ul>
                                 <div class="list trans-list-wallet">
-                                    
+                                </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
-               
             </div>
         </div>
-    </div>
 
-    <script>
-        $(document).ready(function(){
-                $("#staticBackdropforWallet").modal("show")
-        })
-            $("#staticBackdropforWallet").on("hide.bs.modal", function () {
-               location.reload()
+        <script>
+            $(document).ready(function(){
+                    $("#staticBackdropforWallet").modal("show")
             })
-  
-        let Id = localStorage.getItem('userId');
+                $("#staticBackdropforWallet").on("hide.bs.modal", function () {
+                   location.reload()
+                })
 
-        $(document).ready(function () {
-            Swal.fire({
-                title: "Processing Your Request",
-                allowOutsideClick: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                }
-            })
-            $.ajax({
-                url: BaseUrl + "api/User/GetWallet",
-                type: "get",
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem("Token")}`,
-                    'Content-Type': 'application/json',
-                },
-                data: { UserId: Id },
-                success: function (res) {
-                    if (res.status == 200) {
-                        $("#currentwalletAmount").text("₹"+res.data)
+            let Id = localStorage.getItem('Id');
 
-                        if(res.data<@Model.amount){
-                                $("#payamountfromwallet").addClass("d-none")
-                                $(".addwalletbtn").removeClass("d-none")
-                                $("#payamount").html("<p class='text-center text-danger'>Insufficient balance</p>")
+            $(document).ready(function () {
+                Swal.fire({
+                    title: "Processing Your Request",
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                })
+                $.ajax({
+                    url: BaseUrl + "api/User/GetWallet",
+                    type: "get",
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                        'Content-Type': 'application/json',
+                    },
+                    data: { UserId: Id },
+                    success: function (res) {
+                        if (res.status == 200) {
+                            $("#currentwalletAmount").text("₹"+res.data)
+
+                            if(res.data<@Model.amount){
+                                    $("#payamountfromwallet").addClass("d-none")
+                                    $(".addwalletbtn").removeClass("d-none")
+                                    $("#payamount").html("<p class='text-center text-danger'>Insufficient balance</p>")
+                            }
+
+                            Swal.close();
+                        } else {
+                            Swal.fire({
+                                title: "error",
+                                text: "some error occured",
+                                icon: "error"
+                            });
                         }
-
-                        Swal.close();
-                    } else {
+                    }, error: function () {
                         Swal.fire({
                             title: "error",
                             text: "some error occured",
                             icon: "error"
                         });
                     }
-                }, error: function () {
-                    Swal.fire({
-                        title: "error",
-                        text: "some error occured",
-                        icon: "error"
-                    });
-                }
-            })
+                })
 
 
 
 
-        });
-
-        function getUserWalletHistory() {
-            Swal.fire({
-                title: "Processing Your Request",
-                allowOutsideClick: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                }
-            })
-            $.ajax({
-                url: BaseUrl + "api/User/GetWalletHistroy",
-                type: "get",
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem("Token")}`,
-                    'Content-Type': 'application/json'
-                },
-                data: {
-                    
-                    "userId": Id
-              
-                },
-                success: function (res) {
-                    console.log(res)
-                    if (res.status == 200) {
-                        $(".trans-list-wallet").empty()
-                        res.data.forEach(function (d) {
-                            if (d.userName != null & d.profile != null) {
-                                let historycard = $(
-                                    `
-                                                    <div class="item1 ">
-                                                <div class="section1">
-                                                                    <div class="${d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" & d.paymentBy == "user" ? `icon down` : d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" ? `icon up` : `icon down`}">
-                                                        <i class="fas fa-arrow-up"></i>
-                                                    </div>
-                                                    <div class="text">
-                                                                <div class="title"> ${d.userName}</div>
-                                                                <div class="description">${d.paymentStatus.toLowerCase() == 'success' ? d.paymentDate.split(" ")[0] : d.paymentStatus.toLowerCase() == 'pending' ? `<small><i class="fas text-warning fa-exclamation-triangle"></i>Cancelled</small>` : `<small class='text-danger'><i class="fas fa-exclamation-circle"></i>Failed</small>`}</div>
-                                                    </div>
-                                                </div>
-                                                <div class="section2">
-
-                                                                                <div class="value"> ${d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" & d.paymentBy == "user" ? `<span class='text-danger'>- ${d.amount}</span>` : d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" ? `<span class='text-success'>+${d.amount}</span>` : `<span class='text-danger'>-${d.amount}</span>`}</div>
-                                                </div>
-                                            </div>
-                                                                       
-                                `)
-                                $(".trans-list-wallet").append(
-                                    historycard
-                                )
-                            }else{
-                                let historycard = $(
-                                    `
-                                <div class="item1 ">
-                                    <div class="section1">
-                                                <div class="${d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" ? `icon up` : `icon down`}">
-                                            <i class="fas fa-arrow-up"></i>
-                                        </div>
-                                        <div class="text">
-                                            <div class="title">myjyotishg</div>
-                                            <div class="description">${d.paymentStatus.toLowerCase() == 'success' ? d.paymentDate.split(" ")[0] : d.paymentStatus.toLowerCase() == 'pending' ? `<small><i class="fas text-warning fa-exclamation-triangle"></i>Cancelled</small>` : `<small class='text-danger'><i class="fas fa-exclamation-circle"></i>Failed</small>`}</div>
-                                        </div>
-                                    </div>
-                                    <div class="section2">
-                                                    <div class="value">${d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" ? `<span class='text-success'>+ ${d.amount}</span>` : d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "debit" ? `<span class='text-danger'>-${d.amount}</span>` : `<span class='text-secondary'>${d.amount}</span>`}</div>
-                                    </div>
-                                </div>
-
-                                `)
-                                $(".trans-list-wallet").append(
-                                    historycard
-                                )
-                            }
-
-                           
-                            
-                        })
-                    }
-                    Swal.close()
-                },
-                error: function (err) {
-                    Swal.fire({ icon: "error", title: "Server Error", text: "Server down, please try later." });
-
-                }
             });
-        }
-        getUserWalletHistory()
-    </script>
-    <script>
-       
+
+            function getUserWalletHistory() {
+                Swal.fire({
+                    title: "Processing Your Request",
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                })
+                $.ajax({
+                    url: BaseUrl + "api/User/GetWalletHistroy",
+                    type: "get",
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                        'Content-Type': 'application/json'
+                    },
+                    data: {
+
+                        "userId": Id
+
+                    },
+                    success: function (res) {
+                        console.log(res)
+                        if (res.status == 200) {
+                            $(".trans-list-wallet").empty()
+                            res.data.forEach(function (d) {
+                                if (d.userName != null & d.profile != null) {
+                                    let historycard = $(
+                                        `
+                                                        <div class="item1 ">
+                                                    <div class="section1">
+                                                                        <div class="${d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" & d.paymentBy == "user" ? `icon down` : d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" ? `icon up` : `icon down`}">
+                                                            <i class="fas fa-arrow-up"></i>
+                                                        </div>
+                                                        <div class="text">
+                                                                    <div class="title"> ${d.userName}</div>
+                                                                    <div class="description">${d.paymentStatus.toLowerCase() == 'success' ? d.paymentDate.split(" ")[0] : d.paymentStatus.toLowerCase() == 'pending' ? `<small><i class="fas text-warning fa-exclamation-triangle"></i>Cancelled</small>` : `<small class='text-danger'><i class="fas fa-exclamation-circle"></i>Failed</small>`}</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="section2">
+
+                                                                                    <div class="value"> ${d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" & d.paymentBy == "user" ? `<span class='text-danger'>- ${d.amount}</span>` : d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" ? `<span class='text-success'>+${d.amount}</span>` : `<span class='text-danger'>-${d.amount}</span>`}</div>
+                                                    </div>
+                                                </div>
+
+                                    `)
+                                    $(".trans-list-wallet").append(
+                                        historycard
+                                    )
+                                }else{
+                                    let historycard = $(
+                                        `
+                                    <div class="item1 ">
+                                        <div class="section1">
+                                                    <div class="${d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" ? `icon up` : `icon down`}">
+                                                <i class="fas fa-arrow-up"></i>
+                                            </div>
+                                            <div class="text">
+                                                <div class="title">myjyotishg</div>
+                                                <div class="description">${d.paymentStatus.toLowerCase() == 'success' ? d.paymentDate.split(" ")[0] : d.paymentStatus.toLowerCase() == 'pending' ? `<small><i class="fas text-warning fa-exclamation-triangle"></i>Cancelled</small>` : `<small class='text-danger'><i class="fas fa-exclamation-circle"></i>Failed</small>`}</div>
+                                            </div>
+                                        </div>
+                                        <div class="section2">
+                                                        <div class="value">${d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" ? `<span class='text-success'>+ ${d.amount}</span>` : d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "debit" ? `<span class='text-danger'>-${d.amount}</span>` : `<span class='text-secondary'>${d.amount}</span>`}</div>
+                                        </div>
+                                    </div>
+
+                                    `)
+                                    $(".trans-list-wallet").append(
+                                        historycard
+                                    )
+                                }
+
+
+
+                            })
+                        }
+                        Swal.close()
+                    },
+                    error: function (err) {
+                        Swal.fire({ icon: "error", title: "Server Error", text: "Server down, please try later." });
+
+                    }
+                });
+            }
+            getUserWalletHistory()
+        </script>
+        <script>
+
             function addWallet() {
                 Swal.fire({
                     title: "Are you sure?",
@@ -495,21 +491,21 @@
                     }
                 })
                 $.ajax({
-            url: BaseUrl +  "api/User/PurchaseWithUserWallets",
+                            url: BaseUrl + "api/User/PurchaseWithJyotishWallets",
             type: "post",
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem("Token")}`,
                         'Content-Type': 'application/json',
                     },
                             data: JSON.stringify({
-                                userId: Id, jyotishId:@Model.jyotishId, WalletAmount: @Model.amount
+                               jyotishId:Id, WalletAmount: @Model.amount
                         ,paymentfor:"@Model.message"
                         }),
                     success: function (res) {
                         console.log(res)
-                        if (res.status == 200) {          
+                        if (res.status == 200) {
                         makeActionAfterWalletPayment()
-                        
+
                         } else {
                             Swal.fire({
                                 title: "error",
@@ -529,11 +525,11 @@
                     }
                 })
             }
-         
+
             $("#payamountfromwallet").click(function(){
                 let amount=$(this).attr("data-amount")
                 addWallet()
             })
-    </script>
+        </script>
 </body>
 </html>
