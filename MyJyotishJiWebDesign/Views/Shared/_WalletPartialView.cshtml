@@ -308,7 +308,7 @@
                                             <div class="label fw-bold">Pay</div>
                                             <div class="value fw-bold text-dark" >₹@Model.amount</div>
                                         </div>
-                                        <a href="/Home/Wallet" class="btn text-light fw-bold addwalletbtn d-none btn-warning">Add Wallet</a>
+                                        <a href="@(Model.paymentby=="user" ? "/Home/Wallet" :"/jyotish/Wallets")" class="btn text-light fw-bold addwalletbtn d-none btn-warning">Add Wallet</a>
                                     </div>
                                 </div>
                                 <ul class="menu ">
@@ -337,12 +337,14 @@
         $(document).ready(function(){
                 $("#staticBackdropforWallet").modal("show")
         })
+            $("#staticBackdropforWallet").on("hide.bs.modal", function () {
+               location.reload()
+            })
         @{
            var localStorageKey = Model.paymentby == "user" ? "userId" : "Id";
-        }
-            @{
                 var IdforHistory = Model.paymentby == "user" ? "UserId" : "jyotishId";
-            }
+        }
+           
         let Id = localStorage.getItem('@localStorageKey');
 
         $(document).ready(function () {
