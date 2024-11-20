@@ -346,10 +346,10 @@
                     }
                 })
                 $.ajax({
-                    url: BaseUrl + "api/User/GetWallet",
+                    url: BaseUrl + "api/jyotish/GetWallet",
                     type: "get",
                     headers: {
-                        'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                        'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
                         'Content-Type': 'application/json',
                     },
                     data: { UserId: Id },
@@ -394,10 +394,10 @@
                     }
                 })
                 $.ajax({
-                    url: BaseUrl + "api/User/GetWalletHistroy",
+                    url: BaseUrl + "api/jyotish/GetWalletHistroy",
                     type: "get",
                     headers: {
-                        'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                        'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
                         'Content-Type': 'application/json'
                     },
                     data: {
@@ -491,10 +491,10 @@
                     }
                 })
                 $.ajax({
-                            url: BaseUrl + "api/User/PurchaseWithJyotishWallets",
+                            url: BaseUrl + "api/jyotish/PurchaseWithJyotishWallets",
             type: "post",
                     headers: {
-                        'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                                'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
                         'Content-Type': 'application/json',
                     },
                             data: JSON.stringify({
