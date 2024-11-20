@@ -139,7 +139,13 @@
             })
             var email = $('#email').val();
             var password = $('#password').val();
-           
+            Swal.fire({
+                title: "Processing Your Request",
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            })
             $.ajax({
                
                 url:BaseUrl+ "Api/Account/LoginJyotish",
@@ -248,10 +254,8 @@
                                 });
                             console.log("Unexpected response: " + response.message);
                         }
+                        Swal.close()
                 },
-
-
-
                 error: function (xhr) {
                     console.error("Error:", xhr.responseText);
                     Swal.fire({

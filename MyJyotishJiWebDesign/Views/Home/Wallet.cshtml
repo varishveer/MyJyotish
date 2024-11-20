@@ -448,7 +448,7 @@
                                                                                                         ${d.paymentStatus.toLowerCase() == 'success' ? d.paymentDate.split(" ")[0] : d.paymentStatus.toLowerCase() == 'pending' ? `<small><i class="fas text-warning fa-exclamation-triangle"></i>Cancelled</small>` : `<small class='text-danger'><i class="fas fa-exclamation-circle"></i>Failed</small>`}
                                                 </div>
                                                 <div class="col-sm-3 d-flex h-100 justify-content-end align-items-center">
-                                                                                                         ${d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" & d.paymentBy == "user" ? `<span class='text-danger'>- ${d.amount}</span>` : d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" ? `<span class='text-success'>+${d.amount}</span>` : `<span class='text-danger'>-${d.amount}</span>`}
+                                                                                                             ${d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" & d.paymentBy.toLowerCase() == "user" ? `<span class='text-danger'>- ${d.amount}</span>` : d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" ? `<span class='text-success'>+${d.amount}</span>` : `<span class='text-danger'>-${d.amount}</span>`}
                                                 </div>
                                             </div>
                                         </div>

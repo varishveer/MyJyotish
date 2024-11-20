@@ -47,20 +47,17 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="addExpertiseModalLabel">Add New Expertise</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                
             </div>
             <div class="modal-body">
                 <form id="addExpertiseForm">
                     <div class="form-group">
                         <label for="expertiseName">Name</label>
-                        <input type="text" class="form-control" id="expertiseName" required>
+                        <input type="text" class="form-control" placeholder="Expertise" id="expertiseName" required>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" onclick="submitExpertise()">Save Expertise</button>
             </div>
         </div>
@@ -114,13 +111,13 @@
                 },
                 success: function (result) {
 
-                    let htmls = '<thead><tr><th>Id</th><th>Expertise</th><th>DateAdded</th></thead><tbody>';
+                    let htmls = '<thead><tr><th>Id</th><th>Expertise</th><th>Date Added</th></thead><tbody>';
 
                     $.each(result.data, function (key, item) {
                         htmls += '<tr>';
                         htmls += `<td class="text-center">${item.id}</td>`;
                         htmls += `<td class="text-center">${item.name}</td>`;
-                        htmls += `<td class="text-center">${item.dateAdded}</td>`;
+                        htmls += `<td class="text-center">${item.dateAdded.split("T")[0]}</td>`;
 
 
 

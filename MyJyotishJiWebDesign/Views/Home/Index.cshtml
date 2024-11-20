@@ -580,6 +580,13 @@ $(document).ready(function () {
 
  <script>
         $(document).ready(function () {
+        Swal.fire({
+            title: "Processing Your Request",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
             $.ajax({
                 url: BaseUrl+'Api/User/TopAstrologer?City=NewDelhi', 
                 method: 'GET',
@@ -609,6 +616,7 @@ $(document).ready(function () {
                                
                             `);
                         });
+                        Swal.close()
                     } else {
                         alert(response.Message);
                     }

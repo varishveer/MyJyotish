@@ -352,7 +352,7 @@
                         'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
                         'Content-Type': 'application/json',
                     },
-                    data: { UserId: Id },
+                    data: { jyotishId: Id },
                     success: function (res) {
                         if (res.status == 200) {
                             $("#currentwalletAmount").text("₹"+res.data)
@@ -402,7 +402,7 @@
                     },
                     data: {
 
-                        "userId": Id
+                        "jyotishId": Id
 
                     },
                     success: function (res) {
@@ -415,7 +415,7 @@
                                         `
                                                         <div class="item1 ">
                                                     <div class="section1">
-                                                                        <div class="${d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" & d.paymentBy == "user" ? `icon down` : d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" ? `icon up` : `icon down`}">
+                                                                                                <div class="${d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" & d.paymentBy == "user" ? `icon up` : d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "debit" & d.paymentBy.toLowerCase()=="user" ? "icon up" : d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" ? `icon up` : `icon down`} ">
                                                             <i class="fas fa-arrow-up"></i>
                                                         </div>
                                                         <div class="text">
@@ -425,7 +425,7 @@
                                                     </div>
                                                     <div class="section2">
 
-                                                                                    <div class="value"> ${d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" & d.paymentBy == "user" ? `<span class='text-danger'>- ${d.amount}</span>` : d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" ? `<span class='text-success'>+${d.amount}</span>` : `<span class='text-danger'>-${d.amount}</span>`}</div>
+                                                                                                <div class="value"> ${d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" ? `<span class='text-success'>+ ${d.amount}</span>` : d.paymentStatus.toLowerCase() == 'success' &   d.paymentAction.toLowerCase() == "debit" & d.paymentBy.toLowerCase()=="user" ? `<span class='text-success'>+${d.amount}</span>` : `<span class='text-danger'>-${d.amount}</span>`}</div>
                                                     </div>
                                                 </div>
 
@@ -447,7 +447,7 @@
                                             </div>
                                         </div>
                                         <div class="section2">
-                                                        <div class="value">${d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" ? `<span class='text-success'>+ ${d.amount}</span>` : d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "debit" ? `<span class='text-danger'>-${d.amount}</span>` : `<span class='text-secondary'>${d.amount}</span>`}</div>
+                                                                    <div class="value">${d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" ? `<span class='text-success'>+ ${d.amount}</span>` : `<span class='text-danger'>-${d.amount}</span>`}</div>
                                         </div>
                                     </div>
 

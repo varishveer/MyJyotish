@@ -138,7 +138,13 @@
                     email: email,
                     password: password
                 };
-
+            Swal.fire({
+                title: "Processing Your Request",
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            })
                 // Perform the AJAX request
                 $.ajax({
                     url: "@BaseUrl" + "api/Account/LoginUser",
