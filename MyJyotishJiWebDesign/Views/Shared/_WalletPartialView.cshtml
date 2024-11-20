@@ -1,0 +1,521 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+
+
+    <style>
+        * {
+            font-family: "Open Sans", sans-serif;
+            letter-spacing: 1px;
+        }
+
+       
+        .container {
+            display: grid;
+            grid-template-columns: auto;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .mobile {
+            min-width:300px;
+            width:500px;
+            height: 640px;
+            align-self: center;
+            display: grid;
+            grid-template-rows: 10% auto;
+            color: #fff;
+        }
+
+            .mobile > div {
+                padding: 1rem 2rem;
+            }
+
+        .header {
+            background: #21223f;
+            border-top-left-radius: 1rem;
+            border-top-right-radius: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .filter {
+            display: flex;
+            padding: 0.5rem;
+            min-width: 80px;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #828393;
+            border-radius: 10px;
+        }
+
+        .calendar i,
+        .select i,
+        .total .label {
+            color: #828393;
+        }
+
+        .content {
+            background: #21223f;
+            border-bottom-left-radius: 1rem;
+            border-bottom-right-radius: 1rem;
+            display: grid;
+        }
+
+        .total {
+            align-self: start;
+            justify-self: center;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+            .total > div:not(:first-child):not(:last-child) {
+                margin: 0.5rem;
+            }
+
+            .total .label,
+            .card .label {
+                text-transform: uppercase;
+                font-weight: 100;
+                font-size: 0.8rem;
+            }
+
+            .total .value {
+                font-size: 1.8rem;
+            }
+
+            .total .balance {
+                background: #1f3a4a;
+                padding: 0.5rem 1rem;
+                border-radius: 5px;
+                color: #02ca8c;
+            }
+
+        .card {
+            min-width: 130px;
+			height: 55px;
+            border-radius: 10px;
+            
+        }
+
+        .green {
+            background: #00cccc;
+        }
+
+        .magenta {
+            background: #7359ff;
+        }
+
+        .gray {
+            background: #7a7faf;
+        }
+
+        .card .balance {
+            display: flex;
+            align-self: start;
+            padding: 0.5rem 0;
+            width: 60px;
+            justify-content: space-around;
+            font-size: 0.8rem;
+        }
+
+        .card .label {
+            color: #adffff;
+            font-size: 0.7rem;
+        }
+
+        .card .item {
+            align-self: start;
+            padding: 0.5rem 0;
+            height: 36px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card .arrow-up {
+            transform: rotateZ(45deg);
+        }
+
+        .card .item .value {
+            font-size: 1.3rem;
+        }
+
+        ::-webkit-scrollbar {
+            height: 5px;
+            width: 5px;
+        }
+
+        ::-webkit-scrollbar-track {
+            box-shadow: inset 0 0 6px #21233f;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: #676767;
+            border-radius: 10px;
+        }
+
+        .menu {
+            list-style-type: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 2px;
+        }
+
+            .menu li {
+                height: 40px;
+                position: relative;
+            }
+
+            .menu label,
+            .menu input {
+                display: block;
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                opacity: 0.7;
+            }
+
+                .menu input[type="radio"] {
+                    opacity: 0.011;
+                    z-index: 100;
+                }
+
+                    .menu input[type="radio"]:checked + label {
+                        border-bottom: 1px solid #2181ff;
+                        opacity: 1;
+                    }
+
+                        .menu input[type="radio"]:checked + label i {
+                            color: #2181ff;
+                        }
+
+            .menu label {
+                cursor: pointer;
+                z-index: 90;
+                font-size: 0.7rem;
+                display: flex;
+                justify-content: space-evenly;
+                align-items: center;
+            }
+
+                .menu label:hover {
+                    opacity: 0.7;
+                }
+
+        .list {
+            background: #211c3a;
+            display: grid;
+            grid-gap: 5px;
+            padding: 5px 0;
+            height: 180px;
+            overflow-y: auto;
+        }
+
+            .list div[class^="item"] {
+                display: flex;
+                justify-content: space-between;
+                background: #21223f;
+                padding: 10px 0;
+            }
+
+            .list div[class^="section"] {
+                font-size: 0.8rem;
+                display: flex;
+                align-items: center;
+            }
+
+            .list .icon {
+                display: flex;
+                align-items: center;
+                margin-right: 10px;
+            }
+
+                .list .icon.up {
+                    color: #00ff00;
+                    transform: rotateZ(30deg);
+                }
+
+                .list .icon.down {
+                    color: #ff0000;
+                    transform: rotateZ(-150deg);
+                }
+
+            .list .description {
+                color: #7d7d7d;
+            }
+
+            .list .signal {
+                font-weight: bold;
+            }
+
+                .list .signal.positive {
+                    color: #00ff00;
+                }
+
+                .list .signal.negative {
+                    color: #ff0000;
+                }
+
+        .wallet-payment-modal{
+            background:none;
+            border:none;
+        }
+
+		.modal-body::-webkit-scrollbar {
+            width:0;
+            height:0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdropforWallet" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content wallet-payment-modal">
+                <div class="modal-body ">
+                    <div class="container w-100">
+                        <div class="mobile">
+                            <div class="header">
+                                                               
+                            </div>
+                            <div class="content">
+                                <div class="total">
+                                    <div class="label">Total balance</div>
+                                    <div class="value" id="currentwalletAmount"></div>
+                                    <div class="balance text-danger">-@Model.amount</div>
+                                </div>
+                                <div class="d-flex justify-content-center">
+                                   
+                                    <div class="card gray d-flex justify-content-center align-items-center p-2" role="button">
+                                        <div class="item m-auto d-flex gap-2 flex-row align-items-center justify-content-center" id="payamountfromwallet" data-amount="@Model.amount">
+                                            <div class="label fw-bold">Pay</div>
+                                            <div class="value fw-bold text-dark" >₹@Model.amount</div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                <ul class="menu ">
+                                    <li>
+                                        <input type="radio" id="tab1" name="amount" checked="checked" />
+                                        <label for="tab1">
+                                            <i class="fas fa-arrow-up"></i>
+                                            Wallet History
+                                        </label>
+
+                                    </li>
+                                  
+                                </ul>
+                                <div class="list trans-list-wallet">
+                                    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function(){
+                $("#staticBackdropforWallet").modal("show")
+        })
+
+        var Id = localStorage.getItem('userId');
+        $(document).ready(function () {
+            Swal.fire({
+                title: "Processing Your Request",
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            })
+            $.ajax({
+                url: BaseUrl + "api/User/GetWallet",
+                type: "get",
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                    'Content-Type': 'application/json',
+                },
+                data: { UserId: Id },
+                success: function (res) {
+                    if (res.status == 200) {
+                        $("#currentwalletAmount").text("₹"+res.data)
+                        Swal.close();
+                    } else {
+                        Swal.fire({
+                            title: "error",
+                            text: "some error occured",
+                            icon: "error"
+                        });
+                    }
+                }, error: function () {
+                    Swal.fire({
+                        title: "error",
+                        text: "some error occured",
+                        icon: "error"
+                    });
+                }
+            })
+
+
+
+
+        });
+
+        function getUserWalletHistory() {
+            Swal.fire({
+                title: "Processing Your Request",
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            })
+            $.ajax({
+                url: BaseUrl + "api/User/GetWalletHistroy",
+                type: "get",
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                    'Content-Type': 'application/json'
+                },
+                data: {
+                    UserId: Id,
+                },
+                success: function (res) {
+                    console.log(res)
+                    if (res.status == 200) {
+                        $(".trans-list-wallet").empty()
+                        res.data.forEach(function (d) {
+                            if (d.userName != null & d.profile != null) {
+                                let historycard = $(
+                                    `
+                                                    <div class="item1 ">
+                                                <div class="section1">
+                                                                    <div class="${d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" & d.paymentBy == "user" ? `icon down` : d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" ? `icon up` : `icon down`}">
+                                                        <i class="fas fa-arrow-up"></i>
+                                                    </div>
+                                                    <div class="text">
+                                                                <div class="title"> ${d.userName}</div>
+                                                                <div class="description">${d.paymentStatus.toLowerCase() == 'success' ? d.paymentDate.split(" ")[0] : d.paymentStatus.toLowerCase() == 'pending' ? `<small><i class="fas text-warning fa-exclamation-triangle"></i>Cancelled</small>` : `<small class='text-danger'><i class="fas fa-exclamation-circle"></i>Failed</small>`}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="section2">
+                                                  
+                                                                    <div class="value">${d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" & d.paymentBy == "user" ? `<span class='text-danger'> -${d.amount}</span>` : d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" ? `<span class='text-success'>+${d.amount}</span>` : `<span class='text-secondary'>${d.amount}</span>`}</div>
+                                                </div>
+                                            </div>
+                                                                       
+                                `)
+                                $(".trans-list-wallet").append(
+                                    historycard
+                                )
+                            }else{
+                                let historycard = $(
+                                    `
+                                <div class="item1 ">
+                                    <div class="section1">
+                                                <div class="${d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" ? `icon up` : `icon down`}">
+                                            <i class="fas fa-arrow-up"></i>
+                                        </div>
+                                        <div class="text">
+                                            <div class="title">myjyotishg</div>
+                                            <div class="description">${d.paymentStatus.toLowerCase() == 'success' ? d.paymentDate.split(" ")[0] : d.paymentStatus.toLowerCase() == 'pending' ? `<small><i class="fas text-warning fa-exclamation-triangle"></i>Cancelled</small>` : `<small class='text-danger'><i class="fas fa-exclamation-circle"></i>Failed</small>`}</div>
+                                        </div>
+                                    </div>
+                                    <div class="section2">
+                                        <div class="value">${ d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" ? `<span class='text-success'>+${d.amount}</span>` : `<span class='text-secondary'>${d.amount}</span>`}</div>
+                                    </div>
+                                </div>
+
+                                `)
+                                $(".trans-list-wallet").append(
+                                    historycard
+                                )
+                            }
+
+                           
+                            
+                        })
+                    }
+                    Swal.close()
+                },
+                error: function (err) {
+                    Swal.fire({ icon: "error", title: "Server Error", text: "Server down, please try later." });
+
+                }
+            });
+        }
+        getUserWalletHistory()
+    </script>
+    <script>
+            function addWallet(amount) {
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "Confirm your action!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                Swal.fire({
+                    title: "Processing Your Request",
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                })
+                $.ajax({
+                            url: BaseUrl + "api/User/PurchaseWithUserWallets",
+                    type: "post",
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                        'Content-Type': 'application/json',
+                    },
+                            data: JSON.stringify({
+                                userId: Id, jyotishId: @Model.jyotishId, WalletAmount: @Model.amount
+                        ,paymentfor:"@Model.message"
+                        }),
+                    success: function (res) {
+                        console.log(res)
+                        if (res.status == 200) {          
+                        makeActionAfterWalletPayment()
+                        
+                        } else {
+                            Swal.fire({
+                                title: "error",
+                                text: "some error occured ",
+                                icon: "error"
+                            });
+                        }
+                    },
+                    error: function (err) {
+                        Swal.fire({
+                            title: "error",
+                            text: "some error occured",
+                            icon: "error"
+                        });
+                    }
+                })
+                    }
+                })
+            }
+
+           
+            $("#payamountfromwallet").click(function(){
+                let amount=$(this).attr("data-amount")
+                addWallet(amount)
+            })
+    </script>
+</body>
+</html>

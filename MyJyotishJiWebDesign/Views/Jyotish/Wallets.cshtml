@@ -51,12 +51,12 @@ body {
     }
 
     .detail-container{
-        max-height:80vh;
+        max-height:85vh;
     }
 </style>
 
-<div class="container">
-    <div class="wallet shadow-sm row p-3">
+<div class="container mt-0 pt-1">
+    <div class="wallet shadow row ">
         <div class="col-sm-12">
             <div class="row">
                 <div class="col-sm-4 left-wallet">
@@ -71,14 +71,14 @@ body {
             </div>
         </aside>
                 </div>
-                <div class="col-sm-8 detail-container overflow-auto">
+                <div class="col-sm-8 detail-container pt-0 overflow-auto">
         <content class="right-trans ">
            <div class="d-flex position-sticky top-0 bg-light p-2 rounded align-items-center justify-content-between"> 
                <h2 class="text-secondary"> Current Balance </h2>
                 <h3><span class="text-success" id="walletAmount">0</span>&nbsp;&nbsp;<span id="addWallet" data-bs-toggle="modal" data-bs-target="#exampleModal" class="text-secondary" role="button"><i class="far fa-plus-square"></i></span></h3>
             </div>
             <h4 id="balance"></h4>
-            <div class="trans-list px-2 row">
+            <div class="trans-list px-3 row">
                
             </div>
         </content>
@@ -194,7 +194,7 @@ body {
                         currency: data.currency,
                         name: 'My Jyotish G',
                         description: 'Payment Transaction',
-                        image: "https://vakiluncle.in/Content/assets/img/advocate/logo.png",
+                        image: "https://api.myjyotishg.in/Images/Logo.png",
                         order_id: data.id,     // Order ID
                         handler: function (paymentResponse) {
                             //console.log(paymentResponse.razorpay_payment_id, paymentResponse.razorpay_signature, paymentResponse.razorpay_order_id,data.amount);

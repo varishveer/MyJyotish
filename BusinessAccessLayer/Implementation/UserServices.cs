@@ -1,4 +1,5 @@
 ﻿using BusinessAccessLayer.Abstraction;
+using BusinessAccessLayer.Abstraction;
 using DataAccessLayer.DbServices;
 using DataAccessLayer.Migrations;
 using Microsoft.EntityFrameworkCore;
@@ -462,6 +463,20 @@ namespace BusinessAccessLayer.Implementation
             }
            
         }
+        public string PurchaseWithUserWallets(UserWalletViewmodel uw)
+        {
+            var users = _context.Users.Where(x => x.Id == uw.userId).FirstOrDefault();
+            if (users == null) { return null; }
+            var Userwallet = _context.UserWallets.Where(x => x.userId == uw.userId).FirstOrDefault();
+           
+           
+                Userwallet.WalletAmount -= uw.WalletAmount;
+                _context.UserWallets.Update(Userwallet);
+                if (_context.SaveChanges() > 0) { return "Successful"; }
+                else { return "Data Not Saved"; }
+            
+           
+        }
         public long GetWallet(int UserId)
         {
             var Jyotish = _context.UserWallets.Where(x => x.userId == UserId).FirstOrDefault();
@@ -551,7 +566,8 @@ namespace BusinessAccessLayer.Implementation
                             TimeFrom = x.TimeFrom,
                             TimeTo = x.TimeTo,
                             JyotishId = (int)x.JyotishId,
-                            Status = x.Status
+                            Status = x.Status,
+                            Amount=_context.JyotishRecords.Where(e=>e.Id==id).Select(x=>(int)x.AppointmentCharges).FirstOrDefault()
                         }).ToList()
                     })
                     .ToList();

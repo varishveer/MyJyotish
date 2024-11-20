@@ -278,21 +278,22 @@ namespace MyJyotishGApi.Controllers
             { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
         }
 
-        [HttpPost("AddWallet")]
-        public IActionResult AddWallet(UserWalletViewmodel uv)
+        [HttpPost("PurchaseWithUserWallets")]
+        public IActionResult PurchaseWithUserWallets(UserWalletViewmodel uv)
         {
             try
             {
-                var Result = _services.AddUserWallets(uv);
+                var Result = _services.PurchaseWithUserWallets(uv);
                 if(Result == "Successful")
                  {
                     WalletHistoryViewmodel js = new WalletHistoryViewmodel
                     {
                         UId = (int)uv.userId,
+                        JId = (int)uv.jyotishId,
                         amount = (long)uv.WalletAmount,
-                        PaymentAction = "Credit",
+                        PaymentAction = "Debit",
                         PaymentStatus = "success",
-                        PaymentFor = "Add to wallet"
+                        PaymentFor = uv.paymentfor
                     };
                     var historyres = _services.AddWalletHistory(js);
 

@@ -13,6 +13,7 @@ namespace ModelAccessLayer.ViewModels
         public TimeOnly TimeFrom { get; set; }
         public TimeOnly TimeTo { get; set; }
         public int JyotishId { get; set; }
+        public int Amount { get; set; }
         public string Status { get; set; }
     }
 }
