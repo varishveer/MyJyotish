@@ -9,7 +9,7 @@ namespace ModelAccessLayer.ViewModels
     public class WalletHistoryViewmodel
     {
         public int Id { get; set; }
-        public string PaymentId { get; set; }
+        public string? PaymentId { get; set; }
         public int JId { get; set; }
         public int UId { get; set; }
         public long amount { get; set; }

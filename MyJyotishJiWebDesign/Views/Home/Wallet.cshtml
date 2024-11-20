@@ -70,14 +70,14 @@
 
             </div>
             <div class="cc-select">
-                <div role="button" class="border rounded paymenthstBtn p-3 mb-2 mt-5">Payment History</div>
+                 @* <div role="button" class="border rounded paymenthstBtn p-3 mb-2 mt-5">Payment History</div> *@
                 <div role="button" class="border rounded wallethstBtn p-3 mb-2">Wallet History</div>
             </div>
         </aside>
         <content class="right-trans overflow-auto">
-            <div class="d-flex justify-content-between">
+            <div class="d-flex position-sticky top-0 bg-light p-2 rounded align-items-center justify-content-between">
                 <h2 class="text-secondary"> Current Balance </h2>
-                <h3><span class="text-success" id="walletAmount">0</span>&nbsp;<span id="addWallet" data-bs-toggle="modal" data-bs-target="#exampleModal" class="text-secondary" role="button"><i class="far fa-plus-square"></i></span></h3>
+                <h3><span class="text-success" id="walletAmount">0</span>&nbsp;&nbsp;<span id="addWallet" data-bs-toggle="modal" data-bs-target="#exampleModal" class="text-secondary" role="button"><i class="far fa-plus-square"></i></span></h3>
             </div>
             <h4 id="balance"></h4>
             <div class="trans-list  row">
@@ -251,12 +251,14 @@
     });
 
     function InsertPayment(pay_id, signature, order_id, amount, status, message) {
+        let Id=localStorage.getItem("userId")
         debugger
         $.ajax({
             url: BaseUrl+"Api/payments/capture-payment",
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify({
+                userId:Id,
                 orderId: order_id,
                 paymentId: pay_id,
                 SignatureId: signature,
@@ -268,7 +270,7 @@
             success: function (res) {
                  
                 if (res.message == "Payment captured and recorded.") {
-                    addWallet();
+                    // addWallet();
                     Swal.fire({
                         title: "Success!",
                         text: "Payment Successfull",
@@ -286,122 +288,122 @@
         });
     }
 
-    function addWallet() {
-        let amount = $("#amount").val();
-        Swal.fire({
-            title: "Processing Your Request",
-            didOpen: () => {
-                Swal.showLoading();
-            }
-        })
-        $.ajax({
-            url: BaseUrl+"api/User/AddWallet",
-            type: "post",
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem("Token")}`,
-                'Content-Type': 'application/json',
-            },
-            data: JSON.stringify({ userId: Id, WalletAmount: amount }),
-            success: function (res) {
-                console.log(res)
-                if (res.status == 200) {
-                    Swal.fire({
-                        title: "Success",
-                        text: "Amount Added to your wallet Successfully",
-                        icon: "success",
-                        didClose: () => {
-                            location.reload(true)
-                        }
+    // function addWallet() {
+    //     let amount = $("#amount").val();
+    //     Swal.fire({
+    //         title: "Processing Your Request",
+    //         didOpen: () => {
+    //             Swal.showLoading();
+    //         }
+    //     })
+    //     $.ajax({
+    //         url: BaseUrl+"api/User/AddWallet",
+    //         type: "post",
+    //         headers: {
+    //             'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+    //             'Content-Type': 'application/json',
+    //         },
+    //         data: JSON.stringify({ userId: Id, WalletAmount: amount }),
+    //         success: function (res) {
+    //             console.log(res)
+    //             if (res.status == 200) {
+    //                 Swal.fire({
+    //                     title: "Success",
+    //                     text: "Amount Added to your wallet Successfully",
+    //                     icon: "success",
+    //                     didClose: () => {
+    //                         location.reload(true)
+    //                     }
 
-                    });
-                } else {
-                    Swal.fire({
-                        title: "error",
-                        text: "some error occured while adding amount to your wallet",
-                        icon: "error"
-                    });
-                }
-            },
-            error: function (err) {
-                Swal.fire({
-                    title: "error",
-                    text: "some error occured",
-                    icon: "error"
-                });
-            }
-        })
-    }
+    //                 });
+    //             } else {
+    //                 Swal.fire({
+    //                     title: "error",
+    //                     text: "some error occured while adding amount to your wallet",
+    //                     icon: "error"
+    //                 });
+    //             }
+    //         },
+    //         error: function (err) {
+    //             Swal.fire({
+    //                 title: "error",
+    //                 text: "some error occured",
+    //                 icon: "error"
+    //             });
+    //         }
+    //     })
+    // }
 
-    let paymentHistroy = []
-    let walletHistory = []
+    // let paymentHistroy = []
+    // let walletHistory = []
 
 
     //payment history
-    function getUserPaymentRecord() {
-        Swal.fire({
-            title: "Processing Your Request",
-            allowOutsideClick: false,
-            didOpen: () => {
-                Swal.showLoading();
-            }
-        })
-        $.ajax({
-            url: `${BaseUrl}api/User/UserPaymentrecords`,
-            type: 'GET',
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem("Token")}`,
-                'Content-Type': 'application/json',
-            },
-            data: { Id: Id },
-            success: function (res) {
-                if (res.status == 200) {
-                    paymentHistroy = res.data;
-                }
-            },
-            error: function () {
+    // function getUserPaymentRecord() {
+    //     Swal.fire({
+    //         title: "Processing Your Request",
+    //         allowOutsideClick: false,
+    //         didOpen: () => {
+    //             Swal.showLoading();
+    //         }
+    //     })
+    //     $.ajax({
+    //         url: `${BaseUrl}api/User/UserPaymentrecords`,
+    //         type: 'GET',
+    //         headers: {
+    //             'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+    //             'Content-Type': 'application/json',
+    //         },
+    //         data: { Id: Id },
+    //         success: function (res) {
+    //             if (res.status == 200) {
+    //                 paymentHistroy = res.data;
+    //             }
+    //         },
+    //         error: function () {
 
-            }
-        }).then(function () {
-            function paymentHistory() {
-                Swal.fire({
-                    title: "Processing Your Request",
-                    allowOutsideClick: false,
-                    didOpen: () => {
-                        Swal.showLoading();
-                    }
-                })
-                $(".trans-list").empty()
-                paymentHistroy.forEach(function (d) {
-                    let historycard = $(`
-                                                         <div class="col-sm-12 border rounded p-2 my-2 phistory" data-receipt='${JSON.stringify(d).replace(/'/g, "\\'")}' id="receipt_${d.id}" onClick='printReceipt(${d.id},"payment")'>
-                                        <div class="row h-100">
-                                            <div class="col-sm-2 text-center ">
-                                                <img class="w-75 h-100 rounded-circle" src="https://api.myjyotishg.in/Images/Logo.png" />
-                                            </div>
-                                            <div class="col-sm-6">
-                                                MyJyotishg<br />
-                                                                                    ${d.status == 'success' ? d.dateTime.split("T")[0] : d.status == 'Pending' ? `<small><i class="fas text-warning fa-exclamation-triangle"></i>Cancelled</small>` : `<small class='text-danger'><i class="fas fa-exclamation-circle"></i>Failed</small>`}
-                                            </div>
-                                            <div class="col-sm-3 d-flex text-danger justify-content-end align-items-center">
-                                                                     ${d.status == 'success' ? `- ${d.amount}` : `<span class='text-secondary'>${d.amount}</span>`}
-                                            </div>
-                                        </div>
-                                    </div>
-                    `)
-                    $(".trans-list").append(
-                        historycard
-                    )
-                })
-                Swal.close()
-            }
+    //         }
+    //     }).then(function () {
+    //         function paymentHistory() {
+    //             Swal.fire({
+    //                 title: "Processing Your Request",
+    //                 allowOutsideClick: false,
+    //                 didOpen: () => {
+    //                     Swal.showLoading();
+    //                 }
+    //             })
+    //             $(".trans-list").empty()
+    //             paymentHistroy.forEach(function (d) {
+    //                 let historycard = $(`
+    //                                                      <div class="col-sm-12 border rounded p-2 my-2 phistory" data-receipt='${JSON.stringify(d).replace(/'/g, "\\'")}' id="receipt_${d.id}" onClick='printReceipt(${d.id},"payment")'>
+    //                                     <div class="row h-100">
+    //                                         <div class="col-sm-2 text-center ">
+    //                                             <img class="w-75 h-100 rounded-circle" src="https:api.myjyotishg.in/Images/Logo.png" />
+    //                                         </div>
+    //                                         <div class="col-sm-6">
+    //                                             MyJyotishg<br />
+    //                                                                                 ${d.status == 'success' ? d.dateTime.split("T")[0] : d.status == 'Pending' ? `<small><i class="fas text-warning fa-exclamation-triangle"></i>Cancelled</small>` : `<small class='text-danger'><i class="fas fa-exclamation-circle"></i>Failed</small>`}
+    //                                         </div>
+    //                                         <div class="col-sm-3 d-flex text-danger justify-content-end align-items-center">
+    //                                                                  ${d.status == 'success' ? `- ${d.amount}` : `<span class='text-secondary'>${d.amount}</span>`}
+    //                                         </div>
+    //                                     </div>
+    //                                 </div>
+    //                 `)
+    //                 $(".trans-list").append(
+    //                     historycard
+    //                 )
+    //             })
+    //             Swal.close()
+    //         }
 
-            paymentHistory();
-            $(".paymenthstBtn").click(function () {
-                paymentHistory();
-            })
-        })
-    }
-
+    //         paymentHistory();
+    //         $(".paymenthstBtn").click(function () {
+    //             paymentHistory();
+    //         })
+    //     })
+    // }
+    // getUserPaymentRecord()
     //wallet history
     function getUserWalletHistory() {
         Swal.fire({
@@ -423,7 +425,49 @@
             },
             success: function (res) {
                 if (res.status == 200) {
-                    walletHistory = res.data;
+                    $(".trans-list").empty()
+                    res.data.forEach(function (d) {
+                        if (d.userName != null & d.profile != null) {
+                            let historycard = $(
+                                `
+                                                                 <div class="col-sm-12 border rounded p-2 my-2 phistory" data-receipt='${JSON.stringify(d).replace(/'/g, "\\'")}' id="receipt_${d.id}" onClick='printReceipt(${d.id},"wallet")'>
+                                            <div class="row h-100">
+                                                <div class="col-sm-2 text-center ">
+                                                    <img class="w-75 h-75 rounded-circle" src="${BaseUrl}${d.profile}" />
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    ${d.userName}<br />
+                                                                                                        ${d.paymentStatus.toLowerCase() == 'success' ? d.paymentDate.split(" ")[0] : d.paymentStatus.toLowerCase() == 'pending' ? `<small><i class="fas text-warning fa-exclamation-triangle"></i>Cancelled</small>` : `<small class='text-danger'><i class="fas fa-exclamation-circle"></i>Failed</small>`}
+                                                </div>
+                                                <div class="col-sm-3 d-flex h-100 justify-content-end align-items-center">
+                                                                                                         ${d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" & d.paymentBy == "user" ? `<span class='text-danger'>- ${d.amount}</span>` : d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" ? `<span class='text-success'>+${d.amount}</span>` : `<span class='text-secondary'>${d.amount}</span>`}
+                                                </div>
+                                            </div>
+                                        </div>
+                        `)
+                            $(".trans-list").append(historycard)
+                        } else {
+                            let historycard = $(`
+                                                     <div class="col-sm-12 border rounded p-2 my-2 phistory"  data-receipt='${JSON.stringify(d).replace(/'/g, "\\'")}' id="receipt_${d.id}" onClick='printReceipt(${d.id},"wallet")'>
+                                        <div class="row h-100">
+                                            <div class="col-sm-2 text-center ">
+                                                <img class="w-75 h-100 rounded-circle" src="https://api.myjyotishg.in/Images/Logo.png" />
+                                            </div>
+                                            <div class="col-sm-6">
+                                                MyJyotishg<br />
+                                                                                            ${d.paymentStatus.toLowerCase() == 'success' ? d.paymentDate.split(" ")[0] : d.status == 'Pending' ? `<small><i class="fas text-warning fa-exclamation-triangle"></i>Cancelled</small>` : `<small class='text-danger'><i class="fas fa-exclamation-circle"></i>Failed</small>`}
+                                            </div>
+                                            <div class="col-sm-3 d-flex  justify-content-end align-items-center">
+                                                                                         ${d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" ? `<span class='text-success'>+ ${d.amount}</span>` : `<span class='text-secondary'>${d.amount}</span>`}
+                                            </div>
+                                        </div>
+                                    </div>
+                    `)
+                            $(".trans-list").append(
+                                historycard
+                            )
+                        }
+                    })
                 }
                 Swal.close()
             },
@@ -433,90 +477,38 @@
             }
         });
     }
-    $(".wallethstBtn").click(function () {
-        Swal.fire({
-            title: "Processing Your Request",
-            allowOutsideClick: false,
-            didOpen: () => {
-                Swal.showLoading();
-            }
-        })
-        $(".trans-list").empty()
-        walletHistory.forEach(function (d) {
-            if (d.userName != null & d.profile != null) {
-                let historycard = $(
-                    `
-                                                             <div class="col-sm-12 border rounded p-2 my-2 phistory" data-receipt='${JSON.stringify(d).replace(/'/g, "\\'")}' id="receipt_${d.id}" onClick='printReceipt(${d.id},"wallet")'>
-                                        <div class="row h-100">
-                                            <div class="col-sm-2 text-center ">
-                                                <img class="w-75 h-75 rounded-circle" src="${BaseUrl}${d.profile}" />
-                                            </div>
-                                            <div class="col-sm-6">
-                                                ${d.userName}<br />
-                                                                                                    ${d.paymentStatus.toLowerCase() == 'success' ? d.paymentDate.split(" ")[0] : d.paymentStatus.toLowerCase() == 'pending' ? `<small><i class="fas text-warning fa-exclamation-triangle"></i>Cancelled</small>` : `<small class='text-danger'><i class="fas fa-exclamation-circle"></i>Failed</small>`}
-                                            </div>
-                                            <div class="col-sm-3 d-flex h-100 justify-content-end align-items-center">
-                                                                                                     ${d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" & d.paymentBy == "user" ? `<span class='text-danger'>- ${d.amount}</span>` : d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" ? `<span class='text-success'>+${d.amount}</span>` : `<span class='text-secondary'>${d.amount}</span>`}
-                                            </div>
-                                        </div>
-                                    </div>
-                    `)
-                $(".trans-list").append(historycard)
-            } else {
-                let historycard = $(`
-                                                 <div class="col-sm-12 border rounded p-2 my-2 phistory"  data-receipt='${JSON.stringify(d).replace(/'/g, "\\'")}' id="receipt_${d.id}" onClick='printReceipt(${d.id},"wallet")'>
-                                    <div class="row h-100">
-                                        <div class="col-sm-2 text-center ">
-                                            <img class="w-75 h-100 rounded-circle" src="https://api.myjyotishg.in/Images/Logo.png" />
-                                        </div>
-                                        <div class="col-sm-6">
-                                            MyJyotishg<br />
-                                                                                        ${d.paymentStatus.toLowerCase() == 'success' ? d.paymentDate.split(" ")[0] : d.status == 'Pending' ? `<small><i class="fas text-warning fa-exclamation-triangle"></i>Cancelled</small>` : `<small class='text-danger'><i class="fas fa-exclamation-circle"></i>Failed</small>`}
-                                        </div>
-                                        <div class="col-sm-3 d-flex  justify-content-end align-items-center">
-                                                                                     ${d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" ? `<span class='text-success'>+ ${d.amount}</span>` : `<span class='text-secondary'>${d.amount}</span>`}
-                                        </div>
-                                    </div>
-                                </div>
-                `)
-                $(".trans-list").append(
-                    historycard
-                )
-            }
-        })
-
-        Swal.close()
-    })
+    getUserWalletHistory()
+ 
     function printReceipt(id, type) {
         let d = $("#receipt_" + id).attr("data-receipt")
         let data = JSON.parse(d)
         console.log(data)
         $("#exampleModal2").modal("show");
-        if (type == "payment") {
-            $(".receipt-body").html(
-                `
-                         <div class="col-sm-12 d-flex justify-content-center flex-column align-items-center">
-                                <img src="${'https://api.myjyotishg.in/Images/Logo.png'}" height="100" width="100" />
-                                <p class="text-center">To MyJyotishg</p>
-                                        <h2>₹${data.amount}</h2>
-                                                            <p class="text-center">${data.status == "success" ? "<i class='fas fa-check-circle text-success'></i>Completed" : data.status == "Pending" ? "<span><i class='fas text-warning fa-exclamation-triangle'></i>Cancelled</span>" : "<span class='text-danger'><i class='fas fa-exclamation-circle'></i>Failed</span>"}</p >
-                                <hr class="w-50"/>
-                                    <p class="text-center">${data.dateTime.split("T")[0]} ${data.dateTime.split("T")[1].slice(0, 5)}</p >
-                                <div class="border rounded w-100 p-3 row">
-                                            <div class='col-sm-3'>OrderId </div>: <div class='col-sm-8'>${data.orderId}</div>
-                                               <div class='col-sm-3'> PaymentId </div>:<div class='col-sm-8'>${data.paymentId}</div>
-                                                    <div class='col-sm-3'>Message </div>:<div class='col-sm-8'>${data.message}</div>
-                                </div>
-                        </div>
-                    `
-            )
-        } else {
+        // if (type == "payment") {
+        //     $(".receipt-body").html(
+        //         `
+        //                  <div class="col-sm-12 d-flex justify-content-center flex-column align-items-center">
+        //                         <img src="${'https:api.myjyotishg.in/Images/Logo.png'}" height="100" width="100" />
+        //                         <p class="text-center">To MyJyotishg</p>
+        //                                 <h2>₹${data.amount}</h2>
+        //                                                     <p class="text-center">${data.status == "success" ? "<i class='fas fa-check-circle text-success'></i>Completed" : data.status == "Pending" ? "<span><i class='fas text-warning fa-exclamation-triangle'></i>Cancelled</span>" : "<span class='text-danger'><i class='fas fa-exclamation-circle'></i>Failed</span>"}</p >
+        //                         <hr class="w-50"/>
+        //                             <p class="text-center">${data.dateTime.split("T")[0]} ${data.dateTime.split("T")[1].slice(0, 5)}</p >
+        //                         <div class="border rounded w-100 p-3 row">
+        //                                     <div class='col-sm-3'>OrderId </div>: <div class='col-sm-8'>${data.orderId}</div>
+        //                                        <div class='col-sm-3'> PaymentId </div>:<div class='col-sm-8'>${data.paymentId}</div>
+        //                                             <div class='col-sm-3'>Message </div>:<div class='col-sm-8'>${data.message}</div>
+        //                         </div>
+        //                 </div>
+        //             `
+        //     )
+        // } else {
             $(".receipt-body").html(
                 `
             <div class="col-sm-12 d-flex justify-content-center flex-column align-items-center" >
                                     <img src="${data.profile == null ? 'https://api.myjyotishg.in/Images/Logo.png' : BaseUrl + data.profile}" class='rounded-circle' height="100" width="100" />
                                     <p class="text-center"> ${data.userName == null ? "From MyJyotishg" : "To "+data.userName}</p>
-                                    <h2>₹20</h2>
+                                        <h2>₹${data.amount}</h2>
                                     <p class="text-center"><i class="fas fa-check-circle text-success"></i>Completed</p>
                                     <hr class="w-50"/>
                                     <p class="text-center">${data.paymentDate}</p>
@@ -529,7 +521,7 @@
                             </div >
             `
             )
-        }
+        // }
         $("#printbtn").attr("data-id", id)
     }
 

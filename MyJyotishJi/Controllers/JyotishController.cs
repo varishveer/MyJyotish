@@ -419,18 +419,19 @@ namespace MyJyotishGApi.Controllers
              {
                  var Result = _jyotish.AddWallet(jw);
                  if (Result == "Successful")
-                 {
-                    WalletHistoryViewmodel js = new WalletHistoryViewmodel
-                     {
-                         JId = jw.jyotishId,
-                         amount=jw.WalletAmount,
-                         PaymentAction="Credit",
-                         PaymentStatus="success",
-                         PaymentFor="Add to wallet"
-                     };
-                    var res= _jyotish.AddWalletHistory(js);
-                  
-                     return Ok(new { Status = 200, Message = "Successful" });
+                {
+                    
+                        WalletHistoryViewmodel js = new WalletHistoryViewmodel
+                        {
+                            JId = (int)jw.jyotishId,
+                            amount = (long)jw.WalletAmount,
+                            PaymentAction = "Credit",
+                            PaymentStatus = "success",
+                            PaymentFor = "Add to wallet"
+                        };
+                        var historyres = _jyotish.AddWalletHistory(js);
+                    
+                    return Ok(new { Status = 200, Message = "Successful" });
                     
                 }
                  else

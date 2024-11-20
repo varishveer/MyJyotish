@@ -476,13 +476,17 @@ namespace BusinessAccessLayer.Implementation
         {
             var Jyotish = _context.Users.Where(x => x.Id == pr.UId).FirstOrDefault();
             if (Jyotish == null) { return null; }
-            Random rnd = new Random();
-            var rndnum = rnd.Next(100, 999);
-            var paymentId = Jyotish.Name + DateTime.Now.ToString("ddMMyyyyhhmmss") + pr.UId + rndnum;
-            var paymentUnqId = _context.WalletHistroy.Where(x => x.PaymentId == paymentId).FirstOrDefault();
-            if (paymentUnqId != null)
+            string paymentId = pr.PaymentId;
+            if (pr.PaymentId == null)
             {
-                paymentId = paymentId + rndnum;
+                Random rnd = new Random();
+                var rndnum = rnd.Next(100, 999);
+                 paymentId = Jyotish.Name.Split(' ')[0] + DateTime.Now.ToString("ddMMyyyyhhmmss") + pr.UId + rndnum;
+                var paymentUnqId = _context.WalletHistroy.Where(x => x.PaymentId == paymentId).FirstOrDefault();
+                if (paymentUnqId != null)
+                {
+                    paymentId = paymentId + rndnum;
+                }
             }
             WalletHistoryModel jw = new WalletHistoryModel
             {

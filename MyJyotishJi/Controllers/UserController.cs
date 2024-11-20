@@ -288,15 +288,15 @@ namespace MyJyotishGApi.Controllers
                  {
                     WalletHistoryViewmodel js = new WalletHistoryViewmodel
                     {
-                        UId = uv.userId,
-                        amount = uv.WalletAmount,
+                        UId = (int)uv.userId,
+                        amount = (long)uv.WalletAmount,
                         PaymentAction = "Credit",
                         PaymentStatus = "success",
                         PaymentFor = "Add to wallet"
                     };
-                    var res = _services.AddWalletHistory(js);
-                    
-                        return Ok(new { Status = 200, Message = "Successful" });
+                    var historyres = _services.AddWalletHistory(js);
+
+                    return Ok(new { Status = 200, Message = "Successful" });
                    
                 }
                  else

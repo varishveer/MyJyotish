@@ -76,7 +76,7 @@ namespace MyJyotishGApi.Controllers
                 if (model.Status == "success")
                 {
                     var payment = _razorpayService.CapturePayment(model); // Capture and log success
-                    return Ok(new { message = "Payment captured and recorded.", payment });
+                    return Ok(new {status=200, message = "Payment captured and recorded.", payment });
                 }
 
                 // Handle failed payments
@@ -85,17 +85,17 @@ namespace MyJyotishGApi.Controllers
                     var isLogged = _services.LogFailedPayment(model); // Log failure
                     if (isLogged)
                     {
-                        return Ok(new { message = "Payment failed and logged." });
+                        return Ok(new {status=500, message = "Payment failed and logged." });
                     }
                     return StatusCode(500, new { message = "Failed to log the payment failure." });
                 }
 
-                return BadRequest(new { message = "Invalid payment status." });
+                return BadRequest(new {status=400, message = "Invalid payment status." });
             }
             catch (Exception ex)
             {
                 // Handle any unexpected exceptions
-                return StatusCode(500, new { message = "An unexpected error occurred.", Error = ex.Message });
+                return StatusCode(500, new {status=500, message = "An unexpected error occurred.", Error = ex.Message });
             }
         }
 

@@ -13,10 +13,14 @@ namespace BusinessAccessLayer.Implementation
     public class RazorPayServices:IRazorPayServices
     {
         private readonly ApplicationContext _context;
+        private readonly IJyotishServices _jyotish;
+        private readonly IUserServices _user;
 
-        public RazorPayServices(ApplicationContext context)
+        public RazorPayServices(ApplicationContext context, IJyotishServices jyotish,IUserServices user)
         {
             _context = context;
+            _jyotish = jyotish;
+            _user = user;
         }
         public bool Order(PaymentCreateOrderViewModel model)
         {
@@ -24,6 +28,8 @@ namespace BusinessAccessLayer.Implementation
             var user = _context.Users.Where(x => x.Id == model.UserId).FirstOrDefault();
             if (jyotish != null)
             {
+
+
                 JyotishPaymentRecordModel record = new JyotishPaymentRecordModel();
                 record.JyotishId = model.JyotishId;
                 record.Amount = model.Amount.ToString();
@@ -107,11 +113,31 @@ namespace BusinessAccessLayer.Implementation
 
             if (jyotish != null)
             {
+                JyotishWalletViewmodel jmodel = new JyotishWalletViewmodel
+                {
+                    jyotishId = (int)model.JyotishId,
+                    WalletAmount = (long)model.Amount
+                };
+               var res= _jyotish.AddWallet(jmodel);
+                if (res == "Successful")
+                {
+                    WalletHistoryViewmodel js = new WalletHistoryViewmodel
+                    {
+                        JId = (int)model.JyotishId,
+                        amount = (long)model.Amount,
+                        PaymentId = model.PaymentId,
+                        PaymentAction = "Credit",
+                        PaymentStatus = "success",
+                        PaymentFor = "Add to wallet"
+                    };
+                    var historyres = _jyotish.AddWalletHistory(js);
+                }
                 // Update Jyotish payment record with the new status and payment details
                 jyotish.Status = status; // "success" or "failed"
                 jyotish.OrderId = model.OrderId;
                 jyotish.PaymentId = model.PaymentId;
                 jyotish.Message = model.Message;
+                jyotish.Method = model.Method;
                 if (!string.IsNullOrEmpty(model.SignatureId))
                 {
                     jyotish.SignatureId = model.SignatureId;
@@ -122,11 +148,31 @@ namespace BusinessAccessLayer.Implementation
             }
             else if (user != null)
             {
+                UserWalletViewmodel umodel = new UserWalletViewmodel
+                {
+                    userId = (int)model.UserId,
+                    WalletAmount = (long)model.Amount
+                };
+                var res =_user.AddUserWallets(umodel);
+                if (res == "Successful")
+                {
+                    WalletHistoryViewmodel js = new WalletHistoryViewmodel
+                    {
+                        UId = (int)model.UserId,
+                        amount = (long)model.Amount,
+                        PaymentId=model.PaymentId,
+                        PaymentAction = "Credit",
+                        PaymentStatus = "success",
+                        PaymentFor = "Add to wallet"
+                    };
+                    var historyres = _user.AddWalletHistory(js);
+                }
                 // Update User payment record with the new status and payment details
                 user.Status = status; // "success" or "failed"
                 user.OrderId = model.OrderId;
                 user.PaymentId = model.PaymentId;
                 user.Message = model.Message;
+                user.Method = model.Method;
 
                 if (!string.IsNullOrEmpty(model.SignatureId))
                 {

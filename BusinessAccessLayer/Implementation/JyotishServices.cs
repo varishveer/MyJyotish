@@ -806,13 +806,17 @@ namespace BusinessAccessLayer.Implementation
         {
             var Jyotish = _context.JyotishRecords.Where(x => x.Id == pr.JId).FirstOrDefault();
             if (Jyotish == null) { return null; }
-            Random rnd = new Random();
-            var rndnum = rnd.Next(100, 999);
-            var paymentId = Jyotish.Name + DateTime.Now.ToString("ddMMyyyy") + pr.JId + rndnum;
-            var paymentUnqId = _context.WalletHistroy.Where(x => x.PaymentId == paymentId).FirstOrDefault();
-            if (paymentUnqId != null)
+            string paymentId=pr.PaymentId;
+            if (pr.PaymentId == null)
             {
-                paymentId = paymentId + 1;
+                Random rnd = new Random();
+                var rndnum = rnd.Next(100, 999);
+                 paymentId = Jyotish.Name.Split(' ')[0] + DateTime.Now.ToString("ddMMyyyy") + pr.JId + rndnum;
+                var paymentUnqId = _context.WalletHistroy.Where(x => x.PaymentId == paymentId).FirstOrDefault();
+                if (paymentUnqId != null)
+                {
+                    paymentId = paymentId + 1;
+                }
             }
             WalletHistoryModel jw = new WalletHistoryModel
             {

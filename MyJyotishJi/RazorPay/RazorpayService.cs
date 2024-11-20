@@ -88,8 +88,11 @@ namespace MyJyotishGApi.RazorPay
             // Ensure the payment is authorized before capturing
             if (payment["status"] == "captured")
             {
-                // Payment is already captured, log and return the captured payment
-                var isPaymentCapturedUpdated = _services.LogPayment(model, "success");
+                
+                model.Method = payment.Attributes.method;
+
+                    // Payment is already captured, log and return the captured payment
+                    var isPaymentCapturedUpdated = _services.LogPayment(model, "success");
                 if (!isPaymentCapturedUpdated)
                 {
                     throw new Exception("Failed to log the already captured payment in the database.");
