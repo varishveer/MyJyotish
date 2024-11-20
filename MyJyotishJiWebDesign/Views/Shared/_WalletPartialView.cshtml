@@ -340,7 +340,9 @@
         @{
            var localStorageKey = Model.paymentby == "user" ? "userId" : "Id";
         }
-            
+            @{
+                var IdforHistory = Model.paymentby == "user" ? "UserId" : "jyotishId";
+            }
         let Id = localStorage.getItem('@localStorageKey');
 
         $(document).ready(function () {
@@ -407,9 +409,7 @@
                     'Content-Type': 'application/json'
                 },
                 data: {
-                     @{
-                         var IdforHistory = Model.paymentby == "user" ? "UserId" : "jyotishId";
-                     }
+                    
                     "@IdforHistory": Id
               
                 },
@@ -507,7 +507,7 @@
                         'Content-Type': 'application/json',
                     },
                             data: JSON.stringify({
-                               userId: Id, jyotishId: checkUserType=="user"?@Model.jyotishId:Id, WalletAmount: @Model.amount
+                                userId: Id, jyotishId:@(Model.paymentby == "user" ? Model.jyotishId : "Id"), WalletAmount: @Model.amount
                         ,paymentfor:"@Model.message"
                         }),
                     success: function (res) {
