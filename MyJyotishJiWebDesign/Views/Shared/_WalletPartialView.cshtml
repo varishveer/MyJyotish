@@ -340,9 +340,11 @@
             })
         @{
            var localStorageKey = Model.paymentby == "user" ? "userId" : "Id";
-                var IdforHistory = Model.paymentby == "user" ? "UserId" : "jyotishId";
         }
-           
+           @{
+                var IdforHistory = Model.paymentby == "user" ? "UserId" : "jyotishId";
+
+            }
         let Id = localStorage.getItem('@localStorageKey');
 
         $(document).ready(function () {
