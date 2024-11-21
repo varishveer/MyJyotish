@@ -177,7 +177,7 @@ namespace BusinessAccessLayer.Implementation
             return profileViewModel;
         }
 
-        public dynamic FilterAstrologer(FilterModel fm)
+        public List<JyotishModel> FilterAstrologer(FilterModel fm)
         {
             int expFrom = 0;
             int expTo = 0;
@@ -202,10 +202,10 @@ namespace BusinessAccessLayer.Implementation
             var expTovar = new SqlParameter("@expTo", expTo);
             var rating = new SqlParameter("@rating", fm.rating);
             var activity = new SqlParameter("@activity", fm.activity);
-            var gender = new SqlParameter("@gender", fm.gender);
+            var gender = new SqlParameter("@gender",fm.gender);
 
             // Call the stored procedure and return results
-            var cities = _context.Set<dynamic>()
+            var cities = _context.JyotishRecords
                 .FromSqlRaw("EXEC dbo.sp_filterJyotish @country, @city, @state, @expFrom, @expTo, @rating, @activity, @gender",
                     country, city, state, expFromvar, expTovar, rating, activity, gender)
                 .ToList();

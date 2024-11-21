@@ -21,7 +21,7 @@ namespace BusinessAccessLayer.Abstraction
         public List<JyotishModel> TopAstrologer(string City);
         public List<JyotishModel> AllAstrologer();
         public JyotishProfileViewModel AstrologerProfile(int Id);
-        public dynamic FilterAstrologer(FilterModel fm);
+        public List<JyotishModel> FilterAstrologer(FilterModel fm);
         public List<IdImageViewModel> SliderImageList(string keyword);
         public string BookAppointment(AppointmentViewModel model);
         public List<JyotishModel> SpecializationFilter(string Keyword);
