@@ -106,8 +106,8 @@ namespace MyJyotishGApi.Controllers
                     state = Convert.ToInt32(httpRequest.Form["state"]),
                     rating = Convert.ToInt32(httpRequest.Form["rating"]),
                     activity = Convert.ToInt32(httpRequest.Form["activity"]),
-                    experience = httpRequest.Form["experience"].ToString(),
-                    gender = httpRequest.Form["gender"].ToString(),
+                    experience = httpRequest.Form["experience"],
+                    gender = httpRequest.Form["gender"],
                 };
 
                 var record = _services.FilterAstrologer(fm);
