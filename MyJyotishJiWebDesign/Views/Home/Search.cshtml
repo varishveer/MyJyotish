@@ -278,9 +278,7 @@
         $.ajax({
             url: BaseUrl + `Api/user/selectAllCity`,
             type: 'GET',
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem("Token")}`
-            },
+           
             success: function (response) {
                 console.log(response)
                 if (response.status === 200) { 
