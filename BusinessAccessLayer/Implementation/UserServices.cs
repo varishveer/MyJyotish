@@ -177,7 +177,7 @@ namespace BusinessAccessLayer.Implementation
             return profileViewModel;
         }
 
-        public async Task<List<JyotishModel>> FilterAstrologer(FilterModel fm)
+        public async List<JyotishModel> FilterAstrologer(FilterModel fm)
         {
             int expFrom = 0;
             int expTo = 0;
@@ -196,10 +196,10 @@ namespace BusinessAccessLayer.Implementation
             var activity = new SqlParameter("@activity", fm.activity);
             var gender = new SqlParameter("@gender", fm.gender!=null?fm.gender:"");
 
-            var cities = await _context.Set<JyotishModel>()
+            var cities =  _context.Set<JyotishModel>()
            .FromSqlRaw("EXEC dbo.sp_filterJyotish @Country, @city, @state,@expFrom,@expTo,@rating,@activity,@gender",
                country, city, state, expFromvar, expTovar, rating, activity, gender)
-           .ToListAsync();
+           .ToList();
 
             return cities;
         }
