@@ -100,18 +100,33 @@ namespace MyJyotishGApi.Controllers
             {
                 var httpRequest = HttpContext.Request;
 
-                FilterModel fm = new FilterModel
-                {
-                    country = Convert.ToInt32(String.IsNullOrEmpty(httpRequest.Form["country"])?0: httpRequest.Form["country"]),
-                    city = Convert.ToInt32(String.IsNullOrEmpty(httpRequest.Form["city"])?0: httpRequest.Form["city"]),
-                    state = Convert.ToInt32(String.IsNullOrEmpty(httpRequest.Form["state"])?0:httpRequest.Form["state"]),
-                    rating = Convert.ToInt32(String.IsNullOrEmpty(httpRequest.Form["rating"])?0: httpRequest.Form["rating"]),
-                    activity = Convert.ToInt32(String.IsNullOrEmpty(httpRequest.Form["activity"])?0: httpRequest.Form["activity"]),
-                    experience = httpRequest.Form["experience"],
-                    gender = httpRequest.Form["gender"],
-                };
+                FilterModel fm = new FilterModel();
+                
+                  
 
-              
+                if (String.IsNullOrEmpty(httpRequest.Form["country"]))
+                {
+                    fm.country = 0;
+                }
+                if (String.IsNullOrEmpty(httpRequest.Form["city"]))
+                {
+                    fm.city = 0;
+                } if (String.IsNullOrEmpty(httpRequest.Form["state"]))
+                {
+                    fm.state = 0;
+                } if (String.IsNullOrEmpty(httpRequest.Form["activity"]))
+                {
+                    fm.activity = 0;
+                } if (String.IsNullOrEmpty(httpRequest.Form["rating"]))
+                {
+                    fm.rating = 0;
+                } if (String.IsNullOrEmpty(httpRequest.Form["experience"]))
+                {
+                    fm.experience = null;
+                }if (String.IsNullOrEmpty(httpRequest.Form["gender"]))
+                {
+                    fm.gender = null;
+                }
 
                 var record = _services.FilterAstrologer(fm);
                 if (record == null)
