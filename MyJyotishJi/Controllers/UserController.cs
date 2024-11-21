@@ -94,21 +94,11 @@ namespace MyJyotishGApi.Controllers
 
         [AllowAnonymous]
         [HttpPost("FilterAstrologer")]
-        public IActionResult FilterAstrologer()
+        public IActionResult FilterAstrologer(FilterModel fm)
         {
             try
             {
-                var httpRequest = HttpContext.Request;
-                FilterModel fm = new FilterModel
-                {
-                    country = Convert.ToInt32(httpRequest.Form["country"]),
-                    city = Convert.ToInt32(httpRequest.Form["city"]),
-                    state = Convert.ToInt32(httpRequest.Form["state"]),
-                    rating = Convert.ToInt32(httpRequest.Form["rating"]),
-                    activity = Convert.ToInt32(httpRequest.Form["activity"]),
-                    experience = httpRequest.Form["experience"],
-                    gender = httpRequest.Form["gender"],
-                };
+              
 
                 var record = _services.FilterAstrologer(fm);
                 if (record == null)
