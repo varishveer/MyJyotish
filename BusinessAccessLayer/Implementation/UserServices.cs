@@ -9,7 +9,6 @@ using ModelAccessLayer.Models;
 using ModelAccessLayer.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -194,56 +193,14 @@ namespace BusinessAccessLayer.Implementation
                     expTo = Convert.ToInt32(experienceRange[1]);
                 }
             }
-            var cities = new List<JyotishModel>();
-            using (var connection = _context.Database.GetDbConnection())
-            {
-                // Create a command to execute the stored procedure
-                using (var command = new SqlCommand("dbo.sp_filterJyotish", (SqlConnection)connection))
-                {
-                    command.CommandType = CommandType.StoredProcedure;
 
-                    // Add parameters
-                    command.Parameters.AddWithValue("@country",fm.country);
-                    command.Parameters.AddWithValue("@city",fm.city);
-                    command.Parameters.AddWithValue("@state",fm.state);
-                    command.Parameters.AddWithValue("@expFrom", expFrom);
-                    command.Parameters.AddWithValue("@expTo", expTo);
-                    command.Parameters.AddWithValue("@rating", fm.rating);
-                    command.Parameters.AddWithValue("@activity",fm.activity);
-                    command.Parameters.AddWithValue("@gender",fm.gender);
-
-                    // Open the connection
-                    connection.Open();
-
-                    // Execute the command and read the results
-                    using (var reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            // Map the results to the JyotishModel properties
-                            var city = new JyotishModel
-                            {
-                                Id = reader.GetInt32(reader.GetOrdinal("Id")), // Replace with your actual column name
-                                Name = reader.GetString(reader.GetOrdinal("Name")), // Replace with your actual column name
-                                Country = reader.GetString(reader.GetOrdinal("Country")), // Replace with your actual column name
-                                City = reader.GetString(reader.GetOrdinal("City")), // Replace with your actual column name
-                                Experience = reader.GetInt32(reader.GetOrdinal("Experience")), // Replace with your actual column name
-                                                                                               // Add additional mappings as needed
-                            };
-
-                            cities.Add(city);
-                        }
-                    }
-                }
-            }
+            // Call the stored procedure and return results
+            var cities = _context.Set<JyotishModel>()
+          .FromSqlInterpolated($"EXEC dbo.sp_filterJyotish @country={fm.country}, @city={fm.city}, @state={fm.state}, @expFrom={expFrom}, @expTo={expTo}, @rating={fm.rating}, @activity={fm.activity}, @gender={fm.gender ?? (object)DBNull.Value}")
+          .ToList();
 
             return cities;
         }
-    
-
-
-
-
 
         public List<IdImageViewModel> SliderImageList(string keyword)
         {

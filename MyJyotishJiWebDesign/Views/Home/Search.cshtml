@@ -120,29 +120,29 @@
                         <form class=" border p-3 rounded shadow" id="filterForm">
                             <h3 class="fw-bold my-3">Filter</h3>
                        <select class="form-control py-2 rounded-0 mb-4" name="country" id="country">
-                                <option selected disabled value="">--select country--</option>
+                                <option value="">--select country--</option>
                        </select> 
                        <select disabled class="form-control py-2 rounded-0 mb-4" name="state" id="state">
-                           <option selected disabled value="">--select state--</option>
+                           <option value=" ">--select state--</option>
                        </select> 
                        <select disabled class="form-control py-2 rounded-0 mb-4" name="city" id="city">
-                           <option selected disabled value="">--select city--</option>
+                           <option value="">--select city--</option>
                        </select>
                             <select class="form-control py-2 rounded-0 mb-4" name="experience" id="experience">
-                           <option selected disabled value="">--select experience--</option>
+                           <option value="">--select experience--</option>
                            <option value="1,5">1-5 years</option>
                                 <option value="5,10">5-10 years</option>
                                 <option value="10,15">10-15 years</option>
                                 <option value="15,20">15-20 years</option>
-                                <option value="0,20">more than 20 years</option>
+                                <option value="20,0">more than 20 years</option>
                        </select>
                         <select class="form-control py-2 rounded-0 mb-4" name="gender" id="gender">
-                           <option selected disabled value="">--select gender--</option>
+                           <option value="">--select gender--</option>
                            <option value="male">Male</option>
                            <option value="female">Female</option>
                        </select>
                         <select class="form-control py-2 rounded-0 mb-4" name="rating" id="rating">
-                           <option selected disabled value="">--select rating--</option>
+                           <option value="">--select rating--</option>
                            <option>1</option>
                            <option>2</option>
                            <option>3</option>
@@ -150,7 +150,7 @@
                            <option>5</option>
                        </select>
                         <select class="form-control py-2 rounded-0 mb-4" name="activity" id="activity">
-                            <option selected disabled value="">--select activity--</option>
+                            <option value="">--select activity--</option>
                             <option value="1">Alphabetically</option>
                             <option value="2">Experience</option>
                        </select>
@@ -189,34 +189,47 @@
     }
 
     // Function to search astrologers
-    $("#filterForm").submit(function (e) {
-        e.preventDefault();
-        let formData=new FormData();
+
+    function filterAstrologer(){
+        Swal.fire({
+            title: "Processing Your Request",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
+        let formData = new FormData();
         let filterData = $(this).serializeArray();
-        filterData.forEach(function(d){
+        filterData.forEach(function (d) {
             formData.append(d.name, d.value);
         })
         debugger
         $.ajax({
             url: BaseUrl + `Api/User/FilterAstrologer`,
             type: 'POST',
-            processData:false,
-            contentType:false,
+            processData: false,
+            contentType: false,
             data: formData,
             success: function (response) {
                 console.log(response)
-                if (response.status === 200) { 
+                if (response.status === 200) {
                     var astrologers = response.data;
                     displayAstrologers(astrologers);
                 } else {
                     $('#astrologerList').html('<p>No astrologers found.</p>');
                 }
+                Swal.close()
             },
             error: function () {
                 $('#astrologerList').html('<p>An error occurred while searching for astrologers.</p>');
             }
         });
+    }
+    $("#filterForm").submit(function (e) {
+        e.preventDefault();
+        filterAstrologer();
     })
+    filterAstrologer();
 
     //function for create stars
     function generateFullStars() {

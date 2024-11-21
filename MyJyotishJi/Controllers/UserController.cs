@@ -101,32 +101,17 @@ namespace MyJyotishGApi.Controllers
                 var httpRequest = HttpContext.Request;
 
                 FilterModel fm = new FilterModel();
-                
-                  
+                fm.country= String.IsNullOrEmpty(httpRequest.Form["country"])?0: Convert.ToInt32(httpRequest.Form["country"]);
 
-                if (String.IsNullOrEmpty(httpRequest.Form["country"]))
-                {
-                    fm.country = 0;
-                }
-                if (String.IsNullOrEmpty(httpRequest.Form["city"]))
-                {
-                    fm.city = 0;
-                } if (String.IsNullOrEmpty(httpRequest.Form["state"]))
-                {
-                    fm.state = 0;
-                } if (String.IsNullOrEmpty(httpRequest.Form["activity"]))
-                {
-                    fm.activity = 0;
-                } if (String.IsNullOrEmpty(httpRequest.Form["rating"]))
-                {
-                    fm.rating = 0;
-                } if (String.IsNullOrEmpty(httpRequest.Form["experience"]))
-                {
-                    fm.experience = null;
-                }if (String.IsNullOrEmpty(httpRequest.Form["gender"]))
-                {
-                    fm.gender = null;
-                }
+                fm.city= String.IsNullOrEmpty(httpRequest.Form["city"])?0: Convert.ToInt32(httpRequest.Form["city"]);
+
+                fm.state= String.IsNullOrEmpty(httpRequest.Form["state"])?0: Convert.ToInt32(httpRequest.Form["state"]);
+                fm.activity= String.IsNullOrEmpty(httpRequest.Form["activity"])?0: Convert.ToInt32(httpRequest.Form["activity"]);
+
+                fm.rating= String.IsNullOrEmpty(httpRequest.Form["rating"])?0: Convert.ToInt32(httpRequest.Form["rating"]);
+
+                fm.experience = httpRequest.Form["experience"];
+                fm.gender = httpRequest.Form["gender"];      
 
                 var record = _services.FilterAstrologer(fm);
                 if (record == null)
