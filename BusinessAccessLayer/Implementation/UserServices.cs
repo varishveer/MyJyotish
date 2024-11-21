@@ -181,7 +181,7 @@ namespace BusinessAccessLayer.Implementation
         {
             int expFrom = 0;
             int expTo = 0;
-            if (!fm.experience.IsNullOrEmpty())
+            if (fm.experience!=null)
             {
                 expFrom = Convert.ToInt32(fm.experience.Split(',')[0]);
                 expTo = Convert.ToInt32(fm.experience.Split(',')[1]);
