@@ -205,7 +205,7 @@ namespace BusinessAccessLayer.Implementation
             var gender = new SqlParameter("@gender",fm.gender);
 
             // Call the stored procedure and return results
-            var cities = _context.JyotishRecords
+            var cities = _context.Set<JyotishModel>()
                 .FromSqlRaw("EXEC dbo.sp_filterJyotish @country, @city, @state, @expFrom, @expTo, @rating, @activity, @gender",
                     country, city, state, expFromvar, expTovar, rating, activity, gender)
                 .ToList();
