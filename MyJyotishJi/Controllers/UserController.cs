@@ -311,6 +311,7 @@ namespace MyJyotishGApi.Controllers
             { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
         }
 
+        [AllowAnonymous]
         [HttpGet("selectAllCity")]
         public IActionResult selecAllCity()
         {
