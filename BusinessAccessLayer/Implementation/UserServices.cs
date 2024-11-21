@@ -202,7 +202,7 @@ namespace BusinessAccessLayer.Implementation
             var expTovar = new SqlParameter("@expTo", expTo);
             var rating = new SqlParameter("@rating", fm.rating);
             var activity = new SqlParameter("@activity", fm.activity);
-            var gender = new SqlParameter("@gender",fm.gender!=null?fm.gender:null);
+            var gender = new SqlParameter("@gender",fm.gender!=null?fm.gender:"");
 
             // Call the stored procedure and return results
             var cities = _context.Set<JyotishModel>()
