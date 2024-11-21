@@ -93,12 +93,24 @@ namespace MyJyotishGApi.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("SearchAstrologer")]
-        public IActionResult SearchAstrologer(string keyword)
+        [HttpPost("FilterAstrologer")]
+        public IActionResult FilterAstrologer()
         {
             try
             {
-                var record = _services.SearchAstrologer(keyword);
+                var httpRequest = HttpContext.Request;
+                FilterModel fm = new FilterModel
+                {
+                    country = Convert.ToInt32(httpRequest.Form["country"]),
+                    city = Convert.ToInt32(httpRequest.Form["city"]),
+                    state = Convert.ToInt32(httpRequest.Form["state"]),
+                    rating = Convert.ToInt32(httpRequest.Form["rating"]),
+                    activity = Convert.ToInt32(httpRequest.Form["activity"]),
+                    experience = httpRequest.Form["experience"].ToString(),
+                    gender = httpRequest.Form["gender"].ToString(),
+                };
+
+                var record = _services.FilterAstrologer(fm);
                 if (record == null)
                 {
                     return Ok(new { Status = 404, Message = "Jyotish not found" });
