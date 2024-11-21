@@ -111,10 +111,7 @@ namespace MyJyotishGApi.Controllers
                     gender = httpRequest.Form["gender"],
                 };
 
-                
-                {
-
-                }
+              
 
                 var record = _services.FilterAstrologer(fm);
                 if (record == null)
