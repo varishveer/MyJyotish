@@ -9,6 +9,7 @@ using ModelAccessLayer.Models;
 using ModelAccessLayer.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -193,25 +194,52 @@ namespace BusinessAccessLayer.Implementation
                     expTo = Convert.ToInt32(experienceRange[1]);
                 }
             }
+            var cities = new List<JyotishModel>();
+            using (var connection = _context.Database.GetDbConnection())
+            {
+                // Create a command to execute the stored procedure
+                using (var command = new SqlCommand("dbo.sp_filterJyotish", (SqlConnection)connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
 
-            // Create SqlParameter instances
-            var country = new SqlParameter("@country", fm.country);
-            var city = new SqlParameter("@city", fm.city);
-            var state = new SqlParameter("@state",fm.state);
-            var expFromvar = new SqlParameter("@expFrom", expFrom);
-            var expTovar = new SqlParameter("@expTo", expTo);
-            var rating = new SqlParameter("@rating", fm.rating);
-            var activity = new SqlParameter("@activity", fm.activity);
-            var gender = new SqlParameter("@gender",fm.gender!=null?fm.gender:"");
+                    // Add parameters
+                    command.Parameters.AddWithValue("@country",fm.country);
+                    command.Parameters.AddWithValue("@city",fm.city);
+                    command.Parameters.AddWithValue("@state",fm.state);
+                    command.Parameters.AddWithValue("@expFrom", expFrom);
+                    command.Parameters.AddWithValue("@expTo", expTo);
+                    command.Parameters.AddWithValue("@rating", fm.rating);
+                    command.Parameters.AddWithValue("@activity",fm.activity);
+                    command.Parameters.AddWithValue("@gender",fm.gender);
 
-            // Call the stored procedure and return results
-            var cities = _context.Set<JyotishModel>()
-                .FromSqlRaw("EXEC dbo.sp_filterJyotish @country, @city, @state, @expFrom, @expTo, @rating, @activity, @gender",
-                    country, city, state, expFromvar, expTovar, rating, activity, gender)
-                .ToList();
+                    // Open the connection
+                    connection.Open();
+
+                    // Execute the command and read the results
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            // Map the results to the JyotishModel properties
+                            var city = new JyotishModel
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("Id")), // Replace with your actual column name
+                                Name = reader.GetString(reader.GetOrdinal("Name")), // Replace with your actual column name
+                                Country = reader.GetString(reader.GetOrdinal("Country")), // Replace with your actual column name
+                                City = reader.GetString(reader.GetOrdinal("City")), // Replace with your actual column name
+                                Experience = reader.GetInt32(reader.GetOrdinal("Experience")), // Replace with your actual column name
+                                                                                               // Add additional mappings as needed
+                            };
+
+                            cities.Add(city);
+                        }
+                    }
+                }
+            }
 
             return cities;
         }
+    
 
 
 
