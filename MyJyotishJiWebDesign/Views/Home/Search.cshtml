@@ -196,6 +196,7 @@
         filterData.forEach(function(d){
             formData.append(d.name, d.value);
         })
+        debugger
         $.ajax({
             url: BaseUrl + `Api/User/FilterAstrologer`,
             type: 'POST',
