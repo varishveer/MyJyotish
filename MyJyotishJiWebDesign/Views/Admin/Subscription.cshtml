@@ -198,7 +198,6 @@
                             <th>GST </th>
                             <th>Discount Amount</th>
                             <th>New Amount</th>
-                            <th>Features</th>
                             <th>Description</th>
                             <th>Action</th>
                            
@@ -317,7 +316,6 @@
             let discountAmount = $('#DiscountAmount').val();
             let planType = $('#PlanType').val();
             let description = $('#description').val();
-            var Features = $('#Features').val();
             let Status = true;
             debugger
             $.ajax({
@@ -338,8 +336,7 @@
                     DiscountAmount: discountAmount,
                     PlanType: planType,
                     description: description,
-                    Status: Status,
-                    Features: Features
+                    Status: Status
                 }),
                
                     success: function(response) {
@@ -397,7 +394,6 @@
                                         <td class='gst'>${item.gst}</td>
                                         <td class='discountAmount'>${item.discountAmount}</td>
                                         <td class='newPrice'>${item.newPrice}</td>
-                                        <td class='features'>${item.features}</td>
                                         <td class='description'>${item.description}</td>
                                         <td style='cursor:pointer;'>
                                            <a class="deletePlan" data-id="${item.subscriptionId}">

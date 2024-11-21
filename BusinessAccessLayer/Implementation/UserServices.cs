@@ -84,7 +84,12 @@ namespace BusinessAccessLayer.Implementation
             return record;
         }
 
-      
+        public List<City> selecAllCity()
+        {
+            var record = _context.Cities.ToList();
+            return record;
+        }
+
 
 
         public JyotishProfileViewModel AstrologerProfile(int Id)

@@ -2,6 +2,7 @@
 using DataAccessLayer.Migrations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Host.Mef;
 using ModelAccessLayer.Models;
@@ -309,6 +310,14 @@ namespace MyJyotishGApi.Controllers
             catch (Exception ex)
             { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
         }
+
+        [HttpGet("selectAllCity")]
+        public IActionResult selecAllCity()
+        {
+            var result = _services.selecAllCity();
+          return Ok(new { Status = 200, Data = result });
+        }
+
         [HttpGet("GetWallet")]
         public IActionResult GetWallet(int UserId)
         {

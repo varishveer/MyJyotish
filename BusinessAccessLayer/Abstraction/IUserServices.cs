@@ -38,6 +38,7 @@ namespace BusinessAccessLayer.Abstraction
         public string PurchaseWithUserWallets(UserWalletViewmodel uw);
 
         public long GetWallet(int JyotishId);
+        public List<City> selecAllCity();
 
         public string AddWalletHistory(WalletHistoryViewmodel pr);
         public dynamic GetWalletHistory(int UserId);

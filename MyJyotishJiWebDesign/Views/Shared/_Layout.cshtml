@@ -16,6 +16,7 @@
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
 
     <style>
+
         /* Custom styles */
         .fixed-section {
             position: fixed;
@@ -41,15 +42,20 @@
             width: 0;
         }
         #searchForm{
-               bottom: -40px;
+               bottom: -60px;
     left: 20%;
-    background: #fcdfb6;
-    padding: 20px;
+            background: #fbd550;
+    padding: 30px;
     width: 60%;
     height: 0;
     display: flex;
+    z-index:100000000;
         }
 
+        #mainNavbar{
+            background: #fbd550 !important;
+            max-height: 85px;
+        }
         .footer-heading {
             color: white;
             font-size: 18px;
@@ -83,22 +89,112 @@
             background-color: #17303B;
         }
    
-        
+        .profile-menu{
+            z-index:10000;
+        }
+
+        .navbar {
+            transition: all 0.3s ease;
+        }
+
+        .nav-link{
+            font-weight:500 !important;
+        }
+           /* loader   */
+           .loader {
+  width: 78px;
+  height: 78px;
+  margin: auto;
+  position: relative;
+}
+
+.loader:before {
+  content: '';
+  width: 78px;
+  height: 5px;
+  background: #f0808050;
+                position: absolute;
+  top: 95px;
+  left: 0;
+  border-radius: 50%;
+  animation: shadow324 0.5s linear infinite;
+}
+
+.loader:after {
+  content: '';
+  width: 100%;
+  height: 100%;
+  background: #f08080;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 4px;
+  animation: jump7456 0.5s linear infinite;
+}
+
+@@keyframes jump7456 {
+  15% {
+    border-bottom-right-radius: 3px;
+  }
+
+  25% {
+    transform: translateY(9px) rotate(22.5deg);
+  }
+
+  50% {
+    transform: translateY(18px) scale(1, .9) rotate(45deg);
+    border-bottom-right-radius: 40px;
+  }
+
+  75% {
+    transform: translateY(9px) rotate(67.5deg);
+  }
+
+  100% {
+    transform: translateY(0) rotate(90deg);
+  }
+}
+
+@@keyframes shadow324 {
+
+  0%,
+    100% {
+    transform: scale(1, 1);
+  }
+
+  50% {
+    transform: scale(1.2, 1);
+  }
+}
+
+        .loader-container{
+            z-index:9000000000;
+        }
     </style>
 </head>
 <body>
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    
+    <div class="position-fixed overflow-hide d-flex justify-content-center align-items-center w-100 h-100 bg-light loader-container">
+      <div class="loader"></div>
+    </div>
 
-    <nav class="navbar navbar-expand-lg navbar-light position-sticky fixed-top " style="background-color:#fde0b6">
-        <div class="container-fluid positon-relative">
-            <a class="navbar-brand p-0" href="/">
-                <img src="https://api.myjyotishg.in/Images/Logo.png" width="70" height="40" />
+    <nav id="mainNavbar" class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <!-- Logo on the left -->
+            <a class="navbar-brand" href="/">
+                <img src="https://api.myjyotishg.in/Images/Logo.png" alt="company Logo" width="50" height="50" class="d-inline-block align-text-top">
+
             </a>
+
+            <!-- Toggler for mobile -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
+
+            <!-- Navigation items in the middle -->
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -109,6 +205,7 @@
                             <li><a class="dropdown-item" href="#">Hindi</a></li>
                         </ul>
                     </li>
+
                     <li class="nav-item">
                         <a class="nav-link" href="#">Book a Pooja</a>
                     </li>
@@ -146,22 +243,23 @@
                             <li><a class="dropdown-item" href="/Home/Login">User</a></li>
                         </ul>
                     </li>
-                    <li class="btn fw-bolder ms-3 d-flex justify-content-center align-items-center" id="toggleSearch">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1.5em" viewBox="0 0 24 24">
-                            <path fill="currentColor" d="m19.485 20.154-6.262-6.262q-.75.639-1.725.989t-1.96.35q-2.402 0-4.066-1.663T3.808 9.503T5.47 5.436t4.064-1.667t4.068 1.664T15.268 9.5q0 1.042-.369 2.017t-.97 1.668l6.262 6.261zM9.539 14.23q1.99 0 3.36-1.37t1.37-3.361t-1.37-3.36t-3.36-1.37t-3.361 1.37t-1.37 3.36t1.37 3.36t3.36 1.37"></path>
-                        </svg>
+                    <li class="btn fw-bolder ms-3 fw-bold d-flex justify-content-center align-items-center" id="toggleSearch">
+                        <i class="fas fa-search"></i>
                     </li>
                 </ul>
             </div>
-        </div>
+            <!-- Search Bar -->
 
-        <!-- Search Bar -->
-    
             <div id="searchForm" class="justify-content-center position-absolute align-items-center">
                 <label for="searchInput" class="visually-hidden">Search</label>
-                <input id="searchInput" class="form-control me-2 py-3 " type="search" placeholder="Search" aria-label="Search" style="height:30px">
-           <button class='btn' id="SearchBoxIcon"><i class="far fa-times-circle" ></i></button>
+                <input id="searchInput" class="form-control me-2 py-4 " type="search" placeholder="Search" aria-label="Search" style="height:30px">
+                <button class='btn text-dark' id="SearchBoxIcon"><i class="far fa-times-circle"></i></button>
             </div>
+            <!-- Profile icon on the right -->
+            <div class="navbar-nav profile-menu justify-content-center">
+               
+            </div>
+        </div>
     </nav>
 
     
@@ -169,7 +267,7 @@
 
       <!-- jQuery -->
   <script>
-       // var BaseUrl = "https://api.myjyotishg.in/";
+        //var BaseUrl = "https://api.myjyotishg.in/";
        var BaseUrl = "https://localhost:7118/";
 
         var BaseUrlImg = "https://myjyotishg.in/";
@@ -185,7 +283,7 @@
                     <span class="text-body">
                         <a title="macreel" class="border-bottom text-white" style="text-decoration:none;">
                             <i class="fas fa-copyright text-light me-2"></i>
-                            2024 - 2025 Macreel Infosoft Pvt . Ltd.
+                            <script>document.write(new Date().getFullYear())</script> Macreel Infosoft Pvt . Ltd.
                         </a>,
                         All right reserved.
                     </span>
@@ -307,7 +405,7 @@
             var toggleButton = document.getElementById('toggleSearch');
             var searchForm = document.getElementById('searchForm');
             var loginMenu = document.getElementById('LoginDropdown');
-            var navbarNav = document.querySelector('.navbar-nav');
+            var navbarNav = document.querySelector('.profile-menu');
 
             // Function to check user login status
             function checkUserLogin() {
@@ -321,8 +419,8 @@
                     var profileSection = document.createElement('li');
                     profileSection.classList.add('nav-item', 'dropdown');
                     profileSection.innerHTML = `
-                                <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fas fa-user-circle"></i> Profile
+                                <a class="nav-link dropdown-toggle d-flex justify-content-center align-items-center gap-1" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-user-circle fs-3"></i> Profile
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
                                     <li><a class="dropdown-item" href="/Home/Profile">View Profile</a></li>   
@@ -347,6 +445,7 @@
             toggleButton.addEventListener('click', function () {
                 if (searchForm.style.display === 'none' || searchForm.style.display === '') {
                     searchForm.style.display = 'flex';
+                    $("#searchInput").focus()
                 } else {
                     searchForm.style.display = 'none';
                 }
@@ -377,6 +476,32 @@
        
     </script>
 
+    
+    <script>
+        //navbar js
+        document.addEventListener('DOMContentLoaded', function () {
+            var navbar = document.getElementById('mainNavbar');
+            var sticky = 200; // Scroll threshold
+
+            function handleScroll() {
+                if (window.pageYOffset >= sticky) {
+                    navbar.classList.add('sticky-top');
+                    document.body.classList.add('fixed-nav');
+                } else {
+                    navbar.classList.remove('sticky-top');
+                    document.body.classList.remove('fixed-nav');
+                }
+            }
+
+            window.onscroll = handleScroll;
+
+
+        });
+
+        window.addEventListener('load', function () {
+            $(".loader-container").addClass("d-none")
+        })
+    </script>
     <!-- JavaScript for Search Toggle and User Profile -->
    
 </body>
