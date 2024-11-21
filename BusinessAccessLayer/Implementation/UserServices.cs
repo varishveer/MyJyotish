@@ -177,29 +177,38 @@ namespace BusinessAccessLayer.Implementation
             return profileViewModel;
         }
 
-        public List<JyotishModel> FilterAstrologer(FilterModel fm)
+        public dynamic FilterAstrologer(FilterModel fm)
         {
             int expFrom = 0;
             int expTo = 0;
-            if (fm.experience != null)
+
+            if (!string.IsNullOrEmpty(fm.experience))
             {
-                expFrom = Convert.ToInt32(fm.experience.Split(',')[0]);
-                expTo = Convert.ToInt32(fm.experience.Split(',')[1]);
+                var experienceRange = fm.experience.Split(',');
+
+                // Ensure the array has at least two elements to avoid IndexOutOfRangeException
+                if (experienceRange.Length >= 2)
+                {
+                    expFrom = Convert.ToInt32(experienceRange[0]);
+                    expTo = Convert.ToInt32(experienceRange[1]);
+                }
             }
 
+            // Create SqlParameter instances
             var country = new SqlParameter("@country", fm.country);
             var city = new SqlParameter("@city", fm.city);
-            var state = new SqlParameter("@state", fm.state);
+            var state = new SqlParameter("@state",fm.state);
             var expFromvar = new SqlParameter("@expFrom", expFrom);
             var expTovar = new SqlParameter("@expTo", expTo);
             var rating = new SqlParameter("@rating", fm.rating);
             var activity = new SqlParameter("@activity", fm.activity);
-            var gender = new SqlParameter("@gender", fm.gender != null ? fm.gender : "");
+            var gender = new SqlParameter("@gender", fm.gender);
 
-            var cities = _context.Set<JyotishModel>()
-           .FromSqlRaw("EXEC dbo.sp_filterJyotish @Country, @city, @state,@expFrom,@expTo,@rating,@activity,@gender",
-               country, city, state, expFromvar, expTovar, rating, activity, gender)
-           .ToList();
+            // Call the stored procedure and return results
+            var cities = _context.Set<dynamic>()
+                .FromSqlRaw("EXEC dbo.sp_filterJyotish @country, @city, @state, @expFrom, @expTo, @rating, @activity, @gender",
+                    country, city, state, expFromvar, expTovar, rating, activity, gender)
+                .ToList();
 
             return cities;
         }
