@@ -123,7 +123,7 @@ namespace MyJyotishGApi.Controllers
                     return Ok(new { Status = 200, Data = record, Message = "Jyotish List" });
                 }
             }
-            catch (Exception ex)
+                    catch (Exception ex)
             {
                 return StatusCode(500, new { Message = ex.Message, Error = ex });
             }

@@ -194,7 +194,7 @@ namespace BusinessAccessLayer.Implementation
             var expTovar = new SqlParameter("@expTo", expTo);
             var rating = new SqlParameter("@rating", fm.rating);
             var activity = new SqlParameter("@activity", fm.activity);
-            var gender = new SqlParameter("@gender", fm.gender);
+            var gender = new SqlParameter("@gender", fm.gender!=null?fm.gender:"");
 
             var cities =  _context.Set<JyotishModel>()
            .FromSqlRaw("EXEC dbo.sp_filterJyotish @Country, @city, @state,@expFrom,@expTo,@rating,@activity,@gender",
