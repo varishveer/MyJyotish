@@ -174,16 +174,16 @@
     </div>
 </div>
 <script>
-    // Automatically search based on the URL parameter when the page loads
-    // $(document).ready(function () {
-    //     var keyword = getURLParameter('keyword');
+    //Automatically search based on the URL parameter when the page loads
+    $(document).ready(function () {
+        var keyword = getURLParameter('keyword');
 
-    //     if (keyword) {
-    //         FilterAstrologers(keyword);
-    //     } else {
-    //         $('#astrologerList').html('<p>No keyword provided.</p>');
-    //     }
-    // });
+        if (keyword) {
+            FilterAstrologers(keyword);
+        } else {
+            $('#astrologerList').html('<p>No keyword provided.</p>');
+        }
+    });
 
     // Function to get the URL parameter
     function getURLParameter(param) {
@@ -232,7 +232,30 @@
         e.preventDefault();
         filterAstrologer();
     })
-    filterAstrologer();
+    function FilterAstrologers(keyword) {
+        $.ajax({
+            url: BaseUrl + "api/user/searchAstrologers",
+            type: "post",
+            data: { searchInp: keyword + " " + "@ViewBag.filterValue" },
+            success: function (res) {
+                console.log(res)
+
+                let checkDuplicate = []
+                if (res.status == 200) {
+                    displayAstrologers(res.data)
+                }
+            }
+        })
+    }
+    @if (ViewBag.filterValue != null)
+    {
+
+        @:filterAstrologer();
+    }
+   
+
+  
+
 
     //function for create stars
     function generateFullStars() {
@@ -346,7 +369,7 @@
                 var expertiseDropdown = $('#expertise');
                 expertiseDropdown.empty().append('<option value="">Select Expertise</option>');
                 response.data.forEach(expertise => {
-                    expertiseDropdown.append(new Option(expertise.name, expertise.name));
+                    expertiseDropdown.append(new Option(expertise.name, expertise.id));
                 });
             },
             error: function (jqXHR, textStatus, errorThrown) {

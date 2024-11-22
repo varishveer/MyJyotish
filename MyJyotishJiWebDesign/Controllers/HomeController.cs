@@ -22,7 +22,10 @@ namespace MyJyotishJiWebDesign.Controllers
         public IActionResult OtpVerification() { return View(); }
         public IActionResult Login() { return View();}
         public IActionResult Index() { return View(); }
-        public IActionResult Search() { return View(); }
+        public IActionResult Search(string? filterValue) {
+            ViewBag.filterValue = filterValue;
+            return View(); 
+        }
 
         public IActionResult Register() {return View(); }
         public IActionResult HomePage() { return View(); }  
