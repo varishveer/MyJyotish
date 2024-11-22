@@ -8,6 +8,7 @@
     .appointment-cont{
         margin-top:4rem;
         margin-bottom:4rem;
+        background:#f0f0f0;
     }
     body{
         background: url("https://api.myjyotishg.in/astrologer-bg.jpg");
@@ -23,12 +24,13 @@
 </style>
 
 
-<div class="container appointment-cont">
+<div class="container appointment-cont py-4 pb-5 shadow rounded">
     <h5 class="text-secondary border-bottom pb-2 text-center my-4 appoinmentHeader">Upcomming Appointments</h5>
     <div class="row">
         <div class="col-sm-12">
-    <div class="my-3 px-5 fw-bold text-end"><button id="AppoinmentHistory" class="btn btn-warning">Appointment History</button></div>
+    <div class="my-3 px-5 fw-bold text-end"><button id="AppoinmentHistory" class="btn btn-warning fw-bold text-light">Appointment History</button></div>
             <div class="row justify-content-center gap-3 appointment">
+               
             </div>
         </div>
     </div>
@@ -54,6 +56,7 @@
                 'Content-Type': 'application/json'
             },
         success: function (response) {
+            console.log(response)
                 var data = response.data;
              appoinmentArray = data;
            
@@ -70,15 +73,23 @@
             }else{
                 $(this).text("Appointment History")
                 filterData = "Upcomming"
+
                     $(".appoinmentHeader").text("Upcomming Appointments")
 
             }
                 filterRecords(filterData);
             })
             function filterRecords(fdata){
-        let newAppoinment = appoinmentArray.filter(function (d) {
-                    return d.status == fdata
+                let newAppoinment;
+                if (fdata == "Upcomming"){
+         newAppoinment = appoinmentArray.filter(function (d) {
+                        return d.status == fdata && reverseDate(d.date.split("T")[0])>=d.currentDate
                })
+                }else{
+                    newAppoinment = appoinmentArray.filter(function (d) {
+                        return d.status == fdata || reverseDate(d.date.split("T")[0])<d.currentDate                    })
+                }
+               debugger
                 $(".appointment").empty();
         if (newAppoinment.length > 0) {
     newAppoinment.forEach(function (d, i) {
@@ -86,10 +97,10 @@
                     let cards = `  <div class="col-sm-5 col-md-5 border shadow-sm rounded p-3">
                             <div class="row fw-semi-bold">
                                 <div class="col-sm-6">
-                                                 Name : ${d.userName}<br />Fees : ${d.amount != null ? d.amount : 0}<br />Problem : ${d.problem}<br />
+                                                 Name : ${d.userName}<br />Fees : ${d.amount != null ? d.amount +" paid" : 0}<br />Problem : ${d.problem}<br />
                                 </div>
                                 <div class="col-sm-6">
-                                                Date : ${reverseDate(d.date.split("T")[0])}<br />Time : ${d.time}<br/>Status : ${d.status}
+                                                    Date : ${reverseDate(d.date.split("T")[0])}<br />Time : ${d.time}<br/>Status : ${fdata}
                                 </div>
                             </div>
                         </div>

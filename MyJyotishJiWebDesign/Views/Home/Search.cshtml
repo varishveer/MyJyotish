@@ -205,7 +205,6 @@
             contentType: false,
             data: formData,
             success: function (response) {
-                console.log(response)
                 if (response.status === 200) {
                     var astrologers = response.data;
                     displayAstrologers(astrologers);
@@ -225,7 +224,13 @@
     })
     function SearchAstrologers() {
         let searchValue = "@ViewBag.searchInput" + " " + "@ViewBag.filterValue";
-      
+        Swal.fire({
+            title: "Processing Your Request",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
         $.ajax({
             url: BaseUrl + "api/user/searchAstrologers",
             type: "post",
@@ -233,14 +238,16 @@
             success: function (res) {
                 console.log(res)
 
-                let checkDuplicate = []
                 if (res.status == 200) {
                     displayAstrologers(res.data)
                 }
+               Swal.close()
+            }, error: function () {
+                $('#astrologerList').html('<p>An error occurred while searching for astrologers.</p>');
             }
         })
     }
-    @if (ViewBag.filterValue != null)
+    @if (ViewBag.filterValue == null && ViewBag.searchInput == null)
     {
 
         @:filterAstrologer();

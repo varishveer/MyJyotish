@@ -33,10 +33,13 @@ namespace BusinessAccessLayer.Abstraction
         public UserPaymentRecordModel UserPaymentDetail(int Id);
         public List<AppointmentSlotUserViewModel> GetAllAppointmentSlot(int id);
         public List<ProblemSolutionGetAllViewModel> GetAllProblemSolution(int Id);
-        public ProblemSolutionGetAllViewModel GetProblemSolution(int Id);
+
         public string AddUserWallets(UserWalletViewmodel uw);
         public string PurchaseWithUserWallets(UserWalletViewmodel uw);
         public List<JyotishModel> SearchAstrologer(string? searchInp);
+        public List<JyotishUserAttachmentJyotishViewModel> GetAllUserAttachments(int Id);
+        public ProblemSolutionJyotishGetViewModel GetProblemSolutionDetail(int appointmentId);
+        public ProblemSolutionJyotishGetViewModel GetProblemSolution(int appointmentId);
 
         public long GetWallet(int JyotishId);
         public List<City> selecAllCity();

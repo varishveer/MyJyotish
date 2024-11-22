@@ -389,10 +389,6 @@ namespace BusinessAccessLayer.Implementation
             var User = _context.Users.Where(x => x.Id == Id).FirstOrDefault();
             if(User == null) { return null; }
 
-
-
-
-
             var Records = _context.AppointmentRecords.Where(x => x.UserId == Id)  // Filter by the userId
              .Join(_context.Users,
                    record => record.UserId,
@@ -416,11 +412,124 @@ namespace BusinessAccessLayer.Implementation
                        Date = slot.Date,
                        Time = slot.TimeFrom,
                        Status = combined.record.Status,
-                       Amount = combined.record.Amount
+                       Amount = combined.record.Amount,
+                       currentDate = DateTime.Now.Date.ToString("dd-MM-yyyy")
                    })
              .ToList();
             return Records; 
         }
+
+        public dynamic GetProblemSolutionDetail(int appointmentId)
+        {
+
+
+            var Appointment = _context.AppointmentRecords.Where(x => x.Id == appointmentId).FirstOrDefault();
+            if (appointmentId == 0 || Appointment == null)
+            {
+                return null;
+            }
+
+            var User = _context.Users.Where(x => x.Id == Appointment.UserId).FirstOrDefault();
+
+            var record = (
+                 from problem in _context.ProblemSolution
+                 join appointment in _context.AppointmentRecords on problem.AppointmentId equals appointment.Id
+                 join slot in _context.AppointmentSlots on appointment.SlotId equals slot.Id
+                 join user in _context.Users on appointment.UserId equals user.Id
+                 // Perform a left join on ClientMembers
+                 join member in _context.ClientMembers on problem.memberId equals member.Id into memberGroup
+                 from member in memberGroup.DefaultIfEmpty() // This allows for the left join behavior
+                 where problem.AppointmentId == appointmentId
+
+                 select new
+                 {
+                     problemId = problem.Id,
+                     problems = problem.Problem.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries),
+                     solution = problem.Solution,
+                     appointmentId = appointment.Id,
+                     appointmentDate = slot.Date.ToString("dd-MM-yyyy"),
+                     appointmentTime = slot.TimeFrom,
+                     duration = slot.TimeDuration,
+                     UId = user.Id,
+                     userName = user.Name,
+                     currentDate = DateTime.Now,
+                     memberName = member != null ? member.Name : null,
+                     memberReltion = member != null ? member.relation : null,
+                     memberId = member != null ? member.Id : 0,
+                 }
+                 ).ToList();
+
+
+
+            return record;
+        }
+
+
+        public List<JyotishUserAttachmentJyotishViewModel> GetAllUserAttachments(int Id)
+        {
+            if (Id <= 0)
+            {
+                return new List<JyotishUserAttachmentJyotishViewModel>();
+            }
+
+            var record = _context.JyotishUserAttachmentRecord
+                                 .Where(x => x.UserId == Id && x.Status)
+                                 .ToList();
+
+            var result = record.Select(x => new JyotishUserAttachmentJyotishViewModel
+            {
+                Id = x.Id,
+                JyotishId = x.JyotishId,
+                UserId = x.UserId,
+                UserName = _context.Users.Where(y => y.Id == x.UserId).Select(z => z.Name).FirstOrDefault(),
+                UserEmail = _context.Users.Where(y => y.Id == x.UserId).Select(z => z.Email).FirstOrDefault(),
+                Title = x.Title,
+                Image = x.Image
+            }).ToList();
+
+            return result;
+        }
+
+        public ProblemSolutionJyotishGetViewModel GetProblemSolution(int appointmentId)
+        {
+
+
+            var Appointment = _context.AppointmentRecords.Where(x => x.Id == appointmentId).FirstOrDefault();
+            if (appointmentId == 0 || Appointment == null)
+            {
+                return null;
+            }
+
+            var User = _context.Users.Where(x => x.Id == Appointment.UserId).FirstOrDefault();
+
+            var record = _context.ProblemSolution.Where(x => x.AppointmentId == appointmentId).FirstOrDefault();
+            if (record == null)
+            {
+                return null;
+            }
+
+            string problemString = record.Problem;
+            string SolutionString = record.Solution;
+
+            string[] problemArray = problemString.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries);
+
+
+
+            ProblemSolutionJyotishGetViewModel Result = new ProblemSolutionJyotishGetViewModel
+            {
+
+                Id = record.Id,
+                AppointmentId = (int)record.AppointmentId,
+                UserId = User.Id,
+                UserName = User.Name,
+
+                Problem = problemArray,
+                Solution = SolutionString
+
+            };
+            return Result;
+        }
+
         public AppointmentModel GetAppointmentDetails(int Id)
         {
             var records = _context.AppointmentRecords.Where(x => x.Id == Id).FirstOrDefault();
@@ -626,49 +735,7 @@ namespace BusinessAccessLayer.Implementation
             return data;
         }
 
-
-
-
-
-        public ProblemSolutionGetAllViewModel GetProblemSolution(int id)
-        {
-            if (id == 0)
-            {
-                return null;
-            }
-
-            var result = _context.ProblemSolution
-                .Where(x => x.Id == id)
-                .Include(ps => ps.Appointment)
-                    .ThenInclude(a => a.UserRecord)
-                .Include(ps => ps.Appointment)
-                    .ThenInclude(a => a.JyotishRecord)
-                .AsEnumerable()
-                .GroupBy(ps => new { ps.Appointment.UserId, ps.Appointment.JyotishId, ps.Appointment.Id })
-                .Select(group =>
-                {
-                    var first = group.FirstOrDefault();
-                    var slot = _context.AppointmentSlots.FirstOrDefault(s => s.Id == first.Appointment.SlotId);
-
-                    return new ProblemSolutionGetAllViewModel
-                    {
-                        Id = first.Id,
-                        UserId = group.Key.UserId,
-                        JyotishId = group.Key.JyotishId,
-                        JyotishName = first.Appointment.JyotishRecord.Name,
-                        JyotishEmail = first.Appointment.JyotishRecord.Email,
-                        AppointmentId = group.Key.Id,
-                        Date = slot != null ? DateOnly.FromDateTime(slot.Date) : DateOnly.MinValue,
-                        Time = slot != null ? slot.TimeFrom : TimeOnly.MinValue,
-                        Problem = group.SelectMany(p => p.Problem?.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries) ?? Array.Empty<string>()).ToArray(),
-                        Solution = group.SelectMany(p => p.Solution?.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries) ?? Array.Empty<string>()).ToArray()
-                    };
-                })
-                .FirstOrDefault();
-
-            return result;
-        }
-
+      
         public LayoutDataViewModel LayoutData(int Id)
         {
             var record = _context.Users.Where(x => x.Id == Id ).FirstOrDefault();
@@ -688,7 +755,9 @@ namespace BusinessAccessLayer.Implementation
             }
         }
 
-
-
+        ProblemSolutionJyotishGetViewModel IUserServices.GetProblemSolutionDetail(int appointmentId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

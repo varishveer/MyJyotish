@@ -482,6 +482,17 @@
                                     }
 
                                 }
+                                if (regex.test(d.specialization)) {
+                                    if (!checkDuplicate.includes(d.specialization.toLowerCase())) {
+                                        checkDuplicate.push(d.specialization.toLowerCase())
+                                        const newElement = $(`
+                                <p class='search-url'>Find a <a data-filtervalue='${d.specialization}' onclick='filterData(this)' class="fw-bold text-primary cursor-pointer">${d.specialization}</a> <small> Astrologers</small>
+                              </p>
+                               `)
+                                        $("#search-Detail").prepend(newElement)
+                                    }
+
+                                }
                                 if (regex.test(d.country)) {
                                     if (!checkDuplicate.includes(d.country)) {
                                         checkDuplicate.push(d.country)

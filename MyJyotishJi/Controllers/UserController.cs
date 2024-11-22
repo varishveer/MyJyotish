@@ -92,6 +92,44 @@ namespace MyJyotishGApi.Controllers
 
         }
 
+        [HttpGet("GetAllUserAttachments")]
+        public IActionResult GetAllUserAttachments(int Id)
+        {
+            try
+            {
+                var result = _services.GetAllUserAttachments(Id);
+
+                if (result == null || result.Count == 0)
+                {
+                    return Ok(new { Status = 404, Message = "No attachments found for the provided JyotishId." });
+                }
+
+                return Ok(new { Status = 200, Data = result, Message = "Successful" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message });
+            }
+        }
+        [HttpGet("GetProblemSolutionDetail")]
+        public IActionResult GetProblemSolutionDetail(int appointmentId)
+        {
+            try
+            {
+
+                var result = _services.GetProblemSolutionDetail(appointmentId);
+
+
+
+                return Ok(new { Status = 200, Data = result, Message = "Successful" });
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message });
+            }
+        }
+
         [AllowAnonymous]
         [HttpPost("FilterAstrologer")]
         public IActionResult FilterAstrologer()

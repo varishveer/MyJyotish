@@ -1456,7 +1456,8 @@ namespace BusinessAccessLayer.Implementation
                            Date = slot.Date,
                            Time = slot.TimeFrom,
                            Status = combined.record.Status,
-                           Amount = combined.record.Amount
+                           Amount = combined.record.Amount,
+                           currentDate=DateTime.Now.Date.ToString("dd-MM-yyyy")
                        })
                  .ToList();
 

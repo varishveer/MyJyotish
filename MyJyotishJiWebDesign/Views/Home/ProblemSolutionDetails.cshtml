@@ -31,7 +31,6 @@
         color: #343a40;
         margin-top: 1rem;
         text-decoration: underline;
-        text-align:center;
 
     }
 
@@ -46,6 +45,10 @@
         color: #999;
         font-style: italic;
     }
+
+    #profileData{
+        background: #f0f0f0;
+    }
 </style>
 
 <!-- Main container for profile data -->
@@ -58,13 +61,11 @@
                   
                     <span class="fw-bold" id="profileName"></span> 
                   
-                    <p  class="mt-2"><strong>Appointment ID:</strong> <span id="appointmentId"></span></p>
-                    <p><strong>Date:</strong> <span id="profileDate"></span> | <strong>Time:</strong> <span id="profileTime"></span></p>
+                    <p><span id="profileDate"></span> | <span id="profileTime"></span></p>
                 </div>
 
                 <!-- Problems & Solutions -->
-                <h4 class="section-title">Problems and Solutions</h4>
-                <div id="problemSolutionList"></div>
+                <div id="problemSolutionContent"></div>
             </div>
         </div>
     </div>
@@ -84,62 +85,67 @@
             return id;
         }
         var Id = getIdFromUrl();
-        const apiUrl = `${BaseUrl}api/User/getProblemSolution?Id=${Id}`;
+        const apiUrl = `${BaseUrl}api/User/GetProblemSolutionDetail`;
 
         // Function to format date to DD-MM-YYYY
-        function formatDate(isoDate) {
-            let date = new Date(isoDate);
-            return date.toLocaleDateString('en-GB'); // Formats as DD/MM/YYYY
-        }
-
-        // AJAX call to fetch data
-        $.ajax({
-            url: apiUrl,
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem("Token")}`,
-                'Content-Type': 'application/json',
-            },
-            success: function (response) {
-                if (response.status === 200) {
-                    const data = response.data;
-
-                    // Populate profile data
-                    $('#profileName').text(data.jyotishName);
-                    $('#appointmentId').text(data.appointmentId);
-                    $('#profileDate').text(formatDate(data.date));
-                    $('#profileTime').text(data.time.substring(0, 5)); // Show time as HH:MM
-
-                    // Check if problems and solutions are arrays
-                    const problems = data.problem || []; // Assuming this is an array of problems
-                    const solutions = data.solution || []; // Assuming this is an array of solutions
-
-                    $('#problemSolutionList').append(`<h4 class='section-title text-center my-4'>Problems</h4>`);
-                    // Generate problem sections
-                    problems.forEach((problem, index) => {
-                       
-                        const problemText = problem || '<span class="placeholder-text">No Solution provided</span>';
-                        $('#problemSolutionList').append(`
-                                <p class='text-start'><strong>Problem ${index + 1}:</strong> ${problemText}</p>
-                    `);
-                    });
-
-                    // After all problems are displayed, generate the solution sections
-                    $('#problemSolutionList').append(`<h4 class='section-title text-center my-4'>Solutions</h4>`); // Add a header for solutions
-                    solutions.forEach((solution, index) => {
-                        const solutionText = solution || '<span class="placeholder-text">No Solution provided</span>';
-                        $('#problemSolutionList').append(`
-                        <p class='text-start'><strong>Solution ${index + 1}:</strong> ${solutionText}</p>
-                    `);
-                    });
-
-                } else {
-                    $('#profileData').html('<p class="text-center text-danger">Error loading data. Please try again later.</p>');
+        function GetProblemSolutionDetail(id) {
+            Swal.fire({
+                title: "Processing Your Request",
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
                 }
-            },
-            error: function () {
-                $('#profileData').html('<p class="text-center text-danger">Error loading data. Please try again later.</p>');
-            }
-        });
-    });
+            })
+            $.ajax({
+                url: apiUrl,
+                method: "GET",
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token")}`
+
+                },
+                data: { appointmentId: id },
+                success: function (response) {
+                    Swal.close()
+                    console.log(response)
+                    if (response.status === 200) {
+                        const data = response.data;
+                        $("#exampleModalToggle").modal("hide")
+                        $("#exampleModalToggle2").modal("show")
+                        $('#problemSolutionContent').empty()
+                        if (data.length > 0) {
+                            data.forEach(function (d) {
+                                const content = `
+                                           <div class="container my-3 text-end">
+                                               <button role="button" type="button" class="btn btn-secondary attachmentModaltriggerforUpdate" onClick='showAttachmentUpdateModal(${d.appointmentId},${d.memberId},${d.uId})' ><i class="fas fa-paperclip"></i></button>
+                                        <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#updateProblemSolutionModal"
+                                           onclick='populateUpdateModal(${JSON.stringify(d)})'>Update</a>
+                                    </div>
+                                    <div class="problem-solution-container">
+                                        <div class="d-flex justify-content-between">
+                                                                <div><div class="section-title">${d.memberName != null ? "Member Name" : "User Name"}:</div><p>${d.memberName != null ? d.memberName : d.userName}</p></div>
+                                            <div><div class="section-title">Date:</div><p>${d.appointmentDate}</p></div>
+                                                <div><div class="section-title">Time:</div><p>${d.appointmentTime}</p></div>
+                                        </div>
+                                        <div class="section-title">Problems:</div>
+                                        <ol>${d.problems.map(problem => `<li>${problem}</li>`).join('')}</ol>
+                                        <div class="section-title">Solutions:</div>
+                                        <div>${d.solution}</div>
+                                    </div>
+                                `;
+                                $('#problemSolutionContent').append(content);
+                            })
+                        } else {
+                            $('#problemSolutionContent').html('<p>No data available.</p>');
+                        }
+                    } else {
+                        $('#problemSolutionContent').html('<p>No data available.</p>');
+                    }
+                },
+                error: function () {
+                    $('#problemSolutionContent').html('<p>Error loading data.</p>');
+                }
+            });
+        }
+        GetProblemSolutionDetail()
+    })
 </script>

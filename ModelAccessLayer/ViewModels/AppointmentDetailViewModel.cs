@@ -19,5 +19,6 @@ namespace ModelAccessLayer.ViewModels
         public string Status { get; set; }
         public int? Amount { get; set; }
         public int? ArriveStatus { get; set; }
+        public string currentDate { get; set; }
     }
 }
