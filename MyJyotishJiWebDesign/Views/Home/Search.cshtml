@@ -224,14 +224,8 @@
         filterAstrologer();
     })
     function SearchAstrologers() {
-        var keyword = getURLParameter('keyword');
-        let searchValue;
-        if (keyword) {
-            searchValue = keyword + " " + "@ViewBag.filterValue";
-        }else{
-            searchValue = "@ViewBag.filterValue";
-
-        }
+        let searchValue = "@ViewBag.searchInput" + " " + "@ViewBag.filterValue";
+      
         $.ajax({
             url: BaseUrl + "api/user/searchAstrologers",
             type: "post",

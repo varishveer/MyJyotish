@@ -23,8 +23,9 @@ namespace MyJyotishJiWebDesign.Controllers
         public IActionResult Login() { return View();}
         public IActionResult Index() { return View(); }
         [HttpPost]
-        public IActionResult Search(string? filterValue) {
+        public IActionResult Search(string? filterValue,string? searchInput) {
             ViewBag.filterValue = filterValue;
+            ViewBag.searchInput = searchInput;
             return View(); 
         }
 
