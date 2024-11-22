@@ -173,17 +173,8 @@
         </div>
     </div>
 </div>
+   
 <script>
-    //Automatically search based on the URL parameter when the page loads
-    $(document).ready(function () {
-        var keyword = getURLParameter('keyword');
-
-        if (keyword) {
-            FilterAstrologers(keyword);
-        } else {
-            $('#astrologerList').html('<p>No keyword provided.</p>');
-        }
-    });
 
     // Function to get the URL parameter
     function getURLParameter(param) {
@@ -232,11 +223,19 @@
         e.preventDefault();
         filterAstrologer();
     })
-    function FilterAstrologers(keyword) {
+    function SearchAstrologers() {
+        var keyword = getURLParameter('keyword');
+        let searchValue;
+        if (keyword) {
+            searchValue = keyword + " " + "@ViewBag.filterValue";
+        }else{
+            searchValue = "@ViewBag.filterValue";
+
+        }
         $.ajax({
             url: BaseUrl + "api/user/searchAstrologers",
             type: "post",
-            data: { searchInp: keyword + " " + "@ViewBag.filterValue" },
+            data: { searchInp: searchValue },
             success: function (res) {
                 console.log(res)
 
@@ -252,7 +251,11 @@
 
         @:filterAstrologer();
     }
-   
+    else
+    {
+        @:SearchAstrologers()
+    }
+
 
   
 

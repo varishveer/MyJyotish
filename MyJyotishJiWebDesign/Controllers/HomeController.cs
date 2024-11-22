@@ -22,6 +22,7 @@ namespace MyJyotishJiWebDesign.Controllers
         public IActionResult OtpVerification() { return View(); }
         public IActionResult Login() { return View();}
         public IActionResult Index() { return View(); }
+        [HttpPost]
         public IActionResult Search(string? filterValue) {
             ViewBag.filterValue = filterValue;
             return View(); 
