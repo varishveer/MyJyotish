@@ -268,7 +268,7 @@
 
             <div id="searchForm" class="justify-content-center position-absolute align-items-center">
                 <label for="searchInput" class="visually-hidden">Search</label>
-                <input id="searchInput" class="form-control me-2 py-3" type="search" placeholder="Search" aria-label="Search" style="height:30px">
+                <input id="searchInput" autocomplete="off" class="form-control me-2 py-3" type="search" placeholder="Search" aria-label="Search" style="height:30px">
                 <button class='btn text-dark' id="SearchBoxIcon"><i class="far fa-times-circle"></i></button>
 
                 <div class="position-absolute bottom-0 rounded-bottom d-none bg-light py-4 px-2" id="search-Detail">
@@ -472,17 +472,15 @@
                                     if (!checkDuplicate.includes(d.expertise)) {
                                         checkDuplicate.push(d.expertise)
                                         const newElement = $(`
-        <p class='search-url'>Find a <a data-adType='' data-courtId='${d.}' onclick='filterData(this)' data-city='' class="fw-bold text-primary cursor-pointer">${e}</a> <small> Astrologers</small>
+                <p class='search-url'>Find a <a data-courtId='${d.expertise}' onclick='filterData(this)' class="fw-bold text-primary cursor-pointer">${d.expertise}</a> <small> Astrologers</small>
                               </p>
                                `)
-                                        $("#search - Detail").prepend(newElement)
+                                        $("#search-Detail").prepend(newElement)
                                     }
 
                                 }
 
-                                $("#search-Detail").append(`
-                                <p>${d.name}</p>
-                                `)
+                               
                             })
                                 
                     } else {
