@@ -36,6 +36,7 @@ namespace BusinessAccessLayer.Abstraction
         public ProblemSolutionGetAllViewModel GetProblemSolution(int Id);
         public string AddUserWallets(UserWalletViewmodel uw);
         public string PurchaseWithUserWallets(UserWalletViewmodel uw);
+        public List<JyotishModel> SearchAstrologer(string? searchInp);
 
         public long GetWallet(int JyotishId);
         public List<City> selecAllCity();

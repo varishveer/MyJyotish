@@ -108,7 +108,8 @@ namespace MyJyotishGApi.Controllers
                 fm.state= String.IsNullOrEmpty(httpRequest.Form["state"])?0: Convert.ToInt32(httpRequest.Form["state"]);
                 fm.activity= String.IsNullOrEmpty(httpRequest.Form["activity"])?0: Convert.ToInt32(httpRequest.Form["activity"]);
 
-                fm.rating= String.IsNullOrEmpty(httpRequest.Form["rating"])?0: Convert.ToInt32(httpRequest.Form["rating"]);
+                fm.rating= String.IsNullOrEmpty(httpRequest.Form["rating"])?0: Convert.ToInt32(httpRequest.Form["rating"]); 
+                fm.expertise = String.IsNullOrEmpty(httpRequest.Form["expertise"])?0: Convert.ToInt32(httpRequest.Form["expertise"]);
 
                 fm.experience = httpRequest.Form["experience"];
                 fm.gender = httpRequest.Form["gender"];      
@@ -129,6 +130,18 @@ namespace MyJyotishGApi.Controllers
             }
 
         }
+
+        [AllowAnonymous]
+        [HttpPost("searchAstrologers")]
+        public IActionResult SearchAstrologers()
+        {
+            var httpRequest = HttpContext.Request;
+
+            var searchInp = String.IsNullOrEmpty(httpRequest.Form["searchInp"]) ? "" : httpRequest.Form["searchInp"].ToString();
+
+            var res = _services.SearchAstrologer(searchInp);
+            return Ok(new {status=200,message="data retrieved",data=res});
+    }
 
         [AllowAnonymous]
         [HttpGet("SliderImageList")]

@@ -30,5 +30,7 @@ namespace ModelAccessLayer.ViewModels
         public int activity { get; set; }
         [AllowNull]
         public string? experience { get; set; }
+        [AllowNull]
+        public int expertise { get; set; }
     }
 }

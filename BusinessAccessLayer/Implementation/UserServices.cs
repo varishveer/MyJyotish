@@ -195,11 +195,23 @@ namespace BusinessAccessLayer.Implementation
             }
 
             // Call the stored procedure and return results
-            var cities = _context.Set<JyotishModel>()
-          .FromSqlInterpolated($"EXEC dbo.sp_filterJyotish @country={fm.country}, @city={fm.city}, @state={fm.state}, @expFrom={expFrom}, @expTo={expTo}, @rating={fm.rating}, @activity={fm.activity}, @gender={fm.gender ?? (object)DBNull.Value}")
+            var jyotish = _context.Set<JyotishModel>()
+          .FromSqlInterpolated($"EXEC dbo.sp_filterJyotish @country={fm.country}, @city={fm.city}, @state={fm.state}, @expFrom={expFrom}, @expTo={expTo}, @rating={fm.rating}, @activity={fm.activity}, @gender={fm.gender ?? (object)DBNull.Value},@expertise={fm.expertise}")
           .ToList();
 
-            return cities;
+            return jyotish;
+        }
+
+        public List<JyotishModel> SearchAstrologer(string? searchInp)
+        {
+          
+
+            // Call the stored procedure and return results
+            var jyotish = _context.Set<JyotishModel>()
+          .FromSqlInterpolated($"EXEC dbo.sp_searchJyotish @searchInp={searchInp}")
+          .ToList();
+
+            return jyotish;
         }
 
         public List<IdImageViewModel> SliderImageList(string keyword)
