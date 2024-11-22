@@ -755,9 +755,6 @@ namespace BusinessAccessLayer.Implementation
             }
         }
 
-        ProblemSolutionJyotishGetViewModel IUserServices.GetProblemSolutionDetail(int appointmentId)
-        {
-            throw new NotImplementedException();
-        }
+       
     }
 }

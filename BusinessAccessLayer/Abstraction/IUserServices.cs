@@ -38,7 +38,8 @@ namespace BusinessAccessLayer.Abstraction
         public string PurchaseWithUserWallets(UserWalletViewmodel uw);
         public List<JyotishModel> SearchAstrologer(string? searchInp);
         public List<JyotishUserAttachmentJyotishViewModel> GetAllUserAttachments(int Id);
-        public ProblemSolutionJyotishGetViewModel GetProblemSolutionDetail(int appointmentId);
+        public dynamic GetProblemSolutionDetail(int appointmentId)
+
         public ProblemSolutionJyotishGetViewModel GetProblemSolution(int appointmentId);
 
         public long GetWallet(int JyotishId);
