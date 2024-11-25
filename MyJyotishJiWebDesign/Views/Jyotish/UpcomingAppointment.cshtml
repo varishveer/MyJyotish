@@ -738,11 +738,7 @@
                         $(".attachmentRecord").append("<p class='my-3 text-center text-secondary'>no attachment found</p>")
                    }
                 } else {
-                    Swal.fire({
-                        title: "warning",
-                        text: result.message,
-                        icon: "warning",
-                    })
+                    $(".attachmentRecord").append("<p class='my-3 text-center text-secondary'>no attachment found</p>")
                 }
                Swal.close()
             }, error: function () {

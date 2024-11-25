@@ -111,6 +111,27 @@ namespace MyJyotishGApi.Controllers
                 return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message });
             }
         }
+
+        [HttpGet("GetAllUserAttachmentsByAppointmentId")]
+        public IActionResult GetAllUserAttachmentsByAppointment(int Id, int memberId)
+        {
+            try
+            {
+                var result = _services.GetAttachmentByAppointment(Id, memberId);
+
+                if (result == null || result.Count == 0)
+                {
+                    return Ok(new { Status = 404, Message = "No attachments found " });
+                }
+
+                return Ok(new { Status = 200, Data = result, Message = "Successful" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message });
+            }
+        }
+
         [HttpGet("GetProblemSolutionDetail")]
         public IActionResult GetProblemSolutionDetail(int appointmentId)
         {

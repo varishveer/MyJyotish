@@ -490,6 +490,20 @@ namespace BusinessAccessLayer.Implementation
             return result;
         }
 
+        public dynamic GetAttachmentByAppointment(int appointmentId, int memberId)
+        {
+            if (appointmentId != 0)
+            {
+                string member = memberId != 0 ? memberId.ToString() : null;
+                var res = _context.JyotishUserAttachmentRecord.Where(e => e.AppointmentId == appointmentId && e.MemberId.ToString() == member && e.Status).OrderByDescending(e => e.Id).ToList();
+                return res;
+            }
+            else
+            {
+                return "invalid Request";
+            }
+        }
+
         public ProblemSolutionJyotishGetViewModel GetProblemSolution(int appointmentId)
         {
 

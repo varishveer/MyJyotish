@@ -89,12 +89,13 @@
                     newAppoinment = appoinmentArray.filter(function (d) {
                         return d.status == fdata || reverseDate(d.date.split("T")[0])<d.currentDate                    })
                 }
-               debugger
+              
                 $(".appointment").empty();
         if (newAppoinment.length > 0) {
     newAppoinment.forEach(function (d, i) {
 
                     let cards = `  <div class="col-sm-5 col-md-5 border shadow-sm rounded p-3">
+                            <a href='/Home/JyotishProfile?Id=${d.userId}' class='text-decoration-none text-secondary'>
                             <div class="row fw-semi-bold">
                                 <div class="col-sm-6">
                                                  Name : ${d.userName}<br />Fees : ${d.amount != null ? d.amount +" paid" : 0}<br />Problem : ${d.problem}<br />
@@ -103,6 +104,7 @@
                                                     Date : ${reverseDate(d.date.split("T")[0])}<br />Time : ${d.time}<br/>Status : ${fdata}
                                 </div>
                             </div>
+                            </a>
                         </div>
 
                                 `

@@ -78,7 +78,13 @@
     // Function to submit the expertise form via AJAX
     function submitExpertise() {
         const name = $('#expertiseName').val();
-
+        Swal.fire({
+            title: "Processing Your Request",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
         $.ajax({
             url: BaseUrl + "api/Admin/AddExpertise",
             type: "POST",
@@ -88,9 +94,15 @@
             },
             data: JSON.stringify({ name }),
             success: function (response) {
-                alert('Expertise added successfully!');
+                Swal.fire({
+                    title: "success",
+                    icon: "success",
+                    text: response.message,
+                    showConfirmButton: true,
+                })
                 $('#addExpertiseModal').modal('hide');
                 fetchData(); // Refresh the table to show new expertise
+
             },
             error: function (error) {
                 console.error('Error adding expertise:', error.responseText);
@@ -101,6 +113,13 @@
 
     $(document).ready(function () {
         function fetchData() {
+            Swal.fire({
+                title: "Processing Your Request",
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            })
             $.ajax({
                 url: BaseUrl + "api/Admin/ExpertiseList",
                 type: 'GET',
@@ -127,6 +146,7 @@
                     htmls += '</tbody>';
                     $('#DataTable').html(htmls);
                     $('#DataTable').DataTable();
+                    Swal.close()
                 },
                 error: function (errormessage) {
                     console.error('Error fetching data:', errormessage.responseText);

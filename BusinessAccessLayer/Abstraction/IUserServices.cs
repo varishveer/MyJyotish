@@ -41,6 +41,7 @@ namespace BusinessAccessLayer.Abstraction
         public dynamic GetProblemSolutionDetail(int appointmentId);
 
         public ProblemSolutionJyotishGetViewModel GetProblemSolution(int appointmentId);
+        public dynamic GetAttachmentByAppointment(int appointmentId, int memberId);
 
         public long GetWallet(int JyotishId);
         public List<City> selecAllCity();

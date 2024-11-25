@@ -14,18 +14,23 @@ namespace BusinessAccessLayer.Abstraction
         public List<JyotishModel> GetAllPendingJyotish();
         public List<UserModel> GetAllUser();
         public List<TeamMemberModel> GetAllTeamMember();
+        public string AddAppointmentSlot(AppointmentSlotViewModel model);
         public List<AppointmentListAdminViewModel> GetAllAppointment();
         public bool ApproveJyotish(IdViewModel JyotishId);
         public bool RejectJyotish(JyotishRejectMailViewModel model);
         public bool RemoveJyotish(IdViewModel JyotishId);
-    /*    public bool AddPoojaCategory(PoojaCategoryViewModel _pooja);*/
-     /*   public bool AddNewPoojaList(PoojaListViewModel model);*/
+        /*    public bool AddPoojaCategory(PoojaCategoryViewModel _pooja);*/
+        /*   public bool AddNewPoojaList(PoojaListViewModel model);*/
+        public List<SpecializationListModel> GetSpecializationList();
+
         public bool AddExpertise(ExpertiseModel _expertise);
         public List<ExpertiseModel> GetAllExpertise();
       /*  public List<PoojaCategoryModel> GetAllPoojaCategory();*/
         public AdminModel Profile(string email);
   /*      public AdminDashboardViewModal Dashboard();*/
         public List<PoojaRecordModel> PoojaRecord();
+        public bool AddSpecialization(string specName);
+
         public List<ChattingModel> ChattingRecord();
         public List<CallingModel> CallingRecord();
         public AppointmentDetailViewModel AppointmentDetails(int id);

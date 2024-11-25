@@ -2,16 +2,311 @@
     Layout = "AdminLayout";
  
     }
-<style>
-    .card-body {
-        padding-left: 15px !important;
-        padding-right: 15px !important;
+
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" >
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.min.css" >
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" > </script >
+    <link rel="preconnect" href="https://fonts.googleapis.com" >
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin >
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet" >
+    <link href="https://cdn.datatables.net/2.1.3/css/dataTables.dataTables.min.css" rel="stylesheet" />
+    <script src="https://unpkg.com/@@phosphor-icons/web" > </script >
+    <script src="https://cdn.datatables.net/2.1.3/js/dataTables.min.js"></script>
+
+ <style>
+    body {
+        margin: 0;
+        font-family: "Heebo", sans-serif;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #757575;
+        background-color: #F3F6F9;
+        -webkit-text-size-adjust: 100%;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    }
+
+    .main-container {
+        overflow: hidden;
+        padding: 15px;
+        border-radius: 0px 10px 10px 0px;
+        box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+    }
+
+
+    .left-part img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 10px 0px 0px 10px;
+    }
+
+    .form-select {
+        font-size: 13px;
+    }
+
+    .right-part form input, .right-part form button {
+        font-size: 13px;
+    }
+
+    .right-part button {
+        background-color: #138496;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+        .right-part button:hover {
+            background-color: #117a88;
+        }
+
+    hr:not([size]) {
+        height: 0.02125rem !important;
+    }
+
+    .input-container input[type="date"],
+    .input-container input[type="text"] {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        background: transparent;
+        border: none;
+        outline: none;
+        box-shadow: none;
+    }
+
+    /* INPUT CONTAINER  */
+    .input-container {
+        display: flex;
+        flex-direction: column;
+        width: auto;
+        height: auto;
+        min-width: 217px;
+        height: 60px;
+        padding: 5px 10px 10px 10px;
+        background: #fff;
+        border-radius: 8px;
+        filter: drop-shadow(0px 0px 3px #000);
+        -webkit-filter: drop-shadow(0px 0px 3px #000);
+        overflow: hidden;
+        cursor: pointer;
+    }
+
+        .input-container:hover,
+        .input-container:focus,
+        .input-container:active {
+            transform: scale(1.1);
+            -webkit-transform: scale(1.1);
+        }
+
+        .input-container label {
+            position: relative;
+            width: 100%;
+            font-family: "Segoe UI";
+            font-weight: 600;
+            font-size: 11px;
+            letter-spacing: 0.1em;
+            line-height: 20px;
+            color: #09f;
+            margin-left: 2px;
+            text-transform: uppercase;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .input-container input {
+            position: relative;
+            align-items: center;
+            width: auto;
+            height: auto;
+            font-family: "Lekton", Arial, sans-serif;
+            font-weight: 600;
+            font-size: 22px;
+            letter-spacing: 0.05em;
+            line-height: 21px;
+            text-transform: uppercase;
+            margin-left: 0px;
+        }
+
+    /* BUTTON CONTAINER */
+    .button-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: auto;
+        min-width: 197px;
+        height: 65px;
+        padding: 1px;
+        padding-bottom: 2px;
+        background: #09f;
+        border-radius: 8px;
+        filter: drop-shadow(0px 0px 3px #000);
+        -webkit-filter: drop-shadow(0px 0px 3px #000);
+        overflow: hidden;
+        cursor: pointer;
+    }
+
+        .button-container:hover,
+        .button-container:focus {
+            background: #09f;
+            filter: drop-shadow(0px 0px 3px #09f);
+            -webkit-filter: drop-shadow(0px 0px 3px #09f);
+        }
+        /* -- button -- */
+        .button-container .button {
+            position: relative;
+            width: 100%;
+            min-height: 63px;
+            height: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 7px;
+            background: #fff;
+            color: #000;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .button-container:hover .button:hover {
+            background: #000;
+            color: #fff;
+        }
+
+        .button-container:hover .button:active {
+            background: #000;
+            color: #fff;
+            background: #09f;
+            filter: drop-shadow(0px 0px 3px #09f);
+            -webkit-filter: drop-shadow(0px 0px 3px #09f);
+        }
+        /* -- button ok -- */
+        .button-container .button.ok {
+            background: #131313;
+            color: #fff;
+        }
+
+        .button-container:hover .button.ok:hover {
+            background: #131313;
+            color: #09f;
+            text-shadow: 0px 0px 10px #09f;
+            -webkit-text-shadow: 0px 0px 10px #09f;
+        }
+
+        .button-container:hover .button.ok:active {
+            color: #fff;
+            background: #09f;
+            filter: drop-shadow(0px 0px 3px #000);
+            -webkit-filter: drop-shadow(0px 0px 3px #000);
+        }
+
+    /* RESERVATION BOX */
+    .reservation-box {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+        height: auto;
+        padding: 20px;
+        border-radius: 7px;
+        background-color: rgba(255,255,255,1);
+    }
+
+        .reservation-box .static {
+            position: relative;
+            display: flex;
+            align-items: center;
+            float: left;
+            width: auto;
+            margin-right: 20px;
+        }
+
+        .reservation-box .flex {
+            position: relative;
+            display: flex;
+            float: left;
+            flex-direction: table;
+            align-items: center;
+            gap: 20px;
+            width: auto;
+        }
+
+        .reservation-box .top {
+            display: flex;
+            flex-direction: table;
+        }
+
+        .reservation-box .bottom {
+            position: relative;
+            width: 100%;
+            text-align: right;
+        }
+
+        .reservation-box .info {
+            width: auto;
+            color: #000;
+            font-weight: 500;
+            text-decoration: none;
+            text-align: right;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+
+            .reservation-box .info:hover,
+            .reservation-box .info:focus,
+            .reservation-box .info:active {
+                color: #000;
+                border-bottom: 2px solid #09f;
+            }
+
+        /* RESERVATION BOX SMALL */
+        .reservation-box.small, .reservation-box.small .flex {
+            flex-direction: column;
+        }
+
+            .reservation-box.small .top {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .reservation-box.small .static {
+                margin-right: 0px;
+            }
+
+            .reservation-box.small .bottom {
+                text-align: center;
+            }
+
+            .reservation-box.small .button-container {
+                min-width: 217px;
+            }
+
+    .skipDays {
+        min-width: 217px !important;
+        border: 1px solid gray;
+        padding: 5px;
+        border-radius: 5px;
+        box-shadow: 1px 1px 7px gray;
+        box-sizing: border-box;
+        height: 60px;
+    }
+
+    #updateskipDate {
+        font-size: 12px !important;
+    }
+
+    .skipmodal-content {
+        height: 400px !important;
     }
 </style>
 
 
-<link href="https://cdn.datatables.net/2.1.3/css/dataTables.dataTables.min.css" rel="stylesheet" />
-<script src="https://cdn.datatables.net/2.1.3/js/dataTables.min.js"></script>
+
+
 
 
 <div class="container-fluid mt-4">
@@ -37,7 +332,7 @@
 
 <!-- Slot Modal -->
 <div class="modal fade" id="addSlotModal" tabindex="-1" aria-labelledby="addSlotModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="addSlotModalLabel">Add New Slot</h5>
@@ -46,25 +341,78 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="addSlotForm">
-                    <div class="form-group">
-                        <label for="slotDate">Date</label>
-                        <input type="date" class="form-control" id="slotDate" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="slotTime">Time</label>
-                        <input type="time" class="form-control" id="slotTime" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="slotTimeDuration">Time Duration in Minutes</label>
-                        <input type="number" class="form-control" id="slotTimeDuration" required>
-                    </div>
-                </form>
+               <div class="container d-flex justify-content-center align-items-center min-vh-90 mt-4">
+    <div class="main-container row w-100 rounded-3">
+        <!-- Form Section -->
+        <div class="col-lg-12 col-md-12 p-2 bg-white right-part">
+            <h5 class="mb-3 text-primary fw-bold">Add Appointment Slot</h5>
+            <hr />
+            <form>
+               <div class="row">
+                   <div class="col-sm-12">
+                       <div class="row">
+                           <div class="col-sm-12">
+                               Appointment Date
+                                <div class="reservation-box">
+                                    <div class="top d-flex gap-3 flex-wrap">
+                                        <div class="static">
+                                            <div class="input-container" id="date-picker-container">
+                                                <label for="date-from">Start</label>
+                                                <input type="date" id="date-checkin" class="date-field" name"dateFrom">
+                                            </div>
+                                        </div>
+                                        <div class="static">
+                                            <div class="input-container" id="date-picker-container">
+                                                <label for="date-from">End</label>
+                                                <input type="date" id="date-checkout" class="date-field" name"dateTo">
+                                            </div>
+                                            
+                                            
+                                        </div>
+                                        <div class="static">
+                                            <div class="input-container" id="date-picker-container">
+                                                <label for="date-from" class="m-0">Appointment Duration</label>
+                                                <select class="date-field border-0" id="timeDuration">
+                                                    <option value="" disabled>--Select Appointment Time--</option>
+                                                    <option value="15" selected>15 min</option>
+                                                    <option value="30">30 min</option>
+                                                    <option value="60">60 min</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                       
+                                        <div class="static ">
+                                            <div class="input-container" id="date-picker-container">
+                                                <label for="date-from">Skip Date (Optional)</label>
+                                                <input type="date" id="skipDate" class="date-field" name"">
+                                            </div>
+
+                                        </div>
+                                        <div class=" static skipDays d-block">
+                                            <p class="m-0 text-primary">Skip Days (Optional)</p>
+                                            <input type="checkbox" id="saturday" name="saturday" class="form-check-inline" value="1" />Satuday &nbsp;
+                                            <input type="checkbox" name="sunday" id="sunday" class="form-check-inline" value="2" />Sunday
+                                        </div>
+                                        <div class="button-container  ">
+                                            <span class="button ok" id="btnsubmit">Create</span>
+                                        </div> 
+                                    </div>
+                                    <div class="bottom">
+                                    </div>
+                                </div>
+
+                               
+                           </div>
+                       </div>
+                   </div>
+               </div>                    
+
+            </form>
+        </div>
+    </div>
+</div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="submitSlot()">Save Slot</button>
-            </div>
+            
         </div>
     </div>
 </div>
@@ -174,4 +522,94 @@
         // Load all records on page load
         fetchData();
     });
+
+    $("#btnsubmit").on('click', function (e) {
+            e.preventDefault();
+            const date = $("#date-checkin").val();
+            const dateTo = $("#date-checkout").val();
+            const timeDuration = $("#timeDuration").val()
+            const skipDate = $("#skipDate").val() != "" ? $("#skipDate").val() : "1001-01-01"
+            const saturday = $("#saturday:checked").length > 0 ? $("#saturday").val() : 0
+            const sunday = $("#sunday:checked").length > 0 ? $("#sunday").val() : 0
+            const jyotishId = localStorage.getItem('Id');
+            debugger
+            // Validate the form
+            if (!date || !dateTo || !timeDuration) {
+                Swal.fire({
+                    title: 'Warning!',
+                    text: 'All fields are required.',
+                    icon: 'warning',
+                    confirmButtonText: 'Close'
+                });
+                return;
+            }
+            Swal.fire({
+                title: "Are you sure?",
+                text: "Please choose your appointment slot carefully",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes",
+            }).then((result) => {
+                
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: "Processing Your Request",
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    })
+           
+
+            
+            $.ajax({
+                url: BaseUrl+'api/Jyotish/AddAppointmentSlot',
+                type: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+                    'Content-Type': 'application/json',
+                },
+                data: JSON.stringify({
+                    date: date,
+                    dateTo: dateTo,
+                    skipDate: skipDate,
+                    saturday: saturday, 
+                    sunday: sunday, 
+                    timeDuration: parseInt(timeDuration, 10),
+                }),
+                success: function (response) {
+                    if (response.status === 200) {
+                        Swal.fire({
+                            title: 'Success!',
+                            text: 'Appointment slot added successfully.',
+                            icon: 'success',
+                            confirmButtonText: 'Ok'
+                        }).then(() => {
+                            window.location.reload();
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: response.message || 'Failed to add appointment slot.',
+                            icon: 'error',
+                            confirmButtonText: 'Close'
+                        });
+                    }
+                },
+                error: function (xhr) {
+                    console.error("Error:", xhr.responseText);
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'Failed to add appointment slot: ' + xhr.responseText.title,
+                        icon: 'error',
+                        confirmButtonText: 'Close'
+                    });
+                }
+            });
+                }
+            })
+        });
+
 </script>

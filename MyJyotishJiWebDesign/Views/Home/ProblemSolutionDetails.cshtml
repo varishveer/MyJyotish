@@ -5,12 +5,7 @@
 <!-- External CSS for styling -->
 <style>
     
-    body {
-        background: url("https://api.myjyotishg.in/astrologer-bg.jpg");
-        background-size: cover;
-        background-attachment: fixed;
-        backdrop-filter: blur(3px);
-    }
+    
 
     .card {
         background: rgba(255, 255, 255, 0.8);
@@ -30,7 +25,6 @@
         font-size: 1.2rem;
         color: #343a40;
         margin-top: 1rem;
-        text-decoration: underline;
 
     }
 
@@ -61,7 +55,6 @@
                   
                     <span class="fw-bold" id="profileName"></span> 
                   
-                    <p><span id="profileDate"></span> | <span id="profileTime"></span></p>
                 </div>
 
                 <!-- Problems & Solutions -->
@@ -71,9 +64,30 @@
     </div>
 </div>
 
+<div class="modal fade" id="attachmentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg  modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Attachments</h1>
+                <button type="button" class="btn-close" id="closeAttachmentModal" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                   
+                    <div class="col-sm-12 mt-4">
+                        <div class="row attachmentRecord" id="attachmentRecord">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Script for data fetching and display -->
 <script>
-    $(document).ready(function () {
         function getIdFromUrl() {
             
             const urlObj = new URL(window.location.href);
@@ -85,10 +99,11 @@
             return id;
         }
         var Id = getIdFromUrl();
+        debugger
         const apiUrl = `${BaseUrl}api/User/GetProblemSolutionDetail`;
 
         // Function to format date to DD-MM-YYYY
-        function GetProblemSolutionDetail(id) {
+        function GetProblemSolutionDetail() {
             Swal.fire({
                 title: "Processing Your Request",
                 allowOutsideClick: false,
@@ -103,28 +118,26 @@
                     'Authorization': `Bearer ${localStorage.getItem("Token")}`
 
                 },
-                data: { appointmentId: id },
+                data: { appointmentId: Id },
                 success: function (response) {
                     Swal.close()
                     console.log(response)
                     if (response.status === 200 &&response.data!=null) {
                         const data = response.data;
-                        $("#exampleModalToggle").modal("hide")
-                        $("#exampleModalToggle2").modal("show")
+                       
                         $('#problemSolutionContent').empty()
                         if (data.length > 0) {
                             data.forEach(function (d) {
                                 const content = `
                                            <div class="container my-3 text-end">
-                                               <button role="button" type="button" class="btn btn-secondary attachmentModaltriggerforUpdate" onClick='showAttachmentUpdateModal(${d.appointmentId},${d.memberId},${d.uId})' ><i class="fas fa-paperclip"></i></button>
-                                        <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#updateProblemSolutionModal"
-                                           onclick='populateUpdateModal(${JSON.stringify(d)})'>Update</a>
+                                                   <button role="button" type="button" class="btn btn-secondary attachmentModaltriggerforUpdate" onClick='getUserAttachment(${d.appointmentId},${d.memberId})' ><i class="fas fa-paperclip"></i></button>
+                                        
                                     </div>
-                                    <div class="problem-solution-container">
+                                    <div class="border shadow rounded p-3 problem-solution-container">
                                         <div class="d-flex justify-content-between">
-                                                                <div><div class="section-title">${d.memberName != null ? "Member Name" : "User Name"}:</div><p>${d.memberName != null ? d.memberName : d.userName}</p></div>
-                                            <div><div class="section-title">Date:</div><p>${d.appointmentDate}</p></div>
-                                                <div><div class="section-title">Time:</div><p>${d.appointmentTime}</p></div>
+                                                                <div><span class="section-title">${d.memberName != null ? "Member Name" : "User Name"}:&nbsp;</span><span>${d.memberName != null ? d.memberName : d.userName}</span></div>
+                                                <div><span class="section-title">Date:&nbsp;</span><span>${d.appointmentDate}</span></div>
+                                                    <div><span class="section-title">Time:&nbsp;</span><span>${d.appointmentTime}</span></div>
                                         </div>
                                         <div class="section-title">Problems:</div>
                                         <ol>${d.problems.map(problem => `<li>${problem}</li>`).join('')}</ol>
@@ -147,5 +160,76 @@
             });
         }
         GetProblemSolutionDetail()
-    })
+    function getFileExtension(filename) {
+        const lastDotIndex = filename.lastIndexOf('.');
+        return lastDotIndex !== -1 ? filename.slice(lastDotIndex + 1) : ''; // Returns empty string if no extension
+    }
+
+        function getUserAttachment(appId, memId) {
+            Swal.fire({
+                title: "Processing Your Request",
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            })
+            var Id = localStorage.getItem('Id');
+            $.ajax({
+                url: BaseUrl + `Api/user/GetAllUserAttachmentsByAppointmentId`,
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                },
+                data: { Id: appId, memberId: memId },
+                success: function (result) {
+                    console.log(result)
+                    $(".attachmentRecord").empty()
+                    if (result.status == 200) {
+                        if (result.data != null && result.data.length > 0) {
+                            result.data.forEach(function (d) {
+                                let fileExtension = getFileExtension(d.image)
+                                if (fileExtension == "pdf") {
+                                    $(".attachmentRecord").append(
+
+                                        `<div class='col-sm-4'>
+                                               
+                                        <a class=" display-block" href='${BaseUrl}${d.image}' target='_blank'>
+                                           <div  class='w-100'>
+                                                        <iframe frameborder="0" src="${BaseUrl}${d.image}" height="170" class="w-100  border rounded p-2"/> </iframe>
+                                            <p class="text-center text-secondary">${d.title}</p>
+                                        </div>
+                                            </a></div>
+                                       `
+                                    )
+                                } else {
+                                    $(".attachmentRecord").append(
+                                        `
+                                       <div class="col-sm-4">
+                                                               
+                                                    <a href='${BaseUrl}${d.image}' target='_blank'> <img src="${BaseUrl}${d.image}" class="w-100 border rounded p-2" height="170"/></a>
+                                        <p class="text-center">${d.title}</p>
+                                    </div>
+                                   `
+                                    )
+                                }
+                            })
+                        } else {
+                            $(".attachmentRecord").append("<p class='my-3 text-center text-secondary'>no attachment found</p>")
+                        }
+                    } else {
+                    $(".attachmentRecord").append("<p class='my-3 text-center text-secondary'>no attachment found</p>")
+                       
+                    }
+                $("#attachmentModal").modal("show")
+                    Swal.close()
+                }, error: function () {
+                    Swal.fire({
+                        title: "error",
+                        text: "some error occured",
+                        icon: "error",
+
+                    });
+                }
+            })
+        }
 </script>

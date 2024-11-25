@@ -59,7 +59,11 @@ namespace BusinessAccessLayer.Implementation
             var Records = _context.TeamMemberRecords.ToList();
             return Records;
         }
-
+        public List<SpecializationListModel> GetSpecializationList()
+        {
+            var Records = _context.SpecializationList.ToList();
+            return Records;
+        }
         public List<AppointmentListAdminViewModel> GetAllAppointment()
         {
             // var Records = _context.AppointmentRecords.ToList();
@@ -89,12 +93,7 @@ namespace BusinessAccessLayer.Implementation
                Amount = combined.record.Amount
            })
      .ToList();
-
-
-
-
-
-            return Records;
+     return Records;
         }
         static string PasswordMethod(int length)
         {
@@ -274,6 +273,64 @@ namespace BusinessAccessLayer.Implementation
         {
             var records = _context.ExpertiseRecords.ToList();
             return records;
+        }
+
+        public string AddAppointmentSlot(AppointmentSlotViewModel model)
+        {
+            if (DateTime.Compare(model.Date, DateTime.Now) < 0)
+            { return "Invalid Date"; }
+
+            var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
+            var existingSlots = _context.AppointmentSlots
+         .Where(x => x.JyotishId == model.JyotishId &&
+                      x.Date >= model.Date)
+         .Select(e => e.Date)
+         .ToList();
+
+            if (Jyotish == null) { return "Invalid Jyotish"; }
+            if (DateTime.Compare(model.Date, model.DateTo) <= 90)
+            {
+                List<AppointmentSlotModel> slotsToAdd = new List<AppointmentSlotModel>();
+                for (DateTime date = model.Date; date <= model.DateTo; date = date.AddDays(1))
+                {
+                    if (existingSlots.Contains(date.Date))
+                    {
+                        continue;
+                    }
+
+
+                    TimeOnly startTime = (TimeOnly)Jyotish.TimeFrom;
+                    TimeOnly endTime = (TimeOnly)Jyotish.TimeTo;
+
+
+                    bool isSaturdaySkipped = model.saturday == 1 && date.DayOfWeek == DayOfWeek.Saturday;
+                    bool isSundaySkipped = model.sunday == 2 && date.DayOfWeek == DayOfWeek.Sunday;
+                    bool isSkipDateMatched = model.skipDate != null && model.skipDate.ToString() != "1001-01-01" &&
+                    DateTime.Compare((DateTime)model.skipDate, date) == 0;
+
+                    for (TimeOnly time = startTime; time <= endTime; time = time.AddMinutes(model.TimeDuration))
+                    {
+                        var data = new AppointmentSlotModel
+                        {
+                            Date = date,
+                            TimeFrom = time,
+                            TimeDuration = model.TimeDuration,
+                            Status = "Vacant",
+                            ActiveStatus = (isSaturdaySkipped || isSundaySkipped || isSkipDateMatched) ? 0 : 1
+                        };
+
+                        slotsToAdd.Add(data);
+                    }
+
+                    // Batch insert
+                }
+                if (slotsToAdd.Count > 0)
+                {
+                    _context.Slots.AddRange(slotsToAdd);
+                }
+            }
+            if (_context.SaveChanges() > 0) { return "Successful"; }
+            else { return "Data Not Saved"; }
         }
 
         public AdminModel Profile(string email)
@@ -1011,6 +1068,20 @@ namespace BusinessAccessLayer.Implementation
             return records ?? null;
         }
 
+        public bool AddSpecialization(string specName)
+        {
+            SpecializationListModel name = new SpecializationListModel();
+            name.Name = specName;
+            _context.Add(name);
+            if(_context.SaveChanges() > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+                }
 
         public string AddManageSubscriptionData(ManageSubscriptionViewModel model)
         {

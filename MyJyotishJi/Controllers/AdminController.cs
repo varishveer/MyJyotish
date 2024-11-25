@@ -457,6 +457,32 @@ namespace MyJyotishJiApi.Controllers
             }
         }
 
+        [HttpPost("AddAppointmentSlot")]
+        public IActionResult AddAppointmentSlot(AppointmentSlotViewModel model)
+        {
+            try
+            {
+                var Result = _admin.AddAppointmentSlot(model);
+                if (Result == "Invalid Date")
+                { return Ok(new { Status = 400, Message = Result }); }
+
+                else if (Result == "Invalid Jyotish")
+                { return Ok(new { Status = 409, Message = Result }); }
+                else if (Result == "Invalid Data")
+                { return Ok(new { Status = 409, Message = Result }); }
+
+                else if (Result == "Data Not Saved")
+                { return Ok(new { Status = 500, Message = Result }); }
+
+                else if (Result == "Successful")
+                { return Ok(new { Status = 200, Message = Result }); }
+                else
+                { return Ok(new { Status = 500, Message = Result }); }
+            }
+            catch (Exception ex)
+            { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
+        }
+
         [HttpGet("SlotList")]
         public IActionResult SlotList()
         { try
@@ -692,8 +718,50 @@ namespace MyJyotishJiApi.Controllers
 
         }
 
+        [HttpPost("AddSpecialization")]
+        public IActionResult AddSpecialization()
+        {
+            try
+            {
+                var httpRequest = HttpContext.Request;
+                var name = httpRequest.Form["name"];
+                if (!String.IsNullOrEmpty(name))
+                {
+                    var res = _admin.AddSpecialization(name);
+                    if (res)
+                    {
+                        return Ok(new { status = 200, message = "Record added successfully" });
+                    }
+                    else
+                    {
+                        return Ok(new { status = 500, message = "some error occured" });
 
+                    }
+                }
+                else
+                {
+                    return Ok(new { status = 400, message ="Specialization required" });
 
+                }
+            }
+            catch { return StatusCode(500, new { Status = 500, Message = "Internal Server Error " }); }
+
+        }
+        [AllowAnonymous]
+        [HttpGet("GetSpecializationList")]
+        public IActionResult GetSpecializationList()
+        {
+            try
+            {
+                var records = _admin.GetSpecializationList();
+                return Ok(new { Status = 200, Data = records });
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                return StatusCode(500, new { Status = 500, Message = "An error occurred while fetching specialization list.", Error = ex.Message });
+            }
+        }
 
         [HttpPost("AddSubscription")]
         public IActionResult AddSubscription(SubscriptionViewModel model)

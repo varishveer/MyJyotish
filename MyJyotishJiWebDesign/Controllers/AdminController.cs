@@ -6,7 +6,6 @@ namespace MyJyotishJiWebDesign.Controllers
 {
     public class AdminController : Controller
     {
-       
         public IActionResult Login() { return View(); }
         public IActionResult Dashboard() { return View();}
         public IActionResult Appointments() { return View(); }
@@ -23,11 +22,7 @@ namespace MyJyotishJiWebDesign.Controllers
         public IActionResult Documents() { return View(); }
         public IActionResult JyotishDocument() { return View(); }
         public IActionResult JyotishProfile() { return View(); }
-
         public IActionResult InterviewList() { return View(); }
-
-
-
-
+        public IActionResult Specialization() { return View(); }
     }
 }
