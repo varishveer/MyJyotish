@@ -290,7 +290,7 @@ namespace BusinessAccessLayer.Implementation
             if (Jyotish == null) { return "Invalid Jyotish"; }
             if (DateTime.Compare(model.Date, model.DateTo) <= 90)
             {
-                List<AppointmentSlotModel> slotsToAdd = new List<AppointmentSlotModel>();
+                List<SlotModel> slotsToAdd = new List<SlotModel>();
                 for (DateTime date = model.Date; date <= model.DateTo; date = date.AddDays(1))
                 {
                     if (existingSlots.Contains(date.Date))
@@ -310,10 +310,10 @@ namespace BusinessAccessLayer.Implementation
 
                     for (TimeOnly time = startTime; time <= endTime; time = time.AddMinutes(model.TimeDuration))
                     {
-                        var data = new AppointmentSlotModel
+                        var data = new SlotModel
                         {
-                            Date = date,
-                            TimeFrom = time,
+                            Date =date.Date,
+                            Time = time,
                             TimeDuration = model.TimeDuration,
                             Status = "Vacant",
                             ActiveStatus = (isSaturdaySkipped || isSundaySkipped || isSkipDateMatched) ? 0 : 1
