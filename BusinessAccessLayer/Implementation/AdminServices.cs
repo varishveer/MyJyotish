@@ -280,14 +280,12 @@ namespace BusinessAccessLayer.Implementation
             if (DateTime.Compare(model.Date, DateTime.Now) < 0)
             { return "Invalid Date"; }
 
-            var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
             var existingSlots = _context.AppointmentSlots
          .Where(x => x.JyotishId == model.JyotishId &&
                       x.Date >= model.Date)
          .Select(e => e.Date)
          .ToList();
 
-            if (Jyotish == null) { return "Invalid Jyotish"; }
             if (DateTime.Compare(model.Date, model.DateTo) <= 90)
             {
                 List<SlotModel> slotsToAdd = new List<SlotModel>();
@@ -297,10 +295,11 @@ namespace BusinessAccessLayer.Implementation
                     {
                         continue;
                     }
+                        TimeOnly timeFrom = TimeOnly.FromDateTime(Convert.ToDateTime(model.TimeFrom));
+                        TimeOnly timeTo = TimeOnly.FromDateTime(Convert.ToDateTime(model.TimeTo));
 
-
-                    TimeOnly startTime = (TimeOnly)Jyotish.TimeFrom;
-                    TimeOnly endTime = (TimeOnly)Jyotish.TimeTo;
+                    TimeOnly startTime =timeFrom;
+                    TimeOnly endTime =timeTo;
 
 
                     bool isSaturdaySkipped = model.saturday == 1 && date.DayOfWeek == DayOfWeek.Saturday;

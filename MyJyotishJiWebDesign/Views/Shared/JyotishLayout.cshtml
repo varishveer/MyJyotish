@@ -793,10 +793,11 @@
             },
             data: { Id: localStorage.getItem("Id") },
             success: function (res) {
+                console.log(res)
                 let planDesc = "";
-                if (res.status == 200) {
-                    planUrl = res.data.map(e => e.url.toLowerCase())
+                if (res.status == 200 ) {
                     planData = res.data
+                    planUrl = res.data.map(e => e.url.toLowerCase())
                     if (res.data.length > 0) {
                         let pathArray = [];
                         res.data.forEach(function (d) {
@@ -826,6 +827,7 @@
                             href.attr("onclick", "showAlert(this)")
                         })
                     }
+                    if(res.data.length>0){
                     $(".userPlan").html(res.data[0].planName == "Platinum" ? "Pro User"
                         : res.data[0].planName == "Silver" ? `
                            Upgrade to &nbsp;
@@ -833,6 +835,7 @@
                              Upgrade to &nbsp;
                                             <a href='/jyotish/Subscription' class='Platinum px-2 rounded'>Platinum</a>` : res.data[0].planName)
                     $(".userPlan").addClass(res.data[0].planName)
+                    }
                 }
 
 

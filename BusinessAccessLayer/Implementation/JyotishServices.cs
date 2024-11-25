@@ -896,9 +896,11 @@ namespace BusinessAccessLayer.Implementation
             }
             if (slot.Status == "Booked")
             { return "Slot Has Been Booked It Can't Be Updated."; }
+            TimeOnly timeFrom = TimeOnly.FromDateTime(Convert.ToDateTime(model.TimeFrom));
+            TimeOnly timeTo = TimeOnly.FromDateTime(Convert.ToDateTime(model.TimeTo));
             slot.Date = model.Date;
-            slot.TimeFrom = model.TimeFrom;
-            slot.TimeTo = model.TimeTo;
+            slot.TimeFrom = timeFrom;
+            slot.TimeTo = timeTo;
 
             slot.TimeDuration = model.TimeDuration;
             slot.Status = "Vacant";

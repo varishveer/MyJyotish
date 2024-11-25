@@ -266,6 +266,7 @@ header {
                 'Content-Type': 'application/json'
             },
             success: function (response) {
+                console.log(response)
                 if (response.status === 200 && response.data.length > 0) {
                     var container = $(".cards");
                     container.empty();
@@ -322,9 +323,9 @@ header {
                                                </li>
                         ${servicesHTML}
                 <li>
-                         <button type="button" class="btn-package active-btn upgradePlan" ${planData[0].planId == item.subscriptionId ? "disabled" : ""} id = "upgradeBtn_${item.subscriptionId}"
+                         <button type="button" class="btn-package active-btn upgradePlan" ${planData.length>0?planData[0].planId == item.subscriptionId ? "disabled" : "":""} id = "upgradeBtn_${item.subscriptionId}"
                                                 data-planId="${item.subscriptionId}" data-planType="${item.planType}"
-                                                    data-planPrice="${item.newPrice}">${planData[0].planId == item.subscriptionId ? "Purchased" : "Upgrade"}</button></li>
+                                                        data-planPrice="${item.newPrice}">${planData.length > 0 ? planData[0].planId == item.subscriptionId ? "Purchased" : "Upgrade":"Upgrade"}</button></li>
                 </ul>
             </div>
 

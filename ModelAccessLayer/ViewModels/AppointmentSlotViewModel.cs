@@ -17,8 +17,8 @@ namespace ModelAccessLayer.ViewModels
         [AllowNull]
         public DateTime? skipDate { get; set; }
         public int TimeDuration { get; set; }
-        public TimeOnly TimeFrom { get; set; }
-        public TimeOnly TimeTo { get; set; }
+        public string? TimeFrom { get; set; }
+        public string? TimeTo { get; set; }
         public int JyotishId { get; set; }
     }
 

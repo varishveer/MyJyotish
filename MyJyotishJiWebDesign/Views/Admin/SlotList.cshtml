@@ -380,7 +380,22 @@
                                                 </select>
                                             </div>
                                         </div>
-                                       
+                                         <div class="static">
+                                            <div class="input-container" id="date-picker-container">
+                                                <label for="date-from">Time Start</label>
+                                                <input type="time" id="date-checkout" class="date-field timeFrom" name"timeFrom">
+                                            </div>
+                                            
+                                            
+                                        </div>
+                                          <div class="static">
+                                            <div class="input-container" id="date-picker-container">
+                                                <label for="date-from">Time End</label>
+                                                <input type="time" id="date-checkout" class="date-field timeTo" name"timeTo">
+                                            </div>
+                                            
+                                            
+                                        </div>
                                         <div class="static ">
                                             <div class="input-container" id="date-picker-container">
                                                 <label for="date-from">Skip Date (Optional)</label>
@@ -528,6 +543,8 @@
             const date = $("#date-checkin").val();
             const dateTo = $("#date-checkout").val();
             const timeDuration = $("#timeDuration").val()
+            const timeFrom = $(".timeFrom").val()
+            const timeTo = $(".timeTo").val()
             const skipDate = $("#skipDate").val() != "" ? $("#skipDate").val() : "1001-01-01"
             const saturday = $("#saturday:checked").length > 0 ? $("#saturday").val() : 0
             const sunday = $("#sunday:checked").length > 0 ? $("#sunday").val() : 0
@@ -565,15 +582,17 @@
 
             
             $.ajax({
-                url: BaseUrl+'api/Jyotish/AddAppointmentSlot',
+                url: BaseUrl+'api/admin/AddAppointmentSlot',
                 type: 'POST',
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+                    'Authorization': `Bearer ${localStorage.getItem("Token")}`,
                     'Content-Type': 'application/json',
                 },
                 data: JSON.stringify({
                     date: date,
                     dateTo: dateTo,
+                    timeFrom: timeFrom,
+                    timeTo: timeTo,
                     skipDate: skipDate,
                     saturday: saturday, 
                     sunday: sunday, 
