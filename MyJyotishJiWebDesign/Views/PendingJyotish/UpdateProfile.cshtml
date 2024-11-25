@@ -276,16 +276,7 @@
                             </div>
                             <p class=" my-4 text-secondary alertforbox">Please check boxes if you are available</p>
                         </div>
-                        <div class="col-sm-6">
-                            <div class="d-flex justify-content-between">
-                                    <label for="timefrom">Time From <span class="text-danger">*</span></label>
-                                    <label for="timeto">Time To <span class="text-danger">*</span></label>
-                            </div>
-                            <div class="d-flex gap-2 justify-content-between">
-                            <input type="time" name="timeFrom" class="form-control" id="timefrom" />
-                                <input type="time" name="timeTo" class="form-control" id="timeto" />
-                            </div>
-                        </div>
+                       
                         </div>
                                             <div class="text-end mt-3 position-absolute nexbtn-container"><button type="button" role="button" class="btn btn-dark nxtBtn" data-page="4">Save</button></div>
                 </div>
@@ -309,7 +300,7 @@
                         </div>
                         <div class="row my-3">
                             <div class="col-sm-6">
-                                    <label for="awardsAndAchievement">Awards and Achievement: <span class="text-danger">*</span></label>
+                                    <label for="awardsAndAchievement">Awards and Achievement: </label>
                                     <input type="text" id="awardsAndAchievement" name="AwordsAndAchievement" class="form-control form-control-sm">
                             </div>
                             <div class="col-sm-6">
@@ -596,7 +587,7 @@
         } else if (page == 4) {
                 let callPrice = $("#callprice").val()
                 let chatPrice = $("#chatprice").val()
-                if ($("#timefrom").val() != "" & $("#timefrom").val() != "" & $("#timeto").val() != "" & $("#timeto").val() != "" & $("#AppointmentCharges").val()!="") {
+                if ($("#AppointmentCharges").val()!="") {
                     $(".active4").attr("disabled", false)
 
                     if ($("#callCheckbox:checked").length > 0 && callPrice != "") {
@@ -626,7 +617,7 @@
                 if ($(".active4").attr("disabled") === undefined) {
                     if (clickby == "btn") {
 
-                        let availability = []
+                        let availability = [];
                         availability.push({ name: "Id", value: localStorage.getItem("Id") })
                         availability.push({ name: "AvailbilitySection", value: true })
                         availability.push({ name: "pooja", value: $("#poojaCheckbox:checked").length > 0 ? true : false })
@@ -635,8 +626,7 @@
                         availability.push({ name: "CallCharges", value: $("#callCheckbox:checked").length > 0 ? callPrice : 0 })
                         availability.push({ name: "ChatCharges", value: $("#chatCheckbox:checked").length > 0 ? chatPrice : 0 })
                         availability.push({ name: "AppointmentCharges", value: $("#AppointmentCharges").val() })
-                        availability.push({ name: "TimeFrom", value: $("#timefrom").val() })
-                        availability.push({ name: "TimeTo", value: $("#timeto").val() })
+                      
                         addDataonTemp(availability)
                     }
                     $(".active4").addClass("bg-dark")
@@ -657,7 +647,7 @@
                         enablenxt++;
                     }
                 })
-                if (enablenxt == basicData.length) {
+                if (enablenxt == basicData.length || ($("#awardsAndAchievement").val() == "" & enablenxt == basicData.length-1)) {
                     $(".active5").attr("disabled", false)
                 } else {
                     $(".active5").attr("disabled", true)
