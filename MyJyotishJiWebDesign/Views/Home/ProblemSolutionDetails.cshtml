@@ -107,7 +107,7 @@
                 success: function (response) {
                     Swal.close()
                     console.log(response)
-                    if (response.status === 200) {
+                    if (response.status === 200 &&response.data!=null) {
                         const data = response.data;
                         $("#exampleModalToggle").modal("hide")
                         $("#exampleModalToggle2").modal("show")
