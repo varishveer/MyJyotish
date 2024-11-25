@@ -310,9 +310,11 @@ namespace BusinessAccessLayer.Implementation
 
                     for (TimeOnly time = startTime; time <= endTime; time = time.AddMinutes(model.TimeDuration))
                     {
+                        DateOnly dateonly = DateOnly.FromDateTime(date);
+
                         var data = new SlotModel
                         {
-                            Date =date.Date,
+                            Date = dateonly,
                             Time = time,
                             TimeDuration = model.TimeDuration,
                             Status = "Vacant",

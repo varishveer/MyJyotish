@@ -16,7 +16,7 @@ namespace ModelAccessLayer.Models
         public TimeOnly Time { get; set; }
         public int TimeDuration { get; set; }
         [Required]
-        public DateTime Date { get; set; }
+        public DateOnly Date { get; set; }
         public string Status { get; set; }
         public int ActiveStatus { get; set; }
         [JsonIgnore]
