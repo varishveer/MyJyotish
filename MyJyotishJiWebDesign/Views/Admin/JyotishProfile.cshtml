@@ -68,8 +68,7 @@
     <div class="left-section">
         <img id="profileImage" src="" alt="Profile Image" >
         <h3 id="profileName" class="fw-light"></h3>
-       @*  <a href="#" class="document-btn" id="documentButton">View Documents</a> *@
-        <!-- Button to Open Modal -->
+      
         <button type="button" id="opendocumentModal" class="btn btn-primary" data-toggle="modal" data-target="#documentModal">
             View Documents
         </button>
@@ -90,7 +89,6 @@
 </div>
 
 <script>
-
 
     const params2 = new URLSearchParams(window.location.search);
     const Ids = params2.get('Id'); 
@@ -429,6 +427,26 @@
             <div class="modal-body">
                 <div class="container-fluid ">
                     <div class="row justify-content-around">
+                        <div class="rejectDocuments p-2 rounded w-50 mx-auto d-none position-absolute bg-light">
+                            <form>
+                                <h3 class="text-secondary ">Send Mail</h3>
+                                <input type="hidden" class="form-control" id="status">
+                                <div class="form-group">
+                                    <label for="recipient-name" class="col-form-label">Subject:</label>
+                                    <input type="text" class="form-control" id="recipient-name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="message-text" class="col-form-label">Message:</label>
+                                    <textarea class="form-control" id="message-text" style="resize:none;"></textarea>
+                                </div>
+                            </form>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary closeRejectmodal">Close</button>
+                                <button id="rejectBtn" type="button" class="btn btn-primary">Send message</button>
+                            </div>
+                        </div>
+                        
+
                         <!-- ID Proof -->
                         <div class="col-md-3 col-lg-2 mb-4 " >
                             <p class="docName"> Id Proof</p>
@@ -444,7 +462,7 @@
                              
                                 <button class="btn btn-success btn-sm  approvedBtn"  data-status="idProofStatus" title="Approve">Approve</button>
 
-                                <button class="btn btn-danger btn-sm rejected" data-toggle="modal" data-target="#rejectedDocModal" title="Rejected" data-status="idProofStatus"> Reject</button>
+                                <button class="btn btn-danger btn-sm rejected"  data-status="idProofStatus"> Reject</button>
                              
                             </div>
                         </div>
@@ -460,7 +478,7 @@
                             </div>
                             <div class="flex-row justify-content-center" id="addressBtn">
                                 <button class="btn btn-success btn-sm approvedBtn" data-status="addressProofStatus" title="Approved"> Approve</button>
-                                <button class="btn btn-danger btn-sm rejected" data-toggle="modal" data-target="#rejectedDocModal" title="Rejected" data-status="addressProofStatus"> Reject</button>
+                                <button class="btn btn-danger btn-sm rejected" data-status="addressProofStatus">Reject</button>
                             
                             </div>
                         </div>
@@ -476,7 +494,7 @@
                             </div>
                             <div class="flex-row justify-content-center" id="tenthBtn">
                                 <button class="btn btn-success btn-sm approvedBtn" data-status="tenthCertificateStatus" title="Approved"> Approve</button>
-                                <button class="btn btn-danger btn-sm rejected" data-toggle="modal" data-target="#rejectedDocModal" title="Rejected" data-status="tenthCertificateStatus"> Reject</button>
+                                <button class="btn btn-danger btn-sm rejected" data-status="tenthCertificateStatus">Reject</button>
                             
                             </div>
                         </div>
@@ -492,7 +510,7 @@
                             </div>
                             <div class="flex-row justify-content-center" id="twelveBtn">
                                 <button class="btn btn-success btn-sm approvedBtn" data-status="twelveCertificateStatus" title="Approved"> Approve</button>
-                                <button class="btn btn-danger btn-sm rejected" data-toggle="modal" data-target="#rejectedDocModal" data-status="twelveCertificateStatus" title="Rejected"> Reject</button>
+                                <button class="btn btn-danger btn-sm rejected" data-status="twelveCertificateStatus" title="Rejected"> Reject</button>
                              
                             </div>
                         </div>
@@ -508,7 +526,7 @@
                             </div>
                             <div class="flex-row justify-content-center" id="professionalBtn">
                                 <button class="btn btn-success btn-sm approvedBtn " data-status="professionalCertificateStatus" title="Approved"> Approve</button>
-                                <button class="btn btn-danger btn-sm rejected" data-toggle="modal" data-target="#rejectedDocModal" data-status="professionalCertificateStatus" title="Rejected"> Reject</button>
+                                <button class="btn btn-danger btn-sm rejected"  data-status="professionalCertificateStatus" title="Rejected"> Reject</button>
                              
                             </div>
                         </div>
@@ -523,39 +541,7 @@
 </div>
 
 
-<!-- Rejected Doc Modal -->
-<div class="modal fade" id="rejectedDocModal" tabindex="-1" role="dialog" aria-labelledby="rejectedDocModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="rejectedModalLabel">Rejected message</h5>
-                <button type="button" class="close btn text-danger" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    
-                      
-                        <input type="hidden" class="form-control" id="status" >
-                  
-                    <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Subject:</label>
-                        <input type="text" class="form-control" id="recipient-name">
-                    </div>
-                    <div class="form-group">
-                        <label for="message-text" class="col-form-label">Message:</label>
-                        <textarea class="form-control" id="message-text" style="resize:none;"></textarea>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button id="rejectBtn" type="button" class="btn btn-primary">Send message</button>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 
 <!-- Rejected Jyotish Modal -->
@@ -570,9 +556,7 @@
             </div>
             <div class="modal-body">
                 <form>
-                    
-                      
-                     
+                 
                   
                     <div class="form-group">
                         <label for="recipient-name" class="col-form-label">Subject:</label>
@@ -594,7 +578,13 @@
 
 
 <script>
-    
+
+    $(".rejected").click(function () {
+        $(".rejectDocuments").removeClass("d-none")
+    });
+    $(".closeRejectmodal").click(function () {
+        $(".rejectDocuments").addClass("d-none")
+    });
         // Open the document modal
     $('#opendocumentModal').on('click', function () {
         $('#documentModal').modal('show');
