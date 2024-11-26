@@ -73,7 +73,7 @@
                         htmls += `<td class="text-center">${item.email ?? ''}</td>`;
                         htmls += `<td class="text-center">${item.gender ?? ''}</td>`;
                         htmls += `<td class="text-center">${item.city ?? ''}, ${item.state ?? ''}, ${item.country ?? ''}</td>`;
-                        htmls += `<td class="text-center">${item.newStatus ? 'Incomplete Profile' : 'Profile Completed'}</td>`;
+                        htmls += `<td class="text-center">${item.newStatus ? 'Incomplete Profile' : 'Profile Completed <br> Interview Pending'}</td>`;
                         htmls += `<td class="text-center">
                          ${item.newStatus ? '' : `
                              <i class="fas fa-eye Document fs-3 px-2 text-primary"  data-id="${item.id}"></i>

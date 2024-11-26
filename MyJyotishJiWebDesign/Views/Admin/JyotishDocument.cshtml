@@ -60,35 +60,44 @@
     <div class="text-center border border-1 rounded p-3">
         <div class="row">
             <div class="col-md-12 d-flex justify-content-center mb-3 fw-bold fs-2 text-primary">
-                <div>Jyotish Documents</div>
+                <div class="my-3">Jyotish Documents</div>
             </div>
         </div>
 
-        <div class="row">
+        <div class="row justify-content-center" id="docContainer">
             <div class="col-md-3 col-lg-2 mb-4">
                 <div class="image-container">
                     <img id="idProof" alt="ID Proof" src="">
                 </div>
+                <p class="text-center">Id Proof</p>
             </div>
             <div class="col-md-3 col-lg-2 mb-4">
                 <div class="image-container">
                     <img id="addressProof" alt="Address Proof" src="">
                 </div>
+                <p class="text-center">Address Proof</p>
+
             </div>
             <div class="col-md-3 col-lg-2 mb-4">
                 <div class="image-container">
                     <img id="tenthCertificate" alt="Tenth Certificate" src="">
                 </div>
+                <p class="text-center">Tenth Certificate</p>
+
             </div>
             <div class="col-md-3 col-lg-2 mb-4">
                 <div class="image-container">
                     <img id="twelveCertificate" alt="Twelve Certificate" src="">
                 </div>
+                <p class="text-center">Twelve Certificate</p>
+
             </div>
             <div class="col-md-3 col-lg-2 mb-4">
                 <div class="image-container">
                     <img id="professionalCertificate" alt="Professional Certificate" src="">
                 </div>
+                <p class="text-center">Professional Certificate</p>
+
             </div>
         </div>
     </div>
@@ -103,12 +112,16 @@
         const urlParams = new URLSearchParams(window.location.search);
         return urlParams.get('id');
     }
-
     const id = getIdFromUrl();
-
     if (id) {
         // Fetch Jyotish documents
         function getJyotishDocs(id) {
+            Swal.fire({
+                title: "Processing Your Request",
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            })
             $.ajax({
                 url: BaseUrl + `Api/Admin/GetJyotishDocs?Id=${id}`,
                 type: 'GET',
@@ -116,12 +129,15 @@
                     'Authorization': `Bearer ${localStorage.getItem("Token")}`
                 },
                 success: function (response) {
+                    console.log(response)
                     if (response.status === 200) {
                         updateDocumentStatus(response.data);
-                    } else {
-                        alert("No Record Found");
-                        window.location.replace("/Admin/PendingJyotish");
+                    } else if (response.status === 400) {
+                        $("#docContainer").html(`
+                        <p class='text-center text-secondary'>no record found</p>
+                        `)
                     }
+                    Swal.close();
                 },
                 error: function () {
                     alert('Error fetching Jyotish documents.');
@@ -134,10 +150,16 @@
         function updateDocumentStatus(docs) {
             const defaultImage = '/Img/SampleDoc.jpeg';
             $("#idProof").attr("src", docs.idProof ? BaseUrl + docs.idProof : defaultImage);
+            $("#idProof").parent().parent().addClass(docs.idProof ? "" : "d-none");
             $("#addressProof").attr("src", docs.addressProof ? BaseUrl + docs.addressProof : defaultImage);
+            $("#addressProof").parent().parent().addClass(docs.addressProof ? "" : "d-none");
             $("#tenthCertificate").attr("src", docs.tenthCertificate ? BaseUrl + docs.tenthCertificate : defaultImage);
+            $("#tenthCertificate").parent().parent().addClass(docs.tenthCertificate ? "" : "d-none");
             $("#twelveCertificate").attr("src", docs.twelveCertificate ? BaseUrl + docs.twelveCertificate : defaultImage);
+            $("#twelveCertificate").parent().parent().addClass(docs.twelveCertificate ? "" : "d-none");
             $("#professionalCertificate").attr("src", docs.professionalCertificate ? BaseUrl + docs.professionalCertificate : defaultImage);
+            $("#professionalCertificate").parent().parent().addClass(docs.professionalCertificate ? "" : "d-none");
+
         }
 
         // Call the function to load the documents

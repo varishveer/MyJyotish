@@ -944,6 +944,7 @@ didClose:()=>{
                         data.forEach(function (d) {
                             const content = `
                                        <div class="container my-3 text-end">
+                                       <button role='button' class='btn btn-info' onClick='printReceipt(${JSON.stringify(d)})' type='button'><i class="fas fa-print"></i></button>
                                            <button role="button" type="button" class="btn btn-secondary attachmentModaltriggerforUpdate" onClick='showAttachmentUpdateModal(${d.appointmentId},${d.memberId},${d.uId})' ><i class="fas fa-paperclip"></i></button>
                                     <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#updateProblemSolutionModal"
                                        onclick='populateUpdateModal(${JSON.stringify(d)})'>Update</a>
@@ -1544,6 +1545,39 @@ didClose:()=>{
             }
         })
     }
+
+    
+      function printReceipt(d){
+           let data=d
+           console.log(data)
+       let printWindow = window.open('', '_blank', 'width=600,height=400');
+
+       // Prepare the HTML content for printing
+       let printContent = `<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap-grid.min.css" integrity="sha512-JQksK36WdRekVrvdxNyV3B0Q1huqbTkIQNbz1dlcFVgNynEMRl0F8OSqOGdVppLUDIvsOejhr/W5L3G/b3J+8w==" crossorigin="anonymous" referrerpolicy="no-referrer" />  <div class="problem-solution-container">
+                                    <div class="d-flex justify-content-between">
+                                                            <div><div class="section-title">${data.memberName != null ? "Member Name" : "User Name"}:</div><p>${data.memberName != null ? data.memberName : data.userName}</p></div>
+                                  <div><div class="section-title">Date:</div><p>${data.appointmentDate}</p></div>
+                                  <div><div class="section-title">Time:</div><p>${data.appointmentTime}</p></div>
+                                    </div>
+                                    <div class="section-title">Problems:</div>
+                                    <ol>${data.problems.map(problem => `<li>${problem}</li>`).join('')}</ol>
+                                    <div class="section-title">Solutions:</div>
+                                    <div>${data.solution}</div>
+                                </div>`
+
+       // Write the HTML content to the new window
+       printWindow.document.write(printContent);
+       printWindow.document.close();
+
+       // Wait for the content to load and then print
+       printWindow.onload = function () {
+           printWindow.print();
+
+       setTimeout(function () {
+           printWindow.close(); // Close the window after a short delay
+       }, 20000);
+       }
+      }
 </script>
 <script>
     
@@ -1603,6 +1637,7 @@ didClose:()=>{
         });
     });
     
+   
 </script>
 
 

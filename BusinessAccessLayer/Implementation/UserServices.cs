@@ -414,7 +414,7 @@ namespace BusinessAccessLayer.Implementation
                        Status = combined.record.Status,
                        Amount = combined.record.Amount,
                        currentDate = DateTime.Now.Date.ToString("dd-MM-yyyy")
-                   })
+                   }).OrderByDescending(e=>e.Id)
              .ToList();
             return Records; 
         }
@@ -740,8 +740,7 @@ namespace BusinessAccessLayer.Implementation
                         AppointmentId = group.Key.Id,
                         Date = slot != null ? DateOnly.FromDateTime(slot.Date) : DateOnly.MinValue,
                         Time = slot != null ? slot.TimeFrom : TimeOnly.MinValue,
-                        Problem = group.SelectMany(p => p.Problem?.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries) ?? Array.Empty<string>()).ToArray(),
-                        Solution = group.SelectMany(p => p.Solution?.Split(new[] { "$%^" }, StringSplitOptions.RemoveEmptyEntries) ?? Array.Empty<string>()).ToArray()
+                        
                     };
                 })
                 .ToList();

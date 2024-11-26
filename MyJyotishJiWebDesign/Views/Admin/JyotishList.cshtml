@@ -6,6 +6,58 @@
         padding-left: 15px !important;
         padding-right: 15px !important;
     }
+
+    
+
+    .left-section {
+        width: 30%;
+        padding: 20px;
+        border-right: 1px solid #ddd;
+        text-align: center;
+    }
+      
+        .left-section img {
+            width: 250px;
+            height: 250px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            object-fit: cover;
+            background-color: #f0f0f0;
+        }
+
+
+    .document-btn {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+    }
+
+    .right-section {
+        width: 70%;
+        padding: 20px;
+    }
+
+    .profile-info {
+        margin-bottom: 10px;
+    }
+
+        .profile-info h6 {
+            margin: 5px 0;
+            font-weight: 300;
+        }
+
+        .profile-info p {
+            margin: 5px 0;
+            color: #666;
+        }
+
+    #about {
+        text-align: justify;
+    }
 </style>
 
 @* <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -32,12 +84,115 @@
 </div>
 
 
+<!-- userDetails -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fw-bold text-center w-100 text-primary" id="exampleModalLabel">User Details</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container d-flex">
+                    <div class="left-section">
+                        <img id="profileImage" src="" alt="Profile Image">
+                        <h3 id="profileName" class="fw-light"></h3>
+                        <p class="planDetails p-2">
+                            <span data-bs-toggle="popover" class="p-3 border rounded  position-relative" data-bs-title="Plan Duration" data-bs-content="Free User" id="planContent">Free User</span>
+                        </p>
+                        <button type="button" id="opendocumentModal" class="btn btn-primary" data-toggle="modal" data-target="#documentModal" onclick="getJyotishDocs()">
+                            View Documents
+                        </button>
 
+                        <div class="d-flex my-2 justify-content-center gap-2">
+
+                        </div>
+
+                        <h6 class="fw-light mt-3">About</h6>
+                        <p id="about"></p>
+                    </div>
+                    <div class="right-section" id="profileDetails">
+                        <!-- Dynamic profile details go here -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+           
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal  fade" id="documentModal" tabindex="-1" role="dialog" aria-labelledby="documentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="documentModalLabel">Jyotish Documents</h5>
+                <button type="button" class="close btn text-danger" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid ">
+                  
+                        
+
+                        <div class="row justify-content-center" id="docContainer">
+                            <div class="col-md-3 col-lg-2 mb-4">
+                                <div class="image-container">
+                                    <img id="idProof" alt="ID Proof" src="">
+                                </div>
+                                <p class="text-center">Id Proof</p>
+                            </div>
+                            <div class="col-md-3 col-lg-2 mb-4">
+                                <div class="image-container">
+                                    <img id="addressProof" alt="Address Proof" src="">
+                                </div>
+                                <p class="text-center">Address Proof</p>
+
+                            </div>
+                            <div class="col-md-3 col-lg-2 mb-4">
+                                <div class="image-container">
+                                    <img id="tenthCertificate" alt="Tenth Certificate" src="">
+                                </div>
+                                <p class="text-center">Tenth Certificate</p>
+
+                            </div>
+                            <div class="col-md-3 col-lg-2 mb-4">
+                                <div class="image-container">
+                                    <img id="twelveCertificate" alt="Twelve Certificate" src="">
+                                </div>
+                                <p class="text-center">Twelve Certificate</p>
+
+                            </div>
+                            <div class="col-md-3 col-lg-2 mb-4">
+                                <div class="image-container">
+                                    <img id="professionalCertificate" alt="Professional Certificate" src="">
+                                </div>
+                                <p class="text-center">Professional Certificate</p>
+
+                            </div>
+                        </div>
+                    
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <script>
     $(document).ready(function () {
         function fetchData() {
+            Swal.fire({
+                title: "Processing Your Request",
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            })
             $.ajax({
                 url: BaseUrl +"api/Admin/Jyotish",
                 type: 'GET',
@@ -51,17 +206,11 @@
                         '<th>Name</th>' +
                         '<th>Mobile</th>' +
                         '<th>Email</th>' +
-                        '<th>Expertise</th>' +
                         '<th>Language</th>' +
                         '<th>Gender</th>' +
                         '<th>Country</th>' +
                         '<th>State</th>' +
                         '<th>City</th>' +
-                        '<th>DOB</th>' +
-                        '<th>Status</th>' +
-                        '<th>Experience</th>' +
-                         '<th>Call</th>' +
-                        '<th>Chat</th>' +
                         '<th>Action</th>' +
                         '</tr></thead><tbody>';
 
@@ -71,25 +220,14 @@
                         htmls += `<td class="text-center">${item.name ?? ''}</td>`;
                         htmls += `<td class="text-center">${item.mobile ?? ''}</td>`;
                         htmls += `<td class="text-center">${item.email ?? ''}</td>`;
-                        htmls += `<td class="text-center">${item.expertise ?? ''}</td>`;
                         htmls += `<td class="text-center">${item.language ?? ''}</td>`;
                         htmls += `<td class="text-center">${item.gender ?? ''}</td>`;
                         htmls += `<td class="text-center">${item.country ?? ''}</td>`;
                         htmls += `<td class="text-center">${item.state ?? ''}</td>`;
                         htmls += `<td class="text-center">${item.city ?? ''}</td>`;
-                        htmls += `<td class="text-center">${item.dateOfBirth ? new Date(item.dateOfBirth).toLocaleDateString() : ''}</td>`;
-                        htmls += `<td class="text-center">${item.status ?? ''}</td>`;
-                        htmls += `<td class="text-center">${item.experience ?? ''}</td>`;
-                        htmls += `<td class="text-center">${item.callCharges ?? ''}</td>`;
-                        htmls += `<td class="text-center">${item.chatCharges ?? ''}</td>`;
+                       
                         htmls += `<td class="text-center">
-
-
-                                                <a href="/Admin/JyotishDocument?id=${item.id}">
-                                        <svg id="Document" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 2.5a.25.25 0 0 0-.25-.25H7A2.75 2.75 0 0 0 4.25 5v14A2.75 2.75 0 0 0 7 21.75h10A2.75 2.75 0 0 0 19.75 19V9.147a.25.25 0 0 0-.25-.25H15a.75.75 0 0 1-.75-.75zm.75 9.75a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1 0-1.5zm0 4a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1 0-1.5z" clip-rule="evenodd"/><path fill="currentColor" d="M15.75 2.824c0-.184.193-.301.336-.186q.182.147.323.342l3.013 4.197c.068.096-.006.22-.124.22H16a.25.25 0 0 1-.25-.25z"/></svg>
-                                            </a>
-
-                                                
+     <i class="fas fa-user-tag" onClick='getuserDetail(${item.id})'></i>
                                 </td>`;
                         htmls += '</tr>';
                     });
@@ -97,6 +235,7 @@
                     htmls += '</tbody>';
                     $('#DataTable').html(htmls);
                     $('#DataTable').DataTable();
+                    Swal.close()
                 }
             });
         }
@@ -105,3 +244,281 @@
 
     });
 </script>
+
+
+<script>
+    let userId;
+
+    function getuserDetail(id) {
+        userId=id
+        Swal.fire({
+            title: "Processing Your Request",
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
+        $.ajax({
+            url: `${BaseUrl}Api/Admin/JyotishProfile?Id=${id}`,
+            type: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Example of an authorization header
+                'Content-Type': 'application/json', // Example of a content type header
+
+            },
+            success: function (response) {
+                if (response.status === 200) {
+                    getJyotishPlan(id)
+
+                    const data = response.data;
+
+                    // Populate Left Section
+                    $('#profileImage').attr('src', `${BaseUrl}${data.profileImageUrl}`);
+                    $('#profileName').text(data.name);
+                    $('#documentButton').attr('href', `/Admin/JyotishDocs?id=${data.id}`);
+                    $('#about').html(data.about.slice(0, 200) + `...<span class='text-primary' onClick='SeemoreAbout()' role='button'>more</span>`);
+                 
+
+                    if (data.call == true) { var Call = "Yes"; }
+                    else { var Call = "No"; }
+                    if (data.chat == true) { var Chat = "Yes"; }
+                    else { var Chat = "No"; }
+
+                    const profileHTML = `
+                               <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="profile-info">
+                                            <h6>Email:</h6>
+                                            <p>${data.email}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="profile-info">
+                                            <h6>Mobile:</h6>
+                                            <p>${data.mobile}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="profile-info">
+                                            <h6>Alternate Mobile:</h6>
+                                            <p>${data.alternateMobile}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="profile-info">
+                                            <h6>Experience:</h6>
+                                            <p>${data.experience} years</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="profile-info">
+                                            <h6>Gender:</h6>
+                                            <p>${data.gender}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="profile-info">
+                                            <h6>Language:</h6>
+                                            <p>${data.language}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="profile-info">
+                                            <h6>Date of Birth:</h6>
+                                            <p>${data.dateOfBirth}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="profile-info">
+                                            <h6>Expertise:</h6>
+                                            <p>${data.expertise}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="profile-info">
+                                            <h6>City:</h6>
+                                            <p>${data.city}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="profile-info">
+                                            <h6>State:</h6>
+                                            <p>${data.state}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="profile-info">
+                                            <h6>Country:</h6>
+                                            <p>${data.country}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="profile-info">
+                                            <h6>Address:</h6>
+                                            <p>${data.address}</p>
+                                        </div>
+                                    </div>
+
+                                         <div class="col-md-6">
+                                            <div class="profile-info">
+                                                <h6>Available Time:</h6>
+                                                <p>${data.timeFrom} - ${data.timeTo}</p>
+                                            </div>
+                                        </div>
+                                    <div class="col-md-6">
+                                        <div class="profile-info">
+                                            <h6>Pooja:</h6>
+                                                <p>${data.pooja === false ? "no" : "yes"}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="profile-info">
+                                            <h6>Call:</h6>
+                                            <p>${Call}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="profile-info">
+                                            <h6>Call Charges:</h6>
+                                                    <p>₹${data.callCharges ?? "N/A"}/min</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="profile-info">
+                                            <h6>Chat:</h6>
+                                            <p>${Chat}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="profile-info">
+                                            <h6>Chat Charges:</h6>
+                                                <p>₹${data.chatCharges ?? "N/A"}/min</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="profile-info">
+                                            <h6>Specialization:</h6>
+                                            <p>${data.specialization}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="profile-info">
+                                            <h6>Awards and Achievements:</h6>
+                                            <p>${data.awordsAndAchievement}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                    allAbout = data.about;
+                    $('#profileDetails').html(profileHTML);
+                    Swal.close()
+                } else {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'No record found',
+                        text: 'Sorry, we couldn\'t find any records matching your search.',
+                        confirmButtonText: 'OK'
+                    });
+                }
+
+                $("#exampleModal").modal("show")
+            },
+            error: function () {
+                Swal.fire({
+                    icon: 'error',                // Set the icon to 'error'
+                    title: 'Error',               // Title of the alert
+                    text: 'Error loading data',   // Body text of the alert
+                    confirmButtonText: 'OK'       // Text for the confirm button
+                });
+
+            }
+        });
+
+    }
+    function getJyotishPlan(id){
+        $.ajax({
+            url: BaseUrl + "api/admin/getPlan",
+            type: "get",
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+            },
+            data: { Id:id },
+            success: function (res) {
+                console.log(res,"plan")
+                if (res.status == 200) {
+
+                    $("#planContent").attr("data-bs-content",`Purchase Date : ${res.data.purchaseDate.split("T")[0]} \r\n Expiry Date : ${res.data.expiryDate.split("T")[0]}`)
+                     $("#planContent").text(res.data.planName)
+                    
+                }else{
+                    $("#planContent").text("Free User")
+                     $("#planContent").attr("data-bs-content","Free User")
+                }
+   const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
+   const popoverList = [...popoverTriggerList].map(popoverTriggerEl => {
+    const popover = new bootstrap.Popover(popoverTriggerEl);
+    popover.show(); 
+    return popover;
+});
+            }
+        })
+    }
+ 
+
+    function getJyotishDocs() {
+        Swal.fire({
+            title: "Processing Your Request",
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
+        $.ajax({
+            url: BaseUrl + `Api/Admin/GetJyotishDocs?Id=${userId}`,
+            type: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token")}`
+            },
+            success: function (response) {
+                console.log(response)
+                if (response.status === 200) {
+                    updateDocumentStatus(response.data);
+                } else if (response.status === 400) {
+                    $("#docContainer").html(`
+                            <p class='text-center text-secondary'>no record found</p>
+                            `)
+                }
+                Swal.close();
+            },
+            error: function () {
+                alert('Error fetching Jyotish documents.');
+                window.location.replace("/Admin/Jyotish");
+            }
+        });
+    }
+    function updateDocumentStatus(docs) {
+        const defaultImage = '/Img/SampleDoc.jpeg';
+        $("#idProof").attr("src", docs.idProof ? BaseUrl + docs.idProof : defaultImage);
+        $("#idProof").parent().parent().addClass(docs.idProof ? "" : "d-none");
+        $("#addressProof").attr("src", docs.addressProof ? BaseUrl + docs.addressProof : defaultImage);
+        $("#addressProof").parent().parent().addClass(docs.addressProof ? "" : "d-none");
+        $("#tenthCertificate").attr("src", docs.tenthCertificate ? BaseUrl + docs.tenthCertificate : defaultImage);
+        $("#tenthCertificate").parent().parent().addClass(docs.tenthCertificate ? "" : "d-none");
+        $("#twelveCertificate").attr("src", docs.twelveCertificate ? BaseUrl + docs.twelveCertificate : defaultImage);
+        $("#twelveCertificate").parent().parent().addClass(docs.twelveCertificate ? "" : "d-none");
+        $("#professionalCertificate").attr("src", docs.professionalCertificate ? BaseUrl + docs.professionalCertificate : defaultImage);
+        $("#professionalCertificate").parent().parent().addClass(docs.professionalCertificate ? "" : "d-none");
+
+    }
+
+    function SeemoreAbout() {
+        cropAbout = $("#about").html()
+        $("#about").html(
+            `${allAbout} <span class='text-primary' onClick='SeelessAbout()' role='button'>less</span>
+                              `
+        )
+    }
+    function SeelessAbout() {
+        $("#about").html(cropAbout)
+    }
+
+</script>
+

@@ -852,7 +852,7 @@ namespace BusinessAccessLayer.Implementation
             DateOnly todayDate = DateOnly.FromDateTime(today);
 
             var slots = _context.Slots
-                .Where(slot => slot.Date >= todayDate)
+                .Where(slot => slot.Date >= todayDate && slot.ActiveStatus==1)
                 .OrderByDescending(slot => slot.Date)
                 .ThenBy(slot => slot.Time) 
                 .ToList();
@@ -1302,6 +1302,28 @@ namespace BusinessAccessLayer.Implementation
 
             return result;
         }
+
+        public dynamic getPlan(int Id)
+        {
+            var data = (from plan in _context.PackageManager
+                        join subscription in _context.Subscriptions on plan.SubscriptionId equals subscription.SubscriptionId
+                        join mngsub in _context.ManageSubscriptionModels on plan.SubscriptionId equals mngsub.SubscriptionId
+                        join feature in _context.SubscriptionFeatures on mngsub.FeatureId equals feature.FeatureId
+                        where plan.JyotishId == Id && plan.Status && subscription.Status && feature.Status && mngsub.Status
+                        select new
+                        {
+                            planName = subscription.Name,
+                            planId = subscription.SubscriptionId,
+                            purchaseDate=plan.PurchaseDate,
+                            expiryDate=plan.ExpiryDate
+                        }
+                       ).FirstOrDefault();
+
+
+            return data;
+        }
+
+
 
 
         public ProblemSolutionAdminViewModel GetProblemSolution(int id)
