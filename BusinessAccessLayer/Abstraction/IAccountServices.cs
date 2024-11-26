@@ -13,7 +13,7 @@ namespace BusinessAccessLayer.Abstraction
         #region Jyotish
         public string JRegisterAndSendOtp(string Email);
         public string VerifyJOtp(string Email, int Otp);
-        public string SignUpJyotish(JyotishViewModel jyotishView, string path );
+        public string SignUpJyotish(JyotishViewModel jyotishView );
         public string SignInJyotish(string Email, string password);
    
         public string JForgotPasswordOtpRequest(string Email);

@@ -98,6 +98,8 @@ body {
             <div class="modal-body text-center">
                 <small class="text-secondary">Please enter a amount to add into your wallet</small>
                <input type="number" class="form-control my-3" name="amount" placeholder="Enter amount to add wallet" id="amount"/>
+                <span class="text-danger d-none" id="amountvalidalert">min amount required ₹200</span>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -167,8 +169,24 @@ body {
 
     });
 
+    $("#amount").on("keyup", function () {
+        if ($(this).val() < 200) {
+            $("#amountvalidalert").removeClass("d-none");
+        } else {
+            $("#amountvalidalert").addClass("d-none");
+
+        }
+    })
+
     $("#addAmountIntoWallet").click(function(){
         let amount = $("#amount").val();
+        if (amount < 200) {
+            $("#amountvalidalert").removeClass("d-none");
+            return
+        } else {
+            $("#amountvalidalert").addClass("d-none");
+
+        }
         Swal.fire({
             title: "Processing Your Request",
             didOpen: () => {

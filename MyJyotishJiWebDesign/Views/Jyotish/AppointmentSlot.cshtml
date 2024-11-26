@@ -329,6 +329,22 @@
                                         </div>
                                         <div class="static">
                                             <div class="input-container" id="date-picker-container">
+                                                <label for="date-from">Time Start</label>
+                                                <input type="time" id="date-checkout" class="date-field timeFrom" name"timeFrom">
+                                            </div>
+
+
+                                        </div>
+                                        <div class="static">
+                                            <div class="input-container" id="date-picker-container">
+                                                <label for="date-from">Time End</label>
+                                                <input type="time" id="date-checkout" class="date-field timeTo" name"timeTo">
+                                            </div>
+
+
+                                        </div>
+                                        <div class="static">
+                                            <div class="input-container" id="date-picker-container">
                                                 <label for="date-from" class="m-0">Appointment Duration</label>
                                                 <select class="date-field border-0" id="timeDuration">
                                                     <option value="" disabled>--Select Appointment Time--</option>
@@ -554,6 +570,8 @@
             e.preventDefault();
             const date = $("#date-checkin").val();
             const dateTo = $("#date-checkout").val();
+            const timeFrom = $(".timeFrom").val()
+            const timeTo = $(".timeTo").val()
             const timeDuration = $("#timeDuration").val()
             const skipDate = $("#skipDate").val() != "" ? $("#skipDate").val() : "1001-01-01"
             const saturday = $("#saturday:checked").length > 0 ? $("#saturday").val() : 0
@@ -601,6 +619,8 @@
                 data: JSON.stringify({
                     date: date,
                     dateTo: dateTo,
+                    timeFrom: timeFrom,
+                    timeTo: timeTo,
                     skipDate: skipDate,
                     saturday: saturday, 
                     sunday: sunday, 

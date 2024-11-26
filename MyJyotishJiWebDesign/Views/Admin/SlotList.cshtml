@@ -632,3 +632,28 @@
         });
 
 </script>
+<script>
+
+
+    const today = new Date();
+
+    const formattedToday = today.toISOString().split('T')[0];
+
+    // Set the min and max attributes on the date input
+    const dateFrom = document.getElementById('date-checkin');
+    const dateTo = document.getElementById('date-checkout');
+    dateFrom.setAttribute('min', formattedToday); // Current date
+    dateFrom.addEventListener("input", function () {
+        let fromDate = new Date(this.value);
+        dateTo.setAttribute('min', this.value);
+        const maxDate = new Date(fromDate);
+        maxDate.setDate(fromDate.getDate() + 90); // Add 90 days
+
+        // Format the max date as YYYY-MM-DD
+        const formattedMaxDate = maxDate.toISOString().split('T')[0];
+        dateTo.setAttribute('max', formattedMaxDate);
+        dateTo.value = formattedMaxDate
+        $("#skipDate").attr("min", this.value)
+        $("#skipDate").attr("max", formattedMaxDate)
+    })
+</script>

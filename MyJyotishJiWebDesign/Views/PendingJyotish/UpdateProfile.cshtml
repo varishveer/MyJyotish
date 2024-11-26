@@ -264,11 +264,11 @@
                                 <input type="checkbox" id="chatCheckbox" class="checkboxforavail" value="1" name="chat" /> Chat &nbsp;&nbsp;
                             <div id="callInputBox" class="input-box">
                                                         <label for="callprice" class="mt-4">Call Price <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control " id="callprice" name="callprice" placeholder="Enter call price" />
+                                <input type="text" class="form-control " id="callprice" name="callprice" placeholder="Enter call price ₹/Minute" />
                             </div>
                             <div id="chatInputBox" class="input-box">
                                                         <label for="chatprice" class="mt-4">Chat Price <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control " id="chatprice" name="chatprice" placeholder="Enter chat price" />
+                                                        <input type="text" class="form-control " id="chatprice" name="chatprice" placeholder="Enter chat price  ₹/Minute" />
                             </div>
                             <div id="appointmentCharges" class="input-box">
                                                         <label for="AppointmentCharges" class="mt-4">Appointment Charges <span class="text-danger">*</span></label>
@@ -289,13 +289,16 @@
                         <div class="row">
                             <div class="col-sm-6">
                                     <label for="expertise">Expertise: <span class="text-danger">*</span></label>
-                                    <select id="expertise" name="Expert" class="form-control select2 form-control-sm" multiple>
+                                                        <select id="expertise" name="Expert" class="form-control select2 form-control-sm" multiple>
                                 <option value="" selected disabled>Select Expertise</option>
                             </select>
                             </div>
                             <div class="col-sm-6">
-                            <label for="specialization">Specialization: <span class="text-danger">*</span></label>
-                                    <input type="text" id="specialization" name="Specialization" class="form-control form-control-sm" required>
+                            <label for="specialization">Specialization: </label>
+                                                        <select multiple id="specialization" name="SpecializationData" class="form-control form-control-sm select2" required>
+                                <option>--select specialization--</option>
+                            </select >
+                                   
                             </div>
                         </div>
                         <div class="row my-3">
@@ -641,13 +644,18 @@
         } else if (page == 5) {
                 let basicData = $("#aboutForm").serializeArray();
                 let enablenxt = 0;
-                debugger
+            let basicDataLength=0;
                 basicData.forEach(function (d) {
-                    if (d.value != "" & d.value != null & d.value != 0) {
+                    if (d.value != "" & d.value != null & d.value != 0 & d.name != "AwordsAndAchievement" & d.name != "SpecializationData") {
                         enablenxt++;
                     }
+                    if (d.name != "SpecializationData" & d.name != "AwordsAndAchievement") {
+
+                    basicDataLength++
+                    }
                 })
-                if (enablenxt == basicData.length || ($("#awardsAndAchievement").val() == "" & enablenxt == basicData.length-1)) {
+                debugger
+                if ((enablenxt == basicData.length || enablenxt == basicDataLength ) & $("#expertise").val()!="") {
                     $(".active5").attr("disabled", false)
                 } else {
                     $(".active5").attr("disabled", true)
@@ -898,7 +906,7 @@ $("#language").select2({
             }
         }
         // Load Expertise
-        function loadExpertise() {
+       
             $.ajax({
                 url: "@BaseUrl"+'Api/Jyotish/Expertise',
                 type: 'GET',
@@ -915,11 +923,8 @@ $("#language").select2({
                 error: function (jqXHR, textStatus, errorThrown) {
                     console.error('Error fetching expertise:', textStatus, errorThrown);
                 }
-            });
-        }
-
-        // Load Countries
-        function loadCountries() {
+            }).then(() => { 
+       
             $.ajax({
                 url: "@BaseUrl" + 'Api/Jyotish/Country',
                 type: 'GET',
@@ -936,9 +941,30 @@ $("#language").select2({
                 error: function (jqXHR, textStatus, errorThrown) {
                     console.error('Error fetching countries:', textStatus, errorThrown);
                 }
-            });
-        }
+            })
+            }).then(() => {
+                loadLanguage();
+            }).then(() => {
+                       
+                        $.ajax({
+                            url: BaseUrl + "api/jyotish/GetSpecializationList",
+                            type: 'GET',
+                            success: function (result) {
 
+                                $.each(result.data, function (key, item) {
+                                    $('#specialization').append(`
+                                            <option value='${item.name}'>${item.name}</option>
+                                    `);
+                                });
+
+                            },
+                            error: function (errormessage) {
+                                console.error('Error fetching data:', errormessage.responseText);
+                            }
+                        });
+                
+                }).then(()=>{
+            
         // Load States
         function loadStates(countryId) {
             $.ajax({
@@ -1095,9 +1121,8 @@ $("#language").select2({
         })
         // Load data on page load
        
-        loadLanguage();
-        loadExpertise();
-        loadCountries();
+       
+      
     })
             function loadJyotishProfile() {
             Swal.fire({
@@ -1138,6 +1163,8 @@ $("#language").select2({
                         setTimeout(() => { 
                         $("#language").val(response.data.language != null ? response.data.language.split(",") : response.data.language).change()
                         $("#expertise").val(response.data.expertise != null ? response.data.expertise.split(",") : response.data.expertise).change()
+                            $("#specialization").val(response.data.specialization != null ? response.data.specialization.split(',') : response.data.specialization).change()
+
                         },1000)
                         $("#expertise-profile").text(response.data.expertise)
                         $("#pincode").val(response.data.pincode)
@@ -1160,7 +1187,6 @@ $("#language").select2({
                         $("#chatprice").val(response.data.chatCharges)
                         $("#callprice").val(response.data.callCharges)
                         $("#timeto").val(response.data.timeTo)
-                        $("#specialization").val(response.data.specialization)
                         $("#experiance").val(response.data.experience)
                         $("#awardsAndAchievement").val(response.data.awordsAndAchievement)
                         $("#aboutus").val(response.data.about)
@@ -1253,7 +1279,7 @@ $("#language").select2({
                 })
             }
             loadJyotishProfile()
-
+    })
             function addDataonTemp(sArray)
             {
             Swal.fire({
@@ -1267,6 +1293,7 @@ $("#language").select2({
             debugger
             let language=[]
             let expertise=[]
+            let specializationList=[]
                 let formData=new FormData();
                 sArray.forEach(function(d){
                     formData.append(d.name,d.value)
@@ -1276,11 +1303,16 @@ $("#language").select2({
                 if (d.name == "Expert"){
                     expertise.push(d.value)
                 }
+                if (d.name == "SpecializationData")
+                specializationList.push(d.value)
                 })
+                debugger
                 let joinlang = language.toString();
                 formData.append("Language",joinlang)
             let joinexpert = expertise.toString();
                 formData.append("Expertise", joinexpert)
+                let joinSpec = specializationList.toString();
+            formData.append("Specialization", joinSpec)
             $.ajax({
                 url: "@BaseUrl" + "Api/PendingJyotish/UpdateProfile",
                 type: 'POST',
@@ -1329,7 +1361,15 @@ $("#language").select2({
             }
     }
     manageforms();
+
       
+
+        let currentDate = new Date();
+
+        // Subtract 20 years from the current date
+        currentDate.setFullYear(currentDate.getFullYear() - 20);
+
+        $("#dob").attr("max", currentDate.toISOString().split('T')[0])
 </script>
 </body>
 </html>

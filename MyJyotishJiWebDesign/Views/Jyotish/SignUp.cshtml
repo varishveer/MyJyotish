@@ -149,21 +149,18 @@
                     <!-- Add country options here -->
                 </select>
             </div>
-                    <div class="form-group col-md-6" style="margin-bottom: 0.2rem;">
-                        <label for="Image" class="form-label">Profile Image:</label>
-                        <input id="image" type="file" class="form-control" />
+                    <div class="form-group col-md-6" style="margin-bottom: 0.6rem;">
+                        <label for="state" class="form-label">State:</label>
+                        <select id="state" name="state" class="form-select" disabled>
+                            <option value="">Select State</option>
+                            <!-- Add state options here -->
+                        </select>
                     </div>
-        </div>    
+                </div>    
 
         
         <div class="form-row">
-              <div class="form-group col-md-6" style="margin-bottom: 0.6rem;">
-                  <label for="state" class="form-label">State:</label>
-                  <select id="state" name="state" class="form-select" disabled>
-                      <option value="">Select State</option>
-                      <!-- Add state options here -->
-                  </select>
-              </div>
+            
             <div class="form-group col-md-6" style="margin-bottom: 0.6rem;">
                 <label for="city" class="form-label">City:</label>
                 <select id="city" name="city" class="form-select" disabled>
@@ -514,25 +511,7 @@
             formData.append('state', $('#state').val());
             formData.append('city', $('#city').val());
 
-            const fileInput = document.querySelector('input[type="file"]');
-            if (fileInput && fileInput.files.length > 0) {
-                formData.append('image', fileInput.files[0]);
-            }
-            else{
-
-             
-
-                Swal.fire({
-                    title: "Incomplete Form",
-                    text: "Please fill in all required fields before submitting.",
-                    icon: "warning",
-                    showConfirmButton: true,
-                }).then(() => {
-                   
-                    return; // Exit the function to prevent further execution
-                });
-                return; // Exit the function to prevent AJAX call
-            }
+            
 
             $.ajax({
                 url: BaseUrl + 'Api/Account/SignUpJyotish',

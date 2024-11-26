@@ -130,8 +130,8 @@ namespace MyJyotishJiApi.Controllers
         {
             try
             {
-                string? path = _environment.ContentRootPath;
-                var result = _account.SignUpJyotish(jyotishViewModel, path);
+               
+                var result = _account.SignUpJyotish(jyotishViewModel);
                 if (result == "Successful")
                 { return Ok(new { Status = 200, Message = result });}
                 else if (result == "Mobile Number not found")

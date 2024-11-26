@@ -334,9 +334,8 @@ namespace BusinessAccessLayer.Implementation
             }
             return "Email not found";
         }
-        public string SignUpJyotish(JyotishViewModel jyotishView , string path)
-        {
-            
+        public string SignUpJyotish(JyotishViewModel jyotishView)
+        {          
            
             var Jyotish = _context.JyotishRecords.Where(x => x.Email == jyotishView.Email).FirstOrDefault();
             if (Jyotish == null )
@@ -370,16 +369,7 @@ namespace BusinessAccessLayer.Implementation
 
             Jyotish.Role = "Pending";
             Jyotish.ApprovedStatus = "Pending";
-            string uploadFolder = path + "/wwwroot/Images/Jyotish";
-            string imageName = Guid.NewGuid().ToString("N").Substring(0, 8) + jyotishView.Image.FileName  ;
-            Jyotish.ProfileImageUrl = "/Images/Jyotish/" + imageName;
-
-            var filePath = Path.Combine(uploadFolder,imageName);
            
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                jyotishView.Image.CopyTo(stream);
-            }
 
             _context.JyotishRecords.Update(Jyotish);
             var result = _context.SaveChanges();

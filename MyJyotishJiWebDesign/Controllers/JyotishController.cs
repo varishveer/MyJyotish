@@ -12,7 +12,6 @@ namespace MyJyotishJiWebDesign.Controllers
         public ActionResult Profile() { return View(); }
         public ActionResult UpdateProfile() { return View(); }
         public ActionResult Dashboard() { return View(); }
-        public ActionResult Appointments() { return View(); }
         public ActionResult CustomerSupport() { return View(); }
         public ActionResult UpcomingAppointment() { return View(); }
         public ActionResult AppointmentHistory() { return View(); }
