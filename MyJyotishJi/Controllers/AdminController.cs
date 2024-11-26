@@ -483,6 +483,26 @@ namespace MyJyotishJiApi.Controllers
             { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
         }
 
+        [HttpPost("removeAppointmentSlot")]
+        public IActionResult RemoveAppointmentSlot(AppointmentSlotViewModel model)
+        {
+            try
+            {
+                var result = _admin.RemoveSlotWithskipDates(model);
+                if (result == "Changes applied successfully")
+                {
+                    return Ok(new { Status = 200, Message = "Changes applied successfully" });
+                }
+                else
+                {
+                    return Ok(new { Status = 404, Message = "No changes found" });
+                }
+            }
+            catch (Exception ex)
+            { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
+        }
+
+
         [HttpGet("SlotList")]
         public IActionResult SlotList()
         { try

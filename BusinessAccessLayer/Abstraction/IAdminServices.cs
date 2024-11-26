@@ -30,6 +30,7 @@ namespace BusinessAccessLayer.Abstraction
   /*      public AdminDashboardViewModal Dashboard();*/
         public List<PoojaRecordModel> PoojaRecord();
         public bool AddSpecialization(string specName);
+        public string RemoveSlotWithskipDates(AppointmentSlotViewModel model);
 
         public List<ChattingModel> ChattingRecord();
         public List<CallingModel> CallingRecord();

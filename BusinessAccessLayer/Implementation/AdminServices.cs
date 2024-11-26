@@ -334,6 +334,53 @@ namespace BusinessAccessLayer.Implementation
             else { return "Data Not Saved"; }
         }
 
+        public string RemoveSlotWithskipDates(AppointmentSlotViewModel model)
+        {
+           
+
+            var slots = _context.Slots
+                .Where(x => x.ActiveStatus == 1)
+                .ToList();
+
+            List<SlotModel> slotsToUpdate = new List<SlotModel>();
+
+            DateTime? skipDate = model.skipDate;
+            bool isSkipDateValid = skipDate.HasValue && skipDate.Value != new DateTime(1001, 1, 1);
+
+            foreach (var slot in slots)
+            {
+                bool shouldDeactivate = false;
+
+                if ((model.saturday == 1 && slot.Date.DayOfWeek == DayOfWeek.Saturday) ||
+                    (model.sunday == 2 && slot.Date.DayOfWeek == DayOfWeek.Sunday) ||
+                    (isSkipDateValid && Convert.ToDateTime(slot.Date).Date == skipDate.Value.Date))
+                {
+                    shouldDeactivate = true;
+                }
+
+                if (shouldDeactivate)
+                {
+                    slot.ActiveStatus = 0;
+                    slotsToUpdate.Add(slot);
+                }
+            }
+
+            if (slotsToUpdate.Count > 0)
+            {
+                _context.Slots.UpdateRange(slotsToUpdate);
+            }
+
+
+            if (_context.SaveChanges() > 0)
+            {
+                return "Changes applied successfully";
+            }
+            else
+            {
+                return "There is some problem while applied changes";
+
+            }
+        }
         public AdminModel Profile(string email)
         {
             var record = _context.AdminRecords.Where(x => x.Email == email).FirstOrDefault();

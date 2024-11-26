@@ -677,9 +677,11 @@ namespace BusinessAccessLayer.Implementation
                     }
 
 
-                    TimeOnly startTime = (TimeOnly)Jyotish.TimeFrom;
-                    TimeOnly endTime = (TimeOnly)Jyotish.TimeTo;
+                    TimeOnly timeFrom = TimeOnly.FromDateTime(Convert.ToDateTime(model.TimeFrom));
+                    TimeOnly timeTo = TimeOnly.FromDateTime(Convert.ToDateTime(model.TimeTo));
 
+                    TimeOnly startTime = timeFrom;
+                    TimeOnly endTime = timeTo;
 
                     bool isSaturdaySkipped = model.saturday == 1 && date.DayOfWeek == DayOfWeek.Saturday;
                     bool isSundaySkipped = model.sunday == 2 && date.DayOfWeek == DayOfWeek.Sunday;
