@@ -347,13 +347,14 @@ namespace BusinessAccessLayer.Implementation
             DateTime? skipDate = model.skipDate;
             bool isSkipDateValid = skipDate.HasValue && skipDate.Value != new DateTime(1001, 1, 1);
 
+            DateOnly slotDate = DateOnly.FromDateTime(skipDate.Value.Date);
             foreach (var slot in slots)
             {
                 bool shouldDeactivate = false;
 
                 if ((model.saturday == 1 && slot.Date.DayOfWeek == DayOfWeek.Saturday) ||
                     (model.sunday == 2 && slot.Date.DayOfWeek == DayOfWeek.Sunday) ||
-                    (isSkipDateValid && Convert.ToDateTime(slot.Date).Date == skipDate.Value.Date))
+                    (isSkipDateValid && slot.Date == slotDate))
                 {
                     shouldDeactivate = true;
                 }
