@@ -191,8 +191,6 @@ namespace BusinessAccessLayer.Implementation
             }
         }
 
-
-
         public bool LogFailedPayment(PaymentCaptureModel model)
         {
             // Attempt to find payment record in Jyotish or User tables
@@ -245,11 +243,19 @@ namespace BusinessAccessLayer.Implementation
                     PaymentStatus = "failed",
                     PaymentFor = "Add to wallet"
                 };
-                
-                _user.AddWalletHistory(js);
 
+                   _user.AddWalletHistory(js);
                 _context.UserPaymentRecord.Update(user);
-                return _context.SaveChanges() > 0;
+                if (_context.SaveChanges() > 0)
+                {
+
+                    return true;
+
+                }
+                else
+                {
+                    return false;
+                }
             }
             else
             {

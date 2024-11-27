@@ -22,6 +22,7 @@ namespace ModelAccessLayer.Models
         public string Status { get; set; }
         public int? Amount { get; set; }
         public int? ArrivedStatus { get; set; }
+        public int? BookMark { get; set; }
 
         public JyotishModel JyotishRecord { get; set; }
         public UserModel UserRecord { get; set; }

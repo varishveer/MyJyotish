@@ -232,7 +232,7 @@
                                     icon: "warning",
                                     title: "Cancelled",
                                     text: "Payment Cancelled",
-
+                                    didClose: () => { location.reload(true); }
                                 });
                             }
                         },
@@ -403,7 +403,7 @@
                                     <img src="${data.profile == null ? 'https://api.myjyotishg.in/Images/Logo.png' : BaseUrl + data.profile}" class='rounded-circle' height="100" width="100" />
                                     <p class="text-center"> ${data.userName == null ? "From MyJyotishg" : "To "+data.userName}</p>
                                         <h2>₹${data.amount}</h2>
-                                    <p class="text-center"><i class="fas fa-check-circle text-success"></i>Completed</p>
+                                        <p class="text-center">${data.paymentStatus.toLowerCase() == 'success' ? `<i class="fas fa-check-circle text-success" ></i > Completed` :  `<i class="fas text-danger fa-exclamation-circle"></i>Failed`}</p>
                                     <hr class="w-50"/>
                                     <p class="text-center">${data.paymentDate}</p>
                                         <div class="border rounded w-100 p-3 row">
