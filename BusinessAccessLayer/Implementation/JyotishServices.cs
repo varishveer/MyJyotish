@@ -1303,7 +1303,7 @@ namespace BusinessAccessLayer.Implementation
                     Date = x.AppointmentSlot != null ? DateOnly.FromDateTime(x.AppointmentSlot.Date) : DateOnly.MinValue,
                     Time = x.AppointmentSlot != null ? x.AppointmentSlot.TimeFrom : TimeOnly.MinValue,
                     AppointmentId = x.ProblemSolution.AppointmentId
-                })
+                }).OrderByDescending(e=>e.Id)
                 .ToList();
 
             return data;
@@ -1327,12 +1327,25 @@ namespace BusinessAccessLayer.Implementation
                     Date = x.AppointmentSlot != null ? DateOnly.FromDateTime(x.AppointmentSlot.Date) : DateOnly.MinValue,
                     Time = x.AppointmentSlot != null ? x.AppointmentSlot.TimeFrom : TimeOnly.MinValue,
                     AppointmentId = x.ProblemSolution.AppointmentId
-                })
+                }).OrderByDescending(e=>e.Id)
                 .ToList();
 
             return data;
         }
 
+        public bool BookMark(int appointmentId)
+        {
+            var res = _context.AppointmentRecords.Where(e => e.Id==appointmentId).FirstOrDefault();
+
+            if (res == null)
+            {
+                return false;
+            }
+
+            res.BookMark = res.BookMark == 1 ? 0 : 1;
+            _context.AppointmentRecords.Update(res);
+            return _context.SaveChanges()>0;
+        }
 
         public dynamic GetProblemSolutionDetail(int appointmentId)
         {

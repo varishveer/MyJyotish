@@ -76,6 +76,8 @@ namespace BusinessAccessLayer.Abstraction
         public LayoutDataViewModel LayoutData(int Id);
         public dynamic getPlan(int Id);
         public bool upgradePackages(packages packages);
+        public bool BookMark(int appointmentId);
+
 
     }
 }
