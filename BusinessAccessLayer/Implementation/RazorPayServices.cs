@@ -142,6 +142,8 @@ namespace BusinessAccessLayer.Implementation
                 {
                     jyotish.SignatureId = model.SignatureId;
                 }
+                else { 
+                }
 
                 _context.JyotishPaymentRecord.Update(jyotish); // Update the Jyotish payment record
                 return _context.SaveChanges() > 0; // Save changes and return true if successful
@@ -204,8 +206,28 @@ namespace BusinessAccessLayer.Implementation
                 jyotish.PaymentId = model.PaymentId;
                 jyotish.Message = model.Message;
 
+                WalletHistoryViewmodel js = new WalletHistoryViewmodel
+                {
+                    JId = (int)model.JyotishId,
+                    amount = (long)model.Amount,
+                    PaymentId = model.PaymentId,
+                    PaymentAction = "Credit",
+                    PaymentStatus = "failed",
+                    PaymentFor = "Add to wallet"
+                };
+               
+
+                 _jyotish.AddWalletHistory(js);
                 _context.JyotishPaymentRecord.Update(jyotish);
-                return _context.SaveChanges() > 0;
+                 if(_context.SaveChanges() > 0)
+                {
+                    return true;
+
+                }
+                else
+                {
+                    return false;
+                }
             }
             else if (user != null)
             {
@@ -214,6 +236,17 @@ namespace BusinessAccessLayer.Implementation
                 user.PaymentId = model.PaymentId;
                 user.Message = model.Message;
 
+                WalletHistoryViewmodel js = new WalletHistoryViewmodel
+                {
+                    UId = (int)model.UserId,
+                    amount = (long)model.Amount,
+                    PaymentId = model.PaymentId,
+                    PaymentAction = "Credit",
+                    PaymentStatus = "failed",
+                    PaymentFor = "Add to wallet"
+                };
+                
+                _user.AddWalletHistory(js);
 
                 _context.UserPaymentRecord.Update(user);
                 return _context.SaveChanges() > 0;

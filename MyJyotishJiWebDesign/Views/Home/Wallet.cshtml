@@ -313,122 +313,9 @@
         });
     }
 
-    // function addWallet() {
-    //     let amount = $("#amount").val();
-    //     Swal.fire({
-    //         title: "Processing Your Request",
-    //         didOpen: () => {
-    //             Swal.showLoading();
-    //         }
-    //     })
-    //     $.ajax({
-    //         url: BaseUrl+"api/User/AddWallet",
-    //         type: "post",
-    //         headers: {
-    //             'Authorization': `Bearer ${localStorage.getItem("Token")}`,
-    //             'Content-Type': 'application/json',
-    //         },
-    //         data: JSON.stringify({ userId: Id, WalletAmount: amount }),
-    //         success: function (res) {
-    //             console.log(res)
-    //             if (res.status == 200) {
-    //                 Swal.fire({
-    //                     title: "Success",
-    //                     text: "Amount Added to your wallet Successfully",
-    //                     icon: "success",
-    //                     didClose: () => {
-    //                         location.reload(true)
-    //                     }
+    
 
-    //                 });
-    //             } else {
-    //                 Swal.fire({
-    //                     title: "error",
-    //                     text: "some error occured while adding amount to your wallet",
-    //                     icon: "error"
-    //                 });
-    //             }
-    //         },
-    //         error: function (err) {
-    //             Swal.fire({
-    //                 title: "error",
-    //                 text: "some error occured",
-    //                 icon: "error"
-    //             });
-    //         }
-    //     })
-    // }
-
-    // let paymentHistroy = []
-    // let walletHistory = []
-
-
-    //payment history
-    // function getUserPaymentRecord() {
-    //     Swal.fire({
-    //         title: "Processing Your Request",
-    //         allowOutsideClick: false,
-    //         didOpen: () => {
-    //             Swal.showLoading();
-    //         }
-    //     })
-    //     $.ajax({
-    //         url: `${BaseUrl}api/User/UserPaymentrecords`,
-    //         type: 'GET',
-    //         headers: {
-    //             'Authorization': `Bearer ${localStorage.getItem("Token")}`,
-    //             'Content-Type': 'application/json',
-    //         },
-    //         data: { Id: Id },
-    //         success: function (res) {
-    //             if (res.status == 200) {
-    //                 paymentHistroy = res.data;
-    //             }
-    //         },
-    //         error: function () {
-
-    //         }
-    //     }).then(function () {
-    //         function paymentHistory() {
-    //             Swal.fire({
-    //                 title: "Processing Your Request",
-    //                 allowOutsideClick: false,
-    //                 didOpen: () => {
-    //                     Swal.showLoading();
-    //                 }
-    //             })
-    //             $(".trans-list").empty()
-    //             paymentHistroy.forEach(function (d) {
-    //                 let historycard = $(`
-    //                                                      <div class="col-sm-12 border rounded p-2 my-2 phistory" data-receipt='${JSON.stringify(d).replace(/'/g, "\\'")}' id="receipt_${d.id}" onClick='printReceipt(${d.id},"payment")'>
-    //                                     <div class="row h-100">
-    //                                         <div class="col-sm-2 text-center ">
-    //                                             <img class="w-75 h-100 rounded-circle" src="https:api.myjyotishg.in/Images/Logo.png" />
-    //                                         </div>
-    //                                         <div class="col-sm-6">
-    //                                             MyJyotishg<br />
-    //                                                                                 ${d.status == 'success' ? d.dateTime.split("T")[0] : d.status == 'Pending' ? `<small><i class="fas text-warning fa-exclamation-triangle"></i>Cancelled</small>` : `<small class='text-danger'><i class="fas fa-exclamation-circle"></i>Failed</small>`}
-    //                                         </div>
-    //                                         <div class="col-sm-3 d-flex text-danger justify-content-end align-items-center">
-    //                                                                  ${d.status == 'success' ? `- ${d.amount}` : `<span class='text-secondary'>${d.amount}</span>`}
-    //                                         </div>
-    //                                     </div>
-    //                                 </div>
-    //                 `)
-    //                 $(".trans-list").append(
-    //                     historycard
-    //                 )
-    //             })
-    //             Swal.close()
-    //         }
-
-    //         paymentHistory();
-    //         $(".paymenthstBtn").click(function () {
-    //             paymentHistory();
-    //         })
-    //     })
-    // }
-    // getUserPaymentRecord()
+    
     //wallet history
     function getUserWalletHistory() {
         Swal.fire({
@@ -462,7 +349,7 @@
                                                 </div>
                                                 <div class="col-sm-6">
                                                     ${d.userName}<br />
-                                                                                                        ${d.paymentStatus.toLowerCase() == 'success' ? d.paymentDate.split(" ")[0] : d.paymentStatus.toLowerCase() == 'pending' ? `<small><i class="fas text-warning fa-exclamation-triangle"></i>Cancelled</small>` : `<small class='text-danger'><i class="fas fa-exclamation-circle"></i>Failed</small>`}
+                                                                                                            ${d.paymentStatus.toLowerCase() == 'success' ? d.paymentDate.split(" ")[0] : d.paymentStatus.toLowerCase() == 'failed' ? `<small class='text-danger'><i class="fas fa-exclamation-circle"></i>Failed</small>` : `<small class='text-danger'><i class="fas fa-exclamation-circle"></i>Failed</small>`}
                                                 </div>
                                                 <div class="col-sm-3 d-flex h-100 justify-content-end align-items-center">
                                                                                                              ${d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" & d.paymentBy.toLowerCase() == "user" ? `<span class='text-danger'>- ${d.amount}</span>` : d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" ? `<span class='text-success'>+${d.amount}</span>` : `<span class='text-danger'>-${d.amount}</span>`}
@@ -480,7 +367,7 @@
                                             </div>
                                             <div class="col-sm-6">
                                                 MyJyotishg<br />
-                                                                                            ${d.paymentStatus.toLowerCase() == 'success' ? d.paymentDate.split(" ")[0] : d.status == 'Pending' ? `<small><i class="fas text-warning fa-exclamation-triangle"></i>Cancelled</small>` : `<small class='text-danger'><i class="fas fa-exclamation-circle"></i>Failed</small>`}
+                                                                                                ${d.paymentStatus.toLowerCase() == 'success' ? d.paymentDate.split(" ")[0] : d.status == 'failed' ? `<small class='text-danger'><i class="fas fa-exclamation-circle"></i>Failed</small>` : `<small class='text-danger'><i class="fas fa-exclamation-circle"></i>Failed</small>`}
                                             </div>
                                             <div class="col-sm-3 d-flex  justify-content-end align-items-center">
                                                                                                  ${d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" ? `<span class='text-success'>+ ${d.amount}</span>` : d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "debit" ? `<span class='text-danger'>-${d.amount}</span>` : `<span class='text-secondary'>${d.amount}</span>`}
@@ -509,25 +396,7 @@
         let data = JSON.parse(d)
         console.log(data)
         $("#exampleModal2").modal("show");
-        // if (type == "payment") {
-        //     $(".receipt-body").html(
-        //         `
-        //                  <div class="col-sm-12 d-flex justify-content-center flex-column align-items-center">
-        //                         <img src="${'https:api.myjyotishg.in/Images/Logo.png'}" height="100" width="100" />
-        //                         <p class="text-center">To MyJyotishg</p>
-        //                                 <h2>₹${data.amount}</h2>
-        //                                                     <p class="text-center">${data.status == "success" ? "<i class='fas fa-check-circle text-success'></i>Completed" : data.status == "Pending" ? "<span><i class='fas text-warning fa-exclamation-triangle'></i>Cancelled</span>" : "<span class='text-danger'><i class='fas fa-exclamation-circle'></i>Failed</span>"}</p >
-        //                         <hr class="w-50"/>
-        //                             <p class="text-center">${data.dateTime.split("T")[0]} ${data.dateTime.split("T")[1].slice(0, 5)}</p >
-        //                         <div class="border rounded w-100 p-3 row">
-        //                                     <div class='col-sm-3'>OrderId </div>: <div class='col-sm-8'>${data.orderId}</div>
-        //                                        <div class='col-sm-3'> PaymentId </div>:<div class='col-sm-8'>${data.paymentId}</div>
-        //                                             <div class='col-sm-3'>Message </div>:<div class='col-sm-8'>${data.message}</div>
-        //                         </div>
-        //                 </div>
-        //             `
-        //     )
-        // } else {
+       
             $(".receipt-body").html(
                 `
             <div class="col-sm-12 d-flex justify-content-center flex-column align-items-center" >
@@ -546,7 +415,6 @@
                             </div >
             `
             )
-        // }
         $("#printbtn").attr("data-id", id)
     }
 

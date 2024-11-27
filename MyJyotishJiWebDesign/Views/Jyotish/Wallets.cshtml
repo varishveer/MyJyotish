@@ -332,10 +332,10 @@ body {
                                             </div>
                                             <div class="col-sm-6">
                                                 ${d.userName}<br />
-                                                                                                    ${d.paymentStatus.toLowerCase() == 'success' ? d.paymentDate.split(" ")[0] : d.paymentStatus.toLowerCase() == 'pending' ? `<small><i class="fas text-warning fa-exclamation-triangle"></i>Cancelled</small>` : `<small class='text-danger'><i class="fas fa-exclamation-circle"></i>Failed</small>`}
+                                                                                                        ${d.paymentStatus.toLowerCase() == 'success' ? d.paymentDate.split(" ")[0] : d.paymentStatus.toLowerCase() == 'failed' ? `<small class='text-danger'><i class="fas fa-exclamation-circle"></i>Failed</small>` : `<small class='text-danger'><i class="fas fa-exclamation-circle"></i>Failed</small>`}
                                             </div>
                                             <div class="col-sm-3 d-flex h-100 justify-content-end align-items-center">
-                                                                                                     ${d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" ? `<span class='text-success'>+ ${d.amount}</span>` : d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "debit" & d.paymentBy.toLowerCase() == "user" ? `<span class='text-success'>+${d.amount}</span>` : `<span class='text-danger'>-${d.amount}</span>`}
+                                                                                                         ${d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" ? `<span class='text-success'>+ ${d.amount}</span>` : d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "debit" & d.paymentBy.toLowerCase() == "user" ? `<span class='text-success'>+${d.amount}</span>` : d.paymentStatus == 'failed' ? `<span class='text-secondary'>${d.amount}</span>`: `<span class='text-danger'>-${d.amount}</span>`}
                                             </div>
                                         </div>
                                     </div>
@@ -350,10 +350,10 @@ body {
                                         </div>
                                         <div class="col-sm-6">
                                             MyJyotishg<br />
-                                                                                        ${d.paymentStatus.toLowerCase() == 'success' ? d.paymentDate.split(" ")[0] : d.status == 'Pending' ? `<small><i class="fas text-warning fa-exclamation-triangle"></i>Cancelled</small>` : `<small class='text-danger'><i class="fas fa-exclamation-circle"></i>Failed</small>`}
+                                                                                                ${d.paymentStatus.toLowerCase() == 'success' ? d.paymentDate.split(" ")[0] : d.paymentStatus == 'failed' ? `<small class='text-danger'><i class="fas fa-exclamation-circle"></i>Failed</small>` : `<small class='text-danger'><i class="fas fa-exclamation-circle"></i>Failed</small>`}
                                         </div>
                                         <div class="col-sm-3 d-flex  justify-content-end align-items-center">
-                                                                                     ${d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" ? `<span class='text-success'>+ ${d.amount}</span>` : `<span class='text-danger'>-${d.amount}</span>`}
+                                                                                             ${d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" ? `<span class='text-success'>+ ${d.amount}</span>` : d.paymentStatus == 'failed' ? `<span class='text-secondary'>${d.amount}</span>` : `<span class='text-danger'>-${d.amount}</span>`}
                                         </div>
                                     </div>
                                 </div>
@@ -374,19 +374,19 @@ body {
         }
 
         getWalletHistory();
-        function printReceipt(id,type) {
+        function printReceipt(id, type) {
             let d = $("#receipt_" + id).attr("data-receipt")
-            let data=JSON.parse(d)
+            let data = JSON.parse(d)
             console.log(data)
             $("#exampleModal2").modal("show");
-        
-                $(".receipt-body").html(
-                    `
-        <div class="col-sm-12 d-flex justify-content-center flex-column align-items-center" >
-                                    <img src="${data.profile == null ? 'https://api.myjyotishg.in/Images/Logo.png' : BaseUrl + data.profile}" class='rounded-circle' height="100" width="100" />
-                                <p class="text-center">From ${data.userName==null?"MyJyotishg":data.userName}</p>
-                                <h2>₹${data.amount}</h2>
-                                <p class="text-center"><i class="fas fa-check-circle text-success"></i>Completed</p>
+
+            $(".receipt-body").html(
+                `
+                <div class="col-sm-12 d-flex justify-content-center flex-column align-items-center" >
+                                            <img src="${data.profile == null ? 'https://api.myjyotishg.in/Images/Logo.png' : BaseUrl + data.profile}" class='rounded-circle' height="100" width="100" />
+                                                <p class="text-center"> ${data.paymentStatus.toLowerCase() == 'success' & data.paymentAction.toLowerCase() == "debit" & data.paymentBy.toLowerCase() == 'jyotish' ? "To " :"From "} ${ data.userName == null ? "MyJyotishg" : data.userName }</p >
+                                        <h2>₹${data.amount}</h2>
+                                                    <p class="text-center">${data.paymentStatus.toLowerCase() == 'success' ? `<i class="fas fa-check-circle text-success" ></i > Completed` :  `<i class="fas fa-exclamation-circle"></i>Failed`} </p>
                                 <hr class="w-50"/>
                                 <p class="text-center">${data.paymentDate}</p>
                                     <div class="border rounded w-100 p-3 row">
@@ -420,8 +420,8 @@ body {
         setTimeout(function () {
             printWindow.close(); // Close the window after a short delay
         }, 20000);
+        }
         })
-        };
 </script>
 
     

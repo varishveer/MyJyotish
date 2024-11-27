@@ -58,6 +58,10 @@
     #about {
         text-align: justify;
     }
+    #planContent{
+        background: rgb(2,0,36);
+        background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(121,90,9,1) 0%, rgba(255,254,0,1) 99%);
+    }
 </style>
 
 @* <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -86,7 +90,7 @@
 
 <!-- userDetails -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fw-bold text-center w-100 text-primary" id="exampleModalLabel">User Details</h1>
@@ -98,7 +102,7 @@
                         <img id="profileImage" src="" alt="Profile Image">
                         <h3 id="profileName" class="fw-light"></h3>
                         <p class="planDetails p-2">
-                            <span data-bs-toggle="popover" class="p-3 border rounded  position-relative" data-bs-title="Plan Duration" data-bs-content="Free User" id="planContent">Free User</span>
+                            <span data-bs-toggle="popover" class="p-3 border-0 text-light rounded  position-relative" data-bs-title="Plan Duration" data-bs-content="Free User" id="planContent">Free User</span>
                         </p>
                         <button type="button" id="opendocumentModal" class="btn btn-primary" data-toggle="modal" data-target="#documentModal" onclick="getJyotishDocs()">
                             View Documents
@@ -453,16 +457,12 @@
                     $("#planContent").text("Free User")
                      $("#planContent").attr("data-bs-content","Free User")
                 }
-   const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
-   const popoverList = [...popoverTriggerList].map(popoverTriggerEl => {
-    const popover = new bootstrap.Popover(popoverTriggerEl);
-    popover.show(); 
-    return popover;
-});
+ 
             }
         })
     }
- 
+    const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+    const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
 
     function getJyotishDocs() {
         Swal.fire({
