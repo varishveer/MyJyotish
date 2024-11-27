@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -39,8 +40,8 @@ namespace ModelAccessLayer.Models
         [AllowNull]
         public string? ProfessionalCertificate { get; set; }
         public string? ProfessionalCertificateStatus { get; set; }
+       
         [AllowNull]
-
         public string? ProfessionalCertificateMessage { get; set; }
         public int JId { get; set; }
         public JyotishModel Jyotish { get; set; }

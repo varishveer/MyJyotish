@@ -1105,6 +1105,24 @@ namespace MyJyotishGApi.Controllers
 
             catch { return StatusCode(500, new { Status = 500, Message = "Internal Server Error " }); }
 
+        } 
+        [HttpGet("BookMark")]
+        public IActionResult BookMark(int appointmentId)
+        {
+            try
+            {
+                var Result = _jyotish.BookMark(appointmentId);
+                if (!Result)
+                { return Ok(new { Status = 404, Message = "Changes not applied" }); }
+
+                else
+                { return Ok(new { Status = 200, Data = Result, Message = "Changes applied successful" }); }
+
+
+            }
+
+            catch { return StatusCode(500, new { Status = 500, Message = "Internal Server Error " }); }
+
         }
 
     }

@@ -125,6 +125,7 @@
                 <button class="btn btn-sm btn-primary" id="upcommingAppointment">upcomming Appointment</button>
                 <button class="btn  btn-sm btn-primary" id="todayAppointment">Today Appointment</button>
                 <button class="btn  btn-sm btn-success" id="arriveClient">Arrived Client</button>
+                <button class="btn  btn-sm btn-warning" id="BookMark"><i role='button' class="fas text-light fa-bookmark"></i></button>
             </div>
         </div>
         <hr />
@@ -1132,7 +1133,8 @@ didClose:()=>{
                                                                            <svg role='button' onclick='setMembers(${item.uId},${item.id})'  data-id="${item.id}" class="edit-appointment" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                                                         <path fill="currentColor" d="M13.654 21v-2.21l5.96-5.934l2.19 2.204l-5.94 5.94zm6.885-5.94l-.926-.945zm-6 5.056h.95l3.467-3.474l-.45-.494l-.475-.47l-3.493 3.488zM5 21V3h9.5L19 7.5v2.596h-1V8h-4V4H6v16h5.27v1zm13.506-4.852l-.475-.47l.925.964z"/>
                                                     </svg>
-                                                          <a onClick='fetchProblemDate(${item.uId})'><i class="fas fa-eye"></i></a>
+                                                          <a role='button' onClick='fetchProblemDate(${item.uId})'><i class="fas fa-eye"></i></a>
+                                                              <i role='button' onClick='BookMark(${item.id})' class="${item.bookMark==1?"fas":"far"} fa-bookmark"></i>
                                               </td>`;
                 htmls += '</tr>';
             });
@@ -1144,6 +1146,75 @@ didClose:()=>{
     }
 
     
+    function BookMark(id){
+        Swal.fire({
+            title: "Processing Your Request",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
+        var Id = localStorage.getItem('Id');
+        $.ajax({
+            url: BaseUrl + `api/Jyotish/BookMark`,
+            type: 'GET',
+            data: { appointmentId: id},
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token2")}`
+                
+            },
+            success: function (result) {
+                if (result.status == 200) {
+                    fetchData()
+                    Swal.fire({
+                        title: "Success",
+                        text: result.message,
+                        icon: "success",
+                        didClose: () => {
+
+                            if (checkClickEvent == "today") {
+                                $("#todayAppointment").trigger("click")
+                            } else if (checkClickEvent == "upcomming") {
+                                $("#upcommingAppointment").trigger("click")
+                            } else if (checkClickEvent == "filter") {
+                                const searchTerm = $("#searchBox").val().toLowerCase();
+                                if (searchTerm != "") {
+                                    if (searchTerm.length >= 1) {
+                                        debugger
+                                        const filteredResults = newAppointmentArray.filter(item => item.userName.toLowerCase().includes(searchTerm) | item.userMobile.includes(searchTerm) | item.userEmail.includes(searchTerm))
+                                        showAppointmentSlots(filteredResults, "filter");
+                                    } else {
+                                        $('#resultsList').empty();  // Clear list if search term is empty
+                                    }
+                                } else {
+                                    showAppointmentSlots(newAppointmentArray, "filter");
+
+                                }
+                            } else if (checkClickEvent == "bookMark") {
+                                $("#BookMark").trigger("click")
+
+                            }
+
+                        }
+                    })
+                }else{
+                    Swal.fire({
+                        title:"error",
+                        text:result.message,
+                        icon:"error"
+                    })
+                }
+            },error:function(){
+                Swal.fire({
+                    title: "error",
+                    text: result.message,
+                    icon: "error"
+                })
+            }
+           
+      })
+    }
+
     $("#todayAppointment").click(function(){
        
         let upcommingAppointment = appointmentslots.filter((d) => d.appoinDate >= d.currentDate);
@@ -1171,6 +1242,17 @@ didClose:()=>{
 
         showAppointmentSlots(approved,"arrived")
         $("#headingtop").text("Arrived Clients")
+
+    })
+    $("#BookMark").click(function () {
+       
+        let upcommingAppointment = appointmentslots.filter((d) => d.appoinDate >= d.currentDate);
+
+        let bookMark = upcommingAppointment.filter((d) => d.bookMark == 1);
+        newAppointmentArray = bookMark
+
+        showAppointmentSlots(bookMark, "bookMark")
+        $("#headingtop").text("BookMarked")
 
     })
 

@@ -413,7 +413,6 @@ namespace BusinessAccessLayer.Implementation
             var isDocumentAvailable =  _context.Documents.Where(x=>x.JId == Id).FirstOrDefault();
             if (isDocumentAvailable == null) { return null; }
             else {
-
                 isDocumentAvailable.Jyotish = null;
                 return isDocumentAvailable; 
             }

@@ -937,6 +937,8 @@ $("#language").select2({
                     response.data.forEach(country => {
                         countryDropdown.append(new Option(country.name, country.id));
                     });
+                        Swal.close()
+
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     console.error('Error fetching countries:', textStatus, errorThrown);
@@ -956,6 +958,7 @@ $("#language").select2({
                                             <option value='${item.name}'>${item.name}</option>
                                     `);
                                 });
+                        Swal.close()
 
                             },
                             error: function (errormessage) {
@@ -981,6 +984,8 @@ $("#language").select2({
                         stateDropdown.append(new Option(state.name, state.id));
                     });
                     stateDropdown.prop('disabled', false);
+                            Swal.close()
+
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     console.error('Error fetching states:', textStatus, errorThrown);
@@ -1004,6 +1009,8 @@ $("#language").select2({
                         cityDropdown.append(new Option(city.name, city.id));
                     });
                     cityDropdown.prop('disabled', false);
+                            Swal.close()
+
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     console.error('Error fetching cities:', textStatus, errorThrown);

@@ -117,6 +117,7 @@
 </style>
 
 <div class="card-body">
+    <div class="text-end mb-3"><button class="btn  btn-sm btn-warning" id="BookMark"><i role='button' class="fas text-light fa-bookmark"></i></button></div>
     <div class="table-responsive">
         <table id="DataTablehistory" class="table table-bordered table-striped">
             <thead>
@@ -442,6 +443,8 @@
     })
 
     $("#attachmentForm").hide()
+    let historyArray = [];
+    let activeFilter;
     function showAppointmentSlotsHistory() {
         $.ajax({
             url: `${BaseUrl}Api/Jyotish/GetAllAppointmentHistory`,
@@ -453,41 +456,113 @@
             data: { jyotishId: localStorage.getItem("Id") },
             success: function (response) {
                 console.log(response)
-                if (response.status == 200) {
-                    let htmls = ``;
-                    $.each(response.data, function (key, item) {
-                        htmls += `<tr>`;
-                        htmls += `<td class="text-center">${key + 1}</td>`;
-                        htmls += `<td class="text-center">${item.userName}</td>`;
-                        htmls += `<td class="text-center">${item.appoinDate}</td>`;
-                        htmls += `<td class="text-center">${item.userMobile}</td>`;
-                        htmls += `<td class="text-center">${item.appoinTimeFrom}</td>`;
-                        htmls += `<td class="text-center">${item.appoinTimeTo}</td>`;
-                        htmls += `<td class="text-center">${item.problem.slice(0, 10)}...</td>`;
-                        htmls += `<td class="text-center">${item.amount || 'N/A'}</td>`;
-                        htmls += `<td class="text-center">
-                                                                                   <svg role='button' onclick='setMembers(${item.uId},${item.id})'  data-id="${item.id}" class="edit-appointment" xmlns="http:www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24" data-bs-toggle="modal" data-bs-target="#staticBackdrop" >
-                                                                <path fill="currentColor" d="M13.654 21v-2.21l5.96-5.934l2.19 2.204l-5.94 5.94zm6.885-5.94l-.926-.945zm-6 5.056h.95l3.467-3.474l-.45-.494l-.475-.47l-3.493 3.488zM5 21V3h9.5L19 7.5v2.596h-1V8h-4V4H6v16h5.27v1zm13.506-4.852l-.475-.47l.925.964z"/>
-                                                            </svg>
-
-                                                                 <i class="fas fa-users text-info Addmember" onClick='getClientMember(${item.uId})'  role='button' role='show member'></i>
-                                                                             <a onClick='fetchProblemDate(${item.uId})'><i class="fas fa-eye"></i></a>
-                                                          </td>`;
-                        htmls += '</tr>';
-                    });
-                    $('#appointmentHistory').html(htmls);
-                    $('#DataTablehistory').DataTable();
-                } else {
-                    $('#appointmentHistory').html("<p class='text-center'>no record found</p>");
-                }
+               if(response.status==200){
+                   Displayhistory(response.data)
+                    historyArray = response.data
+                } else { Displayhistory([]) }
 
             }
         })
     }
     showAppointmentSlotsHistory()
 
-     
-    
+    function BookMark(id) {
+        Swal.fire({
+            title: "Processing Your Request",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
+        var Id = localStorage.getItem('Id');
+        $.ajax({
+            url: BaseUrl + `api/Jyotish/BookMark`,
+            type: 'GET',
+            data: { appointmentId: id },
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token2")}`
+
+            },
+            success: function (result) {
+                if (result.status == 200) {
+                  showAppointmentSlotsHistory()
+                    Swal.fire({
+                        title: "Success",
+                        text: result.message,
+                        icon: "success",
+                        didClose: () => {
+                            
+                            if (activeFilter == "bookmark"){
+                                let newBookMark = historyArray.filter((d) => d.bookMark == 1)
+                                Displayhistory(newBookMark);
+                            }
+                        }
+                    })
+                } else {
+                    Swal.fire({
+                        title: "error",
+                        text: result.message,
+                        icon: "error"
+                    })
+                }
+            }, error: function () {
+                Swal.fire({
+                    title: "error",
+                    text: result.message,
+                    icon: "error"
+                })
+            }
+
+        })
+    }
+    let visibleValidation=true
+    $("#BookMark").click(function () {
+        if(visibleValidation){
+        activeFilter = "bookmark"
+
+        let newBookMark = historyArray.filter((d) => d.bookMark == 1)
+        Displayhistory(newBookMark);
+        visibleValidation=false;
+        }else{
+            activeFilter = "history"
+            Displayhistory(historyArray);
+        visibleValidation=true;
+
+        }
+
+    })
+    function Displayhistory(arrData){
+        if (arrData.length>0) {
+            let htmls = ``;
+            $.each(arrData, function (key, item) {
+                htmls += `<tr>`;
+                htmls += `<td class="text-center">${key + 1}</td>`;
+                htmls += `<td class="text-center">${item.userName}</td>`;
+                htmls += `<td class="text-center">${item.appoinDate}</td>`;
+                htmls += `<td class="text-center">${item.userMobile}</td>`;
+                htmls += `<td class="text-center">${item.appoinTimeFrom}</td>`;
+                htmls += `<td class="text-center">${item.appoinTimeTo}</td>`;
+                htmls += `<td class="text-center">${item.problem.slice(0, 10)}...</td>`;
+                htmls += `<td class="text-center">${item.amount || 'N/A'}</td>`;
+                htmls += `<td class="text-center">
+                                                                                       <svg role='button' onclick='setMembers(${item.uId},${item.id})'  data-id="${item.id}" class="edit-appointment" xmlns="http:www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24" data-bs-toggle="modal" data-bs-target="#staticBackdrop" >
+                                                                    <path fill="currentColor" d="M13.654 21v-2.21l5.96-5.934l2.19 2.204l-5.94 5.94zm6.885-5.94l-.926-.945zm-6 5.056h.95l3.467-3.474l-.45-.494l-.475-.47l-3.493 3.488zM5 21V3h9.5L19 7.5v2.596h-1V8h-4V4H6v16h5.27v1zm13.506-4.852l-.475-.47l.925.964z"/>
+                                                                </svg>
+
+                                                                     <i class="fas fa-users text-info Addmember" onClick='getClientMember(${item.uId})'  role='button' role='show member'></i>
+                                                                                 <a onClick='fetchProblemDate(${item.uId})'><i class="fas fa-eye"></i></a>
+                                                                                     <i role='button' onClick='BookMark(${item.id})' class="${item.bookMark == 1 ? "fas" : "far"} fa-bookmark"></i>
+                                                              </td>`;
+                htmls += '</tr>';
+            });
+            $('#appointmentHistory').html(htmls);
+            $('#DataTablehistory').DataTable();
+        } else {
+            $('#appointmentHistory').html("<p class='text-center'>no record found</p>");
+        }
+    }
+
+  
     $("#closeAttachmentModal").on("click", function () {
         $("#staticBackdrop").modal("show")
 

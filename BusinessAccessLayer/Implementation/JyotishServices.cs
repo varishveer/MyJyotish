@@ -1030,6 +1030,7 @@ namespace BusinessAccessLayer.Implementation
                     appoinTimeTo = slots.TimeTo,
                     amount = appointmentRecords.Amount,
                     arriveStatus = appointmentRecords.ArrivedStatus,
+                    BookMark = appointmentRecords.BookMark,
                     currentDate = DateTime.Now.ToString("dd-MM-yyyy"),
                     memberList = (
             from m in _context.ClientMembers
@@ -1076,6 +1077,7 @@ namespace BusinessAccessLayer.Implementation
                     appoinTimeTo = slots.TimeTo,
                     amount = appointmentRecords.Amount,
                     arriveStatus = appointmentRecords.ArrivedStatus,
+                    BookMark=appointmentRecords.BookMark,
                     currentDate = DateTime.Now.ToString("dd-MM-yyyy"),
                     memberList = (
             from m in _context.ClientMembers
