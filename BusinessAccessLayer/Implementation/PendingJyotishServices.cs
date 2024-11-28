@@ -42,10 +42,8 @@ namespace BusinessAccessLayer.Implementation
         }
         public async Task<JyotishTempRecord> ProfileTempData(int Id)
         {
-
-            var result = await _context.JyotishRecords.Where(x => x.Id == Id).FirstOrDefaultAsync();
-            if (result == null) { return null; }
-            var records = await _context.jyotishTempRecords.Where(x => x.JyotishId == result.Id).FirstOrDefaultAsync();
+           
+            var records = await _context.jyotishTempRecords.Where(x => x.JyotishId == Id).FirstOrDefaultAsync();
             return records;
         }
         public string UploadProfileImage(UploadProfileImagePJViewModel model, string? path)
@@ -213,6 +211,7 @@ namespace BusinessAccessLayer.Implementation
                 Record.CallCharges = model.CallCharges;
                 Record.Chat = model.Chat;
                 Record.ChatCharges = model.ChatCharges;
+                Record.Appointment = model.Appointment;
                 Record.AppointmentCharges = model.AppointmentCharges;
                 Record.TimeFrom = model.TimeFrom;
                 Record.TimeTo = model.TimeTo;
@@ -372,6 +371,7 @@ namespace BusinessAccessLayer.Implementation
                     isJyotishValid.CallCharges = tempData.CallCharges;
                     isJyotishValid.Chat = tempData.Chat;
                     isJyotishValid.ChatCharges = tempData.ChatCharges;
+                    isJyotishValid.Appointment = tempData.Appointment;
                     isJyotishValid.AppointmentCharges = tempData.AppointmentCharges;
                     isJyotishValid.TimeTo = tempData.TimeTo;
                     isJyotishValid.TimeFrom = tempData.TimeFrom;

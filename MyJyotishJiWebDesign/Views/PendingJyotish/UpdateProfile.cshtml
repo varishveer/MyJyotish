@@ -656,6 +656,7 @@
                         availability.push({ name: "CallCharges", value: $(".callrbtn:checked").length > 0 && $(".callrbtn").val()==1 ? callPrice : 0 })
                         availability.push({ name: "ChatCharges", value: $(".chatrbtn:checked").length > 0 && $(".chatrbtn").val()==1 ? chatPrice : 0 })
                         availability.push({ name: "AppointmentCharges", value: $(".apprbtn:checked").length > 0 && $(".apprbtn").val()==1 ? $("#AppointmentChargesInp").val() : 0 })
+                        availability.push({ name: "Appointment", value: $(".apprbtn").val() })
                         addDataonTemp(availability)
                     }
                     $(".active4").addClass("bg-dark")
@@ -1218,9 +1219,9 @@ $("#language").select2({
                        $(".poojarbtn[value='" + (response.data.pooja ? 1 : 0) + "']").prop("checked", true);
                        $(".chatrbtn[value='" + (response.data.chat ? 1 : 0) + "']").prop("checked", true);
                         $("#AppointmentCharges").val(response.data.appointmentCharges)
-                        document.getElementById('chatInputBox').style.display = $("#chatCheckbox:checked").length>0 ? 'block' : 'none';
-                        document.getElementById('callInputBox').style.display = $("#callCheckbox:checked").length>0 ? 'block' : 'none'; 
-                        document.getElementById('appointmentCharges').style.display = $("#callCheckbox:checked").length>0 ? 'block' : 'none';
+                        document.getElementById('chatInputBox').style.display = $(".chatrbtn:checked").length>0 &&  $(".chatrbtn").val()==1 ? 'block' : 'none';
+                        document.getElementById('callInputBox').style.display = $(".callrbtn:checked").length>0 && $(".callrbtn").val()==1 ? 'block' : 'none'; 
+                        document.getElementById('appointmentCharges').style.display = $(".apprbtn:checked").length>0 && $(".apprbtn").val()==1 ? 'block' : 'none';
                         if ($('.checkboxforavail:checked').length == 0) {
                             $(".alertforbox").show();
 
