@@ -259,9 +259,29 @@
                         <div class="row mt-4">
 
                         <div class="col-sm-6">
-                            <input type="checkbox" id="poojaCheckbox" class="checkboxforavail" value="1" name="pooja" /> Pooja &nbsp;&nbsp;&nbsp;&nbsp;
-                                <input type="checkbox" id="callCheckbox" class="checkboxforavail" value="1" name="call" /> Call &nbsp;&nbsp;&nbsp;&nbsp;
-                                <input type="checkbox" id="chatCheckbox" class="checkboxforavail" value="1" name="chat" /> Chat &nbsp;&nbsp;
+                            <p>You are available for pooja? : </p>
+                         
+                            <div>
+                             <input type="radio" class="checkboxforavail poojarbtn" value="1" name="pooja" /> Yes&nbsp;&nbsp;
+                                <input type="radio" class="checkboxforavail poojarbtn" value="0" name="pooja" /> No
+                            </div>
+                             <p>You are available for call? : </p>
+                             <div>
+                                <input type="radio" class="checkboxforavail callrbtn" value="1" name="call" /> Yes &nbsp;&nbsp;
+                                  <input type="radio"  class="checkboxforavail callrbtn" value="0" name="call" /> No
+
+                            </div> 
+                            <p>You are available for chat? : </p>
+                             <div>
+                                 <input type="radio"  class="checkboxforavail chatrbtn" value="1" name="chat" />
+                                                        Yes &nbsp;&nbsp;
+                                   <input type="radio"  class="checkboxforavail chatrbtn" value="0" name="chat" /> No                         </div>
+                                   <p>You are available for Appointment? : </p>
+                             <div>
+                                 <input type="radio"  class="checkboxforavail apprbtn" value="1" name="appointment" />
+                                                        Yes &nbsp;&nbsp;
+                                                        <input type="radio" class="checkboxforavail apprbtn" value="0" name="appointment" /> No
+                                                    </div>
                             <div id="callInputBox" class="input-box">
                                                         <label for="callprice" class="mt-4">Call Price <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control " id="callprice" name="callprice" placeholder="Enter call price ₹/Minute" />
@@ -272,7 +292,7 @@
                             </div>
                             <div id="appointmentCharges" class="input-box">
                                                         <label for="AppointmentCharges" class="mt-4">Appointment Charges <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control " id="AppointmentCharges" name="AppointmentCharges" placeholder="Enter Appointment Charges" />
+                                <input type="text" class="form-control " id="AppointmentChargesInp" name="AppointmentCharges" placeholder="Enter Appointment Charges" />
                             </div>
                             <p class=" my-4 text-secondary alertforbox">Please check boxes if you are available</p>
                         </div>
@@ -590,22 +610,29 @@
         } else if (page == 4) {
                 let callPrice = $("#callprice").val()
                 let chatPrice = $("#chatprice").val()
-                if ($("#AppointmentCharges").val()!="") {
+                let appPrice = $("#AppointmentChargesInp").val()
+                if ($(".checkboxforavail:checked").length==4) {
                     $(".active4").attr("disabled", false)
 
-                    if ($("#callCheckbox:checked").length > 0 && callPrice != "") {
+                    if ($(".callrbtn:checked").length > 0 && $(".callrbtn").val()==1 && callPrice != "") {
 
-                        $(".active4").attr("disabled", false)
-                    } else if ($("#callCheckbox:checked").length > 0 && callPrice =="") {
+                debugger
+                $(".active4").attr("disabled", false)
+                    } else if ($(".callrbtn:checked").length > 0 && $(".callrbtn").val()==1 && callPrice =="") {
                     $(".active4").attr("disabled", true)
                         showRequiredAlert()
+                }
 
+                 if ($(".apprbtn:checked").length > 0 && $(".apprbtn").val()==1 && appPrice != "") {
 
-               }
-                    if ($("#chatCheckbox:checked").length > 0 && chatPrice != "" &$("#callCheckbox:checked").length > 0 && callPrice != "") {
-
+                $(".active4").attr("disabled", false)
+                    } else if ($(".apprbtn:checked").length > 0 && $(".apprbtn").val()==1 && appPrice =="") {
+                    $(".active4").attr("disabled", true)
+                        showRequiredAlert()
+                }
+                if (($("#chatCheckbox:checked").length > 0 && chatPrice != "" && $(".chatrbtn").val()==1) &($("#callCheckbox:checked").length > 0 && $(".callrbtn").val()==1 && callPrice != "") &&($(".apprbtn:checked").length > 0 && $(".apprbtn").val()==1 && appPrice != "")) {
                     $(".active4").attr("disabled", false)
-                    } else if ($("#chatCheckbox:checked").length > 0 && chatPrice == "" ) {
+                    } else if ($(".chatrbtn:checked").length > 0 && chatPrice == "" ) {
                     $(".active4").attr("disabled", true)
                     showRequiredAlert()
 
@@ -623,13 +650,12 @@
                         let availability = [];
                         availability.push({ name: "Id", value: localStorage.getItem("Id") })
                         availability.push({ name: "AvailbilitySection", value: true })
-                        availability.push({ name: "pooja", value: $("#poojaCheckbox:checked").length > 0 ? true : false })
-                        availability.push({ name: "Call", value: $("#callCheckbox:checked").length > 0 ? true : false })
-                        availability.push({ name: "Chat", value: $("#chatCheckbox:checked").length > 0 ? true : false })
-                        availability.push({ name: "CallCharges", value: $("#callCheckbox:checked").length > 0 ? callPrice : 0 })
-                        availability.push({ name: "ChatCharges", value: $("#chatCheckbox:checked").length > 0 ? chatPrice : 0 })
-                        availability.push({ name: "AppointmentCharges", value: $("#AppointmentCharges").val() })
-                      
+                        availability.push({ name: "pooja", value: $(".poojarbtn:checked").length > 0 && $(".poojarbtn").val()==1 ? true : false })
+                        availability.push({ name: "Call", value: $(".callrbtn:checked").length > 0 && $(".callrbtn").val()==1 ? true : false })
+                        availability.push({ name: "Chat", value: $(".chatrbtn:checked").length > 0 && $(".chatrbtn").val()==1 ? true : false })
+                        availability.push({ name: "CallCharges", value: $(".callrbtn:checked").length > 0 && $(".callrbtn").val()==1 ? callPrice : 0 })
+                        availability.push({ name: "ChatCharges", value: $(".chatrbtn:checked").length > 0 && $(".chatrbtn").val()==1 ? chatPrice : 0 })
+                        availability.push({ name: "AppointmentCharges", value: $(".apprbtn:checked").length > 0 && $(".apprbtn").val()==1 ? $("#AppointmentChargesInp").val() : 0 })
                         addDataonTemp(availability)
                     }
                     $(".active4").addClass("bg-dark")
@@ -783,8 +809,8 @@
             pagination(page, "btn")
     })
 
-    document.getElementById('callCheckbox').addEventListener('change', function () {
-        document.getElementById('callInputBox').style.display = this.checked ? 'block' : 'none';
+   $('.callrbtn').on('change', function () {
+        document.getElementById('callInputBox').style.display = this.checked && $(this).val()==1 ? 'block' : 'none';
             if ($('.checkboxforavail:checked').length == 0) {
                 $(".alertforbox").show();
 
@@ -794,8 +820,8 @@
             }
     });
 
-    document.getElementById('chatCheckbox').addEventListener('change', function () {
-        document.getElementById('chatInputBox').style.display = this.checked ? 'block' : 'none';
+    $('.chatrbtn').on('change', function () {
+        document.getElementById('chatInputBox').style.display = this.checked && $(this).val()==1 ? 'block' : 'none';
             if ($('.checkboxforavail:checked').length ==0) {
                 $(".alertforbox").show();
 
@@ -805,7 +831,17 @@
             }
 
     });
-        document.getElementById('poojaCheckbox').addEventListener('change', function () {
+    $('.apprbtn').on('change', function () {
+        document.getElementById('appointmentCharges').style.display = this.checked && $(this).val()==1 ? 'block' : 'none';
+            if ($('.checkboxforavail:checked').length ==0) {
+                $(".alertforbox").show();
+
+            } else {
+                $(".alertforbox").hide();
+
+            }
+    });
+        $('.poojarbtn').on('change', function () {
             if ($('.checkboxforavail:checked').length == 0) {
                 $(".alertforbox").show();
 
@@ -1178,12 +1214,13 @@ $("#language").select2({
                         $("#addresstext").val(response.data.address)
                         $("#timefrom").val(response.data.timeFrom)
                         $("#timeto").val(response.data.timeTo)
-                        $("#poojaCheckbox").attr("checked", response.data.pooja)
-                        $("#callCheckbox").attr("checked", response.data.call)
-                        $("#chatCheckbox").attr("checked", response.data.chat)
+                       $(".callrbtn[value='" + (response.data.call ? 1 : 0) + "']").prop("checked", true);
+                       $(".poojarbtn[value='" + (response.data.pooja ? 1 : 0) + "']").prop("checked", true);
+                       $(".chatrbtn[value='" + (response.data.chat ? 1 : 0) + "']").prop("checked", true);
                         $("#AppointmentCharges").val(response.data.appointmentCharges)
                         document.getElementById('chatInputBox').style.display = $("#chatCheckbox:checked").length>0 ? 'block' : 'none';
-                        document.getElementById('callInputBox').style.display = $("#callCheckbox:checked").length>0 ? 'block' : 'none';
+                        document.getElementById('callInputBox').style.display = $("#callCheckbox:checked").length>0 ? 'block' : 'none'; 
+                        document.getElementById('appointmentCharges').style.display = $("#callCheckbox:checked").length>0 ? 'block' : 'none';
                         if ($('.checkboxforavail:checked').length == 0) {
                             $(".alertforbox").show();
 
