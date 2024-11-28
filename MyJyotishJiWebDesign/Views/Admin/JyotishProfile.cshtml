@@ -712,13 +712,13 @@
 
                
                
-                var status = modal.find('#status').val();
+                var status = $('#status').val();
 
                
-                var subject = modal.find('#recipient-name').val();
+                var subject = $('#recipient-name').val();
 
               
-                var message = modal.find('#message-text').val();
+                var message = $('#message-text').val();
 
                
                 var id = getIdFromUrl(); 
@@ -740,6 +740,8 @@
                     message: message,
                     id: id 
                 };
+
+                debugger
                 Swal.fire({
                     title: "Processing Your Request",
                     allowOutsideClick: false,
