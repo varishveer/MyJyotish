@@ -90,6 +90,7 @@ namespace BusinessAccessLayer.Implementation
             // Find the existing record
             var existingRecord = _context.jyotishTempRecords
                 .FirstOrDefault(x => x.JyotishId == model.Id);
+           
 
             if (existingRecord == null)
             {
@@ -134,6 +135,24 @@ namespace BusinessAccessLayer.Implementation
             /*-----------------------------Basic-----------------------------------------*/
             if (model.BasicSection == true)
             {
+                DateOnly currentDate = DateOnly.FromDateTime(DateTime.Now);
+                DateOnly dateOfBirth = (DateOnly)model.DateOfBirth;
+                // Calculate the age by subtracting the birth year from the current year
+                int age = currentDate.Year - dateOfBirth.Year;
+
+                // Adjust the age if the birthday hasn't occurred yet this year
+                if (currentDate.Month < dateOfBirth.Month ||
+                    (currentDate.Month == dateOfBirth.Month && currentDate.Day < dateOfBirth.Day))
+                {
+                    age--;
+                }
+
+                // Check if the age is less than 20
+                if (age < 20)
+                {
+                    return "Please select your Dob 20 or more than 20 year!";
+                }
+
                 var Record = _context.jyotishTempRecords.Where(x => x.JyotishId == model.Id).FirstOrDefault();
                 if (Record == null) { return "Invalid Data"; }
                 Record.BasicSection = true;
