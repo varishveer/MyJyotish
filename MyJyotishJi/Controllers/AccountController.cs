@@ -113,6 +113,28 @@ namespace MyJyotishJiApi.Controllers
              
         }
 
+        [HttpGet("checkDblNumber")]
+        public IActionResult checkDblNumber(string number)
+        {
+            if (number.Length != 10)
+            {
+                return Ok(new { status = 400, message = "invalid phone number" });
+
+            }
+
+
+            var res = _account.checkDblNumber(number);
+            if (res)
+            {
+                return Ok(new { status = 200, message = "not matched" });
+            }
+            else
+            {
+                return Ok(new { status = 400, message = "Mobile number already in used" });
+
+            }
+        }
+
         [HttpPost("VerifyJyotish")]
         public IActionResult VerifyJyotish(EmailViewModel model)
         {

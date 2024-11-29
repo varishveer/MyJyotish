@@ -10,11 +10,13 @@
     <link href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css" rel="stylesheet" />
     <!-- FontAwesome for icons -->
     <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+    <link href="~/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" />
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
-
+   
     <style>
 
         /* Custom styles */
@@ -186,6 +188,41 @@
             overflow: auto;
            
         }
+
+        .datepicker {
+            z-index: 10000 !important; /* Ensure datepicker is above other elements */
+            font-size: 1.1rem; /* Slightly larger font size for datepicker */
+        }
+
+            .datepicker table {
+                width: 100%; /* Full width */
+            }
+
+            .datepicker th {
+                background-color: white; /* Header background color */
+                color: #007bff; /* Header text color */
+                padding: 10px; /* More padding for header */
+                border: 1px solid #007bff;
+            }
+
+            .datepicker td {
+                text-align: center; /* Center align dates */
+                padding: 15px; /* More padding for dates */
+            }
+
+                .datepicker td.day:hover {
+                    background-color: #e9ecef; /* Light hover effect */
+                    cursor: pointer; /* Pointer cursor on hover */
+                }
+
+                .datepicker td.day.active {
+                    background-color: #007bff; /* Active date color */
+                    color: white; /* Active date text color */
+                }
+
+                .datepicker td.day.disabled {
+                    color: #ced4da; /* Disabled dates color */
+                }
     </style>
 </head>
 <body>
@@ -302,11 +339,12 @@
 
       <!-- jQuery -->
   <script>
-      // var BaseUrl = "https://api.myjyotishg.in/";
-       var BaseUrl = "https://localhost:7118/";
+       var BaseUrl = "https://api.myjyotishg.in/";
+       //var BaseUrl = "https://localhost:7118/";
 
         var BaseUrlImg = "https://myjyotishg.in/";
   </script>
+      
     <div>
         @RenderBody()
     </div>

@@ -1,14 +1,14 @@
 ﻿@{
     Layout = null;
-   // var BaseUrl = "https://api.myjyotishg.in/";
-    var BaseUrl = "https://localhost:7118/";
+    var BaseUrl = "https://api.myjyotishg.in/";
+    //var BaseUrl = "https://localhost:7118/";
 
 }
 <html>
     <head>
         <script>
-        //var BaseUrl = "https://api.myjyotishg.in/";
-        var BaseUrl = "https://localhost:7118/";
+        var BaseUrl = "https://api.myjyotishg.in/";
+        //var BaseUrl = "https://localhost:7118/";
 
         </script>
 <style>
@@ -102,6 +102,42 @@
                 height:auto !important;
                 border-radius:0 !important;
             }
+
+       
+        .datepicker {
+            z-index: 10000 !important; /* Ensure datepicker is above other elements */
+            font-size: 1.1rem; /* Slightly larger font size for datepicker */
+        }
+
+            .datepicker table {
+                width: 100%; /* Full width */
+            }
+
+            .datepicker th {
+                background-color: white; /* Header background color */
+                color: #007bff; /* Header text color */
+                padding: 10px; /* More padding for header */
+                border:1px solid  #007bff;
+            }
+
+            .datepicker td {
+                text-align: center; /* Center align dates */
+                padding: 15px; /* More padding for dates */
+            }
+
+                .datepicker td.day:hover {
+                    background-color: #e9ecef; /* Light hover effect */
+                    cursor: pointer; /* Pointer cursor on hover */
+                }
+
+                .datepicker td.day.active {
+                    background-color: #007bff; /* Active date color */
+                    color: white; /* Active date text color */
+                }
+
+                .datepicker td.day.disabled {
+                    color: #ced4da; /* Disabled dates color */
+                }
 </style>
 
 <!-- Bootstrap CSS -->
@@ -115,10 +151,12 @@
  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!-- FontAwesome for icons -->
 <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
 <!-- Bootstrap JS Bundle -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="~/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+    <script src="~/bootstrap-datepicker/datepicker.js"></script>
 
 </head>
 <body class="h-100  bg-light">
@@ -212,10 +250,12 @@
                     </div>
                     <div class="row my-3">
                         <div class="col-sm-6">
-                                    <label for="dob">Date of Birth <span class="text-danger">*</span></label>
-                                    <input type="text" placeholder="dd-mm-yy" id="dob" name="DateOfBirth" class="form-control" />
-                        </div>
-                       
+                                  
+                                                        <label for="dob">Date of Birth <span class="text-danger">*</span></label>
+                                                        <input type="text" autocomplete="off" placeholder="dd-mm-yy" id="dob" name="DateOfBirth" class="form-control" />
+                                                        
+                                                    </div>
+                                                   
                     </div>
                         </form>
 
@@ -1432,21 +1472,29 @@ $("#language").select2({
         $("#dob").attr("max", currentDate.toISOString().split('T')[0])
 </script>
 <script>
-        $(function () {
             var maxDate = new Date();
             maxDate.setFullYear(maxDate.getFullYear() - 20);
+            var minDate = new Date();
+            minDate.setFullYear(minDate.getFullYear() - 100);
+
 
             // Initialize the datepicker with the calculated maxDate
             $("#dob").datepicker({
+                autoclose: true,
                 dateFormat: 'dd-mm-yy',
                 changeMonth: true,
                 changeYear: true,
-                yearRange: "c-100:c+100",
-                minDate: 0, // Disable past dates
-                maxDate: maxDate // Set max date to 20 years ago from today
-            });
-        })
+                yearRange: "c-100:c",
+                startDate: minDate,
+                endDate:maxDate,
+                showAnim: "slideDown",         
+                buttonImageOnly: true,
+                buttonText: "Select date"
+            
+                
+            })
+       
 
-</script>
+    </script>
 </body>
 </html>

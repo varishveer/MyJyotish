@@ -1,6 +1,7 @@
 ﻿
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
+<script src="~/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+<script src="~/bootstrap-datepicker/datepicker.js"></script>
 <style>
     .bg-light-sec{
         background: #d2e2fc !important;
@@ -114,7 +115,7 @@
             </div>
             <div class="modal-body">
                 <div id="walletPaymentContainer"></div>
-               <input type="Date" name="date" id="appointmentDate" class="form-control" />
+               <input type="text" autocomplete="off" name="date" id="appointmentDate" class="form-control" />
                 <div id="appoinmentDetail" class="py-3"></div>
                 <div id="problem">
                     <textarea class="form-control mt-1" id="problem-desc" placeholder="Describe Your Problem "></textarea>
@@ -349,8 +350,8 @@ $(".callBtn").hide()
                         var data = response.data;
                         appoinmentArray = data;
                         console.log(appoinmentArray)
-                        $("#appointmentDate").attr("min", appoinmentArray[0].date.split("T")[0])
-                        $("#appointmentDate").attr("max", appoinmentArray[appoinmentArray.length - 1].date.split("T")[0])
+                        $("#appointmentDate").attr("min", appoinmentArray[0].date)
+                        $("#appointmentDate").attr("max", appoinmentArray[appoinmentArray.length - 1].date)
                         $("#appointmentDate").val(appoinmentArray[0].date.split("T")[0])
                     }
                 }, error: function (err) {
@@ -358,9 +359,10 @@ $(".callBtn").hide()
 
                 }
             }).then(() => {
-
+               
                 let newArray = [];
                 function setAppoinment(appdata) {
+                    console.log(appdata)
                     Swal.fire({
                         title: "Processing Your Request",
                         allowOutsideClick: false,
@@ -404,15 +406,24 @@ $(".callBtn").hide()
                     }
                     Swal.close()
                 }
-                $("#appointmentDate").on("input", function () {
-                    setAppoinment($(this).val())
+                function convertDateFormat(date) {
+                    // Split the date by the '/' separator
+                    const [month, day, year] = date.split('/');
+
+                    // Return the date in DD/MM/YYYY format
+                    return `${day}/${month}/${year}`;
+                }
+                $("#appointmentDate").on("change", function () {
+                    setAppoinment(convertDateFormat($(this).val()))
                 });
 
                 setAppoinment($("#appointmentDate").val())
+               
 
             })
         
         }
+       
     });
     $("#next-btn").click(function () {
         if ($(this).text() == "Book") {
@@ -596,9 +607,23 @@ $(".callBtn").hide()
        
         }
     })
-
-  
-
+    let appointmentDate = document.getElementById("appointmentDate")
+    
+    setTimeout(()=>{
+    $("#appointmentDate").datepicker({
+        autoclose: true,
+        dateFormat: 'dd-mm-yy',
+        changeMonth: true,
+        changeYear: true,
+        yearRange: "c-100:c+100",
+            startDate: new Date(appointmentDate.getAttribute("min")),
+            endDate: new Date(appointmentDate.getAttribute("max")),
+        showAnim: "slideDown",
+        buttonImageOnly: true,
+        buttonText: "Select date",
+        clearBtn: true,
+    })
+    },1000)
 </script>
 
 

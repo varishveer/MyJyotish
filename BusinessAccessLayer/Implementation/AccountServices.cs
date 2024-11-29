@@ -25,7 +25,29 @@ namespace BusinessAccessLayer.Implementation
             _context = context;
         }
 
+
+
         #region JYotish
+
+        //check Number Duplicacy
+        public bool checkDblNumber(string phoneNumber)
+        {
+            if (phoneNumber.Length != 10)
+            {
+                return false;
+            }
+
+            var IsMobileValid = _context.JyotishRecords.Where(x => x.Mobile == phoneNumber).FirstOrDefault();
+            if (IsMobileValid == null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public string JRegisterAndSendOtp(string Email)
         {
             var IsMobileValid = _context.JyotishRecords.Where(x => x.Email == Email).FirstOrDefault();

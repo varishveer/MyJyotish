@@ -19,6 +19,7 @@ namespace BusinessAccessLayer.Abstraction
         public string JForgotPasswordOtpRequest(string Email);
         public string JForgotPasswordOtpCheck(string Email, int Otp);
         public string JSavePassword(string Email, int Otp, string Password);
+        public bool checkDblNumber(string phoneNumber);
 
         #endregion
 
