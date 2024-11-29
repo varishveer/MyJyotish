@@ -129,7 +129,7 @@ namespace BusinessAccessLayer.Implementation
                     }
                     else { return "Data not saved"; }
                 }
-                return "Email Number already existed"; 
+                return "invalid email or may be already registered"; 
             }
             int Otp = new Random().Next(100000, 1000000); ;
             JyotishModel model = new JyotishModel();
@@ -339,9 +339,13 @@ namespace BusinessAccessLayer.Implementation
            
             var Jyotish = _context.JyotishRecords.Where(x => x.Email == jyotishView.Email).FirstOrDefault();
             if (Jyotish == null )
-            { return "invalid email"; }
-
-            if( Jyotish.ApprovedStatus != "Verified")
+            { return "invalid email or maybe already register"; }
+            var JyotishMobile = _context.JyotishRecords.Where(x => x.Mobile == jyotishView.Mobile).FirstOrDefault();
+            if (JyotishMobile != null)
+            {
+                return "invalid number or maybe already in used";
+            }
+            if ( Jyotish.ApprovedStatus != "Verified")
             { return "Not authorized to register"; }
             var CountryName = _context.Countries.Where(x => x.Id == jyotishView.Country).FirstOrDefault();
             var StateName = _context.States.Where(x => x.Id == jyotishView.State).FirstOrDefault();
@@ -349,12 +353,6 @@ namespace BusinessAccessLayer.Implementation
 
             Jyotish.Name = jyotishView.Name;
 
-
-          
-           
-                var JyotishMobile = _context.JyotishRecords.Where(x => x.Mobile == jyotishView.Mobile).FirstOrDefault();
-                if (JyotishMobile == null) {  
-                 return "invalid number"; }
 
             
             Jyotish.Mobile = jyotishView.Mobile;
@@ -370,7 +368,6 @@ namespace BusinessAccessLayer.Implementation
             Jyotish.Role = "Pending";
             Jyotish.ApprovedStatus = "Pending";
            
-
             _context.JyotishRecords.Update(Jyotish);
             var result = _context.SaveChanges();
             if (result > 0)

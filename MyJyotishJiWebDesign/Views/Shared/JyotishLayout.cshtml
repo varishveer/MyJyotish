@@ -53,11 +53,12 @@
 
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link rel="stylesheet" href="~/assets/css/demo.css" />
+    <link href="~/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" />
     <!-- Include Select2 JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="~/assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
-
+    <script src="~/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
     <style>
 
         .table > thead {
@@ -692,8 +693,8 @@
      
             
                 <script>
-                     var BaseUrl = "https://api.myjyotishg.in/"
-              // var BaseUrl = "https://localhost:7118/"
+                     //var BaseUrl = "https://api.myjyotishg.in/"
+               var BaseUrl = "https://localhost:7118/"
                 </script>
 
         <div class="container">
@@ -877,6 +878,7 @@
     <script>
 
     
+
       function showAlert(e) {
                 $(".alert-box").removeClass("d-none")
                 $(".alert-content").text(e.innerText + " : This Page is not accessible according to your plan")
@@ -1015,7 +1017,11 @@
         //     });
         });
     </script>
-
+    <script>
+        $(function () {
+            // Initialize the start date datepicker
+            
+    </script>
    
 
 

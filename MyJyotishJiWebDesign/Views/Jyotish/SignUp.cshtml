@@ -234,9 +234,6 @@
                 }
             })
          
-             
-              
-
             
             $.ajax({
                 url: BaseUrl + `Api/Account/RegisterJyotish?email=${encodeURIComponent(email)}`,
@@ -256,16 +253,17 @@
                         $("#verifyOtp-container").removeClass("d-none");
                        
                     }
-                    else if (response.status === 409) {
+                    else if (response.status === 400) {
                         Swal.fire({
-                            title: "Invalid Email",
-                            text: "Please Enter Different Email",
-                            icon: "success",
+                            title: "Invalid",
+                            text: response.message,
+                            icon: "warning",
                         });
                     }
                     else {
                         Swal.fire({
                             title: "Something went wrong",
+                            text:response.message,
                             icon: "warning",
                         });
                     }
@@ -274,6 +272,7 @@
                 error: function (xhr) {
                      Swal.fire({
                                     title: "Something went wrong",
+                                    text:"some error occured",
                                     icon: "warning",   
                                 });
                            
@@ -554,16 +553,24 @@
                 processData: false,
                 contentType: false,
                 success: function (response) {
-                    Swal.fire({
-                        title: "Form submitted successfully!",
-                        icon: "success",
-                        allowOutsideClick: false,  // Disable background click
-                        allowEscapeKey: false,     // Disable escape key to close alert
-                    }).then(() => {
-                        location.replace('/Jyotish/login'); // Redirect after user clicks OK
-                    });
-                   
-                    $('#registrationForm')[0].reset();
+                    if (response.status == 200) {
+                        Swal.fire({
+                            title: "Form submitted successfully!",
+                            icon: "success",
+                            allowOutsideClick: false,  // Disable background click
+                            allowEscapeKey: false,     // Disable escape key to close alert
+                        }).then(() => {
+                            location.replace('/Jyotish/login'); // Redirect after user clicks OK
+                        });
+
+                        $('#registrationForm')[0].reset();
+                    }else{
+                        Swal.fire({
+                            title: "warning",
+                            icon: "warning",
+                           text:response.message
+                        })
+                    }
                     
                 },
                 error: function (xhr) {

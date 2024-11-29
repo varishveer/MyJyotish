@@ -138,17 +138,10 @@ namespace MyJyotishJiApi.Controllers
                 var result = _account.SignUpJyotish(jyotishViewModel);
                 if (result == "Successful")
                 { return Ok(new { Status = 200, Message = result });}
-                else if (result == "Mobile Number not found")
-                { return Conflict(new { Status = 409, Message = result }); }
-                else if (result == "Not authorized to register")
-                { return Conflict(new { Status = 409, Message = result }); }
-                else if (result == "Invalid Number")
-                { return Conflict(new { Status = 409, Message = result }); }
-
                 else if(result == "Data not saved") { return StatusCode(500, new { Status = 500, Message = "Internal Server Error" }); }
                 else
                 {
-                    return StatusCode(500, new { Status = 500, Message = "Internal Server Error" });
+                    return Ok(new { Status = 400, Message = result });
                 }
             }
             catch(Exception ex)
