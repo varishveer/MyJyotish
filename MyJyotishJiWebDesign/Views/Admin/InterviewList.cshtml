@@ -88,10 +88,6 @@
 </script>
 
 
-
-
-
-
 <!-- Modal Structure -->
 <div class="modal fade" id="dynamicModal" tabindex="-1" aria-labelledby="dynamicModalLabel" aria-hidden="true">
     <div class="modal-dialog ">
@@ -105,19 +101,10 @@
             <div class="modal-body">
                 <!-- Hidden ID Field -->
                 <input type="hidden" id="hiddenId" value="">
-
-                <!-- Readonly Name Field -->
-                <div class="form-group d-flex mb-0">
-                        Name:
-                    <p  id="readonlyName"> </p>
-                </div>
-
-                <div class="form-group mb-3">
-                    <label for="slotList">Select an Slot:</label>
-                    <select  class="form-control" id="slotList" name="slotList">
-                       
+                <input type="date" id="appointmentDate" name="appointmentDate" class="form-control" />
+                    <select  class="form-select my-3" id="slotList" name="slotList">
+                       <option>--select slot--</option>
                     </select>
-                </div>
                 <button class="btn btn-success" id="submitBtn"> Submit</button>
             </div>
         </div>
@@ -125,6 +112,34 @@
 </div>
 <script>
     $(document).ready(function () {
+        let slotList=[]
+        // select appoinment
+        function reverseDate(dateString) {
+            const parts = dateString.split('-');
+
+            const reversedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
+
+            return reversedDate;
+        }
+        function bindslotList() {
+            $('#slotList').empty();
+            let newArray = slotList.filter((e) => {
+                return e.date.split("T")[0] == $("#appointmentDate").val();
+            })
+            // Add list items dynamically
+            if(newArray.length>0){
+            newArray.forEach(item => {
+
+                const listItem = `<option value="${item.id}">Time: ${item.time} &nbsp Date: ${item.date} &nbsp Duration: ${item.timeDuration} minutes</option>                          `;
+                $('#slotList').append(listItem);
+
+            });
+            }else{
+                $('#slotList').append(`
+                <option selected disabled>--there is no slot left--</option>
+                `);
+            }
+        }
         // Function to fetch data and populate the modal slot list
         function fetchDataAndPopulateModal() {
             $.ajax({
@@ -136,25 +151,11 @@
                 },
                 success: function (response) {
                     if (response.status === 200) {
-                        // Clear previous list items
-                        $('#slotList').empty();
-
-                        // Add list items dynamically
-                        response.data.forEach(item => {
-                            const today = new Date();
-                            today.setHours(0, 0, 0, 0);
-
-                            const itemDate = new Date(item.date);
-                            itemDate.setHours(0, 0, 0, 0);
-
-                            // Only show vacant slots for today and in the future
-                            if (item.status === "Vacant" && itemDate >= today) {
-                                const listItem = `
-                                        <option value="${item.id}">Time: ${item.time} &nbsp Date: ${item.date} &nbsp Duration: ${item.timeDuration} minutes</option>
-                                    `;
-                                $('#slotList').append(listItem);
-                            }
-                        });
+                      
+                        slotList = response.data;
+                        $("#appointmentDate").attr("min", slotList[0].date.split("T")[0])
+                        $("#appointmentDate").attr("max", slotList[slotList.length - 1].date.split("T")[0])
+                        $("#appointmentDate").val(slotList[0].date.split("T")[0])
                     } else {
                         Swal.fire('Error', response.message, 'error');
                     }
@@ -163,8 +164,12 @@
                     console.error('Error fetching data:', error);
                     Swal.fire('Error', 'Failed to retrieve data. Please try again later.', 'error');
                 }
-            });
+            }).then(()=>{
+                bindslotList()
+
+            })
         }
+        fetchDataAndPopulateModal()
 
         $(document).on('click', 'button[data-toggle="modal"]', function () {
             debugger;
@@ -176,11 +181,12 @@
             $('#hiddenId').val(id);        // Populate the hidden ID field
             $('#readonlyName').text(name);  // Populate the readonly Name field
         });
+        // select appoinment      
+       
 
-        // When the modal opens, fetch the slot list
-        $('#dynamicModal').on('show.bs.modal', function () {
-            fetchDataAndPopulateModal();
-        });
+        $("#appointmentDate").on("input",function(){
+bindslotList()
+        })
 
         // Submit the form
         $('#submitBtn').on('click', function () {
@@ -205,7 +211,13 @@
                 Id: id,
                 SlotId: slotId
             };
-
+            Swal.fire({
+                title: "Processing Your Request",
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            })
             // Send the data to the server using AJAX
             $.ajax({
                 url: BaseUrl + 'Api/Admin/RescheduleInterview', // Replace with your API endpoint
@@ -217,9 +229,14 @@
                 data: JSON.stringify(data),
                 success: function (response) {
                     if (response.status === 200) {
-                        Swal.fire('Success', 'Interview rescheduled successfully.', 'success');
-                        $('#dynamicModal').modal('hide');  // Hide the modal on success
-                        location.reload();
+                        Swal.fire({
+                            icon:'success', 
+                            text:'Interview rescheduled successfully.',
+                            title:'success',
+                            didClose:()=>{
+                               location.reload()
+                            }
+                        });
                     } else {
                         Swal.fire('Error', response.message, 'error');
                     }

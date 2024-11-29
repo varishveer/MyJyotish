@@ -852,9 +852,7 @@ namespace BusinessAccessLayer.Implementation
             DateOnly todayDate = DateOnly.FromDateTime(today);
 
             var slots = _context.Slots
-                .Where(slot => slot.Date >= todayDate && slot.ActiveStatus==1)
-                .OrderByDescending(slot => slot.Date)
-                .ThenBy(slot => slot.Time) 
+                 .Where(slot => slot.Date >= todayDate && slot.ActiveStatus==1 && slot.Status.ToLower()=="vacant")
                 .ToList();
 
             return slots;

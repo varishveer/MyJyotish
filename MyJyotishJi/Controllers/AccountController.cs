@@ -95,13 +95,17 @@ namespace MyJyotishJiApi.Controllers
         {
             try {
                 var result = _account.JRegisterAndSendOtp(Email);
-                if (result == "Successful") { return Ok(new {Status = 200,Message = result}); }
-                else if(result == "Email Number already existed")
-                { return Ok(new { Status = 409, Message = result }); }
-                else if(result == "Data not saved") { return StatusCode(500, new { Status = 500, Message = result }); }
-                
-
-                else { return StatusCode(500, new { Status = 500, Message = "Internal Server Error" }); }
+                if (result == "Successful") { 
+                    return Ok(new { Status = 200, Message = result });
+                }
+                else if (result == "Data not saved") { 
+                    return StatusCode(500, new { Status = 500, Message = result });
+                }
+                else
+                {
+                    return Ok(new { Status = 400, Message = result }); 
+                };
+              
                
             }
             catch(Exception ex)

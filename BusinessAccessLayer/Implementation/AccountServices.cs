@@ -339,7 +339,7 @@ namespace BusinessAccessLayer.Implementation
            
             var Jyotish = _context.JyotishRecords.Where(x => x.Email == jyotishView.Email).FirstOrDefault();
             if (Jyotish == null )
-            { return "Email not found"; }
+            { return "invalid email"; }
 
             if( Jyotish.ApprovedStatus != "Verified")
             { return "Not authorized to register"; }
@@ -353,8 +353,8 @@ namespace BusinessAccessLayer.Implementation
           
            
                 var JyotishMobile = _context.JyotishRecords.Where(x => x.Mobile == jyotishView.Mobile).FirstOrDefault();
-                if (JyotishMobile == null) { Jyotish.Mobile = jyotishView.Mobile; }
-                else { return "Invalid Number"; }
+                if (JyotishMobile == null) {  
+                 return "invalid number"; }
 
             
             Jyotish.Mobile = jyotishView.Mobile;
@@ -366,7 +366,7 @@ namespace BusinessAccessLayer.Implementation
             Jyotish.City = CityName.Name;
             Jyotish.NewStatus =true;
             Jyotish.Status =true;
-
+            Jyotish.Mobile = jyotishView.Mobile;
             Jyotish.Role = "Pending";
             Jyotish.ApprovedStatus = "Pending";
            

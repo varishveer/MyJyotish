@@ -344,7 +344,7 @@
                      
                     // Fill in the data fields
                     $('#profileImage').attr('src', profile.profileImageUrl ?  BaseUrl+profile.profileImageUrl : 'default-image.jpg');
-                    $('#JyotishName').text(profile.name);
+                $('#JyotishName').html(profile.name + " <i class='fas text-primary fa-check-circle'></i>");
                     $('#name').text(profile.name);
                     $('#email').text(profile.email);
                     $('#mobile').text(profile.mobile);

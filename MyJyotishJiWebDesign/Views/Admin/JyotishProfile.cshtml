@@ -73,12 +73,12 @@
             View Documents
         </button>
 
-        <div class="d-flex my-2 justify-content-center gap-2">
+        <div class="d-flex my-2 justify-content-center profileActionBtn gap-2">
             
             <button class="approveButton btn btn-success btn-sm ">Approve</button>
             <button type="button" class="btn btn-danger btn-sm"  data-toggle="modal" data-target="#rejectedJyotishModal">Reject</button>
-     
         </div>
+     <small>If you want to reject jyotish or approve jyotish then you can do this from here , please verify documents firsts and take interview</small>
        
         <h6 class="fw-light mt-3">About</h6>
         <p id="about" ></p>
@@ -99,7 +99,6 @@
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Example of an authorization header
                 'Content-Type': 'application/json', // Example of a content type header
-
             },
             success: function (response) {
                 if (response.status === 200) {
@@ -374,13 +373,15 @@
 
                     },
                     success: function (res) {
-                        Swal.fire(
-                            'success',
-                            'Profile Rejected successfully',
-                            'success'
-                        );
+                        Swal.fire({
+                            title: 'success',
+                            text: 'Profile Rejected successfully',
+                            icon: 'success',
+                            didClose: () => {
+                                location.href = "/Admin/PendingJyotish";
+                            }
+                    });
 
-                        location.href = "/Admin/PendingJyotish";  
 
                     }, error: function () {
                         Swal.fire({
@@ -415,20 +416,20 @@
     }
 </style>
 
-<div class="modal  fade" id="documentModal" tabindex="-1" role="dialog" aria-labelledby="documentModalLabel" aria-hidden="true">
+<div class="modal fade" id="documentModal" tabindex="-1" aria-labelledby="documentModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="documentModalLabel">Jyotish Documents</h5>
-                <button type="button" class="close btn text-danger" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close btn text-danger"  id="closedocumentModal">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <div class="container-fluid ">
                     <div class="row justify-content-around">
-                        <div class="rejectDocuments p-2 rounded w-50 mx-auto d-none position-absolute bg-light">
-                            <form>
+                        <div class="rejectDocuments p-2 shadow rounded w-50 mx-auto d-none position-absolute bg-light">
+                            <form id="rejectEmailForm">
                                 <h3 class="text-secondary ">Send Mail</h3>
                                 <input type="hidden" class="form-control" id="status">
                                 <div class="form-group">
@@ -534,7 +535,6 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -581,6 +581,8 @@
 
     $(".rejected").click(function () {
         $(".rejectDocuments").removeClass("d-none")
+        $("#recipient-name").val("")
+        $("#message-text").val("")
     });
     $(".closeRejectmodal").click(function () {
         $(".rejectDocuments").addClass("d-none")
@@ -590,7 +592,10 @@
         $('#documentModal').modal('show');
     });
 
-
+    $("#closedocumentModal").click(function(){
+        $("#documentModal").modal("hide")
+        $(".modal-backdrop").removeClass("show")
+    })
         // Function to get 'id' from the URL parameters
         function getIdFromUrl() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -708,9 +713,6 @@
 
             // Use event delegation for the reject button inside the modal
             $(document).on('click', '#rejectBtn', function () {
-                var modal = $('#rejectedDocModal');
-
-               
                
                 var status = $('#status').val();
 
@@ -726,11 +728,6 @@
                
                 sendRejectedStatus(status, subject, message, id);
             });
-
-
-
-
-
 
             // Function to send status update to the API
         function sendRejectedStatus(status, subject, message, id) {
