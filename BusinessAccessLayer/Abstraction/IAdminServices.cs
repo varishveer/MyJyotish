@@ -83,6 +83,7 @@ namespace BusinessAccessLayer.Abstraction
 
         public JyotishModel JyotishProfile(int Id);
         public List<AdminNoticationDataViewModel> NotificationData();
-        public string AddInterviewFeedback(InterviewFeedbackModel feedback);
+        public string AddInterviewFeedback(InterviewFeedbackViewModel feedback);
+        public List<InterviewFeedbackViewModel> GetAllInterviewFeedback();
     }
 }

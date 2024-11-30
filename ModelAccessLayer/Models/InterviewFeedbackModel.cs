@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace ModelAccessLayer.Models
@@ -15,8 +16,9 @@ namespace ModelAccessLayer.Models
         public bool ApprovedStatus { get; set; }
         public DateTime Date { get; set; }
         public bool Status { get; set; }
-
+        [JsonIgnore]
         public SlotModel Slot { get; set; }
+        [JsonIgnore]
         public JyotishModel Jyotish { get; set; }
     }
 }

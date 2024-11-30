@@ -1442,15 +1442,16 @@ namespace BusinessAccessLayer.Implementation
             _context.CountryCode.Add(code);
             return _context.SaveChanges() > 0;
         }
-        public string AddInterviewFeedback(InterviewFeedbackModel feedback)
+        public string AddInterviewFeedback(InterviewFeedbackViewModel feedback)
         {
             var record = _context.InterviewFeedback.Where(x => x.InterviewId == feedback.InterviewId).FirstOrDefault();
-            if (record == null) { return "Invalid Data"; }
+            if (record != null) { return "Invalid Data"; }
 
             InterviewFeedbackModel Data = new InterviewFeedbackModel();
             Data.InterviewId = feedback.InterviewId;
             Data.Message = feedback.Message;
             Data.ApprovedStatus = feedback.ApprovedStatus;
+            Data.JyotishId = feedback.JyotishId;
             Data.Date = DateTime.Now;
             Data.Status = true;
             _context.InterviewFeedback.Add(Data);
@@ -1461,6 +1462,20 @@ namespace BusinessAccessLayer.Implementation
             return "Internal Server Error";
         }
 
+        public List<InterviewFeedbackViewModel> GetAllInterviewFeedback()
+        {
+            var records = _context.InterviewFeedback.Where(x => x.Status == true).Include(x => x.Jyotish).Include(x => x.Slot).Select(x => new InterviewFeedbackViewModel
+            {
+                Id = x.Id,
+                InterviewId = x.InterviewId,
+                Message = x.Message,
+                ApprovedStatus = x.ApprovedStatus,
+                JyotishName = x.Jyotish.Name,
+                Date = DateTime.Parse(x.Slot.Date + " " + x.Slot.Time),
+            }
+            ).ToList();
+            return records;
+        }
 
         public dynamic getCountryCode()
         {

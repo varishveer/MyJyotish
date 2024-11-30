@@ -28,10 +28,13 @@ namespace ModelAccessLayer.ViewModels
         public int countryCode { get; set; }
     }
 
-    public class InterviewFeedback
+    public class InterviewFeedbackViewModel
     {
         public int Id { get; set; }
         public int InterviewId { get; set; }
+        public int JyotishId { get; set; }
+        public string JyotishName { get; set; }
+        
         public string Message { get; set; }
 
         public bool ApprovedStatus { get; set; }
