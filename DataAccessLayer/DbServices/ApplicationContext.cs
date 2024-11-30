@@ -52,6 +52,8 @@ namespace DataAccessLayer.DbServices
         public DbSet<ClientMembers> ClientMembers { get; set; }
         public DbSet<SubsciptionManagementModel> PackageManager { get; set; }
         public DbSet<CountryCode> CountryCode { get; set; }
+        public DbSet<InterviewFeedbackModel> InterviewFeedback { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         { 
@@ -130,12 +132,23 @@ namespace DataAccessLayer.DbServices
                 .HasOne(c => c.jyotish)
                 .WithMany(j => j.subscriptionManage)
                 .HasForeignKey(c => c.JyotishId);
+
                  modelBuilder.Entity<SubsciptionManagementModel>()
                 .HasOne(c => c.subscription)
                 .WithMany(j => j.subscriptionManage)
                 .HasForeignKey(c => c.SubscriptionId);
 
             modelBuilder.Entity<CountryCode>().HasOne(c => c.countryobj).WithOne(j => j.code).HasForeignKey<CountryCode>(c => c.country);
+
+            modelBuilder.Entity<InterviewFeedbackModel>()
+               .HasOne(c => c.Slot)
+               .WithMany(j => j.Feedback)
+               .HasForeignKey(c => c.InterviewId);
+
+            modelBuilder.Entity<InterviewFeedbackModel>()
+              .HasOne(c => c.Jyotish)
+              .WithMany(j => j.Feedback)
+              .HasForeignKey(c => c.JyotishId);
 
         }
 

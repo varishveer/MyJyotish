@@ -1442,6 +1442,20 @@ namespace BusinessAccessLayer.Implementation
             _context.CountryCode.Add(code);
             return _context.SaveChanges() > 0;
         }
+        public string AddInterviewFeedback(InterviewFeedbackModel feedback)
+        {
+            var record = _context.InterviewFeedback.Where(x => x.InterviewId == feedback.InterviewId).FirstOrDefault();
+            if (record == null) { return "Invalid Data"; }
+
+            InterviewFeedbackModel Data = new InterviewFeedbackModel();
+            Data.InterviewId = feedback.InterviewId;
+            Data.Message = feedback.Message;
+            Data.ApprovedStatus = feedback.ApprovedStatus;
+            Data.Date = DateTime.Now;
+            Data.Status = true;
+            return "";
+        }
+
 
         public dynamic getCountryCode()
         {
