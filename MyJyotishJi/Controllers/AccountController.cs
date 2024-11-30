@@ -95,7 +95,7 @@ namespace MyJyotishJiApi.Controllers
         {
             try {
                 var result = _account.JRegisterAndSendOtp(Email);
-                if (result == "Successful" || result == "Email already Verified") { 
+                if (result == "Successful" || result == "Email already verified") { 
                     return Ok(new { Status = 200, Message = result });
                 }
                 else if (result == "Data not saved") { 
