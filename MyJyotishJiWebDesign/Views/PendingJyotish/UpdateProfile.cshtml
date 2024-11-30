@@ -1,16 +1,17 @@
 ﻿@{
     Layout = null;
-    var BaseUrl = "https://api.myjyotishg.in/";
-    //var BaseUrl = "https://localhost:7118/";
+   // var BaseUrl = "https://api.myjyotishg.in/";
+    var BaseUrl = "https://localhost:7118/";
 
 }
 <html>
     <head>
         <script>
-        var BaseUrl = "https://api.myjyotishg.in/";
-        //var BaseUrl = "https://localhost:7118/";
+        //var BaseUrl = "https://api.myjyotishg.in/";
+        var BaseUrl = "https://localhost:7118/";
 
         </script>
+  
 <style>
     .select2{
         min-width:100%;
@@ -157,7 +158,8 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="~/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
     <script src="~/bootstrap-datepicker/datepicker.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.21.0/jquery.validate.min.js" integrity="sha512-KFHXdr2oObHKI9w4Hv1XPKc898mE4kgYx58oqsc/JqqdLMDI4YjOLzom+EMlW8HFUd0QfjfAvxSL6sEq/a42fQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="~/Jquery-validation/JqueryValidations.js"></script>
 </head>
 <body class="h-100  bg-light">
 <div class="container-fluid  mb-5 h-100 w-100">
@@ -252,7 +254,7 @@
                         <div class="col-sm-6">
                                   
                                                         <label for="dob">Date of Birth <span class="text-danger">*</span></label>
-                                                        <input type="text" autocomplete="off" placeholder="dd-mm-yy" id="dob" name="DateOfBirth" class="form-control" />
+                                                        <input type="text" autocomplete="off" placeholder="mm/dd/yyyy" id="dob" name="DateOfBirth" class="form-control" />
                                                         
                                                     </div>
                                                    
@@ -305,44 +307,64 @@
                         <div class="row mt-4">
 
                         <div class="col-sm-6">
+                            <div class="d-flex gap-2">
                             <p>You are available for pooja? : </p>
                          
                             <div>
                              <input type="radio" class="checkboxforavail poojarbtn" value="1" name="pooja" /> Yes&nbsp;&nbsp;
                                 <input type="radio" class="checkboxforavail poojarbtn" value="0" name="pooja" /> No
                             </div>
+                             </div>
+                             <div>
+                           <div class="d-flex gap-2">
                              <p>You are available for call? : </p>
                              <div>
                                 <input type="radio" class="checkboxforavail callrbtn" value="1" name="call" /> Yes &nbsp;&nbsp;
                                   <input type="radio"  class="checkboxforavail callrbtn" value="0" name="call" /> No
 
-                            </div> 
+                            </div>
+                            </div>
+                                                        <div id="callInputBox" class="input-box mb-1">
+                                                            <label for="callprice" class="">Call Price <span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control " id="callprice" name="callprice" placeholder="Enter call price ₹/Minute" />
+                                                        </div>
+                            </div>
+                            <div>
+                           <div class="d-flex gap-2">
+
                             <p>You are available for chat? : </p>
-                             <div>
+                            <div>
                                  <input type="radio"  class="checkboxforavail chatrbtn" value="1" name="chat" />
                                                         Yes &nbsp;&nbsp;
-                                   <input type="radio"  class="checkboxforavail chatrbtn" value="0" name="chat" /> No                         </div>
+                                   <input type="radio"  class="checkboxforavail chatrbtn" value="0" name="chat" /> No                        
+                               </div>
+                             </div>
+                                                        <div id="chatInputBox" class="input-box mb-1">
+                                                            <label for="chatprice" class="">Chat Price <span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control " id="chatprice" name="chatprice" placeholder="Enter chat price  ₹/Minute" />
+                                                        </div>
+                             </div>
+                             <div>
+                          <div class="d-flex gap-2">
                                    <p>You are available for Appointment? : </p>
                              <div>
                                  <input type="radio"  class="checkboxforavail apprbtn" value="1" name="appointment" />
                                                         Yes &nbsp;&nbsp;
                                   <input type="radio" class="checkboxforavail apprbtn" value="0" name="appointment" /> No
+                                  </div>
+                                  </div>
+                                                        <div id="appointmentCharges" class="input-box mb-1">
+                                                            <label for="AppointmentCharges" class="">Appointment Charges <span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control " id="AppointmentChargesInp" name="AppointmentCharges" placeholder="Enter Appointment Charges" />
+                                                        </div>
                                                     </div>
                                                     </div>
+                                                   
                                                 <div class="col-sm-6">
 
-                            <div id="callInputBox" class="input-box">
-                                                        <label for="callprice" class="mt-4">Call Price <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control " id="callprice" name="callprice" placeholder="Enter call price ₹/Minute" />
-                            </div>
-                            <div id="chatInputBox" class="input-box">
-                                                        <label for="chatprice" class="mt-4">Chat Price <span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control " id="chatprice" name="chatprice" placeholder="Enter chat price  ₹/Minute" />
-                            </div>
-                            <div id="appointmentCharges" class="input-box">
-                                                        <label for="AppointmentCharges" class="mt-4">Appointment Charges <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control " id="AppointmentChargesInp" name="AppointmentCharges" placeholder="Enter Appointment Charges" />
-                            </div>
+                           
+                           
+                          
                             <p class=" my-4 text-secondary alertforbox">Please check boxes if you are available</p>
                         </div>
                        
@@ -433,9 +455,7 @@
 
 
 <script>
-
-    
-      
+  
     async function loadLanguage() {
         try {
             const response = await fetch("@BaseUrl" + 'Api/Account/Languages');
@@ -478,7 +498,6 @@
                 $.ajax({
                     url: "@BaseUrl" + 'Api/Jyotish/Country',
                     type: 'GET',
-
                     success: function (response) {
                         var countryDropdown = $('#country');
                         countryDropdown.empty().append('<option value="">Select Country</option>');
@@ -503,7 +522,6 @@
                     url: "@BaseUrl" + 'Api/Jyotish/State',
                     type: 'GET',
                     data: { Id: countryId },
-
                     success: function (response) {
                         var stateDropdown = $('#state');
                         stateDropdown.empty().append('<option value="">Select State</option>');
@@ -590,36 +608,48 @@
                 
 
         } else if (page == 2) {
-            let basicData = $("#basicForm").serializeArray();
-            let enablenxt = 0;
-            debugger
-            basicData.forEach(function (d) {
-                if (d.value != "" & d.value != null & d.value != 0) {
-                    enablenxt++;
-                }
-            })
-            if (enablenxt == basicData.length) {
-                $(".active2").attr("disabled", false)
-            }else{
-                $(".active2").attr("disabled", true)
+            if ($("#altmobno").val() == $("#mobno").val()) {
+                Swal.fire({
+                    title: "warning",
+                    text: "alternate mobile number is not same as your first mobile number",
+                    icon: "warning",
+
+                })
+                    $(".active2").attr("disabled", true)
+                    $(".active1").addClass("bg-dark")
+                    $(".active1").addClass("text-light")
+            } else {
+                let basicData = $("#basicForm").serializeArray();
+                let enablenxt = 0;
+                debugger
+                basicData.forEach(function (d) {
+                    if (d.value != "" & d.value != null & d.value != 0) {
+                        enablenxt++;
+                    }
+                })
+                if (enablenxt == basicData.length ) {
+                    $(".active2").attr("disabled", false)
+                } else {
+                    $(".active2").attr("disabled", true)
                     $(".active1").addClass("bg-dark")
                     $(".active1").addClass("text-light")
                     showRequiredAlert()
-            }
-            if ($(".active2").attr("disabled") === undefined) {
-                if(clickby=="btn"){
-                basicData.push({name:"Id",value:localStorage.getItem("Id")})
-                    basicData.push({ name:"BasicSection",value: true })
-                    addDataonTemp(basicData)
                 }
+                if ($(".active2").attr("disabled") === undefined) {
+                    if (clickby == "btn") {
+                        basicData.push({ name: "Id", value: localStorage.getItem("Id") })
+                        basicData.push({ name: "BasicSection", value: true })
+                        addDataonTemp(basicData)
+                    }
                     $(".active2").addClass("bg-dark")
                     $(".active2").addClass("text-light")
-            $("#basicDetails").hide()
-            $("#address").show();
-            $("#availability").hide();
-            $("#about").hide();
-            $("#document").hide();
+                    $("#basicDetails").hide()
+                    $("#address").show();
+                    $("#availability").hide();
+                    $("#about").hide();
+                    $("#document").hide();
                 }
+            }
 
         } else if (page == 3) {
                 let basicData = $("#addressform").serializeArray();
@@ -641,6 +671,7 @@
 
                 }
                 if ($(".active3").attr("disabled") === undefined) {
+                    if ($("#pincode").val().length == 6) {
                     if (clickby == "btn") {
                         basicData.push({ name: "Id", value: localStorage.getItem("Id") })
                         basicData.push({ name: "AddressSection", value: true })
@@ -653,6 +684,13 @@
             $("#basicDetails").hide()
             $("#about").hide();
             $("#document").hide();
+                } else {
+                    Swal.fire({
+                        title: "warning",
+                        text: "please enter valid pincode",
+                        icon: "warning"
+                    })
+                }
                 }
 
 
@@ -746,8 +784,8 @@
 
                 }
                 if ($(".active5").attr("disabled") === undefined) {
+                    debugger
                     if (clickby == "btn") {
-
                         basicData.push({ name: "Id", value: localStorage.getItem("Id") })
                         basicData.push({ name: "AboutSection", value: true })
                         addDataonTemp(basicData)
@@ -759,6 +797,7 @@
             $("#basicDetails").hide()
             $("#about").hide();
             $("#document").show();
+                        
                 }
 
         }
@@ -1133,40 +1172,40 @@ $("#language").select2({
         });
 
         // Submit Form Data
-        $('#profileUpdateForm').on('submit', function (event) {
-            event.preventDefault(); // Prevent the default form submission
+        // $('#profileUpdateForm').on('submit', function (event) {
+        //     event.preventDefault(); Prevent the default form submission
 
-            // Create a FormData object from the form
-            var formData = new FormData(this);
-            formData.append('email', email);
+        //     Create a FormData object from the form
+        //     var formData = new FormData(this);
+        //     formData.append('email', email);
 
-            // If you need to handle the profile image separately
-            var profileImage = $('#profileImage')[0].files[0];
-            if (profileImage) {
-                formData.append('Image', profileImage);
-            }
+        //     If you need to handle the profile image separately
+        //     var profileImage = $('#profileImage')[0].files[0];
+        //     if (profileImage) {
+        //         formData.append('Image', profileImage);
+        //     }
 
-            // Send the data via AJAX
-            $.ajax({
-                url: "@BaseUrl" + 'Api/PendingJyotish/UpdateProfile',
-                type: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                },
-                data: formData,
-                processData: false, // Prevent jQuery from automatically processing the data
-                contentType: false, // Prevent jQuery from setting content type, as it is handled by FormData
-                success: function (response) {
-                    console.log('Profile updated successfully:', response);
-                    alert('Profile updated successfully!');
-                    window.location.pathname('Profile');
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    console.error('Error updating profile:', textStatus, errorThrown);
-                    alert('There was a problem updating your profile. Please try again.');
-                }
-            });
-        });
+        //     Send the data via AJAX
+        //     $.ajax({
+        //         url: "@BaseUrl" + 'Api/PendingJyotish/UpdateProfile',
+        //         type: 'POST',
+        //         headers: {
+        //             'Authorization': `Bearer ${token}`
+        //         },
+        //         data: formData,
+        //         processData: false, Prevent jQuery from automatically processing the data
+        //         contentType: false, Prevent jQuery from setting content type, as it is handled by FormData
+        //         success: function (response) {
+        //             console.log('Profile updated successfully:', response);
+        //             alert('Profile updated successfully!');
+        //             window.location.pathname('Profile');
+        //         },
+        //         error: function (jqXHR, textStatus, errorThrown) {
+        //             console.error('Error updating profile:', textStatus, errorThrown);
+        //             alert('There was a problem updating your profile. Please try again.');
+        //         }
+        //     });
+        // });
 
 
             $(".saveProfile").click(function () {
@@ -1225,6 +1264,15 @@ $("#language").select2({
        
       
     })
+            function formatDate(inputDate) {
+                const dateParts = inputDate.split('-');
+
+                const year = dateParts[0];
+                const month = dateParts[1];
+                const day = dateParts[2];
+
+                return `${month}/${day}/${year}`;
+            }
             function loadJyotishProfile() {
             Swal.fire({
                 title: "Processing Your Request",
@@ -1260,7 +1308,7 @@ $("#language").select2({
                         $("#mobno").val(response.data.mobile)
                         $("#gender").val(response.data.gender)
                         $("#altmobno").val(response.data.alternateMobile)
-                        $("#dob").val(response.data.dateOfBirth)
+                            $("#dob").val(formatDate(response.data.dateOfBirth))
                         setTimeout(() => { 
                         $("#language").val(response.data.language != null ? response.data.language.split(",") : response.data.language).change()
                         $("#expertise").val(response.data.expertise != null ? response.data.expertise.split(",") : response.data.expertise).change()
@@ -1385,6 +1433,14 @@ $("#language").select2({
     })
             function addDataonTemp(sArray)
             {
+                if ($("#altmobno").val() == $("#mobno").val()) {
+                    Swal.fire({
+                        title: "warning",
+                        text: "alternate mobile number is not same as your first mobile number",
+                        icon: "warning",
+                        
+                    })
+                }else{
             Swal.fire({
                 title: "Processing Your Request",
                 allowOutsideClick: false,
@@ -1444,6 +1500,7 @@ $("#language").select2({
                     }
                 }
             });
+                }
             }
     
 </script>
@@ -1484,7 +1541,7 @@ $("#language").select2({
             // Initialize the datepicker with the calculated maxDate
             $("#dob").datepicker({
                 autoclose: true,
-                dateFormat: 'dd-mm-yy',
+                dateFormat: 'dd-mm-yyyy',
                 changeMonth: true,
                 changeYear: true,
                 yearRange: "c-100:c",
@@ -1498,6 +1555,40 @@ $("#language").select2({
             })
        
 
+            $(document).ready(function(){
+                $("#altmobno").on("keyup",function(){
+                    if($(this).val()==$("#mobno").val()){
+                        Swal.fire({
+                            title:"warning",
+                            text:"alternate mobile number is not same as your first mobile number",
+                            icon:"warning"
+                        })
+                    }
+                })
+
+            $("#basicForm").validate({
+                rules:
+                {
+                    "AlternateMobile": {
+                        required: true,
+                        minlength:10,
+                        maxlength:10,
+                        number:true
+                    }
+                }   
+            })
+            $("#addressform").validate({
+                rules:
+                {
+                    "pincode": {
+                        required: true,
+                        minlength:6,
+                        maxlength:6,
+                        number:true
+                    }
+                }   
+            })
+            })
     </script>
 </body>
 </html>

@@ -1084,5 +1084,26 @@ namespace MyJyotishJiApi.Controllers
                 return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message });
             }
         }
+
+        //country code
+        [HttpGet("countryCode")]
+        public IActionResult countryCode(CountryCodeViewModel model)
+        {
+            try
+            {
+                var result = _admin.countryCode(model);
+
+                if (result )
+                {
+                    return Ok(new { Status = 200, Message = "Record Added Successfully" });
+                }
+
+                return Ok(new { Status = 400, Data = result, Message = "something went wrong" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message });
+            }
+        }
     }
 }

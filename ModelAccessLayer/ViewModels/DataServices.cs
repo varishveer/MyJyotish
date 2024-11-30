@@ -19,4 +19,11 @@ namespace ModelAccessLayer.ViewModels
         public DateTime ExpiryDate { get; set; }
         public bool Status { get; set; }
     }
+    
+    public class CountryCodeViewModel
+    {
+        public int Id { get; set; }
+        public int country { get; set; }
+        public int countryCode { get; set; }
+    }
 }

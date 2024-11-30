@@ -24,5 +24,6 @@ namespace MyJyotishJiWebDesign.Controllers
         public IActionResult JyotishProfile() { return View(); }
         public IActionResult InterviewList() { return View(); }
         public IActionResult Specialization() { return View(); }
+        public IActionResult CreateCountryCode() { return View(); }
     }
 }

@@ -51,6 +51,7 @@ namespace DataAccessLayer.DbServices
         public DbSet<JyotishTempRecord> jyotishTempRecords { get; set; }
         public DbSet<ClientMembers> ClientMembers { get; set; }
         public DbSet<SubsciptionManagementModel> PackageManager { get; set; }
+        public DbSet<CountryCode> CountryCode { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         { 
@@ -133,7 +134,8 @@ namespace DataAccessLayer.DbServices
                 .HasOne(c => c.subscription)
                 .WithMany(j => j.subscriptionManage)
                 .HasForeignKey(c => c.SubscriptionId);
-                
+
+            modelBuilder.Entity<CountryCode>().HasOne(c => c.countryobj).WithOne(j => j.code).HasForeignKey<CountryCode>(c => c.country);
 
         }
 

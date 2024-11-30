@@ -23,6 +23,7 @@ namespace BusinessAccessLayer.Abstraction
         /*   public bool AddNewPoojaList(PoojaListViewModel model);*/
         public List<SpecializationListModel> GetSpecializationList();
         public dynamic getPlan(int Id);
+        public bool countryCode(CountryCodeViewModel model);
 
         public bool AddExpertise(ExpertiseModel _expertise);
         public List<ExpertiseModel> GetAllExpertise();
