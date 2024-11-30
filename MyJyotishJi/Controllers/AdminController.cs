@@ -1086,11 +1086,18 @@ namespace MyJyotishJiApi.Controllers
         }
 
         //country code
-        [HttpGet("countryCode")]
-        public IActionResult countryCode(CountryCodeViewModel model)
+        [HttpPost("countryCode")]
+        public IActionResult countryCode()
         {
             try
             {
+                var httpRequest = HttpContext.Request;
+
+                CountryCodeViewModel model = new CountryCodeViewModel
+                {
+                    country = Convert.ToInt32(httpRequest.Form["country"]),
+                    countryCode = Convert.ToInt32(httpRequest.Form["countryCode"])
+                };
                 var result = _admin.countryCode(model);
 
                 if (result )
@@ -1099,6 +1106,20 @@ namespace MyJyotishJiApi.Controllers
                 }
 
                 return Ok(new { Status = 400, Data = result, Message = "something went wrong" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message });
+            }
+        } 
+        [HttpGet("getcountryCode")]
+        public IActionResult GetcountryCode()
+        {
+            try
+            {
+                var result = _admin.getCountryCode();
+                return Ok(new { Status = 200, Message = "data received",data=result });
+             
             }
             catch (Exception ex)
             {

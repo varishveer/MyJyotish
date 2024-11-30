@@ -1443,5 +1443,18 @@ namespace BusinessAccessLayer.Implementation
             return _context.SaveChanges() > 0;
         }
 
+        public dynamic getCountryCode()
+        {
+            var res = (from code in _context.CountryCode join country in _context.Countries on code.country equals country.Id select new
+            {
+                id=code.Id,
+                country=country.Name,
+                countryId=country.Id,
+                code=code.countryCode
+            }).ToList();
+          
+            return res;
+        }
+
     }
 }

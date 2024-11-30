@@ -93,26 +93,27 @@
                 <label for="email" class="form-label">Email:</label>
                 <div class="input-group">
                     <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email" aria-label="Recipient's username" required>
-                            <button class="btn btn-outline-secondary otpcolour bg-info" type="button" id="getOtp">Get OTP</button>
+                            <button class="btn btn-outline-secondary otpcolour rounded-end bg-info" type="button" id="getOtp">Get OTP</button>
                             <span id="email-error"></span>
                 </div>
             </div>
         </div>
         
         <div class="form-row d-none" id="verifyOtp-container">
-                    <div class="form-group col-md-12" style="margin-bottom: 0.2rem;">
                         <label for="otp" class="form-label" >Verification:</label>
-                <div class="input-group">
+                    <div class="input-group col-md-12" style="margin-bottom: 0.2rem;">
                             <input type="number" id="otp" name="otp" class="form-control" placeholder="Enter OTP" >
                             <button class="btn btn-outline-secondary bg-info text-white" type="button" id="verifyOtp">Verify OTP</button>
-                </div>
             </div>
         </div>
  
         <div class="form-row">
                     <div class="form-group col-md-6" style="margin-bottom: 0.2rem;">
                 <label for="mobile" class="form-label">Number:</label>
-                        <input type="tel" id="mobile" name="mobile" class="form-control disabledInput" placeholder="Mobile Number" required>
+                <div class="d-flex">
+                <input type="text" class="rounded-start countryCode" disabled style="width:40px;"/>
+                <input type="tel" id="mobile" name="mobile" class="form-control rounded-0 rounded-end disabledInput" placeholder="Mobile Number" required>
+                        </div>
             </div>
                     <div class="form-group col-md-6" style="margin-bottom: 0.2rem;">
                 <label for="gender" class="form-label">Gender:</label>
@@ -139,10 +140,7 @@
                     <!-- Add expertise options here -->
                 </select>
             </div>
-        </div>
-
-        
-         
+        </div> 
              
         <div class="form-row">
              <div class="form-group col-md-6" style="margin-bottom: 0.2rem;">
@@ -316,9 +314,12 @@
                                     title: "OTP Verified " + response.message,
                                     icon: "success",   
                                 });
+                            if (response.message == "Successful") {
+                                $("#verifyOtp-container").addClass("d-none");
+
+                            }
                             $(".disabledInput").attr("disabled", false)
 
-                                $("#verifyOtp-container").addClass("d-none");
                             break;
                         case 409:
                                 Swal.fire({
@@ -477,9 +478,19 @@
         loadExpertise();
         loadCountries();
 
+
+       async function bindCountryCode(id){
+            const response = await fetch(BaseUrl + `Api/Jyotish/countryCode?Id=${id}`);
+            const data = await response.json();
+            if(data.status==200){
+                $(".countryCode").val(data.code)
+            }
+        }
+
         $countryDropdown.change(function () {
             const countryId = $(this).val();
             if (countryId) {
+                bindCountryCode(countryId)
                 loadStates(countryId);
             } else {
                 $stateDropdown.html('<option value="">Select State</option>').prop('disabled', true);

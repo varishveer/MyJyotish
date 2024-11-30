@@ -54,7 +54,7 @@ namespace BusinessAccessLayer.Implementation
             
             if (IsMobileValid != null)
             {
-                if (IsMobileValid.ApprovedStatus == "Unverified")
+                if (IsMobileValid.ApprovedStatus == "Unverified" || IsMobileValid.ApprovedStatus==null)
                 {
                     int NewOtp = new Random().Next(100000, 1000000); ;
 
@@ -267,7 +267,7 @@ namespace BusinessAccessLayer.Implementation
             {
                 if (record.Otp == Otp)
                 {
-                    if(record.ApprovedStatus == "Unverified")
+                    if(record.ApprovedStatus == "Unverified" || record.ApprovedStatus == null)
                     {
                         record.ApprovedStatus = "Verified";
                     }
