@@ -500,6 +500,9 @@
 
         $("#registrationForm").on("submit", function (event) {
             event.preventDefault();
+            if($("#mobile").val().length>10 && $("#mobile").val().length<10){
+                return
+            }
             Swal.fire({
                 title: "Processing Your Request",
                 allowOutsideClick: false,
@@ -619,11 +622,13 @@
                 "email":{
                     required:true
                 },
-                "otp":{
-                    required:true
-                },
+               
                 "mobile":{
-                    required:true
+                    required:true,
+                    minlength: 10,
+                    maxlength:10,
+                    number:true
+
                },
                "gender":{
                    required:true

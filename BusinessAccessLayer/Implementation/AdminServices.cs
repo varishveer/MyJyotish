@@ -1431,7 +1431,17 @@ namespace BusinessAccessLayer.Implementation
 
         }
 
-        
+        //country code
+        public bool countryCode(CountryCodeViewModel model)
+        {
+            CountryCode code = new CountryCode
+            {
+                country = model.country,
+                countryCode = model.countryCode
+            };
+            _context.CountryCode.Add(code);
+            return _context.SaveChanges() > 0;
+        }
 
     }
 }

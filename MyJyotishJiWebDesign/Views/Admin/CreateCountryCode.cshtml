@@ -1,0 +1,35 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "AdminLayout";
+
+}
+
+<form id="addcodeForm" class="w-100 d-flex border rounded p-4 gap-2 justify-content-center mx-auto">
+    <select name="country" id="country" class="form-select">
+        <option>--select Country--</option>
+    </select>
+    <input type="text" class="form-control" placeholder="Country Code" name="countryCode" />
+    <input type="submit" value="Add" class="btn btn-primary" />
+</form>
+
+<script>
+    function loadCountries() {
+        $.ajax({
+            url: BaseUrl + 'Api/Jyotish/Country',
+            type: 'GET',
+            success: function (response) {
+                var countryDropdown = $('#country');
+                countryDropdown.empty().append('<option selected disabled value="">--Select Country--</option>');
+                response.data.forEach(country => {
+                    countryDropdown.append(`<option class='country' value="${country.id}">${country.name}</option>`);
+                });
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error('Error fetching countries:', textStatus, errorThrown);
+            }
+        });
+    }
+    loadCountries();
+</script>
