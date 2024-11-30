@@ -247,14 +247,19 @@
                   
                     if (response.status === 200) {
                         Swal.fire({
-                            title: "Otp Send Successfully",
-                            text: "Please Enter Otp ",
+                            title: "success",
+                            text: response.message,
                             icon: "success",
 
 
                         });
+                        if (response.message == "Successful"){
 
                         $("#verifyOtp-container").removeClass("d-none");
+                        }else{
+                            $(".disabledInput").attr("disabled", false)
+
+                        }
                        
                     }
                     else if (response.status === 400) {
@@ -263,6 +268,10 @@
                             text: response.message,
                             icon: "warning",
                         });
+                        if (response.message == "Email already verified") {
+
+                            $(".disabledInput").attr("disabled", false)
+                        }
                     }
                     else {
                         Swal.fire({
@@ -316,10 +325,9 @@
                                     title: "OTP Verified " + response.message,
                                     icon: "success",   
                                 });
-                            if (response.message == "Successful") {
+                           
                                 $("#verifyOtp-container").addClass("d-none");
 
-                            }
                             $(".disabledInput").attr("disabled", false)
 
                             break;
