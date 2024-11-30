@@ -33,7 +33,8 @@ namespace ModelAccessLayer.ViewModels
         public int Id { get; set; }
         public int InterviewId { get; set; }
         public int JyotishId { get; set; }
-        public string JyotishName { get; set; }
+        [AllowNull]
+        public string? JyotishName { get; set; }
         
         public string Message { get; set; }
 
