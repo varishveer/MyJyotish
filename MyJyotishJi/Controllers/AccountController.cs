@@ -103,6 +103,9 @@ namespace MyJyotishJiApi.Controllers
                     }
                     return Ok(new { Status = 200, Message = result });
                 }
+                else if (result == "Email already verified")
+                { return Ok(new { Status = 200, Message = result }); }
+
                 else if (result == "Data not saved") { 
                     return StatusCode(500, new { Status = 500, Message = result });
                 }

@@ -1127,6 +1127,27 @@ namespace MyJyotishJiApi.Controllers
             }
         }
 
-        //[HttpPost]
+        [HttpPost ("AddInterviewFeedback")]
+        public IActionResult AddInterviewFeedback(InterviewFeedbackModel Data)
+        {
+            try
+            {
+                var httpRequest = HttpContext.Request;
+
+               
+                var result = _admin.AddInterviewFeedback(Data);
+
+                if (result == "Successful")
+                {
+                    return Ok(new { Status = 200, Message = "Record Added Successfully" });
+                }
+
+                return Ok(new { Status = 400, Data = result, Message = "something went wrong" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message });
+            }
+        }
     }
 }
