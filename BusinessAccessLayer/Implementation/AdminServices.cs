@@ -1453,7 +1453,12 @@ namespace BusinessAccessLayer.Implementation
             Data.ApprovedStatus = feedback.ApprovedStatus;
             Data.Date = DateTime.Now;
             Data.Status = true;
-            return "";
+            _context.InterviewFeedback.Add(Data);
+            if ( _context.SaveChanges()>0 ) 
+            {
+                return "Successful";
+            }
+            return "Internal Server Error";
         }
 
 

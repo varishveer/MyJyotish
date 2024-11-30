@@ -1126,5 +1126,7 @@ namespace MyJyotishJiApi.Controllers
                 return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message });
             }
         }
+
+        //[HttpPost]
     }
 }
