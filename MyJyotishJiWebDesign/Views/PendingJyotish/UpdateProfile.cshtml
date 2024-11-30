@@ -230,7 +230,10 @@
                         </div>
                         <div class="col-sm-6">
                             <label for="altmobno">Alternate Number <span class="text-danger">*</span></label>
+                                                        <div class="d-flex">
+                                                            <input type="text" class="rounded-start countryCode" value="+91" disabled style="width:40px;" />
                                     <input type="number" id="altmobno" name="AlternateMobile" class="form-control" placeholder="Enter alternate Phone Number" />
+                        </div>
                         </div>
                     </div> 
                     <div class="row">
@@ -615,10 +618,18 @@
                     icon: "warning",
 
                 })
+               
                     $(".active2").attr("disabled", true)
                     $(".active1").addClass("bg-dark")
                     $(".active1").addClass("text-light")
-            } else {
+            } else if($("#altmobno").val().length!=10) {
+                    Swal.fire({
+                        title: "warning",
+                        text: "invalid number",
+                        icon: "warning",
+
+                    })
+                }else{
                 let basicData = $("#basicForm").serializeArray();
                 let enablenxt = 0;
                 debugger
@@ -1151,9 +1162,19 @@ $("#language").select2({
             });
         }
 
+                async function bindCountryCode(id) {
+                    console.log(id)
+                    const response = await fetch(BaseUrl + `Api/Jyotish/countryCode?country=${id}`);
+                    const data = await response.json();
+                    console.log(data)
+                    if (data.status == 200) {
+                        $(".countryCode").val("+" + data.code)
+                    }
+                }
         // Event Listeners
         $('#country').on('change', function () {
             const countryId = $(this).val();
+                    bindCountryCode(countryId)
             if (countryId) {
                 loadStates(countryId);
             } else {

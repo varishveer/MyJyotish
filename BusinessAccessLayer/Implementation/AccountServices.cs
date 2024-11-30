@@ -292,8 +292,9 @@ namespace BusinessAccessLayer.Implementation
             return "Email not found";
         }
         public string SignUpJyotish(JyotishViewModel jyotishView)
-        {          
-           
+        {
+            
+
             var Jyotish = _context.JyotishRecords.Where(x => x.Email == jyotishView.Email).FirstOrDefault();
             if (Jyotish == null )
             { return "invalid email or maybe already register"; }
@@ -310,9 +311,9 @@ namespace BusinessAccessLayer.Implementation
 
             Jyotish.Name = jyotishView.Name;
 
-
+            var countryCode = _context.CountryCode.Where(e => e.country == jyotishView.Country).Select(e => e.countryCode).FirstOrDefault();
             
-            Jyotish.Mobile = jyotishView.Mobile;
+            Jyotish.Mobile = countryCode!=null?countryCode.ToString()+jyotishView.Mobile.ToString():0 +jyotishView.Mobile.ToString();
             Jyotish.Gender = jyotishView.Gender;
             Jyotish.Language = jyotishView.Language;
             Jyotish.Expertise = jyotishView.Expertise;

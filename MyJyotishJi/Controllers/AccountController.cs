@@ -93,15 +93,17 @@ namespace MyJyotishJiApi.Controllers
         [HttpPost("RegisterJyotish")]
         public IActionResult RegisterJyotish(string Email)
         {
-            try {
+            try 
+            {
+
+               
+
                 var result = _account.JRegisterAndSendOtp(Email);
-                if (result == "Successful" || result == "Email already verified") {
-                    if (result == "Successful")
-                    {
+                if (result == "Successful" ) {
+                    
                         return Ok(new { Status = 200, Message = "Otp sent Successfully" });
 
-                    }
-                    return Ok(new { Status = 200, Message = result });
+                    
                 }
                 else if (result == "Email already verified")
                 { return Ok(new { Status = 200, Message = result }); }
@@ -164,7 +166,10 @@ namespace MyJyotishJiApi.Controllers
         {
             try
             {
-               
+                if (jyotishViewModel.Mobile.Length != 10)
+                {
+                     return Ok(new { Status = 400, Message = "invalid mobile number" }); 
+                }
                 var result = _account.SignUpJyotish(jyotishViewModel);
                 if (result == "Successful")
                 { return Ok(new { Status = 200, Message = result });}
