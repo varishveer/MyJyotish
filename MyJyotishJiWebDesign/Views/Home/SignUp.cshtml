@@ -68,6 +68,15 @@
         background-color: lightslategray;
     }
 
+    #PlaceOfBirthList
+    {
+        position: absolute;
+        height: 50px;
+       display:none;
+        overflow: auto;
+    }
+   
+
 </style>
 <div class="container h-80 ">
     <div class="row w-70">
@@ -78,28 +87,28 @@
             <h2 class="mb-3 d-flex justify-content-center">Sign Up</h2>
             <form id="registrationForm">
                 <div class="form-row row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-6 mb-0">
                         <label for="name" class="form-label">Name:</label>
-                        <input type="text" id="name" name="name" placeholder="Enter your name" class="form-control"
+                        <input type="text" id="name" name="name" placeholder="Enter your name" class="form-control mb-0"
                                required>
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-6 mb-0">
                         <label for="email" class="form-label">Email:</label>
                         <div class="input-group">
-                            <input type="email" id="email" name="email" class="form-control"
+                            <input type="email" id="email" name="email" class="form-control mb-0"
                                    placeholder="Enter your email" aria-label="Recipient's username" required>
                             <button class="btn btn-outline-secondary otpcolour" type="button" id="getOtp">Get OTP</button>
                         </div>
                     </div>
                 </div>
 
-                <div class="form-group col-md-12">
-                    <label for="otp" class="form-label otp-label" style="display:none">Verification:</label>
+                <div class="form-group col-md-12 mb-0 d-none otpContainer">
+                    <label for="otp" class="form-label otp-label" >Verification:</label>
                     <div class="input-group">
-                        <input type="number" id="otp" name="otp" class="form-control otp-input" style="display:none"
-                               placeholder="Enter OTP" required>
+                        <input type="number" id="otp" name="otp" class="form-control otp-input" 
+                               placeholder="Enter OTP" >
                         <button class="btn btn-outline-secondary otp-button" type="button" id="verifyOtp"
-                                style="display:none">
+                               >
                             Verify OTP
                         </button>
                     </div>
@@ -108,7 +117,7 @@
                 <div class="form-row row">
                     <div class="form-group col-md-6">
                         <label for="gender" class="form-label">Gender:</label>
-                        <select id="gender" name="gender" class="form-select" required>
+                        <select id="gender" name="gender" class="form-select custom-field" required>
                             <option value="Male" selected>Male</option>
                             <option value="Female">Female</option>
                             <option value="Other">Other</option>
@@ -116,7 +125,7 @@
                     </div>
                     <div class="form-group col-md-6">
                         <label for="mobile" class="form-label">Mobile:</label>
-                        <input type="tel" id="mobile" name="mobile" class="form-control" placeholder="Mobile Number"
+                        <input type="tel" id="mobile" name="mobile" class="form-control custom-field" placeholder="Mobile Number"
                                required>
                     </div>
                 </div>
@@ -124,19 +133,19 @@
                 <div class="form-row row">
                     <div class="form-group col-md-6">
                         <label for="DoB" class="form-label">Date Of Birth:</label>
-                        <input type="date" class="form-control" id="DoB" name="DoB" placeholder="Enter DOB" />
+                        <input type="date" class="form-control custom-field" id="DoB" name="DoB" placeholder="Enter DOB" />
                     </div>
                     <div class="form-group col-md-6">
                         <label for="PlaceOfBirthInput" class="form-label">Place of Birth:</label>
-                        <input type="text" id="PlaceOfBirthInput" name="PlaceOfBirthInput" class="form-control"
-                               placeholder="Enter City" />
-                        <select id="PlaceOfBirthList" name="PlaceOfBirth" class="form-select mt-2" required>
-                            <option value="">Select Place Of Birth</option>
-                        </select>
+                        <input list="PlaceOfBirthList" type="text" id="PlaceOfBirthInput" name="PlaceOfBirthInput" class="form-control custom-field"
+                               placeholder="Enter City"  autocomplete="off"/>
+                        <datalist id="PlaceOfBirthList" name="PlaceOfBirth" class="form-select mt-2" required>
+                          
+                        </datalist>
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-info">Sign Up</button>
+                <button type="submit" class="btn-sm btn btn-info custom-field fw-bold text-light">Sign Up</button>
 
                 <div class="form-row mt-3">
                     <div class="form-group col-md-12">
@@ -159,6 +168,9 @@
 <script>
 
 
+    $(document).ready(()=> {
+        $(".custom-field").attr("disabled", true);
+    })
     // Debounce function to limit API requests
     function debounce(func, delay) {
         let timeout;
@@ -176,10 +188,10 @@
             const response = await fetch(BaseUrl + `Api/Account/PlaceOfBirthList?City=${encodeURIComponent(city)}`);
             const data = await response.json();
             const $placeOfBirthDropdown = $('#PlaceOfBirthList');
-            $placeOfBirthDropdown.html('<option value="">Select Place Of Birth</option>');
+            $placeOfBirthDropdown.html('<option value="Select Place Of Birth"></option>');
 
             data.data.forEach(placeOfBirth => {
-                $placeOfBirthDropdown.append(`<option value="${placeOfBirth}">${placeOfBirth}</option>`);
+                $placeOfBirthDropdown.append(`<option value="${placeOfBirth}"></option>`);
             });
         } catch (error) {
             console.error('Error fetching PlaceOfBirth:', error);
@@ -206,17 +218,49 @@
         $.ajax({
             url: BaseUrl + `Api/Account/RegisterUserEmail?email=${encodeURIComponent(email)}`,
             type: 'POST',
-            success: function () {
+            success: function (res) {
                 
-               Swal.fire({
-                   title:"success",
-                   text:"OTP send successfully",
-                   icon:"success",
-                   didClose:()=>{
-                        $("#otp").show();
-                        $("#verifyOtp").show();
-                   }
-               })
+                if (res.status == 200) {
+
+                    if( res.message ==  "Successful"){
+                             Swal.fire({
+                            title: "success",
+                            text: "OTP send successfully",
+                            icon: "success",
+                            didClose: () => {
+                          
+                                $(".otpContainer").removeClass('d-none');
+
+                           
+                            }
+                        })
+                    }
+                    else{
+                      Swal.fire({
+                            title: "success",
+                            text: res.message,
+                            icon: "success",
+                            didClose: () => {
+                          
+                               $(".custom-field").attr("disabled" , false)
+
+                           
+                            }
+                        })
+                    }
+                   
+               
+                }
+                else 
+                {
+                    Swal.fire({
+                        title: "Warning",
+                        text: res.message,
+                        icon: "warning",
+                       
+                    })
+                }
+              
                
             },
             error: function (xhr) {
@@ -249,17 +293,29 @@
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(data),
-            success: function (response) {
+            success: function (res) {
 
-                Swal({
-                    title: "success",
-                    text: "OTP verified successfully",
-                    icon: "success",
-                    didClose: () => {
-                        $("#otp").hide();
-                        $("#verifyOtp").hide();
-                    }
-                })
+                if (res.status == 200) {
+
+                    Swal.fire({
+                        title: "success",
+                        text: "OTP verified successfully",
+                        icon: "success",
+                        didClose: () => {
+                            $("#otp").show();
+                              $(".custom-field").attr("disabled", false);
+                            $("#verifyOtp").show();
+                        }
+                    })
+                }
+                else {
+                    Swal.fire({
+                        title: "Warning",
+                        text: res.message,
+                        icon: "warning",
+
+                    })
+                }
 
             },
             error: function (xhr) {
@@ -276,6 +332,8 @@
     // Form submission event
     $('#registrationForm').on("submit", function (event) {
         event.preventDefault();
+        
+
         Swal.fire({
             title: "Processing Your Request",
             allowOutsideClick: false,
@@ -283,6 +341,20 @@
                 Swal.showLoading();
             }
         })
+        var placeOfBirthList = $('#PlaceOfBirthInput').val()
+          if (!$('#name').val() || !$('#email').val() || !$('#gender').val() || !$('#mobile').val() ||
+                !$('#DoB').val() || !$('#PlaceOfBirthInput').val()  
+               ) {
+
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Incomplete Form',
+                    text: 'Please fill in all required fields before submitting.',
+
+                });
+                return; // Exit if any field is empty
+            }
+
         const formData = {
             email: $('#email').val(),
             mobile: $('#mobile').val(),
@@ -290,7 +362,7 @@
             gender: $('#gender').val(),
             DoB: $('#DoB').val().split('-').reverse().join('-'), 
             PlaceOfBirth: $('#PlaceOfBirthList').val(),
-            otp: $('#otp').val()
+           
         };
         console.log(formData);
         $.ajax({
@@ -300,7 +372,7 @@
             data: JSON.stringify(formData),
             success: function (response) {
                 if (response.status === 200) {
-                    Swal({
+                    Swal.fire({
                         title: "success",
                         text: "Registered Successfully",
                         icon: "success",
@@ -310,7 +382,7 @@
                     })
                 }
                 else {
-                    Swal({
+                    Swal.fire({
                         title: "error",
                         text: response.message,
                         icon: "error"

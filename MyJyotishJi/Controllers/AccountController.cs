@@ -305,15 +305,16 @@ namespace MyJyotishJiApi.Controllers
             try
             {
                 var result =_account.RegisterUserEmail(Email);
-                if (result == "Successful") 
+                if (result == "Successful" || result == "Email already verified") 
                 {
                     return Ok(new {Status = 200, Message = result,});  
                 }
-                else if(result == "Email already exist")
+                else if(result == "Data not saved")
                 {
-                    return Ok(new { Status = 409, Message = result });
+                    return Ok(new { Status = 500, Message = "Internal Server Error" });
                 }
-                else { return Ok( new { Status = 500, Message = "Internal Server Error" }); }
+                
+                else { return Ok( new { Status = 400, Message = result }); }
             }
             catch(Exception ex)
             {

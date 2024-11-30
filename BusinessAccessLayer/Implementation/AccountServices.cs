@@ -478,7 +478,7 @@ namespace BusinessAccessLayer.Implementation
 
             if (record != null)
             {
-                if (record.Status == "Unverified")
+                if (record.Status == "Otp Unverified")
                 {
                     int newOtp = new Random().Next(100000, 1000000);
                     string newMessage = $@"
@@ -568,7 +568,11 @@ namespace BusinessAccessLayer.Implementation
                     var newResult = _context.SaveChanges();
                     return newResult > 0 ? "Successful" : "Data not saved";
                 }
-                return "Email already exist";
+                else if(record.Status == "Otp Verified") 
+                {
+                    return "Email already verified";
+                }
+                return "Email already registered";
             }
 
             int otp = new Random().Next(100000, 1000000);
@@ -658,7 +662,7 @@ namespace BusinessAccessLayer.Implementation
             {
                 Email = Email,
                 Otp = otp,
-                Status = "Unverified"
+                Status = "Otp Unverified"
             };
             _context.Users.Add(_user);
             var result = _context.SaveChanges();
@@ -678,10 +682,10 @@ namespace BusinessAccessLayer.Implementation
             }
             var user = _context.Users.Where(x=>x.Email == Email).FirstOrDefault();
             if(user == null) { return "User not found"; }
-            if(user.Status != "Unverified") { return "Invalid email or may be already registered"; }
+            if(user.Status != "Otp Unverified") { return "Invalid email or may be already registered"; }
             if(user.Otp == Otp) 
             {
-                user.Status = "Verified";
+                user.Status = "Otp Verified";
                // user.Password = (new Random().Next(10000000, 100000000)).ToString();
                 _context.Users.Update(user);
                 _context.SaveChanges();
@@ -699,11 +703,11 @@ namespace BusinessAccessLayer.Implementation
             {
                 return "Email Not Registered";
             }
-            if(record.Status != "Verified") { return "Unauthorized"; }
+            if(record.Status != "Otp Verified") { return "Unauthorized"; }
 
             if (_user.Mobile != null)
             { 
-                var UserMobile = _context.Users.Where(x=>x.Mobile == record.Mobile).FirstOrDefault();
+                var UserMobile = _context.Users.Where(x=>x.Mobile == _user.Mobile).FirstOrDefault();
 
                if(UserMobile == null) { record.Mobile = _user.Mobile; }
                else
@@ -723,6 +727,7 @@ namespace BusinessAccessLayer.Implementation
             { record.DoB = _user.DoB; }
             if (_user.PlaceOfBirth != null)
             { record.PlaceOfBirth = _user.PlaceOfBirth; }
+            record.Status = "Verified";
 
             record.Password = (new Random().Next(10000000, 100000000)).ToString();
 
@@ -730,7 +735,7 @@ namespace BusinessAccessLayer.Implementation
             var result = _context.SaveChanges();
             if(result>0)
             {
-                var message = "Dear Jyotish ," +
+                var message = "Dear User ," +
                   "/n Your account has been successfully created and your Credential are below , \n Email : " + _user.Email + "\n Password: " + record.Password;
                 var subject = "MyJyotishG Account Credential";
                 SendEmail(message, _user.Email, subject);
@@ -849,7 +854,7 @@ namespace BusinessAccessLayer.Implementation
                             .ThenBy(x => x.StateName) 
                             .ThenBy(x => x.CountryName) 
                             .Select(x => $"{x.CityName}, {x.StateName}, {x.CountryName}")
-                            .ToList();
+                            .Take(15).ToList();
 
             return Records;
         }
