@@ -108,13 +108,7 @@
         </div>
  
         <div class="form-row">
-                    <div class="form-group col-md-6" style="margin-bottom: 0.2rem;">
-                <label for="mobile" class="form-label">Number:</label>
-                <div class="d-flex">
-                <input type="text" class="rounded-start countryCode" disabled style="width:40px;"/>
-                <input type="tel" id="mobile" name="mobile" class="form-control rounded-0 rounded-end disabledInput" placeholder="Mobile Number" required>
-                        </div>
-            </div>
+           
                     <div class="form-group col-md-6" style="margin-bottom: 0.2rem;">
                 <label for="gender" class="form-label">Gender:</label>
                         <select id="gender" name="gender" class="form-select disabledInput" required>
@@ -161,7 +155,13 @@
 
         
         <div class="form-row">
-            
+            <div class="form-group col-md-6" style="margin-bottom: 0.2rem;">
+                <label for="mobile" class="form-label">Number:</label>
+                <div class="d-flex">
+                    <input type="text" class="rounded-start countryCode" value="+91" disabled style="width:40px;" />
+                    <input type="tel" id="mobile" name="mobile" class="form-control rounded-0 rounded-end disabledInput" placeholder="Mobile Number" required>
+                </div>
+                </div>
             <div class="form-group col-md-6" style="margin-bottom: 0.6rem;">
                 <label for="city" class="form-label">City:</label>
                         <select id="city" name="city" class="form-select disabledInput" disabled>
