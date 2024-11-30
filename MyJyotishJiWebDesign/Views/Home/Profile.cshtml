@@ -50,6 +50,10 @@
     .img-container{
         background: #d2e2fc;
     }
+
+    .loader-container{
+        display: none !important;
+    }
     @@media screen and (max-width:575px){
         .profile-detals-container{
             width:100% !important;
@@ -401,7 +405,7 @@
                 'Content-Type': 'application/json',
             },
             success: function (response) {
-                 
+                $(".loader-container").addClass("d-none");
                 if (response.status === 200) {
                     var profile = response.data;
                     // Fill in the data fields
@@ -417,7 +421,11 @@
                     $('#dateOfBirth').text(profile.doB !== "null" ? profile.doB : 'N/A');
                     $('#insPincode').text(profile.pincode !== "null" ? profile.pincode : 'N/A');
                     $('#placeOfBirth').text(profile.placeOfBirth !== "null" ? profile.placeOfBirth:'N/A');
-          
+
+
+                   
+
+
                     // upate user
 
                     $('#userImage').attr('src', profile.profilePictureUrl ? BaseUrl + profile.profilePictureUrl : '/Img/UserPlaceholder.png');
@@ -469,6 +477,7 @@
                 } else {
                     alert('Error: Could not load profile.');
                 }
+              
             },
             error: function (xhr, status, error) {
                  
