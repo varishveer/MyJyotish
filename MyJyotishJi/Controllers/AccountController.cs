@@ -95,7 +95,12 @@ namespace MyJyotishJiApi.Controllers
         {
             try {
                 var result = _account.JRegisterAndSendOtp(Email);
-                if (result == "Successful" ) { 
+                if (result == "Successful" || result == "Email already verified") {
+                    if (result == "Successful")
+                    {
+                        return Ok(new { Status = 200, Message = "Otp sent Successfully" });
+
+                    }
                     return Ok(new { Status = 200, Message = result });
                 }
                 else if (result == "Email already verified")
