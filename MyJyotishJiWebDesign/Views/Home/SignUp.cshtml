@@ -207,7 +207,8 @@
             url: BaseUrl + `Api/Account/RegisterUserEmail?email=${encodeURIComponent(email)}`,
             type: 'POST',
             success: function () {
-               Swal({
+                
+               Swal.fire({
                    title:"success",
                    text:"OTP send successfully",
                    icon:"success",
@@ -219,7 +220,7 @@
                
             },
             error: function (xhr) {
-                Swal({
+                Swal.fire({
                     title: "error",
                     text: xhr.statusText,
                     icon: "error"
