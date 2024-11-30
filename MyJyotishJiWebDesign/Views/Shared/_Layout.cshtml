@@ -258,7 +258,12 @@
                             <li><a class="dropdown-item" href="#">Hindi</a></li>
                         </ul>
                     </li>
-
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Home/Chat">Chat with Astrologer</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Home/Talk">Call with Astrologer</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Book a Pooja</a>
                     </li>
@@ -278,12 +283,7 @@
                             <li><a class="dropdown-item" href="#">Overall</a></li>
                         </ul>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Home/Chat">Chat with Astrologer</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Home/Talk">Call with Astrologer</a>
-                    </li>
+                   
                     <li class="nav-item">
                         <a class="nav-link" href="#">Blog</a>
                     </li>
@@ -469,15 +469,12 @@
         </div>
     </footer>
     @await RenderSectionAsync("Scripts", required: false)
-  
-
     <script>
-
         $("#searchInput").on("input",function(){
             $("#search-Detail").removeClass("d-none")
             $("#search-Detail").html(
                 `
-                                             <div class="card border-0" aria-hidden="true">
+                 <div class="card border-0" aria-hidden="true">
                                  <div class="card-body d-flex">
                                      <div class="w-100 px-2">
                                          <h5 class="card-title placeholder-glow">

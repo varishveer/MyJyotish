@@ -112,11 +112,17 @@
    
     // Function to fetch astrologers for the chat
     function GetAstroListCallChat() {
+        Swal.fire({
+            title: "Processing Your Request",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
         $.ajax({
             url: BaseUrl + 'Api/User/GetAstroListCallChat?listName=Call',
             type: 'GET',
             success: function (response) {
-                 
                 if (response.status === 200) {
                     var astrologers = response.data;
                     if (astrologers.length > 0) {
@@ -127,6 +133,7 @@
                 } else {
                     $('#astrologerList').html('<p>No astrologers found.</p>');
                 }
+                Swal.close();
             },
             error: function () {
                  
@@ -157,7 +164,7 @@
                                                         </div>
                             </a><br>
                                      <button class="btn btn-primary callBtn" style="background-color: #4CAF50; border-color: #4CAF50;" data-bs-toggle="modal" data-bs-target="#exampleModal2">
-                                Start Call
+                                    Start Call ₹${astrologer.callCharges}/min
                             </button>
                     </div>
                 `;

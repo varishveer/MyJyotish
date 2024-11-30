@@ -62,7 +62,7 @@
                                 data-bs-title="">
                             Start Call
                         </button>
-                        <button class="btn btn-primary" style="background-color: #4CAF50; border-color: #4CAF50;" data-bs-toggle="modal" data-bs-target="#exampleModal">Book A Appointmnet</button>
+                        <button class="btn btn-primary" id="bookAppointmentModalBtn" style="background-color: #4CAF50; border-color: #4CAF50;" data-bs-toggle="modal" data-bs-target="#exampleModal">Book Appointmnet</button>
                     </div>
                     <div class="mb-4 mt-4">
                         <div class="btn-group mb-3 border-top border-start border-end rounded-0 rounded-top" role="group" aria-label="Basic example">
@@ -198,7 +198,7 @@
             url: apiUrl,
             method: 'GET',
             success: function (response) {
-                 
+                 console.log(response)
                 if (response.status === 200) {
                     var data = response.data;
                     // Update Profile Section
@@ -381,7 +381,7 @@ $(".callBtn").hide()
                                 `<label class='w-100'>
                                        <div class='d-flex  bg-light-sec border rounded text-secondary fw-semi-bold my-2 p-2 justify-content-between align-items-center'  ${d.status == 'Booked' ? `style="background:rgb(40, 41, 40, 0.7) !important"`:''} >
                                    <div class='row w-100 position-relative'>
-                                    ${d.status == 'Booked' ? '<div class="position-absolute bookedContainer text-light rounded d-flex justify-content-center align-items-center z-3 h-100 w-100">Booked</div>' : ""}
+                                  
                     <div class='col-sm-1'>
                                            <input type='radio' data-amount='${d.amount}' onChange='selectSlots()' ${d.status == 'Booked' ? 'disabled' : ""} name='jyotishAppoinment' data-userId='${localStorage.getItem('userId')}' data-slotId='${d.id}' data-jyotishId='${d.jyotishId}'>
                                    </div>
@@ -411,7 +411,7 @@ $(".callBtn").hide()
                     const [month, day, year] = date.split('/');
 
                     // Return the date in DD/MM/YYYY format
-                    return `${day}/${month}/${year}`;
+                    return `${year}-${month}-${day}`;
                 }
                 $("#appointmentDate").on("change", function () {
                     setAppoinment(convertDateFormat($(this).val()))

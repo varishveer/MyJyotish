@@ -24,7 +24,7 @@
         border-radius: 15px;
         overflow: hidden;
         text-align: center;
-        padding: 30px 20px;
+        padding: 30px 20px; 
         transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     }
@@ -112,6 +112,13 @@
 <script>
     // Function to fetch astrologers for the chat
     function GetAstroListCallChat() {
+        Swal.fire({
+            title: "Processing Your Request",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
         $.ajax({
             url: BaseUrl + 'Api/User/GetAstroListCallChat?listName=Chat',
             type: 'GET',
@@ -127,6 +134,7 @@
                 } else {
                     $('#astrologerList').html('<p>No astrologers found.</p>');
                 }
+                Swal.close()
             },
             error: function () {
                  
@@ -139,7 +147,7 @@
     }
     // Function to display astrologers dynamically
     function displayAstrologers(astrologers) {
-
+        console.log(astrologers)
         var html = '';
         astrologers.forEach(function (astrologer) {
             var ImgSrc = BaseUrl + astrologer.profileImageUrl;
@@ -157,7 +165,7 @@
                                                     </div>
                         </a><br>
                                  <button class="btn btn-primary chatBtn me-2 mb-2 mb-md-0" style="background-color: #4CAF50; border-color: #4CAF50;" data-bs-toggle="modal" data-bs-target="#exampleModal3">
-                                Start Chat
+                                        Start Chat ₹${astrologer.chatCharges}/min
                             </button>
                     </div>
                 `;

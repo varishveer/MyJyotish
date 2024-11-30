@@ -6,6 +6,7 @@
     Layout = "Extra";
 }
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <style>
     .container {
@@ -193,24 +194,50 @@
 
     // Get OTP button click event
     $("#getOtp").click(function () {
+        Swal.fire({
+            title: "Processing Your Request",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
         const email = $('#email').val();
 
         $.ajax({
             url: BaseUrl + `Api/Account/RegisterUserEmail?email=${encodeURIComponent(email)}`,
             type: 'POST',
             success: function () {
-                alert("OTP sent successfully.");
-                $("#otp").show();
-                $("#verifyOtp").show();
+               Swal({
+                   title:"success",
+                   text:"OTP send successfully",
+                   icon:"success",
+                   didClose:()=>{
+                        $("#otp").show();
+                        $("#verifyOtp").show();
+                   }
+               })
+               
             },
             error: function (xhr) {
-                alert("Error: " + xhr.status + " - " + xhr.statusText);
+                Swal({
+                    title: "error",
+                    text: xhr.statusText,
+                    icon: "error"
+                })
+              
             }
         });
     });
 
     // Verify OTP button click event
     $("#verifyOtp").click(function () {
+        Swal.fire({
+            title: "Processing Your Request",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
         const email = $('#email').val();
         const otp = $('#otp').val();
 
@@ -222,14 +249,25 @@
             contentType: 'application/json',
             data: JSON.stringify(data),
             success: function (response) {
-                 
-                alert("OTP verification successful: " + response.message);
-                $("#otp").show();
-                $("#verifyOtp").show();
+
+                Swal({
+                    title: "success",
+                    text: "OTP verified successfully",
+                    icon: "success",
+                    didClose: () => {
+                        $("#otp").hide();
+                        $("#verifyOtp").hide();
+                    }
+                })
+
             },
             error: function (xhr) {
                  
-                alert("Error: " + xhr.status + " - " + xhr.statusText);
+                Swal({
+                    title: "error",
+                    text: xhr.statusText,
+                    icon: "error"
+                })
             }
         });
     });
@@ -237,7 +275,13 @@
     // Form submission event
     $('#registrationForm').on("submit", function (event) {
         event.preventDefault();
-
+        Swal.fire({
+            title: "Processing Your Request",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
         const formData = {
             email: $('#email').val(),
             mobile: $('#mobile').val(),
@@ -255,11 +299,21 @@
             data: JSON.stringify(formData),
             success: function (response) {
                 if (response.status === 200) {
-                    alert('User registered successfully.');
-                    window.location.href = "/Home/Index";
+                    Swal({
+                        title: "success",
+                        text: "Registered Successfully",
+                        icon: "success",
+                        didClose: () => {
+                            window.location.href = "/Home/Index";
+                        }
+                    })
                 }
                 else {
-                    alert(`Alert : ${response.message}`);
+                    Swal({
+                        title: "error",
+                        text: response.message,
+                        icon: "error"
+                    })
                 }
                            
             },
