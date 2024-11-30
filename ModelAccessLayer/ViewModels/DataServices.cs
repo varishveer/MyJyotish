@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
@@ -25,5 +26,16 @@ namespace ModelAccessLayer.ViewModels
         public int Id { get; set; }
         public int country { get; set; }
         public int countryCode { get; set; }
+    }
+
+    public class InterviewFeedback
+    {
+        public int Id { get; set; }
+        public int InterviewId { get; set; }
+        public string Message { get; set; }
+
+        public bool ApprovedStatus { get; set; }
+        public DateTime Date { get; set; }
+        public bool Status { get; set; }
     }
 }

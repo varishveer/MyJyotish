@@ -95,6 +95,7 @@ namespace ModelAccessLayer.Models
         public ICollection<WalletHistoryModel> JytoishWalletHistoryRecord { get; set; } = new List<WalletHistoryModel>();
         public ICollection<AppointmentSlotModel> AppointmentSlotData { get; set; } = new List<AppointmentSlotModel>();
         public ICollection<SubsciptionManagementModel> subscriptionManage { get; set; } = new List<SubsciptionManagementModel>();
+        public ICollection<InterviewFeedbackModel> Feedback { get; set; } = new List<InterviewFeedbackModel>();
 
     }
 
