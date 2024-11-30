@@ -490,8 +490,10 @@
 
 
        async function bindCountryCode(id){
+           console.log(id)
             const response = await fetch(BaseUrl + `Api/Jyotish/countryCode?Id=${id}`);
             const data = await response.json();
+            console.log(data)
             if(data.status==200){
                 $(".countryCode").val(data.code)
             }
