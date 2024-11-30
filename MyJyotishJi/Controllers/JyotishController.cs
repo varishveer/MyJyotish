@@ -1125,5 +1125,17 @@ namespace MyJyotishGApi.Controllers
 
         }
 
+        //country code
+        [AllowAnonymous]
+        [HttpGet("countryCode")]
+        public IActionResult countryCode(int country)
+        {
+            try
+            {
+                var res = _jyotish.countryCode(country);
+                return Ok(new { Status = 200, message = "data retrieved", code = res });
+            }
+            catch { return StatusCode(500, new { Status = 500, Message = "Internal Server Error " }); }
+        }
     }
 }

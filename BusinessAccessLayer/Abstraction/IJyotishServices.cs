@@ -26,6 +26,7 @@ namespace BusinessAccessLayer.Abstraction
         public List<PoojaListModel> GetPoojaList();
         public List<SpecializationListModel> GetSpecializationList();
         public JyotishDocumentViewModel DashBoard(string email);
+        public int countryCode(int country);
 
         public string AddJyotishVideo(JyotishVideosViewModel model);
         public string AddJyotishGallery(JyotishGalleryViewModel model);

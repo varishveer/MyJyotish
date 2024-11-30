@@ -24,6 +24,7 @@ namespace BusinessAccessLayer.Abstraction
         public List<SpecializationListModel> GetSpecializationList();
         public dynamic getPlan(int Id);
         public bool countryCode(CountryCodeViewModel model);
+        public dynamic getCountryCode();
 
         public bool AddExpertise(ExpertiseModel _expertise);
         public List<ExpertiseModel> GetAllExpertise();

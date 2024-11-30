@@ -10,12 +10,48 @@
     <select name="country" id="country" class="form-select">
         <option>--select Country--</option>
     </select>
-    <input type="text" class="form-control" placeholder="Country Code" name="countryCode" />
+    <input type="text" class="form-control" placeholder="Country Code" id="countryCode" name="countryCode" />
     <input type="submit" value="Add" class="btn btn-primary" />
 </form>
 
+<div class="container-fluid mt-4">
+    <div class="card">
+
+        <div class="d-flex flex-row justify-content-between align-items-center pt-2 px-4">
+            <h5 class="text-primary">Specialization List</h5>
+        </div>
+        <hr />
+
+        <div class="card-body">
+            <div class="table-responsive">
+
+                <table id="DataTable" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Sr</th>
+                            <th>country</th>
+                            <th>code</th>
+                        </tr>
+                    </thead>
+                    <tbody id="details">
+                       
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script>
     function loadCountries() {
+        Swal.fire({
+            title: "Processing Your Request",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
         $.ajax({
             url: BaseUrl + 'Api/Jyotish/Country',
             type: 'GET',
@@ -25,11 +61,105 @@
                 response.data.forEach(country => {
                     countryDropdown.append(`<option class='country' value="${country.id}">${country.name}</option>`);
                 });
+                Swal.close();
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                console.error('Error fetching countries:', textStatus, errorThrown);
+                Swal.fire({
+                    title:"error",
+                    text:"some error occured",
+                    icon:"error"
+                })
             }
         });
     }
     loadCountries();
+
+    $("#addcodeForm").submit(function(e){
+        e.preventDefault();
+        var token = localStorage.getItem('Token');
+
+        Swal.fire({
+            title: "Processing Your Request",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
+
+        let country = $("#country").val();
+        let countryCode = $("#countryCode").val();
+        let formData = new FormData();
+        formData.append("country",country)
+        formData.append("countryCode",countryCode)
+        $.ajax({
+            url: BaseUrl + 'Api/admin/Countrycode',
+            type: 'Post',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+            processData:false,
+            contentType:false,
+            data:formData ,
+            success: function (res) {
+               if(res.status==200){
+                   Swal.fire({
+                       title:"success",
+                       text:res.message,
+                       icon:"success",
+                       didClose:()=>{
+                           location.reload()
+                       }
+                   })
+               }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                Swal.fire({
+                    title: "error",
+                    text: "some error occured",
+                    icon: "error"
+                })
+            }
+        });
+    })
+
+    function getCountryCode(){
+        Swal.fire({
+            title: "Processing Your Request",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
+        var token = localStorage.getItem('Token');
+
+        $.ajax({
+            url: BaseUrl + 'Api/admin/getCountryCode',
+            type: 'get',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+            success: function (res) {
+                if (res.status == 200) {
+                    res.data.forEach(function(e,i){
+                        $("#details").append(`
+                        
+                        <tr>
+                        <td>${i+1}</td>
+                        <td>${e.country}</td>
+                        <td>${e.code}</td>
+                        </tr>`)
+                    })
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                Swal.fire({
+                    title: "error",
+                    text: "some error occured",
+                    icon: "error"
+                })
+            }
+        });
+    }
+    getCountryCode()
+
 </script>

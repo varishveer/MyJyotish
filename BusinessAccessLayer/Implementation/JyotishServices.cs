@@ -1776,6 +1776,12 @@ namespace BusinessAccessLayer.Implementation
             return data;
         }
 
+        //country Code
+        public int countryCode(int country)
+        {
+            var res = _context.CountryCode.Where(e => e.country == country).Select(e=>e.countryCode).FirstOrDefault();
+            return res;
+        }
 
 
     }

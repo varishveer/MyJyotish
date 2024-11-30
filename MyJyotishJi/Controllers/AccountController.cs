@@ -141,7 +141,7 @@ namespace MyJyotishJiApi.Controllers
             try
             {
                 var result = _account.VerifyJOtp(model.Email,model.Otp);
-                if (result == "Successful") { return Ok(new { Status = 200, Message = result }); }
+                if (result == "Successful" || result== "Email already Verified") { return Ok(new { Status = 200, Message = result }); }
                 else if(result == "Email not found") { return Ok(new { Status = 409, Message = result }); }
                 else if(result == "Invalid Otp") { return Ok(new { Status = 400, Message = result }); }
                 else if (result == "Mobile Number already Verified")
