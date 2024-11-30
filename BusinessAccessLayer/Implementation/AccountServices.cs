@@ -249,7 +249,7 @@ namespace BusinessAccessLayer.Implementation
             if(isMailSend)
             {model.Otp = Otp;
             model.Email = Email;
-           
+                model.ApprovedStatus = "Unverified";
             model.Role = "Pending";
             _context.JyotishRecords.Add(model);
             var result = _context.SaveChanges();
