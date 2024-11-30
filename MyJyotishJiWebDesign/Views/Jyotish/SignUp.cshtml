@@ -217,6 +217,7 @@
                 Swal.fire({
                     title: "Invalid Email",
                     text: "Please Enter Email",
+
                     icon: "error",
                     showConfirmButton: true,
                 }).then(() => {
@@ -258,7 +259,7 @@
                     }
                     else if (response.status === 400) {
                         Swal.fire({
-                            title: "Invalid",
+                            title: "Warning",
                             text: response.message,
                             icon: "warning",
                         });

@@ -53,8 +53,8 @@ namespace BusinessAccessLayer.Implementation
             var IsMobileValid = _context.JyotishRecords.Where(x => x.Email == Email).FirstOrDefault();
             
             if (IsMobileValid != null)
-            { 
-                if(IsMobileValid.ApprovedStatus == "Unverified" || IsMobileValid.ApprovedStatus == "Verified")
+            {
+                if (IsMobileValid.ApprovedStatus == "Unverified")
                 {
                     int NewOtp = new Random().Next(100000, 1000000); ;
 
@@ -139,20 +139,30 @@ namespace BusinessAccessLayer.Implementation
                     string NewSubject = "Verification Code for My Jyotish G";
 
                     var isNewMailSend = SendEmail(newMessage, Email, NewSubject);
-                    if(isNewMailSend)
-                    {IsMobileValid.Otp = NewOtp;
+                    if (isNewMailSend)
+                    {
+                        IsMobileValid.Otp = NewOtp;
 
-                        IsMobileValid.ApprovedStatus = "Unverified";
+
                         _context.JyotishRecords.Update(IsMobileValid);
-                    var NewResult = _context.SaveChanges();
+                        var NewResult = _context.SaveChanges();
                         if (NewResult > 0)
                         { return "Successful"; }
                         else { return "Data not saved"; }
                     }
                     else { return "Data not saved"; }
                 }
-                return "invalid email or may be already registered"; 
+                else if (IsMobileValid.ApprovedStatus == "Verified")
+                {
+                    return "Email already verified";
+                }
+                else 
+                {
+                    return "Invalid email or may be already registered";
+                }
+                 
             }
+            
             int Otp = new Random().Next(100000, 1000000); ;
             JyotishModel model = new JyotishModel();
             string message = $@"
@@ -239,7 +249,7 @@ namespace BusinessAccessLayer.Implementation
             if(isMailSend)
             {model.Otp = Otp;
             model.Email = Email;
-            model.ApprovedStatus = "Unverified";
+           
             model.Role = "Pending";
             _context.JyotishRecords.Add(model);
             var result = _context.SaveChanges();
@@ -263,89 +273,14 @@ namespace BusinessAccessLayer.Implementation
                     }
                     else { return "Email already Verified"; }
                    
-                    record.Password= Guid.NewGuid().ToString("N").Substring(0, 8);
+                   // record.Password= Guid.NewGuid().ToString("N").Substring(0, 8);
                     _context.JyotishRecords.Update(record);
 
                     var result = _context.SaveChanges();
 
                     if (result > 0) {
 
-                        string message = $@"
-           <!DOCTYPE html>
-            <html lang=""en"">
-            <head>
-    <meta charset=""UTF-8"">
-    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
-    <title>My Jyotish G Email</title>
-    <style>
-        body {{
-            font-family: Arial, sans-serif;
-        }}
-        .container {{
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            background-color: #f9f9f9;
-        }}
-        .header {{
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }}
-        .content {{
-            font-size: 16px;
-            line-height: 1.5;
-            margin-bottom: 20px;
-        }}
-        .password {{
-            font-size: 20px;
-            font-weight: bold;
-            color: #000;
-        }}
-        .logo {{
-            margin: 20px 0;
-            text-align: center;
-        }}
-        .logo img {{
-            max-width: 150px;
-        }}
-        .footer {{
-            font-size: 14px;
-            color: #555;
-            margin-top: 20px;
-        }}
-        .footer a {{
-            color: #000;
-            text-decoration: none;
-        }}
-    </style>
-</head>
-<body>
-    <div class=""container"">
-        <div class=""logo"">
-            <img src=""https://api.myjyotishg.in/Images/Logo.png"" alt=""My Jyotish G Logo"">
-        </div>
-        <div class=""content"">
-            Hi User,<br><br>
-            Thank you for signing up! Your account has been successfully created. Below is your  password.<br><br>
-
-             Password: <span class=""password"">{record.Password}</span><br><br>
-
-            If you encounter any issues or have any questions, feel free to reach out to us.
-        </div>
-
-        <div class=""header"" style=""color:orange"">My Jyotish G</div>
-        <h4>www.myjyotishg.in</h4>
-        <h4>myjyotishg@gmail.com</h4>
-        <h4>7985738804</h4>
-    </div>
-</body>
-</html>
-";
-                        string subject = "Your Password for Jyotish G";
-                        SendEmail(message, record.Email, subject);
+                      
                         return "Successful"; }
                     else
                     {
@@ -386,10 +321,11 @@ namespace BusinessAccessLayer.Implementation
             Jyotish.City = CityName.Name;
             Jyotish.NewStatus =true;
             Jyotish.Status =true;
-            Jyotish.Mobile = jyotishView.Mobile;
+         
             Jyotish.Role = "Pending";
             Jyotish.ApprovedStatus = "Pending";
-           
+            Jyotish.Password = Guid.NewGuid().ToString("N").Substring(0, 8);
+
             _context.JyotishRecords.Update(Jyotish);
             var result = _context.SaveChanges();
             if (result > 0)
@@ -399,7 +335,7 @@ namespace BusinessAccessLayer.Implementation
                 var message = "Dear Jyotish ," +
                     "/n Your account has been successfully created and your Credential are below , \n Email : " + Jyotish.Email + "\n Password: " + Jyotish.Password;
                 var subject = "MyJyotishG Account Credential";
-                SendEmail(message, Jyotish.Mobile, subject);
+                SendEmail(message, Jyotish.Email, subject);
                 return "Successful";
             }
             return "Data not saved";
@@ -742,94 +678,20 @@ namespace BusinessAccessLayer.Implementation
             }
             var user = _context.Users.Where(x=>x.Email == Email).FirstOrDefault();
             if(user == null) { return "User not found"; }
-            if(user.Status != "Unverified") { return "Unauthorized User"; }
+            if(user.Status != "Unverified") { return "Invalid email or may be already registered"; }
             if(user.Otp == Otp) 
             {
                 user.Status = "Verified";
-                user.Password = (new Random().Next(10000000, 100000000)).ToString();
+               // user.Password = (new Random().Next(10000000, 100000000)).ToString();
                 _context.Users.Update(user);
                 _context.SaveChanges();
 
-                string message = $@"
-           <!DOCTYPE html>
-            <html lang=""en"">
-            <head>
-    <meta charset=""UTF-8"">
-    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
-    <title>My Jyotish G Email</title>
-    <style>
-        body {{
-            font-family: Arial, sans-serif;
-        }}
-        .container {{
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            background-color: #f9f9f9;
-        }}
-        .header {{
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }}
-        .content {{
-            font-size: 16px;
-            line-height: 1.5;
-            margin-bottom: 20px;
-        }}
-        .password {{
-            font-size: 20px;
-            font-weight: bold;
-            color: #000;
-        }}
-        .logo {{
-            margin: 20px 0;
-            text-align: center;
-        }}
-        .logo img {{
-            max-width: 150px;
-        }}
-        .footer {{
-            font-size: 14px;
-            color: #555;
-            margin-top: 20px;
-        }}
-        .footer a {{
-            color: #000;
-            text-decoration: none;
-        }}
-    </style>
-</head>
-<body>
-    <div class=""container"">
-        <div class=""logo"">
-            <img src=""https://api.myjyotishg.in/Images/Logo.png"" alt=""My Jyotish G Logo"">
-        </div>
-        <div class=""content"">
-            Hi User,<br><br>
-            Thank you for signing up! Your account has been successfully created. Below is your  password.<br><br>
-
-             Password: <span class=""password"">{user.Password}</span><br><br>
-
-            If you encounter any issues or have any questions, feel free to reach out to us.
-        </div>
-
-        <div class=""header"" style=""color:orange"">My Jyotish G</div>
-        <h4>www.myjyotishg.in</h4>
-        <h4>myjyotishg@gmail.com</h4>
-        <h4>7985738804</h4>
-    </div>
-</body>
-</html>
-";
-                string subject = "Your Password for Jyotish G";
-                SendEmail(message, user.Email, subject);
+               
                 return "Successful"; 
             }
             else { return "Invalid Otp"; }
         }
+
         public string RegisterUserDetails(UserViewModel _user)
         {
             var record = _context.Users.Where(x=>x.Email == _user.Email).FirstOrDefault();
@@ -860,13 +722,18 @@ namespace BusinessAccessLayer.Implementation
             if (_user.DoB != null)
             { record.DoB = _user.DoB; }
             if (_user.PlaceOfBirth != null)
-            { record.PlaceOfBirth = _user.PlaceOfBirth; } 
-               
-           
+            { record.PlaceOfBirth = _user.PlaceOfBirth; }
+
+            record.Password = (new Random().Next(10000000, 100000000)).ToString();
+
             _context.Users.Update(record);
             var result = _context.SaveChanges();
             if(result>0)
             {
+                var message = "Dear Jyotish ," +
+                  "/n Your account has been successfully created and your Credential are below , \n Email : " + _user.Email + "\n Password: " + record.Password;
+                var subject = "MyJyotishG Account Credential";
+                SendEmail(message, _user.Email, subject);
                 return "Successful";
             }
             else { return "Data not saved"; }
