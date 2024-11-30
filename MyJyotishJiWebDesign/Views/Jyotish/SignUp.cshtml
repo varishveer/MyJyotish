@@ -71,7 +71,9 @@
         color:white;
         
     }
-
+    .error{
+        display:block;
+    }
 </style>
 
 <div class="container h-80 ">
@@ -92,6 +94,7 @@
                 <div class="input-group">
                     <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email" aria-label="Recipient's username" required>
                             <button class="btn btn-outline-secondary otpcolour bg-info" type="button" id="getOtp">Get OTP</button>
+                            <span id="email-error"></span>
                 </div>
             </div>
         </div>
@@ -604,5 +607,56 @@
         });
 
     });
+
+    $(document).ready(function(){
+        $("#registrationForm").validate({
+            rules: {
+                "name": {
+                    required: true,
+                    letterswithbasicpunc: true
+                },
+                "email":{
+                    required:true
+                },
+                "otp":{
+                    required:true
+                },
+                "mobile":{
+                    required:true
+               },
+               "gender":{
+                   required:true
+               },
+               "language":{
+                   required:true
+               },
+               "expertise":{
+                   required:true
+               },
+               "country":{
+                   required:true
+               },
+               "state":{
+                   required:true
+               },
+               "city":{
+                   required:true
+               }
+            },
+            messages: {
+                "name": {
+                    required: 'Enter username',
+                    letterswithbasicpunc: 'Only letters are allowed'
+                }
+            },
+            errorPlacement: function (error, element) {
+                if (element.attr("name") == "email") {
+                    error.appendTo("#email-error"); 
+                } else {
+                    error.insertAfter(element); 
+                }
+            }
+        });
+    })
 </script>
 
