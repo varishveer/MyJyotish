@@ -152,16 +152,14 @@ namespace BusinessAccessLayer.Implementation
                 {
                     return "Please select your Dob 20 or more than 20 year!";
                 }
-                var jcountry = _context.JyotishRecords.Where(e => e.Id == model.Id).Select(e => e.Country).FirstOrDefault();
-                var countryId = _context.Countries.Where(e => e.Name == jcountry).Select(e=>e.Id).FirstOrDefault();
-                var countryCode = _context.CountryCode.Where(e => e.country == countryId).Select(e=>e.countryCode).FirstOrDefault();
+               
                 var Record = _context.jyotishTempRecords.Where(x => x.JyotishId == model.Id).FirstOrDefault();
                 if (Record == null) { return "Invalid Data"; }
                 Record.BasicSection = true;
                 Record.Name = model.Name;
                 Record.Email = jyotish.Email;
                 Record.Mobile =jyotish.Mobile;
-                Record.AlternateMobile = countryCode+model.AlternateMobile;
+                Record.AlternateMobile = model.AlternateMobile;
                 Record.Gender = model.Gender;
                 Record.Language = model.Language;
                 Record.DateOfBirth = model.DateOfBirth;

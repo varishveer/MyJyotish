@@ -1303,9 +1303,9 @@ $("#language").select2({
                         }
                         $("#name").val(response.data.name)
                         $("#email").val(response.data.email)
-                        $("#mobno").val("+"+response.data.mobile)
+                        $("#mobno").val($(".contryCode").val()+response.data.mobile)
                         $("#gender").val(response.data.gender)
-                        $("#altmobno").val(response.data.alternateMobile.slice(2))
+                        $("#altmobno").val(response.data.alternateMobile)
                             $("#dob").val(formatDate(response.data.dateOfBirth))
                             console.log(formatDate(response.data.dateOfBirth), response.data.dateOfBirth)
                         setTimeout(() => { 

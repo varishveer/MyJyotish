@@ -312,8 +312,8 @@ namespace BusinessAccessLayer.Implementation
             Jyotish.Name = jyotishView.Name;
 
             var countryCode = _context.CountryCode.Where(e => e.country == jyotishView.Country).Select(e => e.countryCode).FirstOrDefault();
-            
-            Jyotish.Mobile = countryCode!=null?countryCode.ToString()+jyotishView.Mobile.ToString():0 +jyotishView.Mobile.ToString();
+
+            Jyotish.Mobile = jyotishView.Mobile;
             Jyotish.Gender = jyotishView.Gender;
             Jyotish.Language = jyotishView.Language;
             Jyotish.Expertise = jyotishView.Expertise;
@@ -322,6 +322,7 @@ namespace BusinessAccessLayer.Implementation
             Jyotish.City = CityName.Name;
             Jyotish.NewStatus =true;
             Jyotish.Status =true;
+            Jyotish.countryCode = countryCode;
          
             Jyotish.Role = "Pending";
             Jyotish.ApprovedStatus = "Pending";

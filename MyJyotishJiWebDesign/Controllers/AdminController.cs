@@ -25,5 +25,6 @@ namespace MyJyotishJiWebDesign.Controllers
         public IActionResult InterviewList() { return View(); }
         public IActionResult Specialization() { return View(); }
         public IActionResult CreateCountryCode() { return View(); }
+        public IActionResult RedeamCode() { return View(); }
     }
 }

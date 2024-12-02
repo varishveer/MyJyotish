@@ -41,9 +41,7 @@ namespace ModelAccessLayer.Models
         public bool? Chat { get; set; }
         public int? ChatCharges { get; set; }
         public bool? Appointment { get; set; }
-
         public int? AppointmentCharges { get; set; }
-
         public TimeOnly? TimeTo { get; set; }
         public TimeOnly? TimeFrom { get; set; }
        
