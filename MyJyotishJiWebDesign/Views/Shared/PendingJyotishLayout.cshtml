@@ -126,14 +126,10 @@
             z-index: 10000;
         }
 
-        .content {
-            margin-left: 100px;
-        }
+        
 
 
-        .content2 {
-            margin-left: 250px !important;
-        }
+       
 
         .sidebar1 {
             margin-left: 10px !important;
@@ -249,7 +245,7 @@
         </div>
         <!-- Spinner End -->
         <!-- Sidebar Start -->
-        <div class="sidebar pe-4 pb-3 ms-0">
+        @* <div class="sidebar pe-4 pb-3 ms-0">
             <nav class="navbar bg-light navbar-light">
                 <a href="/Dashboard" class="navbar-brand mx-4 mb-3">
                     <h3 class="text-primary">My Jyotish G</h3>
@@ -261,7 +257,7 @@
                 
                 </div>
             </nav>
-        </div>
+        </div> *@
         <!-- Sidebar End -->
         <!-- Content Start -->
         <div class="content">
@@ -379,7 +375,7 @@
                 success: function (response) {
                     debugger;
                     if (response && response.data.name) {
-                        $('#profileName').text(response.name);
+                        $('#profileName').text(response.data.name);
                     } else {
                         console.warn('Response does not contain the expected name property.');
                     }
