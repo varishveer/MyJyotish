@@ -1206,43 +1206,6 @@ $("#language").select2({
             }
         });
 
-        // Submit Form Data
-        // $('#profileUpdateForm').on('submit', function (event) {
-        //     event.preventDefault(); Prevent the default form submission
-
-        //     Create a FormData object from the form
-        //     var formData = new FormData(this);
-        //     formData.append('email', email);
-
-        //     If you need to handle the profile image separately
-        //     var profileImage = $('#profileImage')[0].files[0];
-        //     if (profileImage) {
-        //         formData.append('Image', profileImage);
-        //     }
-
-        //     Send the data via AJAX
-        //     $.ajax({
-        //         url: "@BaseUrl" + 'Api/PendingJyotish/UpdateProfile',
-        //         type: 'POST',
-        //         headers: {
-        //             'Authorization': `Bearer ${token}`
-        //         },
-        //         data: formData,
-        //         processData: false, Prevent jQuery from automatically processing the data
-        //         contentType: false, Prevent jQuery from setting content type, as it is handled by FormData
-        //         success: function (response) {
-        //             console.log('Profile updated successfully:', response);
-        //             alert('Profile updated successfully!');
-        //             window.location.pathname('Profile');
-        //         },
-        //         error: function (jqXHR, textStatus, errorThrown) {
-        //             console.error('Error updating profile:', textStatus, errorThrown);
-        //             alert('There was a problem updating your profile. Please try again.');
-        //         }
-        //     });
-        // });
-
-
             $(".saveProfile").click(function () {
                 Swal.fire({
                     title: "Processing Your Request",
@@ -1508,7 +1471,9 @@ $("#language").select2({
                 sArray.forEach(function(d){
                     formData.append(d.name,d.value)
                     if(d.name=="DateOfBirthres"){
-                        formData.append("DateOfBith",convertDateFormatdesc(d.value))
+                        let formatedDate = convertDateFormatdesc(d.value)
+                        debugger
+                        formData.append("DateOfBirth", formatedDate)
                     }
                     if(d.name=="lang"){
                     language.push(d.value)
