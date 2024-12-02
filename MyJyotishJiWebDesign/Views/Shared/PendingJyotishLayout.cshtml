@@ -146,18 +146,11 @@
                 margin-left: -100px;
             }
 
-            .content {
-                width: calc(100% - 100px) !important;
-            }
+           
         }
 
         @@media (max-width: 991.98px) {
-            /*       .sidebar {
-                        margin-left: -40px;
-                    }
-                 */ .sidebar-toggler2 {
-                margin-left: 170px !important;
-            }
+           
 
             .sidebar3 {
                 margin-left: -10px;
@@ -260,15 +253,13 @@
         </div> *@
         <!-- Sidebar End -->
         <!-- Content Start -->
-        <div class="content">
+        <div class="content" style="margin:0px; width:100%;">
             <!-- Navbar Start -->
-            <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
+            <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0 ">
                 <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
                     <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
                 </a>
-                <a href="#" class="sidebar1   sidebar-toggler flex-shrink-0">
-                    <i class="fa fa-bars"></i>
-                </a>
+               
                 <div class="navbar-nav align-items-center ms-auto">
                 
                     <div class="nav-item dropdown">
@@ -373,7 +364,7 @@
                     'Content-Type': 'application/json'  // Indicate that we're working with JSON
                 },
                 success: function (response) {
-                    debugger;
+                   
                     if (response && response.data.name) {
                         $('#profileName').text(response.data.name);
                     } else {
@@ -381,7 +372,7 @@
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    debugger;
+                 
                     console.error("AJAX error:", textStatus, errorThrown);
 
 
@@ -390,65 +381,12 @@
 
 
 
-            let hide = true;
-
-            $('.sidebar-toggler').click(function (e) {
-                e.preventDefault();  // Prevent the default behavior
-                if (hide) {
-                    hide = false;
-                    $(".sidebar-toggler").toggleClass("sidebar-toggler2");
-                    $(".content").toggleClass("content2");
-                    $(".sidebar").toggleClass("sidebar2");
-                    $(".sidebar").toggleClass("sidebar3");
-                    $(".nav-menus").removeClass("d-none");
-                    $(".sidebar-nav").removeClass("d-none");
-                    $(".sidebar-nav").css({ opacity: "1", transition: '1s' });
-                    $(".sidebar-toggler").css({ opacity: "1", transition: '1s' });
-                    $(".dropdown-toggle").addClass("adddropdown-toggle");
-                    $(".content").addClass("content2");
-                } else {
-                    hide = true;
-                    $(".sidebar").toggleClass("sidebar2");
-                    $(".sidebar").toggleClass("sidebar3");
-                    $(".sidebar-toggler").removeClass("sidebar-toggler2");
-                    $(".logo").html('<i class="fa fa-hashtag me-2"></i>');
-                    $(".nav-menus").addClass("d-none");
-                    $(".sidebar-nav").addClass("d-none");
-                    $(".dropdown-toggle").removeClass("adddropdown-toggle");
-                    $(".content").removeClass("content2");
-                }
-            });
-
-            // Logout
            
-            // Use hover to handle mouse enter and leave
-            $(".sidebar").hover(
-                function () {
-                    if (hide) {
-                        // Add sidebar class and update logo
-                        $(".sidebar").addClass("sidebar2");
-                        $(".logo").html('<i class="fa fa-hashtag me-2"></i>DASHMIN');
 
-                        $(".nav-menus").removeClass("d-none");
-                        $(".sidebar-nav").removeClass("d-none").css({ opacity: "1", transition: '0.2s' });
-                        $(".sidebar-toggler").css({ opacity: "1", transition: '0.2s' });
-                        $(".dropdown-toggle").addClass("adddropdown-toggle");
-                        $(".content").addClass("content2");
-                    }
-                },
-                function () {
-                    if (hide) {
+            
 
-                        $(".sidebar").removeClass("sidebar2");
-                        $(".logo").html('<i class="fa fa-hashtag me-2"></i>');
-
-                        $(".nav-menus").addClass("d-none");
-                        $(".sidebar-nav").addClass("d-none").css({ opacity: "0", transition: '0.2s' });
-                        $(".dropdown-toggle").removeClass("adddropdown-toggle");
-                        $(".content").removeClass("content2");
-                    }
-                }
-            );
+          
+           
 
             // Highlight the active link
             $("a").each(function (i, d) {
