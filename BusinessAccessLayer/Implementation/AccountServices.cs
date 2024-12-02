@@ -323,7 +323,6 @@ namespace BusinessAccessLayer.Implementation
             Jyotish.NewStatus =true;
             Jyotish.Status =true;
             Jyotish.countryCode = countryCode;
-         
             Jyotish.Role = "Pending";
             Jyotish.ApprovedStatus = "Pending";
             Jyotish.Password = Guid.NewGuid().ToString("N").Substring(0, 8);
