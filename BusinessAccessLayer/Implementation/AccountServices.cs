@@ -311,7 +311,7 @@ namespace BusinessAccessLayer.Implementation
 
             Jyotish.Name = jyotishView.Name;
 
-            var countryCode = _context.CountryCode.Where(e => e.country == jyotishView.Country).Select(e => e.countryCode).FirstOrDefault();
+            var countryCode = _context.CountryCode.Where(e => e.country == jyotishView.Country).Select(e => e.Id).FirstOrDefault();
 
             Jyotish.Mobile = jyotishView.Mobile;
             Jyotish.Gender = jyotishView.Gender;
