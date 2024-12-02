@@ -2,25 +2,40 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    Layout = "AdminLayout";
 
-    <form>
+}
+
+    <form class="border rounded p-4">
     <div class="row">
+        <h3 class="text-primary">Redeam Code</h3>
     <div class="col-sm-12">
     <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-6 mb-2">
     <select class="form-select" name="plan" id="plan">
     <option>--select plan--</option>
     </select>
     </div>
-    <div class="col-sm-6">
-    
+                <div class="col-sm-6 mb-2">
+                        <input type="text" name="planPrice" id="planPrice" class="form-control" placeholder="Plan Price"  />
+                </div>
+
+                <div class="col-sm-6 mb-2">
+                        <input type="text" name="discount" id="discount" class="form-control" placeholder="plan Discount" />
     </div>
+                <div class="col-sm-6 mb-2">
+                        <input type="text" name="afterDiscount" id="afterDiscount" class="form-control" placeholder="After Discount Discount"  />
     </div>
+                <div class="col-sm-6 mb-2">
+    <input type="text" name="givenDiscount" id="givenDiscount" class="form-control" placeholder="Enter Discount" />
+    </div> 
     </div>
+                <div class="col-sm-12">
+                <input type="submit" value="Submit" class="btn btn-primary"/>
+            </div>    </div>
     </div>
    
 
 
     </form>
 
-}

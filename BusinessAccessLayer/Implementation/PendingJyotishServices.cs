@@ -32,10 +32,19 @@ namespace BusinessAccessLayer.Implementation
                 Directory.CreateDirectory(_uploadDirectory);
             }
         }
-        public async Task<JyotishModel> ProfileData(int Id)
+        public async Task<dynamic> ProfileData(int Id)
         {
 
-            var result = await _context.JyotishRecords.Where(x => x.Id == Id && x.Status == true).FirstOrDefaultAsync();
+            var result = await _context.JyotishRecords.Where(x => x.Id == Id && x.Status == true).Join(
+        _context.CountryCode,  // Joining with the CountryCodes table
+        jyotish => jyotish.countryCode,  // Foreign key in JyotishRecords
+        country => country.Id,  // Primary key in CountryCodes table
+        (jyotish, country) => new
+        {
+            JyotishRecord = jyotish,  // The Jyotish record
+            CountryCode = country.countryCode  // The country code (e.g., "+1")
+        }
+    ).FirstOrDefaultAsync();
             if (result == null) { return null; }
 
             return result;
