@@ -16,8 +16,11 @@
     <option>--select plan--</option>
     </select>
     </div>
-                <div class="col-sm-6 mb-2">
+                <div class="col-sm-6 mb-2 d-flex align-items-center">
                     <input type="text" name="userEmail" id="userEmail" class="form-control" placeholder="User Email" />
+                    <span class="border p-2 seeUserDetail rounded" role="button">
+                    <i class="fas fa-eye"></i>
+                    </span>
                 </div>
                 <div class="col-sm-6 mb-2">
                         <input type="text" readonly name="planPrice" id="planPrice" class="form-control" placeholder="Plan Price"  />
@@ -48,6 +51,89 @@
     </div>
    
     </form>
+
+<!-- Modal user detail -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Jyotish Details</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+               <div class="row">
+                   <div class="col-sm-12">
+                       <div class="row">
+                           <div class="col-sm-6 mb-2">
+                                <div class="row">
+                                    <div class="col-sm-6">Name </div>
+                                    <div class="col-sm-6" id="name"></div>
+                                </div>
+                                </div>
+                           <div class="col-sm-6 mb-2">
+                                    <div class="row">
+                                        <div class="col-sm-6">Mobile Number</div>
+                                        <div class="col-sm-6" id="mobno"></div>
+                                    </div>
+                           </div>
+                            <div class="col-sm-6 mb-2">
+                                    <div class="row">
+                                        <div class="col-sm-6">gender</div>
+                                        <div class="col-sm-6" id="gender"></div>
+                                    </div>
+                           </div>
+                            <div class="col-sm-6 mb-2">
+                                <div class="row">
+                                    <div class="col-sm-6">country</div>
+                                    <div class="col-sm-6" id="country"></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 mb-2">
+                                <div class="row">
+                                    <div class="col-sm-6">state</div>
+                                    <div class="col-sm-6" id="state"></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 mb-2">
+                                <div class="row">
+                                    <div class="col-sm-6">city</div>
+                                    <div class="col-sm-6" id="city"></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="row">
+                                    <div class="col-sm-6">Plan Name</div>
+                                    <div class="col-sm-6" id="planName"></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 mb-2">
+                                <div class="row">
+                                    <div class="col-sm-6">Plan Type</div>
+                                    <div class="col-sm-6" id="planType"></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 mb-2">
+                                <div class="row">
+                                    <div class="col-sm-6">purchase Date</div>
+                                    <div class="col-sm-6" id="purchaseDate"></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 mb-2">
+                                <div class="row">
+                                    <div class="col-sm-6">Expiry Date</div>
+                                    <div class="col-sm-6" id="expiryDate"></div>
+                                </div>
+                            </div>
+                       </div>
+                   </div>
+               </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
     <script>
         let planDetail=[]
@@ -81,21 +167,42 @@
             })
         })
 
-        function getjyotishDetail(){
-        $(document).ready(function () {
-            $.ajax({
-                url: BaseUrl + 'api/Admin/getJyotishByEmail',
-                type: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem("Token")}`,
-                    'Content-Type': 'application/json',
-                },
-                success: function (res) {
+        function getjyotishDetail(email){
+            if (email != "") {
+                $.ajax({
+                    url: BaseUrl + 'api/Admin/getJyotishByEmail',
+                    type: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                        'Content-Type': 'application/json',
+                    },
+                    data: { email: email },
+                    success: function (res) {
 
-                    console.log(res)
-                   
-                }
-            })
+                        console.log(res)
+
+                        let data = res.data;
+                        $("#name").text(data.name)
+                        $("#mobno").text(data.mobno)
+                        $("#gender").text(data.gender)
+                        $("#country").text(data.country)
+                        $("#state").text(data.state)
+                        $("#city").text(data.city)
+                        $("#planType").text(data.planType)
+                    $("#planName").text(data.planName)
+                        $("#purchaseDate").text(data.planPurchaseDate.split('T')[0])
+                        $("#expiryDate").text(data.planExpiryDate.split('T')[0])
+
+                    }
+                })
+            }
         }
 
+    $("#userEmail").on("blur",function(){
+        getjyotishDetail($(this).val())
+    })
+
+    $(".seeUserDetail").click(function(){
+        $("#exampleModal").modal("show")
+    })
     </script>

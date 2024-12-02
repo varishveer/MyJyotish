@@ -65,6 +65,7 @@ namespace BusinessAccessLayer.Abstraction
         public List<ManageSubscriptionViewModel> GetAllManageSubscriptionData();
         public string DeleteManageSubscriptionData(int Id);
         public dynamic getJyotishByEmail(string email);
+        public bool AddRedeamCode(redeamCodeViewModel model);
 
         public string AddSubscription(SubscriptionViewModel model);
         public string UpdateSubscription(SubscriptionViewModel model);

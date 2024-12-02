@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ModelAccessLayer.Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics.CodeAnalysis;
@@ -41,5 +42,18 @@ namespace ModelAccessLayer.ViewModels
         public bool ApprovedStatus { get; set; }
         public DateTime Date { get; set; }
         public bool Status { get; set; }
+    }
+
+    public class redeamCodeViewModel
+    {
+        public int Id { get; set; }
+        public int jyotishId { get; set; }
+        public int PlanId { get; set; }
+        public string ReadeamCode { get; set; }
+
+        public int discount { get; set; }
+        public int discountAmount { get; set; }
+        public bool status { get; set; }
+        public string email { get; set; }
     }
 }

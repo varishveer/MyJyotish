@@ -1179,5 +1179,27 @@ namespace MyJyotishJiApi.Controllers
                 return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message });
             }
         }
+        [HttpPost("AddRedeamCode")]
+        public IActionResult AddRedeamCode(redeamCodeViewModel rcode) 
+        {
+            try
+            {
+                var result = _admin.AddRedeamCode(rcode);
+                if (result)
+                {
+                    return Ok(new { status = 200, message = "Record Added Successfully" });
+                }
+                else
+                {
+                    return Ok(new { status = 500, message = "some error occured" });
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message });
+            }
+        }
     }
 }
