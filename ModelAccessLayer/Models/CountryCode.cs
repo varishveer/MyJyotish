@@ -13,5 +13,7 @@ namespace ModelAccessLayer.Models
         public int countryCode { get; set; }
 
         public Country countryobj { get; set; }
+        public ICollection<JyotishModel> jyotish { get; set; } = new List<JyotishModel>();
+
     }
 }

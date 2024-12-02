@@ -40,14 +40,9 @@ namespace ModelAccessLayer.Models
         public string? ApprovedStatus { get; set; }
         public bool Status { get; set; }
         public bool NewStatus { get; set; }
-
-
         public int? Otp { get; set; }
-
-
         public int? Experience { get; set; }
         public bool? Pooja { get; set; }
-        
         public bool? Call { get; set; } 
         public int? CallCharges { get; set; }
         public bool? Chat { get; set; }
@@ -63,12 +58,14 @@ namespace ModelAccessLayer.Models
         public string? Rating { get; set; }
         public string? SuccessRate { get; set; }
         public int? Pincode { get; set; }
-
+        public int? countryCode { get; set; }
         public string? Message { get; set; }
         // public int? TempRecordId { get; set; }
 
         [JsonIgnore]
         public DocumentModel DocumentModel { get; set; }
+        [JsonIgnore]
+        public CountryCode countryCoderecord { get; set; }
         [JsonIgnore]
         public ICollection<CallingModel> CallingModelRecord { get; set; } = new List<CallingModel>();
         [JsonIgnore]
