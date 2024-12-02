@@ -323,33 +323,7 @@
 
     <script>
 
-        // Retrieve token and userId from localStorage
-        const token = localStorage.getItem('Token3');
-        const userId = localStorage.getItem('Id');
-
-        // Make the AJAX request
-        $.ajax({
-            url: BaseUrl + `Api/PendingJyotish/LayoutData?id=${userId}`, // Ensure the correct base URL and endpoint
-            type: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`, // Pass the token as a Bearer token in headers
-                'Content-Type': 'application/json'  // Indicate that we're working with JSON
-            },
-            success: function (response) {
-              debugger;
-                if (response && response.name) {
-                    $('#profileName').text(response.name);
-                } else {
-                    console.warn('Response does not contain the expected name property.');
-                }
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                debugger;
-                console.error("AJAX error:", textStatus, errorThrown);
-
-              
-            }
-        });
+       
 
                 
 
@@ -390,6 +364,36 @@
     <script>
         $(document).ready(function () {
             // Sidebar Toggler
+            // Retrieve token and userId from localStorage
+            const token = localStorage.getItem('Token3');
+            const userId = localStorage.getItem('Id');
+
+            // Make the AJAX request
+            $.ajax({
+                url: BaseUrl + `Api/PendingJyotish/LayoutData?id=${userId}`, // Ensure the correct base URL and endpoint
+                type: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`, // Pass the token as a Bearer token in headers
+                    'Content-Type': 'application/json'  // Indicate that we're working with JSON
+                },
+                success: function (response) {
+                    debugger;
+                    if (response && response.data.name) {
+                        $('#profileName').text(response.name);
+                    } else {
+                        console.warn('Response does not contain the expected name property.');
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    debugger;
+                    console.error("AJAX error:", textStatus, errorThrown);
+
+
+                }
+            });
+
+
+
             let hide = true;
 
             $('.sidebar-toggler').click(function (e) {

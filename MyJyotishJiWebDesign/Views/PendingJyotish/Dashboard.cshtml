@@ -614,7 +614,7 @@
                 dataType: 'json',
                 // Check if the response status is 200 and then hide the modal
                 success: function (response) {
-                    debugger;
+                   
                     if (response.status === 200) {
                      
                         console.log("Data retrieved successfully:", response.data);
@@ -1029,7 +1029,7 @@
                 }
 
                 $('#loading').hide();
-                debugger;
+               
                 if (response.data.idProofStatus == "Verified" && response.data.addressProofStatus == "Verified" && response.data.professionalCertificateStatus == "Verified") {
                     if (checkBookinStatus) {
                         $('#slotBookingModal').modal('hide');
@@ -1138,7 +1138,7 @@
 
         // Click event for the rejected doc upload button
         $(document).on('click', '.rejectedDocUploadBtn', function () {
-            debugger;
+           
             var dataName = $(this).data('name'); // Get the value of the 'data-name' attribute
 
             // Update modal title and hidden input field with the data-name value
@@ -1223,7 +1223,7 @@
                 'Content-Type': 'application/json'
             },
             success: function (response) {
-                debugger;
+                
                 // Parse the API response
                 const dateTimeMap = {};
                 response.data.forEach(item => {
