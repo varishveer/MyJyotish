@@ -1180,10 +1180,19 @@ namespace MyJyotishJiApi.Controllers
             }
         }
         [HttpPost("AddRedeamCode")]
-        public IActionResult AddRedeamCode(redeamCodeViewModel rcode) 
+        public IActionResult AddRedeamCode() 
         {
             try
             {
+                var httpRequest = HttpContext.Request;
+                redeamCodeViewModel rcode = new redeamCodeViewModel
+                {
+                    PlanId = Convert.ToInt32(httpRequest.Form["planId"]),
+                    ReadeamCode = httpRequest.Form["redeamCode"],
+                    discount = Convert.ToInt32(httpRequest.Form["discount"]),
+                    discountAmount = Convert.ToInt32(httpRequest.Form["discountAmount"]),
+                    email = httpRequest.Form["email"]
+                };
                 var result = _admin.AddRedeamCode(rcode);
                 if (result)
                 {
