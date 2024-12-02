@@ -17,17 +17,29 @@
     </select>
     </div>
                 <div class="col-sm-6 mb-2">
-                        <input type="text" name="planPrice" id="planPrice" class="form-control" placeholder="Plan Price"  />
+                    <input type="text" name="userEmail" id="userEmail" class="form-control" placeholder="User Email" />
                 </div>
+                <div class="col-sm-6 mb-2">
+                        <input type="text" readonly name="planPrice" id="planPrice" class="form-control" placeholder="Plan Price"  />
+                </div> 
 
                 <div class="col-sm-6 mb-2">
-                        <input type="text" name="discount" id="discount" class="form-control" placeholder="plan Discount" />
+                    <input type="text" readonly name="discount" id="discount" class="form-control" placeholder="plan Discount" />
+    </div>
+    <div class="col-sm-6 mb-2">
+                    <input type="text" readonly name="discount" id="discountamount" class="form-control" placeholder="Discount Amount" />
+    </div>
+    <div class="col-sm-6 mb-2">
+                    <input type="text" readonly name="gst" id="gst" class="form-control" placeholder="gst " />
     </div>
                 <div class="col-sm-6 mb-2">
-                        <input type="text" name="afterDiscount" id="afterDiscount" class="form-control" placeholder="After Discount Discount"  />
+                    <input type="text" readonly name="afterDiscount" id="afterDiscount" class="form-control" placeholder="After Discount" />
     </div>
                 <div class="col-sm-6 mb-2">
     <input type="text" name="givenDiscount" id="givenDiscount" class="form-control" placeholder="Enter Discount" />
+    </div> 
+    <div class="col-sm-6 mb-2">
+    <input type="text" readonly name="givendiscountAmount" id="givenDiscountAmount" class="form-control" placeholder="Discount Amount" />
     </div> 
     </div>
                 <div class="col-sm-12">
@@ -35,7 +47,55 @@
             </div>    </div>
     </div>
    
-
-
     </form>
 
+    <script>
+        let planDetail=[]
+        $(document).ready(function(){
+            $.ajax({
+                url: BaseUrl + 'api/Admin/GetAllSubscription',
+                type: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                    'Content-Type': 'application/json',
+                },
+                success: function (res) {
+
+                    console.log(res)
+                planDetail=res.data
+                    res.data.forEach(function(d){
+                    $("#plan").append(`
+                        <option value='${d.subscriptionId}'>${d.name}</option>
+                    `)
+                    })
+                }
+            })
+
+            $("#plan").on("change",function(){
+                let filterPlan=planDetail.filter(d=>d.subscriptionId==$(this).val())[0]
+            $("#planPrice").val(filterPlan.oldPrice)
+            $("#discountamount").val(filterPlan.discountAmount)
+            $("#discount").val(filterPlan.discount)
+            $("#gst").val(filterPlan.gst)
+            $("#afterDiscount").val(filterPlan.newPrice)
+            })
+        })
+
+        function getjyotishDetail(){
+        $(document).ready(function () {
+            $.ajax({
+                url: BaseUrl + 'api/Admin/getJyotishByEmail',
+                type: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                    'Content-Type': 'application/json',
+                },
+                success: function (res) {
+
+                    console.log(res)
+                   
+                }
+            })
+        }
+
+    </script>

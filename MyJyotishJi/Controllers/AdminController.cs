@@ -1164,6 +1164,20 @@ namespace MyJyotishJiApi.Controllers
             {
                 return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message });
             }
+        } 
+        [HttpGet("getJyotishByEmail")]
+        public IActionResult getJyotishByEmail(string email) 
+        {
+            try
+            {
+                var result = _admin.getJyotishByEmail(email);
+                return Ok(new { Status = 200, Message = "data received", data = result });
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message });
+            }
         }
     }
 }

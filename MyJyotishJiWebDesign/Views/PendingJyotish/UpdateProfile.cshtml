@@ -631,7 +631,16 @@
                         icon: "warning",
 
                     })
-                }else{
+            }
+                    else if($("#dob").val()==""){
+                        Swal.fire({
+                            title: "warning",
+                            text: "invalid date of birth",
+                            icon: "warning",
+
+                        })
+                    }
+                else{
                 let basicData = $("#basicForm").serializeArray();
                 let enablenxt = 0;
                 debugger
@@ -1390,32 +1399,33 @@ $("#language").select2({
                     success: function (response) {
                         console.log(response)
                         if (response.status === 200) {
-                            $("#name").val(response.data.name)
-                            $("#email").val(response.data.email)
-                            $("#mobno").val(response.data.mobile)
-                            $("#gender").val(response.data.gender)
+                            let data = response.data.jyotishRecord
+                            $("#name").val(data.name)
+                            $("#email").val(data.email)
+                            $("#mobno").val($(".countryCode").val()+data.mobile)
+                            $("#gender").val(data.gender)
                             setTimeout(() => {
-                                $("#language").val(response.data.language != null ? response.data.language.split(",") : response.data.language).change()
-                                $("#expertise").val(response.data.expertise != null ? response.data.expertise.split(",") : response.data.expertise).change()
+                                $("#language").val(data.language != null ? data.language.split(",") : data.language).change()
+                                $("#expertise").val(data.expertise != null ? data.expertise.split(",") : data.expertise).change()
                             }, 1000)
-                            $("#expertise-profile").text(response.data.expertise)
+                            $("#expertise-profile").text(data.expertise)
 
                             $("#state").val()
                             $("#city").val()
                             if (checkImage) {
-                                    $("#profileImage").attr("src", "@BaseUrl" + response.data.profileImageUrl)
+                                    $("#profileImage").attr("src", "@BaseUrl" + data.profileImageUrl)
                             }
                              $("#country option").filter(function () {
-                                return $(this).text() === response.data.country;
+                                return $(this).text() === data.country;
                             }).prop("selected", true).change()
                             setTimeout(()=>{
                             $("#state option").filter(function () {
-                                return $(this).text() === response.data.state;
+                                return $(this).text() === data.state;
                             }).prop("selected", true).change()
                             }, 1000)
                         setTimeout(() => {
                             $("#city option").filter(function () {
-                                return $(this).text() === response.data.city;
+                                return $(this).text() === data.city;
                             }).prop("selected", true).change()
                         },2000)
                             setTimeout(() => {
