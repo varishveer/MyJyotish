@@ -261,6 +261,7 @@ namespace BusinessAccessLayer.Implementation
             return "internal Server Error.";
         }
 
+
         public AppointmentDetailViewModel GetAppointment(int Id)
         {
             var Record = _context.AppointmentRecords
