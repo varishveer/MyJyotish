@@ -152,14 +152,16 @@ namespace BusinessAccessLayer.Implementation
                 {
                     return "Please select your Dob 20 or more than 20 year!";
                 }
-
+                var jcountry = _context.JyotishRecords.Where(e => e.Id == model.Id).Select(e => e.Country).FirstOrDefault();
+                var countryId = _context.Countries.Where(e => e.Name == jcountry).Select(e=>e.Id).FirstOrDefault();
+                var countryCode = _context.CountryCode.Where(e => e.country == countryId).Select(e=>e.countryCode).FirstOrDefault();
                 var Record = _context.jyotishTempRecords.Where(x => x.JyotishId == model.Id).FirstOrDefault();
                 if (Record == null) { return "Invalid Data"; }
                 Record.BasicSection = true;
                 Record.Name = model.Name;
                 Record.Email = jyotish.Email;
-                Record.Mobile = jyotish.Mobile;
-                Record.AlternateMobile = model.AlternateMobile;
+                Record.Mobile =jyotish.Mobile;
+                Record.AlternateMobile = countryCode+model.AlternateMobile;
                 Record.Gender = model.Gender;
                 Record.Language = model.Language;
                 Record.DateOfBirth = model.DateOfBirth;
@@ -188,10 +190,7 @@ namespace BusinessAccessLayer.Implementation
                 var Record = _context.jyotishTempRecords.Where(x => x.JyotishId == model.Id).FirstOrDefault();
                 if (Record == null) { return "Invalid Data"; }
 
-                var countryName = _context.Countries
-                    .Where(x => x.Id == model.Country)
-                    .Select(x => x.Name)
-                    .FirstOrDefault();
+               
 
                 var stateName = _context.States
                     .Where(x => x.Id == model.State)
@@ -205,7 +204,6 @@ namespace BusinessAccessLayer.Implementation
                 Record.AddressSection = true;
                 Record.City = cityName;
                 Record.State = stateName;
-                Record.Country = countryName;
                 Record.Address = model.Address;
                 Record.Pincode = model.pincode;
 
@@ -379,7 +377,6 @@ namespace BusinessAccessLayer.Implementation
                     isJyotishValid.Name = tempData.Name;
                     isJyotishValid.Gender = tempData.Gender;
                     isJyotishValid.Language = tempData.Language;
-                    isJyotishValid.Country = tempData.Country;
                     isJyotishValid.State = tempData.State;
                     isJyotishValid.City = tempData.City;
                     isJyotishValid.DateOfBirth = tempData.DateOfBirth;

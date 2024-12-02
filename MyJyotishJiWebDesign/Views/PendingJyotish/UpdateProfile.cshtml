@@ -123,7 +123,7 @@
 
             .datepicker td {
                 text-align: center; /* Center align dates */
-                padding: 15px; /* More padding for dates */
+                padding: 7px; /* More padding for dates */
             }
 
                 .datepicker td.day:hover {
@@ -183,9 +183,7 @@
 
                                 <div class=" border-end d-flex">
 
-                                        <button data-page="1" class="btn btn-sm active1 border-0 border-top border-start bg-dark text-light navigatorBtn rounded-0 btn-outline-dark w-100">Basic Information</button>
-                                    <button data-page="2" disabled class="btn border-0 border-top active2 navigatorBtn rounded-0 btn-outline-dark w-100">Address</button>
-
+                                        <button data-page="1" class="btn btn-sm active1 border-0 border-top border-start bg-dark text-light navigatorBtn rounded-0 btn-outline-dark w-100">Basic Information</button>   
                                         <button data-page="3" disabled class="btn border-0 border-top btn-sm active3 navigatorBtn rounded-0 btn-outline-dark w-100">Availability</button>
                                         <button data-page="4" disabled class="btn border-0 border-top btn-sm active4 navigatorBtn rounded-0 btn-outline-dark w-100">About</button>
                                         <button data-page="5" disabled class="btn border-0 btn-sm border-top border-end active5 navigatorBtn rounded-0 btn-outline-dark w-100">Documents</button>
@@ -226,7 +224,7 @@
                     <div class="row my-3">
                         <div class="col-sm-6">
                             <label for="mobno">Mobile Number <span class="text-danger">*</span></label>
-                                    <input type="number" name="mobno" disabled id="mobno" class="form-control" placeholder="Enter your Phone Number" />
+                                    <input type="text" name="mobno" disabled id="mobno" class="form-control" placeholder="Enter your Phone Number" />
                         </div>
                         <div class="col-sm-6">
                             <label for="altmobno">Alternate Number <span class="text-danger">*</span></label>
@@ -257,7 +255,7 @@
                         <div class="col-sm-6">
                                   
                                                         <label for="dob">Date of Birth <span class="text-danger">*</span></label>
-                                                        <input type="text" autocomplete="off" placeholder="mm/dd/yyyy" id="dob" name="DateOfBirth" class="form-control" />
+                                                        <input type="text" autocomplete="off" placeholder="mm/dd/yyyy" id="dob" name="DateOfBirthres" class="form-control" />
                                                         
                                                     </div>
                                                    
@@ -267,13 +265,17 @@
                                             <div class="text-end position-absolute nexbtn-container"><button type="button" role="button" class="btn btn-dark nxtBtn basicnxtBtn" data-page="2">Save</button></div>
                     </div>
                 <!--Address-->
-                                        <div class="col-sm-12  mt-4" id="address">
-
+                                        <div class="col-sm-12 mb-5 mt-2" id="address">
+                                            <div class="d-flex gap-1 mb-2 align-items-center justify-content-center">
+                                                <hr class="w-100"/>
+                                                <span>Address</span>
+                                                <hr class="w-100" />
+                                            </div>
                     <form id="addressform">
                     <div class="row">
                         <div class="col-sm-6 mb-3">
                                     <label for="country">Country: <span class="text-danger">*</span></label>
-                            <select id="country" name="country" class="form-control form-control-sm select2" required>
+                            <select id="country" disabled name="country" class="form-control form-control-sm select2" required>
                                 <option selected disabled>Select Country</option>
                             </select>
                         </div>
@@ -300,7 +302,7 @@
                             <textarea rows="4" name="address" id="addresstext" placeholder="Enter your full address" class="form-control"></textarea>
                         </div></div>
                         </form>
-                                            <div class="text-end mt-3 position-absolute nexbtn-container"><button type="button" role="button" class="btn btn-dark nxtBtn" data-page="3">Save</button></div>
+                                            
                 </div>
 
                 <!--Availability-->
@@ -583,7 +585,7 @@
 
     <script>
     $("#basicDetails").show()
-    $("#address").hide();
+    $("#address").show();
     $("#availability").hide();
     $("#about").hide();
     $("#document").hide();
@@ -604,7 +606,7 @@
                 $(".active1").addClass("bg-dark")
                 $(".active1").addClass("text-light")
             $("#basicDetails").show()
-            $("#address").hide();
+            $("#address").show();
             $("#availability").hide();
             $("#about").hide();
             $("#document").hide();
@@ -650,11 +652,11 @@
                     if (clickby == "btn") {
                         basicData.push({ name: "Id", value: localStorage.getItem("Id") })
                         basicData.push({ name: "BasicSection", value: true })
-                        addDataonTemp(basicData)
+                        addDataonTemp(basicData,"basicData")
                     }
                     $(".active2").addClass("bg-dark")
                     $(".active2").addClass("text-light")
-                    $("#basicDetails").hide()
+                    $("#basicDetails").show()
                     $("#address").show();
                     $("#availability").hide();
                     $("#about").hide();
@@ -686,7 +688,7 @@
                     if (clickby == "btn") {
                         basicData.push({ name: "Id", value: localStorage.getItem("Id") })
                         basicData.push({ name: "AddressSection", value: true })
-                        addDataonTemp(basicData)
+                        addDataonTemp(basicData,"addressData")
                     }
                     $(".active3").addClass("bg-dark")
                     $(".active3").addClass("text-light")
@@ -703,8 +705,6 @@
                     })
                 }
                 }
-
-
         } else if (page == 4) {
             debugger
                 let callPrice = $("#callprice").val()
@@ -760,7 +760,7 @@
                         availability.push({ name: "ChatCharges", value: $(".chatrbtn:checked").length > 0 && $(".chatrbtn:checked").val() == 1 ? chatPrice : 0 })
                         availability.push({ name: "AppointmentCharges", value: $(".apprbtn:checked").length > 0 && $(".apprbtn:checked").val() == 1 ? $("#AppointmentChargesInp").val() : 0 })
                         availability.push({ name: "Appointment", value: $(".apprbtn:checked").val() == 1 ? true : false })
-                        addDataonTemp(availability)
+                        addDataonTemp(availability,"availableData")
                     }
                     $(".active4").addClass("bg-dark")
                     $(".active4").addClass("text-light")
@@ -799,7 +799,7 @@
                     if (clickby == "btn") {
                         basicData.push({ name: "Id", value: localStorage.getItem("Id") })
                         basicData.push({ name: "AboutSection", value: true })
-                        addDataonTemp(basicData)
+                        addDataonTemp(basicData,"aboutData")
                     }
                     $(".active5").addClass("bg-dark")
                     $(".active5").addClass("text-light")
@@ -1114,6 +1114,13 @@ $("#language").select2({
             
         // Load States
         function loadStates(countryId) {
+                    Swal.fire({
+                        title: "Processing Your Request",
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    })
             $.ajax({
                 url: "@BaseUrl" + `Api/Jyotish/State`,
                 type: 'GET',
@@ -1129,7 +1136,7 @@ $("#language").select2({
                     });
                     stateDropdown.prop('disabled', false);
                             Swal.close()
-
+                   
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     console.error('Error fetching states:', textStatus, errorThrown);
@@ -1139,6 +1146,13 @@ $("#language").select2({
 
         // Load Cities
         function loadCities(stateId) {
+                    Swal.fire({
+                        title: "Processing Your Request",
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    })
             $.ajax({
                 url: "@BaseUrl"+`Api/Jyotish/City`,
                 type: 'GET',
@@ -1244,7 +1258,7 @@ $("#language").select2({
                 formData.append("id",Id)
                     formData.append("Image", profileImage)
                 $.ajax({
-                        url: "@BaseUrl" + "api/PendingJyotish/UploadProfileImage",
+                    url: "@BaseUrl" + "api/PendingJyotish/UploadProfileImage",
                     type: 'POST',
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem("Token3")}`
@@ -1281,10 +1295,10 @@ $("#language").select2({
             }
         })
         // Load data on page load
-       
-       
-      
+     
     })
+
+            
             function formatDate(inputDate) {
                 const dateParts = inputDate.split('-');
 
@@ -1292,7 +1306,7 @@ $("#language").select2({
                 const month = dateParts[1];
                 const day = dateParts[2];
 
-                return `${month}/${day}/${year}`;
+                return `${day}/${month}/${year}`;
             }
             function loadJyotishProfile() {
             Swal.fire({
@@ -1326,10 +1340,11 @@ $("#language").select2({
                         }
                         $("#name").val(response.data.name)
                         $("#email").val(response.data.email)
-                        $("#mobno").val(response.data.mobile)
+                        $("#mobno").val("+"+response.data.mobile)
                         $("#gender").val(response.data.gender)
-                        $("#altmobno").val(response.data.alternateMobile)
+                        $("#altmobno").val(response.data.alternateMobile.slice(2))
                             $("#dob").val(formatDate(response.data.dateOfBirth))
+                            console.log(formatDate(response.data.dateOfBirth), response.data.dateOfBirth)
                         setTimeout(() => { 
                         $("#language").val(response.data.language != null ? response.data.language.split(",") : response.data.language).change()
                         $("#expertise").val(response.data.expertise != null ? response.data.expertise.split(",") : response.data.expertise).change()
@@ -1452,7 +1467,22 @@ $("#language").select2({
             }
             loadJyotishProfile()
     })
-            function addDataonTemp(sArray)
+
+        function convertDateFormatdesc(dateString) {
+            const dateParts = dateString.split('/');
+
+            if (dateParts.length === 3) {
+                const day = dateParts[0];
+                const month = dateParts[1];
+                const year = dateParts[2];
+
+                return `${month}/${day}/${year}`;
+            } else {
+                return 'Invalid date format';
+            }
+        }
+
+            function addDataonTemp(sArray,dataType)
             {
                 if ($("#altmobno").val() == $("#mobno").val()) {
                     Swal.fire({
@@ -1477,6 +1507,9 @@ $("#language").select2({
                 let formData=new FormData();
                 sArray.forEach(function(d){
                     formData.append(d.name,d.value)
+                    if(d.name=="DateOfBirthres"){
+                        formData.append("DateOfBith",convertDateFormatdesc(d.value))
+                    }
                     if(d.name=="lang"){
                     language.push(d.value)
                     }
@@ -1503,12 +1536,25 @@ $("#language").select2({
                 contentType:false,
                 data: formData,
                 success: function (response) {
-                    Swal.fire({
+
+                    if(response.status==200){
+                        if(dataType=="basicData"){
+                            pagination(3,"btn")
+                        }else{
+                            Swal.fire({
                         title: "success",
                         text: "Date Saved Successfully",
-                        icon: "success",
+                        icon: "success"
+                        })
+                        }
+                    }else{
+                    Swal.fire({
+                        title: "warning",
+                        text:response.message,
+                        icon: "warning",
                         
                     });
+                        }
                 },
                 error: function (err) {
                     if (err.responseJSON) {
@@ -1562,7 +1608,7 @@ $("#language").select2({
             // Initialize the datepicker with the calculated maxDate
             $("#dob").datepicker({
                 autoclose: true,
-                dateFormat: 'dd-mm-yyyy',
+                dateFormat:'dd-mm-yyyy',
                 changeMonth: true,
                 changeYear: true,
                 yearRange: "c-100:c",
@@ -1574,7 +1620,28 @@ $("#language").select2({
             
                 
             })
-       
+
+        function convertDateFormat(dateString) {
+            const dateParts = dateString.split('/');
+
+            if (dateParts.length === 3) {
+                const month = dateParts[0];
+                const day = dateParts[1];
+                const year = dateParts[2];
+
+                return `${day}/${month}/${year}`;
+            } else {
+                return 'Invalid date format';
+            }
+        }
+       $("#dob").on('change',function(){
+          let formatedDate= convertDateFormat($(this).val());
+            console.log(formatedDate)
+            setTimeout(()=>{
+
+            $(this).val(formatedDate)
+            })
+       })
 
             $(document).ready(function(){
                 $("#altmobno").on("keyup",function(){
@@ -1587,17 +1654,7 @@ $("#language").select2({
                     }
                 })
 
-            $("#basicForm").validate({
-                rules:
-                {
-                    "AlternateMobile": {
-                        required: true,
-                        minlength:10,
-                        maxlength:10,
-                        number:true
-                    }
-                }   
-            })
+           
             $("#addressform").validate({
                 rules:
                 {
