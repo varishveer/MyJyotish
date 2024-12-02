@@ -148,7 +148,12 @@ namespace DataAccessLayer.DbServices
             modelBuilder.Entity<InterviewFeedbackModel>()
               .HasOne(c => c.Jyotish)
               .WithMany(j => j.Feedback)
-              .HasForeignKey(c => c.JyotishId);
+              .HasForeignKey(c => c.JyotishId); 
+
+            modelBuilder.Entity<JyotishModel>()
+              .HasOne(c => c.countryCoderecord)
+              .WithMany(j => j.jyotish)
+              .HasForeignKey(c => c.countryCode);
 
         }
 
