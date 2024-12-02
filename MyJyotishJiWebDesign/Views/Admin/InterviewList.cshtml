@@ -60,8 +60,13 @@
                         htmls += `<td class="text-center">${item.time}</td>`;
                         htmls += `<td class="text-center">
                            <button type="button" class="btn btn-primary" data-id="${item.id}" data-name="${item.name}" data-toggle="modal" data-target="#dynamicModal">
-        Reschedule
-    </button></td>`;
+                                Reschedule
+                            </button>
+
+                                 <button type="button" class="btn btn-primary" onclick="openFeedbackModal(${item.id}, ${item.slotId})" data-toggle="modal" data-target="#FeedbackModal">
+                                Feedback
+                            </button> 
+                            </td>`;
                         
                         htmls += '</tr>';
                         idCounter++;
@@ -110,7 +115,53 @@
         </div>
     </div>
 </div>
+
+<!------Interview Feedback Modal-------->
+<div class="modal fade" id="FeedbackModal" tabindex="-1" aria-labelledby="FeedbackModalLabel" aria-hidden="true">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="FeedbackModalLabel">Interview Feedback</h5>
+                <button type="button" class="close btn" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Hidden ID Field -->
+                <input type="hidden" id="SlotId" value="">
+                <input type="hidden" id="JyotishId" value=""> 
+
+                <label for="Message">Feedback</label>
+                <textarea type="text" id="Message" name="appointmentDate" class="form-control" >
+                    </textarea>
+                <div class="my-3 justify-content-center d-flex">
+                    <label for="Approve" class="mx-2">Approve</label>
+                    <input type="radio" id="Approve" name="bool_value" value="1" class="me-5 isChecked">
+
+                    <label for="Reject" class="mx-2">Reject</label>
+                    <input type="radio" id="Reject" name="bool_value" value="0" class="isChecked">
+                </div>
+                
+                
+                    
+                <button class="btn btn-success" id="feedbackSubmitBtn"> Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
+    function openFeedbackModal(id, slotId) {
+        $('#SlotId').val(slotId);
+        $('#JyotishId').val(id);
+    }
+
+
+   
+
+
+
+
     $(document).ready(function () {
         let slotList=[]
         // select appoinment
@@ -181,9 +232,14 @@
             $('#hiddenId').val(id);        // Populate the hidden ID field
             $('#readonlyName').text(name);  // Populate the readonly Name field
         });
-        // select appoinment      
+        
+
+
+
+
        
 
+        // select appoinment
         $("#appointmentDate").on("input",function(){
 bindslotList()
         })
@@ -247,5 +303,65 @@ bindslotList()
                 }
             });
         });
+
+        $('#feedbackSubmitBtn').on('click', function () {
+            // Validate data
+            var slotId = Number($('#SlotId').val());
+            var jyotishId = Number($('#JyotishId').val());
+            var message = $('#Message').val();
+            var approvedStatus = $('.isChecked:checked').val()== 1 ? true:false;
+
+            // Check if values are valid
+            if (!slotId || !jyotishId || !message ) {
+                Swal.fire('Error', 'Please make sure all fields are filled in correctly.', 'error');
+                return; // Stop the process if any required value is missing
+            }
+
+            var data = {
+                InterviewId: slotId,
+                JyotishId: jyotishId,
+                Message: message,
+                ApprovedStatus: approvedStatus
+            };
+
+            Swal.fire({
+                title: "Processing Your Request",
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            $.ajax({
+                url: BaseUrl + 'api/admin/AddInterviewFeedback',
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('Token'),
+                    'Content-Type': 'application/json'
+                },
+                data: JSON.stringify(data),
+                success: function (response) {
+                    if (response.status === 200) {
+                        Swal.fire({
+                            icon: 'success',
+                            text: 'Record Added Successfully.',
+                            title: 'success',
+                            didClose: () => {
+                                location.reload();
+                            }
+                        });
+                    } else {
+                        Swal.fire('Error', response.message, 'error');
+                    }
+                },
+                error: function (error) {
+                    console.error('Error submitting data:', error);
+                    Swal.fire('Error', 'An error occurred. Please try again later.', 'error');
+                }
+            });
+        });
+
+
+
     });
 </script>

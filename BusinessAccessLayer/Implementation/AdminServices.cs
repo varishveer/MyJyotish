@@ -1388,7 +1388,7 @@ namespace BusinessAccessLayer.Implementation
 
         public List<InteviewListViewModel> InteviewList()
         {
-            var data = _context.JyotishRecords
+            var data = _context.JyotishRecords.Where(x=>x.Status == true)
              .Include(j => j.Slots)
              .ThenInclude(s => s.SlotRecords)
              .SelectMany(j => j.Slots.Select(s => new InteviewListViewModel
@@ -1402,7 +1402,7 @@ namespace BusinessAccessLayer.Implementation
                  Language = j.Language,
                  Date = s.SlotRecords.Date,
                  Time = s.SlotRecords.Time,
-                 SlotId = s.Id
+                 SlotId = s.SlotId
              }))
              .OrderByDescending(i => i.Date) // Order by date in descending order
              .ToList();
@@ -1457,6 +1457,25 @@ namespace BusinessAccessLayer.Implementation
             _context.InterviewFeedback.Add(Data);
             if ( _context.SaveChanges()>0 ) 
             {
+                var jyotish = _context.JyotishRecords.Where(x => x.Id == feedback.JyotishId).FirstOrDefault();
+                if (feedback.ApprovedStatus == true)
+                {
+                    jyotish.ApprovedStatus = "Complete";
+                    jyotish.Role = "Jyotish";
+                    var message = "I am pleased to formally accept your offer for the Jyotish role at My Jyotish G. I am excited to join your team and contribute to the success of the company. I truly appreciate the opportunity and the confidence you have shown in me.";
+                    var subject = "Interview Outcome";
+                    SendEmail(message, jyotish.Email, subject);
+                }
+                else {
+                    jyotish.ApprovedStatus = "Rejected";
+                    jyotish.Role = "Rejected";
+                    jyotish.Status = false;
+                    var message = "Thank you very much for taking the time to interview for the Jyotish role with My Jyotish G. After careful consideration, we regret to inform you that we will not be moving forward with your application at this time.";
+                    var subject = "Interview Outcome";
+                    SendEmail(message, jyotish.Email, subject);
+                }
+                _context.JyotishRecords.Update(jyotish);
+                _context.SaveChanges();
                 return "Successful";
             }
             return "Internal Server Error";
