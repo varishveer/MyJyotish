@@ -75,10 +75,10 @@
 
         <div class="d-flex my-2 justify-content-center profileActionBtn gap-2">
             
-            <button class="approveButton btn btn-success btn-sm ">Approve</button>
-            <button type="button" class="btn btn-danger btn-sm"  data-toggle="modal" data-target="#rejectedJyotishModal">Reject</button>
+          
+           
         </div>
-     <small>If you want to reject jyotish or approve jyotish then you can do this from here , please verify documents firsts and take interview</small>
+    
        
         <h6 class="fw-light mt-3">About</h6>
         <p id="about" ></p>
@@ -109,16 +109,23 @@
                     $('#profileName').text(data.name);
                     $('#documentButton').attr('href', `/Admin/JyotishDocs?id=${data.id}`);
                     $('#about').html(data.about.slice(0, 200) + `...<span class='text-primary' onClick='SeemoreAbout()' role='button'>more</span>`);
-                    const approveButton = document.querySelector('.approveButton');
-                   
-                    approveButton.setAttribute('data-id', data.id);
+                  
                   
 
                     if (data.call == true) { var Call = "Yes"; }
                     else { var Call = "No"; }
                     if (data.chat == true) { var Chat = "Yes"; }
                     else { var Chat = "No"; }
+                // Assuming data.dateOfBirth is in a format like "yyyy-mm-dd"
+                const dateOfBirth = new Date(data.dateOfBirth);
 
+                // Get the day, month, and year
+                const day = String(dateOfBirth.getDate()).padStart(2, '0'); // Pad single digit day
+                const month = String(dateOfBirth.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed, so add 1
+                const year = dateOfBirth.getFullYear();
+
+                // Format the date as dd/mm/yyyy
+                const formattedDate = `${day}/${month}/${year}`;
                     const profileHTML = `
                        <div class="row">
                             <div class="col-md-6">
@@ -130,7 +137,7 @@
                             <div class="col-md-6">
                                 <div class="profile-info">
                                     <h6>Mobile:</h6>
-                                    <p>${data.mobile}</p>
+                                    <p>+${data.mobile}</p>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -160,7 +167,7 @@
                             <div class="col-md-6">
                                 <div class="profile-info">
                                     <h6>Date of Birth:</h6>
-                                    <p>${data.dateOfBirth}</p>
+                                        <p>${formattedDate}</p>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -280,120 +287,7 @@
     }
     
 
-    $(".approveButton").click(function(){
-       
-        const urlParams = new URLSearchParams(window.location.search);
-        const Id = urlParams.get('Id');
-        Swal.fire({
-            title: 'Are you sure?',
-            text: 'Do you want to approve this jyotish?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, approve it!',
-            cancelButtonText: 'No, cancel',
-            reverseButtons: true
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire({
-                    title: "Processing Your Request",
-                    allowOutsideClick: false,
-                    didOpen: () => {
-                        Swal.showLoading();
-                    }
-                })
-        $.ajax({
-                    url: BaseUrl + "api/Admin/ApproveJyotish",
-            type:"post",
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Example of an authorization header
-                        'Content-Type': 'application/json', // Example of a content type header
-
-                    },
-            data: JSON.stringify({ Id:Ids}),
-            success:function(res){
-                Swal.fire(
-                    'success',
-                    'Profile approved successfully',
-                    'success'
-                    
-                ).then(()=>{
-                            location.href = "/Admin/PendingJyotish"
-                })
-            },error:function(){
-                        Swal.fire({
-                            title: "error",
-                            text: "some error occured",
-                            icon: "error"
-                        });
-            }
-        })
-            }
-        })
-    })
-
-   //---------Reject Button-------------------
-    $(document).on('click', '#rejectJyotishBtn', function () {
-      debugger;
-        Swal.fire({
-            title: 'Are you sure?',
-            text: 'Do you want to reject this jyotish?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, reject it!',
-            cancelButtonText: 'No, cancel',
-            reverseButtons: true
-        }).then((result) => {
-
-            if (result.isConfirmed) {
-                Swal.fire({
-                    title: "Processing Your Request",
-                    allowOutsideClick: false,
-                    didOpen: () => {
-                        Swal.showLoading();
-                    }
-                })
-                    const urlParams = new URLSearchParams(window.location.search);
-
-                    let Id = urlParams.get('Id');
-                    let Subject = $('#JyotishSubject').val();
-                    let Message = $('#JyotishMessage').val();
-
-                    var data ={
-                        JyotishId: Id,
-                        subject:Subject,
-                        message: Message
-                    }
-                $.ajax({
-                    url: BaseUrl + "api/Admin/RejectJyotish",
-                    type: "post",
-                    data: JSON.stringify(data),
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Example of an authorization header
-                        'Content-Type': 'application/json', // Example of a content type header
-
-                    },
-                    success: function (res) {
-                        Swal.fire({
-                            title: 'success',
-                            text: 'Profile Rejected successfully',
-                            icon: 'success',
-                            didClose: () => {
-                                location.href = "/Admin/PendingJyotish";
-                            }
-                    });
-
-
-                    }, error: function () {
-                        Swal.fire({
-                            title: "error",
-                            text: "some error occured",
-                            icon: "error"
-                        });
-                    }
-                })
-            }
-        })
-    })
+   
 
 </script>
 
@@ -544,37 +438,6 @@
 
 
 
-<!-- Rejected Jyotish Modal -->
-<div class="modal fade" id="rejectedJyotishModal" tabindex="-1" role="dialog" aria-labelledby="rejectedJyotishModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="rejectedJyotishModalLabel">Rejected message</h5>
-                <button type="button" class="close btn text-danger" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form>
-                 
-                  
-                    <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Subject:</label>
-                        <input type="text" class="form-control" id="JyotishSubject" placeholder="Please enter subject for Email">
-                    </div>
-                    <div class="form-group">
-                        <label for="message-text" class="col-form-label">Message:</label>
-                        <textarea class="form-control" id="JyotishMessage" style="resize:none;" placeholder="Please enter message for Email"></textarea>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button id="rejectJyotishBtn" type="button" class="btn btn-primary">Send message</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 
 <script>

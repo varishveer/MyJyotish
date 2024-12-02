@@ -38,7 +38,7 @@
                 <div class="col-md-4 text-center text-md-start">
                     <img id="profilePicture" src="" alt="Profile Picture" class="rounded shadow-sm border p-2 img-thumbnail" style=" width: 150px;height: 145px; border: 2px solid #ffffff;">
               
-                    <h2 id="profileName" class="h4 mt-3 mb-1" style="color:#333333;"> <span class="text-success">&#10004;</span></h2>
+                    <h2 id="profileName" class="h4 mt-3 mb-1" style="color:#333333;">  </h2>
                     <span class="text-warning me-2">★★★★★</span>
                      <span id="rating" class="mb-0 me-2">4.99</span>|
                     <span id="totalReviews" class="text-muted">
@@ -203,7 +203,8 @@
                     var data = response.data;
                     // Update Profile Section
                     $('#profilePicture').attr('src', BaseUrl+data.profileImageUrl);
-                    $('#profileName').text(data.name + ' ✅');
+                    $('#profileName').text(data.name);
+                    $('#profileName').append('<i class="fas fs-6 fa-check-circle text-success mx-2"></i>');
                     $('#profileExpertise').text(data.expertise);
                     $('#profileLanguage').text(data.language);
                     $("#time").text(data.timeFrom.slice(0, 5) + "-" + data.timeTo.slice(0, 5))
