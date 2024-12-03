@@ -26,5 +26,8 @@ namespace MyJyotishJiWebDesign.Controllers
         public IActionResult Specialization() { return View(); }
         public IActionResult CreateCountryCode() { return View(); }
         public IActionResult RedeamCode() { return View(); }
+        public IActionResult Department() { return View(); }
+        public IActionResult Levels() { return View(); }
+        public IActionResult Employee() { return View(); }
     }
 }

@@ -257,7 +257,9 @@ header {
                 <input type="hidden" name="planId" id="planIdModal"/>
                 <input type="hidden" name="price" id="priceModal"/>
                <input type="text" name="redeamCode" id="redeamCode" placeholder="Enter Redeam Code" class="form-control mb-2" />
+               <div class="text-center my-4">
                <input type="submit" value="Redeam" class="btn btn-success" />
+                    </div>
                <p>don't have any redeam code <span class="text-primary">send request</span></p>
                 </form>
             </div>
@@ -269,7 +271,10 @@ header {
 </div>
 <script>
 
-   
+    $("#exampleModal").on("hide.bs.modal", function () {
+        alert("fds")
+        $("#redeamCode").val("")
+    })
 
     $(document).ready(function () {
         // API URL
@@ -352,7 +357,10 @@ header {
                                                 ` : ""}
                                                </li>
                         ${servicesHTML}
-             
+                            <li ><p class='text-center w-100 ${planData.length > 0 ? planData[0].planId == item.subscriptionId ? "" : "planDesc" : "planDesc"}' id='planDesc_${item.subscriptionId}'>${planData.length > 0 ? planData[0].planId == item.subscriptionId ? "Purchased" : "" : ""
+    
+                             }</p></li >
+
                 </ul>
             </div>
 
@@ -363,7 +371,7 @@ header {
                         delete window.servicesHTML;
                         delete window.container;
                         delete window.cardHTML;
-                      
+                      console.log(planData)
                     });
                   
                     Swal.close()
@@ -380,9 +388,24 @@ header {
     var planId;
     function purchasePlan(price,plan) {
          planId = plan;
-        $("#planIdModal").val(plan);
-        $("#priceModal").val(price);
-        $("#purchaseBtn").removeClass("d-none")
+        if (planData.length > 0) {
+            if(planData[0].planId==planId){
+                $("#purchaseBtn").addClass("d-none")
+                $(".planDesc").empty()
+
+            }else{
+         $("#planIdModal").val(plan);
+         $("#priceModal").val(price);
+         $("#purchaseBtn").removeClass("d-none")
+                $(".planDesc").empty()
+                $("#planDesc_"+planId).html(`<i class="fas text-success fa-check-circle"></i>`)
+            }
+        }else{
+            $("#planIdModal").val(plan);
+            $("#priceModal").val(price);
+            $("#purchaseBtn").removeClass("d-none")
+        }
+      
     }
 
     $("#purchaseBtn").click(function(){
@@ -394,6 +417,7 @@ header {
 
             openWallet(price)
         }
+
     })
 
     function openWallet(price){
@@ -457,15 +481,31 @@ header {
             success: function (response) {
                 console.log(response)
                 if (response.status === 200) {
-                    let price = parseInt($("#priceModal").val()) - response.amount;
+                    if(response.amount==0){
+                        Swal.fire({
+                            title: "warning",
+                            text: "redeam code are expired please send a new request for a new redeam code",
+                            icon: "warning"
+                        })
+                    }else{
+                        let price = parseInt($("#priceModal").val()) - response.amount;
+                        openWallet(Math.ceil(price))
+                        $("#exampleModal").modal("hide");
+                    }
+                   
 
-                    openWallet(Math.ceil(price))
-                    $("#exampleModal").modal("hide")
-
+                } else {
+                    Swal.fire({
+                        title: "error",
+                        text: res.message + "or maybe redeam code are expired",
+                        icon: "error"
+                    })
                 }
             }
         })
     })
+
+    
 
      function makeActionAfterWalletPayment(){
          upgradePackage();

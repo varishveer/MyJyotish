@@ -65,11 +65,11 @@
     </div>
                 <div class="col-sm-6 mb-2">
                     Start Date
-                    <input type="date" name="startDate" required id="givenDiscountAmount" class="form-control" placeholder="Discount Amount" />
+                    <input type="date" name="startDate" required id="startDate" class="form-control" placeholder="Discount Amount" />
                 </div>
                 <div class="col-sm-6 mb-2">
                     End Date
-                    <input type="date" name="endDate" required id="finalAmount" class="form-control" placeholder="Final Amount" />
+                    <input type="date" name="endDate" required id="endDate" class="form-control" placeholder="Final Amount" />
                 </div>
             </div>
                 <div class="col-sm-12">
@@ -217,6 +217,7 @@
 
                         console.log(res)
                         if(res.status==200){
+                        if(res.data!=null){
                         let data = res.data;
                         $("#name").text(data.name)
                         $("#mobno").text(data.mobno)
@@ -228,7 +229,13 @@
                     $("#planName").text(data.planName)
                         $("#purchaseDate").text(data.planPurchaseDate.split('T')[0])
                         $("#expiryDate").text(data.planExpiryDate.split('T')[0])
-
+                        }else{
+                            Swal.fire({
+                                text:"no record found",
+                                title:"warning",
+                                icon:"warning"
+                            })
+                        }
                     }
                     }
                 })
@@ -250,12 +257,16 @@
         let givenDiscount = $("#givenDiscount").val()
         let givenDiscountAmount = $("#givenDiscountAmount").val()
         let email = $("#userEmail").val()
+        let startDate = $("#startDate").val()
+        let endDate = $("#endDate").val()
         let formData=new FormData()
         formData.append("planId",plan)
         formData.append("redeamCode", redeamCode)
         formData.append("email",email)
         formData.append("discount", givenDiscount)
         formData.append("discountAmount", givenDiscountAmount)
+        formData.append("startDate", startDate)
+        formData.append("endDate", endDate)
         $.ajax({
             url: BaseUrl + 'api/Admin/AddRedeamCode',
             type: 'POST',

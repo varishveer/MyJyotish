@@ -1548,6 +1548,8 @@ namespace BusinessAccessLayer.Implementation
                     ReadeamCode = model.ReadeamCode,
                     discountAmount = model.discountAmount,
                     date=DateTime.Now,
+                    startDate=model.startDate,
+                    endDate=model.endDate,
                     status = true
                 };
 

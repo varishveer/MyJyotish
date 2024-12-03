@@ -548,7 +548,7 @@ namespace BusinessAccessLayer.Implementation
                                           ServiceCount = 0,
                                           Status = false
                                          }).ToArray()
-                                  }).ToList();
+                                  }).OrderByDescending(e=>e.SubscriptionId).ToList();
 
             var ManageSubscriptionData = _context.ManageSubscriptionModels.Where(x => x.Status == true).ToList();
 
@@ -1798,12 +1798,23 @@ namespace BusinessAccessLayer.Implementation
         public float purchaseWithReadmCode(string redeamCode,int JyotishId,int planId)
         {
             var res = _context.RedeamCode.Where(e => e.ReadeamCode == redeamCode && e.PlanId==planId&& e.jyotishId == JyotishId && e.status).FirstOrDefault();
+
             if (res == null)
             {
                 return 0;
             }
-
+            if (DateTime.Compare(res.endDate, DateTime.Now) <= 0)
+            {
             return res.discountAmount;
+
+            }
+            else
+            {
+                res.status = false;
+                _context.RedeamCode.Update(res);
+                return 0;
+            };
+
 
         }
 

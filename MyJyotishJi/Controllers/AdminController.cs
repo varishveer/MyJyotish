@@ -1191,7 +1191,9 @@ namespace MyJyotishJiApi.Controllers
                     ReadeamCode = httpRequest.Form["redeamCode"],
                     discount= float.Parse((httpRequest.Form["discount"])),
                     discountAmount = float.Parse(httpRequest.Form["discountAmount"]),
-                    email = httpRequest.Form["email"]
+                    email = httpRequest.Form["email"],
+                    startDate = Convert.ToDateTime(httpRequest.Form["startDate"]),
+                    endDate = Convert.ToDateTime(httpRequest.Form["endDate"])
                 };
                 var result = _admin.AddRedeamCode(rcode);
                 if (result)
