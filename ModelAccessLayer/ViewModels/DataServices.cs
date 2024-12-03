@@ -54,6 +54,8 @@ namespace ModelAccessLayer.ViewModels
         public float discount { get; set; }
         public float discountAmount { get; set; }
         public bool status { get; set; }
+        public DateTime startDate { get; set; }
+        public DateTime endDate { get; set; }
         public string email { get; set; }
     }
 }
