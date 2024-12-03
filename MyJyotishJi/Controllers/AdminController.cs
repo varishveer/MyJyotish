@@ -1436,6 +1436,8 @@ namespace MyJyotishJiApi.Controllers
             }
             else
             {
+                
+
                 return Ok(new { status = 500, message = "something went wrong" });
 
             }
