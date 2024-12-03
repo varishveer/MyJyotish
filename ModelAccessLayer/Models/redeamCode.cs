@@ -12,8 +12,8 @@ namespace ModelAccessLayer.Models
         public int jyotishId { get; set; }
         public int PlanId { get; set; }
         public string ReadeamCode { get; set; }
-        public int discount { get; set; }
-        public int discountAmount { get; set; }
+        public float discount { get; set; }
+        public float discountAmount { get; set; }
         public bool status { get; set; }
         public DateTime date { get; set; }
         public JyotishModel jyotish { get; set; }

@@ -51,8 +51,8 @@ namespace ModelAccessLayer.ViewModels
         public int PlanId { get; set; }
         public string ReadeamCode { get; set; }
 
-        public int discount { get; set; }
-        public int discountAmount { get; set; }
+        public float discount { get; set; }
+        public float discountAmount { get; set; }
         public bool status { get; set; }
         public string email { get; set; }
     }

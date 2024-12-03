@@ -1501,7 +1501,6 @@ namespace BusinessAccessLayer.Implementation
 
             return res;
 
-
         }
 
         public List<InterviewFeedbackViewModel> GetAllInterviewFeedback()

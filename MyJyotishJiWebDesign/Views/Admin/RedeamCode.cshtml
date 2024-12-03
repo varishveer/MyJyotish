@@ -193,7 +193,7 @@
                     success: function (res) {
 
                         console.log(res)
-
+                        if(res.status==200){
                         let data = res.data;
                         $("#name").text(data.name)
                         $("#mobno").text(data.mobno)
@@ -206,6 +206,7 @@
                         $("#purchaseDate").text(data.planPurchaseDate.split('T')[0])
                         $("#expiryDate").text(data.planExpiryDate.split('T')[0])
 
+                    }
                     }
                 })
             }
