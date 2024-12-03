@@ -10,7 +10,8 @@ namespace ModelAccessLayer.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public long mobile { get; set; }
+        public long Mobile { get; set; }
+        public string Email { get; set; }
         public string gender { get; set; }
         public string DateOfBirth { get; set; }
         public int Department { get; set; }

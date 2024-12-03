@@ -84,4 +84,35 @@ namespace ModelAccessLayer.ViewModels
         public int TotalRating { get; set; }
 
     }
+
+    public class DepartmentViewModel
+    {
+        public string DepartmentName { get; set; }
+    }
+    public class LevelsViewModel
+    {
+        public string LevelsName { get; set; }
+    }
+    public class EmployeesViewModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public long mobile { get; set; }
+        public string gender { get; set; }
+        public string Email { get; set; }
+
+        public string DateOfBirth { get; set; }
+        public int Department { get; set; }
+        public int levels { get; set; }
+        public DateTime AddingDate { get; set; }
+        public bool status { get; set; }
+    } 
+    public class EmployeesDocsViewModel
+    {
+        public int Id { get; set; }
+        public int employees { get; set; }
+        public string DocsName { get; set; }
+        public string DocUrl { get; set; }
+        public bool status { get; set; }
+    }
 }

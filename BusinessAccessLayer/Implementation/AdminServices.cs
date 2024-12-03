@@ -1600,5 +1600,44 @@ namespace BusinessAccessLayer.Implementation
             { return "Successfully Deleted"; }
             else { return "Internal Server Error."; }
         }
+
+        //departments 
+        public bool AddDepartments(DepartmentViewModel model)
+        {
+            Department dp = new Department
+            {
+                DepartmentName = model.DepartmentName,
+                status=true
+            };
+            _context.Department.Add(dp);
+            return _context.SaveChanges() > 0;
+        } 
+        public bool AddLevels(LevelsViewModel model)
+        {
+            levels dp = new levels
+            {
+                levelsName = model.LevelsName,
+                status=true
+            };
+            _context.Levels.Add(dp);
+            return _context.SaveChanges() > 0;
+        }
+        public bool AddEmployees(EmployeesViewModel model)
+        {
+            Employees dp = new Employees
+            {
+                Name=model.Name,
+                gender=model.gender,
+                DateOfBirth=model.DateOfBirth,
+                Email=model.Email,
+                Mobile=model.mobile,
+                Department=model.Department,
+                AddingDate=DateTime.Now,
+                levels=model.levels,
+                status=true
+            };
+            _context.Employees.Add(dp);
+            return _context.SaveChanges() > 0;
+        }
     }
 }
