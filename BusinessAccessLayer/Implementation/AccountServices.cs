@@ -778,7 +778,7 @@ namespace BusinessAccessLayer.Implementation
 
         #endregion
 
-        public static bool SendEmail(string MessageBody, string Mail, string Subjectbody)
+        public  bool SendEmail(string MessageBody, string Mail, string Subjectbody)
         {
             try
             {

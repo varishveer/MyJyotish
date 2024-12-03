@@ -39,5 +39,7 @@ namespace BusinessAccessLayer.Abstraction
         public List<string> PlaceOfBirthList(string CityName);
         public List<string> LanguageList();
 
+        public bool SendEmail(string MessageBody, string Mail, string Subjectbody);
+
     }
 }

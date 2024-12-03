@@ -16,6 +16,7 @@ namespace ModelAccessLayer.Models
         public string DateOfBirth { get; set; }
         public int Department { get; set; }
         public int levels { get; set; }
+        public string password { get; set; }
         public DateTime AddingDate { get; set; }
         public bool status { get; set; }
 
