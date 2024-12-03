@@ -118,6 +118,8 @@ namespace ModelAccessLayer.ViewModels
         public IFormFile postmetrics { get; set; }
         public IFormFile degrees { get; set; }
        public string url { get; set; }
+        public string email { get; set; }
+
         public bool status { get; set; }
     }
 }

@@ -1366,6 +1366,7 @@ namespace MyJyotishJiApi.Controllers
                 dynamic resdocs = false;
             if (res)
             {
+               
 
                 var ProfileGuid = Guid.NewGuid().ToString();
 
@@ -1425,7 +1426,8 @@ namespace MyJyotishJiApi.Controllers
                     EmployeesDocsViewModel empDocs = new EmployeesDocsViewModel
                     {
                         url = doc.Value,
-                        name=doc.Key
+                        name=doc.Key,
+                        email=model.Email
                     };
                     resdocs = _admin.AddEmployeesDocs(empDocs);
                 }
