@@ -12,42 +12,55 @@
     <div class="col-sm-12">
     <div class="row">
     <div class="col-sm-6 mb-2">
+        Plan
                     <select class="form-select" required name="plan" id="plan">
     <option>--select plan--</option>
     </select>
     </div>
-                <div class="col-sm-6 mb-2 d-flex align-items-center">
+                <div class="col-sm-6 mb-2 ">
+                  Email
+                    <div class="d-flex align-items-center">
                     <input type="text" required name="userEmail" id="userEmail" class="form-control" placeholder="User Email" />
                     <span class="border p-2 seeUserDetail rounded" role="button">
                     <i class="fas fa-eye"></i>
                     </span>
+                    </div>
                 </div>
                 <div class="col-sm-6 mb-2">
+                    Redeam Code
                     <input type="text" required name="redeamCode" id="redeamCode" class="form-control" placeholder="Enter RedeamCode" />
                 </div> 
                 <div class="col-sm-6 mb-2">
+                    Old Price
                     <input type="text" required readonly name="planPrice" id="planPrice" class="form-control" placeholder="Plan Price" />
                 </div> 
 
                 <div class="col-sm-6 mb-2">
+                    Discount
                     <input type="text" readonly required name="discount" id="discount" class="form-control" placeholder="plan Discount" />
     </div>
     <div class="col-sm-6 mb-2">
+        Discount Amount
                     <input type="text" readonly required name="discount" id="discountamount" class="form-control" placeholder="Discount Amount" />
     </div>
     <div class="col-sm-6 mb-2">
+        GST
                     <input type="text" readonly required name="gst" id="gst" class="form-control" placeholder="gst " />
     </div>
                 <div class="col-sm-6 mb-2">
+                    New Price
                     <input type="text" readonly required name="afterDiscount" id="afterDiscount" class="form-control" placeholder="After Discount" />
     </div>
                 <div class="col-sm-6 mb-2">
+                    New Discount
                     <input type="text" name="givenDiscount" required id="givenDiscount" class="form-control" placeholder="Enter Discount" />
     </div> 
     <div class="col-sm-6 mb-2">
+        New Discount Amount
                     <input type="text" readonly name="givendiscountAmount" required id="givenDiscountAmount" class="form-control" placeholder="Discount Amount" />
     </div>  
     <div class="col-sm-6 mb-2">
+        Final Price
                     <input type="text" readonly name="finalAmount" required id="finalAmount" class="form-control" placeholder="Final Amount" />
     </div> 
     </div>
@@ -193,7 +206,7 @@
                     success: function (res) {
 
                         console.log(res)
-
+                        if(res.status==200){
                         let data = res.data;
                         $("#name").text(data.name)
                         $("#mobno").text(data.mobno)
@@ -206,6 +219,7 @@
                         $("#purchaseDate").text(data.planPurchaseDate.split('T')[0])
                         $("#expiryDate").text(data.planExpiryDate.split('T')[0])
 
+                    }
                     }
                 })
             }

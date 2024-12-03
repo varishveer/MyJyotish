@@ -1189,8 +1189,8 @@ namespace MyJyotishJiApi.Controllers
                 {
                     PlanId = Convert.ToInt32(httpRequest.Form["planId"]),
                     ReadeamCode = httpRequest.Form["redeamCode"],
-                    discount = Convert.ToInt32(httpRequest.Form["discount"]),
-                    discountAmount = Convert.ToInt32(httpRequest.Form["discountAmount"]),
+                    discount= float.Parse((httpRequest.Form["discount"])),
+                    discountAmount = float.Parse(httpRequest.Form["discountAmount"]),
                     email = httpRequest.Form["email"]
                 };
                 var result = _admin.AddRedeamCode(rcode);
