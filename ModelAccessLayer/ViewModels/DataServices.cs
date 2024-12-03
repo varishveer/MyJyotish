@@ -66,7 +66,9 @@ namespace ModelAccessLayer.ViewModels
         public int Stars { get; set; }
         public DateTime? DateTime { get; set; }
         public int UserId { get; set; }
+        public string UserName { get; set; }
         public int JyotishId { get; set; }
+        public string JyotishName { get; set; }
         public bool? Status { get; set; }
     }
 

@@ -296,14 +296,55 @@ $(".callBtn").hide()
         })
 
         $.ajax({
-            url: BaseUrl + `api/Admin/JyotishRatingList?Id=${astrologerId}`,
+            url: BaseUrl + `api/User/JyotishRatingList?Id=${astrologerId}`,
             method: 'GET',
-            success:function (response){
+            success: function (response) {
                 if (response.status == 200) {
-                
+                    let ratingCards = '';
+
+                    response.data.forEach(review => {
+                        // Create stars dynamically based on review.stars
+                        let stars = '';
+                        for (let i = 0; i < 5; i++) {
+                            stars += (i < review.stars) ? '<span class="star">★</span>' : '<span class="text-secondary">★</span>';
+                        }
+
+                        // Rating card template
+                        ratingCards += `
+                        <div class="container d-flex float-start p-0 mb-4">
+                            <div class="profile p-3">
+                                <h1 class="comment-profile">${review.name.charAt(0)}</h1>
+                            </div>
+                            <div class="content bg-light p-3 w-100 rounded">
+                                <div class="header d-flex">
+                                    <h6 class="c-name fw-bold">${review.name}</h6>
+                                    <div class="verified text-primary text-italic">- Verified Client</div>
+                                    <div class="stars ml-20">
+                                        ${stars}
+                                    </div>
+                                </div>
+                                <div class="text my-2 text-justify">
+                                    ${review.feedbackMessage}
+                                </div>
+                                <div class="d-flex text-center mt-2 align-items-center">
+                                    <span class="date-icon">
+                                        <svg height="15" width="15" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                            <path fill="#63E6BE" d="M0 464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V192H0v272zm320-196c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zM192 268c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zM64 268c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H76c-6.6 0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H76c-6.6 0-12-5.4-12-12v-40zM400 64h-48V16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v48H160V16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v48H48C21.5 64 0 85.5 0 112v48h448v-48c0-26.5-21.5-48-48-48z"></path>
+                                        </svg>
+                                    </span>
+                                    <small class="text-secondary">${review.dateTime}</small>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    });
+
+                    // Append the rating cards to the container
+                    $('#rating').append(ratingCards);
                 }
             }
-        })
+        });
+
 
 
         //handle specialization aboutus and achievement
