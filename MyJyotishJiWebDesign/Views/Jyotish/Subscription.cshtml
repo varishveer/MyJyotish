@@ -239,6 +239,9 @@ header {
     <div class="cards d-flex gap-3">
  
     </div>
+    <div>
+        
+    </div>
 <div id="walletPaymentContainer"></div>
 <script>
 
@@ -326,9 +329,7 @@ header {
                                                </li>
                         ${servicesHTML}
                 <li>
-                         <button type="button" class="btn-package active-btn upgradePlan" ${planData.length>0?planData[0].planId == item.subscriptionId ? "disabled" : "":""} id = "upgradeBtn_${item.subscriptionId}"
-                                                data-planId="${item.subscriptionId}" data-planType="${item.planType}"
-                                                        data-planPrice="${item.newPrice}">${planData.length > 0 ? planData[0].planId == item.subscriptionId ? "Purchased" : "Upgrade":"Upgrade"}</button></li>
+                       
                 </ul>
             </div>
 
