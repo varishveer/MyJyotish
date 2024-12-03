@@ -3,6 +3,20 @@
   
 
 }
+ <style>
+    .dates {
+      display: flex;
+      overflow-x: auto; /* Allows horizontal scrolling */
+      width: auto; /* Adjust to your desired width */
+      scroll-behavior: smooth; /* Smooth scrolling effect */
+    }
+    .date-item {
+      min-width: 100px; /* Adjust width of individual date items */
+      margin-right: 10px;
+      text-align: center;
+    }
+  </style>
+
 <style>
     .image-container {
         border: 1px solid #ddd;
@@ -136,11 +150,7 @@
         }
     }
 
-    .dates {
-        display: flex;
-        overflow: hidden;
-        scroll-behavior: smooth;
-    }
+   
 
         .dates::-webkit-scrollbar {
             display: none;
@@ -231,6 +241,7 @@
     .dates {
         display: flex;
         overflow-x: auto;
+        overflow:auto;
         padding: 10px;
         gap: 5px;
     }
@@ -534,7 +545,7 @@
                                 <div class="time-slot-container" id="time-slot-container">
                                     <div class="row">
                                         <div class="col-sm-12" ></div>
-                                        <div class="row gap-2 justify-content-center" id="time-slots">
+                                        <div class="row gap-3 justify-content-center" id="time-slots">
                                             </div>
                                         </div>
                                 </div>
@@ -586,6 +597,27 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+<script>
+  $(document).ready(function() {
+    // Scroll right when clicking the left button
+    $('#scroll-left').on('click', function() {
+      $('.dates').animate({
+        scrollLeft: '-=150px' // Adjust scroll distance
+      }, 300); // Scroll speed
+    });
+
+    // Scroll left when clicking the right button
+    $('#scroll-right').on('click', function() {
+      $('.dates').animate({
+        scrollLeft: '+=150px' // Adjust scroll distance
+      }, 300); // Scroll speed
+    });
+  });
+</script>
+
+
 
 <script>
 
@@ -732,15 +764,15 @@
                         dateTimeMap[selectedDate].forEach(slot => {
                             const { id, time, status } = slot;
                             const slotStatusClass = status === 'Booked' ? 'btn-danger' : 'btn-success';
-
+                              const timeParts = time.split(':');
                             const $timeElement = $(`
                                     <div class="col-md">
                                         <button class="btn btn-outline-secondary rounded-3 text-success time-button"
                                                 data-date='${selectedDate}'
                                                 data-time='${time}'
                                                 data-id='${id}'  // Add ID here for form submission
-                                                ${status === 'Booked' ? 'disabled' : 'style="background-color: green; color: black !important;"'}>
-                                            ${time}
+                                                    ${status === 'Booked' ? 'disabled' : 'style="background-color: #90ee98; color: black !important;"'}>
+                                                ${timeParts[0]}:${timeParts[1]}
                                         </button>
                                     </div>
                                 `);
