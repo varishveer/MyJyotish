@@ -441,6 +441,29 @@ $(".callBtn").hide()
                 FeedbackMessage: $('#FeedbackMessage').val(),
                 Stars: $('#RatingStarCount').val(userRating)
             }
+
+            $.ajax({
+                url: BaseUrl + `api/user/AddRating`,
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                    'Content-Type': 'application/json'
+                },
+                data: DataContainer, 
+                success: function (response) {
+                    debugger;
+                    Swal.fire({
+                        title: "Successful!",
+                        text: "done",
+                        icon: "success"
+                    })
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error:', error);
+                   
+                    $('#addRatingBtn').hide();
+                }
+            });
         })
 
         
