@@ -55,6 +55,10 @@ namespace DataAccessLayer.DbServices
         public DbSet<InterviewFeedbackModel> InterviewFeedback { get; set; }
         public DbSet<redeamCode> RedeamCode { get; set; }
         public DbSet<JyotishRatingModel> JyotishRating { get; set; }
+        public DbSet<Employees> Employees { get; set; }
+        public DbSet<Department> Department { get; set; }
+        public DbSet<levels> Levels { get; set; }
+        public DbSet<EmployeesDocs> EmployeeDocs { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -169,7 +173,22 @@ namespace DataAccessLayer.DbServices
             modelBuilder.Entity<JyotishRatingModel>()
             .HasOne(c => c.User)
             .WithMany(j => j.JyotishRating)
-            .HasForeignKey(c => c.UserId);
+            .HasForeignKey(c => c.UserId); 
+            
+            modelBuilder.Entity<Employees>()
+            .HasOne(c => c.LevelsRelation)
+            .WithMany(j => j.employees)
+            .HasForeignKey(c => c.levels); 
+            
+            modelBuilder.Entity<Employees>()
+            .HasOne(c => c.departmentRelation)
+            .WithMany(j => j.employees)
+            .HasForeignKey(c => c.Department);
+            
+            modelBuilder.Entity<EmployeesDocs>()
+            .HasOne(c => c.employeeRecord)
+            .WithMany(j => j.employeeDocs)
+            .HasForeignKey(c => c.employees);
 
         }
 

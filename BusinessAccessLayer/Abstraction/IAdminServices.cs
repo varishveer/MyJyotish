@@ -77,7 +77,11 @@ namespace BusinessAccessLayer.Abstraction
         public List<UserPaymentRecordModel> UserPaymentrecords();
         public UserPaymentRecordModel UserPaymentDetail(int Id);
         public List<ProblemSolutionAdminViewModel> GetAllProblemSolution();
-     
+        public bool AddDepartments(DepartmentViewModel model);
+
+        public bool AddLevels(LevelsViewModel model);
+        public bool AddEmployees(EmployeesViewModel model);
+
          public ProblemSolutionAdminViewModel GetProblemSolution(int Id);
 
         public string ReschduledInterview(ReschduledInterviewViewModel model);
