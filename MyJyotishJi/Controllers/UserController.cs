@@ -561,6 +561,41 @@ namespace MyJyotishGApi.Controllers
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
         }
 
+        [HttpPost("JyotishRatingList")]
+        public IActionResult JyotishRatingList(int Id)
+        {
+            try
+            {
+                var record = _services.JyotishRatingList(Id);
+                if (record == null)
+                { 
+                    return Ok(new { Status = 500, Message = "Internal Server Error" }); 
+                }
+                else 
+                {
+                    return Ok(new { Status = 200, Data = record, Message = "Jyotish Rating List" });
+                }
+            }
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
+        }
+
+        [HttpGet("IsUserValidForRating")]
+        public IActionResult IsUserValidForRating(int UserId , int JyotishId)
+        {
+            try
+            {
+                var record = _services.IsUserValidForRating(UserId, JyotishId);
+                if (record == "Invalid Id")
+                {
+                    return Ok(new { Status = 500, Message = record });
+                }
+                else
+                {
+                    return Ok(new { Status = 200, Data = record });
+                }
+            }
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
+        }
 
 
 

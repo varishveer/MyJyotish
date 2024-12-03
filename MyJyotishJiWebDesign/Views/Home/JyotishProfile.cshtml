@@ -51,28 +51,30 @@
                     <div class="col-md-8">
                     <div class="mt-2 border-bottom py-2">
 
-                        <button class="btn btn-primary chatBtn me-2 mb-2 mb-md-0" style="background-color: #4CAF50; border-color: #4CAF50;" data-bs-toggle="tooltip1" data-bs-placement="top"
+                        <button class="btn btn-success chatBtn me-2 mb-2 mb-md-0"  data-bs-toggle="tooltip1" data-bs-placement="top"
                                 data-bs-custom-class="custom-tooltip"
                                 data-bs-title=""
                                 >
                             Start Chat
                         </button>
-                        <button class="btn btn-primary callBtn" style="background-color: #4CAF50; border-color: #4CAF50;" data-bs-toggle="tooltip2" data-bs-placement="top"
+                        <button class="btn btn-success callBtn"  data-bs-toggle="tooltip2" data-bs-placement="top"
                                 data-bs-custom-class="custom-tooltip"
                                 data-bs-title="">
                             Start Call
                         </button>
-                        <button class="btn btn-primary" id="bookAppointmentModalBtn" style="background-color: #4CAF50; border-color: #4CAF50;" data-bs-toggle="modal" data-bs-target="#exampleModal">Book Appointmnet</button>
+                        <button class="btn btn-success" id="bookAppointmentModalBtn"  data-bs-toggle="modal" data-bs-target="#exampleModal">Book Appointmnet</button>
                     </div>
                     <div class="mb-4 mt-4">
                         <div class="btn-group mb-3 border-top border-start border-end rounded-0 rounded-top" role="group" aria-label="Basic example">
                             <button type="button" id="aboutBtn" class="btn btn-success">About</button>
                             <button type="button" id="specBtn" class="btn ">Specialization</button>
                             <button type="button" id="achBtn" class="btn ">Achievement</button>
+                            <button type="button" id="ratingBtn" class="btn ">Rating</button>
                         </div>
                         <p id="aboutMe" class="text-justify" style="font-size: 14px;"></p>
                         <p id="specialization" class="text-justify mt-3" style="font-size: 14px;"></p>
                         <p id="achievement" class="text-justify" style="font-size: 14px;"></p>
+                        <p id="rating" class="text-justify" style="font-size: 14px;"></p>
                     </div>
 
                 </div>
@@ -230,7 +232,7 @@
                         $(".callBtn").hide()
                     }else{
                         $(".callBtn").attr("data-bs-title", `₹${data.callCharges != null ? data.callCharges : 0} /min`)
-                        debugger
+
                         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip2"]')
                         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => {
                             const tooltipInstance = new bootstrap.Tooltip(tooltipTriggerEl);
@@ -293,12 +295,25 @@ $(".callBtn").hide()
 
         })
 
+        $.ajax({
+            url: BaseUrl + `api/Admin/JyotishRatingList?Id=${astrologerId}`,
+            method: 'GET',
+            success:function (response){
+                if (response.status == 200) {
+                
+                }
+            }
+        })
+
+
         //handle specialization aboutus and achievement
 
         $("#aboutBtn").click(function(){
             $("#aboutMe").show();
             $("#achievement").hide();
             $("#specialization").hide();
+            $("#rating").hide();
+
             $(this).addClass("btn-success")
             $("#specBtn").removeClass("btn-success")
             $("#achBtn").removeClass("btn-success")
@@ -307,19 +322,36 @@ $(".callBtn").hide()
             $("#aboutMe").hide();
             $("#achievement").hide();
             $("#specialization").show();
+            $("#rating").hide();
             $(this).addClass("btn-success")
             $("#aboutBtn").removeClass("btn-success")
             $("#achBtn").removeClass("btn-success")
+            $("#ratingBtn").removeClass("btn-success")
 
         })
         $("#achBtn").click(function(){
             $("#aboutMe").hide();
             $("#achievement").show();
             $("#specialization").hide();
+            $("#rating").hide();
             $(this).addClass("btn-success")
             $(this).addClass("btn-success")
             $("#aboutBtn").removeClass("btn-success")
             $("#specBtn").removeClass("btn-success")
+            $("#ratingBtn").removeClass("btn-success")
+
+        })
+        $("#ratingBtn").click(function () {
+            $("#aboutMe").hide();
+            $("#achievement").hide();
+            $("#specialization").hide();
+            $("#rating").show();
+            $(this).addClass("btn-success")
+            $(this).addClass("btn-success")
+            $("#aboutBtn").removeClass("btn-success")
+            $("#specBtn").removeClass("btn-success")
+            $("#achBtn").removeClass("btn-success")
+
 
         })
 
@@ -374,7 +406,7 @@ $(".callBtn").hide()
                     newArray = appoinmentArray.filter((e) => {
                         return e.date.split("T")[0] == appdata;
                     })
-                    debugger
+                  
                     $("#appoinmentDetail").empty();
                     if (newArray.length > 0) {
                         newArray[0].slotList.forEach(function (d) {
@@ -443,7 +475,7 @@ $(".callBtn").hide()
                 }
             }
         } else {
-            debugger
+           
             $("#problem").show()
             $("#prev-btn").show()
             $("#appointmentDate").attr("disabled", true)
@@ -484,7 +516,7 @@ $(".callBtn").hide()
                     let jyotishId = appointmentDetail[0].getAttribute("data-jyotishId")
                     let slotId = appointmentDetail[0].getAttribute("data-slotId")
                     let problem = $("#problem-desc").val()
-                    debugger
+                
                     $.ajax({
                         url: bookAppoinmentUrl,
                         method: 'POST',
@@ -499,7 +531,7 @@ $(".callBtn").hide()
                             problem: problem
                         }),
                         success: function (res) {
-                            debugger
+                           
                             if (res.status == 200) {
                                 Swal.fire({
                                     title: "Success!",
@@ -625,6 +657,8 @@ $(".callBtn").hide()
         clearBtn: true,
     })
     },1000)
+
+    
 </script>
 
 

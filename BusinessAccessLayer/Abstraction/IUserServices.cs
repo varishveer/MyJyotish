@@ -51,6 +51,8 @@ namespace BusinessAccessLayer.Abstraction
         public LayoutDataViewModel LayoutData(int Id);
 
         public string AddRating(JyotishRatingViewModel data);
+        public List<JyotishRatingModel> JyotishRatingList(int Id);
+        public string IsUserValidForRating(int UserId, int JyotishId);
 
     }
 }
