@@ -1555,6 +1555,44 @@ namespace BusinessAccessLayer.Implementation
                 return false;
             }
         }
+        public List<JyotishRatingModel> PendingRatingList()
+        {
+            var data = _context.JyotishRating.Where(x => x.Status == false).OrderByDescending(x=>x.DateTime).ToList();
+            return data;
+        }
 
+        public List<JyotishRatingModel> ApprovedRatingList()
+        {
+            var data = _context.JyotishRating.Where(x => x.Status == true).OrderByDescending(x => x.DateTime).ToList();
+            return data;
+        }
+
+        public string ApproveRating(int Id)
+        {
+            var record = _context.JyotishRating.Where(x => x.Id == Id && x.Status == false).FirstOrDefault();
+            if(record == null )
+            {
+                return "Invalid Id";
+            }
+            record.Status = true;
+            _context.JyotishRating.Update(record);
+            if(_context.SaveChanges()>0)
+            { return "Successful"; }
+            else { return "Internal Server Error."; }
+        }
+
+        public string DeleteRating(int Id)
+        {
+            var record = _context.JyotishRating.Where(x => x.Id == Id && x.Status == false).FirstOrDefault();
+            if (record == null)
+            {
+                return "Invalid Id";
+            }
+           
+            _context.JyotishRating.Remove(record);
+            if (_context.SaveChanges() > 0)
+            { return "Successfully Deleted"; }
+            else { return "Internal Server Error."; }
+        }
     }
 }

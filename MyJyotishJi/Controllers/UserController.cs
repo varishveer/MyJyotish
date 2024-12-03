@@ -538,6 +538,32 @@ namespace MyJyotishGApi.Controllers
 
         }
 
+        [HttpPost("AddRating")]
+        public IActionResult AddRating(JyotishRatingViewModel data)
+        {
+            try
+            {
+                var result = _services.AddRating(data);
+                if (result == "Successful")
+                {
+                    return Ok(new { Status = 200, Message = "Record Added Successfully." });
+                }
+                else if (result == "Internal Server Error")
+                {
+                    return Ok(new { Status = 500, Message = result });
+                }
+                else
+                {
+                    return Ok(new { Status = 400, Message = result });
+                }
+
+            }
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
+        }
+
+
+
+
         /* [AllowAnonymous]
          [HttpGet("GetPoojaList")]
          public IActionResult GetPoojaList(int Id)
