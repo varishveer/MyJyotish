@@ -1534,7 +1534,7 @@ namespace BusinessAccessLayer.Implementation
         public bool AddRedeamCode(redeamCodeViewModel model)
         {
             var res = _context.JyotishRecords.Where(e => e.Email == model.email && e.Status).FirstOrDefault();
-            if (res == null)
+            if (res != null)
             {
                 redeamCode rcode = new redeamCode
                 {
