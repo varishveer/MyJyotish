@@ -768,6 +768,10 @@ namespace BusinessAccessLayer.Implementation
             }
         }
 
+        public string AddRating()
+        {
+            return "";
+        }
        
     }
 }
