@@ -804,9 +804,18 @@ namespace BusinessAccessLayer.Implementation
            
         }
 
-        public List<JyotishRatingModel> JyotishRatingList(int Id)
+        public List<JyotishRatingViewModel> JyotishRatingList(int Id)
         {
-            var record = _context.JyotishRating.Where(x => x.JyotishId == Id && x.Status == true).ToList();
+            var record = _context.JyotishRating.Where(x => x.JyotishId == Id && x.Status == true).Include(x=>x.Jyotish).Include(x=>x.User).Select(x=> new JyotishRatingViewModel {
+                Id = x.Id,
+                FeedbackMessage = x.FeedbackMessage,
+                Stars = x.Stars,
+                DateTime = x.DateTime,
+                UserName = x.User.Name,
+                JyotishName = x.Jyotish.Name
+
+            
+            }).ToList();
             return record;
         }
 

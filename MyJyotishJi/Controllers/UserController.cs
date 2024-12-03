@@ -560,8 +560,8 @@ namespace MyJyotishGApi.Controllers
             }
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
         }
-
-        [HttpPost("JyotishRatingList")]
+        [AllowAnonymous]
+        [HttpGet("JyotishRatingList")]
         public IActionResult JyotishRatingList(int Id)
         {
             try
