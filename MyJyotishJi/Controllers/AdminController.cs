@@ -1341,6 +1341,12 @@ namespace MyJyotishJiApi.Controllers
         {
             var httpRequest = HttpContext.Request;
 
+            if (httpRequest.Form.Files["IdProof"] == null)
+            {
+                return Ok(new { status = 500, message = "Id proof is required" });
+
+            }
+
             EmployeesViewModel model = new EmployeesViewModel
             {
                 Name = httpRequest.Form["name"],
@@ -1362,7 +1368,7 @@ namespace MyJyotishJiApi.Controllers
 
                 Dictionary<string, string> docsList = new Dictionary<string, string>();
 
-                if (httpRequest.Form.Files["IdPrrof"] != null)
+                if (httpRequest.Form.Files["IdProof"] != null)
                 {
                     IFormFile IdProof = httpRequest.Form.Files["IdPrrof"];
                     var SqlPath = "wwwroot/Images/admin/" + ProfileGuid + IdProof.FileName;
