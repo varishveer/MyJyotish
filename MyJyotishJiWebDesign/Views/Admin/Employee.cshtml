@@ -154,6 +154,8 @@
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("Token")}`
             },
+            processData:false,
+            contentType:false,
             data:formData,
             success: function (res) {
                 console.log(res, "emp")
@@ -166,7 +168,21 @@
                             location.reload();
                         }
                     })
+                }else{
+                    Swal.fire({
+                        title: "error",
+                        text: res.message,
+                        icon: "error",
+                       
+                    })
                 }
+            },error:function(){
+                Swal.fire({
+                        title: "error",
+                        text: "some error occured",
+                        icon: "error",
+                       
+                    })
             }
         })
     })
