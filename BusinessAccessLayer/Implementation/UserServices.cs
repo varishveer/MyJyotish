@@ -778,11 +778,13 @@ namespace BusinessAccessLayer.Implementation
             }
             var Appointment = _context.AppointmentRecords.Where(x => x.JyotishId == data.JyotishId && x.UserId == data.UserId).FirstOrDefault();
             var Chat = _context.ChatedUser.Where(x=>x.UserId == data.UserId && x.JyotishId == data.JyotishId).FirstOrDefault();
-
+            var Rating = _context.JyotishRating.Where(x => x.JyotishId == data.JyotishId && x.UserId == data.UserId).FirstOrDefault();
             if(Appointment == null || Chat == null)
             {
                 return "No Data Found of Services";
             }
+            if(Rating != null)
+            { return "Record already existed"; }
 
 
             JyotishRatingModel NewRecord = new JyotishRatingModel();
@@ -801,6 +803,24 @@ namespace BusinessAccessLayer.Implementation
 
            
         }
+
+        public List<JyotishRatingModel> JyotishRatingList(int Id)
+        {
+            var record = _context.JyotishRating.Where(x => x.JyotishId == Id && x.Status == true).ToList();
+            return record;
+        }
+
+        public string IsUserValidForRating(int UserId, int JyotishId)
+        {
+            var user = _context.Users.Where(x => x.Id == UserId).FirstOrDefault();
+            var Jyotish = _context.JyotishRecords.Where(x => x.Id == JyotishId).FirstOrDefault();
+            if (user == null || Jyotish == null) { return "Invalid Id"; }
+
+            var Rating = _context.JyotishRating.Where(x => x.UserId == UserId && x.JyotishId == JyotishId).FirstOrDefault();
+            if (Rating == null) { return "Yes"; }
+            else { return "No"; }
+        }
+
        
     }
 }

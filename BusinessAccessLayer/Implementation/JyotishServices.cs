@@ -1807,5 +1807,14 @@ namespace BusinessAccessLayer.Implementation
 
         }
 
+       /* public JyotishDashboardDataViewModel JyotishDashboardData(int Id)
+        {
+            var Jyotish = _context.JyotishRecords.Where(x => x.Id == Id).FirstOrDefault();
+            if(Jyotish == null )
+            { return null; }
+
+            var Appointment = _context.AppointmentRecords.Where(x => x.JyotishId == Id).Include(x => x.UserRecord).Select(x => x.UserRecord).ToList();
+        }*/
+
     }
 }

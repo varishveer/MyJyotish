@@ -69,4 +69,17 @@ namespace ModelAccessLayer.ViewModels
         public int JyotishId { get; set; }
         public bool? Status { get; set; }
     }
+
+    public class JyotishDashboardDataViewModel
+    {
+        public int TotalClient { get; set; }
+        public int TodayAppointment { get; set; }
+        public int UpcommingAppointment { get; set; }
+        public int TotalChatTime { get; set; }
+        public int TotalCallTime { get; set; }
+        public int TotalPooja { get; set; }
+        public int TotalTeamMember { get; set; }
+        public int TotalRating { get; set; }
+
+    }
 }
