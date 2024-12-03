@@ -1485,11 +1485,11 @@ namespace BusinessAccessLayer.Implementation
         {
             var res = (from jyotish in _context.JyotishRecords
                        join plan in _context.PackageManager on jyotish.Id equals plan.JyotishId
-                       join subs in _context.Subscriptions on plan.SubscriptionId equals subs.SubscriptionId where plan.Status && jyotish.Status select new
+                       join subs in _context.Subscriptions on plan.SubscriptionId equals subs.SubscriptionId where jyotish.Email==email && plan.Status && jyotish.Status select new
                        {
                            name=jyotish.Name,
                            mobno=jyotish.Mobile,
-                           county=jyotish.Country,
+                           country=jyotish.Country,
                            state=jyotish.State,
                            city=jyotish.City,
                            gender=jyotish.Gender,
@@ -1530,6 +1530,31 @@ namespace BusinessAccessLayer.Implementation
             }).ToList();
           
             return res;
+        }
+
+        public bool AddRedeamCode(redeamCodeViewModel model)
+        {
+            var res = _context.JyotishRecords.Where(e => e.Email == model.email && e.Status).FirstOrDefault();
+            if (res == null)
+            {
+                redeamCode rcode = new redeamCode
+                {
+                    PlanId = model.PlanId,
+                    jyotishId = res.Id,
+                    discount = model.discount,
+                    ReadeamCode = model.ReadeamCode,
+                    discountAmount = model.discountAmount,
+                    date=DateTime.Now,
+                    status = true
+                };
+
+                _context.RedeamCode.Add(rcode);
+                return _context.SaveChanges() > 0;
+            }
+            else
+            {
+                return false;
+            }
         }
 
     }

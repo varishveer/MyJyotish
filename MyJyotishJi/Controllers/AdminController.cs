@@ -1179,5 +1179,36 @@ namespace MyJyotishJiApi.Controllers
                 return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message });
             }
         }
+        [HttpPost("AddRedeamCode")]
+        public IActionResult AddRedeamCode() 
+        {
+            try
+            {
+                var httpRequest = HttpContext.Request;
+                redeamCodeViewModel rcode = new redeamCodeViewModel
+                {
+                    PlanId = Convert.ToInt32(httpRequest.Form["planId"]),
+                    ReadeamCode = httpRequest.Form["redeamCode"],
+                    discount = Convert.ToInt32(httpRequest.Form["discount"]),
+                    discountAmount = Convert.ToInt32(httpRequest.Form["discountAmount"]),
+                    email = httpRequest.Form["email"]
+                };
+                var result = _admin.AddRedeamCode(rcode);
+                if (result)
+                {
+                    return Ok(new { status = 200, message = "Record Added Successfully" });
+                }
+                else
+                {
+                    return Ok(new { status = 500, message = "some error occured" });
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message });
+            }
+        }
     }
 }

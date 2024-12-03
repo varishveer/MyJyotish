@@ -6,40 +6,49 @@
 
 }
 
-    <form class="border rounded p-4">
+    <form class="border rounded p-4" id="redeamForm">
     <div class="row">
         <h3 class="text-primary">Redeam Code</h3>
     <div class="col-sm-12">
     <div class="row">
     <div class="col-sm-6 mb-2">
-    <select class="form-select" name="plan" id="plan">
+                    <select class="form-select" required name="plan" id="plan">
     <option>--select plan--</option>
     </select>
     </div>
-                <div class="col-sm-6 mb-2">
-                    <input type="text" name="userEmail" id="userEmail" class="form-control" placeholder="User Email" />
+                <div class="col-sm-6 mb-2 d-flex align-items-center">
+                    <input type="text" required name="userEmail" id="userEmail" class="form-control" placeholder="User Email" />
+                    <span class="border p-2 seeUserDetail rounded" role="button">
+                    <i class="fas fa-eye"></i>
+                    </span>
                 </div>
                 <div class="col-sm-6 mb-2">
-                        <input type="text" readonly name="planPrice" id="planPrice" class="form-control" placeholder="Plan Price"  />
+                    <input type="text" required name="redeamCode" id="redeamCode" class="form-control" placeholder="Enter RedeamCode" />
+                </div> 
+                <div class="col-sm-6 mb-2">
+                    <input type="text" required readonly name="planPrice" id="planPrice" class="form-control" placeholder="Plan Price" />
                 </div> 
 
                 <div class="col-sm-6 mb-2">
-                    <input type="text" readonly name="discount" id="discount" class="form-control" placeholder="plan Discount" />
+                    <input type="text" readonly required name="discount" id="discount" class="form-control" placeholder="plan Discount" />
     </div>
     <div class="col-sm-6 mb-2">
-                    <input type="text" readonly name="discount" id="discountamount" class="form-control" placeholder="Discount Amount" />
+                    <input type="text" readonly required name="discount" id="discountamount" class="form-control" placeholder="Discount Amount" />
     </div>
     <div class="col-sm-6 mb-2">
-                    <input type="text" readonly name="gst" id="gst" class="form-control" placeholder="gst " />
+                    <input type="text" readonly required name="gst" id="gst" class="form-control" placeholder="gst " />
     </div>
                 <div class="col-sm-6 mb-2">
-                    <input type="text" readonly name="afterDiscount" id="afterDiscount" class="form-control" placeholder="After Discount" />
+                    <input type="text" readonly required name="afterDiscount" id="afterDiscount" class="form-control" placeholder="After Discount" />
     </div>
                 <div class="col-sm-6 mb-2">
-    <input type="text" name="givenDiscount" id="givenDiscount" class="form-control" placeholder="Enter Discount" />
+                    <input type="text" name="givenDiscount" required id="givenDiscount" class="form-control" placeholder="Enter Discount" />
     </div> 
     <div class="col-sm-6 mb-2">
-    <input type="text" readonly name="givendiscountAmount" id="givenDiscountAmount" class="form-control" placeholder="Discount Amount" />
+                    <input type="text" readonly name="givendiscountAmount" required id="givenDiscountAmount" class="form-control" placeholder="Discount Amount" />
+    </div>  
+    <div class="col-sm-6 mb-2">
+                    <input type="text" readonly name="finalAmount" required id="finalAmount" class="form-control" placeholder="Final Amount" />
     </div> 
     </div>
                 <div class="col-sm-12">
@@ -49,7 +58,97 @@
    
     </form>
 
+<!-- Modal user detail -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Jyotish Details</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+               <div class="row">
+                   <div class="col-sm-12">
+                       <div class="row">
+                           <div class="col-sm-6 mb-2">
+                                <div class="row">
+                                    <div class="col-sm-6">Name </div>
+                                    <div class="col-sm-6" id="name"></div>
+                                </div>
+                                </div>
+                           <div class="col-sm-6 mb-2">
+                                    <div class="row">
+                                        <div class="col-sm-6">Mobile Number</div>
+                                        <div class="col-sm-6" id="mobno"></div>
+                                    </div>
+                           </div>
+                            <div class="col-sm-6 mb-2">
+                                    <div class="row">
+                                        <div class="col-sm-6">gender</div>
+                                        <div class="col-sm-6" id="gender"></div>
+                                    </div>
+                           </div>
+                            <div class="col-sm-6 mb-2">
+                                <div class="row">
+                                    <div class="col-sm-6">country</div>
+                                    <div class="col-sm-6" id="country"></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 mb-2">
+                                <div class="row">
+                                    <div class="col-sm-6">state</div>
+                                    <div class="col-sm-6" id="state"></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 mb-2">
+                                <div class="row">
+                                    <div class="col-sm-6">city</div>
+                                    <div class="col-sm-6" id="city"></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="row">
+                                    <div class="col-sm-6">Plan Name</div>
+                                    <div class="col-sm-6" id="planName"></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 mb-2">
+                                <div class="row">
+                                    <div class="col-sm-6">Plan Type</div>
+                                    <div class="col-sm-6" id="planType"></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 mb-2">
+                                <div class="row">
+                                    <div class="col-sm-6">purchase Date</div>
+                                    <div class="col-sm-6" id="purchaseDate"></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 mb-2">
+                                <div class="row">
+                                    <div class="col-sm-6">Expiry Date</div>
+                                    <div class="col-sm-6" id="expiryDate"></div>
+                                </div>
+                            </div>
+                       </div>
+                   </div>
+               </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
     <script>
+
+    $("#givenDiscount").on("keyup",function(){
+        let damount = (parseInt($(this).val()) / 100) * parseInt($("#afterDiscount").val());
+        $("#givenDiscountAmount").val(damount)
+        $("#finalAmount").val(parseInt($("#afterDiscount").val()) - damount)
+    })
+
         let planDetail=[]
         $(document).ready(function(){
             $.ajax({
@@ -81,21 +180,83 @@
             })
         })
 
-        function getjyotishDetail(){
-        $(document).ready(function () {
-            $.ajax({
-                url: BaseUrl + 'api/Admin/getJyotishByEmail',
-                type: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem("Token")}`,
-                    'Content-Type': 'application/json',
-                },
-                success: function (res) {
+        function getjyotishDetail(email){
+            if (email != "") {
+                $.ajax({
+                    url: BaseUrl + 'api/Admin/getJyotishByEmail',
+                    type: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                        'Content-Type': 'application/json',
+                    },
+                    data: { email: email },
+                    success: function (res) {
 
-                    console.log(res)
-                   
-                }
-            })
+                        console.log(res)
+
+                        let data = res.data;
+                        $("#name").text(data.name)
+                        $("#mobno").text(data.mobno)
+                        $("#gender").text(data.gender)
+                        $("#country").text(data.country)
+                        $("#state").text(data.state)
+                        $("#city").text(data.city)
+                        $("#planType").text(data.planType)
+                    $("#planName").text(data.planName)
+                        $("#purchaseDate").text(data.planPurchaseDate.split('T')[0])
+                        $("#expiryDate").text(data.planExpiryDate.split('T')[0])
+
+                    }
+                })
+            }
         }
 
+    $("#redeamForm").submit(function (e) {
+        e.preventDefault()
+        let plan = $("#plan").val()
+        let redeamCode = $("#redeamCode").val()
+        let givenDiscount = $("#givenDiscount").val()
+        let givenDiscountAmount = $("#givenDiscountAmount").val()
+        let email = $("#email").val()
+        let formData=new FormData()
+        formData.append("panId",plan)
+        formData.append("redeamCode", redeamCode)
+        formData.append("email",email)
+        formData.append("discount", givenDiscount)
+        formData.append("discountAmount", givenDiscountAmount)
+        $.ajax({
+            url: BaseUrl + 'api/Admin/AddRedeamCode',
+            type: 'POST',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token")}`
+            },
+            processData:false,
+            contentType:false,
+            data: formData,
+            success: function (res) {
+                if (res.status == 200) {
+                    Swal.fire({
+                        title: "success",
+                        text: res.message,
+                        icon: "success"
+                    })
+                }else{
+                    Swal.fire({
+                        title: "error",
+                        text: res.message,
+                        icon: "error"
+                    })
+                }
+            }
+        })
+
+        })
+
+    $("#userEmail").on("blur",function(){
+        getjyotishDetail($(this).val())
+    })
+
+    $(".seeUserDetail").click(function(){
+        $("#exampleModal").modal("show")
+    })
     </script>

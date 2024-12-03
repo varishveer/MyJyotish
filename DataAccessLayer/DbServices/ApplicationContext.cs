@@ -53,6 +53,7 @@ namespace DataAccessLayer.DbServices
         public DbSet<SubsciptionManagementModel> PackageManager { get; set; }
         public DbSet<CountryCode> CountryCode { get; set; }
         public DbSet<InterviewFeedbackModel> InterviewFeedback { get; set; }
+        public DbSet<redeamCode> RedeamCode { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -154,6 +155,10 @@ namespace DataAccessLayer.DbServices
               .HasOne(c => c.countryCoderecord)
               .WithMany(j => j.jyotish)
               .HasForeignKey(c => c.countryCode);
+            modelBuilder.Entity<redeamCode>()
+              .HasOne(c => c.jyotish)
+              .WithMany(j => j.redeamCode)
+              .HasForeignKey(c => c.jyotishId);
 
         }
 
