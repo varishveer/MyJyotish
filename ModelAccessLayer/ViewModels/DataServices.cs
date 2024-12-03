@@ -58,4 +58,15 @@ namespace ModelAccessLayer.ViewModels
         public DateTime endDate { get; set; }
         public string email { get; set; }
     }
+
+    public class JyotishRatingViewModel
+    {
+        public int? Id { get; set; }
+        public string FeedbackMessage { get; set; }
+        public int Stars { get; set; }
+        public DateTime? DateTime { get; set; }
+        public int UserId { get; set; }
+        public int JyotishId { get; set; }
+        public bool? Status { get; set; }
+    }
 }

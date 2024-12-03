@@ -768,9 +768,38 @@ namespace BusinessAccessLayer.Implementation
             }
         }
 
-        public string AddRating()
+        public string AddRating(JyotishRatingViewModel data)
         {
-            return "";
+            var User = _context.Users.Where(x => x.Id == data.UserId).FirstOrDefault();
+            var Jyotish = _context.JyotishRecords.Where(x => x.Id == data.JyotishId && x.Status == true).FirstOrDefault();
+            if(User == null || Jyotish == null)
+            {
+                return "Invalid Id";
+            }
+            var Appointment = _context.AppointmentRecords.Where(x => x.JyotishId == data.JyotishId && x.UserId == data.UserId).FirstOrDefault();
+            var Chat = _context.ChatedUser.Where(x=>x.UserId == data.UserId && x.JyotishId == data.JyotishId).FirstOrDefault();
+
+            if(Appointment == null || Chat == null)
+            {
+                return "No Data Found of Services";
+            }
+
+
+            JyotishRatingModel NewRecord = new JyotishRatingModel();
+            NewRecord.FeedbackMessage = data.FeedbackMessage;
+            NewRecord.Stars = data.Stars;
+            NewRecord.UserId = data.UserId;
+            NewRecord.JyotishId = data.JyotishId;
+            NewRecord.DateTime = DateTime.Now;
+            NewRecord.Status = false;
+            _context.JyotishRating.Add(NewRecord);
+            if (_context.SaveChanges() > 0)
+            {
+                return "Successful";
+            }
+            else { return "Internal Server Error"; }
+
+           
         }
        
     }

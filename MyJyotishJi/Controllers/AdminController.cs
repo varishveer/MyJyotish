@@ -1210,5 +1210,69 @@ namespace MyJyotishJiApi.Controllers
                 return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message });
             }
         }
+
+        [HttpGet("PendingRatingList")]
+        public IActionResult PendingRatingList()
+        {
+            try {
+                var record = _admin.PendingRatingList();
+                if (record != null)
+                { return Ok(new { Status = 200, Data = record, Message = "Pending Rating Records" }); }
+                else { return Ok(new { Status = 500, Message = "Internal Server Error" }); }
+            }
+            catch(Exception ex) { return StatusCode(500, new { Status =500 , Message = "Internal Server Error", Error = ex.Message}); }
+        }
+
+        [HttpGet("ApprovedRatingList")]
+        public IActionResult ApprovedRatingList()
+        {
+            try
+            {
+                var record = _admin.ApprovedRatingList();
+                if (record != null)
+                { return Ok(new { Status = 200, Data = record, Message = "Approved Rating Records" }); }
+                else { return Ok(new { Status = 500, Message = "Internal Server Error" }); }
+            }
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message }); }
+        }
+        [HttpPost("ApproveRating")]
+        public IActionResult ApproveRating(int Id)
+        {
+            try {
+                var result = _admin.ApproveRating(Id);
+                if (result == "Successful")
+                { return Ok(new { Status = 200, Message =  "Successfully Record Updated"}); }
+                else if(result == "Invalid Id")
+                {
+                    return Ok(new { Status = 400, Message = "Invalid Id" });
+                }
+                else
+                {
+                    return StatusCode(500, new {Status = 500, Message = result});
+                }
+            }
+            catch(Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message }); }
+        }
+
+        [HttpPost("DeleteRating")]
+        public IActionResult DeleteRating(int Id)
+        {
+            try
+            {
+                var result = _admin.DeleteRating(Id);
+                if (result == "Successfully Deleted")
+                { return Ok(new { Status = 200, Message = "Successfully Record Deleted" }); }
+                else if (result == "Invalid Id")
+                {
+                    return Ok(new { Status = 400, Message = "Invalid Id" });
+                }
+                else
+                {
+                    return StatusCode(500, new { Status = 500, Message = result });
+                }
+            }
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message }); }
+        }
+
     }
 }

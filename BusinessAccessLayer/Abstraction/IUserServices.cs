@@ -50,5 +50,7 @@ namespace BusinessAccessLayer.Abstraction
         public dynamic GetWalletHistory(int UserId);
         public LayoutDataViewModel LayoutData(int Id);
 
+        public string AddRating(JyotishRatingViewModel data);
+
     }
 }
