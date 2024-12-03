@@ -1784,6 +1784,17 @@ namespace BusinessAccessLayer.Implementation
             return res;
         }
 
+        public float purchaseWithReadmCode(string redeamCode,int JyotishId,int planId)
+        {
+            var res = _context.RedeamCode.Where(e => e.ReadeamCode == redeamCode && e.PlanId==planId&& e.jyotishId == JyotishId && e.status).FirstOrDefault();
+            if (res == null)
+            {
+                return 0;
+            }
+
+            return res.discountAmount;
+
+        }
 
     }
 }

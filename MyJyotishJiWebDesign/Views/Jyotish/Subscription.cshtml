@@ -239,7 +239,34 @@ header {
     <div class="cards d-flex gap-3">
  
     </div>
+    <div class="text-center">
+        <button class="btn btn-danger d-none rounded-0" role="button" id="purchaseBtn">Next</button>
+    </div>
 <div id="walletPaymentContainer"></div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Redeam</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="redeamForm">
+                <input type="hidden" name="planId" id="planIdModal"/>
+                <input type="hidden" name="price" id="priceModal"/>
+               <input type="text" name="redeamCode" id="redeamCode" placeholder="Enter Redeam Code" class="form-control mb-2" />
+               <input type="submit" value="Redeam" class="btn btn-success" />
+               <p>don't have any redeam code <span class="text-primary">send request</span></p>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
 
    
@@ -311,7 +338,7 @@ header {
                         var cardHTML = `
 
 
-                                <div class="card active shadow position-relative">
+                                        <div class="card active shadow position-relative" onClick='purchasePlan(${item.newPrice},${item.subscriptionId})'>
                                     <span class='position-absolute bg-success text-light p-2 rounded top-0 right-0'>${item.planType}</span>
                 <ul class="details overflow-auto">
                                                             <li class="pack mb-4 p-4 text-light rounded mx-0 justify-content-center mb-2 fs-4 fw-bold" style='background:${item.name.toLowerCase() == 'gold' ? "linear-gradient(90deg, rgba(212, 190, 227, 1) 0%, rgba(255, 172, 172, 1) 42%, rgba(246, 182, 92, 1) 92%);" : item.name.toLowerCase() == 'platinum' ? "linear-gradient(90deg, rgba(145,146,241,1) 0%, rgba(72,72,226,1) 50%, rgba(213,146,198,1) 83%);" : item.name.toLowerCase() == 'silver' ? "linear-gradient(90deg, rgba(213,213,247,1) 0%, rgba(232,244,163,1) 0%, rgba(213,146,198,1) 83%);" : ""}
@@ -326,9 +353,9 @@ header {
                                                </li>
                         ${servicesHTML}
                 <li>
-                         <button type="button" class="btn-package active-btn upgradePlan" ${planData.length>0?planData[0].planId == item.subscriptionId ? "disabled" : "":""} id = "upgradeBtn_${item.subscriptionId}"
-                                                data-planId="${item.subscriptionId}" data-planType="${item.planType}"
-                                                        data-planPrice="${item.newPrice}">${planData.length > 0 ? planData[0].planId == item.subscriptionId ? "Purchased" : "Upgrade":"Upgrade"}</button></li>
+                             <button type="button" class="btn-package active-btn upgradePlan" ${planData.length > 0 ? planData[0].planId == item.subscriptionId ? "disabled" : "" : ""} id = "upgradeBtn_${item.subscriptionId}"
+                                                    data-planId="" data-planType="${item.planType}"
+                                                            ">${planData.length > 0 ? planData[0].planId == item.subscriptionId ? "Purchased" : "Upgrade" : "Upgrade"}</button></li>
                 </ul>
             </div>
 
@@ -353,19 +380,34 @@ header {
         });
     });
 
-    // Attach click event to dynamically created buttons
     var planId;
-    $(document).on('click', '.upgradePlan', function () {
-         planId = $(this).data("planid");
-         let planPrice = $(this).data("planprice");
-        $.get('/jyotish/WalletPaymentLayout', { amount: planPrice, message: "purchase plan", paymentby: "jyotish" }, function (data) {
-                $('#walletPaymentContainer').html(data);
-            });   
-    });
+    function purchasePlan(price,plan) {
+         planId = plan;
+        $("#planIdModal").val(plan);
+        $("#priceModal").val(price);
+        $("#purchaseBtn").removeClass("d-none")
+    }
+
+    $("#purchaseBtn").click(function(){
+        if(planData.length>0){
+
+        $("#exampleModal").modal("show")
+        }else{
+            let price=$("#priceModal").val();
+
+            openWallet(price)
+        }
+    })
+
+    function openWallet(price){
+        debugger
+        $.get('/jyotish/WalletPaymentLayout', { amount: price, message: "purchase plan", paymentby: "jyotish" }, function (data) {
+            $('#walletPaymentContainer').html(data);
+        });
+    }
 
     function upgradePackage(){
         var JId = localStorage.getItem("Id");
-
         $.ajax({
             url: BaseUrl + "Api/Jyotish/UpgradePackages",
             type: "POST",
@@ -378,7 +420,7 @@ header {
                 SubscriptionId: planId 
             }),
             success: function (response) {
-
+                console.log(response)
                 if (response.status === 200) {
                     Swal.fire({
                         title: "success",
@@ -399,6 +441,35 @@ header {
             }
         });
     }
+
+    $("#redeamForm").submit(function(e){
+        e.preventDefault()
+        let redeamCode=$("#redeamCode").val()
+        let jyotishId=localStorage.getItem("Id")
+        $.ajax({
+            url: BaseUrl + "Api/Jyotish/purchaseWithReadmCode",
+            type: "Get",
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token2")}`
+            },
+            data: { 
+                redeamCode: redeamCode,
+                jyotishId: jyotishId,
+                planId: planId
+            },
+            success: function (response) {
+                console.log(response)
+                if (response.status === 200) {
+                    let price = parseInt($("#priceModal").val()) - response.amount;
+
+                    openWallet(Math.ceil(price))
+                    $("#exampleModal").modal("hide")
+
+                }
+            }
+        })
+    })
+
      function makeActionAfterWalletPayment(){
          upgradePackage();
      }

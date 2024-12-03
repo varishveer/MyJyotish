@@ -226,7 +226,15 @@
         }
 
     $("#redeamForm").submit(function (e) {
-        e.preventDefault()
+        e.preventDefault();
+        Swal.fire({
+            title: "Processing Your Request",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
+
         let plan = $("#plan").val()
         let redeamCode = $("#redeamCode").val()
         let givenDiscount = $("#givenDiscount").val()
@@ -252,7 +260,10 @@
                     Swal.fire({
                         title: "success",
                         text: res.message,
-                        icon: "success"
+                        icon: "success",
+                        didClose:()=>{
+                            location.reload();
+                        }
                     })
                 }else{
                     Swal.fire({

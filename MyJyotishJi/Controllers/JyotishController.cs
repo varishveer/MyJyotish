@@ -1137,5 +1137,15 @@ namespace MyJyotishGApi.Controllers
             }
             catch { return StatusCode(500, new { Status = 500, Message = "Internal Server Error " }); }
         }
+        [HttpGet("purchaseWithReadmCode")]
+        public IActionResult purchaseWithReadmCode(string redeamCode,int jyotishId,int planId)
+        {
+            try
+            {
+                var res = _jyotish.purchaseWithReadmCode(redeamCode,jyotishId,planId);
+                return Ok(new { Status = 200, message = "data retrieved", amount = res });
+            }
+            catch { return StatusCode(500, new { Status = 500, Message = "Internal Server Error " }); }
+        }
     }
 }

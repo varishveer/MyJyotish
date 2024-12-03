@@ -37,6 +37,14 @@
 <script>
     $(document).ready(function () {
         function fetchData() {
+            Swal.fire({
+                title: "Processing Your Request",
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            })
+
             $.ajax({
                 url:  BaseUrl +"api/Admin/Appointment",
                 type: 'GET',
@@ -78,6 +86,7 @@
                         "ordering": true,
                         "info": true
                     });
+                    Swal.close();
                 },
                 error: function (errormessage) {
                     console.error('Error fetching data:', errormessage.responseText);
