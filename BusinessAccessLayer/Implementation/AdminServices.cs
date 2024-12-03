@@ -1714,9 +1714,9 @@ namespace BusinessAccessLayer.Implementation
         </div>
         <div class=""content"">
             Hi User,<br><br>
-            Thank you for signing up! To complete your registration, please verify your email address using the code below:<br><br>
+            Thank you for signing up! Please Use this password to login:<br><br>
 
-            Verification Code: <span class=""otp"">{Password}</span><br><br>
+           Password : <span class=""otp"">{Password}</span><br><br>
 
             If you have any questions, feel free to reach out!
         </div>
@@ -1734,6 +1734,8 @@ namespace BusinessAccessLayer.Implementation
 ";
                 string NewSubject = "Login credentials";
 
+
+
                 AccountServices.SendEmail(newMessage, model.Email, NewSubject);
 
                 return true;
@@ -1746,6 +1748,8 @@ namespace BusinessAccessLayer.Implementation
 
         public bool AddEmployeesDocs(EmployeesDocsViewModel model)
         {
+            model.employees = _context.Employees.Where(e => e.Email == model.email).FirstOrDefault();
+
             EmployeesDocs emp = new EmployeesDocs
             {
                DocsName=model.name,

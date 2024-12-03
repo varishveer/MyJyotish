@@ -1366,6 +1366,7 @@ namespace MyJyotishJiApi.Controllers
                 dynamic resdocs = false;
             if (res)
             {
+               
 
                 var ProfileGuid = Guid.NewGuid().ToString();
 
