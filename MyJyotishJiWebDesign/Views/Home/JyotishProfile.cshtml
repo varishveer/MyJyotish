@@ -121,7 +121,7 @@
             <div class="modal-body">
                
                 <input id="RatingStarCount" hidden/>
-                    <textarea class="form-control mt-1" id="" placeholder="Write your feedback here "></textarea>
+                    <textarea class="form-control mt-1" id="FeedbackMessage" placeholder="Write your feedback here "></textarea>
                 <div class="rating fs-1">
                     <span class="text-secondary user-rating-stars cursor-pointer text-orange" data-value="1">★</span>
                     <span class="text-secondary user-rating-stars cursor-pointer text-orange selected-star" data-value="2">★</span>
@@ -434,7 +434,13 @@ $(".callBtn").hide()
 
       
         $('#AddfeedbackSubmitBtn').on('click', function () { 
-        
+            
+            var DataContainer = {
+                userId: localStorage.getItem('userId'),
+                jyotishId: astrologerId,
+                FeedbackMessage: $('#FeedbackMessage').val(),
+                Stars: $('#RatingStarCount').val(userRating)
+            }
         })
 
         
