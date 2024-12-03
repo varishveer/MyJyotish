@@ -412,7 +412,20 @@ $(".callBtn").hide()
             }
         });
 
+        $(".user-rating-stars").click(function () {
+            let userRating = $(this).attr("data-value")
+            stars.forEach(function (d) {
 
+                d.classList.remove("text-orange")
+                d.classList.remove("selected-star")
+            })
+
+
+            for (let i = 0; i <= userRating - 1; i++) {
+                stars[i].classList.add("text-orange")
+            }
+            stars[userRating - 1].classList.add("selected-star")
+        })
 
         //handle specialization aboutus and achievement
 
