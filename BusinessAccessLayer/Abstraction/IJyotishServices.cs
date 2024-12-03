@@ -27,6 +27,7 @@ namespace BusinessAccessLayer.Abstraction
         public List<SpecializationListModel> GetSpecializationList();
         public JyotishDocumentViewModel DashBoard(string email);
         public int countryCode(int country);
+        public float purchaseWithReadmCode(string redeamCode, int JyotishId,int planId);
 
         public string AddJyotishVideo(JyotishVideosViewModel model);
         public string AddJyotishGallery(JyotishGalleryViewModel model);
