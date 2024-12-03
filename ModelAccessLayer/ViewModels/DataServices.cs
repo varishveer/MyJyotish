@@ -1,4 +1,5 @@
-﻿using ModelAccessLayer.Models;
+﻿using Microsoft.AspNetCore.Http;
+using ModelAccessLayer.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -109,8 +110,12 @@ namespace ModelAccessLayer.ViewModels
     {
         public int Id { get; set; }
         public int employees { get; set; }
-        public string DocsName { get; set; }
-        public string DocUrl { get; set; }
+       public string name { get; set; }
+        public IFormFile IdProof { get; set; }
+        public IFormFile metrics { get; set; }
+        public IFormFile postmetrics { get; set; }
+        public IFormFile degrees { get; set; }
+       public string url { get; set; }
         public bool status { get; set; }
     }
 }

@@ -3,5 +3,56 @@
 *@
 @{
     Layout = "AdminLayout";
-
 }
+
+<form class="border rounded w-50 mx-auto p-3 d-flex gap-2" id="levelsForm">
+    <input type="text" class="form-control" id="levels" name="levels" placeholder="Enter Levels Name">
+    <input type="submit" value="Add" class="btn btn-primary">
+</form>
+
+
+<script>
+    $("#levelsForm").submit(function (e) {
+        e.preventDefault();
+        let formData=new FormData();
+        formData.append("levelsName", $("#levels").val())
+        $.ajax({
+            url: BaseUrl + "api/admin/Addlevels",
+            type:"post",
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token")}`
+            },
+            processData:false,
+            contentType:false,
+            data:formData,
+            success:function(res){
+               if(res.status==200){
+                   Swal.fire({
+                       title:"success",
+                       text:res.message,
+                       icon:"success",
+                       didClose:()=>{
+                           location.reload()
+                       }
+                   })
+               }else{
+                    Swal.fire({
+                        title: "error",
+                        text: res.message,
+                        icon: "error"
+
+                    })
+               }
+            },
+            error:function(){
+                Swal.fire({
+                    title: "error",
+                    text: "some error occured",
+                    icon: "error"
+
+                })
+            }
+
+        })
+    })
+</script>

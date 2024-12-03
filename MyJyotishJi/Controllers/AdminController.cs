@@ -5,8 +5,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.Identity.Client;
 using ModelAccessLayer.Models;
 using ModelAccessLayer.ViewModels;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace MyJyotishJiApi.Controllers
 {
@@ -16,9 +18,13 @@ namespace MyJyotishJiApi.Controllers
     public class AdminController : ControllerBase
     {
         private readonly IAdminServices _admin;
+        private readonly string _uploadDirectory;
+
         public AdminController(IAdminServices admin)
         {
             _admin = admin;
+            _uploadDirectory = Directory.GetCurrentDirectory();
+
         }
         [HttpGet("Profile")]
         public IActionResult Profile([FromQuery] string email)
@@ -1274,6 +1280,160 @@ namespace MyJyotishJiApi.Controllers
                 }
             }
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message }); }
+        }
+
+        [HttpPost("AddDepartment")]
+        public IActionResult AddDepartment()
+        {
+            var httpRequest = HttpContext.Request;
+            DepartmentViewModel model = new DepartmentViewModel
+            {
+                DepartmentName = httpRequest.Form["departmentName"]
+            };
+
+            var res = _admin.AddDepartments(model);
+            if (res)
+            {
+                return Ok(new { status= 200, message = "Department Added Successfully" });
+            }
+            else
+            {
+                return Ok(new { status = 500, message = "some error occured" });
+
+            }
+        }
+        [HttpPost("Addlevels")]
+        public IActionResult AddLevels()
+        {
+            var httpRequest = HttpContext.Request;
+            LevelsViewModel model = new LevelsViewModel
+            {
+                LevelsName = httpRequest.Form["levelsName"]
+            };
+
+            var res = _admin.AddLevels(model);
+            if (res)
+            {
+                return Ok(new { status= 200, message = "Levels Added Successfully" });
+            }
+            else
+            {
+                return Ok(new { status = 500, message = "some error occured" });
+
+            }
+        }
+
+        [HttpGet("levelsList")]
+        public IActionResult LevelList()
+        {
+            var res = _admin.LevelsList();
+            return Ok(new {status=200,data=res});
+        } 
+        [HttpGet("DepartmentList")]
+        public IActionResult DepartmentList()
+        {
+            var res = _admin.DepartmentList();
+            return Ok(new {status=200,data=res});
+        }
+
+        [HttpPost("AddEmployees")]
+        public IActionResult AddEmployee()
+        {
+            var httpRequest = HttpContext.Request;
+
+            EmployeesViewModel model = new EmployeesViewModel
+            {
+                Name = httpRequest.Form["name"],
+                gender = httpRequest.Form["gender"],
+                DateOfBirth = httpRequest.Form["dob"],
+                Email = httpRequest.Form["email"],
+                mobile = Convert.ToInt64(httpRequest.Form["mobile"]),
+                Department = Convert.ToInt32(httpRequest.Form["department"]),
+                levels = Convert.ToInt32(httpRequest.Form["levels"])
+
+            };
+
+            var res = _admin.AddEmployees(model);
+                dynamic resdocs = false;
+            if (res)
+            {
+
+                var ProfileGuid = Guid.NewGuid().ToString();
+
+                Dictionary<string, string> docsList = new Dictionary<string, string>();
+
+                if (httpRequest.Form.Files["IdPrrof"] != null)
+                {
+                    IFormFile IdProof = httpRequest.Form.Files["IdPrrof"];
+                    var SqlPath = "wwwroot/Images/admin/" + ProfileGuid + IdProof.FileName;
+                    var ProfilePath = Path.Combine(_uploadDirectory, SqlPath);
+                    using (var stream = new FileStream(ProfilePath, FileMode.Create))
+                    {
+                        IdProof.CopyTo(stream);
+                    }
+                   var ImageUrl = "Images/admin/" + ProfileGuid + IdProof.FileName;
+                    docsList.Add("IdProof", ImageUrl);
+                }
+                if (httpRequest.Form.Files["metrics"] != null)
+                {
+                    IFormFile metrics = httpRequest.Form.Files["metrics"];
+                    var SqlPath = "wwwroot/Images/admin/" + ProfileGuid + metrics.FileName;
+                    var ProfilePath = Path.Combine(_uploadDirectory, SqlPath);
+                    using (var stream = new FileStream(ProfilePath, FileMode.Create))
+                    {
+                        metrics.CopyTo(stream);
+                    }
+                    var ImageUrl = "Images/admin/" + ProfileGuid + metrics.FileName;
+                    docsList.Add("Metrics", ImageUrl);
+
+                }
+                if (httpRequest.Form.Files["postmentrics"] != null)
+                {
+                    IFormFile postmetrics = httpRequest.Form.Files["postmentrics"];
+                    var SqlPath = "wwwroot/Images/admin/" + ProfileGuid + postmetrics.FileName;
+                    var ProfilePath = Path.Combine(_uploadDirectory, SqlPath);
+                    using (var stream = new FileStream(ProfilePath, FileMode.Create))
+                    {
+                        postmetrics.CopyTo(stream);
+                    }
+                    var ImageUrl = "Images/admin/" + ProfileGuid + postmetrics.FileName;
+                    docsList.Add("postmentrics", ImageUrl);
+                }
+                if (httpRequest.Form.Files["degree"] != null)
+                {
+                    IFormFile degree = httpRequest.Form.Files["degree"];
+                    var SqlPath = "wwwroot/Images/admin/" + ProfileGuid + degree.FileName;
+                    var ProfilePath = Path.Combine(_uploadDirectory, SqlPath);
+                    using (var stream = new FileStream(ProfilePath, FileMode.Create))
+                    {
+                        degree.CopyTo(stream);
+                    }
+                    var ImageUrl = "Images/admin/" + ProfileGuid + degree.FileName;
+                    docsList.Add("Degree", ImageUrl);
+                }
+                foreach(var doc in docsList)
+                {
+                    EmployeesDocsViewModel empDocs = new EmployeesDocsViewModel
+                    {
+                        url = doc.Value,
+                        name=doc.Key
+                    };
+                    resdocs = _admin.AddEmployeesDocs(empDocs);
+                }
+
+               
+
+            }
+            if (resdocs && res)
+            {
+                return Ok(new { status = 200, message = "record added successfully" });
+            }
+            else
+            {
+                return Ok(new { status = 500, message = "something went wrong" });
+
+            }
+
         }
 
     }

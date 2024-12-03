@@ -82,6 +82,7 @@
   <ItemGroup>
     <Folder Include="wwwroot\Images\Jyotish\Gallery\" />
     <Folder Include="wwwroot\Images\Jyotish\Video\" />
+    <Folder Include="wwwroot\Images\Admin\" />
     <Folder Include="wwwroot\Images\User\" />
     <Folder Include="wwwroot\Images\Slider\" />
   </ItemGroup>

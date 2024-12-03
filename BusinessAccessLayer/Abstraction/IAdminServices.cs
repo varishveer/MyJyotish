@@ -55,6 +55,9 @@ namespace BusinessAccessLayer.Abstraction
         public string RejectJyotishDocs(EmailDocumentViewModel model);
         public string AddSlot(SlotViewModel slot);
         public List<SlotModel> SlotList();
+        public List<Department> DepartmentList();
+        public List<levels> LevelsList();
+        public bool AddEmployees(EmployeesViewModel model);
 
         public string AddFeature(SubscriptionFeatureViewModel model);
         public List<SubscriptionFeatureViewModel> GetAllFeatures();
@@ -66,6 +69,7 @@ namespace BusinessAccessLayer.Abstraction
         public string DeleteManageSubscriptionData(int Id);
         public dynamic getJyotishByEmail(string email);
         public bool AddRedeamCode(redeamCodeViewModel model);
+        public bool AddEmployeesDocs(EmployeesDocsViewModel model);
 
         public string AddSubscription(SubscriptionViewModel model);
         public string UpdateSubscription(SubscriptionViewModel model);
@@ -80,7 +84,6 @@ namespace BusinessAccessLayer.Abstraction
         public bool AddDepartments(DepartmentViewModel model);
 
         public bool AddLevels(LevelsViewModel model);
-        public bool AddEmployees(EmployeesViewModel model);
 
          public ProblemSolutionAdminViewModel GetProblemSolution(int Id);
 

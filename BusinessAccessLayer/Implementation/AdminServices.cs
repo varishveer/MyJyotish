@@ -1622,21 +1622,46 @@ namespace BusinessAccessLayer.Implementation
             _context.Levels.Add(dp);
             return _context.SaveChanges() > 0;
         }
+       
+
+        public List<Department> DepartmentList()
+        {
+            var res = _context.Department.Where(e => e.status).ToList();
+            return res;
+        }
+        public List<levels> LevelsList()
+        {
+            var res = _context.Levels.Where(e => e.status).ToList();
+            return res;
+        }
+
         public bool AddEmployees(EmployeesViewModel model)
         {
             Employees dp = new Employees
             {
-                Name=model.Name,
-                gender=model.gender,
-                DateOfBirth=model.DateOfBirth,
-                Email=model.Email,
-                Mobile=model.mobile,
-                Department=model.Department,
-                AddingDate=DateTime.Now,
-                levels=model.levels,
-                status=true
+                Name = model.Name,
+                gender = model.gender,
+                DateOfBirth = model.DateOfBirth,
+                Email = model.Email,
+                Mobile = model.mobile,
+                Department = model.Department,
+                AddingDate = DateTime.Now,
+                levels = model.levels,
+                status = true
             };
             _context.Employees.Add(dp);
+            return _context.SaveChanges() > 0;
+        }
+
+        public bool AddEmployeesDocs(EmployeesDocsViewModel model)
+        {
+            EmployeesDocs emp = new EmployeesDocs
+            {
+               DocsName=model.name,
+               DocUrl=model.url,
+               employees=model.employees
+            };
+            _context.EmployeeDocs.Add(emp);
             return _context.SaveChanges() > 0;
         }
     }
