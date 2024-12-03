@@ -1370,7 +1370,7 @@ namespace MyJyotishJiApi.Controllers
 
                 if (httpRequest.Form.Files["IdProof"] != null)
                 {
-                    IFormFile IdProof = httpRequest.Form.Files["IdPrrof"];
+                    IFormFile IdProof = httpRequest.Form.Files["IdProof"];
                     var SqlPath = "wwwroot/Images/admin/" + ProfileGuid + IdProof.FileName;
                     var ProfilePath = Path.Combine(_uploadDirectory, SqlPath);
                     using (var stream = new FileStream(ProfilePath, FileMode.Create))
@@ -1436,6 +1436,8 @@ namespace MyJyotishJiApi.Controllers
             }
             else
             {
+                
+
                 return Ok(new { status = 500, message = "something went wrong" });
 
             }
