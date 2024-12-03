@@ -120,7 +120,7 @@
             </div>
             <div class="modal-body">
                
-                
+                <input id="RatingStarCount" hidden/>
                     <textarea class="form-control mt-1" id="" placeholder="Write your feedback here "></textarea>
                 <div class="rating fs-1">
                     <span class="text-secondary user-rating-stars cursor-pointer text-orange" data-value="1">★</span>
@@ -411,9 +411,14 @@ $(".callBtn").hide()
                 $('#addRatingBtn').hide();
             }
         });
-
+        let stars = Document.querySelectorAll('.user-rating-stars');
+        stars.forEach(function (d) {
+            d.classList.remove("text-orange")
+            d.classList.remove("selected-star")
+        })
         $(".user-rating-stars").click(function () {
             let userRating = $(this).attr("data-value")
+            $('#RatingStarCount').val(userRating);
             stars.forEach(function (d) {
 
                 d.classList.remove("text-orange")
@@ -427,11 +432,12 @@ $(".callBtn").hide()
             stars[userRating - 1].classList.add("selected-star")
         })
 
-
-        stars.forEach(function (d) {
-            d.classList.remove("text-orange")
-            d.classList.remove("selected-star")
+      
+        $('#AddfeedbackSubmitBtn').on('click', function () { 
+        
         })
+
+        
         //handle specialization aboutus and achievement
 
         $("#aboutBtn").click(function(){
