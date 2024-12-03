@@ -32,7 +32,7 @@
 </style>
 
 <div class="container my-3" style="margin-top:100px; background-color: #f7f7f7; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
-    <div class="card w-75 mx-auto shadow-sm" style="background-color: #ffffff; padding: 20px; border-radius: 10px;">
+    <div class="card w-100 mx-auto shadow-sm" style="background-color: #ffffff; padding: 20px; border-radius: 10px;">
         <div class="card-body">
             <div class="row align-items-start mb-4">
                 <div class="col-md-4 text-center text-md-start">
@@ -74,7 +74,9 @@
                         <p id="aboutMe" class="text-justify" style="font-size: 14px;"></p>
                         <p id="specialization" class="text-justify mt-3" style="font-size: 14px;"></p>
                         <p id="achievement" class="text-justify" style="font-size: 14px;"></p>
-                        <p id="rating" class="text-justify" style="font-size: 14px;"></p>
+                        <p id="ratingSection" class="text-justify" style="font-size: 14px; display:none;">
+                            <button type="button" id="addRatingBtn" class="btn ">Give Feedback</button> 
+                            </p>
                     </div>
 
                 </div>
@@ -103,6 +105,33 @@
         <h3 class="h5 border-bottom" style="color: #333333;">Check Similar Consultants</h3>
         <div class="row flex-nowrap py-3 manupScroll overflow-auto g-2" id="consultant">
             <!-- Similar consultants section -->
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Add Rating-->
+<div class="modal z-5 fade" id="AddRatingModal" tabindex="-1" aria-labelledby="AddRatingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="AddRatingModalLabel">Add Feedback</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+               
+                
+                    <textarea class="form-control mt-1" id="" placeholder="Write your feedback here "></textarea>
+                <div class="rating fs-1">
+                    <span class="text-secondary user-rating-stars cursor-pointer text-orange" data-value="1">★</span>
+                    <span class="text-secondary user-rating-stars cursor-pointer text-orange selected-star" data-value="2">★</span>
+                    <span class="text-secondary user-rating-stars cursor-pointer" data-value="3">★</span>
+                    <span class="text-secondary user-rating-stars cursor-pointer" data-value="4">★</span>
+                    <span class="text-secondary user-rating-stars cursor-pointer" data-value="5">★</span>
+                </div>
+                    <button class=" btn btn-success" id="AddfeedbackSubmitBtn"></button>
+            </div>
+           
         </div>
     </div>
 </div>
@@ -303,21 +332,24 @@ $(".callBtn").hide()
                     let ratingCards = '';
 
                     response.data.forEach(review => {
+                        const userName = review.userName || 'Anonymous'; // Use 'Anonymous' if review.name is undefined
+                        const profileInitial = userName.charAt(0); // Safely get the first letter of the name
                         // Create stars dynamically based on review.stars
                         let stars = '';
                         for (let i = 0; i < 5; i++) {
                             stars += (i < review.stars) ? '<span class="star">★</span>' : '<span class="text-secondary">★</span>';
                         }
 
+                        const formattedDate = formatDate(review.dateTime);
                         // Rating card template
                         ratingCards += `
-                        <div class="container d-flex float-start p-0 mb-4">
+                            <div class="container d-flex float-start p-0 mb-4" style="background-color:#F7F7F7;">
                             <div class="profile p-3">
-                                <h1 class="comment-profile">${review.name.charAt(0)}</h1>
+                                    <h2 class="comment-profile">${profileInitial}</h2>
                             </div>
-                            <div class="content bg-light p-3 w-100 rounded">
+                            <div class="content p-3 w-100 rounded">
                                 <div class="header d-flex">
-                                    <h6 class="c-name fw-bold">${review.name}</h6>
+                                        <h6 class="c-name ">${review.userName}</h6>
                                     <div class="verified text-primary text-italic">- Verified Client</div>
                                     <div class="stars ml-20">
                                         ${stars}
@@ -332,7 +364,7 @@ $(".callBtn").hide()
                                             <path fill="#63E6BE" d="M0 464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V192H0v272zm320-196c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zM192 268c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zM64 268c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H76c-6.6 0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H76c-6.6 0-12-5.4-12-12v-40zM400 64h-48V16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v48H160V16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v48H48C21.5 64 0 85.5 0 112v48h448v-48c0-26.5-21.5-48-48-48z"></path>
                                         </svg>
                                     </span>
-                                    <small class="text-secondary">${review.dateTime}</small>
+                                        <small class="text-secondary">${formattedDate}</small>
                                 </div>
                             </div>
                         </div>
@@ -340,8 +372,43 @@ $(".callBtn").hide()
                     });
 
                     // Append the rating cards to the container
-                    $('#rating').append(ratingCards);
+                    $('#ratingSection').append(ratingCards);
                 }
+            }
+        });
+
+
+        function formatDate(dateTime) {
+            const date = new Date(dateTime);
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is 0-indexed
+            const year = date.getFullYear();
+            return `${day}-${month}-${year}`;
+        }
+        var DataContainer= {
+            userId: localStorage.getItem('userId'),
+            jyotishId: astrologerId
+        }
+        $.ajax({
+            url: BaseUrl + `api/user/IsUserValidForRating`,
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                'Content-Type': 'application/json'
+            },
+            data: DataContainer, // Ensure DataContainer is defined and holds the necessary data
+            success: function (response) {
+                debugger;
+                if (response.status == 200 && response.data == "Yes") {
+                    $('#addRatingBtn').show();  // Show the button if the user is valid for rating
+                } else {
+                    $('#addRatingBtn').hide();  // Hide the button if the user is not valid for rating
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+                // Handle error, you may want to hide the button in case of failure too
+                $('#addRatingBtn').hide();
             }
         });
 
@@ -353,7 +420,7 @@ $(".callBtn").hide()
             $("#aboutMe").show();
             $("#achievement").hide();
             $("#specialization").hide();
-            $("#rating").hide();
+            $("#ratingSection").hide();
 
             $(this).addClass("btn-success")
             $("#specBtn").removeClass("btn-success")
@@ -363,7 +430,7 @@ $(".callBtn").hide()
             $("#aboutMe").hide();
             $("#achievement").hide();
             $("#specialization").show();
-            $("#rating").hide();
+            $("#ratingSection").hide();
             $(this).addClass("btn-success")
             $("#aboutBtn").removeClass("btn-success")
             $("#achBtn").removeClass("btn-success")
@@ -374,7 +441,7 @@ $(".callBtn").hide()
             $("#aboutMe").hide();
             $("#achievement").show();
             $("#specialization").hide();
-            $("#rating").hide();
+            $("#ratingSection").hide();
             $(this).addClass("btn-success")
             $(this).addClass("btn-success")
             $("#aboutBtn").removeClass("btn-success")
@@ -386,7 +453,7 @@ $(".callBtn").hide()
             $("#aboutMe").hide();
             $("#achievement").hide();
             $("#specialization").hide();
-            $("#rating").show();
+            $("#ratingSection").show();
             $(this).addClass("btn-success")
             $(this).addClass("btn-success")
             $("#aboutBtn").removeClass("btn-success")
