@@ -1748,7 +1748,7 @@ namespace BusinessAccessLayer.Implementation
 
         public bool AddEmployeesDocs(EmployeesDocsViewModel model)
         {
-            model.employees = _context.Employees.Where(e => e.Email == model.email).FirstOrDefault();
+            model.employees = _context.Employees.Where(e => e.Email == model.email).Select(e=>e.Id).FirstOrDefault();
 
             EmployeesDocs emp = new EmployeesDocs
             {
