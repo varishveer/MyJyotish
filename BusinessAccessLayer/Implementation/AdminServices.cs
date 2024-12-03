@@ -1485,7 +1485,7 @@ namespace BusinessAccessLayer.Implementation
         {
             var res = (from jyotish in _context.JyotishRecords
                        join plan in _context.PackageManager on jyotish.Id equals plan.JyotishId
-                       join subs in _context.Subscriptions on plan.SubscriptionId equals subs.SubscriptionId where plan.Status && jyotish.Status select new
+                       join subs in _context.Subscriptions on plan.SubscriptionId equals subs.SubscriptionId where jyotish.Email==email && plan.Status && jyotish.Status select new
                        {
                            name=jyotish.Name,
                            mobno=jyotish.Mobile,
