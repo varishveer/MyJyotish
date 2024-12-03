@@ -54,6 +54,7 @@ namespace DataAccessLayer.DbServices
         public DbSet<CountryCode> CountryCode { get; set; }
         public DbSet<InterviewFeedbackModel> InterviewFeedback { get; set; }
         public DbSet<redeamCode> RedeamCode { get; set; }
+        public DbSet<JyotishRatingModel> JyotishRating { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -159,6 +160,16 @@ namespace DataAccessLayer.DbServices
               .HasOne(c => c.jyotish)
               .WithMany(j => j.redeamCode)
               .HasForeignKey(c => c.jyotishId);
+
+            modelBuilder.Entity<JyotishRatingModel>()
+              .HasOne(c => c.Jyotish)
+              .WithMany(j => j.JyotishRating)
+              .HasForeignKey(c => c.JyotishId);
+
+            modelBuilder.Entity<JyotishRatingModel>()
+            .HasOne(c => c.User)
+            .WithMany(j => j.JyotishRating)
+            .HasForeignKey(c => c.UserId);
 
         }
 

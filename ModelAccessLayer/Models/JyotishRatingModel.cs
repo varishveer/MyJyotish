@@ -17,8 +17,8 @@ namespace ModelAccessLayer.Models
         public int UserId { get; set; }
         public int JyotishId { get; set; }
         public bool Status { get; set; }
-        public ICollection<UserModel> User { get; set; } = new List<UserModel>();
-        public ICollection<JyotishModel> Jyotish { get; set; } = new List<JyotishModel>();
+        public UserModel User { get; set; }
+        public JyotishModel Jyotish { get; set; }
 
     }
 }
