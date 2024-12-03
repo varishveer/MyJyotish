@@ -385,18 +385,18 @@
               
               
                 const data = response.data;
-                $('#name').text(data.name || 'N/A');
-                $('.name').text(data.name || 'N/A');
-                $('#gender').text(data.gender || 'N/A');
-                $('#dateOfBirth').text(new Date(data.dateOfBirth).toLocaleDateString() || 'N/A');
-                $('#email').text(data.email || 'N/A');
-                $('#mobile').text(data.mobile || 'N/A');
-                $('#country').text(data.country || 'N/A');
-                $('#state').text(data.state || 'N/A');
-                $('#city').text(data.city || 'N/A');
-                $('#language').text(data.language || 'N/A');
-                $('#expertise').text(data.expertise || 'N/A');
-                $('#alternateMobile').text(data.alternateMobile || 'N/A');
+                $('#name').text(data.jyotishRecord.name || 'N/A');
+                $('.name').text(data.jyotishRecord.name || 'N/A');
+                $('#gender').text(data.jyotishRecord.gender || 'N/A');
+                $('#dateOfBirth').text(new Date(data.jyotishRecord.dateOfBirth).toLocaleDateString() || 'N/A');
+                $('#email').text(data.jyotishRecord.email || 'N/A');
+                $('#mobile').text("+"+data.jyotishRecord.mobile || 'N/A');
+                $('#country').text(data.jyotishRecord.country || 'N/A');
+                $('#state').text(data.jyotishRecord.state || 'N/A');
+                $('#city').text(data.jyotishRecord.city || 'N/A');
+                $('#language').text(data.jyotishRecord.language || 'N/A');
+                $('#expertise').text(data.jyotishRecord.expertise || 'N/A');
+                $('#alternateMobile').text("+"+data.jyotishRecord.alternateMobile || 'N/A');
                 function formatDate(dateString) {
                     // Create a new Date object from the date string
                     const date = new Date(dateString);
@@ -411,30 +411,30 @@
                 }
 
                 // Example usage when updating the DOM
-                $('#dateOfBirth').text(formatDate(data.dateOfBirth) || 'N/A');
-                $('#experience').text(data.experience || 'N/A');
-                $('#pooja').text(data.pooja || 'N/A');
-                $('#appointmentCharges').text(data.appointmentCharges || 'N/A');
-                $('#address').text(data.address || 'N/A');
+                $('#dateOfBirth').text(formatDate(data.jyotishRecord.dateOfBirth) || 'N/A');
+                $('#experience').text(data.jyotishRecord.experience || 'N/A');
+                $('#pooja').text(data.jyotishRecord.pooja? "Yes": "No" || 'N/A');
+                $('#appointmentCharges').text(data.jyotishRecord.appointmentCharges || 'N/A');
+                $('#address').text(data.jyotishRecord.address || 'N/A');
                 function formatTime(timeString) {
                     const [hours, minutes] = timeString.split(":"); // Split the string by the colon
                     return `${hours}:${minutes}`; // Return formatted time (HH:MM)
                 }
-                $('#availableTime').text((data.timeFrom && data.timeTo) ? formatTime(data.timeFrom) + " - " + formatTime(data.timeTo) : 'N/A');
+                $('#availableTime').text((data.jyotishRecord.timeFrom && data.jyotishRecord.timeTo) ? formatTime(data.jyotishRecord.timeFrom) + " - " + formatTime(data.jyotishRecord.timeTo) : 'N/A');
 
-                $('#awordsAndAchievement').text(data.awordsAndAchievement || 'N/A');
-                $('#specialization').text(data.specialization || 'N/A');
-                $('#pincode').text(data.pincode || 'N/A');
-                $('#about').text(data.about || 'N/A');
+                $('#awordsAndAchievement').text(data.jyotishRecord.awordsAndAchievement || 'N/A');
+                $('#specialization').text(data.jyotishRecord.specialization || 'N/A');
+                $('#pincode').text(data.jyotishRecord.pincode || 'N/A');
+                $('#about').text(data.jyotishRecord.about || 'N/A');
                 if (data.chat == true) {
-                    $('#chat').text(data.chatCharges || 'N/A');
+                    $('#chat').text(data.jyotishRecord.chatCharges || 'N/A');
                 }
                 else 
                 {
                     $('#chat').text("NO" || 'N/A');
                 }
                 if (data.call == true) {
-                    $('#call').text(data.callCharges || 'N/A');
+                    $('#call').text(data.jyotishRecord.callCharges || 'N/A');
                 }
                 else 
                 {
@@ -442,8 +442,8 @@
                 }
                
                
-                if (data.profileImageUrl) {
-                    $('#profileImageUrl').attr('src', BaseUrl + data.profileImageUrl);
+                if (data.jyotishRecord.profileImageUrl) {
+                    $('#profileImageUrl').attr('src', BaseUrl + data.jyotishRecord.profileImageUrl);
                 } else {
                     $('#profileImageUrl').attr('src', "https://via.placeholder.com/300");
                 }
