@@ -808,13 +808,24 @@ namespace BusinessAccessLayer.Implementation
             var users = _context.JyotishRecords.Where(x => x.Id == uw.jyotishId).FirstOrDefault();
             if (users == null) { return null; }
             var Jyotishwallet = _context.JyotishWallets.Where(x => x.jyotishId == uw.jyotishId).FirstOrDefault();
-
+            var res = _context.RedeamCode.Where(e => e.jyotishId==uw.jyotishId && e.status).FirstOrDefault();
             if (Jyotishwallet.WalletAmount > uw.WalletAmount)
             {
                 Jyotishwallet.WalletAmount -= uw.WalletAmount;
                 _context.JyotishWallets.Update(Jyotishwallet);
-                if (_context.SaveChanges() > 0) { return "Successful"; }
-                else { return "Data Not Saved"; }
+                if (_context.SaveChanges() > 0) {
+
+                    if (res != null)
+                    {
+                        res.status = false;
+                        _context.RedeamCode.Update(res);
+                    }
+
+                    return "Successful";
+                   
+                }
+                else { return "Data Not Saved";
+                }
             }
             else
             {

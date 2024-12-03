@@ -352,10 +352,7 @@ header {
                                                 ` : ""}
                                                </li>
                         ${servicesHTML}
-                <li>
-                             <button type="button" class="btn-package active-btn upgradePlan" ${planData.length > 0 ? planData[0].planId == item.subscriptionId ? "disabled" : "" : ""} id = "upgradeBtn_${item.subscriptionId}"
-                                                    data-planId="" data-planType="${item.planType}"
-                                                            ">${planData.length > 0 ? planData[0].planId == item.subscriptionId ? "Purchased" : "Upgrade" : "Upgrade"}</button></li>
+             
                 </ul>
             </div>
 

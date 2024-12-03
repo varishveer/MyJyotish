@@ -16,6 +16,8 @@ namespace ModelAccessLayer.Models
         public float discountAmount { get; set; }
         public bool status { get; set; }
         public DateTime date { get; set; }
+        public DateTime startDate { get; set; }
+        public DateTime endDate { get; set; }
         public JyotishModel jyotish { get; set; }
     }
 }
