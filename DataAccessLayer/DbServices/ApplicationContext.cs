@@ -61,6 +61,7 @@ namespace DataAccessLayer.DbServices
         public DbSet<EmployeesDocs> EmployeeDocs { get; set; }
         public DbSet<EmployeesAccessPages> EmployeeAccessPages { get; set; }
         public DbSet<DepartmentPagesValidation> DepartmentPagesAccess { get; set; }
+        public DbSet<levelsAccessValidation> LevelAccessValidation { get; set; }
         public DbSet<InterviewMeeting> InterviewMeeting { get; set; }
 
 
@@ -196,10 +197,25 @@ namespace DataAccessLayer.DbServices
             .HasOne(c => c.department)
             .WithMany(j => j.EmpPages)
             .HasForeignKey(c => c.DepartmentId);
+
             modelBuilder.Entity<DepartmentPagesValidation>()
             .HasOne(c => c.pages)
             .WithMany(j => j.EmpPages)
             .HasForeignKey(c => c.PageId);
+            
+            modelBuilder.Entity<levelsAccessValidation>()
+            .HasOne(c => c.departmentRelation)
+            .WithMany(j => j.LevelAccess)
+            .HasForeignKey(c => c.department);
+            modelBuilder.Entity<levelsAccessValidation>()
+            .HasOne(c => c.EmpPages)
+            .WithMany(j => j.LevelAccess)
+            .HasForeignKey(c => c.pages);
+            modelBuilder.Entity<levelsAccessValidation>()
+            .HasOne(c => c.LevelsRelation)
+            .WithMany(j => j.LevelAccess)
+            .HasForeignKey(c => c.levels);
+
 
             modelBuilder.Entity<InterviewMeeting>()
            .HasOne(c => c.Jyotish)

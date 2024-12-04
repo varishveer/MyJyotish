@@ -1488,14 +1488,21 @@ namespace MyJyotishJiApi.Controllers
             try
             {
                 var httpRequest = HttpContext.Request;
-                DepartmentPagesValidationViewModel pages = new DepartmentPagesValidationViewModel
-                {
-                    DepartmentId = Convert.ToInt32(httpRequest.Form["Department"]),
-                    PageId = Convert.ToInt32(httpRequest.Form["pages"])
-                };
 
-                var res = _admin.AddDepartmentPages(pages);
-                if (res)
+                int[] pagesIds = httpRequest.Form["pages"].ToString().Split(',').Select(e => int.Parse(e)).ToArray();
+                var res = false;
+                foreach (var pageId in pagesIds)
+                {
+                    DepartmentPagesValidationViewModel pages = new DepartmentPagesValidationViewModel
+                    {
+                        DepartmentId = Convert.ToInt32(httpRequest.Form["Department"]),
+                        PageId = pageId
+                    };
+
+                     res = _admin.AddDepartmentPages(pages);
+                }
+
+              if (res)
                 {
                     return Ok(new { status = 200, message = "Record Added Successfully" });
                 }
