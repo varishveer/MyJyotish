@@ -1388,7 +1388,7 @@ namespace BusinessAccessLayer.Implementation
 
         public List<InteviewListViewModel> InteviewList()
         {
-            var data = _context.JyotishRecords.Where(x=>x.Status == true)
+            var data = _context.JyotishRecords.Where(x=>x.Status == true && x.Role== "Pending")
              .Include(j => j.Slots)
              .ThenInclude(s => s.SlotRecords)
              .SelectMany(j => j.Slots.Select(s => new InteviewListViewModel
@@ -1561,16 +1561,38 @@ namespace BusinessAccessLayer.Implementation
                 return false;
             }
         }
-        public List<JyotishRatingModel> PendingRatingList()
+        public List<JyotishRatingViewModel> PendingRatingList()
         {
-            var data = _context.JyotishRating.Where(x => x.Status == false).OrderByDescending(x=>x.DateTime).ToList();
-            return data;
+            var record = _context.JyotishRating.Where(x => x.Status == false).Include(x => x.Jyotish).Include(x => x.User).Select(x => new JyotishRatingViewModel
+            {
+                Id = x.Id,
+                FeedbackMessage = x.FeedbackMessage,
+                Stars = x.Stars,
+                DateTime = x.DateTime,
+                UserName = x.User.Name,
+                JyotishName = x.Jyotish.Name,
+
+
+
+            }).OrderByDescending(x => x.DateTime).ToList();
+            return record;
         }
 
-        public List<JyotishRatingModel> ApprovedRatingList()
+        public List<JyotishRatingViewModel> ApprovedRatingList()
         {
-            var data = _context.JyotishRating.Where(x => x.Status == true).OrderByDescending(x => x.DateTime).ToList();
-            return data;
+            var record = _context.JyotishRating.Where(x => x.Status == true).Include(x => x.Jyotish).Include(x => x.User).Select(x => new JyotishRatingViewModel
+            {
+                Id = x.Id,
+                FeedbackMessage = x.FeedbackMessage,
+                Stars = x.Stars,
+                DateTime = x.DateTime,
+                UserName = x.User.Name,
+                JyotishName = x.Jyotish.Name,
+
+
+
+            }).OrderByDescending(x => x.DateTime).ToList();
+            return record;
         }
 
         public string ApproveRating(int Id)

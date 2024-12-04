@@ -30,5 +30,8 @@ namespace MyJyotishJiWebDesign.Controllers
         public IActionResult Levels() { return View(); }
         public IActionResult EmployeeAccessPages() { return View(); }
         public IActionResult Employee() { return View(); }
+        public IActionResult Feedback() { return View();  }
+        public IActionResult PendingFeedback() { return View();  }
+
     }
 }

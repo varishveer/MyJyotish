@@ -1,0 +1,78 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "AdminLayout";
+}
+
+
+<div class="container-fluid mt-4">
+    <div class="card">
+
+        <div class="d-flex flex-row justify-content-between align-items-center  px-4">
+            <h5 class="text-primary mt-2">Feedback</h5>
+
+        </div>
+        <hr />
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="DataTable" class="table table-bordered table-striped">
+                    <!-- Table content goes here -->
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        function fetchData() {
+            $.ajax({
+                url: BaseUrl + "api/Admin/ApprovedRatingList",
+                type: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                    'Content-Type': 'application/json',
+                },
+                success: function (result) {
+                    console.log(result); // Log the API response
+                    let htmls = '<thead><tr><th>Id</th><th>Feedback</th><th>Stars</th><th>DateTime</th><th>UserName</th> <th>JyotishName</th></tr> </thead><tbody>';
+                    let idCounter = 1;
+                    $.each(result.data, function (key, item) {
+                        htmls += '<tr>';
+                        htmls += `<td class="text-center">${idCounter}</td>`;
+                        htmls += `<td class="text-center">${item.feedbackMessage}</td>`;
+                        htmls += `<td class="text-center">${item.stars}</td>`;
+
+                        htmls += `<td class="text-center">${item.dateTime}</td>`;
+                        htmls += `<td class="text-center">${item.userName}</td>`;
+
+                        htmls += `<td class="text-center">${item.jyotishName}</td>`;
+                 
+                      
+
+                        htmls += '</tr>';
+                        idCounter++;
+                    });
+
+                    htmls += '</tbody>';
+                    $('#DataTable').html(htmls);
+                    // Initialize DataTable after the data is loaded
+                    $('#DataTable').DataTable({
+                        "paging": true,
+                        "searching": true,
+                        "ordering": true,
+                        "info": true
+                    });
+                },
+                error: function (errormessage) {
+                    console.error('Error fetching data:', errormessage.responseText);
+                }
+            });
+        }
+
+        fetchData(); // Call the function to load data
+    });
+</script>

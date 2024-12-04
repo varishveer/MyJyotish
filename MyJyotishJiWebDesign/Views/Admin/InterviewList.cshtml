@@ -58,12 +58,12 @@
                         htmls += `<td class="text-center">${item.language}</td>`;
                         htmls += `<td class="text-center">${item.date}</td>`;
                         htmls += `<td class="text-center">${item.time}</td>`;
-                        htmls += `<td class="text-center">
-                           <button type="button" class="btn btn-primary" data-id="${item.id}" data-name="${item.name}" data-toggle="modal" data-target="#dynamicModal">
+                        htmls += `<td class="text-center d-flex">
+                           <button type="button" class=" btn btn-sm btn-primary" data-id="${item.id}" data-name="${item.name}" data-toggle="modal" data-target="#dynamicModal">
                                 Reschedule
                             </button>
-
-                                 <button type="button" class="btn btn-primary" onclick="openFeedbackModal(${item.id}, ${item.slotId})" data-toggle="modal" data-target="#FeedbackModal">
+                            &nbsp
+                                 <button type="button" class="btn btn-sm btn-primary" onclick="openFeedbackModal(${item.id}, ${item.slotId})" data-toggle="modal" data-target="#FeedbackModal">
                                 Feedback
                             </button> 
                             </td>`;
@@ -136,7 +136,7 @@
                     </textarea>
                 <div class="my-3 justify-content-center d-flex">
                     <label for="Approve" class="mx-2">Approve</label>
-                    <input type="radio" id="Approve" name="bool_value" value="1" class="me-5 isChecked">
+                    <input checked type="radio" id="Approve" name="bool_value" value="1" class="me-5 isChecked">
 
                     <label for="Reject" class="mx-2">Reject</label>
                     <input type="radio" id="Reject" name="bool_value" value="0" class="isChecked">
