@@ -1820,5 +1820,8 @@ namespace BusinessAccessLayer.Implementation
             _context.DepartmentPagesAccess.Add(page);
             return _context.SaveChanges() > 0;
         }
+
+
+        //public bool Add
     }
 }
