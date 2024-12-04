@@ -285,7 +285,8 @@
                     $('#profileName').append('<i class="fas fs-6 fa-check-circle text-success mx-2"></i>');
                     $('#profileExpertise').text(data.expertise);
                     $('#profileLanguage').text(data.language);
-                    $("#time").text(data.timeFrom.slice(0, 5) + "-" + data.timeTo.slice(0, 5))
+                    if (data.timeFrom != null) { $("#time").text(data.timeFrom.slice(0, 5) + "-" + data.timeTo.slice(0, 5)) }
+                   
                     $('#profileExperience').text('Experience: ' + data.experience + ' Years');
                     $('#bookAAppointment').attr('href', "/Home/JyotishProfile?Id=" + `${data.id}`);
                     // Update About Section
@@ -438,28 +439,37 @@ $(".callBtn").hide()
                 userId: localStorage.getItem('userId'),
                 jyotishId: astrologerId
             }
-            $.ajax({
-                url: BaseUrl + `api/user/IsUserValidForRating`,
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem("Token")}`,
-                    'Content-Type': 'application/json'
-                },
-                data: DataContainer, // Ensure DataContainer is defined and holds the necessary data
-                success: function (response) {
 
-                    if (response.status == 200 && response.data == "Yes") {
-                        $('#addRatingBtn').show();  // Show the button if the user is valid for rating
-                    } else {
-                        $('#addRatingBtn').hide();  // Hide the button if the user is not valid for rating
+            if (localStorage.getItem('userId') == null) 
+            {
+                $('#addRatingBtn').hide();
+            }
+            else
+            {
+                $.ajax({
+                    url: BaseUrl + `api/user/IsUserValidForRating`,
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                        'Content-Type': 'application/json'
+                    },
+                    data: DataContainer, // Ensure DataContainer is defined and holds the necessary data
+                    success: function (response) {
+
+                        if (response.status == 200 && response.data == "Yes") {
+                            $('#addRatingBtn').show();  // Show the button if the user is valid for rating
+                        } else {
+                            $('#addRatingBtn').hide();  // Hide the button if the user is not valid for rating
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error:', error);
+                        // Handle error, you may want to hide the button in case of failure too
+                        $('#addRatingBtn').hide();
                     }
-                },
-                error: function (xhr, status, error) {
-                    console.error('Error:', error);
-                    // Handle error, you may want to hide the button in case of failure too
-                    $('#addRatingBtn').hide();
-                }
-            });
+                });
+            }
+            
         
         }
         

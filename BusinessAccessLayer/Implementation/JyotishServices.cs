@@ -1818,14 +1818,39 @@ namespace BusinessAccessLayer.Implementation
 
         }
 
-       /* public JyotishDashboardDataViewModel JyotishDashboardData(int Id)
+        public JyotishDashboardDataViewModel JyotishDashboardData(int Id)
         {
             var Jyotish = _context.JyotishRecords.Where(x => x.Id == Id).FirstOrDefault();
-            if(Jyotish == null )
+            if (Jyotish == null)
             { return null; }
 
-            var Appointment = _context.AppointmentRecords.Where(x => x.JyotishId == Id).Include(x => x.UserRecord).Select(x => x.UserRecord).ToList();
-        }*/
+            var AppointmentClient = _context.AppointmentRecords.Where(x => x.JyotishId == Id).Include(x => x.UserRecord).Select(x => x.UserRecord.Id).Distinct().ToList();
+            var ChatClient = _context.ChatedUser.Where(x => x.JyotishId == Id).Include(x => x.User).Select(x => x.User.Id).Distinct().ToList();
+
+            var TotalClient = AppointmentClient.Union(ChatClient).ToList().Count();
+
+            var TodayAppointment = _context.AppointmentRecords.Where(x => x.JyotishId == Id && x.Date == DateTime.Now).Count();
+            var UpcommingAppointment = _context.AppointmentRecords.Where(x => x.JyotishId == Id && x.Date > DateTime.Now).Count();
+            var TotalCallTime = 0;
+            var TotalChatTime = 0;
+            var TotalPooja = 0;
+            var TotalTeamMember = 0;
+            var TotalRating = _context.JyotishRating.Where(x => x.JyotishId == Id && x.Status == true).Count();
+            JyotishDashboardDataViewModel data = new JyotishDashboardDataViewModel();
+
+            data.TotalClient = TotalClient;
+            data.TodayAppointment = TodayAppointment;
+            data.UpcommingAppointment = UpcommingAppointment;
+            data.TotalCallTime = TotalCallTime;
+            data.TotalChatTime = TotalChatTime;
+            data.TotalTeamMember = TotalTeamMember;
+            data.TotalRating = TotalRating;
+            return data;
+
+
+
+
+        }
 
     }
 }
