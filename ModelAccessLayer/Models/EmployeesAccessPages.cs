@@ -13,6 +13,7 @@ namespace ModelAccessLayer.Models
         public string pageUrl { get; set; }
         public bool status { get; set; }
         public ICollection<DepartmentPagesValidation> EmpPages { get; set; } = new List<DepartmentPagesValidation>();
+        public ICollection<levelsAccessValidation> LevelAccess { get; set; } = new List<levelsAccessValidation>();
 
     }
 }
