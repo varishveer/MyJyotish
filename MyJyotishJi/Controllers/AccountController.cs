@@ -94,7 +94,7 @@ namespace MyJyotishJiApi.Controllers
             try
             { // Validate the user credentials (use real validation in a production app)
                 int result = _account.SignInAdminEmployees(login.Email, login.Password);
-                if (result !=0)
+                if (result !=0 && result != -1)
                 {
                     var token = GenerateJwtToken(login.Email, "Scheme1");
 
