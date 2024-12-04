@@ -1342,114 +1342,189 @@ namespace MyJyotishJiApi.Controllers
         [HttpPost("AddEmployees")]
         public IActionResult AddEmployee()
         {
-            var httpRequest = HttpContext.Request;
-
-            if (httpRequest.Form.Files["IdProof"] == null)
+            try
             {
-                return Ok(new { status = 500, message = "Id proof is required" });
+                var httpRequest = HttpContext.Request;
 
-            }
+                if (httpRequest.Form.Files["IdProof"] == null)
+                {
+                    return Ok(new { status = 500, message = "Id proof is required" });
 
-            EmployeesViewModel model = new EmployeesViewModel
-            {
-                Name = httpRequest.Form["name"],
-                gender = httpRequest.Form["gender"],
-                DateOfBirth = httpRequest.Form["dob"],
-                Email = httpRequest.Form["email"],
-                mobile = Convert.ToInt64(httpRequest.Form["mobile"]),
-                Department = Convert.ToInt32(httpRequest.Form["department"]),
-                levels = Convert.ToInt32(httpRequest.Form["levels"])
+                }
 
-            };
+                EmployeesViewModel model = new EmployeesViewModel
+                {
+                    Name = httpRequest.Form["name"],
+                    gender = httpRequest.Form["gender"],
+                    DateOfBirth = httpRequest.Form["dob"],
+                    Email = httpRequest.Form["email"],
+                    mobile = Convert.ToInt64(httpRequest.Form["mobile"]),
+                    Department = Convert.ToInt32(httpRequest.Form["department"]),
+                    levels = Convert.ToInt32(httpRequest.Form["levels"])
 
-            var res = _admin.AddEmployees(model);
+                };
+
+                var res = _admin.AddEmployees(model);
                 dynamic resdocs = false;
-            if (res)
-            {
-               
-
-                var ProfileGuid = Guid.NewGuid().ToString();
-
-                Dictionary<string, string> docsList = new Dictionary<string, string>();
-
-                if (httpRequest.Form.Files["IdProof"] != null)
+                if (res)
                 {
-                    IFormFile IdProof = httpRequest.Form.Files["IdProof"];
-                    var SqlPath = "wwwroot/Images/admin/" + ProfileGuid + IdProof.FileName;
-                    var ProfilePath = Path.Combine(_uploadDirectory, SqlPath);
-                    using (var stream = new FileStream(ProfilePath, FileMode.Create))
+
+
+                    var ProfileGuid = Guid.NewGuid().ToString();
+
+                    Dictionary<string, string> docsList = new Dictionary<string, string>();
+
+                    if (httpRequest.Form.Files["IdProof"] != null)
                     {
-                        IdProof.CopyTo(stream);
+                        IFormFile IdProof = httpRequest.Form.Files["IdProof"];
+                        var SqlPath = "wwwroot/Images/admin/" + ProfileGuid + IdProof.FileName;
+                        var ProfilePath = Path.Combine(_uploadDirectory, SqlPath);
+                        using (var stream = new FileStream(ProfilePath, FileMode.Create))
+                        {
+                            IdProof.CopyTo(stream);
+                        }
+                        var ImageUrl = "Images/admin/" + ProfileGuid + IdProof.FileName;
+                        docsList.Add("IdProof", ImageUrl);
                     }
-                   var ImageUrl = "Images/admin/" + ProfileGuid + IdProof.FileName;
-                    docsList.Add("IdProof", ImageUrl);
-                }
-                if (httpRequest.Form.Files["metrics"] != null)
-                {
-                    IFormFile metrics = httpRequest.Form.Files["metrics"];
-                    var SqlPath = "wwwroot/Images/admin/" + ProfileGuid + metrics.FileName;
-                    var ProfilePath = Path.Combine(_uploadDirectory, SqlPath);
-                    using (var stream = new FileStream(ProfilePath, FileMode.Create))
+                    if (httpRequest.Form.Files["metrics"] != null)
                     {
-                        metrics.CopyTo(stream);
+                        IFormFile metrics = httpRequest.Form.Files["metrics"];
+                        var SqlPath = "wwwroot/Images/admin/" + ProfileGuid + metrics.FileName;
+                        var ProfilePath = Path.Combine(_uploadDirectory, SqlPath);
+                        using (var stream = new FileStream(ProfilePath, FileMode.Create))
+                        {
+                            metrics.CopyTo(stream);
+                        }
+                        var ImageUrl = "Images/admin/" + ProfileGuid + metrics.FileName;
+                        docsList.Add("Metrics", ImageUrl);
+
                     }
-                    var ImageUrl = "Images/admin/" + ProfileGuid + metrics.FileName;
-                    docsList.Add("Metrics", ImageUrl);
-
-                }
-                if (httpRequest.Form.Files["postmetrics"] != null)
-                {
-                    IFormFile postmetrics = httpRequest.Form.Files["postmetrics"];
-                    var SqlPath = "wwwroot/Images/admin/" + ProfileGuid + postmetrics.FileName;
-                    var ProfilePath = Path.Combine(_uploadDirectory, SqlPath);
-                    using (var stream = new FileStream(ProfilePath, FileMode.Create))
+                    if (httpRequest.Form.Files["postmetrics"] != null)
                     {
-                        postmetrics.CopyTo(stream);
+                        IFormFile postmetrics = httpRequest.Form.Files["postmetrics"];
+                        var SqlPath = "wwwroot/Images/admin/" + ProfileGuid + postmetrics.FileName;
+                        var ProfilePath = Path.Combine(_uploadDirectory, SqlPath);
+                        using (var stream = new FileStream(ProfilePath, FileMode.Create))
+                        {
+                            postmetrics.CopyTo(stream);
+                        }
+                        var ImageUrl = "Images/admin/" + ProfileGuid + postmetrics.FileName;
+                        docsList.Add("postmentrics", ImageUrl);
                     }
-                    var ImageUrl = "Images/admin/" + ProfileGuid + postmetrics.FileName;
-                    docsList.Add("postmentrics", ImageUrl);
-                }
-                if (httpRequest.Form.Files["degrees"] != null)
-                {
-                    IFormFile degree = httpRequest.Form.Files["degrees"];
-                    var SqlPath = "wwwroot/Images/admin/" + ProfileGuid + degree.FileName;
-                    var ProfilePath = Path.Combine(_uploadDirectory, SqlPath);
-                    using (var stream = new FileStream(ProfilePath, FileMode.Create))
+                    if (httpRequest.Form.Files["degrees"] != null)
                     {
-                        degree.CopyTo(stream);
+                        IFormFile degree = httpRequest.Form.Files["degrees"];
+                        var SqlPath = "wwwroot/Images/admin/" + ProfileGuid + degree.FileName;
+                        var ProfilePath = Path.Combine(_uploadDirectory, SqlPath);
+                        using (var stream = new FileStream(ProfilePath, FileMode.Create))
+                        {
+                            degree.CopyTo(stream);
+                        }
+                        var ImageUrl = "Images/admin/" + ProfileGuid + degree.FileName;
+                        docsList.Add("Degree", ImageUrl);
                     }
-                    var ImageUrl = "Images/admin/" + ProfileGuid + degree.FileName;
-                    docsList.Add("Degree", ImageUrl);
-                }
-                foreach(var doc in docsList)
-                {
-                    EmployeesDocsViewModel empDocs = new EmployeesDocsViewModel
+                    foreach (var doc in docsList)
                     {
-                        url = doc.Value,
-                        name=doc.Key,
-                        email=model.Email
-                    };
-                    resdocs = _admin.AddEmployeesDocs(empDocs);
+                        EmployeesDocsViewModel empDocs = new EmployeesDocsViewModel
+                        {
+                            url = doc.Value,
+                            name = doc.Key,
+                            email = model.Email
+                        };
+                        resdocs = _admin.AddEmployeesDocs(empDocs);
+                    }
+
+
+
                 }
+                if (resdocs && res)
+                {
 
-               
 
-            }
-            if (resdocs && res)
-            {
-               
+                    return Ok(new { status = 200, message = "record added successfully" });
+                }
+                else
+                {
 
-                return Ok(new { status = 200, message = "record added successfully" });
-            }
-            else
-            {
-                
 
-                return Ok(new { status = 500, message = "something went wrong" });
+                    return Ok(new { status = 500, message = "something went wrong" });
 
-            }
+                }
+            } 
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message
+    }); }
 
         }
 
+        [HttpPost("AddAccessPages")]
+        public IActionResult AddAccessPages()
+        {
+            try
+            {
+                var httpRequest = HttpContext.Request;
+                EmployeesAccessPagesViewModel pages = new EmployeesAccessPagesViewModel
+                {
+                    pagesName = httpRequest.Form["pageName"],
+                    pageUrl = httpRequest.Form["pageUrl"]
+                };
+
+                var res = _admin.AddAccessPages(pages);
+                if (res)
+                {
+                    return Ok(new { status = 200, message = "Record Added Successfully" });
+                }
+                else
+                {
+                    return Ok(new { status = 500, message = "some error occured" });
+
+                }
+            } 
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message
+    }); }
+        }
+        [HttpPost("AddDepartmentPages")]
+        public IActionResult AddDepartmentPages()
+        {
+            try
+            {
+                var httpRequest = HttpContext.Request;
+                DepartmentPagesValidationViewModel pages = new DepartmentPagesValidationViewModel
+                {
+                    DepartmentId = Convert.ToInt32(httpRequest.Form["Department"]),
+                    PageId = Convert.ToInt32(httpRequest.Form["pages"])
+                };
+
+                var res = _admin.AddDepartmentPages(pages);
+                if (res)
+                {
+                    return Ok(new { status = 200, message = "Record Added Successfully" });
+                }
+                else
+                {
+                    return Ok(new { status = 500, message = "some error occured" });
+
+                }
+            } 
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message
+    }); }
+        }
+        [HttpGet("getAllAccessPages")]
+        public IActionResult getAllAccesPages()
+        {
+            try
+            {
+                var res = _admin.getAccessPages();
+                return Ok(new { status = 200, message = "data retrieve successfully", data = res });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    Status = 500,
+                    Message = "Internal Server Error",
+                    Error = ex.Message
+                });
+            }
+        }
     }
 }

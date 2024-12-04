@@ -98,6 +98,10 @@ namespace BusinessAccessLayer.Abstraction
         public List<JyotishRatingViewModel> ApprovedRatingList();
         public string ApproveRating(int Id);
         public string DeleteRating(int Id);
+        public bool AddAccessPages(EmployeesAccessPagesViewModel model);
+        public List<EmployeesAccessPages> getAccessPages();
+        public bool AddDepartmentPages(DepartmentPagesValidationViewModel model);
+
 
     }
 }

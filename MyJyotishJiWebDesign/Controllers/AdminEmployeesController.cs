@@ -11,6 +11,10 @@ namespace MyJyotishGWeb.Controllers
         public IActionResult Login()
         {
             return View();
+        } 
+        public IActionResult ApproveRedeamCode()
+        {
+            return View();
         }
     }
 }
