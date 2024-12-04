@@ -1,0 +1,102 @@
+﻿
+@{
+    Layout = "AdminLayout";
+}
+
+
+<div class="container-fluid mt-4">
+    <div class="card">
+
+        <div class="d-flex flex-row justify-content-between align-items-center  px-4">
+            <h5 class="text-primary mt-2">Feedback</h5>
+
+        </div>
+        <hr />
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="DataTable" class="table table-bordered table-striped">
+                    <!-- Table content goes here -->
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        function fetchData() {
+            $.ajax({
+                url: BaseUrl + "api/Admin/PendingRatingList",
+                type: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                    'Content-Type': 'application/json',
+                },
+                success: function (result) {
+                    console.log(result); // Log the API response
+                    let htmls = '<thead><tr><th>Id</th><th>Feedback</th><th>Stars</th><th>DateTime</th><th>UserName</th> <th>JyotishName</th>  <th>Action</th></tr> </thead><tbody>';
+                    let idCounter = 1;
+                    $.each(result.data, function (key, item) {
+                        htmls += '<tr>';
+                        htmls += `<td class="text-center">${idCounter}</td>`;
+                        htmls += `<td class="text-center">${item.feedbackMessage}</td>`;
+                        htmls += `<td class="text-center">${item.stars}</td>`;
+
+                        htmls += `<td class="text-center">${item.dateTime}</td>`;
+                        htmls += `<td class="text-center">${item.userName}</td>`;
+
+                        htmls += `<td class="text-center">${item.jyotishName}</td>`;
+                        htmls += `<td class="text-center d-flex"><button data-id="${item.id}" class="btn btn-sm bg-primary text-light Approve" ><i class="fas fa-user-check"></i> </button> &nbsp <button class="btn btn-sm bg-warning text-light Delete" data-id="${item.id}"><i class="fas fa-trash-alt"></i> </button></td>`;
+
+
+
+                        htmls += '</tr>';
+                        idCounter++;
+                    });
+
+                    htmls += '</tbody>';
+                    $('#DataTable').html(htmls);
+                    // Initialize DataTable after the data is loaded
+                    $('#DataTable').DataTable({
+                        "paging": true,
+                        "searching": true,
+                        "ordering": true,
+                        "info": true
+                    });
+                },
+                error: function (errormessage) {
+                    console.error('Error fetching data:', errormessage.responseText);
+                }
+            });
+        }
+
+        fetchData(); // Call the function to load data
+
+
+        $(document).on('click', '.Approve', function () {
+            var feedbackId = $(this).data('id');
+            console.log(`Approve feedback with ID: ${feedbackId}`);
+
+            // Make an AJAX request to approve the feedback
+            $.ajax({
+                url: BaseUrl + "api/Admin/ApproveRating?Id=", // Replace with the correct API endpoint for approval
+                type: 'POST', // Assuming it's a POST request
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                    'Content-Type': 'application/json',
+                },
+                data: JSON.stringify({ id: feedbackId }), // Send feedbackId as part of the request body
+                success: function (response) {
+                    console.log('Feedback approved:', response);
+                    // Optionally, refresh the table or provide feedback to the user
+                    fetchData(); // Reload the table data after approval
+                },
+                error: function (err) {
+                    console.error('Error approving feedback:', err.responseText);
+                }
+            });
+        });
+    });
+</script>

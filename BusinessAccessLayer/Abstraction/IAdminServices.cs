@@ -94,8 +94,8 @@ namespace BusinessAccessLayer.Abstraction
         public List<AdminNoticationDataViewModel> NotificationData();
         public string AddInterviewFeedback(InterviewFeedbackViewModel feedback);
         public List<InterviewFeedbackViewModel> GetAllInterviewFeedback();
-        public List<JyotishRatingModel> PendingRatingList();
-        public List<JyotishRatingModel> ApprovedRatingList();
+        public List<JyotishRatingViewModel> PendingRatingList();
+        public List<JyotishRatingViewModel> ApprovedRatingList();
         public string ApproveRating(int Id);
         public string DeleteRating(int Id);
 

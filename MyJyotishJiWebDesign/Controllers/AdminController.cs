@@ -29,5 +29,8 @@ namespace MyJyotishJiWebDesign.Controllers
         public IActionResult Department() { return View(); }
         public IActionResult Levels() { return View(); }
         public IActionResult Employee() { return View(); }
+        public IActionResult Feedback() { return View();  }
+        public IActionResult PendingFeedback() { return View();  }
+
     }
 }

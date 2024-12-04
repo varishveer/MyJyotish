@@ -783,18 +783,28 @@ namespace BusinessAccessLayer.Implementation
             {
                 return "No Data Found of Services";
             }
-            if(Rating != null)
-            { return "Record already existed"; }
 
 
-            JyotishRatingModel NewRecord = new JyotishRatingModel();
-            NewRecord.FeedbackMessage = data.FeedbackMessage;
-            NewRecord.Stars = data.Stars;
-            NewRecord.UserId = data.UserId;
-            NewRecord.JyotishId = data.JyotishId;
-            NewRecord.DateTime = DateTime.Now;
-            NewRecord.Status = false;
-            _context.JyotishRating.Add(NewRecord);
+            if (Rating != null)
+            {
+                Rating.FeedbackMessage = data.FeedbackMessage;
+                Rating.Stars = data.Stars;
+
+                Rating.DateTime = DateTime.Now;
+                Rating.Status = false;
+                _context.JyotishRating.Update(Rating);
+            }
+            else {
+                JyotishRatingModel NewRecord = new JyotishRatingModel();
+                NewRecord.FeedbackMessage = data.FeedbackMessage;
+                NewRecord.Stars = data.Stars;
+                NewRecord.UserId = data.UserId;
+                NewRecord.JyotishId = data.JyotishId;
+                NewRecord.DateTime = DateTime.Now;
+                NewRecord.Status = false;
+                _context.JyotishRating.Add(NewRecord);
+            }
+          
             if (_context.SaveChanges() > 0)
             {
                 return "Successful";
@@ -824,13 +834,11 @@ namespace BusinessAccessLayer.Implementation
             var user = _context.Users.Where(x => x.Id == UserId).FirstOrDefault();
             var Jyotish = _context.JyotishRecords.Where(x => x.Id == JyotishId).FirstOrDefault();
             if (user == null || Jyotish == null) { return "Invalid Id"; }
-            var Appointment = _context.AppointmentRecords.Where(x=>x.JyotishId == JyotishId && x.UserId == UserId).FirstOrDefault();
+            var Appointment = _context.AppointmentRecords.Where(x => x.JyotishId == JyotishId && x.UserId == UserId).FirstOrDefault();
             var Chat = _context.ChatedUser.Where(x => x.JyotishId == JyotishId && x.UserId == UserId).FirstOrDefault();
-            if(Appointment == null && Chat == null) { return "No"; }
-            var Rating = _context.JyotishRating.Where(x => x.UserId == UserId && x.JyotishId == JyotishId).FirstOrDefault();
-            if (Rating == null) { return "Yes"; }
-            else { return "No"; }
-        }
+            if (Appointment == null && Chat == null) { return "No"; }
+            return "Yes";
+        }   
 
        
     }
