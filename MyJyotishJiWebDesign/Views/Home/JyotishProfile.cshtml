@@ -75,8 +75,8 @@
                         <p id="specialization" class="text-justify mt-3" style="font-size: 14px;"></p>
                         <p id="achievement" class="text-justify" style="font-size: 14px;"></p>
                         <p id="ratingSection" class="text-justify" style="font-size: 14px; display:none;">
-                            <button type="button" id="addRatingBtn" class="btn ">Give Feedback</button> 
-                            </p>
+                            <button type="button" id="addRatingBtn" data-bs-toggle="modal" data-bs-target="#AddRatingModal" class="btn ">Give Feedback</button>
+                        </p>
                     </div>
 
                 </div>
@@ -120,16 +120,16 @@
             </div>
             <div class="modal-body">
                
-                <input id="RatingStarCount" hidden/>
+                <input id="RatingStarCount" type="number" hidden/>
                     <textarea class="form-control mt-1" id="FeedbackMessage" placeholder="Write your feedback here "></textarea>
                 <div class="rating fs-1">
-                    <span class="text-secondary user-rating-stars cursor-pointer text-orange" data-value="1">★</span>
-                    <span class="text-secondary user-rating-stars cursor-pointer text-orange selected-star" data-value="2">★</span>
-                    <span class="text-secondary user-rating-stars cursor-pointer" data-value="3">★</span>
-                    <span class="text-secondary user-rating-stars cursor-pointer" data-value="4">★</span>
-                    <span class="text-secondary user-rating-stars cursor-pointer" data-value="5">★</span>
+                    <span class="text-secondary user-rating-stars cursor-pointer text-orange" data-value="1" role="button">★</span>
+                    <span class="text-secondary user-rating-stars cursor-pointer text-orange selected-star" data-value="2" role="button">★</span>
+                    <span class="text-secondary user-rating-stars cursor-pointer" data-value="3" role="button">★</span>
+                    <span class="text-secondary user-rating-stars cursor-pointer" data-value="4" role="button">★</span>
+                    <span class="text-secondary user-rating-stars cursor-pointer" data-value="5" role="button">★</span>
                 </div>
-                    <button class=" btn btn-success" id="AddfeedbackSubmitBtn"></button>
+                    <button class=" btn btn-success" id="AddfeedbackSubmitBtn"> Submit</button>
             </div>
            
         </div>
@@ -202,6 +202,37 @@
         </div>
     </div>
 </div>
+
+
+
+<script>
+    debugger;
+    let stars = document.querySelectorAll('.user-rating-stars');
+    stars.forEach(function (d) {
+        d.classList.remove("text-warning");
+        d.classList.remove("selected-star");
+    });
+
+    $(".user-rating-stars").click(function () {
+        debugger;
+        let userRating = $(this).attr("data-value");
+        $('#RatingStarCount').val(userRating);
+        stars.forEach(function (d) {
+            d.classList.remove("text-warning");
+            d.classList.remove("selected-star");
+            d.classList.add("text-secondary");
+        });
+
+        for (let i = 0; i < userRating; i++) {
+            stars[i].classList.add("text-warning");
+            stars[i].classList.remove("text-secondary");
+
+        }
+        $("#RatingStarCount").val(userRating);
+
+        stars[userRating - 1].classList.add("selected-star");
+    });
+</script>
 <script>
 
     
@@ -398,7 +429,7 @@ $(".callBtn").hide()
             },
             data: DataContainer, // Ensure DataContainer is defined and holds the necessary data
             success: function (response) {
-                debugger;
+             
                 if (response.status == 200 && response.data == "Yes") {
                     $('#addRatingBtn').show();  // Show the button if the user is valid for rating
                 } else {
@@ -411,26 +442,26 @@ $(".callBtn").hide()
                 $('#addRatingBtn').hide();
             }
         });
-        let stars = document.querySelectorAll('.user-rating-stars');
-        stars.forEach(function (d) {
-            d.classList.remove("text-orange")
-            d.classList.remove("selected-star")
-        })
-        $(".user-rating-stars").click(function () {
-            let userRating = $(this).attr("data-value")
-            $('#RatingStarCount').val(userRating);
-            stars.forEach(function (d) {
+        // let stars = document.querySelectorAll('.user-rating-stars');
+        // stars.forEach(function (d) {
+        //     d.classList.remove("text-orange")
+        //     d.classList.remove("selected-star")
+        // })
+        // $(".user-rating-stars").click(function () {
+        //     let userRating = $(this).attr("data-value")
+        //     $('#RatingStarCount').val(userRating);
+        //     stars.forEach(function (d) {
 
-                d.classList.remove("text-orange")
-                d.classList.remove("selected-star")
-            })
+        //         d.classList.remove("text-orange")
+        //         d.classList.remove("selected-star")
+        //     })
 
 
-            for (let i = 0; i <= userRating - 1; i++) {
-                stars[i].classList.add("text-orange")
-            }
-            stars[userRating - 1].classList.add("selected-star")
-        })
+        //     for (let i = 0; i <= userRating - 1; i++) {
+        //         stars[i].classList.add("text-orange")
+        //     }
+        //     stars[userRating - 1].classList.add("selected-star")
+        // })
 
       
         $('#AddfeedbackSubmitBtn').on('click', function () { 
@@ -439,7 +470,7 @@ $(".callBtn").hide()
                 userId: localStorage.getItem('userId'),
                 jyotishId: astrologerId,
                 FeedbackMessage: $('#FeedbackMessage').val(),
-                Stars: $('#RatingStarCount').val(userRating)
+                Stars: $('#RatingStarCount').val()
             }
 
             $.ajax({
@@ -451,7 +482,7 @@ $(".callBtn").hide()
                 },
                 data: DataContainer, 
                 success: function (response) {
-                    debugger;
+                   
                     Swal.fire({
                         title: "Successful!",
                         text: "done",
@@ -753,6 +784,14 @@ $(".callBtn").hide()
             tooltip1.show()
             $("#problem-desc").text("")
 
+        });
+        $('#AddRatingModal').on('shown.bs.modal', function () {
+            const tooltipTriggerList = document.querySelector('[data-bs-toggle="tooltip1"]')
+            const tooltip = bootstrap.Tooltip.getOrCreateInstance(tooltipTriggerList)
+            const tooltipTriggerList1 = document.querySelector('[data-bs-toggle="tooltip2"]')
+            const tooltip1 = bootstrap.Tooltip.getOrCreateInstance(tooltipTriggerList1)
+            tooltip.hide()
+            tooltip1.hide()
         });
     });
 </script>
