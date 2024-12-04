@@ -45,7 +45,7 @@ namespace BusinessAccessLayer.Implementation
         public List<JyotishModel> GetAllPendingJyotish()
         {
             var Records = _context.JyotishRecords
-                             .Where(record => record.Role == "pending" && record.Status == true)
+                             .Where(record => record.Role == "pending" && record.Status == true).OrderByDescending(e=>e.Id)
                              .ToList();
             return Records;
         }
@@ -1764,6 +1764,38 @@ namespace BusinessAccessLayer.Implementation
                status=true
             };
             _context.EmployeeDocs.Add(emp);
+            return _context.SaveChanges() > 0;
+        }
+
+        public bool AddAccessPages(EmployeesAccessPagesViewModel model)
+        {
+            EmployeesAccessPages pages = new EmployeesAccessPages
+            {
+                pagesName = model.pagesName,
+                pageUrl=model.pageUrl,
+                status=true
+
+            };
+
+            _context.EmployeeAccessPages.Add(pages);
+            return _context.SaveChanges() > 0;
+            
+        }
+        public List<EmployeesAccessPages> getAccessPages()
+        {
+            var res = _context.EmployeeAccessPages.Where(e => e.status).ToList();
+            return res;
+        }
+
+        public bool AddDepartmentPages(DepartmentPagesValidationViewModel model)
+        {
+            DepartmentPagesValidation page = new DepartmentPagesValidation
+            {
+                DepartmentId = model.DepartmentId,
+                PageId = model.PageId,
+                status = true
+            };
+            _context.DepartmentPagesAccess.Add(page);
             return _context.SaveChanges() > 0;
         }
     }

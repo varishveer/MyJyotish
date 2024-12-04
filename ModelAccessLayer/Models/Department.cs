@@ -13,6 +13,7 @@ namespace ModelAccessLayer.Models
 
         public bool status { get; set; }
         public ICollection<Employees> employees { get; set; } = new List<Employees>();
+        public ICollection<DepartmentPagesValidation> EmpPages { get; set; } = new List<DepartmentPagesValidation>();
 
     }
 }

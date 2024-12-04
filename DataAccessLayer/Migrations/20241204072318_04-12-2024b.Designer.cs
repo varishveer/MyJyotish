@@ -4,6 +4,7 @@ using DataAccessLayer.DbServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20241204072318_04-12-2024b")]
+    partial class _04122024b
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -409,10 +412,6 @@ namespace DataAccessLayer.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DepartmentId");
-
-                    b.HasIndex("PageId");
 
                     b.ToTable("DepartmentPagesAccess");
                 });
@@ -1838,25 +1837,6 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("countryobj");
                 });
 
-            modelBuilder.Entity("ModelAccessLayer.Models.DepartmentPagesValidation", b =>
-                {
-                    b.HasOne("ModelAccessLayer.Models.Department", "department")
-                        .WithMany("EmpPages")
-                        .HasForeignKey("DepartmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ModelAccessLayer.Models.EmployeesAccessPages", "pages")
-                        .WithMany("EmpPages")
-                        .HasForeignKey("PageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("department");
-
-                    b.Navigation("pages");
-                });
-
             modelBuilder.Entity("ModelAccessLayer.Models.DocumentModel", b =>
                 {
                     b.HasOne("ModelAccessLayer.Models.JyotishModel", "Jyotish")
@@ -2174,19 +2154,12 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("ModelAccessLayer.Models.Department", b =>
                 {
-                    b.Navigation("EmpPages");
-
                     b.Navigation("employees");
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.Employees", b =>
                 {
                     b.Navigation("employeeDocs");
-                });
-
-            modelBuilder.Entity("ModelAccessLayer.Models.EmployeesAccessPages", b =>
-                {
-                    b.Navigation("EmpPages");
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.JyotishModel", b =>

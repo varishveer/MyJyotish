@@ -122,4 +122,21 @@ namespace ModelAccessLayer.ViewModels
 
         public bool status { get; set; }
     }
+    public class EmployeesAccessPagesViewModel
+    {
+        public int Id { get; set; }
+        public string pagesName { get; set; }
+        public string pageUrl { get; set; }
+        public bool status { get; set; }
+    }
+
+    public class DepartmentPagesValidationViewModel
+    {
+        public int Id { get; set; }
+        public int DepartmentId { get; set; }
+        public int PageId { get; set; }
+        public bool status { get; set; }
+
+       
+    }
 }

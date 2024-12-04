@@ -1,0 +1,141 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "AdminLayout";
+
+}
+
+<form class="border rounded p-3" id="accessPageForm">
+    <div class="row">
+        <h3 class="text-primary mb-4">Employee Access Pages</h3>
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-6">
+                    <input type="text" name="pagename" class="form-control" placeholder="Enter Page Name" >
+                </div>
+                <div class="col-sm-6">
+                    <input type="text" name="pageurl" class="form-control" placeholder="Enter Page Url">
+                </div>
+            </div>
+            <div class="col-sm-12 my-4 text-center">
+                <input type="submit" class="btn btn-primary" >
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="container-fluid mt-4">
+    <div class="card">
+
+        <div class="d-flex flex-row justify-content-between align-items-center  px-4">
+            <h5 class="text-primary mt-2">Interview List</h5>
+
+        </div>
+        <hr />
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="DataTable" class="table table-bordered table-striped">
+                    <!-- Table content goes here -->
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $("#accessPageForm").submit(function(e) {
+        e.preventDefault();
+        Swal.fire({
+            title: "Processing Your Request",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
+        let formData=new FormData();
+        let arrData=$(this).serializeArray();
+        arrData.forEach(function(d){
+            formData.append(d.name,d.value)
+        })
+        $.ajax({
+            url: BaseUrl + "api/admin/AddAccessPages",
+            type: 'POST',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token")}`
+            },
+            processData:false,
+            contentType:false,
+            data: formData,
+            success: function (res) {
+                if (res.status === 200) 
+                {
+                    Swal.fire({
+                        title:"success",
+                        text:res.message,
+                        icon:"success",
+                        didClose:()=>{
+                            location.reload()
+                        }
+                    })
+                }else{
+                    Swal.fire({
+                        title: "error",
+                        text: res.message,
+                        icon: "error"
+                    })
+                }
+            },error:function(){
+                Swal.fire({
+                    title: "error",
+                    text: "some error occured",
+                    icon: "error"
+                })
+            }
+        })
+    })
+
+    $(document).ready(function () {
+        function fetchData() {
+            $.ajax({
+                url: BaseUrl + "api/Admin/getAllAccessPages",
+                type: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                    'Content-Type': 'application/json',
+                },
+                success: function (result) {
+                    console.log(result); // Log the API response
+                    let htmls = '<thead><tr><th>Id</th><th>Page Name</th><th>PageUrl</th></tr> </thead><tbody>';
+                    let idCounter = 1;
+                    $.each(result.data, function (key, item) {
+                        htmls += '<tr>';
+                        htmls += `<td class="text-center">${key+1}</td>`;
+                        htmls += `<td class="text-center">${item.pagesName}</td>`;
+                        htmls += `<td class="text-center">${item.pageUrl}</td>`;
+                       
+                        htmls += '</tr>';
+                        idCounter++;
+                    });
+
+                    htmls += '</tbody>';
+                    $('#DataTable').html(htmls);
+                    // Initialize DataTable after the data is loaded
+                    $('#DataTable').DataTable({
+                        "paging": true,
+                        "searching": true,
+                        "ordering": true,
+                        "info": true
+                    });
+                },
+                error: function (errormessage) {
+                    console.error('Error fetching data:', errormessage.responseText);
+                }
+            });
+        }
+
+        fetchData(); // Call the function to load data
+    });
+</script>

@@ -60,6 +60,7 @@ namespace DataAccessLayer.DbServices
         public DbSet<levels> Levels { get; set; }
         public DbSet<EmployeesDocs> EmployeeDocs { get; set; }
         public DbSet<EmployeesAccessPages> EmployeeAccessPages { get; set; }
+        public DbSet<DepartmentPagesValidation> DepartmentPagesAccess { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -189,7 +190,15 @@ namespace DataAccessLayer.DbServices
             modelBuilder.Entity<EmployeesDocs>()
             .HasOne(c => c.employeeRecord)
             .WithMany(j => j.employeeDocs)
-            .HasForeignKey(c => c.employees);
+            .HasForeignKey(c => c.employees); 
+            modelBuilder.Entity<DepartmentPagesValidation>()
+            .HasOne(c => c.department)
+            .WithMany(j => j.EmpPages)
+            .HasForeignKey(c => c.DepartmentId);
+            modelBuilder.Entity<DepartmentPagesValidation>()
+            .HasOne(c => c.pages)
+            .WithMany(j => j.EmpPages)
+            .HasForeignKey(c => c.PageId);
 
         }
 

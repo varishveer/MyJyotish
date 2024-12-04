@@ -28,6 +28,7 @@ namespace MyJyotishJiWebDesign.Controllers
         public IActionResult RedeamCode() { return View(); }
         public IActionResult Department() { return View(); }
         public IActionResult Levels() { return View(); }
+        public IActionResult EmployeeAccessPages() { return View(); }
         public IActionResult Employee() { return View(); }
     }
 }
