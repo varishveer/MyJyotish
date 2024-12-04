@@ -464,14 +464,14 @@ $(".callBtn").hide()
         // })
 
       
-        $('#AddfeedbackSubmitBtn').on('click', function () { 
-            
+        $('#AddfeedbackSubmitBtn').on('click', function () {
+
             var DataContainer = {
-                userId: localStorage.getItem('userId'),
-                jyotishId: astrologerId,
+                userId: Number(localStorage.getItem('userId')),  // Convert to number
+                jyotishId: Number(astrologerId),  // Ensure it's a number (if astrologerId is a string)
                 FeedbackMessage: $('#FeedbackMessage').val(),
-                Stars: $('#RatingStarCount').val()
-            }
+                Stars: Number($('#RatingStarCount').val())  // Convert Stars to number
+            };
 
             $.ajax({
                 url: BaseUrl + `api/user/AddRating`,
