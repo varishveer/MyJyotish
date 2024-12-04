@@ -28,6 +28,19 @@
 
 <script>
     $(document).ready(function () {
+
+        function formatDate(dateTime) {
+            // Create a new Date object from the provided string
+            const date = new Date(dateTime);
+
+            // Get the day, month, and year
+            const day = String(date.getDate()).padStart(2, '0'); // Pad single digit days with a leading zero
+            const month = String(date.getMonth() + 1).padStart(2, '0'); // Pad single digit months with a leading zero
+            const year = date.getFullYear();
+
+            // Return the formatted date as DD-MM-YYYY
+            return `${day}-${month}-${year}`;
+        }
         function fetchData() {
             $.ajax({
                 url: BaseUrl + "api/Admin/ApprovedRatingList",
@@ -41,12 +54,14 @@
                     let htmls = '<thead><tr><th>Id</th><th>Feedback</th><th>Stars</th><th>DateTime</th><th>UserName</th> <th>JyotishName</th></tr> </thead><tbody>';
                     let idCounter = 1;
                     $.each(result.data, function (key, item) {
+
+                        const formattedDate = formatDate(item.dateTime);
                         htmls += '<tr>';
                         htmls += `<td class="text-center">${idCounter}</td>`;
                         htmls += `<td class="text-center">${item.feedbackMessage}</td>`;
                         htmls += `<td class="text-center">${item.stars}</td>`;
 
-                        htmls += `<td class="text-center">${item.dateTime}</td>`;
+                        htmls += `<td class="text-center">${formattedDate}</td>`;
                         htmls += `<td class="text-center">${item.userName}</td>`;
 
                         htmls += `<td class="text-center">${item.jyotishName}</td>`;
