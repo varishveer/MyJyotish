@@ -1409,9 +1409,9 @@ namespace MyJyotishJiApi.Controllers
                     var ImageUrl = "Images/admin/" + ProfileGuid + postmetrics.FileName;
                     docsList.Add("postmentrics", ImageUrl);
                 }
-                if (httpRequest.Form.Files["degree"] != null)
+                if (httpRequest.Form.Files["degrees"] != null)
                 {
-                    IFormFile degree = httpRequest.Form.Files["degree"];
+                    IFormFile degree = httpRequest.Form.Files["degrees"];
                     var SqlPath = "wwwroot/Images/admin/" + ProfileGuid + degree.FileName;
                     var ProfilePath = Path.Combine(_uploadDirectory, SqlPath);
                     using (var stream = new FileStream(ProfilePath, FileMode.Create))

@@ -13,39 +13,39 @@
             <div class="row">
                 <div class="col-sm-6">
                     Name
-                    <input type="text" placeholder="Enter your name" id="name" class="form-control mb-2" name="name" />
+                    <input type="text" required placeholder="Enter your name" id="name" class="form-control mb-2" name="name" />
                 </div>
                 <div class="col-sm-6">
                     Email
-                    <input type="email" placeholder="Enter your email" id="email" class="form-control mb-2" name="email" />
+                    <input type="email" required placeholder="Enter your email" id="email" class="form-control mb-2" name="email" />
                 </div>
                 <div class="col-sm-6">
                     Number
-                    <input type="number" placeholder="Enter your number" id="mobile" class="form-control mb-2" name="mobile" />
+                    <input type="number" required placeholder="Enter your number" id="mobile" class="form-control mb-2" name="mobile" />
                 </div>
                 <div class="col-sm-6">
                     Gender
-                    <select class="form-select mb-2" name="gender" id="gender">
-                       <option>--select gender--</option>
+                    <select class="form-select mb-2" required name="gender" id="gender">
+                       <option value="">--select gender--</option>
                        <option value="male">Male</option>
                        <option value="female">Female</option>
                    </select>
                 </div>
             <div class="col-sm-6">
                 Date of Birth
-                    <input type="date" placeholder="dd/mm/yyyy" id="dob" class="form-control mb-2" name="dob" />
+                    <input type="date" required placeholder="dd/mm/yyyy" id="dob" class="form-control mb-2" name="dob" />
             </div>
             <div class="col-sm-6">
                 Department
-                    <select class="form-select mb-2" name="department" id="department">
-                    <option>--select department--</option>
+                    <select required class="form-select mb-2" name="department" id="department">
+                    <option value="">--select department--</option>
                    
                 </select>
             </div> 
             <div class="col-sm-6">
                 Levels
-                    <select class="form-select mb-2" name="levels" id="levels">
-                    <option>--select levels--</option>
+                    <select required class="form-select mb-2" name="levels" id="levels">
+                    <option value="">--select levels--</option>
                    
                 </select>
             </div>
@@ -53,19 +53,19 @@
 
                 <div class="col-sm-6 mb-2">
                     IdProof
-                  <input type="file" name="IdProof" id="idproof" class="dropify">
+                    <input type="file" required name="IdProof" id="idproof" class="dropify">
                 </div> 
                 <div class="col-sm-6 mb-2">
                     Metrics
-                  <input type="file" name="metrics" id="metrics" class="dropify">
+                    <input type="file"  name="metrics" id="metrics" class="dropify">
                 </div>
                 <div class="col-sm-6 mb-2">
                     Postmetrics
-                    <input type="file" name="postmetrics" id="postmetrics" class="dropify">
+                    <input type="file"  name="postmetrics" id="postmetrics" class="dropify">
                 </div>
                 <div class="col-sm-6 mb-2">
                     Degree
-                    <input type="file" name="degrees" id="degrees" class="dropify">
+                    <input type="file"  name="degrees" id="degrees" class="dropify">
                 </div>
         </div>
         </div>
@@ -123,7 +123,7 @@
                     res.data.forEach(function (d) {
                         $("#levels").append(
                             `
-                                            <option value='${d.id}'>${d.levelsName}</option>
+                              <option value='${d.id}'>${d.levelsName}</option>
 
                                 `
                         )
@@ -143,48 +143,69 @@
            formData.append(d.name,d.value)
        })
 
-       formData.append("IdProof",$("#idproof").get(0).files[0])
-       formData.append("metrics",$("#metrics").get(0).files[0])
-       formData.append("postmetrics",$("#postmetrics").get(0).files[0])
-       formData.append("degrees",$("#degrees").get(0).files[0])
-
-        $.ajax({
-            url: BaseUrl + "api/admin/AddEmployees",
-            type: "post",
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem("Token")}`
-            },
-            processData:false,
-            contentType:false,
-            data:formData,
-            success: function (res) {
-                console.log(res, "emp")
-                if (res.status == 200) {
-                    Swal.fire({
-                        title:"success",
-                        text:res.message,
-                        icon:"success",
-                        didClose:()=>{
-                            location.reload();
-                        }
-                    })
-                }else{
-                    Swal.fire({
-                        title: "error",
-                        text: res.message,
-                        icon: "error",
-                       
-                    })
+        if ($("#gender").val()=="" || $("#department").val()=="" || $("#levels").val()=="") {
+            Swal.fire({
+                title: "warning",
+                text: "Some fields are empty please select",
+                icon: "warning"
+            })
+        } else if (!$("#idproof").get(0).files[0]) {
+            Swal.fire({
+                title: "warning",
+                text: "Id proof is required",
+                icon: "warning"
+            })
+        } else {
+            Swal.fire({
+                title: "Processing Your Request",
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
                 }
-            },error:function(){
-                Swal.fire({
+            })
+            formData.append("IdProof", $("#idproof").get(0).files[0])
+            formData.append("metrics", $("#metrics").get(0).files[0])
+            formData.append("postmetrics", $("#postmetrics").get(0).files[0])
+            formData.append("degrees", $("#degrees").get(0).files[0])
+
+            $.ajax({
+                url: BaseUrl + "api/admin/AddEmployees",
+                type: "post",
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token")}`
+                },
+                processData: false,
+                contentType: false,
+                data: formData,
+                success: function (res) {
+                    console.log(res, "emp")
+                    if (res.status == 200) {
+                        Swal.fire({
+                            title: "success",
+                            text: res.message,
+                            icon: "success",
+                            didClose: () => {
+                                location.reload();
+                            }
+                        })
+                    } else {
+                        Swal.fire({
+                            title: "error",
+                            text: res.message,
+                            icon: "error",
+
+                        })
+                    }
+                }, error: function () {
+                    Swal.fire({
                         title: "error",
                         text: "some error occured",
                         icon: "error",
-                       
+
                     })
-            }
-        })
+                }
+            })
+        }
     })
 
 </script>

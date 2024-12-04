@@ -470,6 +470,23 @@ namespace BusinessAccessLayer.Implementation
             else
             { return "Invalid Email"; }
         }
+        public int SignInAdminEmployees(string email, string password)
+        {
+            var _admin = _context.Employees.Where(x => x.Email == email).FirstOrDefault();
+            if (_admin != null)
+            {
+                if (_admin.password == password)
+                {
+                    return _admin.Id;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            else
+            { return -1; }
+        }
         #endregion
 
         #region User

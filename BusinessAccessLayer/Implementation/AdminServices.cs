@@ -1637,6 +1637,12 @@ namespace BusinessAccessLayer.Implementation
 
         public bool AddEmployees(EmployeesViewModel model)
         {
+            var res = _context.Employees.Where(e => e.Email == model.Email).FirstOrDefault();
+            if (res != null)
+            {
+                return false;
+            }
+
                 var Password = Guid.NewGuid().ToString("N").Substring(0, 8);
             Employees dp = new Employees
             {
@@ -1754,7 +1760,8 @@ namespace BusinessAccessLayer.Implementation
             {
                DocsName=model.name,
                DocUrl=model.url,
-               employees=model.employees
+               employees=model.employees,
+               status=true
             };
             _context.EmployeeDocs.Add(emp);
             return _context.SaveChanges() > 0;

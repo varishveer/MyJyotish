@@ -86,6 +86,34 @@ namespace MyJyotishJiApi.Controllers
             {
                 return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex });
             }
+        } 
+        [HttpPost("SignInAdminEmployees")]
+        public IActionResult SignInAdminEmployees([FromBody] LoginModel login)
+        {
+            try
+            { // Validate the user credentials (use real validation in a production app)
+                int result = _account.SignInAdminEmployees(login.Email, login.Password);
+                if (result !=0)
+                {
+                    var token = GenerateJwtToken(login.Email, "Scheme1");
+
+                    return Ok(new { Status = 200, Message = "Login Successfully", Token = token, User = result });
+                }
+                else if (result == 0)
+                {
+                    return Ok(new { Status = 400, Message = "Incorrect Password" });
+                }
+                else if (result == -1)
+                {
+                    return Ok(new { Status = 400, Message = "Invalid Email" });
+                }
+
+                return Unauthorized();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex });
+            }
         }
         #endregion
 

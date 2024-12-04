@@ -26,9 +26,11 @@ namespace BusinessAccessLayer.Abstraction
         #region Admin
         public string SignUpAdmin(AdminModel admin);
         public string SignInAdmin(string email, string password);
+        public int SignInAdminEmployees(string email, string password);
+
         #endregion
 
-     
+
 
         #region User
         public string RegisterUserEmail(string Email);
