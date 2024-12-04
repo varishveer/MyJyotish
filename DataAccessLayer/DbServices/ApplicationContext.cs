@@ -59,6 +59,7 @@ namespace DataAccessLayer.DbServices
         public DbSet<Department> Department { get; set; }
         public DbSet<levels> Levels { get; set; }
         public DbSet<EmployeesDocs> EmployeeDocs { get; set; }
+        public DbSet<EmployeesAccessPages> EmployeeAccessPages { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
