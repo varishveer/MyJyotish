@@ -79,7 +79,7 @@ namespace BusinessAccessLayer.Abstraction
         public dynamic getPlan(int Id);
         public bool upgradePackages(packages packages);
         public bool BookMark(int appointmentId);
-
+        public JyotishDashboardDataViewModel JyotishDashboardData(int Id);
 
     }
 }

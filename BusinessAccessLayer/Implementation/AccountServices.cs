@@ -460,7 +460,7 @@ namespace BusinessAccessLayer.Implementation
             {
                 if (_admin.Password == password)
                 {
-                    return "Login Successful";
+                    return _admin.Id.ToString();
                 }
                 else
                 {

@@ -24,6 +24,8 @@ namespace ModelAccessLayer.Models
         public levels LevelsRelation { get; set; }
 
         public ICollection<EmployeesDocs> employeeDocs { get; set; } = new List<EmployeesDocs>();
+        public ICollection<InterviewMeeting> InterviewMeeting { get; set; } = new List<InterviewMeeting>();
+
 
       
     }
