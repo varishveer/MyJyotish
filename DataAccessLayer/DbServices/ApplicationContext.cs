@@ -61,6 +61,7 @@ namespace DataAccessLayer.DbServices
         public DbSet<EmployeesDocs> EmployeeDocs { get; set; }
         public DbSet<EmployeesAccessPages> EmployeeAccessPages { get; set; }
         public DbSet<DepartmentPagesValidation> DepartmentPagesAccess { get; set; }
+        public DbSet<InterviewMeeting> InterviewMeeting { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -199,6 +200,16 @@ namespace DataAccessLayer.DbServices
             .HasOne(c => c.pages)
             .WithMany(j => j.EmpPages)
             .HasForeignKey(c => c.PageId);
+
+            modelBuilder.Entity<InterviewMeeting>()
+           .HasOne(c => c.Jyotish)
+           .WithMany(j => j.InterviewMeeting)
+           .HasForeignKey(c => c.JyotishId);
+
+            modelBuilder.Entity<InterviewMeeting>()
+           .HasOne(c => c.Employee)
+           .WithMany(j => j.InterviewMeeting)
+           .HasForeignKey(c => c.EmployeeId);
 
         }
 

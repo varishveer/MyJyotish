@@ -1147,5 +1147,22 @@ namespace MyJyotishGApi.Controllers
             }
             catch { return StatusCode(500, new { Status = 500, Message = "Internal Server Error " }); }
         }
+
+        [HttpGet("JyotishDashboardData")]
+        public IActionResult JyotishDashboardData(int Id)
+        {
+            try {
+                var record = _jyotish.JyotishDashboardData(Id);
+                if(record ==null)
+                {
+                    return Ok(new { Status = 400, Message = "Record Not Found" });
+                }
+                else
+                {
+                    return Ok(new { Status = 200, Data= record, Message = "Successful" });
+                }
+            }
+            catch { return StatusCode(500, new { Status = 500, Message = "Internal Server Error " }); }
+        }
     }
 }

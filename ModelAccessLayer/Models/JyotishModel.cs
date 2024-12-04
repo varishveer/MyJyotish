@@ -95,6 +95,7 @@ namespace ModelAccessLayer.Models
         public ICollection<InterviewFeedbackModel> Feedback { get; set; } = new List<InterviewFeedbackModel>();
         public ICollection<redeamCode> redeamCode { get; set; } = new List<redeamCode>();
         public ICollection<JyotishRatingModel> JyotishRating { get; set; } = new List<JyotishRatingModel>();
+        public ICollection<InterviewMeeting> InterviewMeeting { get; set; } = new List<InterviewMeeting>();
 
     }
 

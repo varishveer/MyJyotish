@@ -1827,7 +1827,7 @@ namespace BusinessAccessLayer.Implementation
             var AppointmentClient = _context.AppointmentRecords.Where(x => x.JyotishId == Id).Include(x => x.UserRecord).Select(x => x.UserRecord.Id).Distinct().ToList();
             var ChatClient = _context.ChatedUser.Where(x => x.JyotishId == Id).Include(x => x.User).Select(x => x.User.Id).Distinct().ToList();
 
-            var TotalClient = AppointmentClient.Union(ChatClient).ToList().Count();
+            var TotalClient = AppointmentClient.Union(ChatClient).ToList().Distinct().Count();
 
             var TodayAppointment = _context.AppointmentRecords.Where(x => x.JyotishId == Id && x.Date == DateTime.Now).Count();
             var UpcommingAppointment = _context.AppointmentRecords.Where(x => x.JyotishId == Id && x.Date > DateTime.Now).Count();
@@ -1845,10 +1845,8 @@ namespace BusinessAccessLayer.Implementation
             data.TotalChatTime = TotalChatTime;
             data.TotalTeamMember = TotalTeamMember;
             data.TotalRating = TotalRating;
+
             return data;
-
-
-
 
         }
 

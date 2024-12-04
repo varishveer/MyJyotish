@@ -227,8 +227,10 @@
                         $("#city").text(data.city)
                         $("#planType").text(data.planType)
                     $("#planName").text(data.planName)
-                        $("#purchaseDate").text(data.planPurchaseDate.split('T')[0])
-                        $("#expiryDate").text(data.planExpiryDate.split('T')[0])
+                            var purchaseDate = data.planPurchaseDate.split('T')[0];
+                            var expiryDate = data.planExpiryDate.split('T')[0];
+                            $("#purchaseDate").text(purchaseDate.split('-').reverse().join('-'))
+                            $("#expiryDate").text(expiryDate.split('-').reverse().join('-'))
                         }else{
                             Swal.fire({
                                 text:"no record found",

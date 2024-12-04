@@ -65,19 +65,20 @@ namespace MyJyotishJiApi.Controllers
             try
             { // Validate the user credentials (use real validation in a production app)
                 string result = _account.SignInAdmin(login.Email, login.Password);
-                if (result == "Login Successful")
-                {
-                    var token = GenerateJwtToken(login.Email, "Scheme1");
-
-                    return Ok(new { Status = 200, Message = result, Token = token, User = login.Email });
-                }
-                else if (result == "Incorrect Password")
+               
+                 if (result == "Incorrect Password")
                 {
                     return Ok(new { Status = 400, Message = "Incorrect Password" });
                 }
                 else if (result == "Invalid Email")
                 {
                     return Ok(new { Status = 400, Message = "Invalid Email" });
+                }
+                else
+                {
+                    var token = GenerateJwtToken(login.Email, "Scheme1");
+
+                    return Ok(new { Status = 200, Message = result, Token = token, User = login.Email, Id= result });
                 }
 
                 return Unauthorized();
