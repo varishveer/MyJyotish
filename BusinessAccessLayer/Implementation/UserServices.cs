@@ -779,7 +779,7 @@ namespace BusinessAccessLayer.Implementation
             var Appointment = _context.AppointmentRecords.Where(x => x.JyotishId == data.JyotishId && x.UserId == data.UserId).FirstOrDefault();
             var Chat = _context.ChatedUser.Where(x=>x.UserId == data.UserId && x.JyotishId == data.JyotishId).FirstOrDefault();
             var Rating = _context.JyotishRating.Where(x => x.JyotishId == data.JyotishId && x.UserId == data.UserId).FirstOrDefault();
-            if(Appointment == null || Chat == null)
+            if(Appointment == null && Chat == null)
             {
                 return "No Data Found of Services";
             }
