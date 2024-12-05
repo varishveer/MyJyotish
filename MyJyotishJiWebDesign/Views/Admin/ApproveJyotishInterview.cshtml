@@ -77,8 +77,7 @@
                 <input type="hidden" id="JyotishId" value="">
 
                 <label for="Message">Feedback</label>
-                <textarea type="text" id="Message" name="appointmentDate" class="form-control">
-                    </textarea>
+                <textarea type="text" id="Message" name="appointmentDate" class="form-control"></textarea>
                 <div class="my-3 justify-content-center d-flex">
                     <label for="Approve" class="mx-2">Approve</label>
                     <input checked type="radio" id="Approve" name="bool_value" value="1" class="me-5 isChecked">
@@ -127,10 +126,11 @@
                         htmls += `<td class="text-center">${item.grade}</td>`;
 
                         // Add the button to open the modal
-                        htmls += `<td class="text-center d-flex">
+                        htmls += `<td class="text-center d-flex gap-3">
                                     <button type="button" class="btn btn-sm btn-primary" data-id="${item.id}" data-imageUrl="${item.imageUrl}" data-videoUrl="${item.videoUrl}" data-message="${item.message}" data-toggle="modal" data-target="#InterviewFeedbackModal">
                                         <i class="fa-solid fa-eye"></i> View Details
                                     </button>
+                                    
                                     <button type="button" class="btn btn-sm btn-primary" onclick="openFeedbackModal(${item.id}, ${item.slotId})" data-toggle="modal" data-target="#FeedbackModal">
                                      Feedback
                                 </button>
@@ -229,7 +229,7 @@
 
         $('#feedbackSubmitBtn').on('click', function () {
             // Validate data
-            var slotId = Number($('#SlotId').val());
+            var slotBookingId = Number($('#SlotId').val());
             var jyotishId = Number($('#JyotishId').val());
             var message = $('#Message').val();
             var approvedStatus = $('.isChecked:checked').val() == 1 ? true : false;
