@@ -93,7 +93,7 @@ namespace ModelAccessLayer.Models
         public ICollection<WalletHistoryModel> JytoishWalletHistoryRecord { get; set; } = new List<WalletHistoryModel>();
         public ICollection<AppointmentSlotModel> AppointmentSlotData { get; set; } = new List<AppointmentSlotModel>();
         public ICollection<SubsciptionManagementModel> subscriptionManage { get; set; } = new List<SubsciptionManagementModel>();
-        public ICollection<InterviewFeedbackModel> Feedback { get; set; } = new List<InterviewFeedbackModel>();
+        public ICollection<InterviewFeedbackModel> InterviewFeedbackModel { get; set; } = new List<InterviewFeedbackModel>();
         public ICollection<redeamCode> redeamCode { get; set; } = new List<redeamCode>();
         public ICollection<JyotishRatingModel> JyotishRating { get; set; } = new List<JyotishRatingModel>();
         public ICollection<InterviewMeeting> InterviewMeeting { get; set; } = new List<InterviewMeeting>();
