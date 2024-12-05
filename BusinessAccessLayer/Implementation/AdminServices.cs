@@ -2014,9 +2014,17 @@ namespace BusinessAccessLayer.Implementation
         public Dictionary<string,bool> startAndEndDateofMeating(int slotBookingId)
         {
             var res = _context.SlotBooking.Where(e => e.Id == slotBookingId && e.status).FirstOrDefault();
+            
             Dictionary<string, bool> startEnd = new Dictionary<string, bool>();
-            startEnd.Add("start", res.start);
-            startEnd.Add("end", res.end);
+            if(res == null)
+            {
+                startEnd.Add("start", false);
+                startEnd.Add("end", false);
+            }
+            else {
+                startEnd.Add("start", res.start);
+                startEnd.Add("end", res.end);
+            }
             return startEnd;
         }
        
