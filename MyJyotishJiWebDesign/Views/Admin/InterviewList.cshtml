@@ -115,7 +115,7 @@
                                 Send Link
                             </button>
                                  <button type="button" class="btn startButton_${item.id} d-none btn-sm btn-primary"  onClick='startMeating(${item.slotBookingId})'>
-                                    Send Link
+                                    start meating
                                 </button>
                                 </td>`;
                         
@@ -165,6 +165,42 @@
 
         fetchData(); // Call the function to load data
     });
+
+    function startMeating(id){
+        Swal.fire({
+            title: "Are you sure",
+            text: "Do you want to Delete?",
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: "yes",
+            denyButtonText: `no`
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: "Processing Your Request",
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                })
+        $.ajax({
+            url: BaseUrl + "api/Admin/StartAndEndInterviewTime",
+            type: 'Get',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                'Content-Type': 'application/json',
+            },
+                    data: { SlotBookingId:id,Time:true },
+            success: function (result) {
+                if (result.status == 200) {
+                    $(".hideAfterSendLink_" + d.id).addClass("d-none")
+                    $(".startButton_" + d.id).removeClass("d-none")
+                }
+            }
+        })
+            }
+        })
+    }
 
     function openSendLinkModal(jId,sId) {
         $(".fixed-continer").removeClass("d-none")
