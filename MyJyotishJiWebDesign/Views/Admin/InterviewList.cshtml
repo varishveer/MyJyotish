@@ -312,10 +312,10 @@
                         if (result.status == 200) {
                             Swal.fire({
                                 title: "success",
-                                text: "Start Time saved successfully",
+                                text: "Feedback submitted successfully",
                                 icon: "success",
                                 didClose: () => {
-                                    fetchData()
+                                    location.reload();
                                 }
                             })
                         }else{
