@@ -1402,7 +1402,9 @@ namespace BusinessAccessLayer.Implementation
                  Language = j.Language,
                  Date = s.SlotRecords.Date,
                  Time = s.SlotRecords.Time,
-                 SlotId = s.SlotId
+                 SlotId = s.SlotId,
+                 SlotBookingId = s.Id
+
              }))
              .OrderByDescending(i => i.Date) // Order by date in descending order
              .ToList();
@@ -1847,7 +1849,92 @@ namespace BusinessAccessLayer.Implementation
             _context.InterviewMeeting.Add(newRecord);
             if (_context.SaveChanges() > 0)
             {
-                SendEmail(data.Message, JyotishRecord.Email, data.Title);
+                var SlotDetails = _context.SlotBooking.Where(x => x.JyotishId == data.JyotishId && x.status).FirstOrDefault();
+
+                string newMessage = $@"
+           <!DOCTYPE html>
+            <html lang=""en"">
+            <head>
+    <meta charset=""UTF-8"">
+    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+    <title>My Jyotish G Email</title>
+    <style>
+        body {{
+            font-family: Arial, sans-serif;
+        }}
+        .container {{
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }}
+        .header {{
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }}
+        .content {{
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }}
+        .otp {{
+            font-size: 20px;
+            font-weight: bold;
+            color: #000;
+        }}
+        .logo {{
+            margin: 20px 0;
+            text-align: center;
+        }}
+        .logo img {{
+            max-width: 150px;
+        }}
+        .footer {{
+            font-size: 14px;
+            color: #555;
+            margin-top: 20px;
+        }}
+        .footer a {{
+            color: #000;
+            text-decoration: none;
+        }}
+    </style>
+</head>
+<body>
+    <div class=""container"">
+       
+         <div class=""logo"">
+            <img src=""https://api.myjyotishg.in/Images/Logo.png"" alt=""My Jyotish G Logo"">
+        </div>
+        <div class=""content"">
+            Hi {JyotishRecord.Name},<br><br>
+           {data.Message}
+
+          Interview Details<br/>
+                    Time: {SlotDetails.SlotRecords.Time} <br/>
+                    Date: {SlotDetails.SlotRecords.Date}<br/>
+                    Meeting Link: {data.Link}<br/>
+            
+
+            If you have any questions, feel free to reach out!
+        </div>
+
+       
+            <div class=""header"" style=""color:orange"">My Jyotish G</div>data
+            <h4>www.myjyotishg.in</h4>
+            <h4>myjyotishg@gmail.com</h4>
+            <h4>7985738804</h4>
+            
+        
+    </div>
+</body>
+</html>
+";
+
+                SendEmail(newMessage, JyotishRecord.Email, data.Title);
                 return true; }
             else { return false; }
         }
