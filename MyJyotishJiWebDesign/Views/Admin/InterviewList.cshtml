@@ -107,7 +107,7 @@
                         htmls += `<td class="text-center">${item.date}</td>`;
                         htmls += `<td class="text-center">${item.time}</td>`;
                         htmls += `<td class="text-center d-flex">
-                           <button type="button" class="hideAfterSendLink_${item.id} btn btn-sm btn-primary" data-id="${item.id}" data-name="${item.name}" data-toggle="modal" data-target="#dynamicModal">
+                           <button type="button" class="hideAfterSendLinkresheduel_${item.id} btn btn-sm btn-primary" data-id="${item.id}" data-name="${item.name}" data-toggle="modal" data-target="#dynamicModal">
                                 Reschedule
                             </button>
                             &nbsp
@@ -158,39 +158,45 @@
                             success: function (result) {
                                 console.log(result)
                                 if (result.status == 200 && result.data.length>0) {
+                                    $.ajax({
+                                        url: BaseUrl + "api/Admin/startAndEndDateofMeating",
+                                        type: 'Get',
+                                        headers: {
+                                            'Authorization': `Bearer ${localStorage.getItem("Token")}`
+                                        },
+                                        data: { SlotBookingId: d.slotBookingId },
+                                        success: function (result) {
+                                            if (result.status == 200) {
+                                                if (d.approveStatus) {
+                                                    if (result.data.start) {
+
+                                                        $(".startButton_" + d.id).addClass("d-none")
+                                                    } else {
+                                                        $(".startButton_" + d.id).removeClass("d-none")
+
+                                                    }
+                                                    if (result.data.start && result.data.end) {
+                                                        $(".endButton_" + d.id).addClass("d-none")
+                                                        $(".feedback_" + d.id).removeClass("d-none")
+                                                    } else if (result.data.start) {
+                                                        
+                                                        $(".endButton_" + d.id).removeClass("d-none")
+                                                    }
+                                                    $(".hideAfterSendLinkresheduel_" + d.id).addClass("d-none")
+                                                    $(".startButton_" + d.id).removeClass("d-none")
+                                                }
+                                            }
+                                        }
+                                    });
                                     $(".hideAfterSendLink_"+d.id).addClass("d-none")
                                     $(".request_"+d.id).removeClass("d-none")
                                     if (d.approveStatus){
-                                    $(".startButton_" + d.id).removeClass("d-none")
+                                      
+                                        $(".hideAfterSendLinkresheduel_" + d.id).addClass("d-none")
+                                        $(".startButton_" + d.id).removeClass("d-none")
                                     }
                                 }
                             }
-                        }).then(()=>{
-                            $.ajax({
-                                url: BaseUrl + "api/Admin/startAndEndDateofMeating",
-                                type: 'Get',
-                                headers: {
-                                    'Authorization': `Bearer ${localStorage.getItem("Token")}`
-                                },
-                                data: { SlotBookingId: d.slotBookingId },
-                                success: function (result) {
-                                    if (result.status == 200) {
-                                        if(result.data.start){
-
-                                        $(".startButton_" + d.id).addClass("d-none")
-                                        }else{
-                                            $(".startButton_" + d.id).removeClass("d-none")
-
-                                        }
-                                        if(result.data.end){
-                                        $(".endButton_" + d.id).addClass("d-none")
-                                            $(".feedback_" + d.id).removeClass("d-none")
-                                        }else{
-                                            $(".endButton_" + d.id).removeClass("d-none")
-                                        }
-                                    }
-                                }
-                            })
                         })
                    })
                   
