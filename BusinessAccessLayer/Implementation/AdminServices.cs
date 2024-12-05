@@ -1397,7 +1397,7 @@ namespace BusinessAccessLayer.Implementation
 
         public List<InteviewListViewModel> InteviewList()
         {
-            var data = _context.JyotishRecords.Where(x=>x.Status == true && x.Role== "Pending")
+            var data = _context.JyotishRecords.Where(x=>x.Status == true && x.Role== "Pending" && x.Feedback==false)
              .Include(j => j.Slots.Where(s => s.status == true))
              .ThenInclude(s => s.SlotRecords)
              .ThenInclude(e=>e.Feedback)
@@ -2020,6 +2020,7 @@ namespace BusinessAccessLayer.Implementation
             return startEnd;
         }
        
+       
 
         public bool AddEmployeeInterviewFeedback(EmployeeInterviewFeedbackViewModel data)
         {
@@ -2033,7 +2034,9 @@ namespace BusinessAccessLayer.Implementation
                 return false;
             }
 
+            var jyotish = _context.JyotishRecords.Where(e => e.Id ==slotBooking.JyotishId).FirstOrDefault();
            
+
             var newFeedback = new EmployeeInterviewFeedbackModel
             {
                 Message = data.Message,
@@ -2047,6 +2050,11 @@ namespace BusinessAccessLayer.Implementation
             _context.EmployeeInterviewFeedback.Add(newFeedback);
             if (_context.SaveChanges() <= 0)
             {
+                if (jyotish == null)
+                {
+                    jyotish.Feedback = true;
+                    _context.JyotishRecords.Update(jyotish);
+                }
                 return false;
             }
 
