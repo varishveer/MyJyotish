@@ -1610,5 +1610,25 @@ namespace MyJyotishJiApi.Controllers
                 return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message });
             }
         }
+
+        [HttpPost("AddEmployeeInterviewFeedback")]
+        public IActionResult AddEmployeeInterviewFeedback(EmployeeInterviewFeedbackViewModel data)
+        {
+            try
+            {
+                var res = _admin.AddEmployeeInterviewFeedback(data);
+                if (res) { return Ok(new { Status = 200, Message = "Successful" }); }
+                else { return Ok(new { Status = 400, Message = "Something went wrong" }); }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    Status = 500,
+                    Message = "Internal Server Error",
+                    Error = ex.Message
+                });
+            }
+        }
     }
 }

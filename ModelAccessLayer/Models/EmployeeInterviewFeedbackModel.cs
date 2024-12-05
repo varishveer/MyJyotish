@@ -16,6 +16,6 @@ namespace ModelAccessLayer.Models
         public bool Status {get; set;}
         public SlotBookingModel SlotBooking { get; set; }
         public Employees Employee { get; set; }
-        public ICollection<EmployeeInterviewAttachmentModel> EmployeeInterviewAttachmentModels { get; set; } = new List<EmployeeInterviewAttachmentModel>();
+        public ICollection<EmployeeInterviewAttachmentModel> EmployeeInterviewAttachment { get; set; } = new List<EmployeeInterviewAttachmentModel>();
     }
 }
