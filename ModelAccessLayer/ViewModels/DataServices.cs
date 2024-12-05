@@ -159,7 +159,7 @@ namespace ModelAccessLayer.ViewModels
         public string Message { get; set; }
         public int EmployeeId { get; set; }
         public string? EmployeeName { get; set; }
-        public string? JyotishId { get; set;  }
+        public int? JyotishId { get; set;  }
         public string? JyotishName { get; set; }
         public int SlotBookingId { get; set; }
         public int Grade { get; set; }
