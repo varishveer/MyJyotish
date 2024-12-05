@@ -117,6 +117,9 @@
                                  <button type="button" class="btn startButton_${item.id} d-none btn-sm btn-primary"  onClick='startMeating(${item.slotBookingId})'>
                                     start meating
                                 </button>
+                                     <button type="button" class="btn startButton_${item.id} d-none btn-sm btn-primary"  onClick='endMeating(${item.slotBookingId})'>
+                                        end meating
+                                    </button>
                                 </td>`;
                         
                         htmls += '</tr>';
@@ -193,8 +196,49 @@
                     data: { SlotBookingId:id,Time:true },
             success: function (result) {
                 if (result.status == 200) {
-                    $(".hideAfterSendLink_" + d.id).addClass("d-none")
-                    $(".startButton_" + d.id).removeClass("d-none")
+                   Swal.fire({
+                       title:"success",
+                       text:"Start Time saved successfully",
+                       icon:"success"
+                   })
+                }
+            }
+        })
+            }
+        })
+    }
+    function endMeating(id) {
+        Swal.fire({
+            title: "Are you sure",
+            text: "Do you want to Delete?",
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: "yes",
+            denyButtonText: `no`
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: "Processing Your Request",
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                })
+        $.ajax({
+            url: BaseUrl + "api/Admin/StartAndEndInterviewTime",
+            type: 'Get',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                'Content-Type': 'application/json',
+            },
+                    data: { SlotBookingId:id,Time:false },
+            success: function (result) {
+                if (result.status == 200) {
+                   Swal.fire({
+                       title:"success",
+                       text:"End Time saved successfully",
+                       icon:"success"
+                   })
                 }
             }
         })

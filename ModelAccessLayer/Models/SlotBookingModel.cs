@@ -18,6 +18,8 @@ namespace ModelAccessLayer.Models
         public int JyotishId { get; set; }
         public DateTime startDate { get; set; }
         public DateTime endDate { get; set; }
+        public bool start { get; set; }
+        public bool end { get; set; }
         public bool status { get; set; }
         public  JyotishModel JyotishRecords { get; set; }
         public SlotModel SlotRecords { get; set; }

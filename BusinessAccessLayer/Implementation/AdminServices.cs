@@ -1978,9 +1978,9 @@ namespace BusinessAccessLayer.Implementation
             if(SlotBooking ==  null)
             { return false; }
 
-            if(Time && SlotBooking.endDate == null)
+            if(Time)
             { SlotBooking.startDate = DateTime.Now; }
-            else if(Time == false && SlotBooking.startDate != null)
+            else 
             {
                 SlotBooking.endDate = DateTime.Now;
             }
