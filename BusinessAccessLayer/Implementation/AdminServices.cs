@@ -1822,6 +1822,47 @@ namespace BusinessAccessLayer.Implementation
         }
 
 
-        //public bool Add
+        public bool AddInterviewMeeting(InterviewMeetingViewModel data)
+        {
+            var InterviewMeeting = _context.InterviewMeeting.Where(x => x.JyotishId == data.JyotishId && x.Status == true).FirstOrDefault();
+            if(InterviewMeeting != null) 
+            {
+                InterviewMeeting.Status = false;
+                _context.InterviewMeeting.Update(InterviewMeeting);
+            }
+
+            InterviewMeeting newRecord = new InterviewMeeting();
+            newRecord.Link = data.Link;
+            newRecord.Message = data.Message;
+            newRecord.Title = data.Title;
+            newRecord.EmployeeId = data.EmployeeId;
+            newRecord.JyotishId = data.JyotishId;
+            newRecord.ApproveStatus = false;
+            newRecord.Status = true;
+          
+            _context.InterviewMeeting.Add(newRecord);
+            if (_context.SaveChanges() > 0)
+            {
+                SendEmail(data.Message, newRecord.Jyotish.Email, data.Title);
+                return true; }
+            else { return false; }
+        }
+
+        public List<InterviewMeetingViewModel> InterviewMeetingList()
+        {
+            var Data = _context.InterviewMeeting.Where(x => x.Status == true).Select(x=> new InterviewMeetingViewModel
+            {
+                Id = x.Id,
+                Link = x.Link,
+                Title = x.Title,
+                Message = x.Message,
+                EmployeeId = x.EmployeeId,
+                EmployeeName = x.Employee.Name,
+                JyotishId =  x.JyotishId,
+                JyotishName = x.Jyotish.Name,
+                ApproveStatus = x.ApproveStatus
+            }).ToList();
+            return Data;
+        }
     }
 }

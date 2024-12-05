@@ -11,6 +11,7 @@ using ModelAccessLayer.Models;
 using ModelAccessLayer.ViewModels;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Security.Principal;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MyJyotishJiApi.Controllers
 {
@@ -754,7 +755,7 @@ namespace MyJyotishJiApi.Controllers
             {
                 var httpRequest = HttpContext.Request;
                 var name = httpRequest.Form["name"];
-                if (!String.IsNullOrEmpty(name))
+                if (!string.IsNullOrEmpty(name))
                 {
                     var res = _admin.AddSpecialization(name);
                     if (res)
@@ -1512,9 +1513,9 @@ namespace MyJyotishJiApi.Controllers
 
                 }
             } 
-            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message
-    }); }
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message}); }
         }
+
         [HttpGet("getAllAccessPages")]
         public IActionResult getAllAccesPages()
         {
@@ -1533,5 +1534,46 @@ namespace MyJyotishJiApi.Controllers
                 });
             }
         }
+
+        [HttpPost("AddInterviewMeeting")]
+        public IActionResult AddInterviewMeeting(InterviewMeetingViewModel data)
+        {
+            try
+            {
+                var res = _admin.AddInterviewMeeting(data);
+                if (res) { return Ok(new { Status = 200, Message = "Successful" }); }
+                else { return Ok(new { Status = 400, Message = "Something went wrong" }); }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    Status = 500,
+                    Message = "Internal Server Error",
+                    Error = ex.Message
+                });
+            }
+        }
+
+        [HttpGet("InterviewMeetingList")]
+        public IActionResult InterviewMeetingList()
+        {
+            try
+            {
+                var res = _admin.InterviewMeetingList();
+                if (res != null) { return Ok(new { Status = 200, Data=res ,  Message = "Successful" }); }
+                else { return Ok(new { Status = 400, Message = "Something went wrong" }); }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    Status = 500,
+                    Message = "Internal Server Error",
+                    Error = ex.Message
+                });
+            }
+        }
+
     }
 }
