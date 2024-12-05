@@ -1575,5 +1575,20 @@ namespace MyJyotishJiApi.Controllers
             }
         }
 
+        [HttpGet("StartAndEndInterviewTime")]
+        public IActionResult StartAndEndInterviewTime(int SlotBookingId, bool Time)
+        {
+            try
+            {
+                var response = _admin.StartAndEndInterviewTime(SlotBookingId, Time);
+                if(response) { return Ok(new { Status = 200, Message = "Successful" }); }
+                else { return Ok(new { Status = 400, Message = "Something went wrong" }); }
+
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message });
+            }
+        }
     }
 }

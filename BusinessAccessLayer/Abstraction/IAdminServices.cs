@@ -103,6 +103,7 @@ namespace BusinessAccessLayer.Abstraction
         public bool AddDepartmentPages(DepartmentPagesValidationViewModel model);
         public bool AddInterviewMeeting(InterviewMeetingViewModel data);
         public List<InterviewMeetingViewModel> InterviewMeetingList();
+        public bool StartAndEndInterviewTime(int SlotBookingId, bool Time);
 
     }
 }

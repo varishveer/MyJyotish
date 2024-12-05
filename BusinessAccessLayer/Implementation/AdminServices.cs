@@ -1830,7 +1830,11 @@ namespace BusinessAccessLayer.Implementation
                 InterviewMeeting.Status = false;
                 _context.InterviewMeeting.Update(InterviewMeeting);
             }
-
+            var JyotishRecord = _context.JyotishRecords.Where(x => x.Id == data.JyotishId & x.Status).FirstOrDefault();
+            if(JyotishRecord == null)
+            {
+                return false;
+            }
             InterviewMeeting newRecord = new InterviewMeeting();
             newRecord.Link = data.Link;
             newRecord.Message = data.Message;
@@ -1843,7 +1847,7 @@ namespace BusinessAccessLayer.Implementation
             _context.InterviewMeeting.Add(newRecord);
             if (_context.SaveChanges() > 0)
             {
-                SendEmail(data.Message, newRecord.Jyotish.Email, data.Title);
+                SendEmail(data.Message, JyotishRecord.Email, data.Title);
                 return true; }
             else { return false; }
         }
@@ -1863,6 +1867,25 @@ namespace BusinessAccessLayer.Implementation
                 ApproveStatus = x.ApproveStatus
             }).ToList();
             return Data;
+        }
+
+        public bool StartAndEndInterviewTime(int SlotBookingId, bool Time )
+        {
+            var SlotBooking = _context.SlotBooking.Where(x => x.Id == SlotBookingId && x.status == true).FirstOrDefault();
+            if(SlotBooking ==  null)
+            { return false; }
+
+            if(Time && SlotBooking.endDate == null)
+            { SlotBooking.startDate = DateTime.Now; }
+            else if(Time == false && SlotBooking.startDate != null)
+            {
+                SlotBooking.endDate = DateTime.Now;
+            }
+           
+            _context.SlotBooking.Update(SlotBooking);
+            if (_context.SaveChanges() > 0) {  return true; }
+            else { return false; }
+           
         }
     }
 }
