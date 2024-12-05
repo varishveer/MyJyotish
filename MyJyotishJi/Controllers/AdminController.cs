@@ -1645,5 +1645,20 @@ namespace MyJyotishJiApi.Controllers
                 });
             }
         }
+
+        [HttpGet("EmployeeInterviewFeedbackList")]
+        public IActionResult EmployeeInterviewFeedbackList()
+        {
+            try
+            {
+                var Records = _admin.EmployeeInterviewFeedbackList();
+                if (Records == null) { return Ok(new { Status = 400, Message = "Something went wrong." }); }
+                else { return Ok(new { Status = 200, Data = Records, Message = "Successful" }); }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Status = 500, Message = "Internal Server Error.", Error = ex.Message });
+            }
+        }
     }
 }

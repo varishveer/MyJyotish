@@ -2038,11 +2038,7 @@ namespace BusinessAccessLayer.Implementation
             }
 
            
-            var attachmentData = new EmployeeInterviewAttachmentModel
-            {
-                EmployeeIFId = newFeedback.Id,
-                Status = true
-            };
+            var attachmentData = new EmployeeInterviewAttachmentModel();
 
            
             if (data.Image != null)
@@ -2059,11 +2055,11 @@ namespace BusinessAccessLayer.Implementation
            
             if (attachmentData.Image != null || attachmentData.Video != null)
             {
+                attachmentData.EmployeeIFId = newFeedback.Id;
+                attachmentData.Status = true;
                 _context.EmployeeInterviewAttachment.Add(attachmentData);
-                if (_context.SaveChanges() > 0)
-                {
-                    return true;
-                }
+                _context.SaveChanges();
+               
             }
 
             return false;
@@ -2092,6 +2088,36 @@ namespace BusinessAccessLayer.Implementation
                 
                 return null;
             }
+        }
+
+
+        public List<EmployeeInterviewFeedbackViewModel> EmployeeInterviewFeedbackList()
+        {
+           
+            var record = _context.EmployeeInterviewFeedback
+                                 .Include(x => x.EmployeeInterviewAttachment)
+                                 .Include(x => x.SlotBooking)
+                                     .ThenInclude(x => x.JyotishRecords)
+                                 .Where(x => x.Status)
+                                 .Select(x => new EmployeeInterviewFeedbackViewModel
+                                 {
+                                     Id = x.Id,
+                                     Message = x.Message,
+                                     EmployeeId = x.EmployeeId,
+                                     EmployeeName = x.Employee.Name,
+                                     JyotishId = x.SlotBooking.JyotishId,
+                                     JyotishName = x.SlotBooking.JyotishRecords.Name,
+                                     SlotBookingId = x.SlotBookingId,
+                                     Grade = x.Grade,
+                                   
+                                     VideoUrl = x.EmployeeInterviewAttachment
+                                                 .FirstOrDefault().Video, 
+                                     ImageUrl = x.EmployeeInterviewAttachment
+                                                 .FirstOrDefault().Image  
+                                 })
+                                 .ToList();
+
+            return record;
         }
 
     }
