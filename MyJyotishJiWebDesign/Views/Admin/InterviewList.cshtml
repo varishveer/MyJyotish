@@ -45,9 +45,11 @@
     <div class="w-75 mt-4 " id="sendLinkModal">
     <div class="row">
         <div class="col-sm-12">
-                <form class="border rounded bg-light p-3">
+                <form class="border rounded bg-light p-3" id="sendLinkForm">
                     <h3 class="d-flex justify-content-between"><span>Send Meating Link</span><span role="button" id="closeSendModal">x</span></h3>
             <div class="row">
+                <input type="hidden" name="jyotishId" id="JyotishId" />
+                        <input type="hidden" name="employeeId" id="employeeId" />
                 <div class="col-sm-6">
                     <input type="text" placeholder="Enter Title" class="form-control mb-2" name="title" />
 
@@ -57,7 +59,7 @@
                     <input type="text" name="link" placeholder="Enter Meating Link" class="form-control mb-2" />
                 </div>
                     <div class="col-sm-12">
-                    <textarea class="form-control mb-2 summernote" placeholder="Message" rows="5"></textarea>
+                    <textarea class="form-control mb-2 summernote" name="message" placeholder="Message" rows="5"></textarea>
 
                     </div>
                     <div class="text-center mt-3">
@@ -130,8 +132,10 @@
         fetchData(); // Call the function to load data
     });
 
-    function openSendLinkModal() {
+    function openSendLinkModal(jId,sId) {
         $(".fixed-continer").removeClass("d-none")
+        $("#JyotishId").val(jId)
+        $("#employeeId").val(localStorage.getItem("Eid"))
     }
     $("#closeSendModal").click(function(){
         $(".fixed-continer").addClass("d-none")
@@ -139,7 +143,54 @@
     })
      // <button type="button" class="btn btn-sm btn-primary" onclick="openFeedbackModal(${item.id}, ${item.slotId})" data-toggle="modal" data-target="#FeedbackModal">
      //                            Feedback
-     //                        </button> 
+     //                        </button>
+
+    $("#sendLinkForm").submit(function(d){
+        d.preventDefault();
+        // Convert the form data to an object, then stringify it for the JSON request
+        let formData = $(this).serializeArray(); // Use serializeArray to get key-value pairs
+        let arrData = {};
+        formData.forEach(function (field) {
+            arrData[field.name] = field.value;
+        });
+        debugger
+        $.ajax({
+            url: BaseUrl + "api/Admin/AddInterviewMeeting",
+            type: 'POST',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                'Content-Type': 'application/json',
+            },
+            data:JSON.stringify(arrData),
+            success: function (result) {
+                $(".fixed-continer").addClass("d-none")
+
+                if(result.status==200){
+                    Swal.fire({
+                        text: "Link Send Successfully",
+                        title: "success",
+                        icon: "success"
+                    })
+                }else{
+                    Swal.fire({
+                        text:result.message,
+                        title: "error",
+                        icon: "error"
+                    })
+                }
+            },error:function(){
+                $(".fixed-continer").addClass("d-none")
+
+                Swal.fire({
+                    text:"some error occured",
+                    title:"error",
+                    icon:"error"
+                })
+            }
+        })
+
+    })
+
 </script>
 
 
