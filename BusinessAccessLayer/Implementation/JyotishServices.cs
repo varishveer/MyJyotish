@@ -1850,16 +1850,8 @@ namespace BusinessAccessLayer.Implementation
 
         }
 
-        public bool AddConfirmation(int JyotishId)
-        {
-            var jyotish = _context.InterviewMeeting.Where(x => x.Status == true && x.JyotishId == JyotishId).FirstOrDefault();
-            if(jyotish == null)
-            { return false; }
+      
 
-            jyotish.ApproveStatus = true;
-            _context.InterviewMeeting.Update(jyotish);
-            if (_context.SaveChanges() > 0) { return true; }
-            else { return false; }
-        }
+       
     }
 }

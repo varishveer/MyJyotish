@@ -332,5 +332,38 @@ namespace MyJyotishGApi.Controllers
         }
 
 
+        [HttpGet("InterviewMeetingListByJyotishId")]
+        public IActionResult InterviewMeetingListByJyotishId(int JyotishId)
+        {
+            try
+            {
+                var res = _pendingJyotishServices.InterviewMeetingListByJyotishId(JyotishId);
+                if (res != null) { return Ok(new { Status = 200, Data = res, Message = "Successful" }); }
+                else { return Ok(new { Status = 400, Message = "Something went wrong" }); }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    Status = 500,
+                    Message = "Internal Server Error",
+                    Error = ex.Message
+                });
+            }
+        }
+        [HttpGet("AddConfirmation")]
+        public IActionResult AddConfirmation(int Id)
+        {
+            try
+            {
+                var response = _pendingJyotishServices.AddConfirmation(Id);
+                if (response) { return Ok(new { Status = 200, Message = "Successful" }); }
+                else { return Ok(new { Status = 400, Message = "Something went wrong" }); }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Status = 500, Message = "Internal Server Error " });
+            }
+        }
     }
 }
