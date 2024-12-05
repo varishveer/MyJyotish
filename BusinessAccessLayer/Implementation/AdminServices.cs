@@ -1374,20 +1374,16 @@ namespace BusinessAccessLayer.Implementation
             var SlotBook = _context.SlotBooking.Where(x => x.JyotishId == model.Id).FirstOrDefault();
             if (SlotBook == null) { return "Jyotish slot details not found"; }
             Slot.Status = "Booked";
-           
-           
+
+            SlotBook.SlotId = model.SlotId;
+            SlotBook.JyotishId = model.Id;
+            SlotBook.start = false;
+            SlotBook.end = false;
+            SlotBook.Date = DateTime.Now;
             SlotBook.status = false;
             _context.SlotBooking.Update(SlotBook);
             _context.Slots.Update(Slot);
-            SlotBookingModel SlotBDetails = new SlotBookingModel();
-            SlotBDetails.SlotId = model.SlotId;
-            SlotBDetails.JyotishId = model.Id;
-            SlotBDetails.start = false;
-            SlotBDetails.end = false;
             
-            SlotBDetails.Date = DateTime.Now;
-            SlotBDetails.status = true;
-            _context.SlotBooking.Add(SlotBDetails);
             if (_context.SaveChanges() > 0)
             {
 
@@ -1404,6 +1400,7 @@ namespace BusinessAccessLayer.Implementation
             var data = _context.JyotishRecords.Where(x=>x.Status == true && x.Role== "Pending")
              .Include(j => j.Slots.Where(s => s.status == true))
              .ThenInclude(s => s.SlotRecords)
+             .ThenInclude(e=>e.Feedback)
              .SelectMany(j => j.Slots.Select(s => new InteviewListViewModel
              {
                  Id = j.Id,
@@ -1847,7 +1844,7 @@ namespace BusinessAccessLayer.Implementation
             var InterviewMeeting = _context.InterviewMeeting.Where(x => x.JyotishId == data.JyotishId && x.Status == true).FirstOrDefault();
             if(InterviewMeeting != null) 
             {
-                InterviewMeeting.Status = false;
+                InterviewMeeting.ApproveStatus = false;
                 _context.InterviewMeeting.Update(InterviewMeeting);
             }
             var JyotishRecord = _context.JyotishRecords.Where(x => x.Id == data.JyotishId & x.Status).FirstOrDefault();

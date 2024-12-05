@@ -163,6 +163,7 @@
                         <button type="button" class="btn hideAfterSendLink_${item.id} btn-sm btn-primary"  onClick='openSendLinkModal(${item.id}, ${item.slotId})'>
                                 Confirm
                             </button>
+                            &nbsp;
                             <span class='border rounded p-2 d-none request_${item.id}'>Pending</span>
                                  <button type="button" class="btn startButton_${item.id} d-none btn-sm btn-primary"  onClick='startMeating(${item.slotBookingId})'>
                                     start meating
@@ -219,6 +220,8 @@
                                                     if (result.data.start) {
 
                                                         $(".startButton_" + d.id).addClass("d-none")
+                                                    $(".hideAfterSendLink_" + d.id).addClass("d-none")
+
                                                     } else {
                                                         $(".startButton_" + d.id).removeClass("d-none")
 
@@ -235,8 +238,7 @@
                                             }
                                         }
                                     });
-                                    $(".hideAfterSendLink_"+d.id).addClass("d-none")
-                                    $(".request_"+d.id).removeClass("d-none")
+                                            $(".request_"+d.id).removeClass("d-none")
                                     if (approvedStatus) {
                                         $(".request_" + d.id).addClass("d-none")
 
