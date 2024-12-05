@@ -1869,6 +1869,22 @@ namespace BusinessAccessLayer.Implementation
             return Data;
         }
 
+        public List<InterviewMeetingViewModel> InterviewMeetingListByJyotishId(int jytotishId)
+        {
+            var Data = _context.InterviewMeeting.Where(x => x.Status == true && x.JyotishId== jytotishId).Select(x => new InterviewMeetingViewModel
+            {
+                Id = x.Id,
+                Link = x.Link,
+                Title = x.Title,
+                Message = x.Message,
+                EmployeeId = x.EmployeeId,
+                EmployeeName = x.Employee.Name,
+                JyotishId = x.JyotishId,
+                JyotishName = x.Jyotish.Name,
+                ApproveStatus = x.ApproveStatus
+            }).ToList();
+            return Data;
+        }
         public bool StartAndEndInterviewTime(int SlotBookingId, bool Time )
         {
             var SlotBooking = _context.SlotBooking.Where(x => x.Id == SlotBookingId && x.status == true).FirstOrDefault();
