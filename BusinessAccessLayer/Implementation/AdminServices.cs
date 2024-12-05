@@ -1849,7 +1849,7 @@ namespace BusinessAccessLayer.Implementation
             _context.InterviewMeeting.Add(newRecord);
             if (_context.SaveChanges() > 0)
             {
-                var SlotDetails = _context.SlotBooking.Where(x => x.JyotishId == data.JyotishId && x.status).FirstOrDefault();
+                var SlotDetails = _context.SlotBooking.Where(x => x.JyotishId == data.JyotishId && x.status).Include(y=>y.SlotRecords).FirstOrDefault();
 
                 string newMessage = $@"
            <!DOCTYPE html>
