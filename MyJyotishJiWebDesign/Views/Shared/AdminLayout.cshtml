@@ -19,6 +19,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="~/summernote/dist/summernote.css" rel="stylesheet" />
 
     <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
@@ -62,9 +63,6 @@
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
-
-
- 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <style>
 
@@ -772,6 +770,7 @@
     <!-- jQuery Vector Maps -->
     <script src="~/assets/js/plugin/jsvectormap/jsvectormap.min.js"></script>
     <script src="~/assets/js/plugin/jsvectormap/world.js"></script>
+    <script src="~/summernote/dist/summernote.min.js"></script>
 
     <!-- Sweet Alert -->
     <!-- Kaiadmin JS -->
@@ -783,6 +782,17 @@
     <script src="~/summernote/dist/summernote.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            $('.summernote').summernote({
+                height: 300, // set the height of the editor
+                toolbar: [
+                    // Define your toolbar groups here. Exclude 'image' and 'video'
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['font', ['strikethrough', 'superscript', 'subscript']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['view', ['fullscreen', 'codeview']] // remove image/video
+                ]
+            });
+
             // Your API URL
             var apiUrl = BaseUrl + 'Api/Admin/NotificationData';
             var headers = {

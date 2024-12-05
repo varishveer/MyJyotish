@@ -982,7 +982,16 @@
 
 
         $(document).ready(function () {
-                $('.summernote').summernote();
+                $('.summernote').summernote({
+     height: 300, // set the height of the editor
+     toolbar: [
+    // Define your toolbar groups here. Exclude 'image' and 'video'
+    ['style', ['bold', 'italic', 'underline', 'clear']],
+    ['font', ['strikethrough', 'superscript', 'subscript']],
+    ['para', ['ul', 'ol', 'paragraph']],
+    ['view', ['fullscreen', 'codeview']] // remove image/video
+  ]
+});
             // Sidebar Toggler
             let hide = true;
 
