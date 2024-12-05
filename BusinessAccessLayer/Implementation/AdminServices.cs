@@ -1979,12 +1979,17 @@ namespace BusinessAccessLayer.Implementation
             { return false; }
 
             if(Time)
-            { SlotBooking.startDate = DateTime.Now; }
+            { 
+                SlotBooking.startDate = DateTime.Now;
+                SlotBooking.start = true;
+            }
             else 
             {
                 SlotBooking.endDate = DateTime.Now;
+                SlotBooking.end = true;
+
             }
-           
+
             _context.SlotBooking.Update(SlotBooking);
             if (_context.SaveChanges() > 0) {  return true; }
             else { return false; }
