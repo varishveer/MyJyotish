@@ -73,7 +73,7 @@
             </div>
             <div class="modal-body">
                 <!-- Hidden ID Field -->
-                <input type="hidden" id="SlotId" value="">
+                <input type="hidden" id="slotBookingId" value="">
                 <input type="hidden" id="JyotishId" value="">
 
                 <label for="Message">Feedback</label>
@@ -131,7 +131,7 @@
                                         <i class="fa-solid fa-eye"></i> View Details
                                     </button>
                                     
-                                    <button type="button" class="btn btn-sm btn-primary" onclick="openFeedbackModal(${item.id}, ${item.slotId})" data-toggle="modal" data-target="#FeedbackModal">
+                                    <button type="button" class="btn btn-sm btn-primary" onclick="openFeedbackModal(${item.id}, ${item.slotBookingId})" data-toggle="modal" data-target="#FeedbackModal">
                                      Feedback
                                 </button>
                                   </td>`;
@@ -220,28 +220,25 @@
 
 
 
-        function openFeedbackModal(id, slotId) {
-            $('#SlotId').val(slotId);
-            $('#JyotishId').val(id);
-        }
+       
 
 
 
         $('#feedbackSubmitBtn').on('click', function () {
             // Validate data
-            var slotBookingId = Number($('#SlotId').val());
+            var slotBookingId = Number($('#slotBookingId').val());
             var jyotishId = Number($('#JyotishId').val());
             var message = $('#Message').val();
             var approvedStatus = $('.isChecked:checked').val() == 1 ? true : false;
 
             // Check if values are valid
-            if (!slotId || !jyotishId || !message) {
+            if (!slotBookingId || !jyotishId || !message) {
                 Swal.fire('Error', 'Please make sure all fields are filled in correctly.', 'error');
                 return; // Stop the process if any required value is missing
             }
 
             var data = {
-                InterviewId: slotId,
+                InterviewId: slotBookingId,
                 JyotishId: jyotishId,
                 Message: message,
                 ApprovedStatus: approvedStatus
@@ -285,7 +282,11 @@
         });
 
     });
-
+    function openFeedbackModal(id, slotBookingId) {
+        debugger;
+        $('#slotBookingId').val(slotBookingId);
+        $('#JyotishId').val(id);
+    }
 </script>
 
 @* <script>

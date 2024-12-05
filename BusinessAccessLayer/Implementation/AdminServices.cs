@@ -1462,11 +1462,13 @@ namespace BusinessAccessLayer.Implementation
             var slotDetails = _context.SlotBooking.Where(x => x.Id == feedback.InterviewId).Include(x=>x.SlotRecords).FirstOrDefault();
             if (slotDetails == null) { return "Invalid Data"; }
 
-            var record = _context.InterviewFeedback.Where(x => x.InterviewId == feedback.InterviewId).FirstOrDefault();
+
+            var record = _context.InterviewFeedback.Where(x => x.InterviewId == slotDetails.SlotRecords.Id).FirstOrDefault();
+
             if (record != null) { return "Invalid Data"; }
 
             InterviewFeedbackModel Data = new InterviewFeedbackModel();
-            Data.InterviewId = feedback.InterviewId;
+            Data.InterviewId = slotDetails.SlotRecords.Id;
             Data.Message = feedback.Message;
             Data.ApprovedStatus = feedback.ApprovedStatus;
             Data.JyotishId = feedback.JyotishId;
