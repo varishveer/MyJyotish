@@ -587,6 +587,7 @@ namespace BusinessAccessLayer.Implementation
             
         }
 
+
         public List<SliderImagesModel> SliderImageList()
         {
             var Records = _context.Sliders.ToList();
@@ -1995,6 +1996,16 @@ namespace BusinessAccessLayer.Implementation
             if (_context.SaveChanges() > 0) {  return true; }
             else { return false; }
            
+        }
+
+        public Dictionary<string,bool> startAndEndDateofMeating(int slotBookingId)
+        {
+            var res = _context.SlotBooking.Where(e => e.Id == slotBookingId && e.status).FirstOrDefault();
+            Dictionary<string, bool> startEnd = new Dictionary<string, bool>();
+            startEnd.Add("start", res.end);
+            startEnd.Add("end", res.end);
+            return startEnd;
+        }
         }
 
         public bool AddEmployeeInterviewFeedback(EmployeeInterviewFeedbackViewModel data)

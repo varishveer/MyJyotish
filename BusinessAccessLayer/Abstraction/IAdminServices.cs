@@ -104,6 +104,8 @@ namespace BusinessAccessLayer.Abstraction
         public bool AddInterviewMeeting(InterviewMeetingViewModel data);
         public List<InterviewMeetingViewModel> InterviewMeetingList();
         public List<InterviewMeetingViewModel> InterviewMeetingListByJyotishId(int jytotishId);
+        public Dictionary<string, bool> startAndEndDateofMeating(int slotBookingId);
+
 
         public bool StartAndEndInterviewTime(int SlotBookingId, bool Time);
         public bool AddEmployeeInterviewFeedback(EmployeeInterviewFeedbackViewModel data);

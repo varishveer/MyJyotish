@@ -112,13 +112,17 @@
                             </button>
                             &nbsp
                         <button type="button" class="btn hideAfterSendLink_${item.id} btn-sm btn-primary"  onClick='openSendLinkModal(${item.id}, ${item.slotId})'>
-                                Send Link
+                                Confirm
                             </button>
+                            <span class='border rounded p-2 d-none request_${item.id}'>Pending</span>
                                  <button type="button" class="btn startButton_${item.id} d-none btn-sm btn-primary"  onClick='startMeating(${item.slotBookingId})'>
                                     start meating
                                 </button>
-                                     <button type="button" class="btn startButton_${item.id} d-none btn-sm btn-primary"  onClick='endMeating(${item.slotBookingId})'>
+                                     <button type="button" class="btn endButton_${item.id} d-none btn-sm btn-primary"  onClick='endMeating(${item.slotBookingId})'>
                                         end meating
+                                    </button> 
+                                    <button type="button" class="btn feedback_${item.id} d-none btn-sm btn-primary"  onClick='feedback(${item.slotBookingId})'>
+                                        Feedback
                                     </button>
                                 </td>`;
                         
@@ -152,11 +156,41 @@
                             },
                             data: { jyotishId:d.id},
                             success: function (result) {
-                                if (result.status == 200) {
+                                console.log(result)
+                                if (result.status == 200 && result.data.length>0) {
                                     $(".hideAfterSendLink_"+d.id).addClass("d-none")
+                                    $(".request_"+d.id).removeClass("d-none")
+                                    if (d.approveStatus){
                                     $(".startButton_" + d.id).removeClass("d-none")
+                                    }
                                 }
                             }
+                        }).then(()=>{
+                            $.ajax({
+                                url: BaseUrl + "api/Admin/startAndEndDateofMeating",
+                                type: 'Get',
+                                headers: {
+                                    'Authorization': `Bearer ${localStorage.getItem("Token")}`
+                                },
+                                data: { SlotBookingId: d.slotBookingId },
+                                success: function (result) {
+                                    if (result.status == 200) {
+                                        if(result.data.start){
+
+                                        $(".startButton_" + d.id).addClass("d-none")
+                                        }else{
+                                            $(".startButton_" + d.id).removeClass("d-none")
+
+                                        }
+                                        if(result.data.end){
+                                        $(".endButton_" + d.id).addClass("d-none")
+                                            $(".feedback_" + d.id).removeClass("d-none")
+                                        }else{
+                                            $(".endButton_" + d.id).removeClass("d-none")
+                                        }
+                                    }
+                                }
+                            })
                         })
                    })
                   
@@ -199,7 +233,10 @@
                    Swal.fire({
                        title:"success",
                        text:"Start Time saved successfully",
-                       icon:"success"
+                       icon:"success",
+                       didClose:()=>{
+                           fetchData()
+                       }
                    })
                 }
             }
@@ -237,7 +274,10 @@
                    Swal.fire({
                        title:"success",
                        text:"End Time saved successfully",
-                       icon:"success"
+                       icon:"success",
+                                didClose: () => {
+                                    fetchData()
+                                }
                    })
                 }
             }
