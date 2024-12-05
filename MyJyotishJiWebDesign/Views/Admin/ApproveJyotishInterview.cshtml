@@ -1,8 +1,407 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿
 @{
     Layout = "AdminLayout";
 
 }
 
+<style>
+    .card-body {
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+    }
+
+    .fixed-continer {
+        top: 0%;
+        left: 0%;
+        width: 100vw !important;
+        height: 100vh !important;
+        z-index: 1000000;
+        background: rgba(81, 81, 82,0.4);
+    }
+</style>
+
+
+<div class="container-fluid mt-4">
+    <div class="card">
+        <div class="d-flex flex-row justify-content-between align-items-center px-4">
+            <h5 class="text-primary mt-2">Interview List</h5>
+        </div>
+        <hr />
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="DataTable" class="table table-bordered table-striped">
+                    <!-- Table content goes here -->
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="InterviewFeedbackModal" tabindex="-1" aria-labelledby="InterviewFeedbackModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="InterviewFeedbackModalLabel">Interview Feedback</h1>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="detailMessage"></p>
+                <div class="row d-flex  gap-3">
+                    <div id="image" style="height:100px; width:100px;">
+                        <!-- Image will be dynamically loaded here -->
+                    </div>
+                    <div id="video" style="height:100px; width:100px;">
+                        <!-- Video will be dynamically loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!------Interview Feedback Modal-------->
+<div class="modal fade" id="FeedbackModal" tabindex="-1" aria-labelledby="FeedbackModalLabel" aria-hidden="true">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="FeedbackModalLabel">Interview Feedback</h5>
+                <button type="button" class="close btn" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Hidden ID Field -->
+                <input type="hidden" id="SlotId" value="">
+                <input type="hidden" id="JyotishId" value="">
+
+                <label for="Message">Feedback</label>
+                <textarea type="text" id="Message" name="appointmentDate" class="form-control">
+                    </textarea>
+                <div class="my-3 justify-content-center d-flex">
+                    <label for="Approve" class="mx-2">Approve</label>
+                    <input checked type="radio" id="Approve" name="bool_value" value="1" class="me-5 isChecked">
+
+                    <label for="Reject" class="mx-2">Reject</label>
+                    <input type="radio" id="Reject" name="bool_value" value="0" class="isChecked">
+                </div>
+
+
+
+                <button class="btn btn-success" id="feedbackSubmitBtn"> Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        // Fetch the data and render the table
+        function fetchData() {
+            Swal.fire({
+                title: "Processing Your Request",
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            $.ajax({
+                url: BaseUrl + "api/Admin/EmployeeInterviewFeedbackList",
+                type: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                    'Content-Type': 'application/json',
+                },
+                success: function (result) {
+                    console.log(result); // Log the API response
+                    let htmls = '<thead><tr><th>Id</th><th>Employee Name</th><th>Jyotish Name</th><th>Grade</th><th>Reschedule</th></tr></thead><tbody>';
+                    let idCounter = 1;
+                    $.each(result.data, function (key, item) {
+                        htmls += '<tr>';
+                        htmls += `<td class="text-center">${idCounter}</td>`;
+                        htmls += `<td class="text-center">${item.employeeName}</td>`;
+                        htmls += `<td class="text-center">${item.jyotishName}</td>`;
+                        htmls += `<td class="text-center">${item.grade}</td>`;
+
+                        // Add the button to open the modal
+                        htmls += `<td class="text-center d-flex">
+                                    <button type="button" class="btn btn-sm btn-primary" data-id="${item.id}" data-imageUrl="${item.imageUrl}" data-videoUrl="${item.videoUrl}" data-message="${item.message}" data-toggle="modal" data-target="#InterviewFeedbackModal">
+                                        <i class="fa-solid fa-eye"></i> View Details
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-primary" onclick="openFeedbackModal(${item.id}, ${item.slotId})" data-toggle="modal" data-target="#FeedbackModal">
+                                     Feedback
+                                </button>
+                                  </td>`;
+
+                        htmls += '</tr>';
+                        idCounter++;
+                    });
+
+                    htmls += '</tbody>';
+                    $('#DataTable').html(htmls);
+
+                    // Initialize DataTable after data is loaded
+                    $('#DataTable').DataTable({
+                        "paging": true,
+                        "searching": true,
+                        "ordering": true,
+                        "info": true
+                    });
+
+                    Swal.close(); // Close the loading dialog
+                },
+                error: function (errormessage) {
+                    console.error('Error fetching data:', errormessage.responseText);
+                }
+            });
+        }
+
+        // Call fetchData to load the data
+        fetchData();
+
+        // Using event delegation to handle dynamically added buttons
+        $(document).on('click', 'button[data-toggle="modal"]', function () {
+            // Get data attributes from the clicked button
+            const id = $(this).data('id');
+            const imageUrl = $(this).data('imageurl');
+            const videoUrl = $(this).data('videourl');
+            const message = $(this).data('message');
+
+            // Set modal title
+           
+
+            // Set the message inside the modal
+            $('#detailMessage').html(message);
+
+            // Get the image and video container elements
+            const imageContainer = $('#image');
+            const videoContainer = $('#video');
+
+            // Clear previous content inside image and video containers
+            imageContainer.empty();
+            videoContainer.empty();
+
+           
+            if (imageUrl) {
+                const imgElement = $('<img>').attr('src', BaseUrl + imageUrl).css({
+                    width: '100px',
+                    height: '100px',
+                    alt: 'Interview Image',
+                    class: 'img-fluid' // Optional: to make the image responsive
+                });
+
+                // Wrap the image in an anchor tag to open it in a new page
+                const imageLink = $('<a>').attr('href', BaseUrl + imageUrl).attr('target', '_blank');
+                imageLink.append(imgElement);
+                imageContainer.append(imageLink);
+            }
+
+            // Load the video if video URL is available
+            if (videoUrl) {
+                const videoElement = $('<video>')
+                    .attr('src', videoUrl) // If video URL is already complete, no need to append BaseUrl
+                    .css({
+                        width: '100px',
+                        height: '100px',
+                        alt: 'Interview Video'
+                    })
+                    .attr('controls', true); // Add controls to the video player
+
+                // Wrap the video in an anchor tag to open it in a new page
+                const videoLink = $('<a>').attr('href', videoUrl).attr('target', '_blank');
+                videoLink.append(videoElement);
+                videoContainer.append(videoLink);
+            }
+
+        });
+
+
+
+        function openFeedbackModal(id, slotId) {
+            $('#SlotId').val(slotId);
+            $('#JyotishId').val(id);
+        }
+
+
+
+        $('#feedbackSubmitBtn').on('click', function () {
+            // Validate data
+            var slotId = Number($('#SlotId').val());
+            var jyotishId = Number($('#JyotishId').val());
+            var message = $('#Message').val();
+            var approvedStatus = $('.isChecked:checked').val() == 1 ? true : false;
+
+            // Check if values are valid
+            if (!slotId || !jyotishId || !message) {
+                Swal.fire('Error', 'Please make sure all fields are filled in correctly.', 'error');
+                return; // Stop the process if any required value is missing
+            }
+
+            var data = {
+                InterviewId: slotId,
+                JyotishId: jyotishId,
+                Message: message,
+                ApprovedStatus: approvedStatus
+            };
+
+            Swal.fire({
+                title: "Processing Your Request",
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            $.ajax({
+                url: BaseUrl + 'api/admin/AddInterviewFeedback',
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('Token'),
+                    'Content-Type': 'application/json'
+                },
+                data: JSON.stringify(data),
+                success: function (response) {
+                    if (response.status === 200) {
+                        Swal.fire({
+                            icon: 'success',
+                            text: 'Record Added Successfully.',
+                            title: 'success',
+                            didClose: () => {
+                                location.reload();
+                            }
+                        });
+                    } else {
+                        Swal.fire('Error', response.message, 'error');
+                    }
+                },
+                error: function (error) {
+                    console.error('Error submitting data:', error);
+                    Swal.fire('Error', 'An error occurred. Please try again later.', 'error');
+                }
+            });
+        });
+
+    });
+
+</script>
+
+@* <script>
+    $(document).ready(function () {
+        function fetchData() {
+                Swal.fire({
+                    title: "Processing Your Request",
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                })
+            $.ajax({
+                url: BaseUrl + "api/Admin/EmployeeInterviewFeedbackList",
+                type: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                    'Content-Type': 'application/json',
+                },
+                success: function (result) {
+                    console.log(result); // Log the API response
+                    let htmls = '<thead><tr><th>Id</th><th>Employee Name</th><th>Jyotish Name</th><th>grade</th> <th>Reschedule</th></tr> </thead><tbody>';
+                    let idCounter = 1;
+                    $.each(result.data, function (key, item) {
+                        htmls += '<tr>';
+                        htmls += `<td class="text-center">${idCounter}</td>`;
+                        htmls += `<td class="text-center">${item.employeeName}</td>`;
+                        htmls += `<td class="text-center">${item.jyotishName}</td>`;
+                        htmls += `<td class="text-center">${item.grade}</td>`;
+
+                        htmls += `<td class="text-center d-flex">
+                                <button type="button" id="DetailView" class="btn btn-sm btn-primary" data-id="${item.id}" data-imageUrl="${item.imageUrl}" data-videoUrl="${item.videoUrl}" data-message="${item.message}" data-toggle="modal" data-target="#InterviewFeedbackModal">
+        <i class="fa-solid fa-eye"></i> View Details
+    </button>
+                            &nbsp
+                            <button type="button" class=" btn btn-sm btn-primary" data-id="${item.id}" data-toggle="modal" data-target="#InterviewFeedbackModal">
+                                <i class="fa-solid fa-eye"></i>
+                                </button>
+                                </td>`;
+
+                        htmls += '</tr>';
+                        idCounter++;
+                    });
+
+                    htmls += '</tbody>';
+                    $('#DataTable').html(htmls);
+                    // Initialize DataTable after the data is loaded
+                    $('#DataTable').DataTable({
+                        "paging": true,
+                        "searching": true,
+                        "ordering": true,
+                        "info": true
+                    });
+                    Swal.close();
+                },
+                error: function (errormessage) {
+                    console.error('Error fetching data:', errormessage.responseText);
+                }
+            });
+
+           
+        }
+
+        fetchData(); // Call the function to load data
+    });
+
+   
+
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Add an event listener to the button that triggers the modal
+        const detailViewButton = document.getElementById('DetailView');
+
+        // Handle the modal opening event
+        detailViewButton.addEventListener('click', function (event) {
+            // Get data attributes from the button
+            const id = event.target.getAttribute('data-id');
+            const imageUrl = event.target.getAttribute('data-imageUrl');
+            const videoUrl = event.target.getAttribute('data-videoUrl');
+            const message = event.target.getAttribute('data-message');
+
+            // Set the modal title (can be dynamic or static)
+            document.getElementById('InterviewFeedbackModalLabel').textContent = `Feedback for Interview ID: ${id}`;
+
+            // Set the message inside the modal
+            document.getElementById('detailMessage').textContent = message;
+
+            // Get the image and video container elements
+            const imageContainer = document.getElementById('image');
+            const videoContainer = document.getElementById('video');
+
+            // Clear any previous content inside image and video containers
+            imageContainer.innerHTML = '';
+            videoContainer.innerHTML = '';
+
+            // Load the image if image URL is available
+            if (imageUrl) {
+                const imgElement = document.createElement('img');
+                imgElement.src = imageUrl;
+                imgElement.style.width = '100px';
+                imgElement.style.height = '100px';
+                imgElement.alt = 'Interview Image';
+                imageContainer.appendChild(imgElement);
+            }
+
+            // Load the video if video URL is available
+            if (videoUrl) {
+                const videoElement = document.createElement('video');
+                videoElement.src = videoUrl;
+                videoElement.style.width = '100px';
+                videoElement.style.height = '100px';
+                videoElement.controls = true; // Add controls to the video player
+                videoElement.alt = 'Interview Video';
+                videoContainer.appendChild(videoElement);
+            }
+        });
+    });
+</script> *@
