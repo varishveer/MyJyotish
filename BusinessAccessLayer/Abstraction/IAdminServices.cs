@@ -101,7 +101,8 @@ namespace BusinessAccessLayer.Abstraction
         public bool AddAccessPages(EmployeesAccessPagesViewModel model);
         public List<EmployeesAccessPages> getAccessPages();
         public bool AddDepartmentPages(DepartmentPagesValidationViewModel model);
-
+        public bool AddInterviewMeeting(InterviewMeetingViewModel data);
+        public List<InterviewMeetingViewModel> InterviewMeetingList();
 
     }
 }

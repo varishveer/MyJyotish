@@ -1164,5 +1164,20 @@ namespace MyJyotishGApi.Controllers
             }
             catch { return StatusCode(500, new { Status = 500, Message = "Internal Server Error " }); }
         }
+
+        [HttpGet("AddConfirmation")]
+        public IActionResult AddConfirmation(int Id)
+        {
+            try
+            {
+                var response = _jyotish.AddConfirmation(Id);
+                if (response) { return Ok(new { Status = 200, Message = "Successful" }); }
+                else { return Ok(new { Status = 400, Message = "Something went wrong" }); }
+            }
+            catch(Exception ex )
+            {
+                return StatusCode(500, new { Status = 500, Message = "Internal Server Error " });
+            }
+        }
     }
 }
