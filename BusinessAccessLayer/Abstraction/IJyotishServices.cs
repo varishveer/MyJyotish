@@ -80,6 +80,6 @@ namespace BusinessAccessLayer.Abstraction
         public bool upgradePackages(packages packages);
         public bool BookMark(int appointmentId);
         public JyotishDashboardDataViewModel JyotishDashboardData(int Id);
-        public bool AddConfirmation(int JyotishId);
+
     }
 }

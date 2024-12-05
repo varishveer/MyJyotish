@@ -621,6 +621,37 @@
 
 <script>
 
+    function confirmAction() {
+        const token = localStorage.getItem('Token3');
+
+        Swal.fire({
+            title: "Processing Your Request",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
+        $.ajax({
+            url: BaseUrl + `Api/PendingJyotish/SlotList`,
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            data:{Id:localStorage.getItem("Id")},
+            success: function (response) {
+                if(response.status==200){
+                    Swal.fire({
+                        title:"success",
+                        text:"Thankyou for confirm your meating",
+                        icon:'success'
+                    })
+                }
+
+            }
+        })
+    }
+
     $(document).ready(function () {
         let checkBookinStatus=false;
         const token = localStorage.getItem('Token3');
@@ -673,6 +704,7 @@
                                         </span>
                                     </p>
                                     <p>We look forward to having you! Please ensure to be prepared and join promptly at the scheduled time.</p>
+                                    <p id='meatingUrl'></p>
                                 </div>
                                 `);
                         $detailsContainer.html($detailsElement);
@@ -695,16 +727,37 @@
                 }
             }).then(()=>{
                 fetchDocuments()
+
+                function getJyotishInterViewMeetingLink() {
+                    $.ajax({
+                        url: BaseUrl + "api/pendingjyotish/InterviewMeetingListByJyotishId",
+                        type: 'Get',
+                        headers: {
+                            'Authorization': `Bearer ${localStorage.getItem("Token3")}`,
+                            'Content-Type': 'application/json',
+                        },
+                        data: { jyotishId: localStorage.getItem("Id") },
+                        success: function (result) {
+                            console.log(result)
+                            if(result.status==200 && result.data.length>0){
+                                $("#meatingUrl").append(`
+                                        <span>Meating Url : </span><a target='_blank' href='${result.data[0].link}'>${result.data[0].link}</a>
+                                        <p>Please Click here to confirm your meating : ${result.data[0].approveStatus? "": "<button class='btn btn-primary' onClick='confirmAction()'>Confirm</button>"}</p>
+                                `)
+                            }
+                        }
+                    })
+                }
+                getJyotishInterViewMeetingLink()
+
+                
             })
         }
 
         getJyotishSlotDetails()
+       
 
-
-        function getJyotishInterViewMeetingLink(){
-
-        }
-
+        
         function SlotBooking() {
             Swal.fire({
                 title: "Processing Your Request",

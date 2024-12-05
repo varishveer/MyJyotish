@@ -694,9 +694,34 @@ namespace BusinessAccessLayer.Implementation
         }
 
 
+        public List<InterviewMeetingViewModel> InterviewMeetingListByJyotishId(int jytotishId)
+        {
+            var Data = _context.InterviewMeeting.Where(x => x.Status == true && x.JyotishId == jytotishId).Select(x => new InterviewMeetingViewModel
+            {
+                Id = x.Id,
+                Link = x.Link,
+                Title = x.Title,
+                Message = x.Message,
+                EmployeeId = x.EmployeeId,
+                EmployeeName = x.Employee.Name,
+                JyotishId = x.JyotishId,
+                JyotishName = x.Jyotish.Name,
+                ApproveStatus = x.ApproveStatus
+            }).ToList();
+            return Data;
+        }
 
+        public bool AddConfirmation(int JyotishId)
+        {
+            var jyotish = _context.InterviewMeeting.Where(x => x.Status == true && x.JyotishId == JyotishId).FirstOrDefault();
+            if (jyotish == null)
+            { return false; }
 
-
+            jyotish.ApproveStatus = true;
+            _context.InterviewMeeting.Update(jyotish);
+            if (_context.SaveChanges() > 0) { return true; }
+            else { return false; }
+        }
 
     }
 }
