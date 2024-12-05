@@ -272,8 +272,8 @@ namespace BusinessAccessLayer.Implementation
                         record.ApprovedStatus = "Verified";
                     }
                     else { return "Email already Verified"; }
-                   
-                   // record.Password= Guid.NewGuid().ToString("N").Substring(0, 8);
+
+                     record.Feedback = false;
                     _context.JyotishRecords.Update(record);
 
                     var result = _context.SaveChanges();
