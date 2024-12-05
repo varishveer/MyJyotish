@@ -72,8 +72,57 @@
 </div>
 </div>
 
+<!--feedbackModal Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Feedback</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <form id="finalFeedbackForm">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <input type="hidden" id="employeeIds" name="employeeId" class="form-control" />
+                                <input type="hidden" id="slotBookingId" name="slotBookingId" class="form-control" />
+                                Grade 
+                                <select class="form-select" name="grade" id="grade">
+                                    <option>--select grade--</option>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-4">
+                                Image (optional)
+                                <input type="file" class="form-control" name="image" id="image" />
+                                </div>
+                                <div class="col-sm-4">
+                                Video (optional)
+                                <input type="file" class="form-control" name="video" id="video" />
+                                </div>
+                            <div class="col-sm-12 mt-3">
+                                    <textarea class="summernote" name="Message"></textarea>
+                            </div>
+                        </div>
+                      </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="submitFeedbackForm">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
-    $(document).ready(function () {
         function fetchData() {
                 Swal.fire({
                     title: "Processing Your Request",
@@ -120,8 +169,8 @@
                                 </button>
                                      <button type="button" class="btn endButton_${item.id} d-none btn-sm btn-primary"  onClick='endMeating(${item.slotBookingId})'>
                                         end meating
-                                    </button> 
-                                    <button type="button" class="btn feedback_${item.id} d-none btn-sm btn-primary"  onClick='feedback(${item.slotBookingId})'>
+                                    </button>
+                                        <button type="button" class="btn feedback_${item.id} d-none btn-sm btn-primary"  onClick='feedback(${item.slotBookingId})' data-bs-toggle="modal" data-bs-target="#exampleModal">
                                         Feedback
                                     </button>
                                 </td>`;
@@ -158,6 +207,8 @@
                             success: function (result) {
                                 console.log(result)
                                 if (result.status == 200 && result.data.length>0) {
+                                    let approvedStatus = result.data[0].approveStatus;
+
                                     $.ajax({
                                         url: BaseUrl + "api/Admin/startAndEndDateofMeating",
                                         type: 'Get',
@@ -166,8 +217,10 @@
                                         },
                                         data: { SlotBookingId: d.slotBookingId },
                                         success: function (result) {
+
                                             if (result.status == 200) {
-                                                if (d.approveStatus) {
+                                                debugger
+                                                if (approvedStatus) {
                                                     if (result.data.start) {
 
                                                         $(".startButton_" + d.id).addClass("d-none")
@@ -183,15 +236,15 @@
                                                         $(".endButton_" + d.id).removeClass("d-none")
                                                     }
                                                     $(".hideAfterSendLinkresheduel_" + d.id).addClass("d-none")
-                                                    $(".startButton_" + d.id).removeClass("d-none")
                                                 }
                                             }
                                         }
                                     });
                                     $(".hideAfterSendLink_"+d.id).addClass("d-none")
                                     $(".request_"+d.id).removeClass("d-none")
-                                    if (d.approveStatus){
-                                      
+                                    if (approvedStatus) {
+                                        $(".request_" + d.id).addClass("d-none")
+
                                         $(".hideAfterSendLinkresheduel_" + d.id).addClass("d-none")
                                         $(".startButton_" + d.id).removeClass("d-none")
                                     }
@@ -206,13 +259,88 @@
             })
         }
 
-        fetchData(); // Call the function to load data
-    });
+    fetchData(); 
+
+
+    function feedback(id){
+        let employeeId = localStorage.getItem("Eid")
+        $("#slotBookingId").val(id)
+        $("#employeeIds").val(employeeId)
+        debugger
+    }
+
+    $("#submitFeedbackForm").click(function(){
+        let formData=new FormData();
+        let arrData = $("#finalFeedbackForm").serializeArray();
+        arrData.forEach(function(d){
+            formData.append(d.name,d.value);
+        })
+        debugger
+
+        if($("#image").get(0).files[0]!=null){
+            formData.append("image", $("#image").get(0).files[0])
+        }
+        if($("#video").get(0).files[0]!=null){
+            formData.append("video", $("#video").get(0).files[0])
+        }
+        Swal.fire({
+            title: "Are you sure",
+            text: "Confirm your action?",
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: "yes",
+            denyButtonText: `no`
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: "Processing Your Request",
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                })
+                $.ajax({
+                    url: BaseUrl + "api/Admin/AddEmployeeInterviewFeedback",
+                    type: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem("Token")}`
+                    },
+                    processData:false,
+                    contentType:false,
+                    data:formData,
+                    success: function (result) {
+                        if (result.status == 200) {
+                            Swal.fire({
+                                title: "success",
+                                text: "Start Time saved successfully",
+                                icon: "success",
+                                didClose: () => {
+                                    fetchData()
+                                }
+                            })
+                        }else{
+                            Swal.fire({
+                                title: "error",
+                                text:result.message,
+                                icon: "error"
+                            })
+                        }
+                    },error:function(){
+                        Swal.fire({
+                            title: "error",
+                            text: "some error occured",
+                            icon: "error"
+                        })
+                    }
+                })
+            }
+        })
+    })
 
     function startMeating(id){
         Swal.fire({
             title: "Are you sure",
-            text: "Do you want to Delete?",
+            text: "Is really meating are started?",
             showDenyButton: true,
             showCancelButton: true,
             confirmButtonText: "yes",
@@ -253,7 +381,7 @@
     function endMeating(id) {
         Swal.fire({
             title: "Are you sure",
-            text: "Do you want to Delete?",
+            text: "Is really meating are ended?",
             showDenyButton: true,
             showCancelButton: true,
             confirmButtonText: "yes",
