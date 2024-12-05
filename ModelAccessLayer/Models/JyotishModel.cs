@@ -60,6 +60,7 @@ namespace ModelAccessLayer.Models
         public int? Pincode { get; set; }
         public int? countryCode { get; set; }
         public string? Message { get; set; }
+        public bool Feedback { get; set; }
         // public int? TempRecordId { get; set; }
 
         [JsonIgnore]
