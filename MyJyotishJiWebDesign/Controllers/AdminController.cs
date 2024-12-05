@@ -32,6 +32,7 @@ namespace MyJyotishJiWebDesign.Controllers
         public IActionResult Employee() { return View(); }
         public IActionResult Feedback() { return View();  }
         public IActionResult PendingFeedback() { return View();  }
+        public IActionResult ApproveJyotishInterview() { return View();  }
 
     }
 }
