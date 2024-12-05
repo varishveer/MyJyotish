@@ -21,6 +21,8 @@ namespace ModelAccessLayer.Models
         public bool status { get; set; }
         public  JyotishModel JyotishRecords { get; set; }
         public SlotModel SlotRecords { get; set; }
+        public ICollection<EmployeeInterviewFeedbackModel> EmployeeInterviewFeedbacks { get; set; } = new List<EmployeeInterviewFeedbackModel>(); 
+
        
     }
 }
