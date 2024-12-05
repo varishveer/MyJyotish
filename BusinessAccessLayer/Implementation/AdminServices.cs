@@ -1401,7 +1401,7 @@ namespace BusinessAccessLayer.Implementation
         public List<InteviewListViewModel> InteviewList()
         {
             var data = _context.JyotishRecords.Where(x=>x.Status == true && x.Role== "Pending")
-             .Include(j => j.Slots)
+             .Include(j => j.Slots.Where(s => s.status == true))
              .ThenInclude(s => s.SlotRecords)
              .SelectMany(j => j.Slots.Select(s => new InteviewListViewModel
              {
