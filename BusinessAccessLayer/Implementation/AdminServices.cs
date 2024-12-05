@@ -1375,12 +1375,22 @@ namespace BusinessAccessLayer.Implementation
             if (SlotBook == null) { return "Jyotish slot details not found"; }
             Slot.Status = "Booked";
            
-            SlotBook.SlotId = model.SlotId;
-            SlotBook.Date = DateTime.Now;
+           
+            SlotBook.status = false;
             _context.SlotBooking.Update(SlotBook);
             _context.Slots.Update(Slot);
+            SlotBookingModel SlotBDetails = new SlotBookingModel();
+            SlotBDetails.SlotId = model.SlotId;
+            SlotBDetails.JyotishId = model.Id;
+            SlotBDetails.start = false;
+            SlotBDetails.end = false;
+            
+            SlotBDetails.Date = DateTime.Now;
+            SlotBDetails.status = true;
+            _context.SlotBooking.Add(SlotBDetails);
             if (_context.SaveChanges() > 0)
             {
+
                 return "Successful";
             }
             else
@@ -1449,6 +1459,9 @@ namespace BusinessAccessLayer.Implementation
         }
         public string AddInterviewFeedback(InterviewFeedbackViewModel feedback)
         {
+            var slotDetails = _context.SlotBooking.Where(x => x.Id == feedback.InterviewId).Include(x=>x.SlotRecords).FirstOrDefault();
+            if (slotDetails == null) { return "Invalid Data"; }
+
             var record = _context.InterviewFeedback.Where(x => x.InterviewId == feedback.InterviewId).FirstOrDefault();
             if (record != null) { return "Invalid Data"; }
 
