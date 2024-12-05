@@ -2045,16 +2045,16 @@ namespace BusinessAccessLayer.Implementation
                 Grade = data.Grade,
                 Status = true
             };
+            if (jyotish == null)
+            {
+                jyotish.Feedback = true;
+                _context.JyotishRecords.Update(jyotish);
+            }
 
-          
             _context.EmployeeInterviewFeedback.Add(newFeedback);
             if (_context.SaveChanges() <= 0)
             {
-                if (jyotish == null)
-                {
-                    jyotish.Feedback = true;
-                    _context.JyotishRecords.Update(jyotish);
-                }
+               
                 return false;
             }
 
