@@ -1610,5 +1610,20 @@ namespace MyJyotishJiApi.Controllers
                 return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message });
             }
         }
+        [HttpGet("startAndEndDateofMeating")]
+        public IActionResult startAndEndDateofMeating(int SlotBookingId)
+        {
+            try
+            {
+                var response = _admin.startAndEndDateofMeating(SlotBookingId);
+                if(response!=null) { return Ok(new { Status = 200, Message = "data retrieved", data=response }); }
+                else { return Ok(new { Status = 400, Message = "Something went wrong" }); }
+
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message });
+            }
+        }
     }
 }

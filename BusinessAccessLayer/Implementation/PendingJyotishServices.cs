@@ -486,7 +486,10 @@ namespace BusinessAccessLayer.Implementation
             NewRecord.Date = DateTime.Now;
             NewRecord.JyotishId = model.JyotishId;
             NewRecord.SlotId = model.SlotId;
-            NewRecord.status = true; ;
+            NewRecord.status = true; 
+            NewRecord.start = false;
+            NewRecord.end = false;
+
             _context.Slots.Update(slot);
             _context.SlotBooking.Add(NewRecord);
             if (_context.SaveChanges() > 0)
