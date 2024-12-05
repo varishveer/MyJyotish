@@ -2114,7 +2114,8 @@ namespace BusinessAccessLayer.Implementation
                                  .Include(x => x.EmployeeInterviewAttachment)
                                  .Include(x => x.SlotBooking)
                                      .ThenInclude(x => x.JyotishRecords)
-                                 .Where(x => x.Status)
+                                 .Where(x => x.Status && x.SlotBooking.JyotishRecords.Role == "Pending")
+
                                  .Select(x => new EmployeeInterviewFeedbackViewModel
                                  {
                                      Id = x.Id,
