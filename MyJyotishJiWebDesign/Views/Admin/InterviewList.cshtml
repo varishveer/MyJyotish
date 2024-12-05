@@ -9,6 +9,15 @@
         padding-left: 15px !important;
         padding-right: 15px !important;
     }
+
+    .fixed-continer {
+        top:0%;
+        left:0%;
+        width:100vw !important;
+        height:100vh !important;
+        z-index:1000000;
+        background: rgba(81, 81, 82,0.4);
+    }
 </style>
 
 
@@ -29,6 +38,36 @@
             </div>
         </div>
     </div>
+</div>
+
+
+<div class="position-fixed d-flex justify-content-center d-none fixed-continer">
+    <div class="w-75 mt-4 " id="sendLinkModal">
+    <div class="row">
+        <div class="col-sm-12">
+                <form class="border rounded bg-light p-3">
+                    <h3 class="d-flex justify-content-between"><span>Send Meating Link</span><span role="button" id="closeSendModal">x</span></h3>
+            <div class="row">
+                <div class="col-sm-6">
+                    <input type="text" placeholder="Enter Title" class="form-control mb-2" name="title" />
+
+                </div>
+                <div class="col-sm-6">
+
+                    <input type="text" name="link" placeholder="Enter Meating Link" class="form-control mb-2" />
+                </div>
+                    <div class="col-sm-12">
+                    <textarea class="form-control mb-2 summernote" placeholder="Message" rows="5"></textarea>
+
+                    </div>
+                    <div class="text-center mt-3">
+                        <input type="submit" class="btn btn-primary" value="Send" />
+                    </div>
+                    </div>
+                </form>
+        </div>
+    </div>
+</div>
 </div>
 
 <script>
@@ -63,7 +102,7 @@
                                 Reschedule
                             </button>
                             &nbsp
-                                 <button type="button" class="btn btn-sm btn-primary" onclick="openFeedbackModal(${item.id}, ${item.slotId})" data-toggle="modal" data-target="#FeedbackModal">
+                                                 <button type="button" class="btn btn-sm btn-primary"  onClick='openSendLinkModal(${item.id}, ${item.slotId})'>
                                 Send Link
                             </button> 
                             </td>`;
@@ -91,6 +130,13 @@
         fetchData(); // Call the function to load data
     });
 
+    function openSendLinkModal() {
+        $(".fixed-continer").removeClass("d-none")
+    }
+    $("#closeSendModal").click(function(){
+        $(".fixed-continer").addClass("d-none")
+
+    })
      // <button type="button" class="btn btn-sm btn-primary" onclick="openFeedbackModal(${item.id}, ${item.slotId})" data-toggle="modal" data-target="#FeedbackModal">
      //                            Feedback
      //                        </button> 
