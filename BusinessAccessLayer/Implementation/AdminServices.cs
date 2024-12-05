@@ -15,6 +15,7 @@ using DataAccessLayer.Migrations;
 using System.Xml.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Identity.Client.Kerberos;
 
 
 namespace BusinessAccessLayer.Implementation
