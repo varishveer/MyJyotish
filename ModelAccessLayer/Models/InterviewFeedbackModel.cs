@@ -11,7 +11,7 @@ namespace ModelAccessLayer.Models
     {
         public int Id { get; set; }
         public int InterviewId { get; set; }
-        public int JyotishId { get; set; }
+        public int? JyotishId { get; set; }
         public string? Message { get; set; }
         public bool ApprovedStatus { get; set; }
         public DateTime Date { get; set; }
@@ -19,6 +19,6 @@ namespace ModelAccessLayer.Models
         [JsonIgnore]
         public SlotModel Slot { get; set; }
         [JsonIgnore]
-        public JyotishModel Jyotish { get; set; }
+        public JyotishModel? Jyotish { get; set; }
     }
 }
