@@ -152,4 +152,21 @@ namespace ModelAccessLayer.ViewModels
         public bool? ApproveStatus { get; set; }
         public bool? Status { get; set; }
     }
+
+    public class EmployeeInterviewFeedbackViewModel
+    {
+        public int? Id { get; set; }
+        public string Message { get; set; }
+        public int EmployeeId { get; set; }
+        public string? EmployeeName { get; set; }
+        public string? JyotishId { get; set;  }
+        public string? JyotishName { get; set; }
+        public int SlotBookingId { get; set; }
+        public int Grade { get; set; }
+        public string? VideoUrl { get; set; }
+        public IFormFile? Video { get; set; }
+        public string? ImageUrl { get; set; }
+        public IFormFile? Image { get; set; }
+       
+    }
 }

@@ -14,6 +14,7 @@ using System.Reflection.Metadata;
 using DataAccessLayer.Migrations;
 using System.Xml.Linq;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
 
 
 namespace BusinessAccessLayer.Implementation
@@ -2005,5 +2006,93 @@ namespace BusinessAccessLayer.Implementation
             startEnd.Add("end", res.end);
             return startEnd;
         }
+       
+
+        public bool AddEmployeeInterviewFeedback(EmployeeInterviewFeedbackViewModel data)
+        {
+           
+            var employee = _context.Employees.FirstOrDefault(x => x.Id == data.EmployeeId && x.status == true);
+            var slotBooking = _context.SlotBooking.FirstOrDefault(x => x.Id == data.SlotBookingId && x.status == true);
+
+            
+            if (employee == null || slotBooking == null)
+            {
+                return false;
+            }
+
+           
+            var newFeedback = new EmployeeInterviewFeedbackModel
+            {
+                Message = data.Message,
+                EmployeeId = data.EmployeeId,
+                SlotBookingId = data.SlotBookingId,
+                Grade = data.Grade,
+                Status = true
+            };
+
+          
+            _context.EmployeeInterviewFeedback.Add(newFeedback);
+            if (_context.SaveChanges() <= 0)
+            {
+                return false;
+            }
+
+           
+            var attachmentData = new EmployeeInterviewAttachmentModel
+            {
+                EmployeeIFId = newFeedback.Id,
+                Status = true
+            };
+
+           
+            if (data.Image != null)
+            {
+                attachmentData.Image = SaveFile(data.Image);
+            }
+
+           
+            if (data.Video != null)
+            {
+                attachmentData.Video = SaveFile(data.Video);
+            }
+
+           
+            if (attachmentData.Image != null || attachmentData.Video != null)
+            {
+                _context.EmployeeInterviewAttachment.Add(attachmentData);
+                if (_context.SaveChanges() > 0)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+       
+        private string SaveFile(IFormFile file)
+        {
+            if (file == null) return null;
+
+            try
+            {
+                var fileGuid = Guid.NewGuid().ToString();
+                var sqlPath = $"/Images/Admin/{fileGuid}{file.FileName}";
+                var filePath = Path.Combine(_uploadDirectory, "wwwroot" + sqlPath);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    file.CopyTo(stream);
+                }
+
+                return sqlPath;
+            }
+            catch (Exception ex)
+            {
+                
+                return null;
+            }
+        }
+
     }
 }

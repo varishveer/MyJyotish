@@ -108,6 +108,7 @@ namespace BusinessAccessLayer.Abstraction
 
 
         public bool StartAndEndInterviewTime(int SlotBookingId, bool Time);
+        public bool AddEmployeeInterviewFeedback(EmployeeInterviewFeedbackViewModel data);
 
     }
 }
