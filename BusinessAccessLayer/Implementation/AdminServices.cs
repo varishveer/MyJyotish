@@ -2053,7 +2053,7 @@ namespace BusinessAccessLayer.Implementation
                 Grade = data.Grade,
                 Status = true
             };
-            if (jyotish == null)
+            if (jyotish != null)
             {
                 jyotish.Feedback = true;
                 _context.JyotishRecords.Update(jyotish);
