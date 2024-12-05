@@ -742,7 +742,7 @@
                             if(result.status==200 && result.data.length>0){
                                 $("#meatingUrl").append(`
                                         <span>Meating Url : </span><a target='_blank' href='${result.data[0].link}'>${result.data[0].link}</a>
-                                        <p>Please Click here to confirm your meating : ${result.data[0].approveStatus? "": "<button class='btn btn-primary' onClick='confirmAction()'>Confirm</button>"}</p>
+                                             ${result.data[0].approveStatus ? "" : "<p>Please Click here to confirm your meating : <button class='btn btn-primary' onClick='confirmAction()'>Confirm</button></p>"}
                                 `)
                             }
                         }

@@ -2002,7 +2002,7 @@ namespace BusinessAccessLayer.Implementation
         {
             var res = _context.SlotBooking.Where(e => e.Id == slotBookingId && e.status).FirstOrDefault();
             Dictionary<string, bool> startEnd = new Dictionary<string, bool>();
-            startEnd.Add("start", res.end);
+            startEnd.Add("start", res.start);
             startEnd.Add("end", res.end);
             return startEnd;
         }
