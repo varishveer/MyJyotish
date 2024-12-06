@@ -798,8 +798,10 @@ namespace BusinessAccessLayer.Implementation
             }
             if(record.Status != "Otp Verified") { return "Unauthorized"; }
 
+            
             if (_user.Mobile != null)
             { 
+                if(_user.Mobile.Length != 10) { return "Invalid Number"; }
                 var UserMobile = _context.Users.Where(x=>x.Mobile == _user.Mobile).FirstOrDefault();
 
                if(UserMobile == null) { record.Mobile = _user.Mobile; }
@@ -812,6 +814,7 @@ namespace BusinessAccessLayer.Implementation
                
                 
             }
+
             if (_user.Name != null)
             { record.Name = _user.Name; }
             if (_user.Gender != null)
