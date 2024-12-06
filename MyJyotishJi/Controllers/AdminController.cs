@@ -1,4 +1,5 @@
 ﻿using BusinessAccessLayer.Abstraction;
+using DataAccessLayer.DbServices;
 using DataAccessLayer.Migrations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -23,12 +24,14 @@ namespace MyJyotishJiApi.Controllers
         private readonly IAdminServices _admin;
         private readonly string _uploadDirectory;
         private readonly IAccountServices _account;
+        private readonly ApplicationContext _context;
 
-        public AdminController(IAdminServices admin, IAccountServices account)
+        public AdminController(IAdminServices admin, IAccountServices account, ApplicationContext context)
         {
             _admin = admin;
             _uploadDirectory = Directory.GetCurrentDirectory();
             _account = account;
+            _context = context;
         }
         [HttpGet("Profile")]
         public IActionResult Profile([FromQuery] string email)
@@ -1486,34 +1489,70 @@ namespace MyJyotishJiApi.Controllers
         [HttpPost("AccessPagesValidation")]
         public IActionResult AccessPagesValidation()
         {
-            try
+            using (var transaction = _context.Database.BeginTransaction())
             {
-                var httpRequest = HttpContext.Request;
-
-                int[] pagesIds = httpRequest.Form["pages"].ToString().Split(',').Select(e => int.Parse(e)).ToArray();
-                var res = false;
-                foreach (var pageId in pagesIds)
+                try
                 {
-                    AccessPageValidation pages = new AccessPageValidation
+                    var httpRequest = HttpContext.Request;
+
+                    int[] pagesIds = httpRequest.Form["pages"].ToString().Split(',').Select(e => int.Parse(e)).ToArray();
+                    var resCount = 0;
+                    AccessPageValidation pages = new AccessPageValidation();
+
+                    foreach (var pageId in pagesIds)
                     {
-                        DepartmentId = Convert.ToInt32(httpRequest.Form["Department"]),
-                        PageId = pageId
-                    };
+                        pages = new AccessPageValidation
+                        {
+                            DepartmentId = Convert.ToInt32(httpRequest.Form["Department"]),
+                            levelId = Convert.ToInt32(httpRequest.Form["level"]),
+                            PageId = pageId
+                        };
 
-                     res = _admin.AddPageAccessValidation(pages);
-                }
+                        var res = _admin.AddPageAccessValidation(pages);
+                        if (res)
+                        {
+                            resCount++;
+                        }
+                    }
 
-              if (res)
-                {
-                    return Ok(new { status = 200, message = "Record Added Successfully" });
-                }
-                else
-                {
-                    return Ok(new { status = 500, message = "some error occured" });
+                    if (!string.IsNullOrEmpty(httpRequest.Form["Discount"]))
+                    {
+                        RedeemDiscountValidationViewModel model = new RedeemDiscountValidationViewModel
+                        {
+                            DepartmentId = pages.DepartmentId,
+                            levelId = pages.levelId,
+                            discount = float.Parse(httpRequest.Form["Discount"])
+                        };
+                        var discountres = _admin.AddDiscount(model);
 
+                        if (discountres)
+                        {
+                        transaction.Commit();
+                            return Ok(new { status = 200, message = "Record Added Successfully" });
+
+                        }
+                        else
+                        {
+                            transaction.Rollback();
+                            return Ok(new { status = 500, message = "no changes found" });
+
+                        }
+                    }
+                    transaction.Commit();
+                    if (resCount > 0)
+                    {
+                        return Ok(new { status = 200, message = "Record Added Successfully" });
+                    }
+                    else
+                    {
+                        return Ok(new { status = 500, message = "no changes found" });
+
+                    }
                 }
-            } 
-            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message}); }
+                catch (Exception ex) {
+                    transaction.Rollback();
+                    return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message }); }
+            }
         }
 
         [HttpGet("getAllAccessPages")]

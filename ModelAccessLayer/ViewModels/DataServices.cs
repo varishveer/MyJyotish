@@ -140,6 +140,16 @@ namespace ModelAccessLayer.ViewModels
 
        
     }
+    public class RedeemDiscountValidationViewModel
+    {
+        public int Id { get; set; }
+        public int DepartmentId { get; set; }
+        public int levelId { get; set; }
+        public float discount { get; set; }
+        public bool status { get; set; }
+
+
+    }
     public class InterviewMeetingViewModel
     {
         public int? Id { get; set; }

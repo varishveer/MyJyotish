@@ -4,6 +4,7 @@ using DataAccessLayer.DbServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20241206091033_06-12-2024z")]
+    partial class _06122024z
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1307,35 +1310,6 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("ProblemSolution");
                 });
 
-            modelBuilder.Entity("ModelAccessLayer.Models.RedeemCodeDiscountValidation", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<float>("Discount")
-                        .HasColumnType("real");
-
-                    b.Property<int>("departmentId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("levelsId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("departmentId");
-
-                    b.HasIndex("levelsId");
-
-                    b.ToTable("RedeemCodeDiscountValidation");
-                });
-
             modelBuilder.Entity("ModelAccessLayer.Models.SliderImagesModel", b =>
                 {
                     b.Property<int>("Id")
@@ -2274,25 +2248,6 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("Member");
                 });
 
-            modelBuilder.Entity("ModelAccessLayer.Models.RedeemCodeDiscountValidation", b =>
-                {
-                    b.HasOne("ModelAccessLayer.Models.Department", "department")
-                        .WithMany("redeemDiscount")
-                        .HasForeignKey("departmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ModelAccessLayer.Models.levels", "levels")
-                        .WithMany("redeemDiscount")
-                        .HasForeignKey("levelsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("department");
-
-                    b.Navigation("levels");
-                });
-
             modelBuilder.Entity("ModelAccessLayer.Models.SlotBookingModel", b =>
                 {
                     b.HasOne("ModelAccessLayer.Models.JyotishModel", "JyotishRecords")
@@ -2454,8 +2409,6 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("LevelAccess");
 
                     b.Navigation("employees");
-
-                    b.Navigation("redeemDiscount");
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.EmployeeInterviewFeedbackModel", b =>
@@ -2571,8 +2524,6 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("LevelAccess");
 
                     b.Navigation("employees");
-
-                    b.Navigation("redeemDiscount");
                 });
 #pragma warning restore 612, 618
         }
