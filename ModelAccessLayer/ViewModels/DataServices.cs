@@ -163,6 +163,8 @@ namespace ModelAccessLayer.ViewModels
         public string? JyotishName { get; set; }
         public int SlotBookingId { get; set; }
         public int Grade { get; set; }
+        public string startDate { get; set; }
+        public string endDate { get; set; }
         public string? VideoUrl { get; set; }
         public IFormFile? Video { get; set; }
         public string? ImageUrl { get; set; }

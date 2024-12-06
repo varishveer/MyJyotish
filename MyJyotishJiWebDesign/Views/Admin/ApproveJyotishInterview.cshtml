@@ -116,7 +116,7 @@
                 },
                 success: function (result) {
                     console.log(result); // Log the API response
-                    let htmls = '<thead><tr><th>Id</th><th>Employee Name</th><th>Jyotish Name</th><th>Grade</th><th>Reschedule</th></tr></thead><tbody>';
+                    let htmls = '<thead><tr><th>Id</th><th>Employee Name</th><th>Jyotish Name</th><th>Grade</th><th>Start Date</th><th>End Date</th><th>Action</th></tr></thead><tbody>';
                     let idCounter = 1;
                     $.each(result.data, function (key, item) {
                         htmls += '<tr>';
@@ -124,6 +124,8 @@
                         htmls += `<td class="text-center">${item.employeeName}</td>`;
                         htmls += `<td class="text-center">${item.jyotishName}</td>`;
                         htmls += `<td class="text-center">${item.grade}</td>`;
+                        htmls += `<td class="text-center">${item.startDate}</td>`;
+                        htmls += `<td class="text-center">${item.endDate}</td>`;
 
                         // Add the button to open the modal
                         htmls += `<td class="text-center d-flex gap-3">

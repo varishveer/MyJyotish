@@ -10,34 +10,21 @@
     <input type="submit" value="Add" class="btn btn-primary">
 </form>
 
-<div class="container w-75 mt-5 border rounded p-3">
-    <div class="row">
-        <div class="col-sm-12">
-            <form id="departmentPageForm">
-                <div class="row gap-5 justify-content-center">
-                    <div class="col-sm-5">
-                        Levels
-                        <select required class="form-select mb-2" name="levels" id="levelsDrop">
-                            <option value="">--select levels--</option>
 
-                        </select>
-                    </div>
-                    <div class="col-sm-5">
-                        Departments
-                        <select required class="form-select mb-2" name="department" id="departmentDrop">
-                            <option value="">--select department--</option>
-
-                        </select>
-                    </div>
-                   
-                    <div class="col-sm-12" id="Pages">
-                    </div>
-                </div>
-                <div class="text-center"><input type="submit" class="btn btn-primary" value="Add" /></div>
-            </form>
-        </div>
-    </div>
+<div class="container mt-3">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Sr</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody id="tablecontainer">
+        </tbody>
+    </table>
 </div>
+
+
 
 <script>
     $("#levelsForm").submit(function (e) {
@@ -84,6 +71,12 @@
         })
     })
     function getLevels() {
+        Swal.fire({
+            title: "Processing Your Request",
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
         $.ajax({
             url: BaseUrl + "api/admin/levelsList",
             type: "get",
@@ -93,42 +86,52 @@
             success: function (res) {
                 console.log(res, "lev")
                 if (res.status == 200) {
-                    res.data.forEach(function (d) {
-                        $("#levelsDrop").append(
-                            `
-                                  <option value='${d.id}'>${d.levelsName}</option>
-
-                                    `
+                    res.data.forEach(function (d,i) {
+                        $("#tablecontainer").append(
+                            `<tr>
+                                <td class='text-center'>${i + 1}</td>
+                                <td class='text-center'>${d.levelsName}</td>
+                                </tr>
+                                `
                         )
                     })
                 }
+                Swal.close();
             }
         })
     }
     getLevels();
 
-    function getDepartment() {
-        $.ajax({
-            url: BaseUrl + "api/admin/DepartmentList",
-            type: "get",
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem("Token")}`
-            },
-            success: function (res) {
-                console.log(res, "dep")
-                if (res.status == 200) {
-                    res.data.forEach(function (d) {
-                        $("#departmentDrop").append(
-                            `
-                                        <option value='${d.id}'>${d.departmentName}</option>
+   
 
-                                `
-                        )
-                    })
+    $(document).ready(function () {
+        function fetchData() {
+            $.ajax({
+                url: BaseUrl + "api/Admin/getAllAccessPages",
+                type: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                    'Content-Type': 'application/json',
+                },
+                success: function (result) {
+                    console.log(result); // Log the API response
+                    $.each(result.data, function (key, item) {
+                        $("#Pages").append(`
+                                   <div class="mb-2"><input name='pages' type="checkbox" value='${item.id}' /> &nbsp;${item.pagesName}</div>
 
+                                    `)
+
+                    });
+
+                },
+                error: function (errormessage) {
+                    console.error('Error fetching data:', errormessage.responseText);
                 }
-            }
-        })
-    }
-    getDepartment();
+            });
+        }
+
+        fetchData(); // Call the function to load data
+    });
+
+   
 </script>

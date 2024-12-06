@@ -33,6 +33,7 @@ namespace MyJyotishJiWebDesign.Controllers
         public IActionResult Feedback() { return View();  }
         public IActionResult PendingFeedback() { return View();  }
         public IActionResult ApproveJyotishInterview() { return View();  }
+        public IActionResult AutherizePages() { return View();  }
 
     }
 }

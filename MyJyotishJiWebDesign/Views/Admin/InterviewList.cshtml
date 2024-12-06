@@ -191,6 +191,7 @@
                 }
             }).then((data)=>{
                if(data.data.length>0){
+                   console.log(data.data)
                    data.data.forEach(function (d) {
                         $.ajax({
                             url: BaseUrl + "api/Admin/InterviewMeetingListByJyotishId",
@@ -238,7 +239,12 @@
                                             }
                                         }
                                     });
-                                            $(".request_"+d.id).removeClass("d-none")
+                                if (d.incomplete){
+                                            $(".request_"+d.id).addClass("d-none")
+                                }else{
+                                    $(".request_" + d.id).removeClass("d-none")
+
+                                }
                                     if (approvedStatus) {
                                         $(".request_" + d.id).addClass("d-none")
                                     $(".hideAfterSendLink_" + d.id).addClass("d-none")

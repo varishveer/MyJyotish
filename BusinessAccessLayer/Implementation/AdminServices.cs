@@ -1398,10 +1398,10 @@ namespace BusinessAccessLayer.Implementation
 
         public List<InteviewListViewModel> InteviewList()
         {
-            var data = _context.JyotishRecords.Where(x=>x.Status == true && x.Role== "Pending" && x.Feedback==false)
+            var data = _context.JyotishRecords.Where(x => x.Status == true && x.Role == "Pending" && x.Feedback == false)
              .Include(j => j.Slots.Where(s => s.status == true))
              .ThenInclude(s => s.SlotRecords)
-             .ThenInclude(e=>e.Feedback)
+             .ThenInclude(e => e.Feedback)
              .SelectMany(j => j.Slots.Select(s => new InteviewListViewModel
              {
                  Id = j.Id,
@@ -1414,7 +1414,8 @@ namespace BusinessAccessLayer.Implementation
                  Date = s.SlotRecords.Date,
                  Time = s.SlotRecords.Time,
                  SlotId = s.SlotId,
-                 SlotBookingId = s.Id
+                 SlotBookingId = s.Id,
+                 Incomplete = s.Id != null && s.Id != 0 ? _context.SlotBooking.Where(e => e.Id == s.Id && e.status).FirstOrDefault().Incomplete : false
 
              }))
              .OrderByDescending(i => i.Date) // Order by date in descending order
@@ -2144,7 +2145,8 @@ namespace BusinessAccessLayer.Implementation
                                      JyotishName = x.SlotBooking.JyotishRecords.Name,
                                      SlotBookingId = x.SlotBookingId,
                                      Grade = x.Grade,
-                                   
+                                   startDate=Convert.ToDateTime(_context.SlotBooking.Where(e=>e.Id==x.SlotBookingId&&x.Status).FirstOrDefault().startDate).ToString("dd/MM/yyyy hh:mm"),
+                                   endDate= Convert.ToDateTime(_context.SlotBooking.Where(e=>e.Id==x.SlotBookingId&&x.Status).FirstOrDefault().endDate).ToString("dd/MM/yyyy hh:mm"),
                                      VideoUrl = x.EmployeeInterviewAttachment
                                                  .FirstOrDefault().Video, 
                                      ImageUrl = x.EmployeeInterviewAttachment

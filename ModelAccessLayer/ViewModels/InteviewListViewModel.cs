@@ -20,6 +20,7 @@ namespace ModelAccessLayer.ViewModels
         public TimeOnly? Time { get; set; }
         public int? SlotId { get; set; }
         public int? SlotBookingId { get; set; }
+        public bool? Incomplete { get; set; }
     
     }
 }

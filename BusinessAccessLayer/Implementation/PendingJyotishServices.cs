@@ -113,6 +113,7 @@ namespace BusinessAccessLayer.Implementation
                 newRecord.Gender = model.Gender;
                 newRecord.Language = model.Language;
                 newRecord.DateOfBirth = model.DateOfBirth;
+                newRecord.Country = jyotish.Country;
                 string filePath = string.Empty;
                 string ImageUrl = string.Empty;
                 if (model.Image != null)
@@ -172,6 +173,7 @@ namespace BusinessAccessLayer.Implementation
                 Record.Gender = model.Gender;
                 Record.Language = model.Language;
                 Record.DateOfBirth = model.DateOfBirth;
+                Record.Country = jyotish.Country;
                 string filePath = string.Empty;
                 string ImageUrl = string.Empty;
                 if (model.Image != null)

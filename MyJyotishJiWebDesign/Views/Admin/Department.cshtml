@@ -11,31 +11,65 @@
     <input type="submit" value="Add" class="btn btn-primary">
 </form>
 
-<div class="container w-75 mt-5 border rounded p-3">
-    <div class="row">
-        <div class="col-sm-12">
-            <form id="departmentPageForm">
-            <div class="row gap-5 justify-content-center">
-                <div class="col-sm-4">
-                <select required class="form-select mb-2" name="department" id="departmentselect">
-                    <option value="">--select department--</option>
+<div class="container mt-3">
+    <table class="table">
+        <thead>
+            <tr>
+            <th>Sr</th>
+            <th>Name</th>
+            </tr>
+        </thead>
+        <tbody id="tablecontainer">
 
-                </select>
-             </div>
-             <div class="col-sm-6" id="Pages">
-                   
-             </div>
-            </div>  
-            <div class="text-center"><input type="submit" class="btn btn-primary" value="Add" /></div>
-            </form>
-        </div>
-    </div>
+        </tbody>
+    </table>
 </div>
 
+
 <script>
+
+    function getDepartment() {
+        Swal.fire({
+            title: "Processing Your Request",
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
+        $.ajax({
+            url: BaseUrl + "api/admin/DepartmentList",
+            type: "get",
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token")}`
+            },
+            success: function (res) {
+                console.log(res,"dep")
+                if (res.status == 200) {
+                    res.data.forEach(function(d,i){
+                        $("#tablecontainer").append(
+                            `<tr>
+                            <td class='text-center'>${i+1}</td>
+                            <td class='text-center'>${d.departmentName}</td>
+                            </tr>
+                            `
+                        )
+                    })
+                    
+                }
+                Swal.close();
+            }
+        })
+    }
+    getDepartment();
+
     $("#DepartmentForm").submit(function (e) {
         e.preventDefault();
         let formData=new FormData();
+          Swal.fire({
+            title: "Processing Your Request",
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
         formData.append("departmentName", $("#department").val())
         $.ajax({
             url:BaseUrl+"api/admin/addDepartment",
@@ -76,106 +110,9 @@
             
         })
     })
-    function getDepartment() {
-        $.ajax({
-            url: BaseUrl + "api/admin/DepartmentList",
-            type: "get",
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem("Token")}`
-            },
-            success: function (res) {
-                console.log(res, "dep")
-                if (res.status == 200) {
-                    res.data.forEach(function (d) {
-                        $("#departmentselect").append(
-                            `
-                                        <option value='${d.id}'>${d.departmentName}</option>
-
-                                `
-                        )
-                    })
-                            
-
-                }
-            }
-        })
-    }
-    getDepartment();
-
-        $(document).ready(function () {
-            function fetchData() {
-                $.ajax({
-                    url: BaseUrl + "api/Admin/getAllAccessPages",
-                    type: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem("Token")}`,
-                        'Content-Type': 'application/json',
-                    },
-                    success: function (result) {
-                        console.log(result); // Log the API response
-                        $.each(result.data, function (key, item) {
-                                    $("#Pages").append(`
-                               <div class="mb-2"><input name='pages' type="checkbox" value='${item.id}' /> &nbsp;${item.pagesName}</div>
-                          
-                                `)
-                           
-                        });
-
-                    },
-                    error: function (errormessage) {
-                        console.error('Error fetching data:', errormessage.responseText);
-                    }
-                });
-            }
-
-            fetchData(); // Call the function to load data
-        });
+    
+        
 
 
-                  $("#departmentPageForm").submit(function(e) {
-                  e.preventDefault()
-            let formData=new FormData();
-            let arrData=$(this).serializeArray();
-            arrData.forEach(function(d){
-                formData.append(d.name,d.value)
-            })
-            $.ajax({
-                    url:BaseUrl+"api/admin/AddDepartmentPages",
-                type:"post",
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem("Token")}`
-                },
-                processData:false,
-                contentType:false,
-                data:formData,
-                success:function(res){
-                   if(res.status==200){
-                       Swal.fire({
-                           title:"success",
-                           text:res.message,
-                           icon:"success",
-                           didClose:()=>{
-                               location.reload()
-                           }
-                       })
-                   }else{
-                        Swal.fire({
-                            title: "error",
-                            text: res.message,
-                            icon: "error"
-
-                        })
-                   }
-                },
-                error:function(){
-                    Swal.fire({
-                        title: "error",
-                        text: "some error occured",
-                        icon: "error"
-
-                    })
-                }
-
-            })
-           })
+               
 </script>

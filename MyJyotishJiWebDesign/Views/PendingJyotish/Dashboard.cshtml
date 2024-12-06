@@ -644,7 +644,10 @@
                     Swal.fire({
                         title:"success",
                         text:"Thankyou for confirm your meating",
-                        icon:'success'
+                        icon:'success',
+                        didClose:()=>{
+                            location.reload();
+                        }
                     })
                 }
 
