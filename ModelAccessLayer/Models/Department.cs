@@ -15,6 +15,7 @@ namespace ModelAccessLayer.Models
         public ICollection<Employees> employees { get; set; } = new List<Employees>();
         public ICollection<DepartmentPagesValidation> EmpPages { get; set; } = new List<DepartmentPagesValidation>();
         public ICollection<levelsAccessValidation> LevelAccess { get; set; } = new List<levelsAccessValidation>();
+        public ICollection<RedeemCodeDiscountValidation> redeemDiscount { get; set; } = new List<RedeemCodeDiscountValidation>();
 
 
     }

@@ -10,10 +10,11 @@
     <div class="row">
         <div class="col-sm-12">
             <form id="departmentPageForm">
+                <h3 class="mt-1 mb-4">Page Access Validation</h3>
                 <div class="row gap-5 justify-content-center">
                     <div class="col-sm-5">
                         Levels
-                        <select required class="form-select mb-2" name="levels" id="levelsDrop">
+                        <select required class="form-select mb-2" name="level" id="levelsDrop">
                             <option value="">--select levels--</option>
 
                         </select>
@@ -26,7 +27,8 @@
                         </select>
                     </div>
 
-                    <div class="col-sm-12" id="Pages">
+                    <div class="col-sm-12 ">
+                        <div class="row flex-wrap " id="Pages"></div>
                     </div>
                     <div class="col-sm-12 text-center">
                         <div class="text-center"><input type="submit" class="btn btn-primary" value="Add" /></div>
@@ -47,7 +49,7 @@
             formData.append(d.name, d.value)
         })
         $.ajax({
-            url: BaseUrl + "api/admin/AddDepartmentPages",
+            url: BaseUrl + "api/admin/AccessPagesValidation",
             type: "post",
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("Token")}`
@@ -56,6 +58,7 @@
             contentType: false,
             data: formData,
             success: function (res) {
+                console.log(res)
                 if (res.status == 200) {
                     Swal.fire({
                         title: "success",
@@ -156,7 +159,7 @@
                     console.log(result); // Log the API response
                     $.each(result.data, function (key, item) {
                         $("#Pages").append(`
-                                       <div class="mb-2"><input name='pages' type="checkbox" value='${item.id}' /> &nbsp;${item.pagesName}</div>
+                                       <div class="mb-4 col-sm-4"><input name='pages' type="checkbox" value='${item.id}' /> &nbsp;${item.pagesName}</div>
 
                                         `)
 

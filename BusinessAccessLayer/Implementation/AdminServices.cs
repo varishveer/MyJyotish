@@ -1380,7 +1380,7 @@ namespace BusinessAccessLayer.Implementation
             SlotBook.start = false;
             SlotBook.end = false;
             SlotBook.Date = DateTime.Now;
-            SlotBook.status = false;
+            SlotBook.status = true;
             SlotBook.Incomplete = true;
             _context.SlotBooking.Update(SlotBook);
             _context.Slots.Update(Slot);
@@ -2149,15 +2149,41 @@ namespace BusinessAccessLayer.Implementation
 
         public bool AddPageAccessValidation(AccessPageValidation model)
         {
-            levelsAccessValidation validation = new levelsAccessValidation
-            {
-                department = model.DepartmentId,
-                pages = model.PageId,
-                levels = model.levelId,
-                status = true
-            };
 
-            _context.LevelAccessValidation.Add(validation);
+            var res = _context.LevelAccessValidation.Where(e => e.department == model.DepartmentId && e.pages == model.PageId && e.levels == model.levelId && e.status).FirstOrDefault();
+            if (res == null)
+            {
+                levelsAccessValidation validation = new levelsAccessValidation
+                {
+                    department = model.DepartmentId,
+                    pages = model.PageId,
+                    levels = model.levelId,
+                    status = true
+                };
+
+                _context.LevelAccessValidation.Add(validation);
+            }
+                return _context.SaveChanges() > 0;
+
+           
+
+        }
+
+        public bool AddDiscount(RedeemDiscountValidationViewModel model)
+        {
+
+            var res = _context.RedeemCodeDiscountValidation.Where(e => e.departmentId == model.DepartmentId && e.levelsId == model.levelId && e.status).FirstOrDefault();
+            if (res == null)
+            {
+                RedeemCodeDiscountValidation validation = new RedeemCodeDiscountValidation
+                {
+                    departmentId=model.DepartmentId,
+                    levelsId=model.levelId,
+                    Discount=model.discount,
+                    status=true
+                };
+                _context.RedeemCodeDiscountValidation.Add(validation);
+            }
             return _context.SaveChanges() > 0;
 
         }

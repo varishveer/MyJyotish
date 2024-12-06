@@ -1491,25 +1491,30 @@ namespace MyJyotishJiApi.Controllers
                 var httpRequest = HttpContext.Request;
 
                 int[] pagesIds = httpRequest.Form["pages"].ToString().Split(',').Select(e => int.Parse(e)).ToArray();
-                var res = false;
+                var resCount=0;
                 foreach (var pageId in pagesIds)
                 {
                     AccessPageValidation pages = new AccessPageValidation
                     {
                         DepartmentId = Convert.ToInt32(httpRequest.Form["Department"]),
+                        levelId = Convert.ToInt32(httpRequest.Form["level"]),
                         PageId = pageId
                     };
 
-                     res = _admin.AddPageAccessValidation(pages);
+                    var res = _admin.AddPageAccessValidation(pages);
+                    if (res)
+                    {
+                        resCount++;
+                    }
                 }
 
-              if (res)
+              if (resCount>0)
                 {
                     return Ok(new { status = 200, message = "Record Added Successfully" });
                 }
                 else
                 {
-                    return Ok(new { status = 500, message = "some error occured" });
+                    return Ok(new { status = 500, message = "no changes found" });
 
                 }
             } 
