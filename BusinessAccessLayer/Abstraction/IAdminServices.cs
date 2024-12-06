@@ -111,6 +111,7 @@ namespace BusinessAccessLayer.Abstraction
         public List<EmployeeInterviewFeedbackViewModel> EmployeeInterviewFeedbackList();
         public bool AddPageAccessValidation(AccessPageValidation model);
 
+        public bool AddDiscount(RedeemDiscountValidationViewModel model);
 
     }
 }
