@@ -104,34 +104,7 @@
 
    
 
-    $(document).ready(function () {
-        function fetchData() {
-            $.ajax({
-                url: BaseUrl + "api/Admin/getAllAccessPages",
-                type: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem("Token")}`,
-                    'Content-Type': 'application/json',
-                },
-                success: function (result) {
-                    console.log(result); // Log the API response
-                    $.each(result.data, function (key, item) {
-                        $("#Pages").append(`
-                                   <div class="mb-2"><input name='pages' type="checkbox" value='${item.id}' /> &nbsp;${item.pagesName}</div>
-
-                                    `)
-
-                    });
-
-                },
-                error: function (errormessage) {
-                    console.error('Error fetching data:', errormessage.responseText);
-                }
-            });
-        }
-
-        fetchData(); // Call the function to load data
-    });
+   
 
    
 </script>

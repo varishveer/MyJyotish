@@ -1828,18 +1828,7 @@ namespace BusinessAccessLayer.Implementation
             return res;
         }
 
-        public bool AddDepartmentPages(DepartmentPagesValidationViewModel model)
-        {
-            DepartmentPagesValidation page = new DepartmentPagesValidation
-            {
-                DepartmentId = model.DepartmentId,
-                PageId = model.PageId,
-                status = true
-            };
-            _context.DepartmentPagesAccess.Add(page);
-            return _context.SaveChanges() > 0;
-        }
-
+        
 
         public bool AddInterviewMeeting(InterviewMeetingViewModel data)
         {
@@ -2155,6 +2144,22 @@ namespace BusinessAccessLayer.Implementation
                                  .ToList();
 
             return record;
+        }
+
+
+        public bool AddPageAccessValidation(AccessPageValidation model)
+        {
+            levelsAccessValidation validation = new levelsAccessValidation
+            {
+                department = model.DepartmentId,
+                pages = model.PageId,
+                levels = model.levelId,
+                status = true
+            };
+
+            _context.LevelAccessValidation.Add(validation);
+            return _context.SaveChanges() > 0;
+
         }
 
     }

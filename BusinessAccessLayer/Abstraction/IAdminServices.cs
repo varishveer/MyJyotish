@@ -100,7 +100,6 @@ namespace BusinessAccessLayer.Abstraction
         public string DeleteRating(int Id);
         public bool AddAccessPages(EmployeesAccessPagesViewModel model);
         public List<EmployeesAccessPages> getAccessPages();
-        public bool AddDepartmentPages(DepartmentPagesValidationViewModel model);
         public bool AddInterviewMeeting(InterviewMeetingViewModel data);
         public List<InterviewMeetingViewModel> InterviewMeetingList();
         public List<InterviewMeetingViewModel> InterviewMeetingListByJyotishId(int jytotishId);
@@ -110,6 +109,8 @@ namespace BusinessAccessLayer.Abstraction
         public bool StartAndEndInterviewTime(int SlotBookingId, bool Time);
         public bool AddEmployeeInterviewFeedback(EmployeeInterviewFeedbackViewModel data);
         public List<EmployeeInterviewFeedbackViewModel> EmployeeInterviewFeedbackList();
+        public bool AddPageAccessValidation(AccessPageValidation model);
+
 
     }
 }

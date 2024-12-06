@@ -130,11 +130,12 @@ namespace ModelAccessLayer.ViewModels
         public bool status { get; set; }
     }
 
-    public class DepartmentPagesValidationViewModel
+    public class AccessPageValidation
     {
         public int Id { get; set; }
         public int DepartmentId { get; set; }
         public int PageId { get; set; }
+        public int levelId { get; set; }
         public bool status { get; set; }
 
        

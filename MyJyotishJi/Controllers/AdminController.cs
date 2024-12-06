@@ -1483,8 +1483,8 @@ namespace MyJyotishJiApi.Controllers
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message
     }); }
         }
-        [HttpPost("AddDepartmentPages")]
-        public IActionResult AddDepartmentPages()
+        [HttpPost("AccessPagesValidation")]
+        public IActionResult AccessPagesValidation()
         {
             try
             {
@@ -1494,13 +1494,13 @@ namespace MyJyotishJiApi.Controllers
                 var res = false;
                 foreach (var pageId in pagesIds)
                 {
-                    DepartmentPagesValidationViewModel pages = new DepartmentPagesValidationViewModel
+                    AccessPageValidation pages = new AccessPageValidation
                     {
                         DepartmentId = Convert.ToInt32(httpRequest.Form["Department"]),
                         PageId = pageId
                     };
 
-                     res = _admin.AddDepartmentPages(pages);
+                     res = _admin.AddPageAccessValidation(pages);
                 }
 
               if (res)
