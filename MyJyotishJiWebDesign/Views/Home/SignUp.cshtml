@@ -133,17 +133,30 @@
                 <div class="form-row row">
                     <div class="form-group col-md-6">
                         <label for="DoB" class="form-label">Date Of Birth:</label>
-                        <input type="date" class="form-control custom-field" id="DoB" name="DoB" placeholder="Enter DOB" />
+                        <input type="date" class="form-control custom-field" id="DoB" name="doB" placeholder="Enter DOB" />
                     </div>
                     <div class="form-group col-md-6">
                         <label for="PlaceOfBirthInput" class="form-label">Place of Birth:</label>
-                        <input list="PlaceOfBirthList" type="text" id="PlaceOfBirthInput" name="PlaceOfBirthInput" class="form-control custom-field"
+                        <input list="PlaceOfBirthList" type="text" id="PlaceOfBirthInput" name="placeOfBirth" class="form-control custom-field"
                                placeholder="Enter City"  autocomplete="off"/>
                         <datalist id="PlaceOfBirthList" name="PlaceOfBirth" class="form-select mt-2" required>
                           
                         </datalist>
                     </div>
                 </div>
+
+                <div class="form-row row">
+                    <div class="form-group col-md-6">
+                        <label for="TimeOfBirth" class="form-label">Time Of Birth:</label>
+                        <input type="time" class="form-control custom-field" id="TimeOfBirth" name="timeOfBirth" />
+                    </div>
+                    <div class="form-group col-md-6">
+                        
+                    </div>
+                </div>
+
+
+
 
                 <button type="submit" class="btn-sm btn btn-info custom-field fw-bold text-light">Sign Up</button>
 
@@ -332,7 +345,26 @@
     // Form submission event
     $('#registrationForm').on("submit", function (event) {
         event.preventDefault();
-        
+        var placeOfBirthList = $('#PlaceOfBirthInput').val()
+        if (!$('#name').val() || !$('#email').val() || !$('#gender').val() || !$('#mobile').val() ||
+            !$('#DoB').val() || !$('#PlaceOfBirthInput').val() || !$('#TimeOfBirth').val()
+        ) {
+
+            Swal.fire({
+                icon: 'warning',
+                title: 'Incomplete Form',
+                text: 'Please fill in all required fields before submitting.',
+
+            });
+            return; // Exit if any field is empty
+        }
+        let formData=new FormData();
+        let arrData = $(this).serializeArray();
+        arrData.forEach(function(d){
+            formData.append(d.name,d.value)
+        })
+
+
 
         Swal.fire({
             title: "Processing Your Request",
@@ -341,35 +373,16 @@
                 Swal.showLoading();
             }
         })
-        var placeOfBirthList = $('#PlaceOfBirthInput').val()
-          if (!$('#name').val() || !$('#email').val() || !$('#gender').val() || !$('#mobile').val() ||
-                !$('#DoB').val() || !$('#PlaceOfBirthInput').val()  
-               ) {
+      
 
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Incomplete Form',
-                    text: 'Please fill in all required fields before submitting.',
-
-                });
-                return; // Exit if any field is empty
-            }
-
-        const formData = {
-            email: $('#email').val(),
-            mobile: $('#mobile').val(),
-            name: $('#name').val(),
-            gender: $('#gender').val(),
-            DoB: $('#DoB').val().split('-').reverse().join('-'), 
-            PlaceOfBirth: $('#PlaceOfBirthList').val(),
-           
-        };
+       
         console.log(formData);
         $.ajax({
             url: BaseUrl + 'Api/Account/RegisterUserDetails',
             type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(formData),
+            processData:false,
+            contentType:false,
+            data: formData,
             success: function (response) {
                 if (response.status === 200) {
                     Swal.fire({

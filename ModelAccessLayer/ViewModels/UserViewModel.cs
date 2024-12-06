@@ -23,6 +23,8 @@ namespace ModelAccessLayer.ViewModels
         [AllowNull]
         public string? PlaceOfBirth { get; set; }
         [AllowNull]
+        public TimeOnly? TimeOfBirth { get; set; }
+        [AllowNull]
         public int? Otp { get; set; }
 
         [AllowNull]
