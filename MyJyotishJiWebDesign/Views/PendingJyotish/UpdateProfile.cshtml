@@ -423,14 +423,14 @@
                 <div class="col-sm-12  mt-2" id="document">
 
                                 <div class="row h-100 overflow-auto">
-<div class="col-sm-6 mb-3">
-                                <label for="addressdoc">Address Document <span class="text-danger">*</span></label>
-    <input type="file" name="addressdoc" id="addressdoc"/>
-</div>
 <div class="col-sm-6  mb-3">
-                                <label for="idProof">Id Proof <span class="text-danger">*</span></label>
+                                <label for="idProof">Aadhar Card Front <span class="text-danger">*</span></label>
     <input type="file" name="idProof" id="idProof"/>
 
+</div>
+<div class="col-sm-6 mb-3">
+                                <label for="addressdoc">Aadhar Card Back <span class="text-danger">*</span></label>
+    <input type="file" name="addressdoc" id="addressdoc"/>
 </div>
                         <div class="col-sm-6  mb-3">
                                 <label for="professionaldoc">Professional Certificate <span class="text-danger">*</span></label>
@@ -982,7 +982,7 @@
         $('#addressdoc').dropify(
             {
                 messages: {
-                    default: 'Upload Address proof max size 2mb',
+                    default: 'Upload Aadhar Card Back max size 2mb',
                     replace: 'Drag and drop or click to replace',
                     remove: 'Remove',
                     error: 'Oops, something went wrong.'
@@ -994,7 +994,7 @@
         $('#idProof').dropify(
             {
                 messages: {
-                    default: 'Upload Any Id proof max size 2mb',
+                    default: 'Upload Aadhar Card Front max size 2mb',
                     replace: 'Drag and drop or click to replace',
                     remove: 'Remove',
                     error: 'Oops, something went wrong.'
