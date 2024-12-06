@@ -133,7 +133,7 @@
                 <div class="form-row row">
                     <div class="form-group col-md-6">
                         <label for="DoB" class="form-label">Date Of Birth:</label>
-                        <input type="date" class="form-control custom-field" id="DoB" name="doB" placeholder="Enter DOB" />
+                        <input type="text" class="form-control custom-field" id="DoB" name="doB" placeholder="Enter DOB" />
                     </div>
                     <div class="form-group col-md-6">
                         <label for="PlaceOfBirthInput" class="form-label">Place of Birth:</label>
@@ -182,7 +182,7 @@
 
 
     $(document).ready(()=> {
-        $(".custom-field").attr("disabled", true);
+        $(".custom-field").attr("disabled", false);
     })
     // Debounce function to limit API requests
     function debounce(func, delay) {
@@ -341,7 +341,19 @@
             }
         });
     });
+    function convertDateFormatdesc(dateString) {
+        const dateParts = dateString.split('/');
 
+        if (dateParts.length === 3) {
+            const day = dateParts[0];
+            const month = dateParts[1];
+            const year = dateParts[2];
+
+            return `${month}/${day}/${year}`;
+        } else {
+            return 'Invalid date format';
+        }
+    }
     // Form submission event
     $('#registrationForm').on("submit", function (event) {
         event.preventDefault();
@@ -361,7 +373,13 @@
         let formData=new FormData();
         let arrData = $(this).serializeArray();
         arrData.forEach(function(d){
-            formData.append(d.name,d.value)
+            if(d.name=="doB"){
+                let convertedDate = convertDateFormatdesc(d.value
+                    formData.append(d.name, convertedDate))
+            }else{
+                formData.append(d.name, d.value)
+
+            }
         })
 
 
@@ -408,5 +426,55 @@
             }
         });
     });
+
+
+    let currentDate = new Date();
+
+    // Subtract 20 years from the current date
+    currentDate.setFullYear(currentDate.getFullYear() - 20);
+
+    $("#DoB").attr("max", currentDate.toISOString().split('T')[0])
+</script>
+<script>
+    var maxDate = new Date();
+    maxDate.setFullYear(maxDate.getFullYear());
+    
+
+    // Initialize the datepicker with the calculated maxDate
+    $("#DoB").datepicker({
+        autoclose: true,
+        dateFormat: 'dd-mm-yyyy',
+        changeMonth: true,
+        changeYear: true,
+        yearRange: "c-100:c",
+        endDate: maxDate,
+        showAnim: "slideDown",
+        buttonImageOnly: true,
+        buttonText: "Select date"
+
+
+    })
+
+    function convertDateFormat(dateString) {
+        const dateParts = dateString.split('/');
+
+        if (dateParts.length === 3) {
+            const month = dateParts[0];
+            const day = dateParts[1];
+            const year = dateParts[2];
+
+            return `${day}/${month}/${year}`;
+        } else {
+            return 'Invalid date format';
+        }
+    }
+    $("#DoB").on('change', function () {
+        let formatedDate = convertDateFormat($(this).val());
+        console.log(formatedDate)
+        setTimeout(() => {
+
+            $(this).val(formatedDate)
+        })
+    })
 </script>
 

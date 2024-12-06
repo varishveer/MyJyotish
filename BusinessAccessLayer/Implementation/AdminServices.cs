@@ -2195,10 +2195,24 @@ namespace BusinessAccessLayer.Implementation
 
         }
 
-        //public dynamic getEmployeePages(int employeeId)
-        //{
-        //    var res=(from )
-        //}
+        public dynamic getEmployeePages(int employeeId)
+        {
+            var res = (from employee in _context.Employees
+                       join empvalidation in _context.LevelAccessValidation on employee.Department equals empvalidation.department
+                       join pages in _context.EmployeeAccessPages on empvalidation.pages equals pages.Id
+                       where employee.Id == employeeId && employee.status && empvalidation.status && empvalidation.levels == employee.levels && pages.status
+                       select new
+                       {
+                           pageName = pages.pagesName,
+                           pageUrl = pages.pageUrl,
+                           discount = (_context.RedeemCodeDiscountValidation.Where(e => e.levelsId == employee.levels && e.departmentId == employee.Department && e.status)).Select(e=>e.Discount).FirstOrDefault(),
+
+
+                       }
+
+                       ).ToList();
+            return res;
+        }
 
     }
 }

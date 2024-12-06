@@ -112,6 +112,8 @@ namespace BusinessAccessLayer.Abstraction
         public bool AddPageAccessValidation(AccessPageValidation model);
 
         public bool AddDiscount(RedeemDiscountValidationViewModel model);
+        public dynamic getEmployeePages(int employeeId);
+
 
     }
 }
