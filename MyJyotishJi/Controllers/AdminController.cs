@@ -1495,26 +1495,29 @@ namespace MyJyotishJiApi.Controllers
                 {
                     var httpRequest = HttpContext.Request;
 
-                    int[] pagesIds = httpRequest.Form["pages"].ToString().Split(',').Select(e => int.Parse(e)).ToArray();
-                    var resCount = 0;
-                    AccessPageValidation pages = new AccessPageValidation();
-
-                    foreach (var pageId in pagesIds)
+                        var resCount = 0;
+                        AccessPageValidation pages = new AccessPageValidation();
+                    pages = new AccessPageValidation
                     {
-                        pages = new AccessPageValidation
-                        {
-                            DepartmentId = Convert.ToInt32(httpRequest.Form["Department"]),
-                            levelId = Convert.ToInt32(httpRequest.Form["level"]),
-                            PageId = pageId
-                        };
+                        DepartmentId = Convert.ToInt32(httpRequest.Form["Department"]),
+                        levelId = Convert.ToInt32(httpRequest.Form["level"]),
+                        
+                    };
+                    if (!string.IsNullOrEmpty(httpRequest.Form["pages"]))
+                    {
+                        int[] pagesIds = httpRequest.Form["pages"].ToString().Split(',').Select(e => int.Parse(e)).ToArray();
 
-                        var res = _admin.AddPageAccessValidation(pages);
-                        if (res)
+                        foreach (var pageId in pagesIds)
                         {
-                            resCount++;
+
+                            pages.PageId = pageId;
+                            var res = _admin.AddPageAccessValidation(pages);
+                            if (res)
+                            {
+                                resCount++;
+                            }
                         }
                     }
-
                     if (!string.IsNullOrEmpty(httpRequest.Form["Discount"]))
                     {
                         RedeemDiscountValidationViewModel model = new RedeemDiscountValidationViewModel
