@@ -696,7 +696,7 @@ namespace BusinessAccessLayer.Implementation
 
         public List<InterviewMeetingViewModel> InterviewMeetingListByJyotishId(int jytotishId)
         {
-            var Data = _context.InterviewMeeting.Where(x => x.Status == true && x.JyotishId == jytotishId).Select(x => new InterviewMeetingViewModel
+            var Data = _context.InterviewMeeting.Include(x => x.Jyotish).ThenInclude(x => x.Slots).Where(x => x.Status == true && x.JyotishId == jytotishId ).Where(y=>y.Jyotish.Slots.FirstOrDefault().Incomplete == false).Select(x => new InterviewMeetingViewModel
             {
                 Id = x.Id,
                 Link = x.Link,

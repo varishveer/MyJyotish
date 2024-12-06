@@ -1381,6 +1381,7 @@ namespace BusinessAccessLayer.Implementation
             SlotBook.end = false;
             SlotBook.Date = DateTime.Now;
             SlotBook.status = false;
+            SlotBook.Incomplete = true;
             _context.SlotBooking.Update(SlotBook);
             _context.Slots.Update(Slot);
             
@@ -1848,7 +1849,8 @@ namespace BusinessAccessLayer.Implementation
                 _context.InterviewMeeting.Update(InterviewMeeting);
             }
             var JyotishRecord = _context.JyotishRecords.Where(x => x.Id == data.JyotishId & x.Status).FirstOrDefault();
-            if(JyotishRecord == null)
+            var SlotBooking = _context.SlotBooking.Where(x=>x.JyotishId == data.JyotishId & x.status).FirstOrDefault();
+            if (JyotishRecord == null)
             {
                 return false;
             }
@@ -1860,7 +1862,10 @@ namespace BusinessAccessLayer.Implementation
             newRecord.JyotishId = data.JyotishId;
             newRecord.ApproveStatus = false;
             newRecord.Status = true;
-          
+
+            SlotBooking.Incomplete = false;
+            _context.SlotBooking.Update(SlotBooking);
+
             _context.InterviewMeeting.Add(newRecord);
             if (_context.SaveChanges() > 0)
             {

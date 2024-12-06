@@ -20,7 +20,9 @@ namespace ModelAccessLayer.Models
         public DateTime endDate { get; set; }
         public bool start { get; set; }
         public bool end { get; set; }
+        public bool Incomplete { get; set; }
         public bool status { get; set; }
+
         public  JyotishModel JyotishRecords { get; set; }
         public SlotModel SlotRecords { get; set; }
         public ICollection<EmployeeInterviewFeedbackModel> EmployeeInterviewFeedbacks { get; set; } = new List<EmployeeInterviewFeedbackModel>(); 

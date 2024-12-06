@@ -537,7 +537,7 @@
             if (!$('#name').val() || !$('#email').val() || !$('#gender').val() || !$('#mobile').val() ||
                 !$('#language').val() || !$('#expertise').val() || !$('#country').val() ||
                 !$('#state').val() || !$('#city').val()) {
-
+                Swal.close();
                 Swal.fire({
                     icon: 'warning',
                     title: 'Incomplete Form',
