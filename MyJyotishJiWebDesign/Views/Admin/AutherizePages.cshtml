@@ -53,6 +53,12 @@
         arrData.forEach(function (d) {
             formData.append(d.name, d.value)
         })
+        Swal.fire({
+            title: "Processing Your Request",
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
         $.ajax({
             url: BaseUrl + "api/admin/AccessPagesValidation",
             type: "post",

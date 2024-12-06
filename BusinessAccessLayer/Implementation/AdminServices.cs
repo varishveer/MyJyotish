@@ -16,6 +16,7 @@ using System.Xml.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Identity.Client.Kerberos;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Model;
 
 
 namespace BusinessAccessLayer.Implementation
@@ -2184,9 +2185,20 @@ namespace BusinessAccessLayer.Implementation
                 };
                 _context.RedeemCodeDiscountValidation.Add(validation);
             }
+            else
+            {
+                res.Discount = model.discount;
+                _context.RedeemCodeDiscountValidation.Update(res);
+
+            }
             return _context.SaveChanges() > 0;
 
         }
+
+        //public dynamic getEmployeePages(int employeeId)
+        //{
+        //    var res=(from )
+        //}
 
     }
 }
