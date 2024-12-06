@@ -77,7 +77,7 @@
                 <input type="hidden" id="JyotishId" value="">
 
                 <label for="Message">Feedback</label>
-                <textarea type="text" id="Message" name="appointmentDate" class="form-control"></textarea>
+                <textarea type="text" id="Message" name="appointmentDate" class="form-control summernote"></textarea>
                 <div class="my-3 justify-content-center d-flex">
                     <label for="Approve" class="mx-2">Approve</label>
                     <input checked type="radio" id="Approve" name="bool_value" value="1" class="me-5 isChecked">
@@ -88,7 +88,7 @@
 
 
 
-                <button class="btn btn-success" id="feedbackSubmitBtn"> Submit</button>
+                <button class="btn btn-success float-end" id="feedbackSubmitBtn"> Submit</button>
             </div>
         </div>
     </div>
@@ -130,8 +130,8 @@
                                     <button type="button" class="btn btn-sm btn-primary" data-id="${item.id}" data-imageUrl="${item.imageUrl}" data-videoUrl="${item.videoUrl}" data-message="${item.message}" data-toggle="modal" data-target="#InterviewFeedbackModal">
                                         <i class="fa-solid fa-eye"></i> View Details
                                     </button>
-                                    
-                                    <button type="button" class="btn btn-sm btn-primary" onclick="openFeedbackModal(${item.JyotishId}, ${item.slotBookingId})" data-toggle="modal" data-target="#FeedbackModal">
+
+                                        <button type="button" class="btn btn-sm btn-primary" onclick="openFeedbackModal(${item.jyotishId}, ${item.slotBookingId})" data-toggle="modal" data-target="#FeedbackModal">
                                      Feedback
                                 </button>
                                   </td>`;

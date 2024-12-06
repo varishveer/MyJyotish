@@ -229,7 +229,7 @@
                         <div class="col-sm-6">
                             <label for="altmobno">Alternate Number <span class="text-danger">*</span></label>
                                                         <div class="d-flex">
-                                                            <input type="text" class="rounded-start countryCode" value="+91" disabled style="width:40px;" />
+                                                            <input type="text" class="rounded-start" id="countryCode" value="+91" disabled style="width:40px;" />
                                     <input type="number" id="altmobno" name="AlternateMobile" class="form-control" placeholder="Enter alternate Phone Number" />
                         </div>
                         </div>
@@ -316,8 +316,10 @@
                             <p>You are available for pooja? : </p>
                          
                             <div>
-                             <input type="radio" class="checkboxforavail poojarbtn" value="1" name="pooja" /> Yes&nbsp;&nbsp;
-                                <input type="radio" class="checkboxforavail poojarbtn" value="0" name="pooja" /> No
+                                <div class="row">
+                                                                <div class="col-sm-9"> <input type="radio" class="checkboxforavail poojarbtn" value="1" name="pooja" /> Yes&nbsp;&nbsp;</div>
+                                                                <div class="col-sm-3"><input type="radio" class="checkboxforavail poojarbtn" value="0" name="pooja" /> No</div>
+                                </div>
                             </div>
                              </div>
                              <div>
@@ -1312,7 +1314,7 @@ $("#language").select2({
                         }
                         $("#name").val(response.data.name)
                         $("#email").val(response.data.email)
-                        $("#mobno").val($(".contryCode").val()+response.data.mobile)
+                            $("#mobno").val($("#countryCode").val() + response.data.mobile)
                         $("#gender").val(response.data.gender)
                         $("#altmobno").val(response.data.alternateMobile)
                             $("#dob").val(formatDate(response.data.dateOfBirth))
@@ -1402,7 +1404,7 @@ $("#language").select2({
                             let data = response.data.jyotishRecord
                             $("#name").val(data.name)
                             $("#email").val(data.email)
-                            $("#mobno").val($(".countryCode").val()+data.mobile)
+                                    $("#mobno").val($("#countryCode").val() + data.mobile)
                             $("#gender").val(data.gender)
                             setTimeout(() => {
                                 $("#language").val(data.language != null ? data.language.split(",") : data.language).change()
