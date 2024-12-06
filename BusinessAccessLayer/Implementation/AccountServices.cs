@@ -820,6 +820,9 @@ namespace BusinessAccessLayer.Implementation
             { record.DoB = _user.DoB; }
             if (_user.PlaceOfBirth != null)
             { record.PlaceOfBirth = _user.PlaceOfBirth; }
+
+            if (_user.TimeOfBirth != null)
+            { record.TimeOfBirth = _user.TimeOfBirth; }
             record.Status = "Verified";
 
             record.Password = (new Random().Next(10000000, 100000000)).ToString();

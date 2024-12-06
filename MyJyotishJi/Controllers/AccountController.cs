@@ -384,10 +384,29 @@ namespace MyJyotishJiApi.Controllers
 
         
         [HttpPost("RegisterUserDetails")]
-        public IActionResult RegisterUserDetails([FromBody] UserViewModel _user)
+        public IActionResult RegisterUserDetails( )
         {
             try
             {
+                var httpRequest = HttpContext.Request;
+                UserViewModel _user = new UserViewModel
+                {
+                    Email = httpRequest.Form["email"],
+                    Mobile = httpRequest.Form["mobile"],
+                    Name = httpRequest.Form["name"],
+                    Gender = httpRequest.Form["gender"],
+                    DoB = httpRequest.Form["doB"],
+                    PlaceOfBirth = httpRequest.Form["placeOfBirth"]
+                  
+                };
+
+                if (!string.IsNullOrEmpty(httpRequest.Form["timeOfBirth"]))
+                {
+                    _user.TimeOfBirth = TimeOnly.Parse(httpRequest.Form["timeOfBirth"]);
+                }
+               
+
+
                 var result = _account.RegisterUserDetails(_user);
                 
                 if (result == "Successful") { return Ok(new { Status = 200, Message = result }); }
