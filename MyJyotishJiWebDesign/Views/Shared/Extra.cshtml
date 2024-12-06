@@ -14,7 +14,7 @@
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-
+    <link href="~/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" />
 
 
     <!-- Libraries Stylesheet -->
@@ -30,6 +30,44 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.21.0/jquery.validate.min.js" integrity="sha512-KFHXdr2oObHKI9w4Hv1XPKc898mE4kgYx58oqsc/JqqdLMDI4YjOLzom+EMlW8HFUd0QfjfAvxSL6sEq/a42fQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="~/Jquery-validation/JqueryValidations.js"></script>
+    <script src="~/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+
+    <style>
+        .datepicker {
+            z-index: 10000 !important; /* Ensure datepicker is above other elements */
+            font-size: 1.1rem; /* Slightly larger font size for datepicker */
+        }
+
+            .datepicker table {
+                width: 100%; /* Full width */
+            }
+
+            .datepicker th {
+                background-color: white; /* Header background color */
+                color: #007bff; /* Header text color */
+                padding: 10px; /* More padding for header */
+                border: 1px solid #007bff;
+            }
+
+            .datepicker td {
+                text-align: center; /* Center align dates */
+                padding: 7px; /* More padding for dates */
+            }
+
+                .datepicker td.day:hover {
+                    background-color: #e9ecef; /* Light hover effect */
+                    cursor: pointer; /* Pointer cursor on hover */
+                }
+
+                .datepicker td.day.active {
+                    background-color: #007bff; /* Active date color */
+                    color: white; /* Active date text color */
+                }
+
+                .datepicker td.day.disabled {
+                    color: #ced4da; /* Disabled dates color */
+                }
+</style>
 </head>
 
 <body >

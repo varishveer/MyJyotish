@@ -1701,6 +1701,21 @@ namespace MyJyotishJiApi.Controllers
             {
                 return StatusCode(500, new { Status = 500, Message = "Internal Server Error.", Error = ex.Message });
             }
+        } 
+        [HttpGet("getEmployeePages")]
+        public IActionResult getEmployeePages(int EmployeeId)
+        {
+            try
+            {
+                var res = _admin.getEmployeePages(EmployeeId);
+                return Ok(new { status = 200, message = "data retrieved", data = res });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Status = 500, Message = "Internal Server Error.", Error = ex.Message });
+            }
         }
+
+
     }
 }
