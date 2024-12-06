@@ -185,4 +185,17 @@ namespace ModelAccessLayer.ViewModels
         public IFormFile? Image { get; set; }
        
     }
+
+    public class UserServiceRecordViewModel
+    {
+        public int? Id { get; set; }
+        public string Name { get; set; }
+        public string Gender { get; set; }
+        public DateOnly DateOfBirth { get; set; }
+        public TimeOnly TimeOfBirth { get; set; }
+        public string PlaceOfBirth { get; set; }
+        public int? UserId { get; set; }
+        public int? JyotishId { get; set; }
+        public int? Action { get; set; }
+    }
 }

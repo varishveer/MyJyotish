@@ -71,11 +71,16 @@
     #PlaceOfBirthList
     {
         position: absolute;
-        height: 50px;
-       display:none;
+        height: 250px;
+        padding:10px;
         overflow: auto;
+        
     }
-   
+
+    .pOBPtag:hover{
+        background-color : skyblue;
+        color:white;
+    }
 
 </style>
 <div class="container h-80 ">
@@ -139,7 +144,7 @@
                         <label for="PlaceOfBirthInput" class="form-label">Place of Birth:</label>
                         <input list="PlaceOfBirthList" type="text" id="PlaceOfBirthInput" name="placeOfBirth" class="form-control custom-field"
                                placeholder="Enter City"  autocomplete="off"/>
-                        <div class="position-absolute ">
+                        <div class="position-absolute bg-light " id="PlaceOfBirthList">
 
                         </div>
                        @*  <datalist id="PlaceOfBirthList" name="PlaceOfBirth" class="form-select mt-2" required>
@@ -207,7 +212,7 @@
            
 
             data.data.forEach(placeOfBirth => {
-                $placeOfBirthDropdown.append(`<p> ${placeOfBirth}</p>`);
+                $placeOfBirthDropdown.prepend(`<p class="pOBPtag"> ${placeOfBirth}</p>`);
             });
         } catch (error) {
             console.error('Error fetching PlaceOfBirth:', error);
@@ -215,10 +220,11 @@
     }
 
     // Trigger API call on every keypress in the PlaceOfBirth input
-    $('#PlaceOfBirthInput').on('keyup', debounce(function () {
+    $('#PlaceOfBirthInput').on('keyup',function () {
+        debugger
         const city = $(this).val();
         loadPlaceOfBirth(city);
-    }, 300));
+    });
 
     // Get OTP button click event
     $("#getOtp").click(function () {
