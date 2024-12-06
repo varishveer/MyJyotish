@@ -66,6 +66,8 @@ namespace DataAccessLayer.DbServices
         public DbSet<EmployeeInterviewFeedbackModel> EmployeeInterviewFeedback { get; set; }
         public DbSet<EmployeeInterviewAttachmentModel> EmployeeInterviewAttachment { get; set; }    
         public DbSet<RedeemCodeDiscountValidation> RedeemCodeDiscountValidation { get; set; }    
+        public DbSet<UserServiceRecordModel> UserServiceRecord { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -256,6 +258,16 @@ namespace DataAccessLayer.DbServices
            .HasOne(c => c.levels)
            .WithMany(j => j.redeemDiscount)
            .HasForeignKey(c => c.levelsId);
+
+            modelBuilder.Entity<UserServiceRecordModel>()
+         .HasOne(c => c.User)
+         .WithMany(j => j.UserServiceRecord)
+         .HasForeignKey(c => c.UserId);
+
+            modelBuilder.Entity<UserServiceRecordModel>()
+           .HasOne(c => c.Jyotish)
+           .WithMany(j => j.UserServiceRecord)
+           .HasForeignKey(c => c.JyotishId);
         }
 
 
