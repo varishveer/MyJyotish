@@ -249,7 +249,7 @@ header {
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Redeam</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Redeem Code</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -260,7 +260,7 @@ header {
                <div class="text-center my-4">
                <input type="submit" value="Redeam" class="btn btn-success" />
                     </div>
-               <p>don't have any redeam code <span class="text-primary">send request</span></p>
+               <p>don't have any redeam code <span class="text-primary" id="sendRequest" role="button">send request</span></p>
                 </form>
             </div>
             <div class="modal-footer">
@@ -511,6 +511,57 @@ header {
          upgradePackage();
      }
   
+
+     function sendRequestForRedeemCode(){
+        Swal.fire({
+            title: "Processing Your Request",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
+        let jyotishId = localStorage.getItem("Id")
+        let planId = $("#planIdModal").val()
+        $.ajax({
+            url: BaseUrl + "Api/Jyotish/SendRedeemCodeRequest",
+            type: "POST",
+            contentType:"application/json",
+            data: JSON.stringify({jyotishId:jyotishId,planId:planId}),
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token2")}`
+            },
+            success: function (res) {
+                if(res.status==200){
+                    Swal.fire({
+                        title:"success",
+                        text:res.message,
+                        icon:"success",
+                        didClose:()=>{
+                            location.reload();
+                        }
+                    })
+                }else{
+                    Swal.fire({
+                        title: "warning",
+                        text: res.message,
+                        icon: "warning",
+                        
+                    })
+                }
+            },error:function(){
+                Swal.fire({
+                    title: "error",
+                    text: "some error occured",
+                    icon: "error",
+
+                })
+            }
+        })
+     }
+
+    $("#sendRequest").click(function(){
+        sendRequestForRedeemCode()
+    })
 </script>
 
 <script>

@@ -12,6 +12,7 @@ namespace ModelAccessLayer.Models
 		public int Id { get; set; }
 		public int jyotishId { get; set; }
 		public int planId { get; set; }
+		public DateTime RequestDate { get; set; }
 		public bool RedeemStatus { get; set; }
 		public bool status { get; set; }
 

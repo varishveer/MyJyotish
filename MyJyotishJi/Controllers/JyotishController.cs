@@ -1166,7 +1166,21 @@ namespace MyJyotishGApi.Controllers
             catch { return StatusCode(500, new { Status = 500, Message = "Internal Server Error " }); }
         }
 
-        
+        //send request for redeem code
+        [HttpPost("SendRedeemCodeRequest")]
+        public IActionResult SendRequest(RedeemCodeRequestViewModel model)
+        {
+            var res = _jyotish.SendRequest(model);
+            if (res)
+            {
+                return Ok(new { status = 200, message = "Request Send Successfully" });
+            }
+            else
+            {
+                return Ok(new { status = 501, message = "Your request already has been registered" });
+
+            }
+        }
 
     }
 }
