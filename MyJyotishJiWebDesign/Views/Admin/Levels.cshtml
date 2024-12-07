@@ -18,6 +18,7 @@
 			<tr>
 				<th>Sr</th>
 				<th>Name</th>
+				<th>Description</th>
 			</tr>
 		</thead>
 		<tbody id="tablecontainer">
@@ -32,6 +33,7 @@
 		e.preventDefault();
 		let formData=new FormData();
 		formData.append("levelsName", $("#levels").val())
+		formData.append("description", $("#descriptoion").val())
 		$.ajax({
 			url: BaseUrl + "api/admin/Addlevels",
 			type:"post",
@@ -92,6 +94,7 @@
 							`<tr>
 								<td class='text-center'>${i + 1}</td>
 								<td class='text-center'>${d.levelsName}</td>
+								<td class='text-center'>${d.description || 'N/A'}</td>
 								</tr>
 								`
 						)

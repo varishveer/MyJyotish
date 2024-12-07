@@ -125,13 +125,11 @@
             $.ajax({
                 url: BaseUrl + "api/Account/SignInAdminEmployees",
                 type: 'POST',
-                contentType: 'application/json', // Specify that the content type is JSON
+                contentType: 'application/json', 
                 data: JSON.stringify(data),
                 success: function (response) {
 
-                    if (response.status === 200) {
-                        // Store the token and user email in local storage
-
+                    if (response.status === 200) { 
                         Swal.fire({
                             title: "Successfully Login",
                             text: "Redirecting to Dashboard",

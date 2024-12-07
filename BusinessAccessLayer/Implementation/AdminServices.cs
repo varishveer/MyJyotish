@@ -1659,6 +1659,7 @@ namespace BusinessAccessLayer.Implementation
             levels dp = new levels
             {
                 levelsName = model.LevelsName,
+                Description=model.Description,
                 status=true
             };
             _context.Levels.Add(dp);

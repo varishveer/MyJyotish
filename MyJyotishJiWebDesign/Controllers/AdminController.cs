@@ -34,6 +34,10 @@ namespace MyJyotishJiWebDesign.Controllers
         public IActionResult PendingFeedback() { return View();  }
         public IActionResult ApproveJyotishInterview() { return View();  }
         public IActionResult AutherizePages() { return View();  }
+		public IActionResult ApproveRedeamCode()
+		{
+			return View();
+		}
 
-    }
+	}
 }

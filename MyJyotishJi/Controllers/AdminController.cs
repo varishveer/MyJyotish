@@ -1324,7 +1324,8 @@ namespace MyJyotishJiApi.Controllers
             var httpRequest = HttpContext.Request;
             LevelsViewModel model = new LevelsViewModel
             {
-                LevelsName = httpRequest.Form["levelsName"]
+                LevelsName = httpRequest.Form["levelsName"],
+                Description = httpRequest.Form["description"]
             };
 
             var res = _admin.AddLevels(model);

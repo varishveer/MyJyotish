@@ -93,6 +93,7 @@ namespace ModelAccessLayer.ViewModels
     public class LevelsViewModel
     {
         public string LevelsName { get; set; }
+        public string? Description { get; set; }
     }
     public class EmployeesViewModel
     {
