@@ -14,17 +14,23 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Azure;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Newtonsoft.Json.Linq;
 
 namespace BusinessAccessLayer.Implementation
 {
     public class AccountServices:IAccountServices
     {
         private readonly ApplicationContext _context;
-        public AccountServices(ApplicationContext context)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public AccountServices(ApplicationContext context , IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
+            _httpContextAccessor = httpContextAccessor;
         }
-
+        
+        
 
 
         #region JYotish
@@ -552,7 +558,22 @@ namespace BusinessAccessLayer.Implementation
             {
                 if (_admin.password == password)
                 {
+                    var context = _httpContextAccessor.HttpContext;
+
+                    if (context != null)
+                    {
+                        // Set the cookie using Response object from HttpContext
+                        context.Response.Cookies.Append("role", "employee", new CookieOptions
+                        {
+                            Expires = DateTimeOffset.Now.AddDays(7),
+                            HttpOnly = true,
+                            Secure = true,
+                            SameSite = SameSiteMode.Strict
+                        });
+                    }
+
                     return _admin.Id;
+
                 }
                 else
                 {
