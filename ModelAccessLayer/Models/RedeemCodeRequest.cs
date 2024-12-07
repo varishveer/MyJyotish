@@ -12,7 +12,9 @@ namespace ModelAccessLayer.Models
 		public int Id { get; set; }
 		public int jyotishId { get; set; }
 		public int planId { get; set; }
+		public bool RedeemStatus { get; set; }
 		public bool status { get; set; }
+
 
 		public JyotishModel jyotish { get; set; }
 		public SubscriptionModel plan { get; set; }

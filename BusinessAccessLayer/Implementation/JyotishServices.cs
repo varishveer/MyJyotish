@@ -1850,7 +1850,18 @@ namespace BusinessAccessLayer.Implementation
 
         }
 
-      
+      //send request for redeem code
+      public bool SendRequest(RedeemCodeRequestViewModel model)
+        {
+            RedeemCodeRequest request = new RedeemCodeRequest
+            {
+                jyotishId = model.jyotishId,
+                planId = model.planId,
+                status = true,
+            };
+            _context.RedeemCodeRequest.Add(request);
+            return _context.SaveChanges() > 0;
+        }
 
        
     }
