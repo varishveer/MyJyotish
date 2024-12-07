@@ -819,8 +819,12 @@ namespace BusinessAccessLayer.Implementation
              record.Name = _user.Name; 
              record.Gender = _user.Gender; 
              record.DoB = _user.DoB; 
-             record.PlaceOfBirth = _user.PlaceOfBirth; 
-      
+             record.PlaceOfBirth = _user.PlaceOfBirth;
+            var countryCode = _context.CountryCode.Where(e => e.country == _user.Country).Select(e => e.Id).FirstOrDefault();
+            record.CountryCodeId = countryCode;
+            record.Country = _user.Country;
+            record.State = _user.State;
+            record.City = _user.City;
 
             if (_user.TimeOfBirth != null)
             { record.TimeOfBirth = _user.TimeOfBirth; }
