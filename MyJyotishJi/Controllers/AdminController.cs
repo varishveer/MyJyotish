@@ -1390,9 +1390,9 @@ namespace MyJyotishJiApi.Controllers
                         var ImageUrl = "Images/admin/" + ProfileGuid + IdProof.FileName;
                         docsList.Add("IdProof", ImageUrl);
                     }
-                    if (httpRequest.Form.Files["metrics"] != null)
+                    if (httpRequest.Form.Files["adharFront"] != null)
                     {
-                        IFormFile metrics = httpRequest.Form.Files["metrics"];
+                        IFormFile metrics = httpRequest.Form.Files["adharFront"];
                         var SqlPath = "wwwroot/Images/admin/" + ProfileGuid + metrics.FileName;
                         var ProfilePath = Path.Combine(_uploadDirectory, SqlPath);
                         using (var stream = new FileStream(ProfilePath, FileMode.Create))
@@ -1400,12 +1400,12 @@ namespace MyJyotishJiApi.Controllers
                             metrics.CopyTo(stream);
                         }
                         var ImageUrl = "Images/admin/" + ProfileGuid + metrics.FileName;
-                        docsList.Add("Metrics", ImageUrl);
+                        docsList.Add("adharFront", ImageUrl);
 
                     }
-                    if (httpRequest.Form.Files["postmetrics"] != null)
+                    if (httpRequest.Form.Files["adharBack"] != null)
                     {
-                        IFormFile postmetrics = httpRequest.Form.Files["postmetrics"];
+                        IFormFile postmetrics = httpRequest.Form.Files["adharBack"];
                         var SqlPath = "wwwroot/Images/admin/" + ProfileGuid + postmetrics.FileName;
                         var ProfilePath = Path.Combine(_uploadDirectory, SqlPath);
                         using (var stream = new FileStream(ProfilePath, FileMode.Create))
@@ -1413,11 +1413,11 @@ namespace MyJyotishJiApi.Controllers
                             postmetrics.CopyTo(stream);
                         }
                         var ImageUrl = "Images/admin/" + ProfileGuid + postmetrics.FileName;
-                        docsList.Add("postmentrics", ImageUrl);
+                        docsList.Add("adharBack", ImageUrl);
                     }
-                    if (httpRequest.Form.Files["degrees"] != null)
+                    if (httpRequest.Form.Files["certificate"] != null)
                     {
-                        IFormFile degree = httpRequest.Form.Files["degrees"];
+                        IFormFile degree = httpRequest.Form.Files["certificate"];
                         var SqlPath = "wwwroot/Images/admin/" + ProfileGuid + degree.FileName;
                         var ProfilePath = Path.Combine(_uploadDirectory, SqlPath);
                         using (var stream = new FileStream(ProfilePath, FileMode.Create))
@@ -1425,7 +1425,7 @@ namespace MyJyotishJiApi.Controllers
                             degree.CopyTo(stream);
                         }
                         var ImageUrl = "Images/admin/" + ProfileGuid + degree.FileName;
-                        docsList.Add("Degree", ImageUrl);
+                        docsList.Add("certificate", ImageUrl);
                     }
                     foreach (var doc in docsList)
                     {
