@@ -98,6 +98,14 @@ namespace MyJyotishJiApi.Controllers
                 {
                     var token = GenerateJwtToken(login.Email, "Scheme1");
 
+                        Response.Cookies.Append("role", "employee", new CookieOptions
+                        {
+                            Expires = DateTimeOffset.Now.AddDays(7),
+                            HttpOnly = true,
+                            Secure = true,
+                            SameSite = SameSiteMode.Strict
+                        });
+
                     return Ok(new { Status = 200, Message = "Login Successfully", Token = token, User = result });
                 }
                 else if (result == 0)

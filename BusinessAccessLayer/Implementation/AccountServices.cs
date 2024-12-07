@@ -14,17 +14,21 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Azure;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Newtonsoft.Json.Linq;
 
 namespace BusinessAccessLayer.Implementation
 {
     public class AccountServices:IAccountServices
     {
         private readonly ApplicationContext _context;
-        public AccountServices(ApplicationContext context)
+        public AccountServices(ApplicationContext context )
         {
             _context = context;
         }
-
+        
+        
 
 
         #region JYotish
@@ -552,7 +556,10 @@ namespace BusinessAccessLayer.Implementation
             {
                 if (_admin.password == password)
                 {
+                    
+
                     return _admin.Id;
+
                 }
                 else
                 {
