@@ -67,6 +67,7 @@ namespace DataAccessLayer.DbServices
         public DbSet<EmployeeInterviewAttachmentModel> EmployeeInterviewAttachment { get; set; }    
         public DbSet<RedeemCodeDiscountValidation> RedeemCodeDiscountValidation { get; set; }    
         public DbSet<UserServiceRecordModel> UserServiceRecord { get; set; }
+        public DbSet<RedeemCodeRequest> RedeemCodeRequest { get; set; }
 
 
 
@@ -272,6 +273,15 @@ namespace DataAccessLayer.DbServices
            .HasOne(c => c.Jyotish)
            .WithMany(j => j.UserServiceRecord)
            .HasForeignKey(c => c.JyotishId);
+
+            modelBuilder.Entity<RedeemCodeRequest>()
+         .HasOne(c => c.jyotish)
+         .WithMany(j => j.redeemRequest)
+         .HasForeignKey(c => c.jyotishId);
+            modelBuilder.Entity<RedeemCodeRequest>()
+         .HasOne(c => c.plan)
+         .WithMany(j => j.redeemRequest)
+         .HasForeignKey(c => c.planId);
         }
 
 

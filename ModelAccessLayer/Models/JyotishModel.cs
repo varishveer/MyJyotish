@@ -98,6 +98,7 @@ namespace ModelAccessLayer.Models
         public ICollection<JyotishRatingModel> JyotishRating { get; set; } = new List<JyotishRatingModel>();
         public ICollection<InterviewMeeting> InterviewMeeting { get; set; } = new List<InterviewMeeting>();
         public ICollection<UserServiceRecordModel> UserServiceRecord { get; set; } = new List<UserServiceRecordModel>();
+        public ICollection<RedeemCodeRequest> redeemRequest { get; set; } = new List<RedeemCodeRequest>();
 
     }
 
