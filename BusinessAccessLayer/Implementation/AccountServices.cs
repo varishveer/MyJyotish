@@ -23,11 +23,9 @@ namespace BusinessAccessLayer.Implementation
     public class AccountServices:IAccountServices
     {
         private readonly ApplicationContext _context;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        public AccountServices(ApplicationContext context , IHttpContextAccessor httpContextAccessor)
+        public AccountServices(ApplicationContext context )
         {
             _context = context;
-            _httpContextAccessor = httpContextAccessor;
         }
         
         
@@ -558,19 +556,7 @@ namespace BusinessAccessLayer.Implementation
             {
                 if (_admin.password == password)
                 {
-                    var context = _httpContextAccessor.HttpContext;
-
-                    if (context != null)
-                    {
-                        // Set the cookie using Response object from HttpContext
-                        context.Response.Cookies.Append("role", "employee", new CookieOptions
-                        {
-                            Expires = DateTimeOffset.Now.AddDays(7),
-                            HttpOnly = true,
-                            Secure = true,
-                            SameSite = SameSiteMode.Strict
-                        });
-                    }
+                    
 
                     return _admin.Id;
 

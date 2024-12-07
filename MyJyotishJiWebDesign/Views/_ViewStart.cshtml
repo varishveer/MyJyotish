@@ -1,14 +1,14 @@
 ﻿@{
     Layout = "_Layout";
 }
+
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
 @{
-    var cookieValue = Request.Cookies["YourCookieName"];
-    if (User.IsInRole("Admin"))
-    {
-        Layout = "AdminLayout";
-    }
-    else
+    var cookie = HttpContextAccessor.HttpContext.Request.Cookies["role"];
+    if (cookie!=null)
     {
         Layout = "_adminEmployees";
     }
+    
 }
