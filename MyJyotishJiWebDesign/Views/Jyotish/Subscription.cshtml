@@ -514,20 +514,20 @@ header {
 
      function sendRequestForRedeemCode(){
         let jyotishId = localStorage.getItem("Id")
-
+        let planId = $("#planIdModal").val()
         $.ajax({
             url: BaseUrl + "Api/Jyotish/SendRedeemCodeRequest",
             type: "Get",
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("Token2")}`
             },
-            success: function (response) {
+            success: function (res) {
             }
         })
      }
 
     $("#sendRequest").click(function(){
-
+        sendRequestForRedeemCode()
     })
 </script>
 
