@@ -25,9 +25,9 @@ namespace ModelAccessLayer.Models
        
         public TimeOnly? TimeOfBirth { get; set; }
         public string? CurrentAddress { get; set; }
-        public string? Country { get; set; }
-        public string? State { get; set; }
-        public string? City { get; set; }
+        public int? Country { get; set; }
+        public int? State { get; set; }
+        public int? City { get; set; }
         public int? Pincode { get; set; }
         public string? ProfilePictureUrl { get; set; }
         public string? Status { get; set; }

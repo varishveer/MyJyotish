@@ -815,14 +815,12 @@ namespace BusinessAccessLayer.Implementation
                 
             }
 
-            if (_user.Name != null)
-            { record.Name = _user.Name; }
-            if (_user.Gender != null)
-            { record.Gender = _user.Gender; }
-            if (_user.DoB != null)
-            { record.DoB = _user.DoB; }
-            if (_user.PlaceOfBirth != null)
-            { record.PlaceOfBirth = _user.PlaceOfBirth; }
+            
+             record.Name = _user.Name; 
+             record.Gender = _user.Gender; 
+             record.DoB = _user.DoB; 
+             record.PlaceOfBirth = _user.PlaceOfBirth; 
+      
 
             if (_user.TimeOfBirth != null)
             { record.TimeOfBirth = _user.TimeOfBirth; }

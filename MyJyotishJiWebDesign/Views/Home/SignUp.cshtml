@@ -68,18 +68,16 @@
         background-color: lightslategray;
     }
 
-    #PlaceOfBirthList
-    {
+    #PlaceOfBirthList {
         position: absolute;
         height: 250px;
-        padding:10px;
+        padding: 10px;
         overflow: auto;
-        
     }
 
-    .pOBPtag:hover{
-        background-color : skyblue;
-        color:white;
+    .pOBPtag:hover {
+        background-color: skyblue;
+        color: white;
     }
 
 </style>
@@ -108,12 +106,11 @@
                 </div>
 
                 <div class="form-group col-md-12 mb-0 d-none otpContainer">
-                    <label for="otp" class="form-label otp-label" >Verification:</label>
+                    <label for="otp" class="form-label otp-label">Verification:</label>
                     <div class="input-group">
-                        <input type="number" id="otp" name="otp" class="form-control otp-input" 
-                               placeholder="Enter OTP" >
-                        <button class="btn btn-outline-secondary otp-button" type="button" id="verifyOtp"
-                               >
+                        <input type="number" id="otp" name="otp" class="form-control otp-input"
+                               placeholder="Enter OTP">
+                        <button class="btn btn-outline-secondary otp-button" type="button" id="verifyOtp">
                             Verify OTP
                         </button>
                     </div>
@@ -143,12 +140,11 @@
                     <div class="form-group col-md-6 position-relative">
                         <label for="PlaceOfBirthInput" class="form-label">Place of Birth:</label>
                         <input list="PlaceOfBirthList" type="text" id="PlaceOfBirthInput" name="placeOfBirth" class="form-control custom-field"
-                               placeholder="Enter City"  autocomplete="off"/>
+                               placeholder="Enter City" autocomplete="off" />
                         <div class="position-absolute bg-light " id="PlaceOfBirthList">
-
                         </div>
-                       @*  <datalist id="PlaceOfBirthList" name="PlaceOfBirth" class="form-select mt-2" required>
-                          
+                        @*  <datalist id="PlaceOfBirthList" name="PlaceOfBirth" class="form-select mt-2" required>
+
                         </datalist> *@
                     </div>
                 </div>
@@ -159,10 +155,34 @@
                         <input type="time" class="form-control custom-field" id="TimeOfBirth" name="timeOfBirth" />
                     </div>
                     <div class="form-group col-md-6">
-                        
+                    </div>
+                    <div class="form-group col-md-6" style="margin-bottom: 0.2rem;">
+                        <label for="country" class="form-label">Country:</label>
+                        <select id="country" name="country" class="form-select disabledInput" required>
+                            <option value="">Select Country</option>
+                            <!-- Add country options here -->
+                        </select>
                     </div>
                 </div>
 
+                <div class="form-row">
+
+                    <div class="form-group col-md-6" style="margin-bottom: 0.6rem;">
+                        <label for="state" class="form-label">State:</label>
+                        <select id="state" name="state" class="form-select disabledInput" disabled>
+                            <option value="">Select State</option>
+                            <!-- Add state options here -->
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6" style="margin-bottom: 0.6rem;">
+                        <label for="city" class="form-label">City:</label>
+                        <select id="city" name="city" class="form-select disabledInput" disabled>
+                            <option value="">Select City</option>
+                            <!-- Add city options here -->
+                        </select>
+                    </div>
+
+                </div>
 
 
 
@@ -189,7 +209,7 @@
 <script>
 
 
-    $(document).ready(()=> {
+    $(document).ready(() => {
         $(".custom-field").attr("disabled", true);
     })
     // Debounce function to limit API requests
@@ -209,7 +229,7 @@
             const response = await fetch(BaseUrl + `Api/Account/PlaceOfBirthList?City=${encodeURIComponent(city)}`);
             const data = await response.json();
             const $placeOfBirthDropdown = $('#PlaceOfBirthList');
-           
+
 
             data.data.forEach(placeOfBirth => {
                 $placeOfBirthDropdown.prepend(`<p class="pOBPtag" onClick="setPlace('${placeOfBirth}')"> ${placeOfBirth}</p>`);
@@ -224,12 +244,12 @@
         $('#PlaceOfBirthInput').val(svalue);
     }
     // Trigger API call on every keypress in the PlaceOfBirth input
-    $('#PlaceOfBirthInput').on('keyup',function () {
+    $('#PlaceOfBirthInput').on('keyup', function () {
         debugger
         $('#PlaceOfBirthList').show();
         const city = $(this).val();
         loadPlaceOfBirth(city);
-       
+
     });
 
     // Get OTP button click event
@@ -247,49 +267,48 @@
             url: BaseUrl + `Api/Account/RegisterUserEmail?email=${encodeURIComponent(email)}`,
             type: 'POST',
             success: function (res) {
-                
+
                 if (res.status == 200) {
 
-                    if( res.message ==  "Successful"){
-                             Swal.fire({
+                    if (res.message == "Successful") {
+                        Swal.fire({
                             title: "success",
                             text: "OTP send successfully",
                             icon: "success",
                             didClose: () => {
-                          
+
                                 $(".otpContainer").removeClass('d-none');
 
-                           
+
                             }
                         })
                     }
-                    else{
-                      Swal.fire({
+                    else {
+                        Swal.fire({
                             title: "success",
                             text: res.message,
                             icon: "success",
                             didClose: () => {
-                          
-                               $(".custom-field").attr("disabled" , false)
 
-                           
+                                $(".custom-field").attr("disabled", false)
+
+
                             }
                         })
                     }
-                   
-               
+
+
                 }
-                else 
-                {
+                else {
                     Swal.fire({
                         title: "Warning",
                         text: res.message,
                         icon: "warning",
-                       
+
                     })
                 }
-              
-               
+
+
             },
             error: function (xhr) {
                 Swal.fire({
@@ -297,7 +316,7 @@
                     text: xhr.statusText,
                     icon: "error"
                 })
-              
+
             }
         });
     });
@@ -331,7 +350,7 @@
                         icon: "success",
                         didClose: () => {
                             $("#otp").show();
-                              $(".custom-field").attr("disabled", false);
+                            $(".custom-field").attr("disabled", false);
                             $("#verifyOtp").show();
                         }
                     })
@@ -347,7 +366,7 @@
 
             },
             error: function (xhr) {
-                 
+
                 Swal.fire({
                     title: "error",
                     text: xhr.statusText,
@@ -395,17 +414,17 @@
                 icon: 'warning',
                 title: 'Invalid Number',
                 text: 'Please enter a valid 10-digit number.',
-                
+
             });
             return; // Stop form submission
         }
-        let formData=new FormData();
+        let formData = new FormData();
         let arrData = $(this).serializeArray();
-        arrData.forEach(function(d){
-            if(d.name=="doB"){
+        arrData.forEach(function (d) {
+            if (d.name == "doB") {
                 let convertedDate = convertDateFormatdesc(d.value)
-                    formData.append(d.name, convertedDate)
-            }else{
+                formData.append(d.name, convertedDate)
+            } else {
                 formData.append(d.name, d.value)
 
             }
@@ -420,15 +439,15 @@
                 Swal.showLoading();
             }
         })
-      
 
-       
+
+
         console.log(formData);
         $.ajax({
             url: BaseUrl + 'Api/Account/RegisterUserDetails',
             type: 'POST',
-            processData:false,
-            contentType:false,
+            processData: false,
+            contentType: false,
             data: formData,
             success: function (response) {
                 if (response.status === 200) {
@@ -448,7 +467,7 @@
                         icon: "error"
                     })
                 }
-                           
+
             },
             error: function (xhr) {
                 alert('Error: ' + xhr.status + ' - ' + xhr.statusText);
@@ -463,11 +482,98 @@
     currentDate.setFullYear(currentDate.getFullYear() - 20);
 
     $("#DoB").attr("max", currentDate.toISOString().split('T')[0])
+
+
+    const $countryDropdown = $('#country');
+    const $stateDropdown = $('#state');
+    const $cityDropdown = $('#city');
+    async function loadCountries() {
+        try {
+            const response = await fetch(BaseUrl + 'Api/Jyotish/Country');
+            const data = await response.json();
+            $countryDropdown.html('<option value="">Select Country</option>');
+
+            data.data.forEach(country => {
+                $countryDropdown.append(`<option value="${country.id}" data-countryName="${country.name}">${country.name}</option>`);
+            });
+        } catch (error) {
+            console.error('Error fetching countries:', error);
+        }
+    }
+
+    async function loadStates(countryId) {
+        try {
+            Swal.fire({
+                title: "Processing Your Request",
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            })
+            const response = await fetch(BaseUrl + `Api/Jyotish/State?Id=${countryId}`);
+            const data = await response.json();
+            $stateDropdown.html('<option value="">Select State</option>');
+
+            data.data.forEach(state => {
+                $stateDropdown.append(`<option value="${state.id}">${state.name}</option>`);
+            });
+            Swal.close();
+            $stateDropdown.prop('disabled', false);
+        } catch (error) {
+            console.error('Error fetching states:', error);
+        }
+    }
+
+    async function loadCities(stateId) {
+        try {
+            Swal.fire({
+                title: "Processing Your Request",
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            })
+            const response = await fetch(BaseUrl + `Api/Jyotish/City?Id=${stateId}`);
+            const data = await response.json();
+            $cityDropdown.html('<option value="">Select City</option>');
+
+            data.data.forEach(city => {
+                $cityDropdown.append(`<option value="${city.id}" data-name="${city.name}">${city.name}</option>`);
+            });
+            Swal.close()
+            $cityDropdown.prop('disabled', false);
+        } catch (error) {
+            console.error('Error fetching cities:', error);
+        }
+    }
+    loadLanguage();
+    loadExpertise();
+    loadCountries();
+
+    $countryDropdown.change(function () {
+        const countryId = $(this).val();
+        if (countryId) {
+            bindCountryCode(countryId)
+            loadStates(countryId);
+        } else {
+            $stateDropdown.html('<option value="">Select State</option>').prop('disabled', true);
+            $cityDropdown.html('<option value="">Select City</option>').prop('disabled', true);
+        }
+    });
+
+    $stateDropdown.change(function () {
+        const stateId = $(this).val();
+        if (stateId) {
+            loadCities(stateId);
+        } else {
+            $cityDropdown.html('<option value="">Select City</option>').prop('disabled', true);
+        }
+    });
 </script>
 <script>
     var maxDate = new Date();
     maxDate.setFullYear(maxDate.getFullYear());
-    
+
 
     // Initialize the datepicker with the calculated maxDate
     $("#DoB").datepicker({

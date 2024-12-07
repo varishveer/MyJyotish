@@ -353,17 +353,17 @@ namespace BusinessAccessLayer.Implementation
             if (CountryName != null)
             {
                
-                userModel.Country = CountryName.Name; 
+                userModel.Country = model.Country; 
             }
 
             if (StateName !=null)
             {
-                userModel.State = StateName.Name; 
+                userModel.State = model.State; 
             }
 
             if (model.City.HasValue)
             {
-                userModel.City = CityName.Name;
+                userModel.City = model.City;
             }
             if (model.ProfilePictureUrl != null)
             {
