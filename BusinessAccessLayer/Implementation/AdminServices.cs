@@ -2193,5 +2193,23 @@ namespace BusinessAccessLayer.Implementation
             return res;
         }
 
+        public dynamic GetRedeemRequest()
+        {
+
+            var res = (from redeem in _context.RedeemCodeRequest join jyotish in _context.JyotishRecords on redeem.jyotishId equals jyotish.Id join plan in _context.Subscriptions on redeem.planId equals plan.SubscriptionId where redeem.status && !redeem.RedeemStatus
+                       select new
+                       {
+                           planName = plan.Name,
+                           planType = plan.PlanType,
+                           jyotishName = jyotish.Name,
+                           email = jyotish.Email,
+                           mobile = jyotish.Mobile,
+                           RequestDate = redeem.RequestDate.ToString("dd-MM-yyyy hh:mm")
+                       }
+                     ).ToList();
+            return res;
+        }
+
+
     }
 }

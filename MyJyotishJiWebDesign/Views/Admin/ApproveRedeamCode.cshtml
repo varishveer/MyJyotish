@@ -3,3 +3,69 @@
 *@
 @{
 }
+
+<style>
+    th{
+        font-size:12px !important;
+    }
+</style>
+
+<div class="container mt-3">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Sr</th>
+                <th>Jyotish Name</th>
+                <th>Email</th>
+                <th>Mobile</th>
+                <th>Plan Name</th>
+                <th>Plan Type</th>
+                <th>Date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="tablecontainer">
+        </tbody>
+    </table>
+</div>
+<script>
+   function getRedeemRequest() {
+        Swal.fire({
+            title: "Processing Your Request",
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
+        $.ajax({
+            url: BaseUrl + "api/admin/GetRedeemRequest",
+            type: "get",
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token")}`
+            },
+            success: function (res) {
+                console.log(res,"dep")
+                if (res.status == 200) {
+                    res.data.forEach(function(d,i){
+                        $("#tablecontainer").append(
+                            `
+<tr>
+    <td class='text-center'>${i+1}</td>
+    <td class='text-center'>${d.jyotishName}</td>
+    <td class='text-center'>${d.email}</td>
+    <td class='text-center'>${d.mobile}</td>
+    <td class='text-center'>${d.planName}</td>
+    <td class='text-center'>${d.planType}</td>
+        <td class='text-center'>${d.requestDate}</td>
+</tr>
+                            `
+                        )
+                    })
+
+                }
+                Swal.close();
+            }
+        })
+    }
+    getRedeemRequest();
+
+</script>

@@ -1742,6 +1742,13 @@ namespace MyJyotishJiApi.Controllers
             }
         }
 
+        [HttpGet("GetRedeemRequest")]
+        public IActionResult GetRedeemRequest()
+        {
+            var res = _admin.GetRedeemRequest();
+            return Ok(new { status = 200, message="data retrieved",data=res});
+        }
+
 
     }
 }
