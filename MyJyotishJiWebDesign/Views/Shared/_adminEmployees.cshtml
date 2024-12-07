@@ -653,11 +653,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         localStorage.clear();
-                        @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
-        @{
-            HttpContextAccessor.HttpContext.Response.Cookies.Delete("role");
-            
-        }
+                       
                         window.location.replace("/AdminEmployees/Login");
                     }
 
@@ -692,11 +688,11 @@
                 })
             }
              routeValidation()
-            let pathName = window.location.pathname;
-            console.log(pathName)
-            if (!AccessRoute.includes(pathName)) {
-                location.href = '/AdminEmployees/index'
-            }
+            // let pathName = window.location.pathname;
+            // console.log(AccessRoute)
+            // if (!AccessRoute.includes(pathName)) {
+            //     location.href = '/AdminEmployees/index'
+            // }
     
         });
     </script>

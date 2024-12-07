@@ -1,28 +1,35 @@
-﻿@* @{
-    Layout = "_Layout";
+﻿@{
 
     var controllerName = ViewContext.RouteData.Values["controller"].ToString();
 
-    // Set layout based on controller name
-   
-    
+            // Set layout based on controller name
+
+
 }
 
-@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+ @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 @{
+    if (controllerName == "Home")
+    {
+        Layout = "_Layout";
+
+    }
+    else
+    {
+     
     var cookie = HttpContextAccessor.HttpContext.Request.Cookies["role"];
     if (cookie!=null)
     {
         Layout = "_adminEmployees";
     }
-    else
-    {
-        if (controllerName == "Admin")
+    else if(controllerName == "Admin")
         {
             Layout = "AdminLayout";
 
         }
+    
     }
+    
 
-} *@
+}
