@@ -56,15 +56,15 @@
                     <input type="file" required name="IdProof" id="idproof" class="dropify">
                 </div> 
                 <div class="col-sm-6 mb-2">
-                    Metrics
-                    <input type="file"  name="metrics" id="metrics" class="dropify">
+                    Adhar Front
+                    <input type="file"  name="adharFront" id="metrics" class="dropify">
                 </div>
                 <div class="col-sm-6 mb-2">
-                    Postmetrics
-                    <input type="file"  name="postmetrics" id="postmetrics" class="dropify">
+                    Adhar Back
+                    <input type="file"  name="adharBack" id="postmetrics" class="dropify">
                 </div>
                 <div class="col-sm-6 mb-2">
-                    Degree
+                    Qualification certificate
                     <input type="file"  name="degrees" id="degrees" class="dropify">
                 </div>
         </div>
@@ -164,9 +164,9 @@
                 }
             })
             formData.append("IdProof", $("#idproof").get(0).files[0])
-            formData.append("metrics", $("#metrics").get(0).files[0])
-            formData.append("postmetrics", $("#postmetrics").get(0).files[0])
-            formData.append("degrees", $("#degrees").get(0).files[0])
+            formData.append("adharFront", $("#metrics").get(0).files[0])
+            formData.append("adharBack", $("#postmetrics").get(0).files[0])
+            formData.append("certificate", $("#degrees").get(0).files[0])
 
             $.ajax({
                 url: BaseUrl + "api/admin/AddEmployees",
