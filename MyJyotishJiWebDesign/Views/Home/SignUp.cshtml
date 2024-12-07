@@ -153,8 +153,8 @@
                    
                    
                     <div class="form-group col-md-6" style="margin-bottom: 0.2rem;">
-                        <label for="country" class="form-label custom-field">Country:</label>
-                        <select id="country" name="country" class="form-select disabledInput" required>
+                        <label for="country" class="form-label ">Country:</label>
+                        <select id="country" name="country" class="form-select disabledInput custom-field" required>
                             <option value="">Select Country</option>
                             <!-- Add country options here -->
                         </select>
@@ -184,8 +184,8 @@
                         @* <input type="tel" id="mobile" name="mobile" class="form-control custom-field" placeholder="Mobile Number"
                             required> *@
                         <div class="d-flex">
-                            <input type="text" class="rounded-start countryCode custom-field" value="+91" disabled style="width:40px;" />
-                            <input type="number" id="mobile" name="mobile" class="form-control rounded-start-0 rounded-end " placeholder="Mobile Number" required>
+                            <input type="text" class="rounded-start countryCode " value="+91" disabled style="width:40px;" />
+                            <input type="number" id="mobile" name="mobile" class="form-control rounded-start-0 rounded-end custom-field" placeholder="Mobile Number" required>
                         </div>
                     </div> 
 
@@ -238,10 +238,11 @@
             const response = await fetch(BaseUrl + `Api/Account/PlaceOfBirthList?City=${encodeURIComponent(city)}`);
             const data = await response.json();
             const $placeOfBirthDropdown = $('#PlaceOfBirthList');
-
+            console.log(data);
             $('#PlaceOfBirthList').removeClass('d-none');
+            $placeOfBirthDropdown.empty();
             data.data.forEach(placeOfBirth => {
-                $placeOfBirthDropdown.prepend(`<p class="pOBPtag" onClick="setPlace('${placeOfBirth}')"> ${placeOfBirth}</p>`);
+                $placeOfBirthDropdown.append(`<p class="pOBPtag" onClick="setPlace('${placeOfBirth}')"> ${placeOfBirth}</p>`);
             });
         } catch (error) {
             console.error('Error fetching PlaceOfBirth:', error);

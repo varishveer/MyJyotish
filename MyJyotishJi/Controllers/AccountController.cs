@@ -396,7 +396,11 @@ namespace MyJyotishJiApi.Controllers
                     Name = httpRequest.Form["name"],
                     Gender = httpRequest.Form["gender"],
                     DoB = httpRequest.Form["doB"],
-                    PlaceOfBirth = httpRequest.Form["placeOfBirth"]
+                    PlaceOfBirth = httpRequest.Form["placeOfBirth"],
+                    Country = int.Parse( httpRequest.Form["country"]),
+                    State = int.Parse( httpRequest.Form["state"]),
+                    City = int.Parse( httpRequest.Form["city"]),
+                    
                   
                 };
 
