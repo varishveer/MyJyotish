@@ -597,6 +597,24 @@ namespace MyJyotishGApi.Controllers
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
         }
 
+        [HttpPost("AddUserServiceRecord")]
+        public IActionResult AddUserServiceRecord(UserServiceRecordViewModel data)
+        {
+            try
+            {
+                var result = _services.AddUserServiceRecord(data);
+                if (result )
+                {
+                    return Ok(new { Status = 200, Message = "Record Added Successfully." });
+                }
+                else
+                {
+                    return Ok(new { Status = 400, Message = "Something went wrong" });
+                }
+
+            }
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
+        }
 
 
         /* [AllowAnonymous]
