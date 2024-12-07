@@ -653,8 +653,14 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         localStorage.clear();
-                       
-                        window.location.replace("/AdminEmployees/Login");
+                        $.ajax({
+                            url: "/AdminEmployees/logoutEmployee",
+                            type: 'get',
+                            success:function(res){
+                                location.href = "/AdminEmployees/Login";
+                            }
+
+                        })
                     }
 
                 })
@@ -662,7 +668,8 @@
             });
 
             //route Validation
-            let AccessRoute = ["/AdminEmployees/index"];
+            let AccessRoute = [];
+            AccessRoute.push("/AdminEmployees/index")
             function routeValidation(){
                 $.ajax({
                     url: BaseUrl + "api/admin/getEmployeePages",
@@ -688,11 +695,12 @@
                 })
             }
              routeValidation()
-            // let pathName = window.location.pathname;
-            // console.log(AccessRoute)
-            // if (!AccessRoute.includes(pathName)) {
-            //     location.href = '/AdminEmployees/index'
-            // }
+            let pathName = window.location.pathname;
+            console.log(AccessRoute.includes(pathName))
+            debugger
+            if (!AccessRoute.includes(pathName)) {
+                location.href = '/AdminEmployees/index'
+            }
     
         });
     </script>
