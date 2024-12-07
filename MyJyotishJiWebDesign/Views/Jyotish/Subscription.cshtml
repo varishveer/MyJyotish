@@ -260,7 +260,7 @@ header {
                <div class="text-center my-4">
                <input type="submit" value="Redeam" class="btn btn-success" />
                     </div>
-               <p>don't have any redeam code <span class="text-primary">send request</span></p>
+               <p>don't have any redeam code <span class="text-primary" id="sendRequest">send request</span></p>
                 </form>
             </div>
             <div class="modal-footer">
@@ -511,6 +511,24 @@ header {
          upgradePackage();
      }
   
+
+     function sendRequestForRedeemCode(){
+        let jyotishId = localStorage.getItem("Id")
+
+        $.ajax({
+            url: BaseUrl + "Api/Jyotish/SendRedeemCodeRequest",
+            type: "Get",
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token2")}`
+            },
+            success: function (response) {
+            }
+        })
+     }
+
+    $("#sendRequest").click(function(){
+
+    })
 </script>
 
 <script>

@@ -1858,6 +1858,7 @@ namespace BusinessAccessLayer.Implementation
                 jyotishId = model.jyotishId,
                 planId = model.planId,
                 status = true,
+                RedeemStatus=false,
             };
             _context.RedeemCodeRequest.Add(request);
             return _context.SaveChanges() > 0;
