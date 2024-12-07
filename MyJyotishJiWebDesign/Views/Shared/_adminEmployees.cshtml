@@ -167,8 +167,19 @@
             </div>
             <div class="sidebar-wrapper scrollbar scrollbar-inner">
                 <div class="sidebar-content">
-                    <ul class="nav nav-secondary" id="navigationLinks">
-                       
+                    <ul class="nav nav-secondary" >
+                        <li class="nav-item">
+                            <a data-bs-toggle="collapse" href="#forms">
+                                <i class="fas fa-pen-square"></i>
+                                <p>Master</p>
+                                <span class="caret"></span>
+                            </a>
+                            <div class="collapse" id="forms">
+                                <ul class="nav nav-collapse" id="navigationLinks">
+                                   
+                                </ul>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -650,6 +661,7 @@
             });
 
             //route Validation
+            let AccessRoute = ["/AdminEmployees/index"];
             function routeValidation(){
                 $.ajax({
                     url: BaseUrl + "api/admin/getEmployeePages",
@@ -660,9 +672,10 @@
                     data: { employeeId: localStorage.getItem("Eid")},
                     success:function(res){
                         res.data.forEach(function(d){
+                            AccessRoute.push(d.pageUrl)
                             $("#navigationLinks").append(`
-                                <li class="nav-item">
-                               <a href='${d.pageUrl}'>
+                                <li class="nav-item d-flex  px-2 align-items-center">
+                               <a class='sub-item' href='${d.pageUrl}'>
                                ${d.pageName}
                                </a>
                                 </li>
@@ -674,19 +687,11 @@
                 })
             }
              routeValidation()
-
-
-            // Use hover to handle mouse enter and leave
-
-
-            // Highlight the active link
-            // $("a").each(function (i, d) {
-            //     if (d.href.toLowerCase() === window.location.href.toLowerCase()) {
-            //         d.classList.add("active");
-            //         let element = d.parentElement.previousElementSibling;
-            //         if (element) element.classList.add("active");
-            //     }
-            // });
+            let pathName = window.location.pathname;
+            if (!AccessRoute.includes(pathName)){
+                location.href = '/AdminEmployees/index'
+            }
+    
         });
     </script>
 
