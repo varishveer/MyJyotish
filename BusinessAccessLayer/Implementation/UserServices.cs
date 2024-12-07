@@ -214,43 +214,14 @@ namespace BusinessAccessLayer.Implementation
             return jyotish;
         }
 
-        public List<IdImageViewModel> SliderImageList(string keyword)
+        public List<IdImageViewModel> SliderImageList()
         {
-            if (string.IsNullOrEmpty(keyword))
+            var records = _context.Sliders.Where(x=>x.Status).Select(x=> new IdImageViewModel
             {
-                return null;
-            }
+                Id= x.Id,
+                ImageUrl= x.HomePage,
 
-            IQueryable<IdImageViewModel> query = null;
-
-            switch (keyword)
-            {
-                case "HomePage":
-                    query = _context.Sliders.Select(s => new IdImageViewModel
-                    {
-                        Id = s.Id,
-                        ImageUrl = s.HomePage 
-                    });
-                    break;
-                case "BookPoojaCategory":
-                    query = _context.Sliders.Select(s => new IdImageViewModel
-                    {
-                        Id = s.Id,
-                        ImageUrl = s.BookPoojaCategory 
-                    });
-                    break;
-                case "PoojaList":
-                    query = _context.Sliders.Select(s => new IdImageViewModel
-                    {
-                        Id = s.Id,
-                        ImageUrl = s.PoojaList 
-                    });
-                    break;
-                default:
-                    return null; 
-            }
-
-            var records = query.ToList();
+            }).ToList();
             return records.Count > 0 ? records : null;
         }
 

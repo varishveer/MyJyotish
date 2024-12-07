@@ -199,4 +199,12 @@ namespace ModelAccessLayer.ViewModels
         public int JyotishId { get; set; }
         public int Action { get; set; }
     }
+
+    public class SliderImagesViewModel
+    {
+        [AllowNull]
+        public IFormFile? HomePage { get; set; }
+
+
+    }
 }

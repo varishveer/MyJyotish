@@ -545,8 +545,8 @@ namespace BusinessAccessLayer.Implementation
         public bool AddSlider(SliderImagesViewModel model)
         {
             SliderImagesModel slider = new SliderImagesModel();
-            if (model.HomePage != null)
-            {
+          
+            
                 var HomePageGuid = Guid.NewGuid().ToString();
                 var SqlPath = "/Images/Slider/" + HomePageGuid + model.HomePage.FileName;
                 var HomePagePath = Path.Combine(_uploadDirectory, "wwwroot"+SqlPath);
@@ -555,31 +555,9 @@ namespace BusinessAccessLayer.Implementation
                      model.HomePage.CopyTo(stream);
                 }
                 slider.HomePage = SqlPath;
-            }
+            
 
-            if (model.BookPoojaCategory != null)
-            {
-                var BookPoojaCategoryGuid = Guid.NewGuid().ToString();
-                var SqlPath = "/Images/Slider/" + BookPoojaCategoryGuid + model.BookPoojaCategory.FileName;
-                var BookPoojaCategoryPath = Path.Combine(_uploadDirectory, "wwwroot"+SqlPath);
-                using (var stream = new FileStream(BookPoojaCategoryPath, FileMode.Create))
-                {
-                    model.BookPoojaCategory.CopyTo(stream);
-                }
-                slider.BookPoojaCategory =   SqlPath;
-            }
-
-            if (model.PoojaList != null)
-            {
-                var PoojaListGuid = Guid.NewGuid().ToString();
-                var SqlPath = "/Images/Slider/" + PoojaListGuid + model.PoojaList.FileName;
-                var PoojaListPath = Path.Combine(_uploadDirectory, "wwwroot"+SqlPath);
-                using (var stream = new FileStream(PoojaListPath, FileMode.Create))
-                {
-                    model.PoojaList.CopyTo(stream);
-                }
-                slider.PoojaList = SqlPath;
-            }
+          
 
             _context.Sliders.Add(slider);
             var result = _context.SaveChanges();
@@ -592,7 +570,7 @@ namespace BusinessAccessLayer.Implementation
 
         public List<SliderImagesModel> SliderImageList()
         {
-            var Records = _context.Sliders.ToList();
+            var Records = _context.Sliders.Where(x=>x.Status).ToList();
             if(Records.Count == 0)
             { return null; }
             return Records;

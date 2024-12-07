@@ -204,17 +204,17 @@ namespace MyJyotishGApi.Controllers
 
         [AllowAnonymous]
         [HttpGet("SliderImageList")]
-        public IActionResult SliderImageList(string Keyword)
+        public IActionResult SliderImageList()
         {
             try {
-                var records = _services.SliderImageList(Keyword);
+                var records = _services.SliderImageList();
                 if (records == null)
                 {
                     return Ok(new { Status = 404, Message = "No Image found" });
                 }
                 else
                 {
-                    return Ok(new { Status = 200, Data = records, Message = Keyword });
+                    return Ok(new { Status = 200, Data = records, Message ="Slider List" });
                 }
             }
             catch (Exception ex)
