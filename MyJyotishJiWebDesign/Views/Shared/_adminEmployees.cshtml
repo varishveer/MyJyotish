@@ -653,6 +653,11 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         localStorage.clear();
+                        @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+        @{
+            HttpContextAccessor.HttpContext.Response.Cookies.Delete("role");
+            
+        }
                         window.location.replace("/AdminEmployees/Login");
                     }
 
@@ -688,7 +693,8 @@
             }
              routeValidation()
             let pathName = window.location.pathname;
-            if (!AccessRoute.includes(pathName)){
+            console.log(pathName)
+            if (!AccessRoute.includes(pathName)) {
                 location.href = '/AdminEmployees/index'
             }
     
