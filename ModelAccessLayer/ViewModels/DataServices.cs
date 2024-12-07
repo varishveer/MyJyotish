@@ -199,4 +199,13 @@ namespace ModelAccessLayer.ViewModels
         public int JyotishId { get; set; }
         public int Action { get; set; }
     }
+
+    public class RedeemCodeRequestViewModel
+    {
+        public int Id { get; set; }
+        public int jyotishId { get; set; }
+        public int planId { get; set; }
+        public bool status { get; set; }
+
+    }
 }
