@@ -16,6 +16,7 @@ namespace ModelAccessLayer.Models
 
         public Country countryobj { get; set; }
         public ICollection<JyotishModel>? jyotish { get; set; } = new List<JyotishModel>();
+        public ICollection<UserModel> User { get; set; } = new List<UserModel>();
 
     }
 }

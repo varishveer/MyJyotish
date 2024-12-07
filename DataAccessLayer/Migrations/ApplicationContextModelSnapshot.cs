@@ -48,7 +48,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AdminRecords");
+                    b.ToTable("AdminRecords", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.AppointmentModel", b =>
@@ -96,7 +96,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AppointmentRecords");
+                    b.ToTable("AppointmentRecords", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.AppointmentSlotModel", b =>
@@ -133,7 +133,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("JyotishId");
 
-                    b.ToTable("AppointmentSlots");
+                    b.ToTable("AppointmentSlots", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.CallingModel", b =>
@@ -176,7 +176,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("CallingRecords");
+                    b.ToTable("CallingRecords", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.ChatModel", b =>
@@ -210,7 +210,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Chat");
+                    b.ToTable("Chat", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.ChatedUser", b =>
@@ -242,7 +242,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ChatedUser");
+                    b.ToTable("ChatedUser", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.ChattingModel", b =>
@@ -272,7 +272,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ChatingRecords");
+                    b.ToTable("ChatingRecords", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.City", b =>
@@ -292,7 +292,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Cities");
+                    b.ToTable("Cities", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.ClientMembers", b =>
@@ -325,7 +325,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("UId");
 
-                    b.ToTable("ClientMembers");
+                    b.ToTable("ClientMembers", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.Country", b =>
@@ -346,7 +346,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Countries");
+                    b.ToTable("Countries", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.CountryCode", b =>
@@ -368,7 +368,7 @@ namespace DataAccessLayer.Migrations
                     b.HasIndex("country")
                         .IsUnique();
 
-                    b.ToTable("CountryCode");
+                    b.ToTable("CountryCode", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.Department", b =>
@@ -388,7 +388,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Department");
+                    b.ToTable("Department", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.DepartmentPagesValidation", b =>
@@ -414,7 +414,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("PageId");
 
-                    b.ToTable("DepartmentPagesAccess");
+                    b.ToTable("DepartmentPagesAccess", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.DocumentModel", b =>
@@ -478,7 +478,7 @@ namespace DataAccessLayer.Migrations
                     b.HasIndex("JId")
                         .IsUnique();
 
-                    b.ToTable("Documents");
+                    b.ToTable("Documents", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.EmployeeInterviewAttachmentModel", b =>
@@ -505,7 +505,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("EmployeeIFId");
 
-                    b.ToTable("EmployeeInterviewAttachment");
+                    b.ToTable("EmployeeInterviewAttachment", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.EmployeeInterviewFeedbackModel", b =>
@@ -538,7 +538,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("SlotBookingId");
 
-                    b.ToTable("EmployeeInterviewFeedback");
+                    b.ToTable("EmployeeInterviewFeedback", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.Employees", b =>
@@ -590,7 +590,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("levels");
 
-                    b.ToTable("Employees");
+                    b.ToTable("Employees", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.EmployeesAccessPages", b =>
@@ -614,7 +614,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EmployeeAccessPages");
+                    b.ToTable("EmployeeAccessPages", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.EmployeesDocs", b =>
@@ -643,7 +643,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("employees");
 
-                    b.ToTable("EmployeeDocs");
+                    b.ToTable("EmployeeDocs", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.ExpertiseModel", b =>
@@ -663,7 +663,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ExpertiseRecords");
+                    b.ToTable("ExpertiseRecords", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.InterviewFeedbackModel", b =>
@@ -698,7 +698,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("JyotishId");
 
-                    b.ToTable("InterviewFeedback");
+                    b.ToTable("InterviewFeedback", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.InterviewMeeting", b =>
@@ -739,7 +739,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("JyotishId");
 
-                    b.ToTable("InterviewMeeting");
+                    b.ToTable("InterviewMeeting", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.JyotishGalleryModel", b =>
@@ -769,7 +769,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("JyotishId");
 
-                    b.ToTable("JyotishGallery");
+                    b.ToTable("JyotishGallery", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.JyotishModel", b =>
@@ -900,7 +900,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("countryCode");
 
-                    b.ToTable("JyotishRecords");
+                    b.ToTable("JyotishRecords", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.JyotishPaymentRecordModel", b =>
@@ -944,7 +944,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("JyotishId");
 
-                    b.ToTable("JyotishPaymentRecord");
+                    b.ToTable("JyotishPaymentRecord", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.JyotishRatingModel", b =>
@@ -980,7 +980,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("JyotishRating");
+                    b.ToTable("JyotishRating", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.JyotishTempRecord", b =>
@@ -1089,7 +1089,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("jyotishTempRecords");
+                    b.ToTable("jyotishTempRecords", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.JyotishUserAttachmentModel", b =>
@@ -1133,7 +1133,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("JyotishUserAttachmentRecord");
+                    b.ToTable("JyotishUserAttachmentRecord", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.JyotishVideosModel", b =>
@@ -1167,7 +1167,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("JyotishId");
 
-                    b.ToTable("JyotishVideos");
+                    b.ToTable("JyotishVideos", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.LanguageModel", b =>
@@ -1184,7 +1184,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Languages");
+                    b.ToTable("Languages", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.ManageSubscriptionModel", b =>
@@ -1213,7 +1213,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("SubscriptionId");
 
-                    b.ToTable("ManageSubscriptionModels");
+                    b.ToTable("ManageSubscriptionModels", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.PoojaListModel", b =>
@@ -1230,7 +1230,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PoojaList");
+                    b.ToTable("PoojaList", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.PoojaRecordModel", b =>
@@ -1273,7 +1273,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PoojaRecord");
+                    b.ToTable("PoojaRecord", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.ProblemSolutionModel", b =>
@@ -1304,7 +1304,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("memberId");
 
-                    b.ToTable("ProblemSolution");
+                    b.ToTable("ProblemSolution", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.RedeemCodeDiscountValidation", b =>
@@ -1333,7 +1333,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("levelsId");
 
-                    b.ToTable("RedeemCodeDiscountValidation");
+                    b.ToTable("RedeemCodeDiscountValidation", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.SliderImagesModel", b =>
@@ -1355,7 +1355,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Sliders");
+                    b.ToTable("Sliders", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.SlotBookingModel", b =>
@@ -1399,7 +1399,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("SlotId");
 
-                    b.ToTable("SlotBooking");
+                    b.ToTable("SlotBooking", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.SlotModel", b =>
@@ -1428,7 +1428,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Slots");
+                    b.ToTable("Slots", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.SpecializationListModel", b =>
@@ -1445,7 +1445,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SpecializationList");
+                    b.ToTable("SpecializationList", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.State", b =>
@@ -1465,7 +1465,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("States");
+                    b.ToTable("States", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.SubsciptionManagementModel", b =>
@@ -1500,7 +1500,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("SubscriptionId");
 
-                    b.ToTable("PackageManager");
+                    b.ToTable("PackageManager", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.SubscriptionFeaturesModel", b =>
@@ -1524,7 +1524,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasKey("FeatureId");
 
-                    b.ToTable("SubscriptionFeatures");
+                    b.ToTable("SubscriptionFeatures", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.SubscriptionModel", b =>
@@ -1567,7 +1567,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasKey("SubscriptionId");
 
-                    b.ToTable("Subscriptions");
+                    b.ToTable("Subscriptions", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.TeamMemberModel", b =>
@@ -1606,7 +1606,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TeamMemberRecords");
+                    b.ToTable("TeamMemberRecords", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.UserModel", b =>
@@ -1668,7 +1668,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.UserPaymentRecordModel", b =>
@@ -1712,7 +1712,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserPaymentRecord");
+                    b.ToTable("UserPaymentRecord", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.UserServiceRecordModel", b =>
@@ -1759,7 +1759,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserServiceRecord");
+                    b.ToTable("UserServiceRecord", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.UserWallet", b =>
@@ -1783,7 +1783,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("userId");
 
-                    b.ToTable("UserWallets");
+                    b.ToTable("UserWallets", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.WalletHistoryModel", b =>
@@ -1831,7 +1831,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("UId");
 
-                    b.ToTable("WalletHistroy");
+                    b.ToTable("WalletHistroy", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.jyotishWallet", b =>
@@ -1855,7 +1855,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("jyotishId");
 
-                    b.ToTable("JyotishWallets");
+                    b.ToTable("JyotishWallets", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.levels", b =>
@@ -1875,7 +1875,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("Levels");
+                    b.ToTable("Levels", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.levelsAccessValidation", b =>
@@ -1906,7 +1906,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("pages");
 
-                    b.ToTable("LevelAccessValidation");
+                    b.ToTable("LevelAccessValidation", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.redeamCode", b =>
@@ -1949,7 +1949,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("jyotishId");
 
-                    b.ToTable("RedeamCode");
+                    b.ToTable("RedeamCode", (string)null);
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.AppointmentModel", b =>
