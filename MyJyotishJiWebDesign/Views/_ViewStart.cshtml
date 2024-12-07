@@ -1,5 +1,11 @@
 ﻿@{
     Layout = "_Layout";
+
+    var controllerName = ViewContext.RouteData.Values["controller"].ToString();
+
+    // Set layout based on controller name
+   
+    
 }
 
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
@@ -10,5 +16,13 @@
     {
         Layout = "_adminEmployees";
     }
-    
+    else
+    {
+        if (controllerName == "Admin")
+        {
+            Layout = "AdminLayout";
+
+        }
+    }
+
 }
