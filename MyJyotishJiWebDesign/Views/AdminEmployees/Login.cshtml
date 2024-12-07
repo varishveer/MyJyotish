@@ -137,6 +137,16 @@
                             showConfirmButton: true,
 
                         }).then(() => {
+                            @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+                            @{
+                     HttpContextAccessor.HttpContext.Response.Cookies.Append("role", "employee", new CookieOptions
+            {
+                Expires = DateTimeOffset.Now.AddDays(7),
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict
+            });
+                            }
                             window.location.href = "/AdminEmployees/index";
                             localStorage.setItem("Token", response.token);
                             localStorage.setItem('Eid', response.user);
