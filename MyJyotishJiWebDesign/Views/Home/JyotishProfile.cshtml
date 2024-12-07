@@ -998,7 +998,7 @@ $(".callBtn").hide()
     },1000)
 
 
-    $('#callSubmitBtn').on('click', function () {
+    $('#DataSubmitBtn').on('click', function () {
 
         var Name =  $("#Name").val();
         var Gender = $("#Gender").val();
@@ -1020,14 +1020,22 @@ $(".callBtn").hide()
         }
 
         $.ajax({
-            url: BaseUrl + "",
-            method: "GET",
+            url: BaseUrl + "api/User/AddUserServiceRecord",
+            method: "POST",
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("Token")}`
 
             },
-            data: { appointmentId: Id },
+            data:json.stringify(DataContainer),
             success: function (response) {
+                if (response.status == 200) {
+                    Swal.fire({
+                        title: "Success!",
+                        text: "Successful",
+                        icon: "success",
+                       
+                    });
+                }
             },
         })
     });
