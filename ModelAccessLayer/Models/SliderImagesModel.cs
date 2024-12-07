@@ -14,6 +14,7 @@ namespace ModelAccessLayer.Models
         public int Id { get; set; }
         [AllowNull]
         public string HomePage { get; set; }
+        public int SerialNo { get; set; }
         public bool Status { get;set; }
 
     }

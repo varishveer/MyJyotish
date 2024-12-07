@@ -35,9 +35,9 @@ namespace MyJyotishJiWebDesign.Controllers
         public IActionResult ApproveJyotishInterview() { return View();  }
         public IActionResult AutherizePages() { return View();  }
 		public IActionResult ApproveRedeamCode()
-		{
-			return View();
-		}
+		{return View();}
+        public IActionResult Banners() { return View(); }
+
 
 	}
 }
