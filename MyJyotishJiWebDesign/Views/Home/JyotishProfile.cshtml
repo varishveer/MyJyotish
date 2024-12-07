@@ -271,7 +271,7 @@
 
 
 <script>
-    debugger;
+   
     let stars = document.querySelectorAll('.user-rating-stars');
     stars.forEach(function (d) {
         d.classList.remove("text-warning");
@@ -279,7 +279,7 @@
     });
 
     $(".user-rating-stars").click(function () {
-        debugger;
+       
         let userRating = $(this).attr("data-value");
         $('#RatingStarCount').val(userRating);
         stars.forEach(function (d) {
@@ -322,7 +322,7 @@
         $('#PlaceOfBirth').val(svalue);
     }
     $('#PlaceOfBirth').on('keyup', function () {
-        debugger
+       
         $('#PlaceOfBirthList').show();
         const city = $(this).val();
         loadPlaceOfBirth(city);
@@ -999,45 +999,63 @@ $(".callBtn").hide()
 
 
     $('#DataSubmitBtn').on('click', function () {
-
+        const urlParams = new URLSearchParams(window.location.search);
+        var astrologerId = urlParams.get('Id');
         var Name =  $("#Name").val();
         var Gender = $("#Gender").val();
         var DateOfBirth = $("#DateOfBirth").val();
         var TimeOfBirth = $("#TimeOfBirth").val();
         var PlaceOfBirth = $("#PlaceOfBirth").val();
-        var JyotishId = $("#JyotishId").val();
-        var UserId = $("#UserId").val();
+     
+        var UserId = localStorage.getItem('userId');
         var Action = $("#Action").val();
+
         var DataContainer= {
             Name:Name,
             Gender: Gender,
             DateOfBirth: DateOfBirth,
             TimeOfBirth: TimeOfBirth,
             PlaceOfBirth: PlaceOfBirth,
-            JyotishId: JyotishId,
+            JyotishId: astrologerId,
             UserId: UserId,
             Action: Action
         }
 
         $.ajax({
-            url: BaseUrl + "api/User/AddUserServiceRecord",
+            url: BaseUrl + "api/User/AddUserServiceRecord", // Ensure BaseUrl is properly defined
             method: "POST",
             headers: {
-                'Authorization': `Bearer ${localStorage.getItem("Token")}`
-
+                'Authorization': `Bearer ${localStorage.getItem("Token")}` // Retrieve token from localStorage
             },
-            data:json.stringify(DataContainer),
+            data: JSON.stringify(DataContainer), // Corrected JSON.stringify
+            contentType: "application/json", // Ensure content type is set to JSON
             success: function (response) {
-                if (response.status == 200) {
+                if (response.status === 200) {
+                    // Success case: Show success message using SweetAlert
                     Swal.fire({
                         title: "Success!",
                         text: "Successful",
-                        icon: "success",
-                       
+                        icon: "success"
+                    });
+                } else {
+                    // Handle unexpected response status (if needed)
+                    Swal.fire({
+                        title: "Error!",
+                        text: "There was an issue with the response.",
+                        icon: "error"
                     });
                 }
             },
-        })
+            error: function (xhr, status, error) {
+                // Error case: Handle request errors
+                Swal.fire({
+                    title: "Error!",
+                    text: "Something went wrong. Please try again later.",
+                    icon: "error"
+                });
+            }
+        });
+
     });
     
 </script>

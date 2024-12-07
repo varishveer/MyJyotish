@@ -136,6 +136,7 @@
                             showConfirmButton: true,
 
                         }).then(() => {
+
                             @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
                             @{
                      HttpContextAccessor.HttpContext.Response.Cookies.Append("role", "employee", new CookieOptions
