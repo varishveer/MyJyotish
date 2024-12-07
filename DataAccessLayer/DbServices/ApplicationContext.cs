@@ -169,6 +169,10 @@ namespace DataAccessLayer.DbServices
               .HasOne(c => c.countryCoderecord)
               .WithMany(j => j.jyotish)
               .HasForeignKey(c => c.countryCode);
+            modelBuilder.Entity<UserModel>()
+            .HasOne(c => c.countryCoderecord)
+            .WithMany(j => j.User)
+            .HasForeignKey(c => c.CountryCodeId);
             modelBuilder.Entity<redeamCode>()
               .HasOne(c => c.jyotish)
               .WithMany(j => j.redeamCode)

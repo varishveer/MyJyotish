@@ -126,47 +126,39 @@
                         </select>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="mobile" class="form-label">Mobile:</label>
-                        <input type="tel" id="mobile" name="mobile" class="form-control custom-field" placeholder="Mobile Number"
-                               required>
+                        <label for="DoB" class="form-label">Date Of Birth:</label>
+                        <input type="text" class="form-control custom-field" id="DoB" name="doB" placeholder="Enter DOB" />
                     </div>
                 </div>
 
                 <div class="form-row row">
-                    <div class="form-group col-md-6">
-                        <label for="DoB" class="form-label">Date Of Birth:</label>
-                        <input type="text" class="form-control custom-field" id="DoB" name="doB" placeholder="Enter DOB" />
-                    </div>
+                  
                     <div class="form-group col-md-6 position-relative">
                         <label for="PlaceOfBirthInput" class="form-label">Place of Birth:</label>
                         <input list="PlaceOfBirthList" type="text" id="PlaceOfBirthInput" name="placeOfBirth" class="form-control custom-field"
                                placeholder="Enter City" autocomplete="off" />
-                        <div class="position-absolute bg-light " id="PlaceOfBirthList">
+                        <div class="position-absolute bg-light d-none" id="PlaceOfBirthList">
                         </div>
                         @*  <datalist id="PlaceOfBirthList" name="PlaceOfBirth" class="form-select mt-2" required>
 
                         </datalist> *@
                     </div>
-                </div>
-
-                <div class="form-row row">
                     <div class="form-group col-md-6">
                         <label for="TimeOfBirth" class="form-label">Time Of Birth:</label>
                         <input type="time" class="form-control custom-field" id="TimeOfBirth" name="timeOfBirth" />
                     </div>
-                    <div class="form-group col-md-6">
-                    </div>
+                </div>
+
+                <div class="form-row row">
+                   
+                   
                     <div class="form-group col-md-6" style="margin-bottom: 0.2rem;">
-                        <label for="country" class="form-label">Country:</label>
+                        <label for="country" class="form-label custom-field">Country:</label>
                         <select id="country" name="country" class="form-select disabledInput" required>
                             <option value="">Select Country</option>
                             <!-- Add country options here -->
                         </select>
                     </div>
-                </div>
-
-                <div class="form-row">
-
                     <div class="form-group col-md-6" style="margin-bottom: 0.6rem;">
                         <label for="state" class="form-label">State:</label>
                         <select id="state" name="state" class="form-select disabledInput" disabled>
@@ -174,6 +166,11 @@
                             <!-- Add state options here -->
                         </select>
                     </div>
+                </div>
+
+                <div class="form-row row">
+
+                   
                     <div class="form-group col-md-6" style="margin-bottom: 0.6rem;">
                         <label for="city" class="form-label">City:</label>
                         <select id="city" name="city" class="form-select disabledInput" disabled>
@@ -181,6 +178,18 @@
                             <!-- Add city options here -->
                         </select>
                     </div>
+    
+                    <div class="form-group col-md-6">
+                        <label for="mobile" class="form-label">Mobile:</label>
+                        @* <input type="tel" id="mobile" name="mobile" class="form-control custom-field" placeholder="Mobile Number"
+                            required> *@
+                        <div class="d-flex">
+                            <input type="text" class="rounded-start countryCode custom-field" value="+91" disabled style="width:40px;" />
+                            <input type="number" id="mobile" name="mobile" class="form-control rounded-start-0 rounded-end " placeholder="Mobile Number" required>
+                        </div>
+                    </div> 
+
+                   
 
                 </div>
 
@@ -230,7 +239,7 @@
             const data = await response.json();
             const $placeOfBirthDropdown = $('#PlaceOfBirthList');
 
-
+            $('#PlaceOfBirthList').removeClass('d-none');
             data.data.forEach(placeOfBirth => {
                 $placeOfBirthDropdown.prepend(`<p class="pOBPtag" onClick="setPlace('${placeOfBirth}')"> ${placeOfBirth}</p>`);
             });
@@ -240,7 +249,7 @@
     }
     function setPlace(svalue) {
 
-        $('#PlaceOfBirthList').hide();
+        $('#PlaceOfBirthList').addClass('d-none');
         $('#PlaceOfBirthInput').val(svalue);
     }
     // Trigger API call on every keypress in the PlaceOfBirth input
@@ -546,8 +555,7 @@
             console.error('Error fetching cities:', error);
         }
     }
-    loadLanguage();
-    loadExpertise();
+
     loadCountries();
 
     $countryDropdown.change(function () {
@@ -611,5 +619,15 @@
             $(this).val(formatedDate)
         })
     })
+
+    async function bindCountryCode(id) {
+        console.log(id)
+        const response = await fetch(BaseUrl + `Api/Jyotish/countryCode?country=${id}`);
+        const data = await response.json();
+        console.log(data)
+        if (data.status == 200) {
+            $(".countryCode").val("+" + data.code)
+        }
+    }
 </script>
 
