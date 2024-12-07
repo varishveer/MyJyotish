@@ -23,6 +23,8 @@ namespace ModelAccessLayer.Models
 
         public ICollection<ManageSubscriptionModel> ManageSubscription { get; set; } = new List<ManageSubscriptionModel>();
         public ICollection<SubsciptionManagementModel> subscriptionManage { get; set; } = new List<SubsciptionManagementModel>();
+		public ICollection<RedeemCodeRequest> redeemRequest { get; set; } = new List<RedeemCodeRequest>();
+        
 
-    }
+	}
 }

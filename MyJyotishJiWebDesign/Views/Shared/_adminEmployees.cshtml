@@ -168,6 +168,25 @@
             <div class="sidebar-wrapper scrollbar scrollbar-inner">
                 <div class="sidebar-content">
                     <ul class="nav nav-secondary" >
+                        <li class="nav-item active">
+                            <a data-bs-toggle="collapse"
+                               href="#dashboard"
+                               class="collapsed"
+                               aria-expanded="false">
+                                <i class="fas fa-home"></i>
+                                <p>Dashboard</p>
+                                <span class="caret"></span>
+                            </a>
+                            <div class="collapse" id="dashboard">
+                                <ul class="nav nav-collapse">
+                                    <li>
+                                        <a href="/adminEmployees/index">
+                                            <span class="sub-item">Dashboard</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
                         <li class="nav-item">
                             <a data-bs-toggle="collapse" href="#forms">
                                 <i class="fas fa-pen-square"></i>
@@ -331,7 +350,7 @@
                                     </div>
                                     <span class="profile-username">
                                         <span class="op-7">Hi,</span>
-                                        <span class="fw-bold userName">Admin</span>
+                                        <span class="fw-bold userName">Employee</span>
                                     </span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-user animated fadeIn">
@@ -340,7 +359,7 @@
                                         <div class="user-box">
                                             <div class="avatar-lg">
                                                 <img src="/user-not-found.png"
-                                                     alt="image profile"
+                                                      alt="image profile"
                                                      class="avatar-img rounded userProfile" />
                                             </div>
                                             <div class="u-text">
@@ -653,8 +672,14 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         localStorage.clear();
-                       
-                        window.location.replace("/AdminEmployees/Login");
+                        $.ajax({
+                            url: "/AdminEmployees/logoutEmployee",
+                            type: 'get',
+                            success:function(res){
+                                location.href = "/AdminEmployees/Login";
+                            }
+
+                        })
                     }
 
                 })
@@ -662,7 +687,8 @@
             });
 
             //route Validation
-            let AccessRoute = ["/AdminEmployees/index"];
+            let AccessRoute = [];
+            AccessRoute.push("/AdminEmployees/index")
             function routeValidation(){
                 $.ajax({
                     url: BaseUrl + "api/admin/getEmployeePages",
@@ -685,14 +711,17 @@
                     },error:function(){
 
                     }
+                }).then(()=>{
+                     let pathName = window.location.pathname;
+            console.log(AccessRoute.includes(pathName))
+            debugger
+            if (!AccessRoute.includes(pathName)) {
+                location.href = '/AdminEmployees/index'
+            }
                 })
             }
              routeValidation()
-            // let pathName = window.location.pathname;
-            // console.log(AccessRoute)
-            // if (!AccessRoute.includes(pathName)) {
-            //     location.href = '/AdminEmployees/index'
-            // }
+           
     
         });
     </script>
