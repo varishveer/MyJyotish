@@ -211,8 +211,9 @@ namespace ModelAccessLayer.ViewModels
 
     public class SliderImagesViewModel
     {
-        [AllowNull]
-        public IFormFile? HomePage { get; set; }
+    
+        public IFormFile HomePage { get; set; }
+        public int SerialNo { get; set; }
 
 
     }
