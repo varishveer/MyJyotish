@@ -2,109 +2,110 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-    Layout = "AdminLayout";
+	Layout = "AdminLayout";
 }
 
-<form class="border rounded w-50 mx-auto p-3 d-flex gap-2" id="levelsForm">
-    <input type="text" class="form-control" id="levels" name="levels" placeholder="Enter Levels Name">
-    <input type="submit" value="Add" class="btn btn-primary">
+<form class="border rounded w-75 mx-auto p-3 d-flex gap-2" id="levelsForm">
+	<input type="text" class="form-control" id="levels" name="levels" placeholder="Enter Levels Name">
+	<input type="text" class="form-control" id="descriptoion" name="descriptoion" placeholder="Description">
+	<input type="submit" value="Add" class="btn btn-primary">
 </form>
 
 
 <div class="container mt-3">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Sr</th>
-                <th>Name</th>
-            </tr>
-        </thead>
-        <tbody id="tablecontainer">
-        </tbody>
-    </table>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Sr</th>
+				<th>Name</th>
+			</tr>
+		</thead>
+		<tbody id="tablecontainer">
+		</tbody>
+	</table>
 </div>
 
 
 
 <script>
-    $("#levelsForm").submit(function (e) {
-        e.preventDefault();
-        let formData=new FormData();
-        formData.append("levelsName", $("#levels").val())
-        $.ajax({
-            url: BaseUrl + "api/admin/Addlevels",
-            type:"post",
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem("Token")}`
-            },
-            processData:false,
-            contentType:false,
-            data:formData,
-            success:function(res){
-               if(res.status==200){
-                   Swal.fire({
-                       title:"success",
-                       text:res.message,
-                       icon:"success",
-                       didClose:()=>{
-                           location.reload()
-                       }
-                   })
-               }else{
-                    Swal.fire({
-                        title: "error",
-                        text: res.message,
-                        icon: "error"
+	$("#levelsForm").submit(function (e) {
+		e.preventDefault();
+		let formData=new FormData();
+		formData.append("levelsName", $("#levels").val())
+		$.ajax({
+			url: BaseUrl + "api/admin/Addlevels",
+			type:"post",
+			headers: {
+				'Authorization': `Bearer ${localStorage.getItem("Token")}`
+			},
+			processData:false,
+			contentType:false,
+			data:formData,
+			success:function(res){
+			   if(res.status==200){
+				   Swal.fire({
+					   title:"success",
+					   text:res.message,
+					   icon:"success",
+					   didClose:()=>{
+						   location.reload()
+					   }
+				   })
+			   }else{
+					Swal.fire({
+						title: "error",
+						text: res.message,
+						icon: "error"
 
-                    })
-               }
-            },
-            error:function(){
-                Swal.fire({
-                    title: "error",
-                    text: "some error occured",
-                    icon: "error"
+					})
+			   }
+			},
+			error:function(){
+				Swal.fire({
+					title: "error",
+					text: "some error occured",
+					icon: "error"
 
-                })
-            }
+				})
+			}
 
-        })
-    })
-    function getLevels() {
-        Swal.fire({
-            title: "Processing Your Request",
-            didOpen: () => {
-                Swal.showLoading();
-            }
-        })
-        $.ajax({
-            url: BaseUrl + "api/admin/levelsList",
-            type: "get",
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem("Token")}`
-            },
-            success: function (res) {
-                console.log(res, "lev")
-                if (res.status == 200) {
-                    res.data.forEach(function (d,i) {
-                        $("#tablecontainer").append(
-                            `<tr>
-                                <td class='text-center'>${i + 1}</td>
-                                <td class='text-center'>${d.levelsName}</td>
-                                </tr>
-                                `
-                        )
-                    })
-                }
-                Swal.close();
-            }
-        })
-    }
-    getLevels();
+		})
+	})
+	function getLevels() {
+		Swal.fire({
+			title: "Processing Your Request",
+			didOpen: () => {
+				Swal.showLoading();
+			}
+		})
+		$.ajax({
+			url: BaseUrl + "api/admin/levelsList",
+			type: "get",
+			headers: {
+				'Authorization': `Bearer ${localStorage.getItem("Token")}`
+			},
+			success: function (res) {
+				console.log(res, "lev")
+				if (res.status == 200) {
+					res.data.forEach(function (d,i) {
+						$("#tablecontainer").append(
+							`<tr>
+								<td class='text-center'>${i + 1}</td>
+								<td class='text-center'>${d.levelsName}</td>
+								</tr>
+								`
+						)
+					})
+				}
+				Swal.close();
+			}
+		})
+	}
+	getLevels();
 
-   
 
-   
 
-   
+
+
+
 </script>
