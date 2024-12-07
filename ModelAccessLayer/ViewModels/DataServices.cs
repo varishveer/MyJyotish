@@ -195,8 +195,8 @@ namespace ModelAccessLayer.ViewModels
         public DateOnly DateOfBirth { get; set; }
         public TimeOnly TimeOfBirth { get; set; }
         public string PlaceOfBirth { get; set; }
-        public int? UserId { get; set; }
-        public int? JyotishId { get; set; }
-        public int? Action { get; set; }
+        public int UserId { get; set; }
+        public int JyotishId { get; set; }
+        public int Action { get; set; }
     }
 }

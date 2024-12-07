@@ -840,6 +840,36 @@ namespace BusinessAccessLayer.Implementation
             return "Yes";
         }   
 
-       
+
+        public bool AddUserServiceRecord(UserServiceRecordViewModel data)
+        {
+            var Jyotish = _context.JyotishRecords.Where(x=>x.Id == data.JyotishId).FirstOrDefault();
+            var User = _context.Users.Where(x => x.Id == data.UserId).FirstOrDefault();
+            if(Jyotish == null || User == null)
+            {
+                return false;
+            }
+
+            UserServiceRecordModel newData = new UserServiceRecordModel();
+            newData.Name = data.Name;
+            newData.Gender = data.Gender;
+            newData.DateOfBirth = data.DateOfBirth;
+            newData.TimeOfBirth = data.TimeOfBirth;
+            newData.PlaceOfBirth = data.PlaceOfBirth;
+            newData.UserId = data.UserId;
+            newData.JyotishId = data.JyotishId;
+            newData.Action = data.Action;
+            newData.Status = true;
+            _context.UserServiceRecord.Add(newData);
+            if (_context.SaveChanges() > 0)
+            {
+                return true;
+            }
+            else { return false; }
+            
+
+        }
+
+
     }
 }
