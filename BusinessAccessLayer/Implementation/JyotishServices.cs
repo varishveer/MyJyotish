@@ -1853,12 +1853,19 @@ namespace BusinessAccessLayer.Implementation
       //send request for redeem code
       public bool SendRequest(RedeemCodeRequestViewModel model)
         {
+            var res = _context.RedeemCodeRequest.Where(e => e.jyotishId == model.jyotishId && e.planId == model.planId && e.status && !e.RedeemStatus).FirstOrDefault();
+            if (res != null)
+            {
+             return false;
+            }
+
             RedeemCodeRequest request = new RedeemCodeRequest
             {
                 jyotishId = model.jyotishId,
                 planId = model.planId,
                 status = true,
                 RedeemStatus=false,
+                RequestDate=DateTime.Now
             };
             _context.RedeemCodeRequest.Add(request);
             return _context.SaveChanges() > 0;
