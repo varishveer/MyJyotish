@@ -3,23 +3,23 @@
 <script src="~/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
 <script src="~/bootstrap-datepicker/datepicker.js"></script>
 <style>
-    .bg-light-sec{
+    .bg-light-sec {
         background: #d2e2fc !important;
-        background-blend-mode:darken;
+        background-blend-mode: darken;
     }
 
-    .bookedContainer{
+    .bookedContainer {
         background: rgb(40, 41, 40,0.7);
-        left:3%;
+        left: 3%;
     }
 
     .manupScroll::-webkit-scrollbar {
-        height:5px;
+        height: 5px;
     }
 
     .manupScroll::-webkit-scrollbar-thumb {
         background: #e8985f;
-        border-radius:10px;
+        border-radius: 10px;
     }
 
     .manupScroll::-webkit-scrollbar-track {
@@ -30,9 +30,9 @@
         --bs-tooltip-bg: var(--bs-primary);
     }
 
-    #ratingSection{
-        overflow:auto ;
-        height:100px;
+    #ratingSection {
+        overflow: auto;
+        height: 100px;
     }
 
     #PlaceOfBirthList {
@@ -40,7 +40,6 @@
         height: 250px;
         padding: 10px;
         overflow: auto;
-        
     }
 
 </style>
@@ -51,32 +50,33 @@
             <div class="row align-items-start mb-4">
                 <div class="col-md-4 text-center text-md-start">
                     <img id="profilePicture" src="" alt="Profile Picture" class="rounded shadow-sm border p-2 img-thumbnail" style=" width: 150px;height: 145px; border: 2px solid #ffffff;">
-              
+
                     <h2 id="profileName" class="h4 mt-3 mb-1" style="color:#333333;">  </h2>
                     <span class="text-warning me-2">★★★★★</span>
-                     <span id="rating" class="mb-0 me-2">4.99</span>|
+                    <span id="rating" class="mb-0 me-2">4.99</span>|
                     <span id="totalReviews" class="text-muted">
-                     (6587)</span>
+                        (6587)
+                    </span>
                     <p id="profileExpertise" class="text-muted mb-1" style="font-size: 14px;"></p>
                     <p id="profileLanguage" class="text-muted mb-1" style="font-size: 14px;"></p>
                     <p class="mb-1 text-muted">Available :<small id="time"></small></p>
                     <p id="profileExperience" class="text-muted mb-1" style="font-size: 14px;"></p>
-                    </div>
-                    <div class="col-md-8">
+                </div>
+                <div class="col-md-8">
                     <div class="mt-2 border-bottom py-2">
 
-                        <button class="btn btn-success chatBtn me-2 mb-2 mb-md-0"  data-bs-toggle="tooltip1" data-bs-placement="top"
+                        <button class="btn btn-success chatBtn me-2 mb-2 mb-md-0" data-bs-toggle="tooltip1" data-bs-placement="top"
                                 data-bs-custom-class="custom-tooltip"
                                 data-bs-title=""
-                                >
+                                data-action="1">
                             Start Chat
                         </button>
-                        <button class="btn btn-success callBtn"  data-bs-toggle="tooltip2" data-bs-placement="top"
+                        <button class="btn btn-success callBtn" data-bs-toggle="tooltip2" data-bs-placement="top"
                                 data-bs-custom-class="custom-tooltip"
-                                data-bs-title="">
+                                data-bs-title="" data-action="2">
                             Start Call
                         </button>
-                        <button class="btn btn-success" id="bookAppointmentModalBtn"  data-bs-toggle="modal" data-bs-target="#exampleModal">Book Appointmnet</button>
+                        <button class="btn btn-success" id="bookAppointmentModalBtn" data-bs-toggle="modal" data-bs-target="#exampleModal">Book Appointmnet</button>
                     </div>
                     <div class="mb-4 mt-4">
                         <div class="btn-group mb-3 border-top border-start border-end rounded-0 rounded-top" role="group" aria-label="Basic example">
@@ -98,17 +98,17 @@
 
                                 </p>
                             </div>
-                           
+
                         </div>
-                       
+
                     </div>
 
                 </div>
             </div>
 
-           
 
-           
+
+
         </div>
     </div>
     <div class="mb-4 mt-4 galleryContainer d-none">
@@ -143,9 +143,9 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-               
-                <input id="RatingStarCount" type="number" hidden/>
-                    <textarea class="form-control mt-1" id="FeedbackMessage" placeholder="Write your feedback here "></textarea>
+
+                <input id="RatingStarCount" type="number" hidden />
+                <textarea class="form-control mt-1" id="FeedbackMessage" placeholder="Write your feedback here "></textarea>
                 <div class="rating fs-1">
                     <span class="text-secondary user-rating-stars cursor-pointer text-orange" data-value="1" role="button">★</span>
                     <span class="text-secondary user-rating-stars cursor-pointer text-orange selected-star" data-value="2" role="button">★</span>
@@ -153,9 +153,9 @@
                     <span class="text-secondary user-rating-stars cursor-pointer" data-value="4" role="button">★</span>
                     <span class="text-secondary user-rating-stars cursor-pointer" data-value="5" role="button">★</span>
                 </div>
-                    <button class=" btn btn-success" id="AddfeedbackSubmitBtn"> Submit</button>
+                <button class=" btn btn-success" id="AddfeedbackSubmitBtn"> Submit</button>
             </div>
-           
+
         </div>
     </div>
 </div>
@@ -170,7 +170,7 @@
             </div>
             <div class="modal-body">
                 <div id="walletPaymentContainer"></div>
-               <input type="text" autocomplete="off" name="date" id="appointmentDate" class="form-control" />
+                <input type="text" autocomplete="off" name="date" id="appointmentDate" class="form-control" />
                 <div id="appoinmentDetail" class="py-3"></div>
                 <div id="problem">
                     <textarea class="form-control mt-1" id="problem-desc" placeholder="Describe Your Problem "></textarea>
@@ -190,7 +190,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Scan QR code to download MyjyotishgApp</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel"> Please enter your details </h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -223,19 +223,19 @@
                     </div>
                     <div class="col-md-4 mb-2 position-relative">
                         <label name="PlaceOfBirth">PlaceOfBirth</label>
-                      
+
                         <input list="PlaceOfBirthList" type="text" id="PlaceOfBirth" name="placeOfBirth" class="form-control custom-field"
                                placeholder="Enter City" autocomplete="off" />
                         <div class="position-absolute w-100 bg-light d-none" id="PlaceOfBirthList">
                         </div>
                     </div>
                     <div class="col-md-4  mb-2">
-                        <input id="JyotishId" hidden/>
+                        <input id="JyotishId" hidden />
                         <input id="UserId" hidden />
-                        <input id="Action" value="2" hidden/>
+                        <input id="Action" value="2" hidden />
                     </div>
                 </div>
-              
+
             </div>
             <div class="modal-footer">
 
@@ -271,7 +271,7 @@
 
 
 <script>
-   
+
     let stars = document.querySelectorAll('.user-rating-stars');
     stars.forEach(function (d) {
         d.classList.remove("text-warning");
@@ -279,7 +279,7 @@
     });
 
     $(".user-rating-stars").click(function () {
-       
+
         let userRating = $(this).attr("data-value");
         $('#RatingStarCount').val(userRating);
         stars.forEach(function (d) {
@@ -322,26 +322,26 @@
         $('#PlaceOfBirth').val(svalue);
     }
     $('#PlaceOfBirth').on('keyup', function () {
-       
+
         $('#PlaceOfBirthList').show();
         const city = $(this).val();
         loadPlaceOfBirth(city);
 
     });
-    
-        // Make AJAX call to the WalletPaymentLayout action
-    function makePaymentWithWallet(amount,JId,message){
-        $.get('/home/WalletPaymentLayout', { amount: amount, jyotishId: JId, message: message,paymentby:"user" }, function (data) {
-            $('#walletPaymentContainer').html(data); 
+
+    // Make AJAX call to the WalletPaymentLayout action
+    function makePaymentWithWallet(amount, JId, message) {
+        $.get('/home/WalletPaymentLayout', { amount: amount, jyotishId: JId, message: message, paymentby: "user" }, function (data) {
+            $('#walletPaymentContainer').html(data);
         });
     }
-    
+
 
     $(document).ready(function () {
-     
+
         const urlParams = new URLSearchParams(window.location.search);
         var astrologerId = urlParams.get('Id');
-       
+
         var apiUrl = BaseUrl + `Api/User/AstrologerProfile?Id=${astrologerId}`;
         Swal.fire({
             title: "Processing Your Request",
@@ -354,54 +354,54 @@
             url: apiUrl,
             method: 'GET',
             success: function (response) {
-                 console.log(response)
+                console.log(response)
                 if (response.status === 200) {
                     var data = response.data;
                     // Update Profile Section
-                    $('#profilePicture').attr('src', BaseUrl+data.profileImageUrl);
+                    $('#profilePicture').attr('src', BaseUrl + data.profileImageUrl);
                     $('#profileName').text(data.name);
                     $('#profileName').append('<i class="fas fs-6 fa-check-circle text-success mx-2"></i>');
                     $('#profileExpertise').text(data.expertise);
                     $('#profileLanguage').text(data.language);
                     if (data.timeFrom != null) { $("#time").text(data.timeFrom.slice(0, 5) + "-" + data.timeTo.slice(0, 5)) }
-                   
+
                     $('#profileExperience').text('Experience: ' + data.experience + ' Years');
                     $('#bookAAppointment').attr('href', "/Home/JyotishProfile?Id=" + `${data.id}`);
                     // Update About Section
-                    $('#aboutMe').text(data.about !=null ?data.about:"About us not added yet!");
-                  if(data.specialization != null){
-                  
-                  data.specialization.toString().split(',').forEach((e)=>{
+                    $('#aboutMe').text(data.about != null ? data.about : "About us not added yet!");
+                    if (data.specialization != null) {
+
+                        data.specialization.toString().split(',').forEach((e) => {
                             $('#specialization').append(`<small class='px-3 py-2 border rounded-3'>${e}</small> &nbsp;`);
 
-                  })
-                  }  else{
+                        })
+                    } else {
 
-                    $('#specialization').text("Specialization not added yet!");
-                  }
+                        $('#specialization').text("Specialization not added yet!");
+                    }
 
                     $('#achievement').text(data.awordsAndAchievement != null ? data.awordsAndAchievement : "Achievement not added yet!");
                     $('#specialization').hide();
                     $('#achievement').hide();
-                    if(!data.call){
+                    if (!data.call) {
                         $(".callBtn").hide()
-                    }else{
+                    } else {
                         $(".callBtn").attr("data-bs-title", `₹${data.callCharges != null ? data.callCharges : 0} /min`)
 
                         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip2"]')
                         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => {
                             const tooltipInstance = new bootstrap.Tooltip(tooltipTriggerEl);
-                            tooltipInstance.show(); 
-                            return tooltipInstance; 
+                            tooltipInstance.show();
+                            return tooltipInstance;
                         })
-                     
+
                     }
-                     if(!data.chat){
-$(".callBtn").hide()
-                    }else{
+                    if (!data.chat) {
+                        $(".callBtn").hide()
+                    } else {
                         $(".chatBtn").attr("data-bs-title", `₹${data.chatCharges != null ? data.chatCharges : 0} /min`)
                         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip1"]')
-                         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => {
+                        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => {
                             const tooltipInstance = new bootstrap.Tooltip(tooltipTriggerEl);
                             tooltipInstance.show();
                             return tooltipInstance;
@@ -430,7 +430,7 @@ $(".callBtn").hide()
                         $('#videosSection').html(videosHtml);
                     }
                     // Update Rating & Reviews Section
-                    $('#rating').text(data.rating!=null?data.rating:0.0 || '4.99'); // Placeholder for rating
+                    $('#rating').text(data.rating != null ? data.rating : 0.0 || '4.99'); // Placeholder for rating
                     $('#totalReviews').text('(6587)'); // Placeholder for total reviews
                     // Add reviews dynamically if you have review data
                 } else {
@@ -443,10 +443,10 @@ $(".callBtn").hide()
                 }
             },
             error: function (error) {
-              
+
             }
-        }).then(()=>{
-                Swal.close()
+        }).then(() => {
+            Swal.close()
 
         })
 
@@ -469,32 +469,32 @@ $(".callBtn").hide()
                         const formattedDate = formatDate(review.dateTime);
                         // Rating card template
                         ratingCards += `
-                            <div class="container d-flex float-start p-0 mb-4" style="background-color:#F7F7F7;">
-                            <div class="profile p-3">
-                                    <h2 class="comment-profile">${profileInitial}</h2>
-                            </div>
-                            <div class="content p-3 w-100 rounded">
-                                <div class="header d-flex">
-                                        <h6 class="c-name ">${review.userName}</h6>
-                                    <div class="verified text-primary text-italic">- Verified Client</div>
-                                    <div class="stars ml-20">
-                                        ${stars}
+                                <div class="container d-flex float-start p-0 mb-4" style="background-color:#F7F7F7;">
+                                <div class="profile p-3">
+                                        <h2 class="comment-profile">${profileInitial}</h2>
+                                </div>
+                                <div class="content p-3 w-100 rounded">
+                                    <div class="header d-flex">
+                                            <h6 class="c-name ">${review.userName}</h6>
+                                        <div class="verified text-primary text-italic">- Verified Client</div>
+                                        <div class="stars ml-20">
+                                            ${stars}
+                                        </div>
+                                    </div>
+                                    <div class="text my-2 text-justify">
+                                        ${review.feedbackMessage}
+                                    </div>
+                                    <div class="d-flex text-center mt-2 align-items-center">
+                                        <span class="date-icon">
+                                            <svg height="15" width="15" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                                <path fill="#63E6BE" d="M0 464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V192H0v272zm320-196c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zM192 268c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zM64 268c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H76c-6.6 0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H76c-6.6 0-12-5.4-12-12v-40zM400 64h-48V16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v48H160V16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v48H48C21.5 64 0 85.5 0 112v48h448v-48c0-26.5-21.5-48-48-48z"></path>
+                                            </svg>
+                                        </span>
+                                            <small class="text-secondary">${formattedDate}</small>
                                     </div>
                                 </div>
-                                <div class="text my-2 text-justify">
-                                    ${review.feedbackMessage}
-                                </div>
-                                <div class="d-flex text-center mt-2 align-items-center">
-                                    <span class="date-icon">
-                                        <svg height="15" width="15" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-                                            <path fill="#63E6BE" d="M0 464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V192H0v272zm320-196c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zM192 268c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zM64 268c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H76c-6.6 0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H76c-6.6 0-12-5.4-12-12v-40zM400 64h-48V16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v48H160V16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v48H48C21.5 64 0 85.5 0 112v48h448v-48c0-26.5-21.5-48-48-48z"></path>
-                                        </svg>
-                                    </span>
-                                        <small class="text-secondary">${formattedDate}</small>
-                                </div>
                             </div>
-                        </div>
-                    `;
+                        `;
                     });
 
                     // Append the rating cards to the container
@@ -518,12 +518,10 @@ $(".callBtn").hide()
                 jyotishId: astrologerId
             }
 
-            if (localStorage.getItem('userId') == null) 
-            {
+            if (localStorage.getItem('userId') == null) {
                 $('#addRatingBtn').hide();
             }
-            else
-            {
+            else {
                 $.ajax({
                     url: BaseUrl + `api/user/IsUserValidForRating`,
                     method: 'GET',
@@ -547,10 +545,10 @@ $(".callBtn").hide()
                     }
                 });
             }
-            
-        
+
+
         }
-        
+
         IsUserValidForRating();
         // let stars = document.querySelectorAll('.user-rating-stars');
         // stars.forEach(function (d) {
@@ -573,7 +571,7 @@ $(".callBtn").hide()
         //     stars[userRating - 1].classList.add("selected-star")
         // })
 
-      
+
         $('#AddfeedbackSubmitBtn').on('click', function () {
 
             var DataContainer = {
@@ -606,8 +604,7 @@ $(".callBtn").hide()
 
 
                     }
-                    else if (response.status === 500) 
-                    {
+                    else if (response.status === 500) {
                         Swal.fire({
                             title: "Error!",
                             text: "Something went wrong",
@@ -621,7 +618,7 @@ $(".callBtn").hide()
                             icon: "error"
                         });
                     }
-                   
+
                 },
                 error: function (xhr, status, error) {
                     console.error('Error:', error);
@@ -631,26 +628,26 @@ $(".callBtn").hide()
         });
 
 
-        
+
         //handle specialization aboutus and achievement
 
-        $("#aboutBtn").click(function(){
+        $("#aboutBtn").click(function () {
             $("#aboutMe").show();
             $("#achievement").hide();
             $("#specialization").hide();
             $("#ratingSection").hide();
-           
+
             $("#outerRatingSection").hide();
             $(this).addClass("btn-success")
             $("#specBtn").removeClass("btn-success")
             $("#achBtn").removeClass("btn-success")
         })
-        $("#specBtn").click(function(){
+        $("#specBtn").click(function () {
             $("#aboutMe").hide();
             $("#achievement").hide();
             $("#specialization").show();
             $("#ratingSection").hide();
-           
+
             $("#outerRatingSection").hide();
             $(this).addClass("btn-success")
             $("#aboutBtn").removeClass("btn-success")
@@ -658,7 +655,7 @@ $(".callBtn").hide()
             $("#ratingBtn").removeClass("btn-success")
 
         })
-        $("#achBtn").click(function(){
+        $("#achBtn").click(function () {
             $("#aboutMe").hide();
             $("#achievement").show();
             $("#specialization").hide();
@@ -723,7 +720,7 @@ $(".callBtn").hide()
 
                 }
             }).then(() => {
-               
+
                 let newArray = [];
                 function setAppoinment(appdata) {
                     console.log(appdata)
@@ -737,31 +734,31 @@ $(".callBtn").hide()
                     newArray = appoinmentArray.filter((e) => {
                         return e.date.split("T")[0] == appdata;
                     })
-                  
+
                     $("#appoinmentDetail").empty();
                     if (newArray.length > 0) {
                         newArray[0].slotList.forEach(function (d) {
                             $("#appoinmentDetail").append(
                                 `<label class='w-100'>
-                                       <div class='d-flex  bg-light-sec border rounded text-secondary fw-semi-bold my-2 p-2 justify-content-between align-items-center'  ${d.status == 'Booked' ? `style="background:rgb(40, 41, 40, 0.7) !important"`:''} >
-                                   <div class='row w-100 position-relative'>
-                                  
-                    <div class='col-sm-1'>
-                                           <input type='radio' data-amount='${d.amount}' onChange='selectSlots()' ${d.status == 'Booked' ? 'disabled' : ""} name='jyotishAppoinment' data-userId='${localStorage.getItem('userId')}' data-slotId='${d.id}' data-jyotishId='${d.jyotishId}'>
-                                   </div>
-                                       
-                                           <div class='col-sm-5'>
+                                           <div class='d-flex  bg-light-sec border rounded text-secondary fw-semi-bold my-2 p-2 justify-content-between align-items-center'  ${d.status == 'Booked' ? `style="background:rgb(40, 41, 40, 0.7) !important"` : ''} >
+                                       <div class='row w-100 position-relative'>
 
-                               <span> ${d.timeFrom
+                        <div class='col-sm-1'>
+                                               <input type='radio' data-amount='${d.amount}' onChange='selectSlots()' ${d.status == 'Booked' ? 'disabled' : ""} name='jyotishAppoinment' data-userId='${localStorage.getItem('userId')}' data-slotId='${d.id}' data-jyotishId='${d.jyotishId}'>
+                                       </div>
+
+                                               <div class='col-sm-5'>
+
+                                   <span> ${d.timeFrom
                                 } - ${d.timeTo} </span>
-                           </div>
-                                               <div class='col-sm-4'>
-                           <span class=''>Time :&nbsp;${d.timeDuration}min</span>
-                           </div>
-                           </div>
-                           </div>
-                           </label>
-                        `
+                               </div>
+                                                   <div class='col-sm-4'>
+                               <span class=''>Time :&nbsp;${d.timeDuration}min</span>
+                               </div>
+                               </div>
+                               </div>
+                               </label>
+                            `
                             )
 
                         })
@@ -782,12 +779,12 @@ $(".callBtn").hide()
                 });
 
                 setAppoinment($("#appointmentDate").val())
-               
+
 
             })
-        
+
         }
-       
+
     });
     $("#next-btn").click(function () {
         if ($(this).text() == "Book") {
@@ -806,7 +803,7 @@ $(".callBtn").hide()
                 }
             }
         } else {
-           
+
             $("#problem").show()
             $("#prev-btn").show()
             $("#appointmentDate").attr("disabled", true)
@@ -832,64 +829,64 @@ $(".callBtn").hide()
             })
         }
         else {
-           
 
-                    Swal.fire({
-                        title: "Proccessing Please Wait!",
-                        timerProgressBar: true,
-                        didOpen: () => {
-                            Swal.showLoading();
-                        }
-                    })
-                    let appointmentDetail = $("input[name='jyotishAppoinment']:checked");
 
-                    let userId = appointmentDetail[0].getAttribute("data-userId")
-                    let jyotishId = appointmentDetail[0].getAttribute("data-jyotishId")
-                    let slotId = appointmentDetail[0].getAttribute("data-slotId")
-                    let problem = $("#problem-desc").val()
-                
-                    $.ajax({
-                        url: bookAppoinmentUrl,
-                        method: 'POST',
-                        headers: {
-                            'Authorization': `Bearer ${localStorage.getItem("Token")}`,
-                            'Content-Type': 'application/json'
-                        },
-                        data: JSON.stringify({
-                            userId: userId,
-                            jyotishId: jyotishId,
-                            slotId: slotId,
-                            problem: problem
-                        }),
-                        success: function (res) {
-                           
-                            if (res.status == 200) {
-                                Swal.fire({
-                                    title: "Success!",
-                                    text: "Booked Successfully",
-                                    icon: "success",
-                                    didClose: () => {
-                                        location.reload(true);
-                                    }
-                                });
-                                $("#exampleModal").modal("hide")
-                                $("#problem").hide()
-                                $("#prev-btn").hide()
-                                $("#appoinmentDetail").show()
-                                $("#next-btn").text("Next");
-                            } else {
-                                Swal.fire({
-                                    title: "error!",
-                                    text: res.message,
-                                    icon: "error"
-                                })
+            Swal.fire({
+                title: "Proccessing Please Wait!",
+                timerProgressBar: true,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            })
+            let appointmentDetail = $("input[name='jyotishAppoinment']:checked");
+
+            let userId = appointmentDetail[0].getAttribute("data-userId")
+            let jyotishId = appointmentDetail[0].getAttribute("data-jyotishId")
+            let slotId = appointmentDetail[0].getAttribute("data-slotId")
+            let problem = $("#problem-desc").val()
+
+            $.ajax({
+                url: bookAppoinmentUrl,
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                    'Content-Type': 'application/json'
+                },
+                data: JSON.stringify({
+                    userId: userId,
+                    jyotishId: jyotishId,
+                    slotId: slotId,
+                    problem: problem
+                }),
+                success: function (res) {
+
+                    if (res.status == 200) {
+                        Swal.fire({
+                            title: "Success!",
+                            text: "Booked Successfully",
+                            icon: "success",
+                            didClose: () => {
+                                location.reload(true);
                             }
-                        },
-                        error: function (err) {
+                        });
+                        $("#exampleModal").modal("hide")
+                        $("#problem").hide()
+                        $("#prev-btn").hide()
+                        $("#appoinmentDetail").show()
+                        $("#next-btn").text("Next");
+                    } else {
+                        Swal.fire({
+                            title: "error!",
+                            text: res.message,
+                            icon: "error"
+                        })
+                    }
+                },
+                error: function (err) {
 
-                        }
+                }
 
-                    
+
             });
         }
     }
@@ -937,8 +934,12 @@ $(".callBtn").hide()
 
 <script>
     //handle chat and call
-    $(".chatBtn").click(function(){
-        $("#exampleModal3").modal("show")
+    $(".chatBtn").click(function () {
+        $("#exampleModal2").modal("show")
+
+        var Action = $(this).attr('data-action');
+        $('#Action').val(Action);
+
         const tooltipTriggerList = document.querySelector('[data-bs-toggle="tooltip1"]')
         const tooltip = bootstrap.Tooltip.getOrCreateInstance(tooltipTriggerList)
         const tooltipTriggerList1 = document.querySelector('[data-bs-toggle="tooltip2"]')
@@ -946,8 +947,11 @@ $(".callBtn").hide()
         tooltip.hide()
         tooltip1.hide()
     })
-    $(".callBtn").click(function(){
+    $(".callBtn").click(function () {
         $("#exampleModal2").modal("show")
+        var Action = $(this).attr('data-action');
+        $('#Action').val(Action);
+
         const tooltipTriggerList = document.querySelector('[data-bs-toggle="tooltip1"]')
         const tooltip = bootstrap.Tooltip.getOrCreateInstance(tooltipTriggerList)
         const tooltipTriggerList1 = document.querySelector('[data-bs-toggle="tooltip2"]')
@@ -958,60 +962,59 @@ $(".callBtn").hide()
 
     //handle modal for book appoinment
     $("#exampleModal").on("show.bs.modal", function () {
-        if (localStorage.getItem("userId") == null || localStorage.getItem("Token")==null) {
+        if (localStorage.getItem("userId") == null || localStorage.getItem("Token") == null) {
             setTimeout(() => {
                 $("#exampleModal").modal("hide")
-            Swal.fire({
-                title: "Authentication Required",
-                text: "Please login for booking appointment",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Login"
-            }).then((result) => {
-                if (result.isConfirmed)
-                {
-                location.href="/home/login"
-                }
-            })
+                Swal.fire({
+                    title: "Authentication Required",
+                    text: "Please login for booking appointment",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Login"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        location.href = "/home/login"
+                    }
+                })
             }, 1000)
-       
+
         }
     })
     let appointmentDate = document.getElementById("appointmentDate")
-    
-    setTimeout(()=>{
-    $("#appointmentDate").datepicker({
-        autoclose: true,
-        dateFormat: 'dd-mm-yy',
-        changeMonth: true,
-        changeYear: true,
-        yearRange: "c-100:c+100",
+
+    setTimeout(() => {
+        $("#appointmentDate").datepicker({
+            autoclose: true,
+            dateFormat: 'dd-mm-yy',
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "c-100:c+100",
             startDate: new Date(appointmentDate.getAttribute("min")),
             endDate: new Date(appointmentDate.getAttribute("max")),
-        showAnim: "slideDown",
-        buttonImageOnly: true,
-        buttonText: "Select date",
-        clearBtn: true,
-    })
-    },1000)
+            showAnim: "slideDown",
+            buttonImageOnly: true,
+            buttonText: "Select date",
+            clearBtn: true,
+        })
+    }, 1000)
 
 
     $('#DataSubmitBtn').on('click', function () {
         const urlParams = new URLSearchParams(window.location.search);
         var astrologerId = urlParams.get('Id');
-        var Name =  $("#Name").val();
+        var Name = $("#Name").val();
         var Gender = $("#Gender").val();
         var DateOfBirth = $("#DateOfBirth").val();
-        var TimeOfBirth = $("#TimeOfBirth").val();
+        var TimeOfBirth = $("#TimeOfBirth").val() + ":00";
         var PlaceOfBirth = $("#PlaceOfBirth").val();
-     
+
         var UserId = localStorage.getItem('userId');
         var Action = $("#Action").val();
 
-        var DataContainer= {
-            Name:Name,
+        var DataContainer = {
+            Name: Name,
             Gender: Gender,
             DateOfBirth: DateOfBirth,
             TimeOfBirth: TimeOfBirth,
@@ -1057,7 +1060,40 @@ $(".callBtn").hide()
         });
 
     });
-    
+
+
+    function GetUserDataForService(Id) {
+       
+
+        $.ajax({
+            url: `${BaseUrl}api/User/GetUserDataForService?Id=${Id}`, 
+            method: "GET",
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token")}` 
+            },
+            success: function (response) {
+                if (response.status === 200) {
+                   
+                    $('#Name').val(response.data.name);
+                    $('#Gender').val(response.data.gender);
+                    $('#DateOfBirth').val(response.data.dateOfBirth);
+                    $('#TimeOfBirth').val(response.data.timeOfBirth);
+                    $('#PlaceOfBirth').val(response.data.placeOfBirth);
+                   
+                }
+            },
+            error: function (xhr, status, error) {
+               
+                console.log("Error:", error);
+                console.log("Status:", status);
+                console.log("XHR:", xhr);
+            }
+        });
+    }
+
+    var UserId = localStorage.getItem('userId');
+    GetUserDataForService(UserId);
+
 </script>
 
 

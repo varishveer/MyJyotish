@@ -13,10 +13,8 @@ namespace ModelAccessLayer.Models
         [Key]
         public int Id { get; set; }
         [AllowNull]
-        public string? HomePage { get; set; }
-        [AllowNull]
-        public string? BookPoojaCategory { get; set; }
-        [AllowNull]
-        public string? PoojaList { get;set; }
+        public string HomePage { get; set; }
+        public bool Status { get;set; }
+
     }
 }

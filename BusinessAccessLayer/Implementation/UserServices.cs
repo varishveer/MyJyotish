@@ -870,6 +870,25 @@ namespace BusinessAccessLayer.Implementation
 
         }
 
+        public UserServiceRecordViewModel GetUserDataForService(int Id)
+        {
+            var User = _context.Users.Where(x => x.Id == Id).FirstOrDefault();
+            if(User == null) { return null; }
+            UserServiceRecordViewModel UserRecord = new UserServiceRecordViewModel();
+           
+            UserRecord.Name = User.Name;
+            UserRecord.Gender = User.Gender;
+            UserRecord.DateOfBirth = DateOnly.Parse(User.DoB);
+            if(User.TimeOfBirth != null)
+            {
+                UserRecord.TimeOfBirth = (TimeOnly)User.TimeOfBirth;
+            }
+           
+            UserRecord.PlaceOfBirth = User.PlaceOfBirth;
+            UserRecord.UserId = User.Id;
 
+            return UserRecord;
+
+        }
     }
 }

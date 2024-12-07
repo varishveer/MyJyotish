@@ -616,6 +616,25 @@ namespace MyJyotishGApi.Controllers
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
         }
 
+        [HttpGet("GetUserDataForService")]
+        public IActionResult GetUserDataForService(int Id)
+        {
+            try
+            {
+                var record = _services.GetUserDataForService(Id);
+                if (record==null)
+                {
+                    return Ok(new { Status = 500, Message = "Record not found" });
+                }
+                else
+                {
+                    return Ok(new { Status = 200, Data = record });
+                }
+            }
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
+        }
+
+
 
         /* [AllowAnonymous]
          [HttpGet("GetPoojaList")]
