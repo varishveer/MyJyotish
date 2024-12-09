@@ -295,6 +295,26 @@ namespace MyJyotishJiApi.Controllers
             }
             catch (Exception ex) { return Ok(new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
         }
+
+        
+        [HttpDelete("DeleteHomePageBanner")]
+        public IActionResult DeleteHomePageBanner(int Id)
+        {
+            try
+            {
+                var result = _admin.DeleteHomePageBanner(Id);
+                if (result)
+                { return Ok(new { Status = 200, Message = "Success" }); }
+                else
+                {
+                    return Ok(new { Status = 400, Message = "Bad Request" });
+                }
+            }
+            catch (Exception ex) { return Ok(new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+        }
+
+
+
         [HttpGet("SliderImageList")]
         public IActionResult SliderImageList()
         {
@@ -311,6 +331,8 @@ namespace MyJyotishJiApi.Controllers
             }
             catch (Exception ex) { return Ok(new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
         }
+
+
 
         /*  [AllowAnonymous]
           [HttpPost("AddPoojaDetail")]
