@@ -21,6 +21,7 @@
         -webkit-text-size-adjust: 100%;
         -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     }
+
     .main-container {
         overflow: hidden;
         padding: 15px;
@@ -279,22 +280,22 @@
                 min-width: 217px;
             }
 
-    .skipDays{
-        min-width:217px !important;
+    .skipDays {
+        min-width: 217px !important;
         border: 1px solid gray;
         padding: 5px;
         border-radius: 5px;
         box-shadow: 1px 1px 7px gray;
-        box-sizing:border-box;
-        height:60px;
+        box-sizing: border-box;
+        height: 60px;
     }
 
     #updateskipDate {
-        font-size:12px !important;
+        font-size: 12px !important;
     }
 
     .skipmodal-content {
-        height:400px !important;
+        height: 400px !important;
     }
 </style>
 
@@ -487,27 +488,27 @@
                         var dateTo = formatDate(slot.dateTo);
 
                         slotDiv.innerHTML = `
-                                <div class="col-md-4">
-                                    <strong>From Date:</strong>
-                                    <span>${dateFrom || 'N/A'}</span>
-                                </div>
-                                <div class="col-md-4">
-                                    <strong>To Date:</strong>
-                                    <span>${dateTo || 'N/A'}</span>
-                                </div>
-                                <div class="col-md-4">
-                                    <strong>Duration:</strong>
-                                    <span>${slot.timeDuration || 'N/A'}</span> minutes
-                                </div>
-                                <div class="col-md-4">
-                                    <strong>From Time:</strong>
-                                    <span>${slot.timeFrom || 'N/A'}</span>
-                                </div>
-                                <div class="col-md-4">
-                                    <strong>To Time:</strong>
-                                    <span>${slot.timeTo || 'N/A'}</span>
-                                </div>
-                            `;
+                                    <div class="col-md-4">
+                                        <strong>From Date:</strong>
+                                        <span>${dateFrom || 'N/A'}</span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <strong>To Date:</strong>
+                                        <span>${dateTo || 'N/A'}</span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <strong>Duration:</strong>
+                                        <span>${slot.timeDuration || 'N/A'}</span> minutes
+                                    </div>
+                                    <div class="col-md-4">
+                                        <strong>From Time:</strong>
+                                        <span>${slot.timeFrom || 'N/A'}</span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <strong>To Time:</strong>
+                                        <span>${slot.timeTo || 'N/A'}</span>
+                                    </div>
+                                `;
 
                         // Append slot details div
                         container.appendChild(slotDiv);
@@ -682,7 +683,7 @@
             const saturday = $("#saturday:checked").length > 0 ? $("#saturday").val() : 0
             const sunday = $("#sunday:checked").length > 0 ? $("#sunday").val() : 0
             const jyotishId = localStorage.getItem('Id');
-           
+
             // Validate the form
             if (!date || !dateTo || !timeDuration) {
                 Swal.fire({
@@ -714,53 +715,53 @@
 
 
 
-            $.ajax({
-                url: BaseUrl+'api/Jyotish/AddAppointmentSlot',
-                type: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
-                    'Content-Type': 'application/json',
-                },
-                data: JSON.stringify({
-                    date: date,
-                    dateTo: dateTo,
-                    timeFrom: timeFrom,
-                    timeTo: timeTo,
-                    skipDate: skipDate,
-                    saturday: saturday,
-                    sunday: sunday,
-                    timeDuration: parseInt(timeDuration, 10),
-                    jyotishId: parseInt(jyotishId, 10)
-                }),
-                success: function (response) {
-                    if (response.status === 200) {
-                        Swal.fire({
-                            title: 'Success!',
-                            text: 'Appointment slot added successfully.',
-                            icon: 'success',
-                            confirmButtonText: 'Ok'
-                        }).then(() => {
-                            window.location.reload();
-                        });
-                    } else {
-                        Swal.fire({
-                            title: 'Error!',
-                            text: response.message || 'Failed to add appointment slot.',
-                            icon: 'error',
-                            confirmButtonText: 'Close'
-                        });
-                    }
-                },
-                error: function (xhr) {
-                    console.error("Error:", xhr.responseText);
-                    Swal.fire({
-                        title: 'Error!',
-                        text: 'Failed to add appointment slot: ' + xhr.responseText.title,
-                        icon: 'error',
-                        confirmButtonText: 'Close'
+                    $.ajax({
+                        url: BaseUrl + 'api/Jyotish/AddAppointmentSlot',
+                        type: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+                            'Content-Type': 'application/json',
+                        },
+                        data: JSON.stringify({
+                            date: date,
+                            dateTo: dateTo,
+                            timeFrom: timeFrom,
+                            timeTo: timeTo,
+                            skipDate: skipDate,
+                            saturday: saturday,
+                            sunday: sunday,
+                            timeDuration: parseInt(timeDuration, 10),
+                            jyotishId: parseInt(jyotishId, 10)
+                        }),
+                        success: function (response) {
+                            if (response.status === 200) {
+                                Swal.fire({
+                                    title: 'Success!',
+                                    text: 'Appointment slot added successfully.',
+                                    icon: 'success',
+                                    confirmButtonText: 'Ok'
+                                }).then(() => {
+                                    window.location.reload();
+                                });
+                            } else {
+                                Swal.fire({
+                                    title: 'Error!',
+                                    text: response.message || 'Failed to add appointment slot.',
+                                    icon: 'error',
+                                    confirmButtonText: 'Close'
+                                });
+                            }
+                        },
+                        error: function (xhr) {
+                            console.error("Error:", xhr.responseText);
+                            Swal.fire({
+                                title: 'Error!',
+                                text: 'Failed to add appointment slot: ' + xhr.responseText.title,
+                                icon: 'error',
+                                confirmButtonText: 'Close'
+                            });
+                        }
                     });
-                }
-            });
                 }
             })
         });
@@ -825,7 +826,7 @@
                     'Content-Type': 'application/json',
                 },
                 success: function (res) {
-                   
+
                     if (res.status !== 200) {
                         $('#skipDateDiv').hide();
                         Swal.close();
@@ -840,13 +841,13 @@
 
                         // Construct the row for the table
                         $('.skipDateTBody').append(`
-                        <tr>
-                            <td>${slotIndexCount++}</td>
-                            <td>${item.date}</td>
-                            <td>${item.timeDuration} minutes</td>
+                            <tr>
+                                <td>${slotIndexCount++}</td>
+                                <td>${item.date}</td>
+                                <td>${item.timeDuration} minutes</td>
 
-                        </tr>
-                    `);
+                            </tr>
+                        `);
                     });
 
                     // Re-initialize the DataTable after data is inserted
@@ -874,7 +875,7 @@
 
         skipDateList();
 
-        $("#updateAppointmentslot").click(function(){
+        $("#updateAppointmentslot").click(function () {
             const skipDate = $("#updateskipDate").val() != "" ? $("#updateskipDate").val() : "1001-01-01"
             const saturday = $("#updatesaturday:checked").length > 0 ? $("#updatesaturday").val() : 0
             const sunday = $("#updatesunday:checked").length > 0 ? $("#updatesunday").val() : 0
@@ -899,9 +900,9 @@
                                 Swal.showLoading();
                             }
                         })
-                     
+
                         $.ajax({
-                            url: BaseUrl+`api/Jyotish/removeAppointmentSlot`,
+                            url: BaseUrl + `api/Jyotish/removeAppointmentSlot`,
                             type: 'POST',
                             headers: {
                                 'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
@@ -941,7 +942,7 @@
                         })
                     }
                 })
-            }else{
+            } else {
                 Swal.fire({
                     title: 'Warning!',
                     text: 'Please select Atleast one.',
@@ -1000,7 +1001,7 @@
 
             // Ensure time is formatted correctly with seconds
             const timeFromFormatted = timeFrom; // Append seconds for HH:mm:ss
-            const timeToFormatted = timeTo ; // Append seconds for HH:mm:ss
+            const timeToFormatted = timeTo; // Append seconds for HH:mm:ss
 
             // Debugging: Log the values being sent
             console.log('Sending data:', {
@@ -1014,7 +1015,7 @@
 
             // Update the appointment slot
             $.ajax({
-                url: BaseUrl +'api/Jyotish/UpdateAppointmentSlot',
+                url: BaseUrl + 'api/Jyotish/UpdateAppointmentSlot',
                 type: 'POST', // Change method to PUT for updates
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
@@ -1058,7 +1059,7 @@
             console.log('ID to delete:', id); // Debugging: Log the ID
 
             $.ajax({
-                url: BaseUrl+`api/Jyotish/DeleteAppointmentSlot?Id=${id}`,
+                url: BaseUrl + `api/Jyotish/DeleteAppointmentSlot?Id=${id}`,
                 type: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
@@ -1094,25 +1095,25 @@
 <script>
 
 
-        const today = new Date();
+    const today = new Date();
 
     const formattedToday = today.toISOString().split('T')[0];
 
     // Set the min and max attributes on the date input
-        const dateFrom = document.getElementById('date-checkin');
-        const dateTo = document.getElementById('date-checkout');
+    const dateFrom = document.getElementById('date-checkin');
+    const dateTo = document.getElementById('date-checkout');
     dateFrom.setAttribute('min', formattedToday); // Current date
-    dateFrom.addEventListener("input",function(){
-            let fromDate = new Date(this.value);
-            dateTo.setAttribute('min', this.value);
-            const maxDate = new Date(fromDate);
-            maxDate.setDate(fromDate.getDate() + 90); // Add 90 days
+    dateFrom.addEventListener("input", function () {
+        let fromDate = new Date(this.value);
+        dateTo.setAttribute('min', this.value);
+        const maxDate = new Date(fromDate);
+        maxDate.setDate(fromDate.getDate() + 90); // Add 90 days
 
-            // Format the max date as YYYY-MM-DD
-            const formattedMaxDate = maxDate.toISOString().split('T')[0];
-            dateTo.setAttribute('max', formattedMaxDate);
-            dateTo.value = formattedMaxDate
-            $("#skipDate").attr("min", this.value)
-            $("#skipDate").attr("max", formattedMaxDate)
+        // Format the max date as YYYY-MM-DD
+        const formattedMaxDate = maxDate.toISOString().split('T')[0];
+        dateTo.setAttribute('max', formattedMaxDate);
+        dateTo.value = formattedMaxDate
+        $("#skipDate").attr("min", this.value)
+        $("#skipDate").attr("max", formattedMaxDate)
     })
 </script>

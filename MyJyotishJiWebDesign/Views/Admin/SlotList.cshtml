@@ -303,20 +303,126 @@
 </style>
 
 
+<div class="container">
+    <div class=" d-flex text-end justify-content-end mb-3 gap-3">
+                <button class="btn btn-primary" onclick="openAddSlotModal()">Add Slot</button>
+                <button class="btn btn-warning  text-light" data-bs-toggle="modal" data-bs-target="#editAppointmentModal">Remove Appointment slot</button>
+
+            </div>
+</div>
+    
+
+ 
+
+<div class="container mt-2" id="SlotDetailDiv">
+    <div class="card shadow-sm">
+        <div class="text-center p-1" style="background-color:#009CFF;">
+            <h3 class="text-white p-0 m-0">Appointment Slot Details</h3>
+        </div>
+        <div class="card-body">
+            <div id="SlotDetailsContainer"></div>
+        </div>
+    </div>
+</div>
 
 
 
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+      
+        // Assuming BaseUrl is already defined globally
+        var apiUrl = `${BaseUrl}Api/Admin/SlotDetails`;
+
+        var headers = {
+            'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+            'Content-Type': 'application/json',
+        };
+
+        function formatDate(date) {
+            if (!date) return 'N/A';
+
+            var d = new Date(date);
+            var day = ("0" + d.getDate()).slice(-2);  // Add leading zero if day < 10
+            var month = ("0" + (d.getMonth() + 1)).slice(-2);  // Add leading zero if month < 10
+            var year = d.getFullYear();
+
+            return day + '-' + month + '-' + year; // Format as dd-MM-yyyy
+        }
+
+        fetch(apiUrl, { headers: headers })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data && Array.isArray(data.data) && data.data.length > 0) {
+                    const container = document.getElementById('SlotDetailsContainer');
+                    container.innerHTML = '';  // Clear previous data if any
+
+                    data.data.forEach(slot => {
+                        const slotDiv = document.createElement('div');
+                        slotDiv.classList.add('row', 'mb-3');
+
+                        var dateFrom = formatDate(slot.dateFrom);
+                        var dateTo = formatDate(slot.dateTo);
+
+                        slotDiv.innerHTML = `
+                                    <div class="col-md-4">
+                                        <strong>From Date:</strong>
+                                        <span>${dateFrom || 'N/A'}</span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <strong>To Date:</strong>
+                                        <span>${dateTo || 'N/A'}</span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <strong>Duration:</strong>
+                                        <span>${slot.timeDuration || 'N/A'}</span> minutes
+                                    </div>
+                                    <div class="col-md-4">
+                                        <strong>From Time:</strong>
+                                        <span>${slot.timeFrom || 'N/A'}</span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <strong>To Time:</strong>
+                                        <span>${slot.timeTo || 'N/A'}</span>
+                                    </div>
+                                `;
+
+                        // Append slot details div
+                        container.appendChild(slotDiv);
+
+                        // Append <hr /> element
+                        const hr = document.createElement('hr');
+                        container.appendChild(hr);
+                    });
+                } else {
+                    console.error('Unexpected data format:', data);
+                    // Handle unexpected data format
+                    document.getElementById('SlotDetailDiv').innerHTML = '<p>No appointment details found.</p>';
+                }
+            })
+            .catch(error => {
+                // Handle any errors that occur during the fetch
+                console.error('There was a problem with the fetch operation:', error);
+                // Hide the appointment slot detail div and show an error message
+                document.getElementById('SlotDetailDiv').style.display = 'none';
+                const container = document.createElement('div');
+                container.innerHTML = '<p>Error fetching appointment details. Please try again later.</p>';
+                document.body.appendChild(container); // Optionally append to the body or any other element
+            });
+    });
+</script>
 
 <div class="container-fluid mt-4">
     <div class="card">
 
         <div class="d-flex flex-row justify-content-between align-items-center pt-2 px-4">
             <h5 class="text-primary">Slot Skip List</h5>
-            <div class="text-end mb-3">
-                <button class="btn btn-primary" onclick="openAddSlotModal()">Add Slot</button>
-                <button class="btn btn-warning  text-light" data-bs-toggle="modal" data-bs-target="#editAppointmentModal">Remove Appointment slot</button>
-
-            </div>
+           
         </div>
         <hr />
 
@@ -747,13 +853,13 @@
                     let htmls = "";
                     // Loop through each slot item and create table rows
                     $.each(result.data, function (key, item) {
-                        // Convert date from YYYY-MM-DD to DD-MM-YYYY
-                        let dateParts = item.date.split("-");
-                        let formattedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
+                       
+
+                       
 
                          htmls += '<tr>';
                         htmls += `<td class="text-center">${IdCounter}</td>`;
-                        htmls += `<td class="text-center">${formattedDate}</td>`; // Use formatted date
+                        htmls += `<td class="text-center">${item.date}</td>`; // Use formatted date
                       
                         htmls += `<td class="text-center">${item.timeDuration}</td>`;
                         htmls += '</tr>';
