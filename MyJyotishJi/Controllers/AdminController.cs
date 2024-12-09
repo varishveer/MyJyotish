@@ -1817,10 +1817,10 @@ namespace MyJyotishJiApi.Controllers
             return Ok(new { status = 200, message="data retrieved",data=res});
         }
         
-        [HttpGet("SkipList")]
-        public IActionResult SkipList()
+        [HttpGet("SlotSkipList")]
+        public IActionResult SlotSkipList()
         {
-            var res = _admin.SkipList();
+            var res = _admin.SlotSkipList();
             return Ok(new { status = 200, message="data retrieved",data=res});
         }
 

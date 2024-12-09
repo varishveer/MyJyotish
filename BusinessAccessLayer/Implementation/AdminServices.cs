@@ -978,9 +978,15 @@ namespace BusinessAccessLayer.Implementation
             return records;
         }
 
-        public List<SlotModel> SkipList()
+        public List<SkipdateJyotishViewModel> SlotSkipList()
         {
-            var SlotList = _context.Slots.Where(x => x.ActiveStatus == 0).ToList();
+            var SlotList = _context.Slots.Where(x => x.ActiveStatus == 0 && x.Date >= DateOnly.FromDateTime(DateTime.Now)).GroupBy(x => x.Date)
+            .Select(group => new SkipdateJyotishViewModel
+            {
+                Date = group.Key.ToString("dd-MM-yyyy"),  
+                TimeDuration = group.First().TimeDuration
+            })
+            .ToList();
             return SlotList;
 
         }

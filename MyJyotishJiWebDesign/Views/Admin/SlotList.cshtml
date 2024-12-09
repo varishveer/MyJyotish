@@ -311,7 +311,7 @@
     <div class="card">
 
         <div class="d-flex flex-row justify-content-between align-items-center pt-2 px-4">
-            <h5 class="text-primary">Interview Slot</h5>
+            <h5 class="text-primary">Slot Skip List</h5>
             <div class="text-end mb-3">
                 <button class="btn btn-primary" onclick="openAddSlotModal()">Add Slot</button>
                 <button class="btn btn-warning  text-light" data-bs-toggle="modal" data-bs-target="#editAppointmentModal">Remove Appointment slot</button>
@@ -322,8 +322,10 @@
 
         <div class="card-body">
             <div class="table-responsive">
-                <table id="DataTable" class="table table-bordered table-striped ">
-                    <!-- Table content goes here -->
+                <table  class="table table-bordered table-striped ">
+                    <thead><tr><th class="text-center">Id</th> <th class="text-center">Date</th><th class="text-center">Time Duration in Minutes</th> </thead>
+                    <tbody id="SlotSkipList">
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -525,7 +527,7 @@
         });
     }
     $(document).ready(function () {
-       
+
     });
 
     $("#btnsubmit").on('click', function (e) {
@@ -722,7 +724,7 @@
         $("#skipDate").attr("max", formattedMaxDate)
     })
 </script>
-@* <script>
+ <script>
     function fetchData() {
         Swal.fire({
             title: "Processing Your Request",
@@ -732,7 +734,7 @@
             }
         })
         $.ajax({
-            url: BaseUrl + "api/Admin/SlotList", // Call the SlotList API method
+            url: BaseUrl + "api/Admin/SlotSkipList", // Call the SlotList API method
             type: 'Get',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Include Authorization if required
@@ -740,28 +742,27 @@
             },
             success: function (result) {
                 if (result.data) {
-                    let htmls = '<thead><tr><th class="text-center">Id</th> <th class="text-center">Date</th><th class="text-center">Time</th><th class="text-center">Time Duration in Minutes</th><th class="text-center">Status</th> </thead><tbody>';
+                   // let htmls = '<thead><tr><th class="text-center">Id</th> <th class="text-center">Date</th><th class="text-center">Time</th><th class="text-center">Time Duration in Minutes</th> </thead><tbody>';
                     var IdCounter = 1;
-
+                    let htmls = "";
                     // Loop through each slot item and create table rows
                     $.each(result.data, function (key, item) {
                         // Convert date from YYYY-MM-DD to DD-MM-YYYY
                         let dateParts = item.date.split("-");
                         let formattedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
 
-                        htmls += '<tr>';
+                         htmls += '<tr>';
                         htmls += `<td class="text-center">${IdCounter}</td>`;
                         htmls += `<td class="text-center">${formattedDate}</td>`; // Use formatted date
-                        htmls += `<td class="text-center">${item.time}</td>`;
+                      
                         htmls += `<td class="text-center">${item.timeDuration}</td>`;
-                        htmls += `<td class="text-center">${item.status}</td>`;
                         htmls += '</tr>';
                         IdCounter++;
                     });
 
-                    htmls += '</tbody>';
-                    $('#DataTable').html(htmls); // Populate the table with fetched data
-                    $('#DataTable').DataTable(); // Initialize DataTables
+                    $('#SlotSkipList').html(htmls); // Populate the table with fetched data
+                   
+
                     Swal.close()
                 } else {
                     console.warn("No data received.");
@@ -776,4 +777,4 @@
 
     // Load all records on page load
     fetchData();
-</script> *@
+</script> 
