@@ -4,18 +4,18 @@
 
 
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#HomepageBannerModal">
-    Add HomePage Banner
-</button>
+
 
 <div class="container-fluid mt-4">
     <div class="card">
 
-        <div class="d-flex flex-row justify-content-between align-items-center  px-4">
+        <div class="d-flex flex-row justify-content-between align-items-center py-2 px-4">
             <h5 class="text-primary mt-2">Appointments</h5>
-
+            <button type="button" class="btn btn-primary float-end " data-bs-toggle="modal" data-bs-target="#HomepageBannerModal">
+                Add HomePage Banner
+            </button>
         </div>
-        <hr />
+        <hr class="pt-0" />
 
         <div class="card-body">
             <div class="table-responsive">
@@ -129,15 +129,17 @@
             success: function (response) {
                 if (response.status === 200) {
                     let htmls = '';  // Initialize htmls variable outside of the loop
+                    var counter = 1;
                     $.each(response.data, function (key, item) {
                         htmls += '<tr>';
-                        htmls += `<td class="text-center">${item.serialNo}</td>`;
+                        htmls += `<td class="text-center">${counter}</td>`;
                         htmls += `<td class="text-center"><img src="${BaseUrl}${item.homePage}" height="100" width="150"  /></td>`;
-                        htmls += `<td class="text-center">
-                            <a href="${BaseUrl}${item.homePage}"><i class="fas fa-eye"></i></a>
-                            <i data-id="${item.id}" class=" DeleteBanner fas fa-trash-alt"></i>
+                        htmls += `<td class="text-center  gap-3">
+                            <a href="${BaseUrl}${item.homePage}" class="btn"><i class="fas fa-eye"></i></a>
+                                        <button data-id="${item.id}" class="DeleteBanner btn  "><i  class="fas fa-trash-alt text-danger"></i></button>
                             </td>`;
                         htmls += '</tr>';
+                        counter++;
                     });
 
 
@@ -167,7 +169,8 @@
 
     HomePageBannerTable()
 
-    $('.DeleteBanner').on('click', function ({
+    $(document).on('click', '.DeleteBanner', function () 
+    {
         var Id = $(this).attr('data-id');
         Swal.fire({
             title: 'Are you sure?',
@@ -178,39 +181,43 @@
             cancelButtonText: 'No, keep it',
             reverseButtons: true
         }).then((result) => {
-
-            $.ajax({
-                url: BaseUrl + `Api/Admin/DeleteHomePageBanner?Id=${Id}`,
-                method: 'Delete',
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('Token')}`
-                },
-                success: function (response) {
-                    if (response.status === 200) {
-                        Swal.fire({
-                            title: "Successsful",
-                            text: "Banner Deleted Successfully",
-                            icon: 'success'
-
-                        })
-
-                    }
-                    else {
+            // If the user confirms the action
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: BaseUrl + `Api/Admin/DeleteHomePageBanner?Id=${Id}`,
+                    method: 'DELETE',  // Ensure the HTTP method is uppercase
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('Token')}`
+                    },
+                    success: function (response) {
+                        if (response.status === 200) {
+                            Swal.fire({
+                                title: "Successful",  // Fixed typo here
+                                text: "Banner Deleted Successfully",
+                                icon: 'success'
+                            })
+                            location.reload();
+                        } else {
+                            Swal.fire({
+                                title: 'Error',
+                                text: 'Something went wrong',
+                                icon: 'error'
+                            })
+                        }
+                    },
+                    error: function (xhr, status, error) {
                         Swal.fire({
                             title: 'Error',
                             text: 'Something went wrong',
                             icon: 'error'
                         })
                     }
-                },
-                error: function (xhr, status, error) {
-                    Swal.fire({
-                        title: 'Error',
-                        text: 'Something went wrong',
-                        icon: 'error'
-                    })
-                }
-            })
+                })
+            } else {
+                // If the user cancels, you could add any cancel-related action if needed
+                console.log('Banner deletion canceled');
+            }
         });
-        });
+    });
+
 </script>
