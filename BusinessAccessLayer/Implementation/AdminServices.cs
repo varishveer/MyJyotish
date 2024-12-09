@@ -222,52 +222,51 @@ namespace BusinessAccessLayer.Implementation
             { return false; }
 
         }
-      /*  public bool AddPoojaCategory(PoojaCategoryViewModel _pooja)
+        public bool AddPoojaList(PoojaCategoryViewModel _pooja)
         {
-            var isPoojaValid = _context.PoojaCategory.Where(x => x.Name == _pooja.Name).FirstOrDefault();
+            var isPoojaValid = _context.PoojaList.Where(x => x.Name == _pooja.Name).FirstOrDefault();
             if (isPoojaValid != null) { return false; }
-            PoojaCategoryModel model = new PoojaCategoryModel();
+            PoojaListModel model = new PoojaListModel();
             model.Name = _pooja.Name;
-            model.DateAdded = DateTime.Now;
-            _context.PoojaCategory.Add(model);
+            _context.PoojaList.Add(model);
             var result = _context.SaveChanges();
             if (result > 0)
             { return true; }
             else
             { return false; }
 
-        }*/
-      /*  public List<PoojaCategoryModel> GetAllPoojaCategory()
-        {
-            var records = _context.PoojaCategory.ToList();
-            return records;
-        }*/
+        }
+        /*  public List<PoojaCategoryModel> GetAllPoojaCategory()
+          {
+              var records = _context.PoojaCategory.ToList();
+              return records;
+          }*/
 
-      /*  public bool AddNewPoojaList(PoojaListViewModel model)
-        {
-            if(model == null)
-            { return false; }
+        /*  public bool AddNewPoojaList(PoojaListViewModel model)
+          {
+              if(model == null)
+              { return false; }
 
-            var IsPoojaValid = _context.PoojaCategory.Where(x=>x.Name == model.Name).FirstOrDefault();
-            if(IsPoojaValid != null)
-            { return false; }
+              var IsPoojaValid = _context.PoojaCategory.Where(x=>x.Name == model.Name).FirstOrDefault();
+              if(IsPoojaValid != null)
+              { return false; }
 
-            PoojaRecordModel record = new PoojaRecordModel()
-            {
-                Name = model.Name,
-                PoojaCategoryId = model.PoojaCategoryId,
-            };
-            _context.PoojaRecord.Add(record);
-            var result = _context.SaveChanges();
-            if(result>0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }*/
+              PoojaRecordModel record = new PoojaRecordModel()
+              {
+                  Name = model.Name,
+                  PoojaCategoryId = model.PoojaCategoryId,
+              };
+              _context.PoojaRecord.Add(record);
+              var result = _context.SaveChanges();
+              if(result>0)
+              {
+                  return true;
+              }
+              else
+              {
+                  return false;
+              }
+          }*/
         public List<PoojaRecordModel> PoojaRecord()
         {
             var Records = _context.PoojaRecord.ToList();
@@ -1674,6 +1673,95 @@ namespace BusinessAccessLayer.Implementation
                             _context.RedeemCodeRequest.Update(redeemRequest);
                             _context.SaveChanges();
                         }
+                        if (res != null)
+                        {
+                            var plan = _context.Subscriptions.Where(e => e.SubscriptionId == model.PlanId).FirstOrDefault();
+							
+							string newMessage = $@"
+           <!DOCTYPE html>
+            <html lang=""en"">
+            <head>
+    <meta charset=""UTF-8"">
+    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+    <title>My Jyotish G Email</title>
+    <style>
+        body {{
+            font-family: Arial, sans-serif;
+        }}
+        .container {{
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }}
+        .header {{
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }}
+        .content {{
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }}
+        .otp {{
+            font-size: 20px;
+            font-weight: bold;
+            color: #000;
+        }}
+        .logo {{
+            margin: 20px 0;
+            text-align: center;
+        }}
+        .logo img {{
+            max-width: 150px;
+        }}
+        .footer {{
+            font-size: 14px;
+            color: #555;
+            margin-top: 20px;
+        }}
+        .footer a {{
+            color: #000;
+            text-decoration: none;
+        }}
+    </style>
+</head>
+<body>
+    <div class=""container"">
+       
+         <div class=""logo"">
+            <img src=""https://api.myjyotishg.in/Images/Logo.png"" alt=""My Jyotish G Logo"">
+        </div>
+        <div class=""content"">
+            Hi User,<br><br>
+            Thank you for using myJyotishG! Please use this redeem code for purchase {plan.Name} Plan <br><br>
+
+           Redeem Code : <span class=""otp"">{model.ReadeamCode}</span><br><br>
+Expiry : <span>{model.startDate}-{model.endDate}</span>
+
+            If you have any questions, feel free to reach out!
+        </div>
+
+       
+            <div class=""header"" style=""color:orange"">My Jyotish G</div>
+            <h4>www.myjyotishg.in</h4>
+            <h4>myjyotishg@gmail.com</h4>
+            <h4>7985738804</h4>
+            
+        
+    </div>
+</body>
+</html>
+";
+							string NewSubject = $"Redeem Code for {plan.Name}";
+
+
+
+							AccountServices.SendEmail(newMessage, res.Email, NewSubject);
+						}
                             transaction.Commit();
 
                         return true;
@@ -1799,7 +1887,7 @@ namespace BusinessAccessLayer.Implementation
             Hi User,<br><br>
             Thank you for using myJyotishG! Please use this redeem code for purchase {plan.Name} Plan <br><br>
 
-           Password : <span class=""otp"">{res.ReadeamCode}</span><br><br>
+           Redeem Code : <span class=""otp"">{res.ReadeamCode}</span><br><br>
 Expiry : <span>{res.startDate}-{res.endDate}</span>
 
             If you have any questions, feel free to reach out!

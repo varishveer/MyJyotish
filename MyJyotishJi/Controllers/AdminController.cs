@@ -153,20 +153,22 @@ namespace MyJyotishJiApi.Controllers
             }
             catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
         }
+        
 
-        /* [HttpPost("AddPoojaCategory")]
-         public IActionResult AddPoojaCategory(PoojaCategoryViewModel pooja)
-         {
-             try
-            { var result = _admin.AddPoojaCategory(pooja);
-                 if (result == true)
-                 {
-                     return Ok(new { Status = 200, Message = "Success" });
-                 }
-                 else { return Ok(new { Status = 400, Message = "Bad Request" }); }
-             }
-             catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
-         }*/
+        [HttpPost("AddPoojaList")]
+        public IActionResult AddPoojaList(PoojaCategoryViewModel pooja)
+        {
+            try
+            {
+                var result = _admin.AddPoojaList(pooja);
+                if (result == true)
+                {
+                    return Ok(new { Status = 200, Message = "Success" });
+                }
+                else { return Ok(new { Status = 400, Message = "Bad Request" }); }
+            }
+            catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
+        }
         /* [AllowAnonymous]
          [HttpPost("AddPoojaList")]
          public IActionResult AddPoojaList(PoojaListViewModel pooja)
@@ -1229,15 +1231,23 @@ namespace MyJyotishJiApi.Controllers
                 var httpRequest = HttpContext.Request;
                 redeamCodeViewModel rcode = new redeamCodeViewModel
                 {
-                    PlanId = Convert.ToInt32(string.IsNullOrEmpty(httpRequest.Form["planId"])?0: httpRequest.Form["planId"]),
+                    PlanId = Convert.ToInt32(httpRequest.Form["planId"]),
                     ReadeamCode = httpRequest.Form["redeamCode"],
                     discount = float.Parse((httpRequest.Form["discount"])),
                     discountAmount = float.Parse(httpRequest.Form["discountAmount"]),
                     email = httpRequest.Form["email"],
                     startDate = Convert.ToDateTime(httpRequest.Form["startDate"]),
                     endDate = Convert.ToDateTime(httpRequest.Form["endDate"]),
-                    EId = Convert.ToInt32(string.IsNullOrEmpty(httpRequest.Form["EId"])?0: httpRequest.Form["EId"])
                 };
+                if (string.IsNullOrEmpty(httpRequest.Form["EId"]))
+                {
+
+                rcode.EId = Convert.ToInt32(httpRequest.Form["EId"]);
+                }
+                else
+                {
+                    rcode.EId = null;
+                }
                 var result = _admin.AddRedeamCode(rcode);
                 if (result)
                 {

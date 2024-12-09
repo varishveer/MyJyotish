@@ -260,7 +260,7 @@ header {
                <div class="text-center my-4">
                <input type="submit" value="Redeam" class="btn btn-success" />
                     </div>
-               <p>don't have any redeam code <span class="text-primary" id="sendRequest" role="button">send request</span></p>
+               <p>don't have any redeam code <span class="text-primary" id="sendRequest" role="button">send request</span> or <span class="text-primary" role="button" onclick="purchaseWithWallet()">Purchase with Wallet</span></p>
                 </form>
             </div>
             <div class="modal-footer">
@@ -353,7 +353,6 @@ header {
 
                                                             <span class="text-danger old-price fs-6">₹${item.newPrice+item.discountAmount}</span>
                                                   
-                                                    <sup class="fs-6">${item.discount} %OFF</sup><br />
                                                 ` : ""}
                                                </li>
                         ${servicesHTML}
@@ -513,6 +512,12 @@ header {
          upgradePackage();
      }
   
+     function purchaseWithWallet(){
+        let price = $("#priceModal").val();
+
+        openWallet(price)
+        $("#exampleModal").modal("hide")
+     }
 
      function sendRequestForRedeemCode(){
         Swal.fire({

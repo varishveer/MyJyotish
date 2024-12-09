@@ -21,6 +21,9 @@ namespace BusinessAccessLayer.Abstraction
         public bool RemoveJyotish(IdViewModel JyotishId);
         /*    public bool AddPoojaCategory(PoojaCategoryViewModel _pooja);*/
         /*   public bool AddNewPoojaList(PoojaListViewModel model);*/
+
+        public bool AddPoojaList(PoojaCategoryViewModel _pooja);
+
         public List<SpecializationListModel> GetSpecializationList();
         public dynamic getPlan(int Id);
         public bool countryCode(CountryCodeViewModel model);
