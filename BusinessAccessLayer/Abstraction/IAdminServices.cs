@@ -125,7 +125,7 @@ namespace BusinessAccessLayer.Abstraction
         public bool RejectRedeem(int RedeemId);
 
         public List<AppointmentSlotDetailsJyotish> SlotDetails();
-        public List<SlotModel> SkipList();
+        public List<SkipdateJyotishViewModel> SlotSkipList();
 
 
 
