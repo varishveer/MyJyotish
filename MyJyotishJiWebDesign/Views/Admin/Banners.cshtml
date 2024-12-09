@@ -1,7 +1,83 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#HomepageBannerModal">
+    Add HomePage Banner
+</button>
 
+<!-- Modal -->
+<div class="modal fade" id="HomepageBannerModal" tabindex="-1" aria-labelledby="HomepageBannerModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="HomepageBannerModalLabel">HomePage Banner</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label for="HomepageBanner">HomePage Banner</label>
+                <input type="file" class="form-control" id="HomepageBanner" />
 
+                <label for="SerialNo">Serial Number</label>
+                <input type="number" class="form-control" id="SerialNo" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" id="HomepageBannerSubmitBtn" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#HomepageBannerSubmitBtn').on('click', function () {
+        var homePageBanner = $('#HomepageBanner')[0].files[0]; 
+        var serialNo = $('#SerialNo').val();
+
+        if (!homePageBanner) {
+            Swal.fire({
+                title: "Error",
+                text: "Please upload a banner image.",
+                icon: "error"
+            });
+            return;
+        }
+
+       
+        var formData = new FormData();
+        formData.append('HomePageBanner', homePageBanner); 
+        formData.append('SerialNo', serialNo);
+
+        $.ajax({
+            url: BaseUrl + "Api/Admin/AddSlider", 
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('Token')}`
+            },
+            data: formData,
+            processData: false, 
+            contentType: false, 
+            success: function (response) {
+                if (response.status === 200) {
+                    Swal.fire({
+                        title: "Success!",
+                        text: "Banner added successfully.",
+                        icon: "success",
+                    });
+                  
+                    $('#HomepageBannerModal').modal('hide');
+                } else {
+                    Swal.fire({
+                        title: "Error",
+                        text: response.message || "Something went wrong.",
+                        icon: "error",
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                Swal.fire({
+                    title: "Error",
+                    text: "Something went wrong. Please try again later.",
+                    icon: "error",
+                });
+            }
+        });
+    });
+</script>
