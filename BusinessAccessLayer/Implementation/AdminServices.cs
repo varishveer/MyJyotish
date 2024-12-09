@@ -17,6 +17,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Identity.Client.Kerberos;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Model;
+using Razorpay.Api;
 
 
 namespace BusinessAccessLayer.Implementation
@@ -1617,6 +1618,23 @@ namespace BusinessAccessLayer.Implementation
 				throw exp;
             }
         }
+
+        public dynamic getRedeemCodeForApprove()
+        {
+            var res = (from redeem in _context.RedeamCode
+                       join employee in _context.Employees on redeem.EId equals employee.Id
+                       join subscription in _context.Subscriptions on redeem.PlanId equals subscription.SubscriptionId
+                       where redeem.status && redeem.appstatus
+                       select new
+                       {
+                           redeem,
+                           employee,
+                           subscription
+                       }).ToList();
+            return res;
+                     
+        }
+
         public List<JyotishRatingViewModel> PendingRatingList()
         {
             var record = _context.JyotishRating.Where(x => x.Status == false).Include(x => x.Jyotish).Include(x => x.User).Select(x => new JyotishRatingViewModel

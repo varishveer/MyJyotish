@@ -1770,6 +1770,12 @@ namespace MyJyotishJiApi.Controllers
             var res = _admin.GetRedeemRequest();
             return Ok(new { status = 200, message="data retrieved",data=res});
         }
+        [HttpGet("getRedeemCodeForApprove")]
+        public IActionResult getRedeemCodeForApprove()
+        {
+            var res = _admin.getRedeemCodeForApprove();
+            return Ok(new { status = 200, message="data retrieved",data=res});
+        }
 
 
     }
