@@ -544,33 +544,75 @@ namespace BusinessAccessLayer.Implementation
 
         public bool AddSlider(SliderImagesViewModel model)
         {
-            SliderImagesModel slider = new SliderImagesModel();
-          
             
-                var HomePageGuid = Guid.NewGuid().ToString();
-                var SqlPath = "/Images/Slider/" + HomePageGuid + model.HomePage.FileName;
-                var HomePagePath = Path.Combine(_uploadDirectory, "wwwroot"+SqlPath);
-                using (var stream = new FileStream(HomePagePath, FileMode.Create))
-                {
-                     model.HomePage.CopyTo(stream);
-                }
-                slider.HomePage = SqlPath;
-            
+            var existingSlider = _context.Sliders
+                                         .FirstOrDefault(s => s.SerialNo == model.SerialNo);
 
-          
+            if (existingSlider != null)
+            {
+                var OldData = _context.Sliders.OrderBy(x=>x.SerialNo).Where(x=>x.SerialNo >= model.SerialNo).ToList();
+                foreach(var data in OldData)
+                {
+                    data.SerialNo = data.SerialNo+1;
+                }
+                _context.Sliders.UpdateRange(OldData);
+                SliderImagesModel newSlider = new SliderImagesModel();
+
+                var newHomePageGuid = Guid.NewGuid().ToString();
+                var newSqlPath = "/Images/Slider/" + newHomePageGuid + model.HomePage.FileName;
+                var newHomePagePath = Path.Combine(_uploadDirectory, "wwwroot" + newSqlPath);
+
+                using (var stream = new FileStream(newHomePagePath, FileMode.Create))
+                {
+                    model.HomePage.CopyTo(stream);
+                }
+
+                newSlider.HomePage = newSqlPath;
+                newSlider.SerialNo = model.SerialNo ;
+                newSlider.Status = true;
+
+                _context.Sliders.Add(newSlider);
+
+                if(_context.SaveChanges()>0)
+                {return true;}
+                else { return false; }
+ 
+            }
+
+            var SliderListData = _context.Sliders.ToList();
+            int MaxSerialNo = 0;
+            if (SliderListData.Count > 0)
+            { MaxSerialNo = _context.Sliders.Max(x => x.SerialNo); }
+           
+           
+
+
+            SliderImagesModel slider = new SliderImagesModel();
+
+            var HomePageGuid = Guid.NewGuid().ToString();
+            var SqlPath = "/Images/Slider/" + HomePageGuid + model.HomePage.FileName;
+            var HomePagePath = Path.Combine(_uploadDirectory, "wwwroot" + SqlPath);
+
+            using (var stream = new FileStream(HomePagePath, FileMode.Create))
+            {
+                model.HomePage.CopyTo(stream);
+            }
+
+            slider.HomePage = SqlPath;
+            slider.SerialNo = MaxSerialNo+1;
+            slider.Status = true;
 
             _context.Sliders.Add(slider);
             var result = _context.SaveChanges();
-            if(result > 0)
-            { return true; }
-            else { return false; }
-            
+
+            return result > 0;
         }
+
 
 
         public List<SliderImagesModel> SliderImageList()
         {
-            var Records = _context.Sliders.Where(x=>x.Status).ToList();
+            var Records = _context.Sliders.Where(x=>x.Status).OrderBy(x=>x.SerialNo).ToList();
             if(Records.Count == 0)
             { return null; }
             return Records;

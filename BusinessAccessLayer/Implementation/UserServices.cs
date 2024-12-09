@@ -216,13 +216,20 @@ namespace BusinessAccessLayer.Implementation
 
         public List<IdImageViewModel> SliderImageList()
         {
-            var records = _context.Sliders.Where(x=>x.Status).Select(x=> new IdImageViewModel
-            {
-                Id= x.Id,
-                ImageUrl= x.HomePage,
+            var Records = _context.Sliders
+                .Where(x => x.Status)
+                .OrderBy(x => x.SerialNo)
+                .Select(x => new IdImageViewModel
+                {
+                    Id = x.SerialNo,
+                    ImageUrl = x.HomePage
+                })
+                .ToList();
 
-            }).ToList();
-            return records.Count > 0 ? records : null;
+            if (Records.Count == 0)
+            { return null; }
+            return Records;
+           
         }
 
         public string BookAppointment(AppointmentViewModel model)
