@@ -1839,7 +1839,7 @@ namespace BusinessAccessLayer.Implementation
             {
                 return 0;
             }
-            if (DateTime.Compare(DateTime.Now,res.endDate) <= 0)
+            if (DateTime.Compare(DateTime.Now.Date,res.endDate.Date) <= 0)
             {
             return res.discountAmount;
 
