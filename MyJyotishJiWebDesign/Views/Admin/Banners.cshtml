@@ -20,7 +20,7 @@
         <div class="card-body">
             <div class="table-responsive">
                 <table  class="table table-bordered table-striped">
-                    <thead><tr><th>Serial No.</th><th>Banner</th></tr></thead>
+                    <thead><tr><th>Serial No.</th><th>Banner</th><th> Action</th></tr></thead>
                     <tbody id="HomePageTBody">
                     </tbody>
                 </table>
@@ -133,6 +133,7 @@
                         htmls += '<tr>';
                         htmls += `<td class="text-center">${item.serialNo}</td>`;
                         htmls += `<td class="text-center"><img src="${BaseUrl}${item.homePage}" height="100" width="150"  /></td>`;
+                        htmls += `<td class="text-center"><a href="${BaseUrl}${item.homePage}"><i class="fas fa-eye"></i></a></td>`;
                         htmls += '</tr>';
                     });
 
