@@ -1575,7 +1575,9 @@ namespace BusinessAccessLayer.Implementation
                        
                     };
 
-                var res2 = _context.Employees.Where(e => e.Id == model.EId && e.status).FirstOrDefault();
+                    var EId = model.EId == null ? 0 : model.EId;
+
+                var res2 = _context.Employees.Where(e => e.Id == EId && e.status).FirstOrDefault();
                     if (res2 != null)
                     {
                         rcode.EId = res2.Id;
@@ -1622,20 +1624,146 @@ namespace BusinessAccessLayer.Implementation
         public dynamic getRedeemCodeForApprove()
         {
             var res = (from redeem in _context.RedeamCode
-                       join employee in _context.Employees on redeem.EId equals employee.Id
                        join subscription in _context.Subscriptions on redeem.PlanId equals subscription.SubscriptionId
-                       where redeem.status && redeem.appstatus
+                       join jyotish in _context.JyotishRecords on redeem.jyotishId equals jyotish.Id
+                       join employee in _context.Employees on redeem.EId equals employee.Id into employeeGroup
+                       from employee in employeeGroup.DefaultIfEmpty() // Left join
+                       where redeem.status && !redeem.appstatus
                        select new
                        {
-                           redeem,
-                           employee,
-                           subscription
+                           id = redeem.Id,
+                           planId = redeem.PlanId,
+                           jyotishName = jyotish.Name,
+                           email = jyotish.Email,
+                           mobile = jyotish.Mobile,
+                           planName = subscription.Name,
+                           planType = subscription.PlanType,
+                           Redeemcode = redeem.ReadeamCode,
+                           discount = redeem.discount,
+                           discountAmount = redeem.discountAmount,
+                           date = redeem.date.ToString("dd-MM-yyyy hh:mm"),
+                           startDate = redeem.startDate.ToString("yyyy-MM-dd"),
+                           endDate = redeem.endDate.ToString("yyyy-MM-dd"),
+                           employeeName = employee != null ? employee.Name : null,  // Use null conditional for employee fields
+                           employeeEmail = employee != null ? employee.Email : null,
+                           employeeMobile = employee != null ? employee.Mobile : 0
                        }).ToList();
             return res;
                      
         }
 
-        public List<JyotishRatingViewModel> PendingRatingList()
+        //approve redeem code
+        public bool ApproveRedeem(int RedeemId)
+        {
+            var res = _context.RedeamCode.Where(e => e.Id == RedeemId && e.status && !e.appstatus).FirstOrDefault();
+            if (res != null)
+            {
+                var plan = _context.Subscriptions.Where(e => e.SubscriptionId == res.PlanId && e.Status).FirstOrDefault();
+                var jyotish = _context.JyotishRecords.Where(e => e.Id == res.jyotishId && e.Status).FirstOrDefault();
+                res.appstatus = true;
+                _context.RedeamCode.Update(res);
+
+                string newMessage = $@"
+           <!DOCTYPE html>
+            <html lang=""en"">
+            <head>
+    <meta charset=""UTF-8"">
+    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+    <title>My Jyotish G Email</title>
+    <style>
+        body {{
+            font-family: Arial, sans-serif;
+        }}
+        .container {{
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }}
+        .header {{
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }}
+        .content {{
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }}
+        .otp {{
+            font-size: 20px;
+            font-weight: bold;
+            color: #000;
+        }}
+        .logo {{
+            margin: 20px 0;
+            text-align: center;
+        }}
+        .logo img {{
+            max-width: 150px;
+        }}
+        .footer {{
+            font-size: 14px;
+            color: #555;
+            margin-top: 20px;
+        }}
+        .footer a {{
+            color: #000;
+            text-decoration: none;
+        }}
+    </style>
+</head>
+<body>
+    <div class=""container"">
+       
+         <div class=""logo"">
+            <img src=""https://api.myjyotishg.in/Images/Logo.png"" alt=""My Jyotish G Logo"">
+        </div>
+        <div class=""content"">
+            Hi User,<br><br>
+            Thank you for using myJyotishG! Please use this redeem code for purchase {plan.Name} Plan <br><br>
+
+           Password : <span class=""otp"">{res.ReadeamCode}</span><br><br>
+Expiry : <span>{res.startDate}-{res.endDate}</span>
+
+            If you have any questions, feel free to reach out!
+        </div>
+
+       
+            <div class=""header"" style=""color:orange"">My Jyotish G</div>
+            <h4>www.myjyotishg.in</h4>
+            <h4>myjyotishg@gmail.com</h4>
+            <h4>7985738804</h4>
+            
+        
+    </div>
+</body>
+</html>
+";
+                string NewSubject = $"Redeem Code for {plan.Name}";
+
+
+
+                AccountServices.SendEmail(newMessage, jyotish.Email, NewSubject);
+            }
+            return _context.SaveChanges()>0;
+        }
+
+		//reject redeem code
+		public bool RejectRedeem(int RedeemId)
+		{
+			var res = _context.RedeamCode.Where(e => e.Id == RedeemId && e.status && !e.appstatus).FirstOrDefault();
+			if (res != null)
+			{
+				res.status = false;
+				_context.RedeamCode.Update(res);
+			}
+			return _context.SaveChanges() > 0;
+		}
+
+		public List<JyotishRatingViewModel> PendingRatingList()
         {
             var record = _context.JyotishRating.Where(x => x.Status == false).Include(x => x.Jyotish).Include(x => x.User).Select(x => new JyotishRatingViewModel
             {

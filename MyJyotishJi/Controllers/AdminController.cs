@@ -1235,7 +1235,8 @@ namespace MyJyotishJiApi.Controllers
                     discountAmount = float.Parse(httpRequest.Form["discountAmount"]),
                     email = httpRequest.Form["email"],
                     startDate = Convert.ToDateTime(httpRequest.Form["startDate"]),
-                    endDate = Convert.ToDateTime(httpRequest.Form["endDate"])
+                    endDate = Convert.ToDateTime(httpRequest.Form["endDate"]),
+                    EId = Convert.ToInt32(httpRequest.Form["EId"])
                 };
                 var result = _admin.AddRedeamCode(rcode);
                 if (result)
@@ -1255,7 +1256,39 @@ namespace MyJyotishJiApi.Controllers
             }
         }
 
-        [HttpGet("PendingRatingList")]
+        //update approve status
+        [HttpGet("ApproveRedeemCode")]
+        public IActionResult ApproveRedeem(int redeemId)
+        {
+            var res = _admin.ApproveRedeem(redeemId);
+            if (res)
+            {
+                return Ok(new { status = 200, message = "Redeem Code Approved" });
+            }
+            else
+            {
+				return Ok(new { status = 500, message = "some error occured" });
+
+			}
+
+		} 
+        [HttpGet("RejectRedeemCode")]
+        public IActionResult RejectRedeem(int redeemId)
+        {
+            var res = _admin.RejectRedeem(redeemId);
+            if (res)
+            {
+                return Ok(new { status = 200, message = "Redeem Code Rejected" });
+            }
+            else
+            {
+				return Ok(new { status = 500, message = "some error occured" });
+
+			}
+
+		}
+
+		[HttpGet("PendingRatingList")]
         public IActionResult PendingRatingList()
         {
             try

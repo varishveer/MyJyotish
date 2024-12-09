@@ -118,6 +118,9 @@ namespace BusinessAccessLayer.Abstraction
         public dynamic GetRedeemRequest();
         public dynamic getRedeemCodeForApprove();
 
+        public bool ApproveRedeem(int RedeemId);
+        public bool RejectRedeem(int RedeemId);
 
-    }
+
+	}
 }
