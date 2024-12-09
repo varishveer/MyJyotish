@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,8 @@ namespace ModelAccessLayer.Models
         public string ReadeamCode { get; set; }
         public float discount { get; set; }
         public float discountAmount { get; set; }
+        [AllowNull]
+
         public int? EId { get; set; }
         public bool appstatus { get; set; }
 
