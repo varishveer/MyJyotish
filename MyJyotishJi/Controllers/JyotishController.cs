@@ -993,12 +993,12 @@ namespace MyJyotishGApi.Controllers
         }
 
         
-        [HttpGet("AppointmentSlotDtails")]
-        public IActionResult AppointmentSlotDtails(int Id)
+        [HttpGet("AppointmentSlotDetails")]
+        public IActionResult AppointmentSlotDetails(int Id)
         {
             try
             {
-                var result = _jyotish.AppointmentSlotDtails(Id);
+                var result = _jyotish.AppointmentSlotDetails(Id);
 
                 if (result == null )
                 {

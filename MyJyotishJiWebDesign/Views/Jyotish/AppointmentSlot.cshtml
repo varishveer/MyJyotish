@@ -1,10 +1,9 @@
-﻿
-@{
+﻿@{
     Layout = "JyotishLayout";
 
 }
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -306,11 +305,11 @@
             <h5 class="mb-3 text-primary fw-bold">Add Appointment Slot</h5>
             <hr />
             <form>
-               <div class="row">
-                   <div class="col-sm-12">
-                       <div class="row">
-                           <div class="col-sm-12">
-                               Appointment Date
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                Appointment Date
                                 <div class="reservation-box">
                                     <div class="top d-flex gap-3 flex-wrap">
                                         <div class="static">
@@ -324,8 +323,8 @@
                                                 <label for="date-from">End</label>
                                                 <input type="date" id="date-checkout" class="date-field" name"dateTo">
                                             </div>
-                                            
-                                            
+
+
                                         </div>
                                         <div class="static">
                                             <div class="input-container" id="date-picker-container">
@@ -354,7 +353,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                       
+
                                         <div class="static ">
                                             <div class="input-container" id="date-picker-container">
                                                 <label for="date-from">Skip Date (Optional)</label>
@@ -369,24 +368,24 @@
                                         </div>
                                         <div class="button-container  ">
                                             <span class="button ok" id="btnsubmit">Create</span>
-                                        </div> 
+                                        </div>
                                     </div>
                                     <div class="bottom">
                                     </div>
                                 </div>
 
-                               
-                           </div>
-                       </div>
-                   </div>
-               </div>                    
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             </form>
         </div>
     </div>
 </div>
 
-<div class="container mt-5" id="appointmentSlotDetailDiv">
+@* <div class="container mt-5" id="appointmentSlotDetailDiv">
     <div class="card shadow-sm">
         <div class=" text-center p-1" style="background-color:#009CFF;">
             <h3 class=" text-white p-0 m-0">Appointment Slot Details</h3>
@@ -394,11 +393,11 @@
         <div class="card-body">
             <div class="row mb-3">
                 <div class="col-md-4">
-                    
-                        <strong>From Date:</strong>
-                        <span id="fromDate" class=""></span>
-                   
-                    
+
+                    <strong>From Date:</strong>
+                    <span id="fromDate" class=""></span>
+
+
                 </div>
 
                 <div class="col-md-4">
@@ -410,10 +409,10 @@
                     <span id="duration" class=""></span> minutes
                 </div>
                 <div class="col-md-4">
-                    
-                        <strong>From Time:</strong>
-                        <span id="fromTime" class=""></span>
-                  
+
+                    <strong>From Time:</strong>
+                    <span id="fromTime" class=""></span>
+
                 </div>
 
                 <div class="col-md-4">
@@ -421,50 +420,156 @@
                     <span id="toTime" class=""></span>
                 </div>
             </div>
-          
-           
-           
-           
+
+
+
+
+        </div>
+    </div>
+</div>
+ *@
+
+<div class="container mt-5" id="appointmentSlotDetailDiv">
+    <div class="card shadow-sm">
+        <div class="text-center p-1" style="background-color:#009CFF;">
+            <h3 class="text-white p-0 m-0">Appointment Slot Details</h3>
+        </div>
+        <div class="card-body">
+            <div id="appointmentDetailsContainer"></div>
         </div>
     </div>
 </div>
 
-
 <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var jyotishId = localStorage.getItem('Id');
-        var apiUrl = BaseUrl + `Api/Jyotish/AppointmentSlotDtails?Id=${jyotishId}`;
+    document.addEventListener('DOMContentLoaded', function () {
+        var jyotishId = localStorage.getItem('Id');
+        if (!jyotishId) {
+            console.error('Jyotish ID not found in localStorage');
+            return;
+        }
+
+        // Assuming BaseUrl is already defined globally
+        var apiUrl = `${BaseUrl}Api/Jyotish/AppointmentSlotDetails?Id=${jyotishId}`;
+
         var headers = {
             'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
             'Content-Type': 'application/json',
         };
-            // Make the API call using fetch()
-        fetch(apiUrl, { headers: headers })
-                .then(response => {
-                    if (response.status !== 200 ) {
-                        throw new Error('Network response was not ok');
-                        $('#appointmentSlotDetailDiv').hide();
-                    }
-                    return response.json();  // Parse the JSON data from the response
-                })
-                .then(data => {
-                    // Populate the HTML placeholders with data
-                    document.getElementById('fromDate').textContent = data.data.dateFrom;
-                    document.getElementById('toDate').textContent = data.data.dateTo;
-                    document.getElementById('fromTime').textContent = data.data.timeFrom;
-                    document.getElementById('toTime').textContent = data.data.timeTo;
-                    document.getElementById('duration').textContent = data.data.timeDuration;
 
+        function formatDate(date) {
+            if (!date) return 'N/A';
+
+            var d = new Date(date);
+            var day = ("0" + d.getDate()).slice(-2);  // Add leading zero if day < 10
+            var month = ("0" + (d.getMonth() + 1)).slice(-2);  // Add leading zero if month < 10
+            var year = d.getFullYear();
+
+            return day + '-' + month + '-' + year; // Format as dd-MM-yyyy
+        }
+
+        fetch(apiUrl, { headers: headers })
+            .then(response => {
+              
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();  
+            })
+            .then(data => {
                
-                })
-                .catch(error => {
-                    // Handle any errors that occur during the fetch
-                    console.error('There was a problem with the fetch operation:', error);
-                    const container = document.getElementById('AppointmentSlotDetails');
-                    container.innerHTML = '<p>Error fetching appointment details. Please try again later.</p>';
-                });
-        });
-    </script> 
+                if (data && Array.isArray(data.data) && data.data.length > 0) {
+                  
+                    const container = document.getElementById('appointmentDetailsContainer');
+                    container.innerHTML = ''; 
+
+                   
+                    data.data.forEach(slot => {
+                        const slotDiv = document.createElement('div');
+                        slotDiv.classList.add('row', 'mb-3');
+
+                        
+                        slotDiv.innerHTML = `
+                                <div class="col-md-4">
+                                    <strong>From Date:</strong>
+                                    <span>${slot.dateFrom || 'N/A'}</span>
+                                </div>
+                                <div class="col-md-4">
+                                    <strong>To Date:</strong>
+                                    <span>${slot.dateTo || 'N/A'}</span>
+                                </div>
+                                <div class="col-md-4">
+                                    <strong>Duration:</strong>
+                                    <span>${slot.timeDuration || 'N/A'}</span> minutes
+                                </div>
+                                <div class="col-md-4">
+                                    <strong>From Time:</strong>
+                                    <span>${slot.timeFrom || 'N/A'}</span>
+                                </div>
+                                <div class="col-md-4">
+                                    <strong>To Time:</strong>
+                                    <span>${slot.timeTo || 'N/A'}</span>
+                                </div>
+
+                            `;
+
+                        
+                        container.appendChild(slotDiv);
+                        container.appendChild('<hr/>');
+
+                    });
+                } else {
+                    console.error('Unexpected data format:', data);
+                    // Handle unexpected data format
+                    document.getElementById('appointmentSlotDetailDiv').innerHTML = '<p>No appointment details found.</p>';
+                }
+            })
+            .catch(error => {
+                // Handle any errors that occur during the fetch
+                console.error('There was a problem with the fetch operation:', error);
+                // Hide the appointment slot detail div and show an error message
+                document.getElementById('appointmentSlotDetailDiv').style.display = 'none';
+                const container = document.createElement('div');
+                container.innerHTML = '<p>Error fetching appointment details. Please try again later.</p>';
+                document.body.appendChild(container); // Optionally append to the body or any other element
+            });
+    });
+</script>
+
+@* <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var jyotishId = localStorage.getItem('Id');
+        var apiUrl = BaseUrl + `Api/Jyotish/AppointmentSlotDetails?Id=${jyotishId}`;
+    var headers = {
+        'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+        'Content-Type': 'application/json',
+    };
+        // Make the API call using fetch()
+    fetch(apiUrl, { headers: headers })
+            .then(response => {
+                if (response.status !== 200 ) {
+                    throw new Error('Network response was not ok');
+                    $('#appointmentSlotDetailDiv').hide();
+                }
+                return response.json();  // Parse the JSON data from the response
+            })
+            .then(data => {
+                // Populate the HTML placeholders with data
+                document.getElementById('fromDate').textContent = data.data.dateFrom;
+                document.getElementById('toDate').textContent = data.data.dateTo;
+                document.getElementById('fromTime').textContent = data.data.timeFrom;
+                document.getElementById('toTime').textContent = data.data.timeTo;
+                document.getElementById('duration').textContent = data.data.timeDuration;
+
+
+            })
+            .catch(error => {
+                // Handle any errors that occur during the fetch
+                console.error('There was a problem with the fetch operation:', error);
+                const container = document.getElementById('AppointmentSlotDetails');
+                container.innerHTML = '<p>Error fetching appointment details. Please try again later.</p>';
+            });
+    });
+</script> *@
 
 <div class="container mt-4" id="skipDateDiv">
     <div class="text-end mb-3"> <button class="btn btn-warning  text-light" data-bs-toggle="modal" data-bs-target="#editAppointmentModal">Remove Appointment slot</button></div>
@@ -481,7 +586,7 @@
                             <th>Id</th>
                             <th>Date</th>
                             <th>Time Duration</th>
-                         
+
                         </tr>
                     </thead>
                     <tbody class="skipDateTBody">
@@ -514,7 +619,7 @@
                             <th>Time From</th>
                             <th>Time To</th>
                             <th>Status</th>
-                          
+
                         </tr>
                     </thead>
                     <tbody>
@@ -537,20 +642,20 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body skipmodal-body">
-<p class="text-center text-secondary mb-5">Please Select any option to remove from your slot. please select carefully if you remove any slot then you are not able to recover it again.</p>
+                <p class="text-center text-secondary mb-5">Please Select any option to remove from your slot. please select carefully if you remove any slot then you are not able to recover it again.</p>
                 <div class="justify-content-center d-flex gap-4">
-                <div class="static ">
-                    <div class="input-container" id="date-picker-container">
-                        <label for="date-from">Skip Date (Optional)</label>
-                        <input type="date" id="updateskipDate" class="date-field text-secondary" name"">
-                    </div>
+                    <div class="static ">
+                        <div class="input-container" id="date-picker-container">
+                            <label for="date-from">Skip Date (Optional)</label>
+                            <input type="date" id="updateskipDate" class="date-field text-secondary" name"">
+                        </div>
 
-                </div>
-                <div class=" skipDays">
-                    <p class="m-0 text-primary">Skip Days (Optional)</p>
-                    <input type="checkbox" id="updatesaturday" name="saturday" class="form-check-inline" value="1" />Satuday &nbsp;
-                    <input type="checkbox" name="sunday" id="updatesunday" class="form-check-inline" value="2" />Sunday
-                </div>
+                    </div>
+                    <div class=" skipDays">
+                        <p class="m-0 text-primary">Skip Days (Optional)</p>
+                        <input type="checkbox" id="updatesaturday" name="saturday" class="form-check-inline" value="1" />Satuday &nbsp;
+                        <input type="checkbox" name="sunday" id="updatesunday" class="form-check-inline" value="2" />Sunday
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -597,7 +702,7 @@
                 cancelButtonColor: "#d33",
                 confirmButtonText: "Yes",
             }).then((result) => {
-                
+
                 if (result.isConfirmed) {
                     Swal.fire({
                         title: "Processing Your Request",
@@ -606,9 +711,9 @@
                             Swal.showLoading();
                         }
                     })
-           
 
-            
+
+
             $.ajax({
                 url: BaseUrl+'api/Jyotish/AddAppointmentSlot',
                 type: 'POST',
@@ -622,8 +727,8 @@
                     timeFrom: timeFrom,
                     timeTo: timeTo,
                     skipDate: skipDate,
-                    saturday: saturday, 
-                    sunday: sunday, 
+                    saturday: saturday,
+                    sunday: sunday,
                     timeDuration: parseInt(timeDuration, 10),
                     jyotishId: parseInt(jyotishId, 10)
                 }),
@@ -693,7 +798,7 @@
         //                 <td>${slot.timeFrom}</td>
         //                 <td>${slot.timeTo}</td>
         //                 <td>${slot.status}</td>
-                       
+
         //             </tr>`);
         //             });
         //         });
@@ -764,7 +869,7 @@
                     });
                 }
             });
-        
+
         }
 
         skipDateList();
@@ -785,7 +890,7 @@
                     cancelButtonColor: "#d33",
                     confirmButtonText: "Yes",
                 }).then((result) => {
-                   
+
                     if (result.isConfirmed) {
                         Swal.fire({
                             title: "Processing Your Request",
@@ -843,18 +948,18 @@
                     icon: 'warning',
                     confirmButtonText: 'Close'
                 });
-             
+
             }
         })
 
-       
+
         $(document).on('click', '.editfeature', function () {
             const id = $(this).data('id');
             const date = $(this).data('date'); // Assuming this is in MM/DD/YYYY format
             const timeFrom = $(this).data('timefrom');
             const timeTo = $(this).data('timeto');
             const timeDuration = $(this).data('duration');
-             
+
             // Convert date from MM/DD/YYYY to YYYY-MM-DD
             const dateParts = date.split('/');
             const formattedDate = `${dateParts[2]}-${dateParts[0].padStart(2, '0')}-${dateParts[1].padStart(2, '0')}`; // YYYY-MM-DD
@@ -871,10 +976,10 @@
             $('#btnsubmit').hide();
         });
 
-       
+
         $("#btnupdate").on('click', function (e) {
             e.preventDefault();
-             
+
             const id = $("#id").val();
             const date = $("#date").val(); // Ensure this is in YYYY-MM-DD format
             const timeFrom = $("#timeFrom").val(); // Get the time value
@@ -989,25 +1094,25 @@
 <script>
 
 
-    const today = new Date();
+        const today = new Date();
 
-const formattedToday = today.toISOString().split('T')[0];
+    const formattedToday = today.toISOString().split('T')[0];
 
-// Set the min and max attributes on the date input
-    const dateFrom = document.getElementById('date-checkin');
-    const dateTo = document.getElementById('date-checkout');
-dateFrom.setAttribute('min', formattedToday); // Current date
-dateFrom.addEventListener("input",function(){
-        let fromDate = new Date(this.value);
-        dateTo.setAttribute('min', this.value);
-        const maxDate = new Date(fromDate);
-        maxDate.setDate(fromDate.getDate() + 90); // Add 90 days
+    // Set the min and max attributes on the date input
+        const dateFrom = document.getElementById('date-checkin');
+        const dateTo = document.getElementById('date-checkout');
+    dateFrom.setAttribute('min', formattedToday); // Current date
+    dateFrom.addEventListener("input",function(){
+            let fromDate = new Date(this.value);
+            dateTo.setAttribute('min', this.value);
+            const maxDate = new Date(fromDate);
+            maxDate.setDate(fromDate.getDate() + 90); // Add 90 days
 
-        // Format the max date as YYYY-MM-DD
-        const formattedMaxDate = maxDate.toISOString().split('T')[0];
-        dateTo.setAttribute('max', formattedMaxDate);
-        dateTo.value = formattedMaxDate
-        $("#skipDate").attr("min", this.value)
-        $("#skipDate").attr("max", formattedMaxDate)
-})
+            // Format the max date as YYYY-MM-DD
+            const formattedMaxDate = maxDate.toISOString().split('T')[0];
+            dateTo.setAttribute('max', formattedMaxDate);
+            dateTo.value = formattedMaxDate
+            $("#skipDate").attr("min", this.value)
+            $("#skipDate").attr("max", formattedMaxDate)
+    })
 </script>

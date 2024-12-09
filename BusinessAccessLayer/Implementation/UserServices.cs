@@ -362,12 +362,12 @@ namespace BusinessAccessLayer.Implementation
   
         }
 
-        public List<AppointmentDetailViewModel> getAllAppointment(int Id)
+        public List<AppointmentDetailViewModel> UpcommingAppointment(int Id)
         {
             var User = _context.Users.Where(x => x.Id == Id).FirstOrDefault();
             if(User == null) { return null; }
-
-            var Records = _context.AppointmentRecords.Where(x => x.UserId == Id)  // Filter by the userId
+            
+            var Records = _context.AppointmentRecords.Where(x => x.UserId == Id&&  x.Date >= DateTime.Now.Date)  // Filter by the userId
              .Join(_context.Users,
                    record => record.UserId,
                    user => user.Id,
@@ -395,6 +395,41 @@ namespace BusinessAccessLayer.Implementation
                    }).OrderByDescending(e=>e.Id)
              .ToList();
             return Records; 
+        }
+
+        public List<AppointmentDetailViewModel> AppointmentHistory(int Id)
+        {
+            var User = _context.Users.Where(x => x.Id == Id).FirstOrDefault();
+            if (User == null) { return null; }
+
+            var Records = _context.AppointmentRecords.Where(x => x.UserId == Id && x.Date < DateTime.Now.Date)  // Filter by the userId
+             .Join(_context.Users,
+                   record => record.UserId,
+                   user => user.Id,
+                   (record, user) => new { record, user })  // First join to get the user's details
+             .Join(_context.JyotishRecords,  // Join with JyotishRecords instead of Users
+                   combined => combined.record.JyotishId,
+                   jyotish => jyotish.Id,
+                   (combined, jyotish) => new { combined.record, combined.user, jyotish }) // Get Jyotish's details from JyotishRecords
+             .Join(_context.AppointmentSlots,
+                   combined => combined.record.SlotId,
+                   slot => slot.Id,
+                   (combined, slot) => new AppointmentDetailViewModel
+                   {
+                       Id = combined.record.Id,
+                       UserName = combined.jyotish.Name,           // Store Jyotish's Name
+                       UserEmail = combined.jyotish.Email,         // Store Jyotish's Email
+                       UserMobile = combined.jyotish.Mobile,       // Store Jyotish's Mobile
+                       UserId = combined.jyotish.Id,            // Added JyotishId
+                       Problem = combined.record.Problem,
+                       Date = slot.Date,
+                       Time = slot.TimeFrom,
+                       Status = combined.record.ArrivedStatus == 1 ? "Completed" : "Not Arrived",
+                       Amount = combined.record.Amount,
+                       currentDate = DateTime.Now.Date.ToString("dd-MM-yyyy")
+                   }).OrderByDescending(e => e.Id)
+             .ToList();
+            return Records;
         }
 
         public dynamic GetProblemSolutionDetail(int appointmentId)

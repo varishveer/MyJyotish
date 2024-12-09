@@ -1,9 +1,4 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-
+﻿@* 
 <style>
     .appointment-cont{
         margin-top:4rem;
@@ -28,7 +23,7 @@
     <h5 class="text-secondary border-bottom pb-2 text-center my-4 appoinmentHeader">Upcomming Appointments</h5>
     <div class="row">
         <div class="col-sm-12">
-    <div class="my-3 px-5 fw-bold text-end"><button id="AppoinmentHistory" class="btn btn-warning fw-bold text-light">Appointment History</button></div>
+    <div class="my-3 px-5 fw-bold text-end">
             <div class="row justify-content-center gap-3 appointment">
                
             </div>
@@ -45,8 +40,8 @@
 
             return reversedDate;
         }
-    
-    var appoinmentUrl = BaseUrl + `api/User/getAllAppointment?Id=${localStorage.getItem('userId')}`;
+
+        var appoinmentUrl = BaseUrl + `api/User/UpcommingAppointment?Id=${localStorage.getItem('userId')}`;
     let appoinmentArray
     $.ajax({
         url: appoinmentUrl,
@@ -64,32 +59,8 @@
             console.log(err)
         }
     }).then(()=>{
-            let filterData = "Upcomming"
-            $("#AppoinmentHistory").click(function(){
-                if ($(this).text() == "Appointment History") {
-                $(this).text("Upcomming Appointment")
-                filterData = "Completed"
-                    $(".appoinmentHeader").text("Appointments History")
-            }else{
-                $(this).text("Appointment History")
-                filterData = "Upcomming"
-
-                    $(".appoinmentHeader").text("Upcomming Appointments")
-
-            }
-                filterRecords(filterData);
-            })
-            function filterRecords(fdata){
-                let newAppoinment;
-                if (fdata == "Upcomming"){
-         newAppoinment = appoinmentArray.filter(function (d) {
-                        return d.status == fdata && reverseDate(d.date.split("T")[0])>=d.currentDate
-               })
-                }else{
-                    newAppoinment = appoinmentArray.filter(function (d) {
-                        return d.status == fdata || reverseDate(d.date.split("T")[0])<d.currentDate                    })
-                }
-              
+         
+           
                 $(".appointment").empty();
         if (newAppoinment.length > 0) {
     newAppoinment.forEach(function (d, i) {
@@ -120,4 +91,102 @@
     })
 
     })
+</script> *@
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@{
+}
+
+<style>
+    .appointment-cont {
+        margin-top: 4rem;
+        margin-bottom: 4rem;
+        background: #f0f0f0;
+    }
+
+    body {
+        background: url("https://api.myjyotishg.in/astrologer-bg.jpg");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        backdrop-filter: blur(3px);
+    }
+
+    .appointment > div {
+        background: rgb(255, 255, 255, 0.7);
+    }
+</style>
+
+<div class="container appointment-cont py-4 pb-5 shadow rounded">
+    <h5 class="text-secondary border-bottom pb-2 text-center my-4 appoinmentHeader">Upcoming Appointments</h5>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="my-3 px-5 fw-bold ">
+                <div class="row justify-content-center gap-3 appointment"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        function reverseDate(dateString) {
+            const parts = dateString.split('-');
+            const reversedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
+            return reversedDate;
+        }
+
+        var appointmentUrl = BaseUrl + `api/User/UpcommingAppointment?Id=${localStorage.getItem('userId')}`;
+        let appointmentArray;
+
+        $.ajax({
+            url: appointmentUrl,
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                'Content-Type': 'application/json'
+            },
+            success: function (response) {
+                console.log(response);
+                appointmentArray = response.data;
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        }).then(() => {
+            $(".appointment").empty();
+            if (appointmentArray && appointmentArray.length > 0) {
+                appointmentArray.forEach(function (d) {
+                    // Assuming you want to check the status here
+                    let fdata = d.status || "Not Confirmed"; // Default status if not available
+
+                    let cards = `
+                            <div class="col-sm-5 col-md-5 border shadow-sm rounded p-3">
+                                <a href='/Home/JyotishProfile?Id=${d.userId}' class='text-decoration-none text-secondary'>
+                                    <div class="row fw-semi-bold">
+                                        <div class="col-sm-6">
+                                            Name : ${d.userName}<br />
+                                            Fees : ${d.amount != null ? d.amount + " paid" : "0"}<br />
+                                            Problem : ${d.problem}<br />
+                                        </div>
+                                        <div class="col-sm-6">
+                                            Date : ${reverseDate(d.date.split("T")[0])}<br />
+                                            Time : ${d.time}<br />
+                                            Status : ${fdata}
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        `;
+
+                    $(".appointment").append(cards);
+                });
+            } else {
+                $(".appointment").html(`<p class='my-5 text-center text-secondary'>There are no appointments yet.</p>`);
+            }
+        });
+    });
 </script>
