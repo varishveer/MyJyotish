@@ -1605,6 +1605,7 @@ namespace BusinessAccessLayer.Implementation
                         {
                             redeemRequest.RedeemStatus = true;
                             _context.RedeemCodeRequest.Update(redeemRequest);
+                            _context.SaveChanges();
                         }
                             transaction.Commit();
 
