@@ -1553,6 +1553,7 @@ namespace BusinessAccessLayer.Implementation
             try
             {
                 var res = _context.JyotishRecords.Where(e => e.Email == model.email && e.Status).FirstOrDefault();
+                
                 if (model.discount > 50)
                 {
                     return false;
@@ -1569,8 +1570,21 @@ namespace BusinessAccessLayer.Implementation
                         date = DateTime.Now,
                         startDate = model.startDate,
                         endDate = model.endDate,
-                        status = true
+                        status = true,
+                       
                     };
+
+                var res2 = _context.Employees.Where(e => e.Id == model.EId && e.status).FirstOrDefault();
+                    if (res2 != null)
+                    {
+                        rcode.EId = res2.Id;
+                        rcode.appstatus = false;
+                    }
+                    else
+                    {
+                        rcode.EId = null;
+                        rcode.appstatus = true;
+                    }
 
                     _context.RedeamCode.Add(rcode);
                     if (_context.SaveChanges() > 0)

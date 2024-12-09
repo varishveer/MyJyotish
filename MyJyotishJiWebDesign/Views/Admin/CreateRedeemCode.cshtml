@@ -350,7 +350,12 @@
 		let email = $("#userEmail").val()
 		let startDate = $("#startDate").val()
 		let endDate = $("#endDate").val()
+		let EId=localStorage.getItem("Eid")
+		debugger
 		let formData = new FormData()
+if(EId!=undefined || EId!=null || EId!=""){
+	formData.append("EId",EId)
+}
 		formData.append("planId", plan)
 		formData.append("redeamCode", redeamCode)
 		formData.append("email", email)
