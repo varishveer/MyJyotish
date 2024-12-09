@@ -1236,7 +1236,7 @@ namespace MyJyotishJiApi.Controllers
                     email = httpRequest.Form["email"],
                     startDate = Convert.ToDateTime(httpRequest.Form["startDate"]),
                     endDate = Convert.ToDateTime(httpRequest.Form["endDate"]),
-                    EId = Convert.ToInt32(httpRequest.Form["EId"])
+                    EId = Convert.ToInt32(string.IsNullOrEmpty(httpRequest.Form["EId"])?0: httpRequest.Form["EId"])
                 };
                 var result = _admin.AddRedeamCode(rcode);
                 if (result)
