@@ -469,35 +469,31 @@
 
         fetch(apiUrl, { headers: headers })
             .then(response => {
-              
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
-                return response.json();  
+                return response.json();
             })
             .then(data => {
-               
                 if (data && Array.isArray(data.data) && data.data.length > 0) {
-                  
                     const container = document.getElementById('appointmentDetailsContainer');
-                    container.innerHTML = ''; 
+                    container.innerHTML = '';  // Clear previous data if any
 
-                   
                     data.data.forEach(slot => {
                         const slotDiv = document.createElement('div');
                         slotDiv.classList.add('row', 'mb-3');
-                        debugger
+
                         var dateFrom = formatDate(slot.dateFrom);
                         var dateTo = formatDate(slot.dateTo);
-                      
+
                         slotDiv.innerHTML = `
                                 <div class="col-md-4">
                                     <strong>From Date:</strong>
-                                        <span>${dateFrom || 'N/A'}</span>
+                                    <span>${dateFrom || 'N/A'}</span>
                                 </div>
                                 <div class="col-md-4">
                                     <strong>To Date:</strong>
-                                        <span>${dateTo || 'N/A'}</span>
+                                    <span>${dateTo || 'N/A'}</span>
                                 </div>
                                 <div class="col-md-4">
                                     <strong>Duration:</strong>
@@ -511,13 +507,14 @@
                                     <strong>To Time:</strong>
                                     <span>${slot.timeTo || 'N/A'}</span>
                                 </div>
-
                             `;
 
-                        
+                        // Append slot details div
                         container.appendChild(slotDiv);
-                        container.appendChild('<hr/>');
 
+                        // Append <hr /> element
+                        const hr = document.createElement('hr');
+                        container.appendChild(hr);
                     });
                 } else {
                     console.error('Unexpected data format:', data);
@@ -536,6 +533,7 @@
             });
     });
 </script>
+
 
 @* <script>
     document.addEventListener('DOMContentLoaded', function () {

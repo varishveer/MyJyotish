@@ -914,8 +914,76 @@ namespace BusinessAccessLayer.Implementation
             }
         }
 
+        public List<AppointmentSlotDetailsJyotish> SlotDetails()
+        {
+
+           
 
 
+            var Slots = _context.Slots
+                .Where(slot =>slot.Date >= DateOnly.FromDateTime(DateTime.Now))
+                .OrderBy(slot => slot.Date)
+                .ToList();
+
+
+            if (!Slots.Any())
+                return null;
+
+
+            List<AppointmentSlotDetailsJyotish> records = new List<AppointmentSlotDetailsJyotish>();
+
+
+            AppointmentSlotDetailsJyotish newRecord = new AppointmentSlotDetailsJyotish();
+
+            for (int i = 0; i < Slots.Count; i++)
+            {
+
+                if (i == 0)
+                {
+                    newRecord.dateFrom = Slots[i].Date;
+                    newRecord.timeFrom = Slots[i].Time;
+                }
+                else
+                {
+
+                    if (Slots[i].TimeDuration != Slots[i - 1].TimeDuration)
+                    {
+
+                        newRecord.timeTo = Slots[i - 1].Time;
+                        newRecord.timeDuration = Slots[i - 1].TimeDuration;
+                        newRecord.dateTo = Slots[i - 1].Date;
+
+
+                        records.Add(newRecord);
+
+
+                        newRecord = new AppointmentSlotDetailsJyotish
+                        {
+                            dateFrom = Slots[i].Date,
+                            timeFrom = Slots[i].Time
+                        };
+                    }
+                }
+
+
+                if (i == Slots.Count - 1)
+                {
+                    newRecord.timeTo = Slots[i].Time;
+                    newRecord.timeDuration = Slots[i].TimeDuration;
+                    newRecord.dateTo = Slots[i].Date;
+                    records.Add(newRecord);
+                }
+            }
+
+            return records;
+        }
+
+        public List<SlotModel> SkipList()
+        {
+            var SlotList = _context.Slots.Where(x => x.ActiveStatus == 0).ToList();
+            return SlotList;
+
+        }
 
         public string AddFeature(SubscriptionFeatureViewModel model)
         {

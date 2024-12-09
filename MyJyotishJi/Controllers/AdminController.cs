@@ -1817,6 +1817,20 @@ namespace MyJyotishJiApi.Controllers
             var res = _admin.getRedeemCodeForApprove();
             return Ok(new { status = 200, message="data retrieved",data=res});
         }
+       
+        [HttpGet("SlotDetails")]
+        public IActionResult SlotDetails()
+        {
+            var res = _admin.SlotDetails();
+            return Ok(new { status = 200, message="data retrieved",data=res});
+        }
+        
+        [HttpGet("SkipList")]
+        public IActionResult SkipList()
+        {
+            var res = _admin.SkipList();
+            return Ok(new { status = 200, message="data retrieved",data=res});
+        }
 
 
     }

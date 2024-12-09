@@ -21,6 +21,7 @@ namespace ModelAccessLayer.Models
         public int ActiveStatus { get; set; }
         [JsonIgnore]
         public ICollection<SlotBookingModel> SlotBookingRecords { get; set; }
+        [JsonIgnore]
         public ICollection<InterviewFeedbackModel> Feedback { get; set; }
     }
 }
