@@ -350,7 +350,7 @@
                             <div class="collapse" id="redeemCodeRequest">
                                 <ul class="nav nav-collapse">
                                     <li>
-                                        <a href="/Admin/ApproveRedeamCode">
+                                        <a href="/Admin/CreateRedeemCode">
                                             <span class="sub-item">RedeemCode Requests</span>
                                         </a>
                                     </li>
@@ -803,8 +803,7 @@
     <!-- jQuery Vector Maps -->
     <script src="~/assets/js/plugin/jsvectormap/jsvectormap.min.js"></script>
     <script src="~/assets/js/plugin/jsvectormap/world.js"></script>
-    <script src="~/summernote/dist/summernote.min.js"></script>
-
+    s
     <!-- Sweet Alert -->
     <!-- Kaiadmin JS -->
     <script src="~/assets/js/kaiadmin.min.js"></script>
@@ -825,6 +824,8 @@
                     ['view', ['fullscreen', 'codeview']] // remove image/video
                 ]
             });
+
+            $('.table').DataTable();
 
             // Your API URL
             var apiUrl = BaseUrl + 'Api/Admin/NotificationData';
