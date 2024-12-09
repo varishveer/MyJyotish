@@ -814,6 +814,12 @@
     <script src="~/summernote/dist/summernote.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            $('.table').DataTable({
+                "paging": true,
+                "searching": true,
+                "ordering": true,
+                "info": true
+            });
             $('.summernote').summernote({
                 height: 300, // set the height of the editor
                 toolbar: [
@@ -825,12 +831,7 @@
                 ]
             });
 
-            $('.table').DataTable({
-                "paging":true,
-                "searching":true,
-                "ordering":true,
-                "info":true
-            });
+          
 
             // Your API URL
             var apiUrl = BaseUrl + 'Api/Admin/NotificationData';
@@ -921,6 +922,7 @@
             //     }
             // });
         });
+       
     </script>
 
 </body>
