@@ -1,0 +1,92 @@
+﻿
+
+<style>
+    .appointment-cont {
+        margin-top: 4rem;
+        margin-bottom: 4rem;
+        background: #f0f0f0;
+    }
+
+    body {
+        background: url("https://api.myjyotishg.in/astrologer-bg.jpg");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        backdrop-filter: blur(3px);
+    }
+
+    .appointment > div {
+        background: rgb(255, 255, 255, 0.7);
+    }
+</style>
+
+<div class="container appointment-cont py-4 pb-5 shadow rounded">
+    <h5 class="text-secondary border-bottom pb-2 text-center my-4 appoinmentHeader">Appointment History</h5>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="my-3 px-5 fw-bold ">
+                <div class="row justify-content-center gap-3 appointment"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        function reverseDate(dateString) {
+            const parts = dateString.split('-');
+            const reversedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
+            return reversedDate;
+        }
+
+        var appointmentUrl = BaseUrl + `api/User/AppointmentHistory?Id=${localStorage.getItem('userId')}`;
+        let appointmentArray;
+
+        $.ajax({
+            url: appointmentUrl,
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                'Content-Type': 'application/json'
+            },
+            success: function (response) {
+                console.log(response);
+                appointmentArray = response.data;
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        }).then(() => {
+            $(".appointment").empty();
+            if (appointmentArray && appointmentArray.length > 0) {
+                appointmentArray.forEach(function (d) {
+                    // Assuming you want to check the status here
+                    let fdata = d.status || "Not Confirmed"; // Default status if not available
+
+                    let cards = `
+                                <div class="col-sm-5 col-md-5 border shadow-sm rounded p-3">
+                                    <a href='/Home/JyotishProfile?Id=${d.userId}' class='text-decoration-none text-secondary'>
+                                        <div class="row fw-semi-bold">
+                                            <div class="col-sm-6">
+                                                Name : ${d.userName}<br />
+                                                Fees : ${d.amount != null ? d.amount + " paid" : "0"}<br />
+                                                Problem : ${d.problem}<br />
+                                            </div>
+                                            <div class="col-sm-6">
+                                                Date : ${reverseDate(d.date.split("T")[0])}<br />
+                                                Time : ${d.time}<br />
+                                                Status : ${fdata}
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            `;
+
+                    $(".appointment").append(cards);
+                });
+            } else {
+                $(".appointment").html(`<p class='my-5 text-center text-secondary'>There are no appointments yet.</p>`);
+            }
+        });
+    });
+</script>

@@ -312,12 +312,30 @@ namespace MyJyotishGApi.Controllers
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
         }
 
-        [HttpGet("getAllAppointment")]
-        public IActionResult getAllAppointment(int Id)
+        [HttpGet("UpcommingAppointment")]
+        public IActionResult UpcommingAppointment(int Id)
         {
             try
             {
-                var result = _services.getAllAppointment(Id);
+                var result = _services.UpcommingAppointment(Id);
+                if (result == null)
+                {
+                    return Ok(new { Status = 404, Message = "User Not Found" });
+                }
+
+                else { return Ok(new { Status = 200, Data = result }); }
+
+            }
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
+
+        }
+
+         [HttpGet("AppointmentHistory")]
+        public IActionResult AppointmentHistory(int Id)
+        {
+            try
+            {
+                var result = _services.AppointmentHistory(Id);
                 if (result == null)
                 {
                     return Ok(new { Status = 404, Message = "User Not Found" });

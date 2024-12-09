@@ -72,7 +72,7 @@ namespace BusinessAccessLayer.Abstraction
         public dynamic GetWalletHistory(int JyotishId);
         public string RemoveSlotWithskipDates(AppointmentSlotViewModel model);
         public dynamic GetTodayAppointment(int JyotishId);
-        public AppointmentSlotDetailsJyotish AppointmentSlotDtails(int Id);
+        public List<AppointmentSlotDetailsJyotish> AppointmentSlotDetails(int Id);
         public List<SkipdateJyotishViewModel> SkipDateList(int Id);
         public List<JyotishNotificationDataViewModel> NotificationData(int Id);
         public LayoutDataViewModel LayoutData(int Id);

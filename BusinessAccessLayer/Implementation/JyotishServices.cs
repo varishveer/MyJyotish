@@ -1677,40 +1677,72 @@ namespace BusinessAccessLayer.Implementation
         }
 
 
-        public AppointmentSlotDetailsJyotish AppointmentSlotDtails(int Id)
+        public List<AppointmentSlotDetailsJyotish> AppointmentSlotDetails(int Id)
         {
+           
             var Jyotish = _context.JyotishRecords.Where(x => x.Id == Id).FirstOrDefault();
+
+            
             var appointmentSlots = _context.AppointmentSlots
                 .Where(slot => slot.JyotishId == Id && slot.Date >= DateTime.Now)
                 .OrderBy(slot => slot.Date)
                 .ToList();
 
-          
+           
             if (!appointmentSlots.Any())
                 return null;
 
-          
-            var firstDate = appointmentSlots.First().Date;
-            var lastDate = appointmentSlots.Last().Date;
-
             
-            var appointmentDetails = appointmentSlots
-                .Where(slot => slot.ActiveStatus != 0)
-                .GroupBy(slot => slot.Date.Date) 
-                .Select(group => new AppointmentSlotDetailsJyotish
+            List<AppointmentSlotDetailsJyotish> records = new List<AppointmentSlotDetailsJyotish>();
+
+           
+            AppointmentSlotDetailsJyotish newRecord = new AppointmentSlotDetailsJyotish();
+
+            for (int i = 0; i < appointmentSlots.Count; i++)
+            {
+                
+                if (i == 0)
                 {
-                    dateFrom = DateOnly.FromDateTime(firstDate),
-                    dateTo = DateOnly.FromDateTime(lastDate),   
-                    timeFrom = (TimeOnly)Jyotish.TimeFrom,           
-                    timeTo = (TimeOnly)Jyotish.TimeTo,               
-                    timeDuration = group.First().TimeDuration,   
-                   
-                })
-                .FirstOrDefault();
-            return appointmentDetails;
+                    newRecord.dateFrom = DateOnly.FromDateTime(appointmentSlots[i].Date);
+                    newRecord.timeFrom = appointmentSlots[i].TimeFrom;
+                }
+                else
+                {
+                  
+                    if (appointmentSlots[i].TimeDuration != appointmentSlots[i - 1].TimeDuration)
+                    {
+                       
+                        newRecord.timeTo = appointmentSlots[i - 1].TimeTo;
+                        newRecord.timeDuration = appointmentSlots[i - 1].TimeDuration;
+                        newRecord.dateTo = DateOnly.FromDateTime(appointmentSlots[i - 1].Date);
+
+                       
+                        records.Add(newRecord);
+
+                       
+                        newRecord = new AppointmentSlotDetailsJyotish
+                        {
+                            dateFrom = DateOnly.FromDateTime(appointmentSlots[i].Date),
+                            timeFrom = appointmentSlots[i].TimeFrom
+                        };
+                    }
+                }
+
+                
+                if (i == appointmentSlots.Count - 1)
+                {
+                    newRecord.timeTo = appointmentSlots[i].TimeTo;
+                    newRecord.timeDuration = appointmentSlots[i].TimeDuration;
+                    newRecord.dateTo = DateOnly.FromDateTime(appointmentSlots[i].Date);
+                    records.Add(newRecord);
+                }
+            }
+
+            return records;
         }
 
-        public  List<SkipdateJyotishViewModel> SkipDateList(int Id)
+
+        public List<SkipdateJyotishViewModel> SkipDateList(int Id)
         {
 
             var appointmentSlots = _context.AppointmentSlots

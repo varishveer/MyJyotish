@@ -60,6 +60,7 @@ namespace MyJyotishJiWebDesign.Controllers
         public IActionResult SignUp() { return View(); }
         public IActionResult ResetPassword() { return View(); }
         public IActionResult Appointments() { return View(); }
+        public IActionResult AppointmentHistory() { return View(); }
 
         public IActionResult ProblemSolution() { return View(); }
         public IActionResult ProblemSolutionDetails() { return View(); }
