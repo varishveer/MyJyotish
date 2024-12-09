@@ -5,67 +5,391 @@
 }
 
 <style>
-    th{
-        font-size:12px !important;
-    }
+	th {
+		font-size: 12px !important;
+	}
 </style>
 
 <div class="container mt-3">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Sr</th>
-                <th>Jyotish Name</th>
-                <th>Email</th>
-                <th>Mobile</th>
-                <th>Plan Name</th>
-                <th>Plan Type</th>
-                <th>Date</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody id="tablecontainer">
-        </tbody>
-    </table>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Sr</th>
+				<th>Jyotish Name</th>
+				<th>Email</th>
+				<th>Mobile</th>
+				<th>Plan Name</th>
+				<th>Plan Type</th>
+				<th>Date</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody id="tablecontainer">
+		</tbody>
+	</table>
 </div>
+
+
+<!-- Modal for generate redeem code -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5" id="exampleModalLabel">Create Redeem Code</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form class="border rounded p-4" id="redeamForm">
+					<div class="row">
+						<h3 class="text-primary">Redeam Code</h3>
+						<div class="col-sm-12">
+							<div class="row">
+								<div class="col-sm-6 mb-2">
+									Plan
+									<select disabled class="form-select" required name="plan" id="plan">
+										<option>--select plan--</option>
+									</select>
+								</div>
+								<div class="col-sm-6 mb-2 ">
+									Email
+									<div class="d-flex align-items-center">
+										<input type="text" required disabled name="userEmail" id="userEmail" class="form-control" placeholder="User Email" />
+										<span class="border p-2 seeUserDetail rounded" role="button">
+											<i class="fas fa-eye"></i>
+										</span>
+									</div>
+								</div>
+								<div class="col-sm-6 mb-2">
+									Redeam Code
+									<input type="text" required name="redeamCode" id="redeamCode" class="form-control" placeholder="Enter RedeamCode" />
+								</div>
+								<div class="col-sm-6 mb-2">
+									Old Price
+									<input type="text" required readonly name="planPrice" id="planPrice" class="form-control" placeholder="Plan Price" />
+								</div>
+
+								<div class="col-sm-6 mb-2">
+									Discount
+									<input type="text" readonly required name="discount" id="discount" class="form-control" placeholder="plan Discount" />
+								</div>
+								<div class="col-sm-6 mb-2">
+									Discount Amount
+									<input type="text" readonly required name="discount" id="discountamount" class="form-control" placeholder="Discount Amount" />
+								</div>
+								<div class="col-sm-6 mb-2">
+									GST
+									<input type="text" readonly required name="gst" id="gst" class="form-control" placeholder="gst " />
+								</div>
+								<div class="col-sm-6 mb-2">
+									New Price
+									<input type="text" readonly required name="afterDiscount" id="afterDiscount" class="form-control" placeholder="After Discount" />
+								</div>
+								<div class="col-sm-6 mb-2">
+									New Discount
+									<input type="text" name="givenDiscount" required id="givenDiscount" class="form-control" placeholder="Enter Discount" />
+								</div>
+								<div class="col-sm-6 mb-2">
+									New Discount Amount
+									<input type="text" readonly name="givendiscountAmount" required id="givenDiscountAmount" class="form-control" placeholder="Discount Amount" />
+								</div>
+								<div class="col-sm-6 mb-2">
+									Final Price
+									<input type="text" readonly name="finalAmount" required id="finalAmount" class="form-control" placeholder="Final Amount" />
+								</div>
+								<div class="col-sm-6 mb-2">
+									Start Date
+									<input type="date" name="startDate" required id="startDate" class="form-control" placeholder="Discount Amount" />
+								</div>
+								<div class="col-sm-6 mb-2">
+									End Date
+									<input type="date" name="endDate" required id="endDate" class="form-control" placeholder="Final Amount" />
+								</div>
+							</div>
+							<div class="col-sm-12 text-center my-3">
+								<input type="submit" value="Submit" class="btn btn-primary" />
+							</div>
+
+						</div>
+					</div>
+
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Modal user detail -->
+<div class="modal fade " id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content shadow">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5" id="exampleModal1Label">Jyotish Details</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="row">
+							<div class="col-sm-6 mb-2">
+								<div class="row">
+									<div class="col-sm-6">Name </div>
+									<div class="col-sm-6" id="name"></div>
+								</div>
+							</div>
+							<div class="col-sm-6 mb-2">
+								<div class="row">
+									<div class="col-sm-6">Mobile Number</div>
+									<div class="col-sm-6" id="mobno"></div>
+								</div>
+							</div>
+							<div class="col-sm-6 mb-2">
+								<div class="row">
+									<div class="col-sm-6">gender</div>
+									<div class="col-sm-6" id="gender"></div>
+								</div>
+							</div>
+							<div class="col-sm-6 mb-2">
+								<div class="row">
+									<div class="col-sm-6">country</div>
+									<div class="col-sm-6" id="country"></div>
+								</div>
+							</div>
+							<div class="col-sm-6 mb-2">
+								<div class="row">
+									<div class="col-sm-6">state</div>
+									<div class="col-sm-6" id="state"></div>
+								</div>
+							</div>
+							<div class="col-sm-6 mb-2">
+								<div class="row">
+									<div class="col-sm-6">city</div>
+									<div class="col-sm-6" id="city"></div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="row">
+									<div class="col-sm-6">Plan Name</div>
+									<div class="col-sm-6" id="planName"></div>
+								</div>
+							</div>
+							<div class="col-sm-6 mb-2">
+								<div class="row">
+									<div class="col-sm-6">Plan Type</div>
+									<div class="col-sm-6" id="planType"></div>
+								</div>
+							</div>
+							<div class="col-sm-6 mb-2">
+								<div class="row">
+									<div class="col-sm-6">purchase Date</div>
+									<div class="col-sm-6" id="purchaseDate"></div>
+								</div>
+							</div>
+							<div class="col-sm-6 mb-2">
+								<div class="row">
+									<div class="col-sm-6">Expiry Date</div>
+									<div class="col-sm-6" id="expiryDate"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
 <script>
-   function getRedeemRequest() {
-        Swal.fire({
-            title: "Processing Your Request",
-            didOpen: () => {
-                Swal.showLoading();
-            }
-        })
-        $.ajax({
-            url: BaseUrl + "api/admin/GetRedeemRequest",
-            type: "get",
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem("Token")}`
-            },
-            success: function (res) {
-                console.log(res,"dep")
-                if (res.status == 200) {
-                    res.data.forEach(function(d,i){
-                        $("#tablecontainer").append(
-                            `
-<tr>
-    <td class='text-center'>${i+1}</td>
-    <td class='text-center'>${d.jyotishName}</td>
-    <td class='text-center'>${d.email}</td>
-    <td class='text-center'>${d.mobile}</td>
-    <td class='text-center'>${d.planName}</td>
-    <td class='text-center'>${d.planType}</td>
-        <td class='text-center'>${d.requestDate}</td>
-</tr>
-                            `
-                        )
-                    })
+	function getRedeemRequest() {
+		Swal.fire({
+			title: "Processing Your Request",
+			didOpen: () => {
+				Swal.showLoading();
+			}
+		})
+		$.ajax({
+			url: BaseUrl + "api/admin/GetRedeemRequest",
+			type: "get",
+			headers: {
+				'Authorization': `Bearer ${localStorage.getItem("Token")}`
+			},
+			success: function (res) {
+				console.log(res, "dep")
+				if (res.status == 200) {
+					res.data.forEach(function (d, i) {
+						$("#tablecontainer").append(
+							`
+	<tr>
+		<td class='text-center'>${i + 1}</td>
+		<td class='text-center'>${d.jyotishName}</td>
+		<td class='text-center'>${d.email}</td>
+		<td class='text-center'>${d.mobile}</td>
+		<td class='text-center'>${d.planName}</td>
+		<td class='text-center'>${d.planType}</td>
+			<td class='text-center'>${d.requestDate}</td>
+			<td class='text-center'>
+				<button class='btn btn-sm btn-success' onClick='setDataOnModal("${d.email}",${d.planId})' data-bs-toggle="modal" data-bs-target="#exampleModal">Redeem Code</button>
+			</td>
+	</tr>
+								`
+						)
+					})
 
-                }
-                Swal.close();
-            }
-        })
-    }
-    getRedeemRequest();
+				}
+				Swal.close();
+			}
+		})
+	}
+	getRedeemRequest();
 
+	function setDataOnModal(email,planId) {
+		$("#userEmail").val(email)
+		$("#plan").val(planId)
+		$("#plan").change();
+		getjyotishDetail(email)
+	}
+
+	$("#givenDiscount").on("keyup", function () {
+		let damount = (parseInt($(this).val()) / 100) * parseInt($("#afterDiscount").val());
+		$("#givenDiscountAmount").val(damount)
+		$("#finalAmount").val(parseInt($("#afterDiscount").val()) - damount)
+	})
+
+	let planDetail = []
+	$(document).ready(function () {
+		$.ajax({
+			url: BaseUrl + 'api/Admin/GetAllSubscription',
+			type: 'GET',
+			headers: {
+				'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+				'Content-Type': 'application/json',
+			},
+			success: function (res) {
+
+				console.log(res)
+				planDetail = res.data
+				res.data.forEach(function (d) {
+					$("#plan").append(`
+									<option value='${d.subscriptionId}'>${d.name}</option>
+								`)
+				})
+			}
+		})
+
+		$("#plan").on("change", function () {
+			let filterPlan = planDetail.filter(d => d.subscriptionId == $(this).val())[0]
+			$("#planPrice").val(filterPlan.oldPrice)
+			$("#discountamount").val(filterPlan.discountAmount)
+			$("#discount").val(filterPlan.discount)
+			$("#gst").val(filterPlan.gst)
+			$("#afterDiscount").val(filterPlan.newPrice)
+		})
+	})
+
+	function getjyotishDetail(email) {
+		if (email != "") {
+			$.ajax({
+				url: BaseUrl + 'api/Admin/getJyotishByEmail',
+				type: 'GET',
+				headers: {
+					'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+					'Content-Type': 'application/json',
+				},
+				data: { email: email },
+				success: function (res) {
+
+					console.log(res)
+					if (res.status == 200) {
+						if (res.data != null) {
+							let data = res.data;
+							$("#name").text(data.name)
+							$("#mobno").text(data.mobno)
+							$("#gender").text(data.gender)
+							$("#country").text(data.country)
+							$("#state").text(data.state)
+							$("#city").text(data.city)
+							$("#planType").text(data.planType)
+							$("#planName").text(data.planName)
+							var purchaseDate = data.planPurchaseDate.split('T')[0];
+							var expiryDate = data.planExpiryDate.split('T')[0];
+							$("#purchaseDate").text(purchaseDate.split('-').reverse().join('-'))
+							$("#expiryDate").text(expiryDate.split('-').reverse().join('-'))
+						} else {
+							Swal.fire({
+								text: "no record found",
+								title: "warning",
+								icon: "warning"
+							})
+						}
+					}
+				}
+			})
+		}
+	}
+
+	$("#redeamForm").submit(function (e) {
+		e.preventDefault();
+		Swal.fire({
+			title: "Processing Your Request",
+			allowOutsideClick: false,
+			didOpen: () => {
+				Swal.showLoading();
+			}
+		})
+
+		let plan = $("#plan").val()
+		let redeamCode = $("#redeamCode").val()
+		let givenDiscount = $("#givenDiscount").val()
+		let givenDiscountAmount = $("#givenDiscountAmount").val()
+		let email = $("#userEmail").val()
+		let startDate = $("#startDate").val()
+		let endDate = $("#endDate").val()
+		let formData = new FormData()
+		formData.append("planId", plan)
+		formData.append("redeamCode", redeamCode)
+		formData.append("email", email)
+		formData.append("discount", givenDiscount)
+		formData.append("discountAmount", givenDiscountAmount)
+		formData.append("startDate", startDate)
+		formData.append("endDate", endDate)
+		$.ajax({
+			url: BaseUrl + 'api/Admin/AddRedeamCode',
+			type: 'POST',
+			headers: {
+				'Authorization': `Bearer ${localStorage.getItem("Token")}`
+			},
+			processData: false,
+			contentType: false,
+			data: formData,
+			success: function (res) {
+				if (res.status == 200) {
+					Swal.fire({
+						title: "success",
+						text: res.message,
+						icon: "success",
+						didClose: () => {
+							location.reload();
+						}
+					})
+				} else {
+					Swal.fire({
+						title: "error",
+						text: res.message,
+						icon: "error"
+					})
+				}
+			}
+		})
+
+	})
+
+
+	$(".seeUserDetail").click(function () {
+		$("#exampleModal1").modal("show")
+	})
 </script>

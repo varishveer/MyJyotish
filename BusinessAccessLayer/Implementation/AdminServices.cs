@@ -1531,32 +1531,57 @@ namespace BusinessAccessLayer.Implementation
 
         public bool AddRedeamCode(redeamCodeViewModel model)
         {
-            var res = _context.JyotishRecords.Where(e => e.Email == model.email && e.Status).FirstOrDefault();
-            if (model.discount > 50)
+                var transaction = _context.Database.BeginTransaction();
+            try
             {
-                return false;
-            }
-            if (res != null)
-            {
-                redeamCode rcode = new redeamCode
+                var res = _context.JyotishRecords.Where(e => e.Email == model.email && e.Status).FirstOrDefault();
+                if (model.discount > 50)
                 {
-                    PlanId = model.PlanId,
-                    jyotishId = res.Id,
-                    discount = model.discount,
-                    ReadeamCode = model.ReadeamCode,
-                    discountAmount = model.discountAmount,
-                    date=DateTime.Now,
-                    startDate=model.startDate,
-                    endDate=model.endDate,
-                    status = true
-                };
+                    return false;
+                }
+                if (res != null)
+                {
+                    redeamCode rcode = new redeamCode
+                    {
+                        PlanId = model.PlanId,
+                        jyotishId = res.Id,
+                        discount = model.discount,
+                        ReadeamCode = model.ReadeamCode,
+                        discountAmount = model.discountAmount,
+                        date = DateTime.Now,
+                        startDate = model.startDate,
+                        endDate = model.endDate,
+                        status = true
+                    };
 
-                _context.RedeamCode.Add(rcode);
-                return _context.SaveChanges() > 0;
-            }
-            else
+                    _context.RedeamCode.Add(rcode);
+                    if (_context.SaveChanges() > 0)
+                    {
+                        var redeemRequest = _context.RedeemCodeRequest.Where(e => e.planId == model.PlanId && e.jyotishId == res.Id && e.status && !e.RedeemStatus).FirstOrDefault();
+
+                        if (redeemRequest != null)
+                        {
+                            redeemRequest.RedeemStatus = true;
+                            _context.RedeemCodeRequest.Update(redeemRequest);
+                        }
+                            transaction.Commit();
+
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }catch(Exception exp)
             {
-                return false;
+                transaction.Rollback();
+
+				throw exp;
             }
         }
         public List<JyotishRatingViewModel> PendingRatingList()
@@ -2199,6 +2224,7 @@ namespace BusinessAccessLayer.Implementation
             var res = (from redeem in _context.RedeemCodeRequest join jyotish in _context.JyotishRecords on redeem.jyotishId equals jyotish.Id join plan in _context.Subscriptions on redeem.planId equals plan.SubscriptionId where redeem.status && !redeem.RedeemStatus
                        select new
                        {
+                           planId = plan.SubscriptionId,
                            planName = plan.Name,
                            planType = plan.PlanType,
                            jyotishName = jyotish.Name,

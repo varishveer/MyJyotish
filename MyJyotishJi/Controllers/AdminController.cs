@@ -1218,7 +1218,7 @@ namespace MyJyotishJiApi.Controllers
                 var result = _admin.AddRedeamCode(rcode);
                 if (result)
                 {
-                    return Ok(new { status = 200, message = "Record Added Successfully" });
+                    return Ok(new { status = 200, message = "Redeem Code Generated Successfully" });
                 }
                 else
                 {
