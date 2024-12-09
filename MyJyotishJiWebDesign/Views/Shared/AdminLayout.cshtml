@@ -825,7 +825,12 @@
                 ]
             });
 
-            $('.table').DataTable();
+            $('.table').DataTable({
+                "paging":true,
+                "searching":true,
+                "ordering":true,
+                "info":true
+            });
 
             // Your API URL
             var apiUrl = BaseUrl + 'Api/Admin/NotificationData';

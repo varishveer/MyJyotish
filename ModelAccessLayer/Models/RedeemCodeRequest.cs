@@ -14,6 +14,7 @@ namespace ModelAccessLayer.Models
 		public int planId { get; set; }
 		public DateTime RequestDate { get; set; }
 		public bool RedeemStatus { get; set; }
+		public bool appstatus { get; set; }
 		public bool status { get; set; }
 
 
