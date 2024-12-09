@@ -115,6 +115,8 @@ namespace BusinessAccessLayer.Abstraction
         public dynamic getEmployeePages(int employeeId);
 
         public dynamic GetRedeemRequest();
-        
+        public dynamic getRedeemCodeForApprove();
+
+
     }
 }
