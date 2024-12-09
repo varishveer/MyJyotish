@@ -1,345 +1,337 @@
-﻿
-@{
-    Layout = "JyotishLayout";
-   
+﻿@{
+	Layout = "JyotishLayout";
+
 }
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <style>
-    .main-container {
-        overflow: hidden;
-        padding: 15px;
-        border-radius: 0px 10px 10px 0px;
-        box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.3);
-    }
+	.main-container {
+		overflow: hidden;
+		padding: 15px;
+		border-radius: 0px 10px 10px 0px;
+		box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.3);
+	}
 
-    .left-part img {
-        max-width: 100%;
-        height: auto;
-        border-radius: 10px;
-        border-radius: 10px 0px 0px 10px;
-    }
+	.left-part img {
+		max-width: 100%;
+		height: auto;
+		border-radius: 10px;
+		border-radius: 10px 0px 0px 10px;
+	}
 
-    .right-part form input, .right-part form button {
-        font-size: 13px;
-    }
+	.right-part form input, .right-part form button {
+		font-size: 13px;
+	}
 
-    .right-part button {
-        background-color: #138496;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
+	.right-part button {
+		background-color: #138496;
+		color: white;
+		border: none;
+		border-radius: 5px;
+		cursor: pointer;
+	}
 
-        .right-part button:hover {
-            background-color: #138496;
-            color: white;
-        }
+		.right-part button:hover {
+			background-color: #138496;
+			color: white;
+		}
 </style>
 
 <div class="container d-flex justify-content-center align-items-center min-vh-90 mt-4">
-    <div class="main-container row w-75 rounded-3">
-        <!-- Left part for image -->
-        <div class="col-md-4 left-part d-flex justify-content-center align-items-center">
-            <img src="~/gif/3885914.jpg" alt="Sign Up Image" class="responsive-image" />
-        </div>
+	<div class="main-container row w-75 rounded-3">
+		<!-- Left part for image -->
+		<div class="col-md-4 left-part d-flex justify-content-center align-items-center">
+			<img src="~/gif/3885914.jpg" alt="Sign Up Image" class="responsive-image" />
+		</div>
 
-        <!-- Right part for the signup form -->
-        <div class="col-lg-8 col-md-12 p-2 bg-white right-part ">
-            <h5 class="mb-3 text-center">Schedule an Appointment</h5>
-            <form id="appointmentForm">
-                
-
-               
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="name" placeholder="Please enter Client Name here">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" placeholder="Enter Client email here">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-12">
-                        <label for="mobile" class="form-label">Mobile</label>
-                        <input type="text" class="form-control" id="mobile" placeholder="Enter Client Mobile Number here">
-                    </div>
-                   
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group col-md-12">
-                        <label for="problem" class="form-label">Problem</label>
-                        <textarea class="form-control" id="problem" placeholder="Enter Client Problem here"></textarea>
-                     @*   <input type="" class="form-control" id="problem"> *@
-                    </div>
-
-                </div>
-
-
-                <div class="form-row">
-                    <!-- Date Picker for selecting the appointment date -->
-                    <div class="form-group col-md-12">
-                        <label for="datePicker" class="form-label">Select Date</label>
-                        <input type="date" id="datePicker" class="form-control">
-                    </div>
-
-                    <!-- Dropdown for selecting the time slot -->
-                    <div class="form-group col-md-12">
-                        <label for="slotSelect" class="form-label">Select Slot</label>
-                        <select id="slotSelect" class="form-control">
-                            <option value="">Select a slot</option>
-                        </select>
-                    </div>
-                </div>
+		<!-- Right part for the signup form -->
+		<div class="col-lg-8 col-md-12 p-2 bg-white right-part ">
+			<h5 class="mb-3 text-center">Schedule an Appointment</h5>
+			<form id="appointmentForm">
 
 
 
-               
+				<div class="form-row">
+					<div class="form-group col-md-6">
+						<label for="name" class="form-label">Name</label>
+						<input type="text" class="form-control" id="name" placeholder="Please enter Client Name here">
+					</div>
+					<div class="form-group col-md-6">
+						<label for="email" class="form-label">Email</label>
+						<input type="email" class="form-control" id="email" placeholder="Enter Client email here">
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-group col-md-12">
+						<label for="mobile" class="form-label">Mobile</label>
+						<input type="text" class="form-control" id="mobile" placeholder="Enter Client Mobile Number here">
+					</div>
 
-           
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <button type="submit" class="btn btn-info px-3 ">Submit</button>
-                    </div>
-                </div>
+				</div>
+
+				<div class="form-row">
+					<div class="form-group col-md-12">
+						<label for="problem" class="form-label">Problem</label>
+						<textarea class="form-control" id="problem" placeholder="Enter Client Problem here"></textarea>
+						@*   <input type="" class="form-control" id="problem"> *@
+					</div>
+
+				</div>
 
 
-            </form>
-        </div>
-    </div>
+				<div class="form-row">
+					<!-- Date Picker for selecting the appointment date -->
+					<div class="form-group col-md-12">
+						<label for="datePicker" class="form-label">Select Date</label>
+						<input type="date" id="datePicker" class="form-control">
+					</div>
+
+					<!-- Dropdown for selecting the time slot -->
+					<div class="form-group col-md-12">
+						<label for="slotSelect" class="form-label">Select Slot</label>
+						<select id="slotSelect" class="form-control">
+							<option value="">Select a slot</option>
+						</select>
+					</div>
+				</div>
+
+
+
+
+
+
+				<div class="form-row">
+					<div class="form-group col-md-6">
+						<button type="submit" class="btn btn-info px-3 ">Submit</button>
+					</div>
+				</div>
+
+
+			</form>
+		</div>
+	</div>
 </div>
 
 
 
 
 <script>
-    $(document).ready(function () {
-
-        
-
-
-       
-        function reverseDate(dateString) {
-            const parts = dateString.split('-');
-            const reversedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
-            return reversedDate;
-        }
-
-        
-        var appoinmentUrl = BaseUrl + `api/Jyotish/getAllAppointmentSlot?Id=${localStorage.getItem('Id')}`;
-        let appoinmentArray;
-
-        
-        if (localStorage.getItem("Id") != null && localStorage.getItem("Token2") != null) {
-        
-            $.ajax({
-                url: appoinmentUrl,
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
-                    'Content-Type': 'application/json'
-                },
-                success: function (response) {
-                    debugger;
-                   
-
-                    if (response.status === 200) {
-                        var data = response.data;
-                        appoinmentArray = data;
-                        console.log(appoinmentArray);
-
-                        
-                        $("#datePicker").attr("min", appoinmentArray[0].date.split("T")[0]);
-                        $("#datePicker").attr("max", appoinmentArray[appoinmentArray.length - 1].date.split("T")[0]);
-
-                        
-                        $("#datePicker").val(appoinmentArray[0].date.split("T")[0]);
-                        fetchSlotsForDate(appoinmentArray[0].date.split("T")[0]);
-                    }
-                },
-                error: function (err) {
-                    console.error("Error fetching appointments:", err);
-                }
-            });
-        }
-
-        // Handle date selection change event
-        $('#datePicker').on('change', function () {
-            var selectedDate = $(this).val(); // Get the selected date
-
-            // Call the function to fetch slots based on the selected date
-            if (selectedDate) {
-                fetchSlotsForDate(selectedDate);
-            }
-        });
-
-        // Fetch slots for a specific date
-        function fetchSlotsForDate(date) {
-            // Clear previous slot options
-            $('#slotSelect').empty();
-            $('#slotSelect').append('<option value="" disable>Select a slot</option>');
-
-            // Fetch slots based on the selected date
-            $.ajax({
-                url: BaseUrl + `Api/Jyotish/GetAllAppointmentSlot?Id=${localStorage.getItem('Id')}`,
-                type: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
-                    'Content-Type': 'application/json',
-                },
-                success: function (res) {
-                    var slotsFound = false;
-
-                    // Loop through the response data and find matching slots
-                    $.each(res.data, function (index, item) {
-                        var apiDate = item.date.split('T')[0]; // Get the date part from API response
-                        if (apiDate === date) {  // Match the selected date
-                            slotsFound = true;
-
-                            // Populate the slot options for the selected date
-                            $.each(item.slotList, function (slotIndex, slot) {
-                                $('#slotSelect').append(`
-                                    <option  value="${slot.id}">
-                                        ${item.date.split('T')[0]} - ${slot.timeFrom} to ${slot.timeTo}
-                                        (${slot.timeDuration} mins, Status: ${slot.status})
-                                    </option>
-                                `);
-                            });
-                        }
-                    });
-
-                    // If no slots are available, show a message
-                    if (!slotsFound) {
-                        $('#slotSelect').append('<option value="">No slots available for this date</option>');
-                    }
-                },
-                error: function (error) {
-                    console.error("Error fetching slots:", error);
-                    $('#slotSelect').append('<option value="">Error fetching slots</option>');
-                }
-            });
-        }
+	$(document).ready(function () {
 
 
 
 
 
+		function reverseDate(dateString) {
+			const parts = dateString.split('-');
+			const reversedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
+			return reversedDate;
+		}
+
+
+		var appoinmentUrl = BaseUrl + `api/Jyotish/getAllAppointmentSlot?Id=${localStorage.getItem('Id')}`;
+		let appoinmentArray;
+
+
+		if (localStorage.getItem("Id") != null && localStorage.getItem("Token2") != null) {
+
+			$.ajax({
+				url: appoinmentUrl,
+				method: 'GET',
+				headers: {
+					'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+					'Content-Type': 'application/json'
+				},
+				success: function (response) {
+					debugger;
+
+
+					if (response.status === 200) {
+						var data = response.data;
+						appoinmentArray = data;
+						console.log(appoinmentArray);
+
+
+						$("#datePicker").attr("min", appoinmentArray[0].date.split("T")[0]);
+						$("#datePicker").attr("max", appoinmentArray[appoinmentArray.length - 1].date.split("T")[0]);
+
+
+						$("#datePicker").val(appoinmentArray[0].date.split("T")[0]);
+						fetchSlotsForDate(appoinmentArray[0].date.split("T")[0]);
+					}
+				},
+				error: function (err) {
+					console.error("Error fetching appointments:", err);
+				}
+			});
+		}
+
+		// Handle date selection change event
+		$('#datePicker').on('change', function () {
+			var selectedDate = $(this).val(); // Get the selected date
+
+			// Call the function to fetch slots based on the selected date
+			if (selectedDate) {
+				fetchSlotsForDate(selectedDate);
+			}
+		});
+
+		// Fetch slots for a specific date
+		function fetchSlotsForDate(date) {
+			// Clear previous slot options
+			$('#slotSelect').empty();
+			$('#slotSelect').append('<option value="" disable>Select a slot</option>');
+
+			// Fetch slots based on the selected date
+			$.ajax({
+				url: BaseUrl + `Api/Jyotish/GetAllAppointmentSlot?Id=${localStorage.getItem('Id')}`,
+				type: 'GET',
+				headers: {
+					'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+					'Content-Type': 'application/json',
+				},
+				success: function (res) {
+					var slotsFound = false;
+
+					// Loop through the response data and find matching slots
+					$.each(res.data, function (index, item) {
+						var apiDate = item.date.split('T')[0]; // Get the date part from API response
+						if (apiDate === date) {  // Match the selected date
+							slotsFound = true;
+
+							// Populate the slot options for the selected date
+							$.each(item.slotList, function (slotIndex, slot) {
+								$('#slotSelect').append(`
+										<option  value="${slot.id}">
+											${item.date.split('T')[0]} - ${slot.timeFrom} to ${slot.timeTo}
+											(${slot.timeDuration} mins, Status: ${slot.status})
+										</option>
+									`);
+							});
+						}
+					});
+
+					// If no slots are available, show a message
+					if (!slotsFound) {
+						$('#slotSelect').append('<option value="">No slots available for this date</option>');
+					}
+				},
+				error: function (error) {
+					console.error("Error fetching slots:", error);
+					$('#slotSelect').append('<option value="">Error fetching slots</option>');
+				}
+			});
+		}
 
 
 
 
-
-
-        // ---------------------------------------------
+		// ---------------------------------------------
 
 
 
-        function finalSubmit() {
-            debugger;
-            let Email = $('#email').val();
-            let Name = $('#name').val();
-            let Mobile = $('#mobile').val();
-            let JyotishId = localStorage.getItem('Id');
-            let Problem = $('#problem').val();
-            let SlotId = $('#slotSelect').val();
+		function finalSubmit() {
+			debugger;
+			let Email = $('#email').val();
+			let Name = $('#name').val();
+			let Mobile = $('#mobile').val();
+			let JyotishId = localStorage.getItem('Id');
+			let Problem = $('#problem').val();
+			let SlotId = $('#slotSelect').val();
 
-            var formData = {
-                email: Email,
-                name: Name,
-                mobile: Mobile,
-                jyotishId: JyotishId,
-                problem: Problem,
-                slotId: SlotId,
-            };
+			var formData = {
+				email: Email,
+				name: Name,
+				mobile: Mobile,
+				jyotishId: JyotishId,
+				problem: Problem,
+				slotId: SlotId,
+			};
 
-            let checkValidation = true;
+			let checkValidation = true;
 
-            if (Email == "" || Name == "" || Mobile == "" || JyotishId == "" || Problem == "" ||  SlotId == "") {
-                checkValidation = false;
-                Swal.fire({
-                    title: "Warning!",
-                    text: "Please fill in all the required fields.",
-                    icon: "warning",
-                    confirmButtonText: "OK",
-                    showCancelButton: false,  
-                    showConfirmButton: true
-                    
-                });
-            }
+			if (Email == "" || Name == "" || Mobile == "" || JyotishId == "" || Problem == "" || SlotId == "") {
+				checkValidation = false;
+				Swal.fire({
+					title: "Warning!",
+					text: "Please fill in all the required fields.",
+					icon: "warning",
+					confirmButtonText: "OK",
+					showCancelButton: false,
+					showConfirmButton: true
 
-            if (checkValidation) {
-                Swal.fire({
-                    title: "Processing Your Request",
-                    didOpen: () => {
-                        Swal.showLoading();
-                    }
-                });
-                $.ajax({
-                    url: BaseUrl + 'Api/Jyotish/AddAppointment',
-                    type: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
-                        'Content-Type': 'application/json',
-                    },
-                    data: JSON.stringify(formData),
-                    contentType: 'application/json; charset=utf-8',
-                    dataType: 'json',
-                    success: function (response) {
-                        if (response.status === 200) {
-                            Swal.fire({
-                                title: "Successful!",
-                                text: "Appointment booked successfully!",
-                                icon: "success",
-                                confirmButtonText: "OK",
-                            }).then(() => {
-                                location.reload();
-                            });
-                        } else if (response.status === 400) {
-                            Swal.fire({
-                                title: "Invalid Data!",
-                                text: "Please enter correct data",
-                                icon: "warning",
-                                confirmButtonText: "OK",
-                            });
-                        } else {
-                            Swal.fire({
-                                title: "Something went wrong.",
-                                text: "Please try again later.",
-                                icon: "error",
-                                confirmButtonText: "OK",
-                            });
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        console.error('Error submitting form:', error, status, xhr);
-                        Swal.fire({
-                            title: "Something went wrong.",
-                            text: "Please try again later.",
-                            icon: "error",
-                            confirmButtonText: "OK",
-                        });
-                    }
-                });
-            }
-        }
+				});
+			}
 
-        // Handle form submission
-        $('#appointmentForm').on('submit', function (event) {
-            event.preventDefault(); // Prevent default form submission
+			if (checkValidation) {
+				Swal.fire({
+					title: "Processing Your Request",
+					didOpen: () => {
+						Swal.showLoading();
+					}
+				});
+				$.ajax({
+					url: BaseUrl + 'Api/Jyotish/AddAppointment',
+					type: 'POST',
+					headers: {
+						'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+						'Content-Type': 'application/json',
+					},
+					data: JSON.stringify(formData),
+					contentType: 'application/json; charset=utf-8',
+					dataType: 'json',
+					success: function (response) {
+						if (response.status === 200) {
+							Swal.fire({
+								title: "Successful!",
+								text: "Appointment booked successfully!",
+								icon: "success",
+								confirmButtonText: "OK",
+							}).then(() => {
+								location.reload();
+							});
+						} else if (response.status === 400) {
+							Swal.fire({
+								title: "Invalid Data!",
+								text: "Please enter correct data",
+								icon: "warning",
+								confirmButtonText: "OK",
+							});
+						} else {
+							Swal.fire({
+								title: "Something went wrong.",
+								text: "Please try again later.",
+								icon: "error",
+								confirmButtonText: "OK",
+							});
+						}
+					},
+					error: function (xhr, status, error) {
+						console.error('Error submitting form:', error, status, xhr);
+						Swal.fire({
+							title: "Something went wrong.",
+							text: "Please try again later.",
+							icon: "error",
+							confirmButtonText: "OK",
+						});
+					}
+				});
+			}
+		}
 
-            // Show loading state while processing
-            
+		// Handle form submission
+		$('#appointmentForm').on('submit', function (event) {
+			event.preventDefault(); // Prevent default form submission
 
-            // Call finalSubmit to handle the actual submission
-            finalSubmit();
-        });
+			// Show loading state while processing
 
-    });
+
+			// Call finalSubmit to handle the actual submission
+			finalSubmit();
+		});
+
+	});
 </script>
 
 

@@ -1229,7 +1229,7 @@ namespace MyJyotishJiApi.Controllers
                 var httpRequest = HttpContext.Request;
                 redeamCodeViewModel rcode = new redeamCodeViewModel
                 {
-                    PlanId = Convert.ToInt32(httpRequest.Form["planId"]),
+                    PlanId = Convert.ToInt32(string.IsNullOrEmpty(httpRequest.Form["planId"])?0: httpRequest.Form["planId"]),
                     ReadeamCode = httpRequest.Form["redeamCode"],
                     discount = float.Parse((httpRequest.Form["discount"])),
                     discountAmount = float.Parse(httpRequest.Form["discountAmount"]),
