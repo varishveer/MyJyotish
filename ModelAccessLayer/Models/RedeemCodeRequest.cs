@@ -11,6 +11,7 @@ namespace ModelAccessLayer.Models
 	{
 		public int Id { get; set; }
 		public int jyotishId { get; set; }
+		public int? EId { get; set; }
 		public int planId { get; set; }
 		public DateTime RequestDate { get; set; }
 		public bool RedeemStatus { get; set; }
@@ -20,6 +21,7 @@ namespace ModelAccessLayer.Models
 
 		public JyotishModel jyotish { get; set; }
 		public SubscriptionModel plan { get; set; }
+		public Employees Employee { get; set; }
 
 	}
 }

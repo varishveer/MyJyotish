@@ -278,10 +278,16 @@ namespace DataAccessLayer.DbServices
          .HasOne(c => c.jyotish)
          .WithMany(j => j.redeemRequest)
          .HasForeignKey(c => c.jyotishId);
+
             modelBuilder.Entity<RedeemCodeRequest>()
          .HasOne(c => c.plan)
          .WithMany(j => j.redeemRequest)
          .HasForeignKey(c => c.planId);
+            
+          modelBuilder.Entity<RedeemCodeRequest>()
+         .HasOne(c => c.Employee)
+         .WithMany(j => j.redeem)
+         .HasForeignKey(c => c.EId);
         }
 
 

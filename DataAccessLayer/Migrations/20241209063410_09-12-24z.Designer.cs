@@ -4,6 +4,7 @@ using DataAccessLayer.DbServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20241209063410_09-12-24z")]
+    partial class _091224z
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1344,9 +1347,6 @@ namespace DataAccessLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("EId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("RedeemStatus")
                         .HasColumnType("bit");
 
@@ -1366,8 +1366,6 @@ namespace DataAccessLayer.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EId");
 
                     b.HasIndex("jyotishId");
 
@@ -2391,10 +2389,6 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("ModelAccessLayer.Models.RedeemCodeRequest", b =>
                 {
-                    b.HasOne("ModelAccessLayer.Models.Employees", "Employee")
-                        .WithMany("redeem")
-                        .HasForeignKey("EId");
-
                     b.HasOne("ModelAccessLayer.Models.JyotishModel", "jyotish")
                         .WithMany("redeemRequest")
                         .HasForeignKey("jyotishId")
@@ -2406,8 +2400,6 @@ namespace DataAccessLayer.Migrations
                         .HasForeignKey("planId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Employee");
 
                     b.Navigation("jyotish");
 
@@ -2621,8 +2613,6 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("InterviewMeeting");
 
                     b.Navigation("employeeDocs");
-
-                    b.Navigation("redeem");
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.EmployeesAccessPages", b =>
