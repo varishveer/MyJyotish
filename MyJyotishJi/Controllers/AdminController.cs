@@ -1218,7 +1218,7 @@ namespace MyJyotishJiApi.Controllers
                 var result = _admin.AddRedeamCode(rcode);
                 if (result)
                 {
-                    return Ok(new { status = 200, message = "Record Added Successfully" });
+                    return Ok(new { status = 200, message = "Redeem Code Generated Successfully" });
                 }
                 else
                 {
@@ -1740,6 +1740,13 @@ namespace MyJyotishJiApi.Controllers
             {
                 return StatusCode(500, new { Status = 500, Message = "Internal Server Error.", Error = ex.Message });
             }
+        }
+
+        [HttpGet("GetRedeemRequest")]
+        public IActionResult GetRedeemRequest()
+        {
+            var res = _admin.GetRedeemRequest();
+            return Ok(new { status = 200, message="data retrieved",data=res});
         }
 
 
