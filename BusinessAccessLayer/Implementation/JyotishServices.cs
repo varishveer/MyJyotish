@@ -808,7 +808,7 @@ namespace BusinessAccessLayer.Implementation
             var users = _context.JyotishRecords.Where(x => x.Id == uw.jyotishId).FirstOrDefault();
             if (users == null) { return null; }
             var Jyotishwallet = _context.JyotishWallets.Where(x => x.jyotishId == uw.jyotishId).FirstOrDefault();
-            var res = _context.RedeamCode.Where(e => e.jyotishId==uw.jyotishId && e.status).FirstOrDefault();
+            var res = _context.RedeamCode.Where(e => e.jyotishId==uw.jyotishId && e.status).ToList();
             if (Jyotishwallet.WalletAmount > uw.WalletAmount)
             {
                 Jyotishwallet.WalletAmount -= uw.WalletAmount;
@@ -817,8 +817,12 @@ namespace BusinessAccessLayer.Implementation
 
                     if (res != null)
                     {
-                        res.status = false;
-                        _context.RedeamCode.Update(res);
+                        foreach(var item in res)
+                        {
+
+                        item.status = false;
+                        }
+                        _context.RedeamCode.UpdateRange(res);
                     }
 
                     return "Successful";
