@@ -37,6 +37,7 @@ namespace MyJyotishJiWebDesign.Controllers
 		public IActionResult ApproveRedeamCode()
 		{return View();}
         public IActionResult Banners() { return View(); }
+        public IActionResult CreateRedeemCode() { return View(); }
 
 
 	}
