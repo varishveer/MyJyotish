@@ -1797,7 +1797,7 @@ namespace BusinessAccessLayer.Implementation
 
         public float purchaseWithReadmCode(string redeamCode,int JyotishId,int planId)
         {
-            var res = _context.RedeamCode.Where(e => e.ReadeamCode == redeamCode && e.PlanId==planId&& e.jyotishId == JyotishId && e.status).FirstOrDefault();
+            var res = _context.RedeamCode.Where(e => e.ReadeamCode == redeamCode && e.PlanId==planId&& e.jyotishId == JyotishId && e.status&&e.appstatus).FirstOrDefault();
 
             if (res == null)
             {
@@ -1817,6 +1817,20 @@ namespace BusinessAccessLayer.Implementation
 
 
         }
+
+        public dynamic getRedeemCode(int jyotishId)
+        {
+			var res = (from redeem in _context.RedeamCode join plan in _context.Subscriptions on redeem.PlanId equals plan.SubscriptionId where redeem.jyotishId==jyotishId&&redeem.status&&plan.Status&&redeem.appstatus select new
+            {
+               redeemCode=redeem.ReadeamCode,
+               expiryDate=redeem.endDate.ToString("dd-MM-yyyy"),
+               discountAmount=redeem.discountAmount,
+               discount=redeem.discount,
+               planName=plan.Name,
+                planType = plan.PlanType
+            }).ToList();
+            return res;
+		}
 
         public JyotishDashboardDataViewModel JyotishDashboardData(int Id)
         {

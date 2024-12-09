@@ -82,6 +82,8 @@ namespace BusinessAccessLayer.Abstraction
         public JyotishDashboardDataViewModel JyotishDashboardData(int Id);
         public bool SendRequest(RedeemCodeRequestViewModel model);
 
+        public dynamic getRedeemCode(int jyotishId);
 
-    }
+
+	}
 }

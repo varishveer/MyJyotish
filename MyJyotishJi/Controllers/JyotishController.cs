@@ -1180,6 +1180,14 @@ namespace MyJyotishGApi.Controllers
                 return Ok(new { status = 501, message = "Your request already has been registered" });
 
             }
+        } 
+        [HttpGet("getRedeemCode")]
+        public IActionResult getRedeemCode(int jyotishId)
+        {
+            var res = _jyotish.getRedeemCode(jyotishId);
+           
+                return Ok(new { status = 200, message = "data retrieved" ,data=res });
+           
         }
 
     }
