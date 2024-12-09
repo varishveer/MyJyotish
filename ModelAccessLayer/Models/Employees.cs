@@ -26,7 +26,7 @@ namespace ModelAccessLayer.Models
         public ICollection<EmployeesDocs> employeeDocs { get; set; } = new List<EmployeesDocs>();
         public ICollection<InterviewMeeting> InterviewMeeting { get; set; } = new List<InterviewMeeting>();
         public ICollection<EmployeeInterviewFeedbackModel> EmployeeInterviewFeedbacks { get; set; } = new List<EmployeeInterviewFeedbackModel>();
-        public ICollection<RedeemCodeRequest> redeem { get; set; } = new List<RedeemCodeRequest>();
+        public ICollection<redeamCode> redeem { get; set; } = new List<redeamCode>();
 
 
 

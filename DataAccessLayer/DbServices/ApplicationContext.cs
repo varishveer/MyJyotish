@@ -284,7 +284,7 @@ namespace DataAccessLayer.DbServices
          .WithMany(j => j.redeemRequest)
          .HasForeignKey(c => c.planId);
             
-          modelBuilder.Entity<RedeemCodeRequest>()
+          modelBuilder.Entity<redeamCode>()
          .HasOne(c => c.Employee)
          .WithMany(j => j.redeem)
          .HasForeignKey(c => c.EId);
