@@ -222,52 +222,51 @@ namespace BusinessAccessLayer.Implementation
             { return false; }
 
         }
-      /*  public bool AddPoojaCategory(PoojaCategoryViewModel _pooja)
+        public bool AddPoojaList(PoojaCategoryViewModel _pooja)
         {
-            var isPoojaValid = _context.PoojaCategory.Where(x => x.Name == _pooja.Name).FirstOrDefault();
+            var isPoojaValid = _context.PoojaList.Where(x => x.Name == _pooja.Name).FirstOrDefault();
             if (isPoojaValid != null) { return false; }
-            PoojaCategoryModel model = new PoojaCategoryModel();
+            PoojaListModel model = new PoojaListModel();
             model.Name = _pooja.Name;
-            model.DateAdded = DateTime.Now;
-            _context.PoojaCategory.Add(model);
+            _context.PoojaList.Add(model);
             var result = _context.SaveChanges();
             if (result > 0)
             { return true; }
             else
             { return false; }
 
-        }*/
-      /*  public List<PoojaCategoryModel> GetAllPoojaCategory()
-        {
-            var records = _context.PoojaCategory.ToList();
-            return records;
-        }*/
+        }
+        /*  public List<PoojaCategoryModel> GetAllPoojaCategory()
+          {
+              var records = _context.PoojaCategory.ToList();
+              return records;
+          }*/
 
-      /*  public bool AddNewPoojaList(PoojaListViewModel model)
-        {
-            if(model == null)
-            { return false; }
+        /*  public bool AddNewPoojaList(PoojaListViewModel model)
+          {
+              if(model == null)
+              { return false; }
 
-            var IsPoojaValid = _context.PoojaCategory.Where(x=>x.Name == model.Name).FirstOrDefault();
-            if(IsPoojaValid != null)
-            { return false; }
+              var IsPoojaValid = _context.PoojaCategory.Where(x=>x.Name == model.Name).FirstOrDefault();
+              if(IsPoojaValid != null)
+              { return false; }
 
-            PoojaRecordModel record = new PoojaRecordModel()
-            {
-                Name = model.Name,
-                PoojaCategoryId = model.PoojaCategoryId,
-            };
-            _context.PoojaRecord.Add(record);
-            var result = _context.SaveChanges();
-            if(result>0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }*/
+              PoojaRecordModel record = new PoojaRecordModel()
+              {
+                  Name = model.Name,
+                  PoojaCategoryId = model.PoojaCategoryId,
+              };
+              _context.PoojaRecord.Add(record);
+              var result = _context.SaveChanges();
+              if(result>0)
+              {
+                  return true;
+              }
+              else
+              {
+                  return false;
+              }
+          }*/
         public List<PoojaRecordModel> PoojaRecord()
         {
             var Records = _context.PoojaRecord.ToList();

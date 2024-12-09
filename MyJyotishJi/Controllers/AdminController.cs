@@ -153,20 +153,22 @@ namespace MyJyotishJiApi.Controllers
             }
             catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
         }
+        
 
-        /* [HttpPost("AddPoojaCategory")]
-         public IActionResult AddPoojaCategory(PoojaCategoryViewModel pooja)
-         {
-             try
-            { var result = _admin.AddPoojaCategory(pooja);
-                 if (result == true)
-                 {
-                     return Ok(new { Status = 200, Message = "Success" });
-                 }
-                 else { return Ok(new { Status = 400, Message = "Bad Request" }); }
-             }
-             catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
-         }*/
+        [HttpPost("AddPoojaList")]
+        public IActionResult AddPoojaList(PoojaCategoryViewModel pooja)
+        {
+            try
+            {
+                var result = _admin.AddPoojaList(pooja);
+                if (result == true)
+                {
+                    return Ok(new { Status = 200, Message = "Success" });
+                }
+                else { return Ok(new { Status = 400, Message = "Bad Request" }); }
+            }
+            catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
+        }
         /* [AllowAnonymous]
          [HttpPost("AddPoojaList")]
          public IActionResult AddPoojaList(PoojaListViewModel pooja)
