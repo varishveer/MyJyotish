@@ -486,16 +486,18 @@
                     data.data.forEach(slot => {
                         const slotDiv = document.createElement('div');
                         slotDiv.classList.add('row', 'mb-3');
-
-                        
+                        debugger
+                        var dateFrom = formatDate(slot.dateFrom);
+                        var dateTo = formatDate(slot.dateTo);
+                      
                         slotDiv.innerHTML = `
                                 <div class="col-md-4">
                                     <strong>From Date:</strong>
-                                    <span>${slot.dateFrom || 'N/A'}</span>
+                                        <span>${dateFrom || 'N/A'}</span>
                                 </div>
                                 <div class="col-md-4">
                                     <strong>To Date:</strong>
-                                    <span>${slot.dateTo || 'N/A'}</span>
+                                        <span>${dateTo || 'N/A'}</span>
                                 </div>
                                 <div class="col-md-4">
                                     <strong>Duration:</strong>
@@ -682,7 +684,7 @@
             const saturday = $("#saturday:checked").length > 0 ? $("#saturday").val() : 0
             const sunday = $("#sunday:checked").length > 0 ? $("#sunday").val() : 0
             const jyotishId = localStorage.getItem('Id');
-            debugger
+           
             // Validate the form
             if (!date || !dateTo || !timeDuration) {
                 Swal.fire({
@@ -825,7 +827,7 @@
                     'Content-Type': 'application/json',
                 },
                 success: function (res) {
-                    debugger;
+                   
                     if (res.status !== 200) {
                         $('#skipDateDiv').hide();
                         Swal.close();
@@ -899,7 +901,7 @@
                                 Swal.showLoading();
                             }
                         })
-                        debugger
+                     
                         $.ajax({
                             url: BaseUrl+`api/Jyotish/removeAppointmentSlot`,
                             type: 'POST',
