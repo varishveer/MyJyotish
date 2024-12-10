@@ -152,7 +152,7 @@
 						location.href="#"
 				}
 
-				function deletePooja(id){
+	function deletePooja(id){
 					 Swal.fire({
             title:"Are you sure",
             text: "Do you want to Delete?",
@@ -175,7 +175,7 @@
 				headers: {
 					'Authorization': `Bearer ${localStorage.getItem("Token")}`
 				},
-				data:{Id:id}
+				data:{Id:id},
 				success: function (res) {
 					if (res.status == 200) {
 						Swal.fire({
@@ -200,6 +200,7 @@
 						text: "some error occured",
 						icon: "error",
 						confirmButtonText: "OK",
+					})
 			}
 		 })
 		}

@@ -183,7 +183,7 @@ namespace MyJyotishJiApi.Controllers
             }
             catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
         }
-        [HttpPost("RemovePoojaList")]
+        [HttpGet("RemovePoojaList")]
         public IActionResult RemovePoojaList(int id)
         {
             try

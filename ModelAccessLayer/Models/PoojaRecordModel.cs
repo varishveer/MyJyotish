@@ -11,24 +11,20 @@ namespace ModelAccessLayer.Models
     {
         [Key]
         public int Id { get; set; }
-      /*  [Required]
-        public string Category { get; set; }*/
-       
-       /* [Required]
-        public int PoojaCategoryId { get; set; } */
-        [Required]
-        public DateTime DateTime{ get; set; }
-        [Required]
-        public string Name { get; set; }
-        [Required]
-        public string Headline { get; set; }
-        [Required]
-        public string Description { get; set; }
-        public string Benefits { get; set; }
+      
+        public int PoojaType { get; set; }
+        public int jyotishId { get; set; }
+        public string title { get; set; }
         public string Procedure { get; set; }
+        public string Benefits { get; set; }
         public string AboutGod { get; set; }
-        public string? Reviews { get; set; }
+        public string Image { get; set; }
+        public bool status { get; set; }
 
-        //public PoojaCategoryModel PoojaCategoryModel { get; set; }
+        public PoojaListModel pooja { get; set; }
+        public JyotishModel jyotish { get; set; }
+        public ICollection<BookedPoojaList> BookedPooja { get; set; } = new List<BookedPoojaList>();
+
+
     }
 }

@@ -12,6 +12,9 @@ namespace ModelAccessLayer.Models
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
-        public bool Status { get; set; }    
+        public bool Status { get; set; }
+
+        public ICollection<PoojaRecordModel> poojaRecord { get; set; } = new List<PoojaRecordModel>();
+
     }
 }

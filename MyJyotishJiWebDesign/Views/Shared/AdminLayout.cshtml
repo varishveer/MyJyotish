@@ -823,13 +823,20 @@
     <script src="~/assets/js/demo.js"></script>
     <script src="~/summernote/dist/summernote.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            $('.table').DataTable({
+        $(document).ready(function(){
+            setTimeout(function(){
+                $('.table').DataTable({
                 "paging": true,
                 "searching": true,
                 "ordering": true,
                 "info": true
             });
+            },1000)
+            
+        })
+
+        document.addEventListener('DOMContentLoaded', function () {
+           
             $('.summernote').summernote({
                 height: 300, // set the height of the editor
                 toolbar: [
@@ -932,6 +939,7 @@
             //     }
             // });
         });
+
        
     </script>
 

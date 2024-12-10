@@ -99,6 +99,7 @@ namespace ModelAccessLayer.Models
         public ICollection<InterviewMeeting> InterviewMeeting { get; set; } = new List<InterviewMeeting>();
         public ICollection<UserServiceRecordModel> UserServiceRecord { get; set; } = new List<UserServiceRecordModel>();
         public ICollection<RedeemCodeRequest> redeemRequest { get; set; } = new List<RedeemCodeRequest>();
+        public ICollection<PoojaRecordModel> poojaRecord { get; set; } = new List<PoojaRecordModel>();
 
     }
 
