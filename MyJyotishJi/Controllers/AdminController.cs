@@ -169,6 +169,20 @@ namespace MyJyotishJiApi.Controllers
             }
             catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
         }
+        [HttpPost("UpdatePoojaList")]
+        public IActionResult UpdatePoojaList(PoojaCategoryViewModel pooja)
+        {
+            try
+            {
+                var result = _admin.UpdatePoojaList(pooja);
+                if (result == true)
+                {
+                    return Ok(new { Status = 200, Message = "Successful" });
+                }
+                else { return Ok(new { Status = 400, Message = "Bad Request" }); }
+            }
+            catch { return Ok(new { Status = 500, Message = "Internal Server Error " }); }
+        }
         /* [AllowAnonymous]
          [HttpPost("AddPoojaList")]
          public IActionResult AddPoojaList(PoojaListViewModel pooja)
