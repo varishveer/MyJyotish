@@ -228,6 +228,7 @@ namespace BusinessAccessLayer.Implementation
             if (isPoojaValid != null) { return false; }
             PoojaListModel model = new PoojaListModel();
             model.Name = _pooja.Name;
+            model.Status = true;
             _context.PoojaList.Add(model);
             var result = _context.SaveChanges();
             if (result > 0)
@@ -240,8 +241,21 @@ namespace BusinessAccessLayer.Implementation
 		public bool UpdatePoojaList(PoojaCategoryViewModel _pooja)
 		{
 			var isPoojaValid = _context.PoojaList.Where(x => x.Id == _pooja.Id).FirstOrDefault();
-			if (isPoojaValid != null) { return false; }
+			if (isPoojaValid == null) { return false; }
             isPoojaValid.Name = _pooja.Name;
+			_context.PoojaList.Update(isPoojaValid);
+			var result = _context.SaveChanges();
+			if (result > 0)
+			{ return true; }
+			else
+			{ return false; }
+
+		}
+        public bool RemovePoojaList(int Id)
+		{
+			var isPoojaValid = _context.PoojaList.Where(x => x.Id == Id).FirstOrDefault();
+			if (isPoojaValid == null) { return false; }
+            isPoojaValid.Status = false;
 			_context.PoojaList.Update(isPoojaValid);
 			var result = _context.SaveChanges();
 			if (result > 0)
