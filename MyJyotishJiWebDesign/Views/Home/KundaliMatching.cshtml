@@ -361,42 +361,46 @@
         var gtimezone = await getTimezone(glatitude, glongitude);
         var btimezone =await getTimezone(blatitude, blongitude);
        
+       var DataContainer = {
+            "female": {
+                "year": parseInt(girlYear),
+                "month": parseInt(girlMonth),
+                "date": parseInt(girlDate),
+                    "hours": parseInt(girlhour),
+                    "minutes": parseInt(girlmin),
+                    "seconds": parseInt(girlSec),
+                "latitude": parseFloat(glatitude),
+                    "longitude": parseFloat( glongitude),
+                        "timezone": parseFloat(gtimezone)
+            },
+            "male": {
+                "year": parseInt(boyYear),
+                    "month": parseInt(boyMonth),
+                        "date": parseInt(boyDate),
+                            "hours": parseInt(boyhour),
+                                "minutes": parseInt(boymin),
+                                    "seconds": parseInt(boySec),
+                "latitude": parseFloat(blatitude),
+                "longitude": parseFloat(blongitude),
+                "timezone": parseFloat(btimezone)
+            },
+            "config": {
+                "observation_point": "topocentric",
+                "language": "en",
+                "ayanamsha": "lahiri"
+            }
+       }
+
+       console.log(DataContainer);
         $.ajax({
             url: 'https://json.freeastrologyapi.com/match-making/ashtakoot-score',
             type: 'POST',
-            contentType: 'application/json',
+            
             headers: {
                 'x-api-key': 'y8gZTCePup5YM0XGzDmRf5UbZo4IMcTR9Wg3CZ6Z'
             },
-            data: JSON.stringify({
-                "female": {
-                    "year": girlYear,
-                    "month": girlMonth,
-                    "date": girlDate,
-                    "hours": girlhour,
-                    "minutes": girlmin,
-                    "seconds": girlSec,
-                    "latitude": glatitude,
-                    "longitude": glongitude,
-                    "timezone": gtimezone
-                },
-                "male": {
-                    "year": boyYear,
-                    "month": boyMonth,
-                    "date": boyDate,
-                    "hours": boyhour,
-                    "minutes": boymin,
-                    "seconds": boySec,
-                    "latitude": blatitude,
-                    "longitude": blongitude,
-                    "timezone": btimezone
-                },
-                "config": {
-                    "observation_point": "topocentric",
-                    "language": "en",
-                    "ayanamsha": "lahiri"
-                }
-            }),
+            contentType: 'application/json',
+            data: DataContainer,
             success: function (response) {
                 console.log(response);
             },
@@ -461,16 +465,17 @@
                     var accessKey = "a1866a87e357e1b13a1ad62ee2e061f3";  // Replace with your Google Maps API key
 
                 // Construct URL for the Google Time Zone API
-       var url = `http://api.positionstack.com/v1/reverse?access_key=a1866a87e357e1b13a1ad62ee2e061f3&query=${latitude}, ${longitude} &timezone_module=1`;
+       var url = `https://api.positionstack.com/v1/reverse?access_key=${accessKey}&query=${latitude},${longitude}&timezone_module=1`;
                     var timezone
                     // Fetch timezone data from Google API
                   await  fetch(url)
                         .then(response => response.json())
                         .then(data => {
                             if (data != null) {
+                                debugger;
+                    
+                                        const offsetSec = data.data[0].timezone_module.offset_sec;
 
-                                let timezoneData = data[0].timezone_module;
-                                    const offsetSec = timezoneData.offset_sec;
                                     const offsetHours = Math.floor(offsetSec / 3600);  // Get full hours
                                     const offsetMinutes = (offsetSec % 3600) / 60;  // Get the remaining minutes as a decimal
 
@@ -478,9 +483,8 @@
                                     const offsetDecimal = (offsetHours + offsetMinutes / 60).toFixed(1); // To ensure the result is in the form of +X.X
 
                                     // Format the output as +X.X
-                                    const formattedOffset = `${ offsetHours >= 0 ? "+" : "" }${ offsetDecimal }`;
 
-                                        timezone = formattedOffset;
+                    timezone = offsetDecimal;
                                
                             } else {
                     Swal.fire({
