@@ -903,5 +903,26 @@ namespace BusinessAccessLayer.Implementation
             return UserRecord;
 
         }
+
+        public bool AddKundaliMatchingRecord(List<KundaliMatchingViewModel> DataList)
+        {
+            if (DataList.Count == 0)
+            {return false;}
+            KundaliMatchingModel newObject = new KundaliMatchingModel();
+            foreach (var data in DataList)
+            {
+                newObject.Name = data.Name;
+                newObject.UserId = data.UserId;
+                newObject.DateOfBirth = data.DateOfBirth;
+                newObject.TimeOfBirth = data.TimeOfBirth;
+                newObject.PlaceOfBirth = data.PlaceOfBirth;
+                newObject.DateTime = data.DateTime;
+                newObject.Gender = data.Gender;
+                newObject.Status = true;
+                
+            }
+            return true;
+        }
+
     }
 }
