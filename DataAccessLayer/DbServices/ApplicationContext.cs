@@ -69,6 +69,7 @@ namespace DataAccessLayer.DbServices
         public DbSet<UserServiceRecordModel> UserServiceRecord { get; set; }
         public DbSet<RedeemCodeRequest> RedeemCodeRequest { get; set; }
         public DbSet<BookedPoojaList> BookedPoojaList { get; set; }
+        public DbSet<KundaliMatchingModel> KundaliMatchingRecord { get; set; }
 
 
 
@@ -297,10 +298,18 @@ namespace DataAccessLayer.DbServices
          .HasOne(c => c.User)
          .WithMany(j => j.BookedPooja)
          .HasForeignKey(c => c.userId);
+
             modelBuilder.Entity<BookedPoojaList>()
          .HasOne(c => c.Pooja)
          .WithMany(j => j.BookedPooja)
          .HasForeignKey(c => c.PoojaId);
+
+            modelBuilder.Entity<KundaliMatchingModel>()
+        .HasOne(c => c.User)
+        .WithMany(j => j.KundaliMatching)
+        .HasForeignKey(c => c.UserId);
+
+
         }
 
 

@@ -162,7 +162,7 @@
                     <input list="PlaceOfBirthList_girl" type="text" name="place_girl" id="place_girl" class="form-control  " placeholder="Enter birth place" required>
 
                   
-                    <div class="position-absolute bg-light d-none" id="PlaceOfBirthList_girl">
+                    <div class="position-absolute bg-light d-none " id="PlaceOfBirthList_girl">
                     </div>
                 </div>
             </div>
@@ -314,16 +314,14 @@
             }
 
         }
-
-       
-    
+   
     }
 
     LoadData();
 
 
 
-    function kundaliMatchingApi() 
+   async function kundaliMatchingApi() 
     {
         
         var boyName = $('#name_boy').val();
@@ -337,8 +335,6 @@
         var boySec = $('#sec_boy').val();
         var boyPlace = $('#place_boy').val();
       
-
-
         var girlName = $('#name_girl').val();
         var girlDoB = `${$('#day_girl').val()}-${$('#month_girl').val()}-${$('#year_girl').val()}`;
         var girlToB = `${$('#hour_girl').val()}:${$('#min_girl').val()}:${$('#sec_girl').val()}`;
@@ -349,16 +345,21 @@
         var girlmin = $('#min_girl').val();
         var girlSec = $('#sec_girl').val();
         var girlPlace = $('#place_girl').val();
+        console.log(girlPlace);
+        console.log(boyPlace);
+        
 
-        GetGeoLocation(girlPlace, 'girl');
-        GetGeoLocation(boyPlace, 'boy');
+      await  GetGeoLocation(girlPlace, 'girl');
+       await GetGeoLocation(boyPlace, 'boy');
 
         var glatitude = $('#place_girl').attr('data-glatitude');
         var glongitude = $('#place_girl').attr('data-glongitude');
+
         var blatitude = $('#place_boy').attr('data-blatitude');
         var blongitude = $('#place_boy').attr('data-blongitude');
-        var gtimezone = getTimezone(glatitude, glongitude);
-        var btimezone = getTimezone(blatitude, blongitude);
+
+        var gtimezone = await getTimezone(glatitude, glongitude);
+        var btimezone =await getTimezone(blatitude, blongitude);
        
         $.ajax({
             url: 'https://json.freeastrologyapi.com/match-making/ashtakoot-score',
@@ -408,16 +409,17 @@
   
 
     }
-    function GetGeoLocation(place, type) {
+    async function GetGeoLocation(place, type) {
+        debugger;
         const apiKey = 'AIzaSyCJjqyUFkIsISbG6xJEbtKka9HeLlTM4z0';
-        const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(place)}&key=${apiKey}`;
+        const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(place)}&format=json`;
 
-        fetch(url)
+        await fetch(url)
             .then(response => response.json())
             .then(data => {
-                if (data.status === "OK") {
-                    const latitude = data.results[0].geometry.location.lat;
-                    const longitude = data.results[0].geometry.location.lng;
+                if (data!= null) {
+                    const latitude = data[0].lat;
+                    const longitude = data[0].lon;
 
                     if (type == 'boy') {
                         $('#place_boy').attr('data-blatitude', latitude);
@@ -442,6 +444,7 @@
                 document.getElementById("coordinates").innerHTML = "Error retrieving coordinates.";
             });
     }
+
    async function getTimezone(latitude, longitude) {
        
                 var timestamp = Math.floor(Date.now() / 1000);  // Current timestamp in seconds

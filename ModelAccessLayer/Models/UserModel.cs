@@ -45,5 +45,6 @@ namespace ModelAccessLayer.Models
         public ICollection<JyotishRatingModel> JyotishRating { get; set; } = new List<JyotishRatingModel>();
         public ICollection<UserServiceRecordModel> UserServiceRecord { get; set; } = new List<UserServiceRecordModel>();
         public ICollection<BookedPoojaList> BookedPooja { get; set; } = new List<BookedPoojaList>();
+        public ICollection<KundaliMatchingModel> KundaliMatching { get; set; } = new List<KundaliMatchingModel>();
     }
 }
