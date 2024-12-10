@@ -32,6 +32,7 @@ namespace ModelAccessLayer.Models
         public string? ProfilePictureUrl { get; set; }
         public int? CountryCodeId { get; set; }
         public string? Status { get; set; }
+        public CountryCode countryCoderecord { get; set; }
         public ICollection<CallingModel> CallingModelRecord { get; set; } = new List<CallingModel>();
         public ICollection<ChattingModel> ChattingModelRecord { get; set; } = new List<ChattingModel>();
         public ICollection<ChatedUser> ChatedUserRecord { get; set; } = new List<ChatedUser>();
@@ -43,6 +44,6 @@ namespace ModelAccessLayer.Models
         public ICollection<ClientMembers> memebers { get; set; } = new List<ClientMembers>();
         public ICollection<JyotishRatingModel> JyotishRating { get; set; } = new List<JyotishRatingModel>();
         public ICollection<UserServiceRecordModel> UserServiceRecord { get; set; } = new List<UserServiceRecordModel>();
-        public CountryCode countryCoderecord { get; set; }
+        public ICollection<BookedPoojaList> BookedPooja { get; set; } = new List<BookedPoojaList>();
     }
 }

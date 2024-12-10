@@ -385,7 +385,7 @@ namespace BusinessAccessLayer.Implementation
         }
         public List<PoojaListModel> GetPoojaList()
         {
-            var Records = _context.PoojaList.ToList();
+            var Records = _context.PoojaList.Where(e=>e.Status).ToList();
             return Records;
         }
         public List<SpecializationListModel> GetSpecializationList()

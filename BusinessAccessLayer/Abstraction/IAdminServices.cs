@@ -111,6 +111,7 @@ namespace BusinessAccessLayer.Abstraction
 
         public bool UpdatePoojaList(PoojaCategoryViewModel _pooja);
 
+        public bool RemovePoojaList(int Id);
 
 		public bool StartAndEndInterviewTime(int SlotBookingId, bool Time);
         public bool AddEmployeeInterviewFeedback(EmployeeInterviewFeedbackViewModel data);

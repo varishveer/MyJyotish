@@ -68,6 +68,7 @@ namespace DataAccessLayer.DbServices
         public DbSet<RedeemCodeDiscountValidation> RedeemCodeDiscountValidation { get; set; }    
         public DbSet<UserServiceRecordModel> UserServiceRecord { get; set; }
         public DbSet<RedeemCodeRequest> RedeemCodeRequest { get; set; }
+        public DbSet<BookedPoojaList> BookedPoojaList { get; set; }
 
 
 
@@ -288,6 +289,18 @@ namespace DataAccessLayer.DbServices
          .HasOne(c => c.Employee)
          .WithMany(j => j.redeem)
          .HasForeignKey(c => c.EId);
+            modelBuilder.Entity<PoojaRecordModel>()
+         .HasOne(c => c.jyotish)
+         .WithMany(j => j.poojaRecord)
+         .HasForeignKey(c => c.jyotishId);
+            modelBuilder.Entity<BookedPoojaList>()
+         .HasOne(c => c.User)
+         .WithMany(j => j.BookedPooja)
+         .HasForeignKey(c => c.userId);
+            modelBuilder.Entity<BookedPoojaList>()
+         .HasOne(c => c.Pooja)
+         .WithMany(j => j.BookedPooja)
+         .HasForeignKey(c => c.PoojaId);
         }
 
 

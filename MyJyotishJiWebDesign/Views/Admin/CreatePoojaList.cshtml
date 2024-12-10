@@ -6,7 +6,7 @@
 
 <form class="border rounded p-3 gap-2 mx-auto d-flex w-50" method="post" id="poojaForm">
 	<input type="hidden" name="Id" id="poojaId" />
-	<input type="text" class="form-control" name="name" id="name" placeholder="Enter Pooja Name" />
+	<input type="text" class="form-control" required name="name" id="name" placeholder="Enter Pooja Name" />
 	<input type="submit" value="Add" id="addBtn" class="btn btn-primary btn-sm" />
 </form>
 
@@ -151,4 +151,59 @@
 						$("#addBtn").val("update")
 						location.href="#"
 				}
+
+	function deletePooja(id){
+					 Swal.fire({
+            title:"Are you sure",
+            text: "Do you want to Delete?",
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: "yes",
+            denyButtonText: `no`
+        }).then((result) => {
+            if (result.isConfirmed) {
+        Swal.fire({
+            title: "Processing Your Request",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
+			$.ajax({
+					url: BaseUrl + "api/admin/RemovePoojaList",
+				type: "get",
+				headers: {
+					'Authorization': `Bearer ${localStorage.getItem("Token")}`
+				},
+				data:{Id:id},
+				success: function (res) {
+					if (res.status == 200) {
+						Swal.fire({
+						title: "Successful!",
+						text: "Pooja Deleted successfully!",
+						icon: "success",
+						confirmButtonText: "OK",
+					}).then(() => {
+						location.reload();
+					});
+					}else{
+						Swal.fire({
+						title: "error",
+						text: res.message,
+						icon: "error",
+						confirmButtonText: "OK",
+					});
+					}
+				},error:function(){
+					Swal.fire({
+						title: "error",
+						text: "some error occured",
+						icon: "error",
+						confirmButtonText: "OK",
+					})
+			}
+		 })
+		}
+	})
+}
 </script>
