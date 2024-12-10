@@ -22,6 +22,13 @@
         overflow: auto;
     }
 
+    #PlaceOfBirthList_boy {
+        position: absolute;
+        height: 250px;
+        padding: 10px;
+        overflow: auto;
+    }
+
     .pOBPtag:hover {
         background-color: skyblue;
         color: white;
@@ -38,30 +45,28 @@
                 <h5 class="card-title text-center mb-3">Boy's Details</h5>
 
                 <div class="form-group">
-                    <label for="boy_name">Name</label>
-                    <input type="text" name="boy_name" id="boy_name" class="form-control" placeholder="Enter name" required>
+                    <label for="name_boy">Name</label>
+                    <input type="text" name="name_boy" id="name_boy" class="form-control" placeholder="Enter name" required>
                 </div>
 
                 <div class="form-group row">
                     <div class="col-md-4">
                         <label for="day_boy">Day</label>
                         <select name="day_boy" id="day_boy" class="form-control" required>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
+                          
+                           
                         </select>
                     </div>
                     <div class="col-md-4">
                         <label for="month_boy">Month</label>
                         <select name="month_boy" id="month_boy" class="form-control" required>
-                            <option value="Jan">Jan</option>
-                            <option value="Feb">Feb</option>
+                          
                         </select>
                     </div>
                     <div class="col-md-4">
                         <label for="year_boy">Year</label>
                         <select name="year_boy" id="year_boy" class="form-control" required>
-                            <option value="1990">1990</option>
-                            <option value="1991">1991</option>
+                          
                         </select>
                     </div>
                 </div>
@@ -70,22 +75,19 @@
                     <div class="col-md-4">
                         <label for="hour_boy">Hour</label>
                         <select name="hour_boy" id="hour_boy" class="form-control" required>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
+                           
                         </select>
                     </div>
                     <div class="col-md-4">
                         <label for="min_boy">Minute</label>
                         <select name="min_boy" id="min_boy" class="form-control" required>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
+                            
                         </select>
                     </div>
                     <div class="col-md-4">
                         <label for="sec_boy">Second</label>
                         <select name="sec_boy" id="sec_boy" class="form-control" required>
-                            <option value="0">0</option>
-                            <option value="1">1</option>
+                          
                         </select>
                     </div>
                 </div>
@@ -109,30 +111,27 @@
                 <h5 class="card-title text-center mb-3">Girl's Details</h5>
 
                 <div class="form-group">
-                    <label for="girl_name">Name</label>
-                    <input type="text" name="girl_name" id="girl_name" class="form-control" placeholder="Enter name" required>
+                    <label for="name_girl">Name</label>
+                    <input type="text" name="name_girl" id="name_girl" class="form-control" placeholder="Enter name" required>
                 </div>
 
                 <div class="form-group row">
                     <div class="col-md-4">
-                        <label for="girl_day">Day</label>
-                        <select name="girl_day" id="girl_day" class="form-control" required>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
+                        <label for="day_girl">Day</label>
+                        <select name="day_girl" id="day_girl" class="form-control" required>
+                           
                         </select>
                     </div>
                     <div class="col-md-4">
                         <label for="month_girl">Month</label>
                         <select name="month_girl" id="month_girl" class="form-control" required>
-                            <option value="Jan">Jan</option>
-                            <option value="Feb">Feb</option>
+                          
                         </select>
                     </div>
                     <div class="col-md-4">
                         <label for="year_girl">Year</label>
                         <select name="year_girl" id="year_girl" class="form-control" required>
-                            <option value="1992">1992</option>
-                            <option value="1993">1993</option>
+                           
                         </select>
                     </div>
                 </div>
@@ -141,22 +140,19 @@
                     <div class="col-md-4">
                         <label for="hour_girl">Hour</label>
                         <select name="hour_girl" id="hour_girl" class="form-control" required>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
+                          
                         </select>
                     </div>
                     <div class="col-md-4">
                         <label for="min_girl">Minute</label>
                         <select name="min_girl" id="min_girl" class="form-control" required>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
+                         
                         </select>
                     </div>
                     <div class="col-md-4">
                         <label for="sec_girl">Second</label>
                         <select name="sec_girl" id="sec_girl" class="form-control" required>
-                            <option value="0">0</option>
-                            <option value="1">1</option>
+                           
                         </select>
                     </div>
                 </div>
@@ -206,7 +202,7 @@
     </div>
 
     <div class="text-center mt-4">
-        <button type="submit" class="btn btn-primary btn-lg">Match Horoscope</button>
+        <button type="button" id="matchHoroscope" class="btn btn-primary btn-lg">Match Horoscope</button>
     </div>
 </div>
 
@@ -220,18 +216,18 @@
             const response = await fetch(BaseUrl + `Api/Account/PlaceOfBirthList?City=${encodeURIComponent(city)}`);
             const data = await response.json();
             const $placeOfBirthDropdown = $('#PlaceOfBirthList_girl');
-            console.log(data);
+          
             $('#PlaceOfBirthList_girl').removeClass('d-none');
             $placeOfBirthDropdown.empty();
             data.data.forEach(placeOfBirth => {
-                $placeOfBirthDropdown.append(`<p class="pOBPtag" onClick="setPlace('${placeOfBirth}')"> ${placeOfBirth}</p>`);
+                $placeOfBirthDropdown.append(`<p class="pOBPtag" onClick="setPlace_girl('${placeOfBirth}')"> ${placeOfBirth}</p>`);
             });
         } catch (error) {
             console.error('Error fetching PlaceOfBirth:', error);
         }
     }
 
-    function setPlace(svalue) {
+    function setPlace_girl(svalue) {
 
         $('#PlaceOfBirthList_girl').addClass('d-none');
         $('#place_girl').val(svalue);
@@ -241,6 +237,10 @@
         $('#PlaceOfBirthList_girl').show();
         const city = $(this).val();
         loadPlaceOfBirth_girl(city);
+
+        // Replace with your Google Maps API Key
+       
+        
 
     });
 
@@ -253,18 +253,18 @@
             const response = await fetch(BaseUrl + `Api/Account/PlaceOfBirthList?City=${encodeURIComponent(city)}`);
             const data = await response.json();
             const $placeOfBirthDropdown = $('#PlaceOfBirthList_boy');
-            console.log(data);
+            
             $('#PlaceOfBirthList_boy').removeClass('d-none');
             $placeOfBirthDropdown.empty();
             data.data.forEach(placeOfBirth => {
-                $placeOfBirthDropdown.append(`<p class="pOBPtag" onClick="setPlace('${placeOfBirth}')"> ${placeOfBirth}</p>`);
+                $placeOfBirthDropdown.append(`<p class="pOBPtag" onClick="setPlace_boy('${placeOfBirth}')"> ${placeOfBirth}</p>`);
             });
         } catch (error) {
             console.error('Error fetching PlaceOfBirth:', error);
         }
     }
 
-    function setPlace(svalue) {
+    function setPlace_boy(svalue) {
 
         $('#PlaceOfBirthList_boy').addClass('d-none');
         $('#place_boy').val(svalue);
@@ -273,8 +273,204 @@
 
         $('#PlaceOfBirthList_boy').show();
         const city = $(this).val();
-        loadPlaceOfBirth_girl(city);
-
+        loadPlaceOfBirth_boy(city);
+        // Replace with your Google Maps API Key
+        
+        
     });
+
+
+
+    function LoadData() { 
+     
+            let currentDate = new Date();
+            let year = currentDate.getFullYear();
+        for (var i = 1; i <= 100;i++)
+        {
+            if (i <= 31) {
+                $('#day_girl').append(` <option value="${i}">${i}</option>`);
+                $('#day_boy').append(` <option value="${i}">${i}</option>`);
+            }
+            
+
+            if (i <= 12) {
+
+                $('#month_girl').append(` <option value="${i}">${i}</option>`);
+                $('#month_boy').append(` <option value="${i}">${i}</option>`);
+            }
+
+            $('#year_girl').append(` <option value="${year}">${year}</option>`);
+            $('#year_boy').append(` <option value="${year}">${year}</option>`);
+            year = year - 1;
+
+            if (i <= 60) {
+
+                $('#hour_girl').append(` <option value="${i}">${i}</option>`);
+                $('#hour_boy').append(` <option value="${i}">${i}</option>`);
+                $('#min_girl').append(` <option value="${i}">${i}</option>`);
+                $('#min_boy').append(` <option value="${i}">${i}</option>`);
+                $('#sec_girl').append(` <option value="${i}">${i}</option>`);
+                $('#sec_boy').append(` <option value="${i}">${i}</option>`);
+            }
+
+        }
+
+       
+    
+    }
+
+    LoadData();
+
+
+
+    function kundaliMatchingApi() 
+    {
+        
+        var boyName = $('#name_boy').val();
+        var boyDoB = `${$('#day_boy').val()}-${$('#month_boy').val()}-${$('#year_boy').val()}`;
+        var boyToB = `${$('#hour_boy').val()}:${$('#min_boy').val()}:${$('#sec_boy').val()}`;
+        var boyDate = $('#day_boy').val();
+        var boyMonth = $('#month_boy').val();
+        var boyYear = $('#year_boy').val();
+        var boyhour = $('#hour_boy').val();
+        var boymin = $('#min_boy').val();
+        var boySec = $('#sec_boy').val();
+        var boyPlace = $('#place_boy').val();
+      
+
+
+        var girlName = $('#name_girl').val();
+        var girlDoB = `${$('#day_girl').val()}-${$('#month_girl').val()}-${$('#year_girl').val()}`;
+        var girlToB = `${$('#hour_girl').val()}:${$('#min_girl').val()}:${$('#sec_girl').val()}`;
+        var girlDate = $('#day_girl').val();
+        var girlMonth = $('#month_girl').val();
+        var girlYear = $('#year_girl').val();
+        var girlhour = $('#hour_girl').val();
+        var girlmin = $('#min_girl').val();
+        var girlSec = $('#sec_girl').val();
+        var girlPlace = $('#place_girl').val();
+
+        GetGeoLocation(girlPlace, 'girl');
+        GetGeoLocation(boyPlace, 'boy');
+
+        var glatitude = $('#place_girl').attr('data-glatitude');
+        var glongitude = $('#place_girl').attr('data-glongitude');
+        var blatitude = $('#place_boy').attr('data-blatitude');
+        var blongitude = $('#place_boy').attr('data-blongitude');
+        var gtimezone = getTimezone(glatitude, glongitude);
+        var btimezone = getTimezone(blatitude, blongitude);
+       
+        $.ajax({
+            url: 'https://json.freeastrologyapi.com/match-making/ashtakoot-score',
+            type: 'POST',
+            contentType: 'application/json',
+            headers: {
+                'x-api-key': 'y8gZTCePup5YM0XGzDmRf5UbZo4IMcTR9Wg3CZ6Z'
+            },
+            data: JSON.stringify({
+                "female": {
+                    "year": girlYear,
+                    "month": girlMonth,
+                    "date": girlDate,
+                    "hours": girlhour,
+                    "minutes": girlmin,
+                    "seconds": girlSec,
+                    "latitude": glatitude,
+                    "longitude": glongitude,
+                    "timezone": gtimezone
+                },
+                "male": {
+                    "year": boyYear,
+                    "month": boyMonth,
+                    "date": boyDate,
+                    "hours": boyhour,
+                    "minutes": boymin,
+                    "seconds": boySec,
+                    "latitude": blatitude,
+                    "longitude": blongitude,
+                    "timezone": btimezone
+                },
+                "config": {
+                    "observation_point": "topocentric",
+                    "language": "en",
+                    "ayanamsha": "lahiri"
+                }
+            }),
+            success: function (response) {
+                console.log(response);
+            },
+            error: function (xhr, status, error) {
+                console.error("Error: " + error);
+            }
+        });
+
+       
+  
+
+    }
+    function GetGeoLocation(place, type) {
+        const apiKey = 'AIzaSyCJjqyUFkIsISbG6xJEbtKka9HeLlTM4z0';
+        const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(place)}&key=${apiKey}`;
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "OK") {
+                    const latitude = data.results[0].geometry.location.lat;
+                    const longitude = data.results[0].geometry.location.lng;
+
+                    if (type == 'boy') {
+                        $('#place_boy').attr('data-blatitude', latitude);
+                        $('#place_boy').attr('data-blongitude', longitude);
+                    }
+                    if (type == 'girl') {
+                        $('#place_girl').attr('data-glatitude', latitude);
+                        $('#place_girl').attr('data-glongitude', longitude);
+                    }
+
+
+                } else {
+                    Swal.fire({
+                        title: 'error',
+                        text: 'Something went wrong',
+                        icon: 'error'
+                    })
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                document.getElementById("coordinates").innerHTML = "Error retrieving coordinates.";
+            });
+    }
+   async function getTimezone(latitude, longitude) {
+       
+                var timestamp = Math.floor(Date.now() / 1000);  // Current timestamp in seconds
+                var apiKey = "AIzaSyCJjqyUFkIsISbG6xJEbtKka9HeLlTM4z0";  // Replace with your Google Maps API key
+
+                // Construct URL for the Google Time Zone API
+                    var url = `https://maps.googleapis.com/maps/api/timezone/json?location=${latitude},${longitude}&timestamp=${timestamp}&key=${apiKey}`;
+                    var timezone
+                    // Fetch timezone data from Google API
+                  await  fetch(url)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.status === "OK") {
+                                  timezone = data.timeZoneId;
+                               
+                            } else {
+                                document.getElementById("timezone").innerText = "Error fetching timezone data.";
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Error:", error);
+                            document.getElementById("timezone").innerText = "Error fetching timezone data.";
+                        });
+            return timezone
+    }
+    getTimezone();
+
+    $('#matchHoroscope').on('click', function () {
+        kundaliMatchingApi();
+    })
 </script>
 
