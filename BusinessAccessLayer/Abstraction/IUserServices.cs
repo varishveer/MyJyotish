@@ -56,5 +56,8 @@ namespace BusinessAccessLayer.Abstraction
         public string IsUserValidForRating(int UserId, int JyotishId);
         public bool AddUserServiceRecord(UserServiceRecordViewModel data);
         public UserServiceRecordViewModel GetUserDataForService(int Id);
+
+        public bool AddKundaliMatchingRecord(List<KundaliMatchingViewModel> DataList);
+        public List<KundaliMatchingModel> GetAllKundaliMatchingRecord(int Id);
     }
 }
