@@ -236,13 +236,27 @@ namespace BusinessAccessLayer.Implementation
             { return false; }
 
         }
-        /*  public List<PoojaCategoryModel> GetAllPoojaCategory()
+
+		public bool UpdatePoojaList(PoojaCategoryViewModel _pooja)
+		{
+			var isPoojaValid = _context.PoojaList.Where(x => x.Id == _pooja.Id).FirstOrDefault();
+			if (isPoojaValid != null) { return false; }
+            isPoojaValid.Name = _pooja.Name;
+			_context.PoojaList.Update(isPoojaValid);
+			var result = _context.SaveChanges();
+			if (result > 0)
+			{ return true; }
+			else
+			{ return false; }
+
+		}
+		/*  public List<PoojaCategoryModel> GetAllPoojaCategory()
           {
               var records = _context.PoojaCategory.ToList();
               return records;
           }*/
 
-        /*  public bool AddNewPoojaList(PoojaListViewModel model)
+		/*  public bool AddNewPoojaList(PoojaListViewModel model)
           {
               if(model == null)
               { return false; }
@@ -267,7 +281,7 @@ namespace BusinessAccessLayer.Implementation
                   return false;
               }
           }*/
-        public List<PoojaRecordModel> PoojaRecord()
+		public List<PoojaRecordModel> PoojaRecord()
         {
             var Records = _context.PoojaRecord.ToList();
             return Records;

@@ -38,6 +38,7 @@ namespace MyJyotishJiWebDesign.Controllers
 		{return View();}
         public IActionResult Banners() { return View(); }
         public IActionResult CreateRedeemCode() { return View(); }
+        public IActionResult CreatePoojaList() { return View(); }
 
 
 	}
