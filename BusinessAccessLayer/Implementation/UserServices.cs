@@ -932,6 +932,17 @@ namespace BusinessAccessLayer.Implementation
             return _context.SaveChanges() > 0;
         }
 
+        public List<KundaliMatchingModel> GetAllKundaliMatchingRecord(int Id)
+        {
+            var User = _context.Users.Where(x => x.Id == Id).FirstOrDefault();
+            if(User== null)
+            { return null; }
+            var Record = _context.KundaliMatchingRecord.Where(x => x.UserId == Id && x.Status).ToList();
+            return Record;
+
+        }
+
+        
 
 
     }
