@@ -221,6 +221,56 @@ namespace MyJyotishGApi.Controllers
             }
         }
 
+        [HttpPost("createPooja")]
+        public IActionResult CreatePooja()
+        {
+            var httpRequest = HttpContext.Request;
+            PoojaRecordModel model = new PoojaRecordModel
+            {
+                PoojaType= Convert.ToInt32(httpRequest.Form["poojaId"]),
+                jyotishId = Convert.ToInt32(httpRequest.Form["jyotishId"]),
+                title = httpRequest.Form["title"],
+                Procedure = httpRequest.Form["proccedure"],
+                Benefits = httpRequest.Form["benefits"],
+                AboutGod = httpRequest.Form["aboutgod"]
+            };
+
+            if (httpRequest.Form.Files["image"]!=null)
+            {
+                var image = httpRequest.Form.Files["image"];
+                string uploadsFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Jyotish/pooja");
+                if (!Directory.Exists(uploadsFolderPath))
+                {
+                    Directory.CreateDirectory(uploadsFolderPath);
+                }
+
+                // Process each uploaded file
+
+                string uniqueString = Guid.NewGuid().ToString("N").Substring(0, 10);
+                var filename = uniqueString + image.FileName;
+                string filePath = Path.Combine(uploadsFolderPath, filename);
+                string accessPath = Path.Combine("/Images/Jyotish/pooja", uniqueString + image.FileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    image.CopyTo(stream);
+                }
+
+                model.Image = accessPath;
+            }
+
+            var res = _jyotish.CreateAPooja(model);
+            if (res)
+            {
+                return Ok(new { status = 200, message = "Pooja Create Successfully" });
+            }
+            else
+            {
+                return Ok(new { status = 500, message = "something went wrong" });
+
+            }
+        }
+
         [AllowAnonymous]
         [HttpGet("GetSpecializationList")]
         public IActionResult GetSpecializationList()
