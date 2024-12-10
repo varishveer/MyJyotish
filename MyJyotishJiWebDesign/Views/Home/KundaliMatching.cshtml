@@ -96,7 +96,7 @@
                     <label for="place_boy">Birth Place</label>
                   
 
-                    <input list="PlaceOfBirthList_boy" type="text" name="place_boy" id="place_boy" class="form-control  " placeholder="Enter birth place" required>
+                    <input list="PlaceOfBirthList_boy" type="text" name="place_boy" id="place_boy" class="form-control  " placeholder="Enter birth place" autocomplete="off" required>
 
 
                     <div class="position-absolute bg-light d-none" id="PlaceOfBirthList_boy">
@@ -159,7 +159,7 @@
 
                 <div class="form-group">
                     <label for="place_girl">Birth Place</label>
-                    <input list="PlaceOfBirthList_girl" type="text" name="place_girl" id="place_girl" class="form-control  " placeholder="Enter birth place" required>
+                    <input list="PlaceOfBirthList_girl" type="text" name="place_girl" id="place_girl" class="form-control  " placeholder="Enter birth place" autocomplete="off" required>
 
                   
                     <div class="position-absolute bg-light d-none " id="PlaceOfBirthList_girl">
@@ -402,6 +402,11 @@
             },
             error: function (xhr, status, error) {
                 console.error("Error: " + error);
+                Swal.fire({
+                    title: 'error',
+                    text: 'Something went wrong',
+                    icon: 'error'
+                })
             }
         });
 
@@ -411,8 +416,9 @@
     }
     async function GetGeoLocation(place, type) {
         debugger;
-        const apiKey = 'AIzaSyCJjqyUFkIsISbG6xJEbtKka9HeLlTM4z0';
-        const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(place)}&format=json`;
+    
+
+        const url = `https://nominatim.openstreetmap.org/search?q=${place}&format=json`;
 
         await fetch(url)
             .then(response => response.json())
@@ -441,36 +447,60 @@
             })
             .catch(error => {
                 console.error("Error:", error);
-                document.getElementById("coordinates").innerHTML = "Error retrieving coordinates.";
+                Swal.fire({
+                    title: 'error',
+                    text: 'Something went wrong',
+                    icon: 'error'
+                })
             });
     }
 
    async function getTimezone(latitude, longitude) {
        
                 var timestamp = Math.floor(Date.now() / 1000);  // Current timestamp in seconds
-                var apiKey = "AIzaSyCJjqyUFkIsISbG6xJEbtKka9HeLlTM4z0";  // Replace with your Google Maps API key
+                    var accessKey = "a1866a87e357e1b13a1ad62ee2e061f3";  // Replace with your Google Maps API key
 
                 // Construct URL for the Google Time Zone API
-                    var url = `https://maps.googleapis.com/maps/api/timezone/json?location=${latitude},${longitude}&timestamp=${timestamp}&key=${apiKey}`;
+       var url = `http://api.positionstack.com/v1/reverse?access_key=a1866a87e357e1b13a1ad62ee2e061f3&query=${latitude}, ${longitude} &timezone_module=1`;
                     var timezone
                     // Fetch timezone data from Google API
                   await  fetch(url)
                         .then(response => response.json())
                         .then(data => {
-                            if (data.status === "OK") {
-                                  timezone = data.timeZoneId;
+                            if (data != null) {
+
+                                let timezoneData = data[0].timezone_module;
+                                    const offsetSec = timezoneData.offset_sec;
+                                    const offsetHours = Math.floor(offsetSec / 3600);  // Get full hours
+                                    const offsetMinutes = (offsetSec % 3600) / 60;  // Get the remaining minutes as a decimal
+
+                                    // Combine hours and minutes into a decimal format
+                                    const offsetDecimal = (offsetHours + offsetMinutes / 60).toFixed(1); // To ensure the result is in the form of +X.X
+
+                                    // Format the output as +X.X
+                                    const formattedOffset = `${ offsetHours >= 0 ? "+" : "" }${ offsetDecimal }`;
+
+                                        timezone = formattedOffset;
                                
                             } else {
-                                document.getElementById("timezone").innerText = "Error fetching timezone data.";
+                    Swal.fire({
+                        title: 'error',
+                        text: 'Something went wrong while fetching data',
+                        icon: 'error'
+                    })
                             }
                         })
                         .catch(error => {
                             console.error("Error:", error);
-                            document.getElementById("timezone").innerText = "Error fetching timezone data.";
+                Swal.fire({
+                    title: 'error',
+                    text: 'Something went wrong',
+                    icon: 'error'
+                })
                         });
             return timezone
     }
-    getTimezone();
+  
 
     $('#matchHoroscope').on('click', function () {
         kundaliMatchingApi();
