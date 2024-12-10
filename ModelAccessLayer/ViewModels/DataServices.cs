@@ -232,5 +232,8 @@ namespace ModelAccessLayer.ViewModels
         public string PlaceOfBirth { get; set; }
         public DateTime DateTime { get; set; }
         public string Gender { get; set; }
+        public float Latitude { get; set; }
+        public float Longitude { get; set; }
+        public float Timezone { get; set; }
     }
 }

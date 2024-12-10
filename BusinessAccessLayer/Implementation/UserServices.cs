@@ -907,22 +907,32 @@ namespace BusinessAccessLayer.Implementation
         public bool AddKundaliMatchingRecord(List<KundaliMatchingViewModel> DataList)
         {
             if (DataList.Count == 0)
-            {return false;}
-            KundaliMatchingModel newObject = new KundaliMatchingModel();
+            {
+                return false;
+            }
+            List<KundaliMatchingModel> KundaliList = new List<KundaliMatchingModel>();
             foreach (var data in DataList)
             {
-                newObject.Name = data.Name;
-                newObject.UserId = data.UserId;
-                newObject.DateOfBirth = data.DateOfBirth;
-                newObject.TimeOfBirth = data.TimeOfBirth;
-                newObject.PlaceOfBirth = data.PlaceOfBirth;
-                newObject.DateTime = data.DateTime;
-                newObject.Gender = data.Gender;
-                newObject.Status = true;
-                
+                KundaliList.Add(new KundaliMatchingModel
+                {
+                    Name = data.Name,
+                    UserId = data.UserId,
+                    DateOfBirth = data.DateOfBirth,
+                    TimeOfBirth = data.TimeOfBirth,
+                    PlaceOfBirth = data.PlaceOfBirth,
+                    DateTime = data.DateTime,
+                    Gender = data.Gender,
+                    Status = true,
+                    Latitude = data.Latitude,
+                    Longitude = data.Longitude,
+                    Timezone = data.Timezone
+                });
             }
-            return true;
+            _context.AddRange(KundaliList);
+            return _context.SaveChanges() > 0;
         }
+
+
 
     }
 }

@@ -652,6 +652,24 @@ namespace MyJyotishGApi.Controllers
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
         }
 
+         [HttpGet("AddKundaliMatchingRecord")]
+        public IActionResult AddKundaliMatchingRecord(List<KundaliMatchingViewModel> DataList)
+        {
+            try
+            {
+                var record = _services.AddKundaliMatchingRecord(DataList);
+                if (!record)
+                {
+                    return Ok(new { Status = 500, Message = "Something went wrong" });
+                }
+                else
+                {
+                    return Ok(new { Status = 200, Data = "Successful" });
+                }
+            }
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
+        }
+
 
 
         /* [AllowAnonymous]
