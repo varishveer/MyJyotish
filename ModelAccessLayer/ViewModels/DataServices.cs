@@ -236,4 +236,22 @@ namespace ModelAccessLayer.ViewModels
         public float Longitude { get; set; }
         public float Timezone { get; set; }
     }
+    public class PoojaRecordViewModel
+    {
+       
+        public int Id { get; set; }
+
+        public int PoojaType { get; set; }
+        public int jyotishId { get; set; }
+        public string title { get; set; }
+        public string Procedure { get; set; }
+        public string Benefits { get; set; }
+        public string AboutGod { get; set; }
+        public string ImageUrl { get; set; }
+        public IFormFile Image { get; set; }
+        public bool status { get; set; }
+
+      
+
+    }
 }

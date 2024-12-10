@@ -351,17 +351,17 @@ namespace BusinessAccessLayer.Implementation
             FileStream stream = new FileStream(fullPath, FileMode.Create);
             file.CopyTo(stream);
         }
-        /* public bool CreateAPooja(PoojaRecordModel model)
-         {
-             var isPoojaValid = _context.PoojaCategory.Where(x => x.Name == model.Name).FirstOrDefault();
-             if (isPoojaValid != null)
-             { return false; }
-             _context.PoojaRecord.Add(model);
-             int result = _context.SaveChanges();
-             if (result > 0)
-             { return true; }
-             else { return false; }
-         }*/
+        public bool CreateAPooja(PoojaRecordModel model)
+        {
+            var isPoojaValid = _context.PoojaRecord.Where(x => x.PoojaType == model.PoojaType).FirstOrDefault();
+            if (isPoojaValid != null)
+            { return false; }
+            _context.PoojaRecord.Add(model);
+            int result = _context.SaveChanges();
+            if (result > 0)
+            { return true; }
+            else { return false; }
+        }
         public List<Country> CountryList()
         {
             var Record = _context.Countries.ToList();

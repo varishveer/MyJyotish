@@ -5,7 +5,7 @@
     Layout = "JyotishLayout";
 }
 
-<form class="p-3 border mx-auto rounded shadow">
+<form class="p-3 border mx-auto rounded shadow" id="poojaForm">
     <h3 class="text-primary my-3">Create Pooja</h3>
     <div class="row">
 
@@ -17,7 +17,7 @@
                 </div>
                 <div class="col-sm-4">
                     Pooja Type
-                    <select class="form-select" required name="poojaId"> 
+                    <select class="form-select" required name="poojaId" id="poojaType"> 
                         <option selected disabled>--Select Pooja Type--</option>
                     </select>
                 </div>
@@ -26,15 +26,15 @@
                     <input type="text" class="form-control" placeholder="Enter Title " name="title" />
                 </div>
             </div>
-            <div class="col-sm-12 my-2">
+            <div class="col-sm-12 my-3">
                 Proccedure
                 <textarea class="summernote" rows="2" name="proccedure"></textarea>
             </div>
-            <div class="col-sm-12 my-2">
+            <div class="col-sm-12 my-3">
                 Benefits
                 <textarea class="summernote" rows="2" name="benefits"></textarea>
             </div>
-            <div class="col-sm-12 my-2">
+            <div class="col-sm-12 my-3">
                 About Gods
                 <textarea class="summernote" rows="2" name="aboutGod"></textarea>
             </div>
@@ -45,3 +45,86 @@
     </div>
 
 </form>
+
+<script>
+    function getPoojaList() {
+        
+        Swal.fire({
+            title: "Processing Your Request",
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
+        $.ajax({
+            url: BaseUrl + "api/jyotish/GetPoojaList",
+            type: "get",
+            success: function (res) {
+               
+                if (res.status == 200) {
+                    $("#poojaType").empty()
+                    res.data.forEach(function (d, i) {
+                        $("#poojaType").append(
+                            `<option value='${d.id}'>${d.name}</option>
+                                        `
+                        )
+                    })
+                }
+                Swal.close();
+            }
+        })
+    }
+    getPoojaList();
+
+    $("#poojaForm").submit(function(e){
+        let formData=new FormData();
+        let arrData = $(this).serializeArray();
+        arrData.forEach(function (d) {
+            formData.append(d.name, d.value)
+        });
+        e.preventDefault();
+        Swal.fire({
+            title: "Processing Your Request",
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
+        $.ajax({
+            url: BaseUrl + "api/jyotish/createPooja",
+            type: "Post",
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token2")}`
+            },
+            processData:false,
+            contentType:false,
+            data:formData,
+            success: function (res) {
+                if(res.status==200){
+                    Swal.fire({
+                        text:res.message,
+                        title:"success",
+                        icon:"success",
+                        didClose:()=>{
+                            location.reload();
+                        }
+                    })
+                }else{
+                    Swal.fire({
+                        text: res.message,
+                        title: "error",
+                        icon: "error"
+                        
+                    })
+                }
+            },error:function(){
+                Swal.fire({
+                    text: "some error occured",
+                    title: "error",
+                    icon: "error"
+
+                })
+            }
+        })
+
+    })
+
+</script>
