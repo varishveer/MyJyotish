@@ -33,23 +33,38 @@
         background-color: skyblue;
         color: white;
     }
+    .btnDelete{
+        bottom:5px;
+        right:5px;
+    }
+
+    .mainKundaliContainer{
+        max-height:375px;
+       
+    }
+
+
+    .kundaliDetailCard:hover{
+        background-color:lightyellow;
+        cursor:pointer;
+    }
 </style>
 
-<div class="container-fluid py-4 col-8">
+<div class="container py-4">
     <h3 class="text-center mb-4">Fill Up Partner's Detail</h3>
 
     <div class="row">
         <!-- Boy's Details Section -->
-        <div class="col-md-4">
+        <div class="col-md-4 mainKundaliContainer">
             <div class="card p-4 shadow-sm">
                 <h5 class="card-title text-center mb-3">Boy's Details</h5>
 
-                <div class="form-group">
+                <div class="form-group my-1">
                     <label for="name_boy">Name</label>
                     <input type="text" name="name_boy" id="name_boy" class="form-control" placeholder="Enter name" required>
                 </div>
 
-                <div class="form-group row">
+                <div class="form-group row my-1">
                     <div class="col-md-4">
                         <label for="day_boy">Day</label>
                         <select name="day_boy" id="day_boy" class="form-control" required>
@@ -67,7 +82,7 @@
                     </div>
                 </div>
 
-                <div class="form-group row">
+                <div class="form-group row my-1">
                     <div class="col-md-4">
                         <label for="hour_boy">Hour</label>
                         <select name="hour_boy" id="hour_boy" class="form-control" required>
@@ -85,7 +100,7 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group my-1">
                     <label for="place_boy">Birth Place</label>
 
 
@@ -99,16 +114,16 @@
         </div>
 
         <!-- Girl's Details Section -->
-        <div class="col-md-4">
+        <div class="col-md-4 mainKundaliContainer">
             <div class="card p-4 shadow-sm">
                 <h5 class="card-title text-center mb-3">Girl's Details</h5>
 
-                <div class="form-group">
+                <div class="form-group my-1">
                     <label for="name_girl">Name</label>
                     <input type="text" name="name_girl" id="name_girl" class="form-control" placeholder="Enter name" required>
                 </div>
 
-                <div class="form-group row">
+                <div class="form-group row my-1">
                     <div class="col-md-4">
                         <label for="day_girl">Day</label>
                         <select name="day_girl" id="day_girl" class="form-control" required>
@@ -126,7 +141,7 @@
                     </div>
                 </div>
 
-                <div class="form-group row">
+                <div class="form-group row my-1">
                     <div class="col-md-4">
                         <label for="hour_girl">Hour</label>
                         <select name="hour_girl" id="hour_girl" class="form-control" required>
@@ -144,7 +159,7 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group my-1">
                     <label for="place_girl">Birth Place</label>
                     <input list="PlaceOfBirthList_girl" type="text" name="place_girl" id="place_girl" class="form-control  " placeholder="Enter birth place" autocomplete="off" required>
 
@@ -155,12 +170,12 @@
             </div>
         </div>
 
-        <div class="col-md-4  ">
+        <div class="col-md-4 mainKundaliContainer">
 
 
-            <div class="card h-100 p-4 shadow-sm">
+            <div class="card h-100 w-100 p-2 shadow-sm">
                 <h5 class="card-title text-center mb-3">Saved Matches</h5>
-                <div>
+                <div class="overflow-auto">
 
                     <!-- Search Box -->
                     <div>
@@ -174,12 +189,12 @@
                         </form>
                     </div>
 
-                    <h5>Recently Opened</h5>
+                    <h6 class="fw-normal">Recently Opened</h6>
 
-                    <!-- No Data Message -->
+
                     <div>
                         <div>
-                            <div>No sufficient data available!</div>
+                            <div id="previousData" class="overflow-auto">No sufficient data available!</div>
                         </div>
                     </div>
 
@@ -283,7 +298,7 @@
 
                 $('#month_girl').append(` <option value="${i}">${i}</option>`);
                 $('#month_boy').append(` <option value="${i}">${i}</option>`);
-             
+
             }
 
             $('#year_girl').append(` <option value="${year}">${year}</option>`);
@@ -292,20 +307,68 @@
 
             if (i <= 60) {
 
-               
-                $('#min_girl').append(` <option value="${i}">${i}</option>`);
-                $('#min_boy').append(` <option value="${i}">${i}</option>`);
-                $('#sec_girl').append(` <option value="${i}">${i}</option>`);
-                $('#sec_boy').append(` <option value="${i}">${i}</option>`);
+
+                $('#min_girl').append(` <option value="${i - 1}">${i - 1}</option>`);
+                $('#min_boy').append(` <option value="${i - 1}">${i - 1}</option>`);
+                $('#sec_girl').append(` <option value="${i - 1}">${i - 1}</option>`);
+                $('#sec_boy').append(` <option value="${i - 1}">${i - 1}</option>`);
             }
 
-            if(i<=24){
+            if (i <= 24) {
                 $('#hour_girl').append(` <option value="${i}">${i}</option>`);
                 $('#hour_boy').append(` <option value="${i}">${i}</option>`);
             }
 
         }
 
+        var UserId = localStorage.getItem('userId');
+        var Token = localStorage.getItem('Token');
+
+        if (UserId == null || Token == null) {
+            location.href = "/Home/Login";
+        }
+        $.ajax({
+            url: BaseUrl + `Api/User/GetAllKundaliMatchingRecord?Id=${UserId}`,
+            type: 'GET',
+            headers: {
+                'Authorization': `Bearer ${Token}`
+            },
+            success: function (response) {
+                if (response.status == 200) {
+                    if (response.data.length > 0) {
+                        var Data = response.data;
+                        var container;
+                        
+                        Data.forEach(function (d) {
+                            container = ` <div class="card my-3 position-relative kundaliDetailCard">
+                                              <div class="d-flex align-items-start ">
+                                              <div class="d-flex align-items-start col-sm-2 p-1">
+                                                  <div class="profile_icon_name firstColor rounded-circle bg-primary text-white d-flex justify-content-center align-items-center" style="width: 35px; height: 35px;">${d.name.slice(0, 1).toUpperCase()}
+                                                    </div>
+                                              </div>
+
+
+                                                    <div class="ml-3 col-sm-8">
+                                                  <div class="fs-6">${d.name} <span class="font-weight-light">, ${d.gender}</span></div>
+                                                  <div class="text-muted">${d.dateOfBirth} ${d.timeOfBirth}</div>
+                                                  <div class="text-muted">${d.placeOfBirth}</div>
+                                                </div>
+                                                    <div class="col-sm-2">
+                                                         <i class="fa fa-trash position-absolute btnDelete   text-danger "></i>
+                                                </div>
+
+                                              </div>
+                                            </div>
+                            `;
+                            $('#previousData').append(container);
+
+                            container = "";
+                        });
+
+                    }
+                }
+            }
+        })
     }
 
     LoadData();
@@ -331,17 +394,17 @@
 
 
         var boyName = $('#name_boy').val();
-       
-       
-       
+
+
+
         var boyPlace = $('#place_boy').val();
 
         var girlName = $('#name_girl').val();
-      
-       
-      
+
+
+
         var girlPlace = $('#place_girl').val();
-      
+
 
         await GetGeoLocation(girlPlace, 'girl');
         await GetGeoLocation(boyPlace, 'boy');
@@ -379,26 +442,25 @@
                 "Gender": "Male"
             }
         ]
-            
-           
-        
 
-       
+
+
+
+
         $.ajax({
             url: BaseUrl + `Api/User/AddKundaliMatchingRecord`,
             type: 'POST',
 
             headers: {
-              
+
                 'Authorization': `Bearer ${localStorage.getItem("Token")}`,
             },
             contentType: 'application/json',
             data: JSON.stringify(DataContainer),
             success: function (response) {
-              if(response.status === 200)
-              {
-                  location.href = '/Home/KundaliMatchingReport';
-              }
+                if (response.status === 200) {
+                    location.href = '/Home/KundaliMatchingReport';
+                }
             },
             error: function (xhr, status, error) {
                 console.error("Error: " + error);
@@ -417,7 +479,7 @@
 
 
     async function GetGeoLocation(place, type) {
-    
+
 
 
         const url = `https://nominatim.openstreetmap.org/search?q=${place}&format=json`;
@@ -459,28 +521,28 @@
 
     async function getTimezone(latitude, longitude) {
 
-        var timestamp = Math.floor(Date.now() / 1000);  // Current timestamp in seconds
-        var accessKey = "a1866a87e357e1b13a1ad62ee2e061f3";  // Replace with your Google Maps API key
+        var timestamp = Math.floor(Date.now() / 1000);
+        var accessKey = "a1866a87e357e1b13a1ad62ee2e061f3";
 
-        // Construct URL for the Google Time Zone API
+
         var url = `https://api.positionstack.com/v1/reverse?access_key=${accessKey}&query=${latitude},${longitude}&timezone_module=1`;
         var timezone
-        // Fetch timezone data from Google API
+
         await fetch(url)
             .then(response => response.json())
             .then(data => {
                 if (data != null) {
-                   
+
 
                     const offsetSec = data.data[0].timezone_module.offset_sec;
 
-                    const offsetHours = Math.floor(offsetSec / 3600);  // Get full hours
-                    const offsetMinutes = (offsetSec % 3600) / 60;  // Get the remaining minutes as a decimal
+                    const offsetHours = Math.floor(offsetSec / 3600);
+                    const offsetMinutes = (offsetSec % 3600) / 60;
 
-                    // Combine hours and minutes into a decimal format
-                    const offsetDecimal = (offsetHours + offsetMinutes / 60).toFixed(1); // To ensure the result is in the form of +X.X
 
-                    // Format the output as +X.X
+                    const offsetDecimal = (offsetHours + offsetMinutes / 60).toFixed(1);
+
+
 
                     timezone = offsetDecimal;
 
