@@ -112,14 +112,14 @@ namespace BusinessAccessLayer.Implementation
                                  .Where(x => x.JyotishId == Id)
                                  .Select(video => new JyotishVideosUserViewModel
                                  {
-                                     
+
                                      Id = video.Id,
-                                     VideoUrl = video.VideoUrl ,
+                                     VideoUrl = video.VideoUrl,
                                      VideoTitle = video.VideoTitle,
-                                     ImageUrl= video.ImageUrl,
+                                     ImageUrl = video.ImageUrl,
                                      SerialNo = video.SerialNo
-                                     
-                                 }).OrderBy(order=>order.SerialNo)
+
+                                 }).OrderBy(order => order.SerialNo)
                                  .ToArray();
 
             var gallery = _context.JyotishGallery
@@ -152,13 +152,13 @@ namespace BusinessAccessLayer.Implementation
                 Country = jyotishRecord.Country,
                 State = jyotishRecord.State,
                 City = jyotishRecord.City,
-            
+
                 DateOfBirth = jyotishRecord.DateOfBirth,
                 ProfileImageUrl = jyotishRecord.ProfileImageUrl,
                 Status = jyotishRecord.ApprovedStatus,
                 Otp = jyotishRecord.Otp,
                 Experience = jyotishRecord.Experience,
-             
+
                 Call = jyotishRecord.Call,
                 CallCharges = jyotishRecord.CallCharges,
                 Chat = jyotishRecord.Chat,
@@ -204,7 +204,7 @@ namespace BusinessAccessLayer.Implementation
 
         public List<JyotishModel> SearchAstrologer(string? searchInp)
         {
-          
+
 
             // Call the stored procedure and return results
             var jyotish = _context.Set<JyotishModel>()
@@ -229,15 +229,15 @@ namespace BusinessAccessLayer.Implementation
             if (Records.Count == 0)
             { return null; }
             return Records;
-           
+
         }
 
         public string BookAppointment(AppointmentViewModel model)
         {
             var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
             var User = _context.Users.Where(x => x.Id == model.UserId).FirstOrDefault();
-            var Slot = _context.AppointmentSlots.Where(x=>x.Id == model.SlotId).FirstOrDefault();
-            if (User == null || Jyotish == null|| Slot==null ||Slot.Status == "Booked" ) { return "invalid Data"; }
+            var Slot = _context.AppointmentSlots.Where(x => x.Id == model.SlotId).FirstOrDefault();
+            if (User == null || Jyotish == null || Slot == null || Slot.Status == "Booked") { return "invalid Data"; }
 
 
             AppointmentModel appointment = new AppointmentModel();
@@ -253,14 +253,15 @@ namespace BusinessAccessLayer.Implementation
             _context.AppointmentSlots.Update(Slot);
             _context.AppointmentRecords.Add(appointment);
             var result = _context.SaveChanges();
-            if (result > 0) {
-               
-                return "Successful"; 
+            if (result > 0)
+            {
+
+                return "Successful";
             }
             return "internal Server Error.";
 
         }
-        
+
         public List<JyotishModel> SpecializationFilter(string Keyword)
         {
             Keyword = char.ToUpper(Keyword[0]) + Keyword.Substring(1).ToLower();
@@ -279,11 +280,11 @@ namespace BusinessAccessLayer.Implementation
         }
         public string UpdateProfile(UserUpdateViewModel model, string path)
         {
-            if(model ==  null)
+            if (model == null)
             { return "Invalid Data"; }
 
             var userModel = _context.Users.Where(x => x.Id == model.Id).FirstOrDefault();
-           
+
 
             if (!string.IsNullOrEmpty(model.Mobile))
             {
@@ -330,13 +331,13 @@ namespace BusinessAccessLayer.Implementation
 
             if (CountryName != null)
             {
-               
-                userModel.Country = model.Country; 
+
+                userModel.Country = model.Country;
             }
 
-            if (StateName !=null)
+            if (StateName != null)
             {
-                userModel.State = model.State; 
+                userModel.State = model.State;
             }
 
             if (model.City.HasValue)
@@ -359,15 +360,15 @@ namespace BusinessAccessLayer.Implementation
             _context.Users.Update(userModel);
             if (_context.SaveChanges() > 0) { return "Successful"; }
             else { return "Internal Server Error"; }
-  
+
         }
 
         public List<AppointmentDetailViewModel> UpcommingAppointment(int Id)
         {
             var User = _context.Users.Where(x => x.Id == Id).FirstOrDefault();
-            if(User == null) { return null; }
-            
-            var Records = _context.AppointmentRecords.Where(x => x.UserId == Id&&  x.Date >= DateTime.Now.Date)  // Filter by the userId
+            if (User == null) { return null; }
+
+            var Records = _context.AppointmentRecords.Where(x => x.UserId == Id && x.Date >= DateTime.Now.Date)  // Filter by the userId
              .Join(_context.Users,
                    record => record.UserId,
                    user => user.Id,
@@ -392,9 +393,9 @@ namespace BusinessAccessLayer.Implementation
                        Status = combined.record.Status,
                        Amount = combined.record.Amount,
                        currentDate = DateTime.Now.Date.ToString("dd-MM-yyyy")
-                   }).OrderByDescending(e=>e.Id)
+                   }).OrderByDescending(e => e.Id)
              .ToList();
-            return Records; 
+            return Records;
         }
 
         public List<AppointmentDetailViewModel> AppointmentHistory(int Id)
@@ -566,16 +567,16 @@ namespace BusinessAccessLayer.Implementation
         public List<UserPaymentRecordModel> UserPaymentrecords(int Id)
         {
             var User = _context.Users.Where(x => x.Id == Id).FirstOrDefault();
-            if(User == null) { return null; }
-            var record = _context.UserPaymentRecord.Where(x => x.UserId == Id).OrderBy(e=>e.Id).Reverse().ToList();
+            if (User == null) { return null; }
+            var record = _context.UserPaymentRecord.Where(x => x.UserId == Id).OrderBy(e => e.Id).Reverse().ToList();
             if (record.Count > 0) { return record; }
             else { return null; }
         }
         public UserPaymentRecordModel UserPaymentDetail(int Id)
         {
-          
+
             var record = _context.UserPaymentRecord.Where(x => x.Id == Id).FirstOrDefault();
-            if (record!=null) { return record; }
+            if (record != null) { return record; }
             else { return null; }
         }
 
@@ -584,7 +585,7 @@ namespace BusinessAccessLayer.Implementation
             var users = _context.Users.Where(x => x.Id == uw.userId).FirstOrDefault();
             if (users == null) { return null; }
             var Userwallet = _context.UserWallets.Where(x => x.userId == uw.userId).FirstOrDefault();
-            
+
             if (Userwallet == null)
             {
                 UserWallet user = new UserWallet
@@ -604,7 +605,7 @@ namespace BusinessAccessLayer.Implementation
                 if (_context.SaveChanges() > 0) { return "Successful"; }
                 else { return "Data Not Saved"; }
             }
-           
+
         }
         public string PurchaseWithUserWallets(UserWalletViewmodel uw)
         {
@@ -621,7 +622,7 @@ namespace BusinessAccessLayer.Implementation
             }
             else
             {
-                return "Lower Balance"; 
+                return "Lower Balance";
 
             }
 
@@ -645,7 +646,7 @@ namespace BusinessAccessLayer.Implementation
             {
                 Random rnd = new Random();
                 var rndnum = rnd.Next(100, 999);
-                 paymentId = Jyotish.Name.Split(' ')[0] + DateTime.Now.ToString("ddMMyyyyhhmmss") + pr.UId + rndnum;
+                paymentId = Jyotish.Name.Split(' ')[0] + DateTime.Now.ToString("ddMMyyyyhhmmss") + pr.UId + rndnum;
                 var paymentUnqId = _context.WalletHistroy.Where(x => x.PaymentId == paymentId).FirstOrDefault();
                 if (paymentUnqId != null)
                 {
@@ -663,7 +664,7 @@ namespace BusinessAccessLayer.Implementation
                 status = 1,
                 PaymentBy = "user",
                 PaymentFor = pr.PaymentFor,
-                UId =pr.UId
+                UId = pr.UId
             };
             _context.WalletHistroy.Add(jw);
             if (_context.SaveChanges() > 0) { return "Successful"; }
@@ -696,7 +697,7 @@ namespace BusinessAccessLayer.Implementation
             return Jyotish;
         }
 
-        public List<AppointmentSlotUserViewModel> GetAllAppointmentSlot(int id) 
+        public List<AppointmentSlotUserViewModel> GetAllAppointmentSlot(int id)
         {
             DateTime today = DateTime.Now;
             DateTime yesterday = today.AddDays(-1);
@@ -707,16 +708,17 @@ namespace BusinessAccessLayer.Implementation
                     .GroupBy(x => x.Date)
                     .Select(g => new AppointmentSlotUserViewModel
                     {
-                        
+
                         Date = g.Key, // Date is the grouping key
                         SlotList = g.Select(x => new AppointmentSlotDateUserViewModel
-                        {   Id =x.Id,
+                        {
+                            Id = x.Id,
                             TimeDuration = x.TimeDuration,
                             TimeFrom = x.TimeFrom,
                             TimeTo = x.TimeTo,
                             JyotishId = (int)x.JyotishId,
                             Status = x.Status,
-                            Amount=_context.JyotishRecords.Where(e=>e.Id==id).Select(x=>(int)x.AppointmentCharges).FirstOrDefault()
+                            Amount = _context.JyotishRecords.Where(e => e.Id == id).Select(x => (int)x.AppointmentCharges).FirstOrDefault()
                         }).ToList()
                     })
                     .ToList();
@@ -753,7 +755,7 @@ namespace BusinessAccessLayer.Implementation
                         AppointmentId = group.Key.Id,
                         Date = slot != null ? DateOnly.FromDateTime(slot.Date) : DateOnly.MinValue,
                         Time = slot != null ? slot.TimeFrom : TimeOnly.MinValue,
-                        
+
                     };
                 })
                 .ToList();
@@ -761,10 +763,10 @@ namespace BusinessAccessLayer.Implementation
             return data;
         }
 
-      
+
         public LayoutDataViewModel LayoutData(int Id)
         {
-            var record = _context.Users.Where(x => x.Id == Id ).FirstOrDefault();
+            var record = _context.Users.Where(x => x.Id == Id).FirstOrDefault();
             if (record == null)
             {
                 return null;
@@ -785,14 +787,14 @@ namespace BusinessAccessLayer.Implementation
         {
             var User = _context.Users.Where(x => x.Id == data.UserId).FirstOrDefault();
             var Jyotish = _context.JyotishRecords.Where(x => x.Id == data.JyotishId && x.Status == true).FirstOrDefault();
-            if(User == null || Jyotish == null)
+            if (User == null || Jyotish == null)
             {
                 return "Invalid Id";
             }
             var Appointment = _context.AppointmentRecords.Where(x => x.JyotishId == data.JyotishId && x.UserId == data.UserId).FirstOrDefault();
-            var Chat = _context.ChatedUser.Where(x=>x.UserId == data.UserId && x.JyotishId == data.JyotishId).FirstOrDefault();
+            var Chat = _context.ChatedUser.Where(x => x.UserId == data.UserId && x.JyotishId == data.JyotishId).FirstOrDefault();
             var Rating = _context.JyotishRating.Where(x => x.JyotishId == data.JyotishId && x.UserId == data.UserId).FirstOrDefault();
-            if(Appointment == null && Chat == null)
+            if (Appointment == null && Chat == null)
             {
                 return "No Data Found of Services";
             }
@@ -807,7 +809,8 @@ namespace BusinessAccessLayer.Implementation
                 Rating.Status = false;
                 _context.JyotishRating.Update(Rating);
             }
-            else {
+            else
+            {
                 JyotishRatingModel NewRecord = new JyotishRatingModel();
                 NewRecord.FeedbackMessage = data.FeedbackMessage;
                 NewRecord.Stars = data.Stars;
@@ -817,28 +820,29 @@ namespace BusinessAccessLayer.Implementation
                 NewRecord.Status = false;
                 _context.JyotishRating.Add(NewRecord);
             }
-          
+
             if (_context.SaveChanges() > 0)
             {
                 return "Successful";
             }
             else { return "Internal Server Error"; }
 
-           
+
         }
 
         public List<JyotishRatingViewModel> JyotishRatingList(int Id)
         {
-            var record = _context.JyotishRating.Where(x => x.JyotishId == Id && x.Status == true).Include(x=>x.Jyotish).Include(x=>x.User).Select(x=> new JyotishRatingViewModel {
+            var record = _context.JyotishRating.Where(x => x.JyotishId == Id && x.Status == true).Include(x => x.Jyotish).Include(x => x.User).Select(x => new JyotishRatingViewModel
+            {
                 Id = x.Id,
                 FeedbackMessage = x.FeedbackMessage,
                 Stars = x.Stars,
                 DateTime = x.DateTime,
                 UserName = x.User.Name,
-              
 
-            
-            }).OrderByDescending(x=>x.DateTime).ToList();
+
+
+            }).OrderByDescending(x => x.DateTime).ToList();
             return record;
         }
 
@@ -851,14 +855,14 @@ namespace BusinessAccessLayer.Implementation
             var Chat = _context.ChatedUser.Where(x => x.JyotishId == JyotishId && x.UserId == UserId).FirstOrDefault();
             if (Appointment == null && Chat == null) { return "No"; }
             return "Yes";
-        }   
+        }
 
 
         public bool AddUserServiceRecord(UserServiceRecordViewModel data)
         {
-            var Jyotish = _context.JyotishRecords.Where(x=>x.Id == data.JyotishId).FirstOrDefault();
+            var Jyotish = _context.JyotishRecords.Where(x => x.Id == data.JyotishId).FirstOrDefault();
             var User = _context.Users.Where(x => x.Id == data.UserId).FirstOrDefault();
-            if(Jyotish == null || User == null)
+            if (Jyotish == null || User == null)
             {
                 return false;
             }
@@ -879,24 +883,24 @@ namespace BusinessAccessLayer.Implementation
                 return true;
             }
             else { return false; }
-            
+
 
         }
 
         public UserServiceRecordViewModel GetUserDataForService(int Id)
         {
             var User = _context.Users.Where(x => x.Id == Id).FirstOrDefault();
-            if(User == null) { return null; }
+            if (User == null) { return null; }
             UserServiceRecordViewModel UserRecord = new UserServiceRecordViewModel();
-           
+
             UserRecord.Name = User.Name;
             UserRecord.Gender = User.Gender;
             UserRecord.DateOfBirth = DateOnly.Parse(User.DoB);
-            if(User.TimeOfBirth != null)
+            if (User.TimeOfBirth != null)
             {
                 UserRecord.TimeOfBirth = (TimeOnly)User.TimeOfBirth;
             }
-           
+
             UserRecord.PlaceOfBirth = User.PlaceOfBirth;
             UserRecord.UserId = User.Id;
 
@@ -906,43 +910,79 @@ namespace BusinessAccessLayer.Implementation
 
         public bool AddKundaliMatchingRecord(List<KundaliMatchingViewModel> DataList)
         {
-            if (DataList.Count == 0)
+            var Transaction = _context.Database.BeginTransaction();
+            try
             {
+                if (DataList.Count == 0)
+                {
+                    return false;
+                }
+
+
+                var KundaliRecords = _context.KundaliMatchingRecord.Where(x => x.UserId == DataList[0].UserId && x.ActiveStatus).ToList();
+
+                KundaliRecords.ForEach(record => record.ActiveStatus = false);
+                _context.KundaliMatchingRecord.AddRange(KundaliRecords);
+                if (_context.SaveChanges() > 0)
+                {
+
+
+                    List<KundaliMatchingModel> KundaliList = new List<KundaliMatchingModel>();
+                    foreach (var data in DataList)
+                    {
+                        KundaliList.Add(new KundaliMatchingModel
+                        {
+                            Name = data.Name,
+                            UserId = data.UserId,
+                            DateOfBirth = data.DateOfBirth,
+                            TimeOfBirth = data.TimeOfBirth,
+                            PlaceOfBirth = data.PlaceOfBirth,
+                            DateTime = data.DateTime,
+                            Gender = data.Gender,
+                            Status = true,
+                            Latitude = data.Latitude,
+                            Longitude = data.Longitude,
+                            Timezone = data.Timezone,
+                            ActiveStatus = true,
+                        });
+                    }
+                    _context.AddRange(KundaliList);
+                    if (_context.SaveChanges() > 0)
+                    {
+                        Transaction.Commit();
+                        return true;
+                    }
+                    else
+                    {
+                        Transaction.Rollback();
+                        return false;
+                    }
+
+                }
+                else
+                {
+
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Transaction.Rollback();
                 return false;
             }
-            List<KundaliMatchingModel> KundaliList = new List<KundaliMatchingModel>();
-            foreach (var data in DataList)
-            {
-                KundaliList.Add(new KundaliMatchingModel
-                {
-                    Name = data.Name,
-                    UserId = data.UserId,
-                    DateOfBirth = data.DateOfBirth,
-                    TimeOfBirth = data.TimeOfBirth,
-                    PlaceOfBirth = data.PlaceOfBirth,
-                    DateTime = data.DateTime,
-                    Gender = data.Gender,
-                    Status = true,
-                    Latitude = data.Latitude,
-                    Longitude = data.Longitude,
-                    Timezone = data.Timezone
-                });
-            }
-            _context.AddRange(KundaliList);
-            return _context.SaveChanges() > 0;
         }
 
         public List<KundaliMatchingModel> GetAllKundaliMatchingRecord(int Id)
         {
             var User = _context.Users.Where(x => x.Id == Id).FirstOrDefault();
-            if(User== null)
+            if (User == null)
             { return null; }
             var Record = _context.KundaliMatchingRecord.Where(x => x.UserId == Id && x.Status).ToList();
             return Record;
 
         }
 
-        
+
 
 
     }

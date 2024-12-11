@@ -22,6 +22,7 @@ namespace ModelAccessLayer.Models
         public float Timezone { get; set; }
 
         public bool Status { get; set; }
+        public bool ActiveStatus { get; set; }
         public UserModel User { get; set; }
     }
 }
