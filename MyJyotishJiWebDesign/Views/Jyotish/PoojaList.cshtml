@@ -1,0 +1,306 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+	Layout = "JyotishLayout";
+
+}
+
+<style>
+	th {
+		font-size: 10px !important;
+	}
+
+	.detailContainer {
+		text-align: justify !important;
+	}
+</style>
+
+<div class="container-fluid overflow-auto">
+	<table class="table table-responsive table-stipend table-bordered">
+		<thead>
+			<tr>
+				<th>Sr</th>
+				<th>Pooja Name</th>
+				<th>Title</th>
+				<th>Thumbnail</th>
+				<th>proccedure</th>
+				<th>benefits</th>
+				<th>aboutGod</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody id="poojaListBody">
+		</tbody>
+	</table>
+</div>
+
+<!-- Modal for show pooja-->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-scrollable modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5" id="exampleModalLabel">Details</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<div class="detailContainer"></div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--Update Modal-->
+<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModal2Label" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-scrollable modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5" id="exampleModal2Label">Update Pooja details</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form class="p-3 border mx-auto rounded shadow" id="poojaForm">
+					<h3 class="text-primary my-3">Update Pooja Details</h3>
+					<div class="row">
+						<input type="hidden" name="Id" id="poojaId" />
+						<div class="col-sm-12">
+							<div class="row">
+								<div class="col-sm-4">
+									Thumbnail
+									<input type="file" class="form-control" name="image" id="image" />
+								</div>
+								<div class="col-sm-4">
+									Pooja Type
+									<select class="form-select" required name="poojaId" id="poojaType">
+										<option selected disabled>--Select Pooja Type--</option>
+									</select>
+								</div>
+								<div class="col-sm-4">
+									Title
+									<input type="text" class="form-control" id="title" placeholder="Enter Title " name="title" />
+								</div>
+							</div>
+							<div class="col-sm-12 my-3">
+								Proccedure
+								<textarea class="summernote procSummer" rows="2" name="proccedure"></textarea>
+							</div>
+							<div class="col-sm-12 my-3">
+								Benefits
+								<textarea class="summernote benSummer" rows="2" name="benefits"></textarea>
+							</div>
+							<div class="col-sm-12 my-3">
+								About Gods
+								<textarea class="summernote godSummer" rows="2" name="aboutGod"></textarea>
+							</div>
+							<div class="col-sm-12 text-center">
+								<input type="submit" value="Update" class="btn btn-primary" />
+							</div>
+						</div>
+					</div>
+
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script>
+
+
+	function getPoojaList() {
+		Swal.fire({
+			title: "Processing Your Request",
+			didOpen: () => {
+				Swal.showLoading();
+			}
+		})
+		$.ajax({
+			url: BaseUrl + "api/jyotish/getPoojaByJyotish",
+			type: "get",
+			headers: {
+				'Authorization': `Bearer ${localStorage.getItem("Token2")}`
+			},
+			data: { jyotishId: localStorage.getItem("Id") },
+			success: function (res) {
+				console.log(res)
+				if (res.status == 200) {
+					if (res.data.length > 0) {
+						$("#poojaListBody").empty();
+						res.data.forEach(function (d, i) {
+							$("#poojaListBody").append(`
+								<tr>
+								<td>${i + 1}</td>
+									<td>${d.poojaName}</td>
+										<td>${d.poojaTitle.slice(0, 15)}...</td>
+										<td><img height='100' width='100' src='${BaseUrl}${d.image}' alt="thumbnail"></td>
+										<td class='text-center'>
+																		<i role='button' id="proc_${d.id}" onClick="setDataintoModal(${d.id},'proc')" data-value='${d.procedure.replace(/`/g, '\\`').replace(/'/g, '&apos;')}'  class="fas fs-5 fa-eye"></i></td>
+												<td class='text-center'>
+																	<i onClick="setDataintoModal(${d.id},'benefits')" id="ben_${d.id}" data-value='${d.benefits.replace(/`/g, '\\`').replace(/'/g, '&apos;')}' role='button'  class="fas fs-5 fa-eye"></i></td>
+												<td class='text-center'>
+																<i role='button' onClick="setDataintoModal(${d.id},'god')" data-value='${d.aboutGod.replace(/`/g, '\\`').replace(/'/g, '&apos;')}' id='god_${d.id}' data-bs-toggle="modal" data-bs-target="#exampleModal" class="fas fs-5 fa-eye"></i></td>
+												<td class='text-center'>
+															<i data-bs-toggle="modal" onclick='getPoojaForUpdate(${d.id})' data-bs-target="#exampleModal2" class="fas   btn btn-sm btn-warning mb-1 text-light fa-edit"></i>
+													<i class="fas  btn btn-danger btn-sm fa-trash-alt"></i>
+												</td>
+								</tr>
+								`)
+						})
+					}
+				}
+				Swal.close()
+			}, error: function () {
+				Swal.fire({
+					text: "some error occured",
+					title: "error",
+					icon: "error"
+				})
+			}
+		})
+	}
+	getPoojaList()
+	function getPoojaForUpdate(id) {
+		Swal.fire({
+			title: "Processing Your Request",
+			didOpen: () => {
+				Swal.showLoading();
+			}
+		})
+		$.ajax({
+			url: BaseUrl + "api/jyotish/getpoojaByPoojaId",
+			type: "get",
+			headers: {
+				'Authorization': `Bearer ${localStorage.getItem("Token2")}`
+			},
+			data: { poojaId: id },
+			success: function (res) {
+				if(res.status==200&&res.data!=null){
+					$("#poojaType").val(res.data.poojaType)
+					$("#title").val(res.data.title)
+					$('.procSummer').summernote('code', res.data.procedure);
+					$('.benSummer').summernote('code', res.data.benefits);
+					$('.godSummer').summernote('code', res.data.aboutGod);
+					$("#poojaId").val(id)
+				}
+			Swal.close();
+			}, error: function () {
+				Swal.fire({
+					text: "some error occured",
+					title: "error",
+					icon: "error"
+				})
+			}
+		})
+	}
+	function setDataintoModal(id, type) {
+		if (type == "proc") {
+
+			$(".detailContainer").html($("#proc_" + id).attr("data-value"))
+			$("#exampleModalLabel").text("Proccedure")
+		} else if (type == "benefits") {
+			$(".detailContainer").html($("#ben_" + id).attr("data-value"))
+			$("#exampleModalLabel").text("Benefits")
+
+
+		} else if (type == "god") {
+			$(".detailContainer").html($("#god_" + id).attr("data-value"))
+			$("#exampleModalLabel").text("About God")
+
+		}
+	
+		$("#exampleModal").modal("show")
+	}
+	function getPoojaListForDrop() {
+
+		Swal.fire({
+			title: "Processing Your Request",
+			didOpen: () => {
+				Swal.showLoading();
+			}
+		})
+		$.ajax({
+			url: BaseUrl + "api/jyotish/GetPoojaList",
+			type: "get",
+			success: function (res) {
+
+				if (res.status == 200) {
+					$("#poojaType").empty()
+					res.data.forEach(function (d, i) {
+						$("#poojaType").append(
+							`<option value='${d.id}'>${d.name}</option>
+											`
+						)
+					})
+				}
+				Swal.close();
+			}
+		})
+	}
+	getPoojaListForDrop();
+
+	$("#poojaForm").submit(function (e) {
+		e.preventDefault();
+		let formData = new FormData();
+		let arrData = $(this).serializeArray();
+		arrData.forEach(function (d) {
+			formData.append(d.name, d.value)
+		});
+
+		formData.append("jyotishId", localStorage.getItem("Id"));
+		if ($("#image").get(0).files[0]!=null||$("#image").get(0).files[0]!=undefined){
+
+		formData.append("image", $("#image").get(0).files[0]);
+		}
+		e.preventDefault();
+		Swal.fire({
+			title: "Processing Your Request",
+			didOpen: () => {
+				Swal.showLoading();
+			}
+		})
+		$.ajax({
+			url: BaseUrl + "api/jyotish/UpdatePooja",
+			type: "Post",
+			headers: {
+				'Authorization': `Bearer ${localStorage.getItem("Token2")}`
+			},
+			processData: false,
+			contentType: false,
+			data: formData,
+			success: function (res) {
+				if (res.status == 200) {
+					Swal.fire({
+						text: res.message,
+						title: "success",
+						icon: "success",
+						didClose: () => {
+							location.reload();
+						}
+					})
+				} else {
+					Swal.fire({
+						text: res.message,
+						title: "error",
+						icon: "error"
+
+					})
+				}
+			}, error: function () {
+				Swal.fire({
+					text: "some error occured",
+					title: "error",
+					icon: "error"
+
+				})
+			}
+		})
+
+	})
+</script>
