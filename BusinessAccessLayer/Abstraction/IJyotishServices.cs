@@ -86,7 +86,10 @@ namespace BusinessAccessLayer.Abstraction
         public dynamic getRedeemCode(int jyotishId);
         public bool CreateAPooja(PoojaRecordModel model);
 
+        public dynamic poojaByPoojaId(int id);
+
+        public bool UpdatePooja(PoojaRecordModel model);
 
 
-    }
+	}
 }

@@ -363,7 +363,29 @@ namespace BusinessAccessLayer.Implementation
             else { return false; }
         }
 
-        public dynamic getPoojaByJyotish(int Id)
+		public bool UpdatePooja(PoojaRecordModel model)
+		{
+			var isPoojaValid = _context.PoojaRecord.Where(x => x.Id == model.Id && x.status).FirstOrDefault();
+			if (isPoojaValid != null)
+			{ return false; }
+            isPoojaValid.PoojaType = model.PoojaType;
+            isPoojaValid.title = model.title;
+            isPoojaValid.Benefits = model.Benefits;
+            isPoojaValid.Procedure = model.Procedure;
+            isPoojaValid.AboutGod = model.AboutGod;
+            if (model.Image != null)
+            {
+                isPoojaValid.Image=model.Image;
+            }
+               
+			_context.PoojaRecord.Update(model);
+			int result = _context.SaveChanges();
+			if (result > 0)
+			{ return true; }
+			else { return false; }
+		}
+
+		public dynamic getPoojaByJyotish(int Id)
         {
             var res = (from pooja in _context.PoojaRecord
                        join poojaType in _context.PoojaList on pooja.PoojaType equals poojaType.Id
@@ -380,6 +402,12 @@ namespace BusinessAccessLayer.Implementation
                        }
                        ).ToList();
 
+            return res;
+        }
+
+        public dynamic poojaByPoojaId(int id)
+        {
+            var res=_context.PoojaRecord.Where(e=>e.Id==id&&e.status).FirstOrDefault();
             return res;
         }
         public List<Country> CountryList()
