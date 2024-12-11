@@ -362,6 +362,11 @@ namespace BusinessAccessLayer.Implementation
             { return true; }
             else { return false; }
         }
+
+        //public dynamic getPoojaByJyotish(int Id)
+        //{
+        //    var res=(from pooja in _)
+        //}
         public List<Country> CountryList()
         {
             var Record = _context.Countries.ToList();
