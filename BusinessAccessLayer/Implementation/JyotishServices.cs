@@ -353,7 +353,7 @@ namespace BusinessAccessLayer.Implementation
         }
         public bool CreateAPooja(PoojaRecordModel model)
         {
-            var isPoojaValid = _context.PoojaRecord.Where(x => x.PoojaType == model.PoojaType).FirstOrDefault();
+            var isPoojaValid = _context.PoojaRecord.Where(x => x.PoojaType == model.PoojaType&&x.status).FirstOrDefault();
             if (isPoojaValid != null)
             { return false; }
             _context.PoojaRecord.Add(model);
@@ -363,10 +363,25 @@ namespace BusinessAccessLayer.Implementation
             else { return false; }
         }
 
-        //public dynamic getPoojaByJyotish(int Id)
-        //{
-        //    var res=(from pooja in _)
-        //}
+        public dynamic getPoojaByJyotish(int Id)
+        {
+            var res = (from pooja in _context.PoojaRecord
+                       join poojaType in _context.PoojaList on pooja.PoojaType equals poojaType.Id
+                       where pooja.status && poojaType.Status
+                       select new
+                       {
+                           id=pooja.Id,
+                           poojaName=poojaType.Name,
+                           poojaTitle=pooja.title,
+                           benefits=pooja.Benefits,
+                           procedure=pooja.Procedure,
+                           aboutGod=pooja.AboutGod,
+                           image=pooja.Image
+                       }
+                       ).ToList();
+
+            return res;
+        }
         public List<Country> CountryList()
         {
             var Record = _context.Countries.ToList();

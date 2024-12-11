@@ -67,6 +67,7 @@ namespace BusinessAccessLayer.Abstraction
 
         public string AddWallet(JyotishWalletViewmodel pr);
         public long GetWallet(int JyotishId);
+        public dynamic getPoojaByJyotish(int Id);
 
         public string AddWalletHistory(WalletHistoryViewmodel pr);
         public dynamic GetWalletHistory(int JyotishId);
