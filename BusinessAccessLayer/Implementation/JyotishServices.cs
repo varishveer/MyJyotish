@@ -367,7 +367,7 @@ namespace BusinessAccessLayer.Implementation
 		public bool UpdatePooja(PoojaRecordModel model)
 		{
 			var isPoojaValid = _context.PoojaRecord.Where(x => x.Id == model.Id && x.status).FirstOrDefault();
-			if (isPoojaValid != null)
+			if (isPoojaValid == null)
 			{ return false; }
             isPoojaValid.PoojaType = model.PoojaType;
             isPoojaValid.title = model.title;
@@ -389,7 +389,7 @@ namespace BusinessAccessLayer.Implementation
         public bool removePooja(int Id)
         {
 			var isPoojaValid = _context.PoojaRecord.Where(x => x.Id == Id && x.status).FirstOrDefault();
-			if (isPoojaValid != null)
+			if (isPoojaValid == null)
 			{ return false; }
             isPoojaValid.status = false;
 			_context.PoojaRecord.Update(isPoojaValid);
