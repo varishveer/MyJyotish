@@ -688,11 +688,11 @@ namespace MyJyotishGApi.Controllers
         }
         
         [HttpDelete("DeleteKundaliRecord")]
-        public IActionResult DeleteKundaliRecord(int UserId,int Id)
+        public IActionResult DeleteKundaliRecord(int Id)
         {
             try
             {
-                var record = _services.DeleteKundaliRecord(UserId,Id);
+                var record = _services.DeleteKundaliRecord(Id);
                 if (!record)
                 {
                     return Ok(new { Status = 500, Message = "Record not found" });

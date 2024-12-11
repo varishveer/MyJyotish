@@ -60,6 +60,8 @@ namespace BusinessAccessLayer.Abstraction
         public bool AddKundaliMatchingRecord(List<KundaliMatchingViewModel> DataList);
         public List<KundaliMatchingViewModel> GetAllKundaliMatchingRecord(int Id);
         public List<KundaliMatchingViewModel> GetLatestKundaliRecord(int Id);
+        public bool DeleteKundaliRecord( int Id);
+    }
         public bool DeleteKundaliRecord(int UserId, int Id);
         public dynamic getAllPoojaList();
         public dynamic getPoojaDetailByPoojaId(int Id);

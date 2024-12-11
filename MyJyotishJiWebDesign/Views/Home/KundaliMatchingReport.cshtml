@@ -211,7 +211,7 @@
         </table>
 
     </div>
-    <p class="matching-points">Ashtakoot Matching between male and female is 26.5 points out of 36 points. This is a reasonably good score. Hence, this is a favourable Ashtakoot match.</p>
+   
 
 
 
@@ -269,7 +269,7 @@
         document.getElementById('nadi_out_of').innerText = data.nadi_kootam.out_of;
         document.getElementById('nadi_score').innerText = data.nadi_kootam.score;
 
-        document.getElementById('total_score_value').innerText = data.total_score;
+        document.getElementById('total_score_value').innerText =`${data.total_score}/${data.out_of}` ;
     }
     async function kundaliMatchingApi(response) {
 

@@ -999,6 +999,7 @@ namespace BusinessAccessLayer.Implementation
                 Timezone = x.Timezone,
 
             }).ToList();
+            Record.Reverse();
             return Record;
         }
 
@@ -1024,9 +1025,9 @@ namespace BusinessAccessLayer.Implementation
             }).ToList();
             return Record;
         }
-        public bool DeleteKundaliRecord(int UserId ,int Id)
+        public bool DeleteKundaliRecord(int Id)
         {
-            var Record = _context.KundaliMatchingRecord.Where(x => x.UserId == UserId && x.Id == Id && x.Status).FirstOrDefault();
+            var Record = _context.KundaliMatchingRecord.Where(x => x.Id == Id && x.Status).FirstOrDefault();
             if(Record == null)
             {
                 return false;
