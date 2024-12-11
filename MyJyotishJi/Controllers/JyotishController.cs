@@ -340,7 +340,23 @@ namespace MyJyotishGApi.Controllers
             }
         }
 
-        [HttpGet("getPoojaByJyotish")]
+        [HttpGet("removePooja")]
+        public IActionResult RemovePooja(int Id)
+        {
+            var res = _jyotish.removePooja(Id);
+            if (res)
+            {
+                return Ok(new { status = 200, message = "Record Deleted Successfully" });
+            }
+            else
+            {
+				return Ok(new { status = 500, message = "something went wrong" });
+
+			}
+
+		}
+
+		[HttpGet("getPoojaByJyotish")]
         public IActionResult getPoojaByJyotish(int jyotishId)
         {
                 try
