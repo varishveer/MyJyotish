@@ -8,7 +8,6 @@ namespace ModelAccessLayer.Models
 {
     public class KundaliMatchingModel
     {
-
         public int Id { get; set; }
         public int UserId { get; set; }
         public string Name { get; set; }

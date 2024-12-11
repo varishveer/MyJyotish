@@ -2,6 +2,7 @@
 using BusinessAccessLayer.Abstraction;
 using DataAccessLayer.DbServices;
 using DataAccessLayer.Migrations;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -918,15 +919,21 @@ namespace BusinessAccessLayer.Implementation
                     return false;
                 }
 
-
+                int Step1 = 0;
                 var KundaliRecords = _context.KundaliMatchingRecord.Where(x => x.UserId == DataList[0].UserId && x.ActiveStatus).ToList();
-
-                KundaliRecords.ForEach(record => record.ActiveStatus = false);
-                _context.KundaliMatchingRecord.AddRange(KundaliRecords);
-                if (_context.SaveChanges() > 0)
+                if (KundaliRecords.Count > 0)
                 {
+                    KundaliRecords.ForEach(record => record.ActiveStatus = false);
+                    _context.KundaliMatchingRecord.UpdateRange(KundaliRecords);
+                    Step1 = _context.SaveChanges();
+                }
+                else {
+                    Step1 = 1;
+                }
 
 
+                if (Step1>0)
+                {
                     List<KundaliMatchingModel> KundaliList = new List<KundaliMatchingModel>();
                     foreach (var data in DataList)
                     {
@@ -937,7 +944,7 @@ namespace BusinessAccessLayer.Implementation
                             DateOfBirth = data.DateOfBirth,
                             TimeOfBirth = data.TimeOfBirth,
                             PlaceOfBirth = data.PlaceOfBirth,
-                            DateTime = data.DateTime,
+                            DateTime = DateTime.Now,
                             Gender = data.Gender,
                             Status = true,
                             Latitude = data.Latitude,
@@ -972,18 +979,71 @@ namespace BusinessAccessLayer.Implementation
             }
         }
 
-        public List<KundaliMatchingModel> GetAllKundaliMatchingRecord(int Id)
+        public List<KundaliMatchingViewModel> GetAllKundaliMatchingRecord(int Id)
         {
             var User = _context.Users.Where(x => x.Id == Id).FirstOrDefault();
             if (User == null)
             { return null; }
-            var Record = _context.KundaliMatchingRecord.Where(x => x.UserId == Id && x.Status).ToList();
-            return Record;
+            var Record = _context.KundaliMatchingRecord.Where(x => x.UserId == Id && x.Status).Select(x=> new
+            KundaliMatchingViewModel
+            {
+                Id=x.Id,
+                Name = x.Name,
+                UserId = x.UserId,
+                DateOfBirth= x.DateOfBirth,
+                TimeOfBirth = x.TimeOfBirth,
+                PlaceOfBirth = x.PlaceOfBirth,
+                Gender = x.Gender,
+                Latitude= x.Latitude,
+                Longitude = x.Longitude,
+                Timezone = x.Timezone,
 
+            }).ToList();
+            return Record;
         }
 
+        public List<KundaliMatchingViewModel> GetLatestKundaliRecord(int Id)
+        {
+            var User = _context.Users.Where(x => x.Id == Id).FirstOrDefault();
+            if (User == null)
+            { return null; }
+            var Record = _context.KundaliMatchingRecord.Where(x => x.UserId == Id && x.Status &&x.ActiveStatus).Select(x => new
+            KundaliMatchingViewModel
+            {
+                Id = x.Id,
+                Name = x.Name,
+                UserId = x.UserId,
+                DateOfBirth = x.DateOfBirth,
+                TimeOfBirth = x.TimeOfBirth,
+                PlaceOfBirth = x.PlaceOfBirth,
+                Gender = x.Gender,
+                Latitude = x.Latitude,
+                Longitude = x.Longitude,
+                Timezone = x.Timezone,
 
+            }).ToList();
+            return Record;
+        }
+        public bool DeleteKundaliRecord(int UserId ,int Id)
+        {
+            var Record = _context.KundaliMatchingRecord.Where(x => x.UserId == UserId && x.Id == Id && x.Status).FirstOrDefault();
+            if(Record == null)
+            {
+                return false;
+            }
 
+            Record.Status = false;
+            Record.ActiveStatus = false;
+            _context.KundaliMatchingRecord.Update(Record);
+            if (_context.SaveChanges() > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
     }
 }

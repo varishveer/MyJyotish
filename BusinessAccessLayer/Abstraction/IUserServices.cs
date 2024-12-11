@@ -58,6 +58,8 @@ namespace BusinessAccessLayer.Abstraction
         public UserServiceRecordViewModel GetUserDataForService(int Id);
 
         public bool AddKundaliMatchingRecord(List<KundaliMatchingViewModel> DataList);
-        public List<KundaliMatchingModel> GetAllKundaliMatchingRecord(int Id);
+        public List<KundaliMatchingViewModel> GetAllKundaliMatchingRecord(int Id);
+        public List<KundaliMatchingViewModel> GetLatestKundaliRecord(int Id);
+        public bool DeleteKundaliRecord(int UserId, int Id);
     }
 }
