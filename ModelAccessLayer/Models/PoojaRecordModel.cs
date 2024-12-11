@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +19,7 @@ namespace ModelAccessLayer.Models
         public string Procedure { get; set; }
         public string Benefits { get; set; }
         public string AboutGod { get; set; }
+        [AllowNull]
         public string Image { get; set; }
         public bool status { get; set; }
 

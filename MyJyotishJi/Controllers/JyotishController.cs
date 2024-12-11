@@ -289,6 +289,7 @@ namespace MyJyotishGApi.Controllers
                 PoojaRecordModel model = new PoojaRecordModel
                 {
                     PoojaType = Convert.ToInt32(httpRequest.Form["poojaId"]),
+                    Id = Convert.ToInt32(httpRequest.Form["Id"]),
                     jyotishId = Convert.ToInt32(httpRequest.Form["jyotishId"]),
                     title = httpRequest.Form["title"],
                     Procedure = httpRequest.Form["proccedure"],
@@ -329,7 +330,7 @@ namespace MyJyotishGApi.Controllers
                 }
                 else
                 {
-                    return Ok(new { status = 500, message = "something went wrong or maybe pooja already created for this pooja type" });
+                    return Ok(new { status = 500, message = "something went wrong " });
 
                 }
             }
