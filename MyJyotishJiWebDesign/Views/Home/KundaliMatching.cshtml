@@ -283,6 +283,7 @@
 
                 $('#month_girl').append(` <option value="${i}">${i}</option>`);
                 $('#month_boy').append(` <option value="${i}">${i}</option>`);
+             
             }
 
             $('#year_girl').append(` <option value="${year}">${year}</option>`);
@@ -291,12 +292,16 @@
 
             if (i <= 60) {
 
-                $('#hour_girl').append(` <option value="${i}">${i}</option>`);
-                $('#hour_boy').append(` <option value="${i}">${i}</option>`);
+               
                 $('#min_girl').append(` <option value="${i}">${i}</option>`);
                 $('#min_boy').append(` <option value="${i}">${i}</option>`);
                 $('#sec_girl').append(` <option value="${i}">${i}</option>`);
                 $('#sec_boy').append(` <option value="${i}">${i}</option>`);
+            }
+
+            if(i<=24){
+                $('#hour_girl').append(` <option value="${i}">${i}</option>`);
+                $('#hour_boy').append(` <option value="${i}">${i}</option>`);
             }
 
         }
@@ -309,30 +314,34 @@
 
     async function kundaliMatchingApi() {
 
+
+        function formatDate(year, month, day) {
+            return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+        }
+
+        var boyDoB = formatDate($('#year_boy').val(), $('#month_boy').val(), $('#day_boy').val());
+        var girlDoB = formatDate($('#year_girl').val(), $('#month_girl').val(), $('#day_girl').val());
+
+        function formatTime(hour, min, sec) {
+            return `${hour.padStart(2, '0')}:${min.padStart(2, '0')}:${sec.padStart(2, '0')}`;
+        }
+
+        var boyToB = formatTime($('#hour_boy').val(), $('#min_boy').val(), $('#sec_boy').val());
+        var girlToB = formatTime($('#hour_girl').val(), $('#min_girl').val(), $('#sec_girl').val());
+
+
         var boyName = $('#name_boy').val();
-        var boyDoB = `${$('#day_boy').val()}-${$('#month_boy').val()}-${$('#year_boy').val()}`;
-        var boyToB = `${$('#hour_boy').val()}:${$('#min_boy').val()}:${$('#sec_boy').val()}`;
-        var boyDate = $('#day_boy').val();
-        var boyMonth = $('#month_boy').val();
-        var boyYear = $('#year_boy').val();
-        var boyhour = $('#hour_boy').val();
-        var boymin = $('#min_boy').val();
-        var boySec = $('#sec_boy').val();
+       
+       
+       
         var boyPlace = $('#place_boy').val();
 
         var girlName = $('#name_girl').val();
-        var girlDoB = `${$('#day_girl').val()}-${$('#month_girl').val()}-${$('#year_girl').val()}`;
-        var girlToB = `${$('#hour_girl').val()}:${$('#min_girl').val()}:${$('#sec_girl').val()}`;
-        var girlDate = $('#day_girl').val();
-        var girlMonth = $('#month_girl').val();
-        var girlYear = $('#year_girl').val();
-        var girlhour = $('#hour_girl').val();
-        var girlmin = $('#min_girl').val();
-        var girlSec = $('#sec_girl').val();
+      
+       
+      
         var girlPlace = $('#place_girl').val();
-        console.log(girlPlace);
-        console.log(boyPlace);
-
+      
 
         await GetGeoLocation(girlPlace, 'girl');
         await GetGeoLocation(boyPlace, 'boy');
@@ -345,49 +354,51 @@
 
         var gtimezone = await getTimezone(glatitude, glongitude);
         var btimezone = await getTimezone(blatitude, blongitude);
-
-        var DataContainer = {
-            "female": {
-                "year": parseInt(girlYear),
-                "month": parseInt(girlMonth),
-                "date": parseInt(girlDate),
-                "hours": parseInt(girlhour),
-                "minutes": parseInt(girlmin),
-                "seconds": parseInt(girlSec),
+        var UserId = localStorage.getItem('userId');
+        var DataContainer = [
+            {
+                "UserId": UserId,
+                "Name": girlName,
+                "DateOfBirth": girlDoB,
+                "TimeOfBirth": girlToB,
+                "PlaceOfBirth": girlPlace,
                 "latitude": parseFloat(glatitude),
                 "longitude": parseFloat(glongitude),
-                "timezone": parseFloat(gtimezone)
+                "timezone": parseFloat(gtimezone),
+                "Gender": "Female"
             },
-            "male": {
-                "year": parseInt(boyYear),
-                "month": parseInt(boyMonth),
-                "date": parseInt(boyDate),
-                "hours": parseInt(boyhour),
-                "minutes": parseInt(boymin),
-                "seconds": parseInt(boySec),
+            {
+                "UserId": UserId,
+                "Name": boyName,
+                "DateOfBirth": boyDoB,
+                "TimeOfBirth": boyToB,
+                "PlaceOfBirth": boyPlace,
                 "latitude": parseFloat(blatitude),
                 "longitude": parseFloat(blongitude),
-                "timezone": parseFloat(btimezone)
-            },
-            "config": {
-                "observation_point": "topocentric",
-                "language": "en",
-                "ayanamsha": "lahiri"
+                "timezone": parseFloat(btimezone),
+                "Gender": "Male"
             }
-        }
+        ]
+            
+           
+        
 
-        console.log(DataContainer);
+       
         $.ajax({
-            url: 'https://json.freeastrologyapi.com/match-making/ashtakoot-score',
+            url: BaseUrl + `Api/User/AddKundaliMatchingRecord`,
             type: 'POST',
 
             headers: {
-                'x-api-key': 'y8gZTCePup5YM0XGzDmRf5UbZo4IMcTR9Wg3CZ6Z'
+              
+                'Authorization': `Bearer ${localStorage.getItem("Token")}`,
             },
             contentType: 'application/json',
             data: JSON.stringify(DataContainer),
             success: function (response) {
-                console.log(response);
+              if(response.status === 200)
+              {
+                  location.href = '/Home/KundaliMatchingReport';
+              }
             },
             error: function (xhr, status, error) {
                 console.error("Error: " + error);
@@ -403,8 +414,10 @@
 
 
     }
+
+
     async function GetGeoLocation(place, type) {
-        debugger;
+    
 
 
         const url = `https://nominatim.openstreetmap.org/search?q=${place}&format=json`;
@@ -457,7 +470,7 @@
             .then(response => response.json())
             .then(data => {
                 if (data != null) {
-                    debugger;
+                   
 
                     const offsetSec = data.data[0].timezone_module.offset_sec;
 

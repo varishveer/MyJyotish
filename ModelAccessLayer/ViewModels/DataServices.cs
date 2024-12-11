@@ -230,7 +230,7 @@ namespace ModelAccessLayer.ViewModels
         public DateOnly DateOfBirth { get; set; }
         public TimeOnly TimeOfBirth { get; set; }
         public string PlaceOfBirth { get; set; }
-        public DateTime DateTime { get; set; }
+       
         public string Gender { get; set; }
         public float Latitude { get; set; }
         public float Longitude { get; set; }
