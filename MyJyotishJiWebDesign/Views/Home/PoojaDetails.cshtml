@@ -9,37 +9,12 @@
         background-color: #f4f4f4;
     }
 
-    .container {
-        width: 80%;
-        margin: 0 auto;
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-
-    h1 {
-        text-align: center;
-        margin-bottom: 20px;
-        color: #333;
-    }
-
-    h2 {
-        color: #333;
-        margin-bottom: 10px;
-    }
-
+   
     .image-container {
         width: 100%;
         overflow: hidden;
         margin-bottom: 20px;
     }
-
-        .image-container img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
 
     .button-container {
         text-align: center;
@@ -113,68 +88,71 @@
         .benefits li {
             margin-bottom: 5px;
         }
+
+    .poojaImage{
+        height:200px;
+        width:200px;
+    }
 </style>
 
 
-<div class="container">
-    <h1>Sweeten Your Relationship Healing</h1>
-    <p>Increase Emotional Balance, Love & Understanding In Relationship</p>
+<div class="container my-4">
 
-    <div class="image-container" style="text-align:center; margin:auto;">
-        <img src="~/Img/Pooja.jpg" style="width:500px; height:400px; margin:auto; margin-bottom:10px" alt="Candles">
-    </div>
-
-    <div class="button-container">
-        <a href="/Home/Payment">
-
-            <button class="button">Book Now</button>
-        </a>
-    </div>
-
-    <div class="time-container">
-        <div class="time-left">04 hours left</div>
-        <div class="time-left timer">04h: 15m: 26s left</div>
-    </div>
-
-    <div class="content">
-        <h2>PrashantJii</h2>
-        <div class="profile">
-            <img src="~/Img/Astrologer.jpg" alt="Prashant">
-            <p>Tarot Specialist</p>
+    <div class="image-container mb-3 d-flex gap-4">
+        <img src="~/Img/Pooja.jpg" class="poojaImage rounded" height="200" width="200" alt="thumbnails">
+        <div>
+        <h3 id="poojaName"></h3>
+        <p id="title"></p>
+        <button class="button">Book Now</button>
         </div>
-        <p>Prashant Ji helps with Tarot readings, life coaching, and support for your mind. He's been doing this for 7 years. He wants to help you feel better and understand things better using his spirit-guided way.</p>
     </div>
+
+    <div class="row mt-5">
+        <div class="col-sm-6">
+    <div class="content">
+        <h2 class="jyotishName"></h2>
+        <div class="profile">
+            <img id="jyotishImage" src="~/user-not-found.png" alt="Prashant">
+            <p class="expertise"></p>
+        </div>
+        <p class="aboutJyotish"></p>
+    </div>
+        </div>
+        <div class="col-sm-6">
 
     <div class="content">
         <h2>What are the benefits?</h2>
         <div class="benefits">
-            <ul>
-                <li>Helps you get a loving partner</li>
-                <li>Helps you get over a toxic past relationship</li>
-                <li>Stabilizes your emotional energy system</li>
-                <li>Fulfils desired relationship goals</li>
-                <li>Reiki distance healing has been proven to resolve the love problems of sufferers</li>
-            </ul>
         </div>
     </div>
+    </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
     <div class="content">
             <h2>How will it happen?</h2>
-        <div class="benefits">
-            <ul>
-                <li>Book the Healing</li>
-                <li>Add your Name and your Partner's name for recitation which the astrologer/healer will take</li>
-                <li>Listen to the Healing with devotion and seek blessings</li>
-               
-            </ul>
+        <div class="procedure">
+           
         </div>
+    </div> 
+    </div> 
+        <div class="col-sm-6">
+
+    <div class="content">
+            <h2>About God?</h2>
+        <div class="aboutGod">
+           
+        </div>
+    </div>
+    </div>
     </div>
     <div class="content">
         <h2>
-            Why book with Astrotalk?
+            Why book with MyJyotishG?
         </h2>
-        <div class="benefits">
+        <div class="whyjytoishg">
             <ul>
-                <li>Astrotalk is India's largest Devotion tech platform with over 15000 top astrologers and Pandits at your service.</li>
+                <li>MyJyotishG is India's largest Devotion tech platform with over 15000 top astrologers and Pandits at your service.</li>
                 <li>The Pooja service has the best Pandits of the platform performing the Pooja to ensure maximum benefits for our users.</li>
             </ul>
         </div>
@@ -182,5 +160,48 @@
 </div>
 
 
+<script>
+    function getPoojaDetails(){
+        let urlParams = new URLSearchParams(window.location.search);
+        let poojaId = urlParams.get('id');  
+        Swal.fire({
+            title: "Processing Your Request",
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
+        $.ajax({
+            url: BaseUrl + "api/user/getPoojaDetailByPoojaId",
+            type: "get",
+            data: { Id: poojaId },
+            success: function (res) {
+                    Swal.close()
+                if (res.status == 200) {
+                    console.log(res)
+                    if(res.data!=null){
+                        let data = res.data;
+                        $("#poojaName").text(data.poojaName)
+                        $("#title").text(data.title)
+                        $(".poojaImage").attr("src",BaseUrl+data.image)
+                        $(".jyotishName").text(data.jyotishName)
+                        $("#jyotishImage").attr("src", data.jyotishImage)
+                        $(".expertise").text(data.expertise)
+                        $(".aboutJyotish").text(data.aboutJyotish)
+                        $(".benefits").html(data.benefits)
+                        $(".procedure").html(data.proccedure)
+                        $(".aboutGod").html(data.aboutgod)
+                    }
 
-            FeedBack
+                }
+            },error:function(){
+                Swal.fire({
+                    text: "some error occured",
+                    title: "error",
+                    icon: "error"
+
+                })
+            }
+        })
+    }
+    getPoojaDetails();
+</script>
