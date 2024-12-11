@@ -135,23 +135,23 @@
 						$("#poojaListBody").empty();
 						res.data.forEach(function (d, i) {
 							$("#poojaListBody").append(`
-								<tr>
-								<td>${i + 1}</td>
-									<td>${d.poojaName}</td>
-										<td>${d.poojaTitle.slice(0, 15)}...</td>
-										<td><img height='100' width='100' src='${BaseUrl}${d.image}' alt="thumbnail"></td>
-										<td class='text-center'>
-																		<i role='button' id="proc_${d.id}" onClick="setDataintoModal(${d.id},'proc')" data-value='${d.procedure.replace(/`/g, '\\`').replace(/'/g, '&apos;')}'  class="fas fs-5 fa-eye"></i></td>
-												<td class='text-center'>
-																	<i onClick="setDataintoModal(${d.id},'benefits')" id="ben_${d.id}" data-value='${d.benefits.replace(/`/g, '\\`').replace(/'/g, '&apos;')}' role='button'  class="fas fs-5 fa-eye"></i></td>
-												<td class='text-center'>
-																<i role='button' onClick="setDataintoModal(${d.id},'god')" data-value='${d.aboutGod.replace(/`/g, '\\`').replace(/'/g, '&apos;')}' id='god_${d.id}' data-bs-toggle="modal" data-bs-target="#exampleModal" class="fas fs-5 fa-eye"></i></td>
-												<td class='text-center'>
-															<i data-bs-toggle="modal" onclick='getPoojaForUpdate(${d.id})' data-bs-target="#exampleModal2" class="fas   btn btn-sm btn-warning mb-1 text-light fa-edit"></i>
-													<i class="fas  btn btn-danger btn-sm fa-trash-alt"></i>
-												</td>
-								</tr>
-								`)
+									<tr>
+									<td>${i + 1}</td>
+										<td>${d.poojaName}</td>
+											<td>${d.poojaTitle.slice(0, 15)}...</td>
+											<td><img height='100' width='100' src='${BaseUrl}${d.image}' alt="thumbnail"></td>
+											<td class='text-center'>
+																			<i role='button' id="proc_${d.id}" onClick="setDataintoModal(${d.id},'proc')" data-value='${d.procedure.replace(/`/g, '\\`').replace(/'/g, '&apos;')}'  class="fas fs-5 fa-eye"></i></td>
+													<td class='text-center'>
+																		<i onClick="setDataintoModal(${d.id},'benefits')" id="ben_${d.id}" data-value='${d.benefits.replace(/`/g, '\\`').replace(/'/g, '&apos;')}' role='button'  class="fas fs-5 fa-eye"></i></td>
+													<td class='text-center'>
+																	<i role='button' onClick="setDataintoModal(${d.id},'god')" data-value='${d.aboutGod.replace(/`/g, '\\`').replace(/'/g, '&apos;')}' id='god_${d.id}' data-bs-toggle="modal" data-bs-target="#exampleModal" class="fas fs-5 fa-eye"></i></td>
+													<td class='text-center'>
+																<i data-bs-toggle="modal" onclick='getPoojaForUpdate(${d.id})' data-bs-target="#exampleModal2" class="fas   btn btn-sm btn-warning mb-1 text-light fa-edit"></i>
+															<i onClick='removePooja(${d.id})' class="fas btn btn-danger btn-sm fa-trash-alt"></i>
+													</td>
+									</tr>
+									`)
 						})
 					}
 				}
@@ -181,7 +181,7 @@
 			},
 			data: { poojaId: id },
 			success: function (res) {
-				if(res.status==200&&res.data!=null){
+				if (res.status == 200 && res.data != null) {
 					$("#poojaType").val(res.data.poojaType)
 					$("#title").val(res.data.title)
 					$('.procSummer').summernote('code', res.data.procedure);
@@ -189,7 +189,7 @@
 					$('.godSummer').summernote('code', res.data.aboutGod);
 					$("#poojaId").val(id)
 				}
-			Swal.close();
+				Swal.close();
 			}, error: function () {
 				Swal.fire({
 					text: "some error occured",
@@ -214,7 +214,7 @@
 			$("#exampleModalLabel").text("About God")
 
 		}
-	
+
 		$("#exampleModal").modal("show")
 	}
 	function getPoojaListForDrop() {
@@ -235,7 +235,7 @@
 					res.data.forEach(function (d, i) {
 						$("#poojaType").append(
 							`<option value='${d.id}'>${d.name}</option>
-											`
+												`
 						)
 					})
 				}
@@ -254,13 +254,14 @@
 		});
 
 		formData.append("jyotishId", localStorage.getItem("Id"));
-		if ($("#image").get(0).files[0]!=null||$("#image").get(0).files[0]!=undefined){
+		if ($("#image").get(0).files[0] != null || $("#image").get(0).files[0] != undefined) {
 
-		formData.append("image", $("#image").get(0).files[0]);
+			formData.append("image", $("#image").get(0).files[0]);
 		}
 		e.preventDefault();
 		Swal.fire({
 			title: "Processing Your Request",
+			allowOutsideClick: false,
 			didOpen: () => {
 				Swal.showLoading();
 			}
@@ -302,5 +303,70 @@
 			}
 		})
 
+	})
+
+	function removePooja(id) {
+		Swal.fire({
+			title: 'Are you sure?',
+			text: 'Do you really want to delete?',
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonText: 'Yes',
+			cancelButtonText: 'No, cancel',
+			reverseButtons: true
+		}).then((result) => {
+			if (result.isConfirmed) {
+				let appointmentId = id
+				Swal.fire({
+					title: "Processing Your Request",
+					allowOutsideClick: false,
+					didOpen: () => {
+						Swal.showLoading();
+					}
+				})
+				$.ajax({
+					url: BaseUrl + `api/Jyotish/removePooja`,
+					type: 'GET',
+					data: { Id: id },
+					headers: {
+						'Authorization': `Bearer ${localStorage.getItem("Token2")}`
+					},
+					success: function (res) {
+						if (res.status == 200) {
+							Swal.fire({
+								text: res.message,
+								title: "success",
+								icon: "success",
+								didClose: () => {
+									location.reload();
+								}
+							})
+						}
+					else {
+						Swal.fire({
+							text: res.message,
+							title: "error",
+							icon: "error"
+
+						})
+					}
+					},error:function(){
+						Swal.fire({
+							text: "some error occured",
+							title: "error",
+							icon: "error"
+
+						})
+					}
+				})
+			}
+		})
+	}
+
+	$(document).ready(function(){
+		setTimeout(function(){
+
+		$(".table").DataTable()
+		},1000)
 	})
 </script>
