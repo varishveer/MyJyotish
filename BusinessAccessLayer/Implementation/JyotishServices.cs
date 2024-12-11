@@ -3,6 +3,7 @@ using DataAccessLayer.DbServices;
 using DataAccessLayer.Migrations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModelAccessLayer.Models;
 using ModelAccessLayer.ViewModels;
@@ -378,7 +379,20 @@ namespace BusinessAccessLayer.Implementation
                 isPoojaValid.Image=model.Image;
             }
                
-			_context.PoojaRecord.Update(model);
+			_context.PoojaRecord.Update(isPoojaValid);
+			int result = _context.SaveChanges();
+			if (result > 0)
+			{ return true; }
+			else { return false; }
+		}
+
+        public bool removePooja(int Id)
+        {
+			var isPoojaValid = _context.PoojaRecord.Where(x => x.Id == Id && x.status).FirstOrDefault();
+			if (isPoojaValid != null)
+			{ return false; }
+            isPoojaValid.status = false;
+			_context.PoojaRecord.Update(isPoojaValid);
 			int result = _context.SaveChanges();
 			if (result > 0)
 			{ return true; }
