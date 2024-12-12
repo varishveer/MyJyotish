@@ -242,7 +242,7 @@
             $('#PlaceOfBirthList').removeClass('d-none');
             $placeOfBirthDropdown.empty();
             data.data.forEach(placeOfBirth => {
-                $placeOfBirthDropdown.append(`<p class="pOBPtag" onClick="setPlace('${placeOfBirth}')"> ${placeOfBirth}</p>`);
+                $placeOfBirthDropdown.append(`<p class="pOBPtag" onClick="setPlace('${placeOfBirth.record}')"> ${placeOfBirth.record}</p>`);
             });
         } catch (error) {
             console.error('Error fetching PlaceOfBirth:', error);
