@@ -1872,7 +1872,6 @@ namespace MyJyotishJiApi.Controllers
 				PoojaRecordModel model = new PoojaRecordModel
 				{
 					PoojaType = Convert.ToInt32(httpRequest.Form["poojaId"]),
-					jyotishId = Convert.ToInt32(httpRequest.Form["jyotishId"]),
 					title = httpRequest.Form["title"],
 					Procedure = httpRequest.Form["proccedure"],
 					Benefits = httpRequest.Form["benefits"],
@@ -1932,7 +1931,6 @@ namespace MyJyotishJiApi.Controllers
 				{
 					PoojaType = Convert.ToInt32(httpRequest.Form["poojaId"]),
 					Id = Convert.ToInt32(httpRequest.Form["Id"]),
-					jyotishId = Convert.ToInt32(httpRequest.Form["jyotishId"]),
 					title = httpRequest.Form["title"],
 					Procedure = httpRequest.Form["proccedure"],
 					Benefits = httpRequest.Form["benefits"],
