@@ -1,6 +1,6 @@
 ﻿@{
     Layout = "JyotishLayout";
-  
+
 }
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- Bootstrap JS -->
@@ -70,12 +70,11 @@
         }
 
     /* Ensure the modal covers the full screen and expands with content */
-   
+
 
     .modal-content {
         display: flex;
         flex-direction: column;
-       
     }
 
     .modal-body {
@@ -93,27 +92,28 @@
         background-color: #f5f5f5;
     }
 
-    #problemSection::-webkit-scrollbar{
-        width:4px;
-        height:4px;
+    #problemSection::-webkit-scrollbar {
+        width: 4px;
+        height: 4px;
     }
 
-    #problemSection::-webkit-scrollbar-thumb{
-        background:silver;
-        border-radius:5px;
-    }
-    #updateproblemSection::-webkit-scrollbar{
-        width:4px;
-        height:4px;
+    #problemSection::-webkit-scrollbar-thumb {
+        background: silver;
+        border-radius: 5px;
     }
 
-    #updateproblemSection::-webkit-scrollbar-thumb{
-        background:silver;
-        border-radius:5px;
+    #updateproblemSection::-webkit-scrollbar {
+        width: 4px;
+        height: 4px;
     }
 
-    #DataTable_filter{
-        display:none !important;
+    #updateproblemSection::-webkit-scrollbar-thumb {
+        background: silver;
+        border-radius: 5px;
+    }
+
+    #DataTable_filter {
+        display: none !important;
     }
 </style>
 
@@ -139,7 +139,7 @@
                             <th>Sr</th>
                             <th>Name</th>
                             <th>Date</th>
-                            <th>Mobile Number</th>                    
+                            <th>Mobile Number</th>
                             <th>TimeFrom</th>
                             <th>TimeTo</th>
                             <th>Problem</th>
@@ -161,7 +161,8 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="updateModalLabel">Appointment Detail
+                <h5 class="modal-title" id="updateModalLabel">
+                    Appointment Detail
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -169,10 +170,10 @@
             </div>
             <div class="modal-body">
                 <form id="requestForm">
-                   
-                        <input type="hidden" class="form-control" id="Id" readonly>
-                    
-                        <input type="hidden" class="form-control" id="SlotId" readonly>
+
+                    <input type="hidden" class="form-control" id="Id" readonly>
+
+                    <input type="hidden" class="form-control" id="SlotId" readonly>
 
 
                     <div class="form-group">
@@ -207,35 +208,35 @@
                     <div class="col-sm-12">
                         <form id="memberForm">
                             <input type="hidden" name="UId" id="UId" />
-                        <div class="row">
-                            <div class="col-sm-6">
-                                Name:
-                                <input required type="text" name="name" class="form-control" placeholder="Enter Member Name" />
-                                
-                            </div>
-                            <div class="col-sm-6">
-                                Gender:
-                                <select required class="form-select" name="gender">
-                                    <option value="" disabled selected>--Select Gender--</option>
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
-                                </select>
-                            </div>
-                        </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    Name:
+                                    <input required type="text" name="name" class="form-control" placeholder="Enter Member Name" />
 
-                        <div class="row my-3">
-                            <div class="col-sm-6">
-                                Date of Birth:
-                                <input required type="date" name="dob" class="form-control" />
-
+                                </div>
+                                <div class="col-sm-6">
+                                    Gender:
+                                    <select required class="form-select" name="gender">
+                                        <option value="" disabled selected>--Select Gender--</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                    </select>
+                                </div>
                             </div>
-                            <div class="col-sm-6">
-                                Relationship:
-                                <input required type="text" name="relation" class="form-control" placeholder="Enter relation with member" />
 
+                            <div class="row my-3">
+                                <div class="col-sm-6">
+                                    Date of Birth:
+                                    <input required type="date" name="dob" class="form-control" />
+
+                                </div>
+                                <div class="col-sm-6">
+                                    Relationship:
+                                    <input required type="text" name="relation" class="form-control" placeholder="Enter relation with member" />
+
+                                </div>
                             </div>
-                        </div>
-                        <input type="submit" value="Add" class="btn btn-primary float-end" />
+                            <input type="submit" value="Add" class="btn btn-primary float-end" />
                         </form>
                     </div>
                 </div>
@@ -271,8 +272,6 @@
                 </table>
             </div>
             <div class="modal-footer">
-           
-
             </div>
         </div>
     </div>
@@ -324,9 +323,9 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-               <div class="row">
+                <div class="row">
                     <div class="col-sm-12" id="problemSolutionContent"></div>
-               </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-primary" id="previousBtn">Previous</button>
@@ -352,25 +351,24 @@
                         </div>
                         <form id="attachmentForm" class="my-4 " method="post">
                             <input type="hidden" name="userId" id="userId" />
-                        <div class="row justify-content-center align-items-end">
-                            <div class="col-sm-5">
-                                <label for="title">Title</label>
-                                <input type="text" required id="title" name="title" placeholder="Enter Title" class="form-control" />
-                            </div>
-                            <div class="col-sm-5">
-                                <label for="attachment">Attachment</label>
+                            <div class="row justify-content-center align-items-end">
+                                <div class="col-sm-5">
+                                    <label for="title">Title</label>
+                                    <input type="text" required id="title" name="title" placeholder="Enter Title" class="form-control" />
+                                </div>
+                                <div class="col-sm-5">
+                                    <label for="attachment">Attachment</label>
                                     <input type="file" required id="attachment" name="attachment" class="form-control attachment" />
+                                </div>
+                                <div class="col-sm-2">
+                                    <input type="submit" value="Add" class="btn btn-success" />
+                                </div>
                             </div>
-                            <div class="col-sm-2">
-                                <input type="submit" value="Add" class="btn btn-success" />
-                            </div>
-                        </div>
                         </form>
-                       
+
                     </div>
                     <div class="col-sm-12 mt-4">
                         <div class="row attachmentRecord" id="attachmentRecord">
-
                         </div>
                     </div>
                 </div>
@@ -396,29 +394,28 @@
                         <div class="text-end">
                             <button class="btn btn-success" id="addAttachmentBtn2">Add Attachment</button>
                         </div>
-                        <form id="attachmentForm2" class="my-4 "  method="post">
+                        <form id="attachmentForm2" class="my-4 " method="post">
                             <input type="hidden" name="userId" id="userIdup" />
                             <input type="hidden" name="appointmentId" id="appointmentIdup" />
                             <input type="hidden" name="member" id="memberup" />
-                        <div class="row justify-content-center align-items-end">
-                            <div class="col-sm-5">
-                                <label for="title">Title</label>
-                                <input type="text" required id="title" name="title" placeholder="Enter Title" class="form-control" />
-                            </div>
-                            <div class="col-sm-5">
-                                <label for="attachment">Attachment</label>
+                            <div class="row justify-content-center align-items-end">
+                                <div class="col-sm-5">
+                                    <label for="title">Title</label>
+                                    <input type="text" required id="title" name="title" placeholder="Enter Title" class="form-control" />
+                                </div>
+                                <div class="col-sm-5">
+                                    <label for="attachment">Attachment</label>
                                     <input type="file" required id="attachment2" name="attachment" class="form-control " />
+                                </div>
+                                <div class="col-sm-2">
+                                    <input type="submit" value="Add" class="btn btn-success" />
+                                </div>
                             </div>
-                            <div class="col-sm-2">
-                                <input type="submit" value="Add" class="btn btn-success" />
-                            </div>
-                        </div>
                         </form>
-                       
+
                     </div>
                     <div class="col-sm-12 mt-4">
                         <div class="row attachmentRecord" id="attachmentRecord">
-
                         </div>
                     </div>
                 </div>
@@ -448,7 +445,7 @@
                         <select class="form-select" id="selectmember" name="memberId">
                             <option disabled>--select member--</option>
                         </select>
-                            
+
                         <button role="button" type="button" class="btn btn-secondary" id="attachmentModaltrigger"><i class="fas fa-paperclip"></i></button>
                     </div>
 
@@ -479,7 +476,7 @@
                     </div>
                 </form>
             </div>
-           
+
         </div>
     </div>
 </div>
@@ -491,7 +488,7 @@
 <div class="modal fade" id="updateProblemSolutionModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="updateProblemSolutionModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header">  
+            <div class="modal-header">
                 <h5 class="modal-title" id="updateProblemSolutionModalLabel">Update Problem and Solution</h5>
                 <button type="button" class="btn-close" id="updateModalCloseBtn" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -506,8 +503,8 @@
 
 
                 <!-- Hidden input to store AppointmentId -->
-                <input type="hidden" id="problemId" name="problemId"/>
-                <input type="hidden" id="appointmentId"/>
+                <input type="hidden" id="problemId" name="problemId" />
+                <input type="hidden" id="appointmentId" />
 
                 <div class="container-fluid">
                     <div class="row">
@@ -541,6 +538,42 @@
     </div>
 </div>
 
+
+
+<!-- Button trigger modal -->
+<!-- Modal -->
+<div class="modal fade" id="AddBookmarkModal" tabindex="-1" aria-labelledby="AddBookmarkModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="AddBookmarkModalLabel">Add Bookmark</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input id="AppointmentIdForAddBookmark" hidden />
+                <div class="row">
+                    <div class="col-sm-12 p-2">
+                        <label for="endDateForAddBookmark"> End Date</label>
+                        <input class="form-control" type="date" id="endDateForAddBookmark" />
+                    </div>
+                    <div class="col-sm-12 p-2">
+                        <label for="reasonForAddBookmark"> Reason</label>
+                        <textarea class="form-control" id="reasonForAddBookmark"></textarea>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" id="AddAppointmentBookmark" class="btn btn-primary">Add Bookmark</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
 
     $("#attachmentModaltrigger").click(function () {
@@ -553,19 +586,18 @@
         $("#staticBackdrop").modal("show")
 
     })
-   
+
     $("#attachmentForm").hide()
 
-    $("#attachmentForm").submit(function(e){
+    $("#attachmentForm").submit(function (e) {
         e.preventDefault();
-        let formData =new FormData();
-        let arrayData=$(this).serializeArray();
-        arrayData.push({name:"jyotishId",value:localStorage.getItem("Id")})
-        arrayData.push({name:"member", value:$("#selectmember").val()})
-        arrayData.push({name:"appointmentId",value: $("#appointmentId").val()})
-        arrayData.push({name:"attachment", value:$("#attachment").get(0).files[0]})
-        arrayData.forEach(function(d)
-        {
+        let formData = new FormData();
+        let arrayData = $(this).serializeArray();
+        arrayData.push({ name: "jyotishId", value: localStorage.getItem("Id") })
+        arrayData.push({ name: "member", value: $("#selectmember").val() })
+        arrayData.push({ name: "appointmentId", value: $("#appointmentId").val() })
+        arrayData.push({ name: "attachment", value: $("#attachment").get(0).files[0] })
+        arrayData.forEach(function (d) {
             formData.append(d.name, d.value);
         })
         debugger
@@ -583,29 +615,29 @@
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
             },
-            processData:false,
-            contentType:false,
+            processData: false,
+            contentType: false,
             data: formData,
             success: function (result) {
-                if(result.status==200){
-                     Swal.fire({
-                    title: "success",
-                    text:result.message,
-                    icon: "success",
-                    didClose:()=>{
+                if (result.status == 200) {
+                    Swal.fire({
+                        title: "success",
+                        text: result.message,
+                        icon: "success",
+                        didClose: () => {
                             getUserAttachment($("#appointmentId").val(), $("#selectmember").val())
                             document.getElementById("attachmentForm").reset();
-                    }
+                        }
 
-                });
-                }else{
+                    });
+                } else {
                     Swal.fire({
                         title: "warning",
                         text: result.message,
                         icon: "warning",
                     })
                 }
-            },error:function(){
+            }, error: function () {
                 Swal.fire({
                     title: "error",
                     text: "some error occured",
@@ -614,16 +646,15 @@
                 });
             }
         })
-    }) 
-    $("#attachmentForm2").submit(function(e){
+    })
+    $("#attachmentForm2").submit(function (e) {
         e.preventDefault();
-        let formData =new FormData();
-        let arrayData=$(this).serializeArray();
-        arrayData.push({name:"jyotishId",value:localStorage.getItem("Id")})
-        
-        arrayData.push({name:"attachment", value:$("#attachment2").get(0).files[0]})
-        arrayData.forEach(function(d)
-        {
+        let formData = new FormData();
+        let arrayData = $(this).serializeArray();
+        arrayData.push({ name: "jyotishId", value: localStorage.getItem("Id") })
+
+        arrayData.push({ name: "attachment", value: $("#attachment2").get(0).files[0] })
+        arrayData.forEach(function (d) {
             formData.append(d.name, d.value);
         })
         debugger
@@ -641,29 +672,29 @@
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
             },
-            processData:false,
-            contentType:false,
+            processData: false,
+            contentType: false,
             data: formData,
             success: function (result) {
-                if(result.status==200){
-                     Swal.fire({
-                    title: "success",
-                    text:result.message,
-                    icon: "success",
-                    didClose:()=>{
+                if (result.status == 200) {
+                    Swal.fire({
+                        title: "success",
+                        text: result.message,
+                        icon: "success",
+                        didClose: () => {
                             getUserAttachment($("#appointmentIdup").val(), $("#memberup").val())
-                        document.getElementById("attachmentForm2").reset();
-                    }
+                            document.getElementById("attachmentForm2").reset();
+                        }
 
-                });
-                }else{
+                    });
+                } else {
                     Swal.fire({
                         title: "warning",
                         text: result.message,
                         icon: "warning",
                     })
                 }
-            },error:function(){
+            }, error: function () {
                 Swal.fire({
                     title: "error",
                     text: "some error occured",
@@ -674,8 +705,8 @@
         })
     })
 
-    $("#addAttachmentBtn").click(function(){
-    $("#attachmentForm").toggle()
+    $("#addAttachmentBtn").click(function () {
+        $("#attachmentForm").toggle()
 
     })
 
@@ -685,7 +716,7 @@
     }
 
 
-    function getUserAttachment(appId,memId){
+    function getUserAttachment(appId, memId) {
         Swal.fire({
             title: "Processing Your Request",
             allowOutsideClick: false,
@@ -703,45 +734,44 @@
             data: { Id: appId, memberId: memId },
             success: function (result) {
                 console.log(result)
-                    $(".attachmentRecord").empty()
+                $(".attachmentRecord").empty()
                 if (result.status == 200) {
-                   if(result.data!=null || result.data.length>0){
-                       result.data.forEach(function(d){
-                        let fileExtension = getFileExtension(d.image)
-                           if (fileExtension == "pdf") 
-                           {
+                    if (result.data != null || result.data.length > 0) {
+                        result.data.forEach(function (d) {
+                            let fileExtension = getFileExtension(d.image)
+                            if (fileExtension == "pdf") {
                                 $(".attachmentRecord").append(
-                                    
-                                    `<div class='col-sm-4'>
-                                            <div class='text-end text-danger'><i data-id='${d.id}' role='button' onClick='removeAttachment(${d.id})' class="fas removeAttachment fa-trash-alt"></i></div>
-                                    <a class=" display-block" href='${BaseUrl}${d.image}' target='_blank'>
-                                       <div  class='w-100'>
-                                                    <iframe frameborder="0" src="${BaseUrl}${d.image}" height="170" class="w-100  border rounded p-2"/> </iframe>
-                                        <p class="text-center text-secondary">${d.title}</p>
-                                    </div>
-                                        </a></div>
-                                   `
-                                )
-                           } else {
-                               $(".attachmentRecord").append(
-                                   `
-                                   <div class="col-sm-4">
-                                                            <div class='text-end text-danger'><i data-id='${d.id}'  role='button' class="fas fa-trash-alt" onClick='removeAttachment(${d.id})'></i></div>
 
-                                                <a href='${BaseUrl}${d.image}' target='_blank'> <img src="${BaseUrl}${d.image}" class="w-100 border rounded p-2" height="170"/></a>
-                                    <p class="text-center">${d.title}</p>
-                                </div>
-                               `
-                               )
-                           }
-                       })
-                   }else{
+                                    `<div class='col-sm-4'>
+                                                        <div class='text-end text-danger'><i data-id='${d.id}' role='button' onClick='removeAttachment(${d.id})' class="fas removeAttachment fa-trash-alt"></i></div>
+                                                <a class=" display-block" href='${BaseUrl}${d.image}' target='_blank'>
+                                                   <div  class='w-100'>
+                                                                <iframe frameborder="0" src="${BaseUrl}${d.image}" height="170" class="w-100  border rounded p-2"/> </iframe>
+                                                    <p class="text-center text-secondary">${d.title}</p>
+                                                </div>
+                                                    </a></div>
+                                               `
+                                )
+                            } else {
+                                $(".attachmentRecord").append(
+                                    `
+                                               <div class="col-sm-4">
+                                                                        <div class='text-end text-danger'><i data-id='${d.id}'  role='button' class="fas fa-trash-alt" onClick='removeAttachment(${d.id})'></i></div>
+
+                                                            <a href='${BaseUrl}${d.image}' target='_blank'> <img src="${BaseUrl}${d.image}" class="w-100 border rounded p-2" height="170"/></a>
+                                                <p class="text-center">${d.title}</p>
+                                            </div>
+                                           `
+                                )
+                            }
+                        })
+                    } else {
                         $(".attachmentRecord").append("<p class='my-3 text-center text-secondary'>no attachment found</p>")
-                   }
+                    }
                 } else {
                     $(".attachmentRecord").append("<p class='my-3 text-center text-secondary'>no attachment found</p>")
                 }
-               Swal.close()
+                Swal.close()
             }, error: function () {
                 Swal.fire({
                     title: "error",
@@ -753,9 +783,9 @@
         })
     }
 
-   function removeAttachment(id) {
+    function removeAttachment(id) {
         Swal.fire({
-            title:"Are you sure",
+            title: "Are you sure",
             text: "Do you want to Delete?",
             showDenyButton: true,
             showCancelButton: true,
@@ -763,52 +793,52 @@
             denyButtonText: `no`
         }).then((result) => {
             if (result.isConfirmed) {
-        Swal.fire({
-            title: "Processing Your Request",
-            allowOutsideClick: false,
-            didOpen: () => {
-                Swal.showLoading();
-            }
-        })
-        ;
-        $.ajax({
-            url: BaseUrl+"api/jyotish/DeleteUserAttachment",
-            type:"get",
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
-            },
-            data:{Id:id},
-            success:function(res){
-                if(res.status==200){
-                    Swal.fire({
-                        title: "success",
-                        text: result.message,
-                        icon: "success",
-didClose:()=>{
+                Swal.fire({
+                    title: "Processing Your Request",
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                })
+                    ;
+                $.ajax({
+                    url: BaseUrl + "api/jyotish/DeleteUserAttachment",
+                    type: "get",
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+                    },
+                    data: { Id: id },
+                    success: function (res) {
+                        if (res.status == 200) {
+                            Swal.fire({
+                                title: "success",
+                                text: result.message,
+                                icon: "success",
+                                didClose: () => {
                                     $("#attachmentModaltrigger").trigger("click")
                                     $("#attachmentModaltrigger2").trigger("click")
 
-}
-                    })
-                }else{
-                    Swal.fire({
-                        title: "error",
-                        text: result.message,
-                        icon: "error",
-                    })
-                }
-                 
-            },error:function(){
-                Swal.fire({
-                    title: "error",
-                    text: "some error occured",
-                    icon: "error",
+                                }
+                            })
+                        } else {
+                            Swal.fire({
+                                title: "error",
+                                text: result.message,
+                                icon: "error",
+                            })
+                        }
 
-                });
+                    }, error: function () {
+                        Swal.fire({
+                            title: "error",
+                            text: "some error occured",
+                            icon: "error",
+
+                        });
+                    }
+                })
             }
         })
-            }
-            })
     }
 
 
@@ -831,46 +861,46 @@ didClose:()=>{
         $("#exampleModalToggle2").modal("show")
 
     })
-  
-    $("#updateModalCloseBtn").click(function(){
+
+    $("#updateModalCloseBtn").click(function () {
         $("#exampleModalToggle2").modal("show")
 
     })
 
     // Fetch and display all appointments on page load
-    let appointmentslots=[]
-    let upcommingAppointment=[];
+    let appointmentslots = []
+    let upcommingAppointment = [];
     let newAppointmentArray = [];
-    let checkClickEvent="upcomming";
+    let checkClickEvent = "upcomming";
 
-        function fetchData() {
-            Swal.fire({
-                title: "Processing Your Request",
-                allowOutsideClick: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                }
-            })
-            var Id = localStorage.getItem('Id');
-            $.ajax({
+    function fetchData() {
+        Swal.fire({
+            title: "Processing Your Request",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
+        var Id = localStorage.getItem('Id');
+        $.ajax({
             url: BaseUrl + `Api/Jyotish/GetAllUpcommingAppointment`,
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
             },
             data: { jyotishId: localStorage.getItem("Id") },
-                success: function (result) {
-                    console.log(result)
+            success: function (result) {
+                console.log(result)
                 appointmentslots = result.data;
                 newAppointmentArray = result.data;
                 showAppointmentSlots(result.data, checkClickEvent);
                 Swal.close()
-                },
-                error: function (errormessage) {
-                    console.error('Error fetching data:', errormessage.responseText);
-                }
-            })
-        }
+            },
+            error: function (errormessage) {
+                console.error('Error fetching data:', errormessage.responseText);
+            }
+        })
+    }
 
     function fetchProblemDate(uid) {
         Swal.fire({
@@ -887,7 +917,7 @@ didClose:()=>{
             type: 'GET',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("Token2")}`
-               
+
             },
             data: { JyotishId: Id, UId: uid },
             success: function (result) {
@@ -944,24 +974,24 @@ didClose:()=>{
                     if (data.length > 0) {
                         data.forEach(function (d) {
                             const content = `
-                                       <div class="container my-3 text-end">
-                                       <button role='button' class='btn btn-info' onClick='printReceipt(${JSON.stringify(d)})' type='button'><i class="fas fa-print"></i></button>
-                                           <button role="button" type="button" class="btn btn-secondary attachmentModaltriggerforUpdate" onClick='showAttachmentUpdateModal(${d.appointmentId},${d.memberId},${d.uId})' ><i class="fas fa-paperclip"></i></button>
-                                    <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#updateProblemSolutionModal"
-                                       onclick='populateUpdateModal(${JSON.stringify(d)})'>Update</a>
-                                </div>
-                                <div class="problem-solution-container">
-                                    <div class="d-flex justify-content-between">
-                                                            <div><div class="section-title">${d.memberName != null ? "Member Name" : "User Name"}:</div><p>${d.memberName != null ? d.memberName : d.userName}</p></div>
-                                        <div><div class="section-title">Date:</div><p>${d.appointmentDate}</p></div>
-                                            <div><div class="section-title">Time:</div><p>${d.appointmentTime}</p></div>
-                                    </div>
-                                    <div class="section-title">Problems:</div>
-                                    <ol>${d.problems.map(problem => `<li>${problem}</li>`).join('')}</ol>
-                                    <div class="section-title">Solutions:</div>
-                                    <div>${d.solution}</div>
-                                </div>
-                            `;
+                                                   <div class="container my-3 text-end">
+                                                   <button role='button' class='btn btn-info' onClick='printReceipt(${JSON.stringify(d)})' type='button'><i class="fas fa-print"></i></button>
+                                                       <button role="button" type="button" class="btn btn-secondary attachmentModaltriggerforUpdate" onClick='showAttachmentUpdateModal(${d.appointmentId},${d.memberId},${d.uId})' ><i class="fas fa-paperclip"></i></button>
+                                                <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#updateProblemSolutionModal"
+                                                   onclick='populateUpdateModal(${JSON.stringify(d)})'>Update</a>
+                                            </div>
+                                            <div class="problem-solution-container">
+                                                <div class="d-flex justify-content-between">
+                                                                        <div><div class="section-title">${d.memberName != null ? "Member Name" : "User Name"}:</div><p>${d.memberName != null ? d.memberName : d.userName}</p></div>
+                                                    <div><div class="section-title">Date:</div><p>${d.appointmentDate}</p></div>
+                                                        <div><div class="section-title">Time:</div><p>${d.appointmentTime}</p></div>
+                                                </div>
+                                                <div class="section-title">Problems:</div>
+                                                <ol>${d.problems.map(problem => `<li>${problem}</li>`).join('')}</ol>
+                                                <div class="section-title">Solutions:</div>
+                                                <div>${d.solution}</div>
+                                            </div>
+                                        `;
                             $('#problemSolutionContent').append(content);
                         })
                     } else {
@@ -981,14 +1011,14 @@ didClose:()=>{
     function updateData() {
         const Id = $('#problemId').val();
         const appointmentId = $('#appointmentId').val();
-        const problems = Array.from($('textarea[name="problem[]"]')).map(input => input.value).filter(d=>d!="");
+        const problems = Array.from($('textarea[name="problem[]"]')).map(input => input.value).filter(d => d != "");
         const solutions = $("#updateSolutionText").val();
 
-        let formData=new FormData()
-        formData.append("Id",Id)
-        formData.append("Problem",problems)
-        formData.append("Solution",solutions)
-       
+        let formData = new FormData()
+        formData.append("Id", Id)
+        formData.append("Problem", problems)
+        formData.append("Solution", solutions)
+
         debugger
         $.ajax({
             url: `${BaseUrl}Api/Jyotish/UpdateProblemSolution`,
@@ -996,33 +1026,33 @@ didClose:()=>{
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
             },
-            processData:false,
+            processData: false,
             contentType: false,
             data: formData,
             success: function (response) {
                 if (response.status === 200) {
-                     Swal.fire({
-                    title: "success",
-                    text:"Record Updated Successfully",
-                    icon: "success",
-                    didClose:()=>{
-                       GetProblemSolutionDetail(appointmentId)
-                    $('#updateProblemSolutionModal').modal('hide');
-                    }
+                    Swal.fire({
+                        title: "success",
+                        text: "Record Updated Successfully",
+                        icon: "success",
+                        didClose: () => {
+                            GetProblemSolutionDetail(appointmentId)
+                            $('#updateProblemSolutionModal').modal('hide');
+                        }
 
-                });
+                    });
                 } else {
                     Swal.fire({
-                    title: "error",
-                    text: response.message,
-                    icon: "error",
+                        title: "error",
+                        text: response.message,
+                        icon: "error",
 
-                });
+                    });
                 }
             },
             error: function (err) {
                 console.log(err)
-              Swal.fire({
+                Swal.fire({
                     title: "error",
                     text: "some error occured",
                     icon: "error",
@@ -1032,40 +1062,40 @@ didClose:()=>{
         });
     }
 
-    $("#exampleModalToggle").on("show.bs.modal",function(){
+    $("#exampleModalToggle").on("show.bs.modal", function () {
         fetchProblemDate()
-      
+
     })
-    
-    $("#previousBtn").click(function(){
+
+    $("#previousBtn").click(function () {
         $("#exampleModalToggle2").modal("hide")
         $("#exampleModalToggle").modal("show")
 
     })
 
-   
+
 
     function populateUpdateModal(data) {
         $('#exampleModalToggle2').modal('hide');
 
-       console.log(data,"mem")
+        console.log(data, "mem")
         $("#modalUserName").text(data.userName)
         $("#modalDate").text(data.appointmentDate)
         $("#modalTime").text(data.appointmentTime)
         $("#problemId").val(data.problemId)
         $("#appointmentId").val(data.appointmentId)
         $('#updateSolutionText').summernote('code', data.solution);
-        let problemhtml="";
-        data.problems.forEach(function(d){
-      problemhtml+=`
-                        <div class="w-100 my-2">
-                        <div class='d-flex justify-content-end mb-1 w-100'>
-                                    <button type="button" class="btn btn-outline-danger remove-problem"><i class="fas fa-trash-alt"></i></button>
-                            </div>
-                                <textarea class="form-control" rows="2" name="problem[]" placeholder="Enter problem">${d}</textarea>
-                        </div>
-                    `
-    
+        let problemhtml = "";
+        data.problems.forEach(function (d) {
+            problemhtml += `
+                                    <div class="w-100 my-2">
+                                    <div class='d-flex justify-content-end mb-1 w-100'>
+                                                <button type="button" class="btn btn-outline-danger remove-problem"><i class="fas fa-trash-alt"></i></button>
+                                        </div>
+                                            <textarea class="form-control" rows="2" name="problem[]" placeholder="Enter problem">${d}</textarea>
+                                    </div>
+                                `
+
         })
         $('#addProblemSolutionContainer').html(problemhtml)
 
@@ -1073,23 +1103,23 @@ didClose:()=>{
 
     }
 
-              $('.add-more-problemup').click(function () {
+    $('.add-more-problemup').click(function () {
         $('#addProblemSolutionContainer').append(`
-                        <div class="w-100 my-2">
-                        <div class='d-flex justify-content-end mb-1 w-100'>
-                                    <button type="button" class="btn btn-outline-danger remove-problem"><i class="fas fa-trash-alt"></i></button>
-                            </div>
-                                <textarea class="form-control" rows="2" name="problem[]" placeholder="Enter problem"></textarea>
-                        </div>
-                    `);
+                                    <div class="w-100 my-2">
+                                    <div class='d-flex justify-content-end mb-1 w-100'>
+                                                <button type="button" class="btn btn-outline-danger remove-problem"><i class="fas fa-trash-alt"></i></button>
+                                        </div>
+                                            <textarea class="form-control" rows="2" name="problem[]" placeholder="Enter problem"></textarea>
+                                    </div>
+                                `);
     });
 
-    
+
     $(document).on('click', '.remove-problem', function () {
         $(this).parent().parent().remove();
     });
 
-   
+
     function reverseDate(dateString) {
         // Check if the date string is in the correct format (DD-MM-YYYY)
         const datePattern = /^\d{2}-\d{2}-\d{4}$/;
@@ -1104,10 +1134,10 @@ didClose:()=>{
         // Join the parts back into a string
         return reversedParts.join('-');
     }
-    
-    function showAppointmentSlots(appointment,clickBy) {
-        checkClickEvent=clickBy
-       
+
+    function showAppointmentSlots(appointment, clickBy) {
+        checkClickEvent = clickBy
+
         if (appointment.length > 0) {
             let htmls = '';
             $.each(appointment, function (key, item) {
@@ -1122,130 +1152,299 @@ didClose:()=>{
                 htmls += `<td class="text-center">${item.amount || 'N/A'}</td>`;
                 htmls += `<td class="text-center">
 
-                                                <i class="fas ${item.arriveStatus == 0 || item.arriveStatus == null ? "fa-user-slash text-secondary" : "fa-user-check text-success"
+                                                            <i class="fas ${item.arriveStatus == 0 || item.arriveStatus == null ? "fa-user-slash text-secondary" : "fa-user-check text-success"
                     } arrivedClientBtn" ${item.arriveStatus == 0 || item.arriveStatus == null ? `onClick = 'updateArrivedClient(${item.id})' title="click here if user arrived" role='button'` : ""
                     } ></i >
 
-                                            <i class="fas fa-user-plus text-warning Addmember" onClick='openAddMemberModal(${item.uId})'  role='button' ></i>
-                                                     <i class="fas fa-users text-info Addmember" onClick='getClientMember(${item.uId})'  role='button' role='show member'></i>
-                                                               
+                                                        <i class="fas fa-user-plus text-warning Addmember" onClick='openAddMemberModal(${item.uId})'  role='button' ></i>
+                                                                 <i class="fas fa-users text-info Addmember" onClick='getClientMember(${item.uId})'  role='button' role='show member'></i>
 
-                                                                           <svg role='button' onclick='setMembers(${item.uId},${item.id})'  data-id="${item.id}" class="edit-appointment" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                                        <path fill="currentColor" d="M13.654 21v-2.21l5.96-5.934l2.19 2.204l-5.94 5.94zm6.885-5.94l-.926-.945zm-6 5.056h.95l3.467-3.474l-.45-.494l-.475-.47l-3.493 3.488zM5 21V3h9.5L19 7.5v2.596h-1V8h-4V4H6v16h5.27v1zm13.506-4.852l-.475-.47l.925.964z"/>
-                                                    </svg>
-                                                          <a role='button' onClick='fetchProblemDate(${item.uId})'><i class="fas fa-eye"></i></a>
-                                                              <i role='button' onClick='BookMark(${item.id})' class="${item.bookMark==1?"fas":"far"} fa-bookmark"></i>
-                                              </td>`;
+
+                                                                                       <svg role='button' onclick='setMembers(${item.uId},${item.id})'  data-id="${item.id}" class="edit-appointment" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                                                    <path fill="currentColor" d="M13.654 21v-2.21l5.96-5.934l2.19 2.204l-5.94 5.94zm6.885-5.94l-.926-.945zm-6 5.056h.95l3.467-3.474l-.45-.494l-.475-.47l-3.493 3.488zM5 21V3h9.5L19 7.5v2.596h-1V8h-4V4H6v16h5.27v1zm13.506-4.852l-.475-.47l.925.964z"/>
+                                                                </svg>
+                                                                      <a role='button' onClick='fetchProblemDate(${item.uId})'><i class="fas fa-eye"></i></a>
+                                                                              <i role='button' onClick='BookMark(${item.id},${item.bookMark})' class="${item.bookMark == 1 ? "fas" : "far"} fa-bookmark"></i>
+                                                          </td>`;
                 htmls += '</tr>';
             });
             $('#DataTable tbody').html(htmls);
             $('#DataTable').DataTable();
-        }else{
+        } else {
             $('#DataTable tbody').html("<p class='text-center'>no record found</p>");
         }
     }
 
-    
-    function BookMark(id){
+
+    function BookMark(id, bookmark) {
+
+        var Id = localStorage.getItem('Id');
+
+        if (bookmark == 0) {
+
+            $('#AppointmentIdForAddBookmark').val(id);
+            const modal = new bootstrap.Modal(document.getElementById('AddBookmarkModal'));
+            modal.show();
+        }
+        else {
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'Do you really want to remove Bookmark?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No, cancel',
+                showConfirmButton: true,
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: BaseUrl + `api/Jyotish/DeleteAppointmentBookmark?Id=${id}`,
+                        type: 'DELETE',
+                        headers: {
+                            'Authorization': `Bearer ${localStorage.getItem("Token2")}`
+
+                        },
+                        success: function (response) {
+                            if (response.status == 200) {
+                                Swal.fire({
+                                    title: "Successful",
+                                    text: "Bookmark Removed Successfully",
+                                    icon: "success",
+                                    didClose: () => {
+                                        debugger
+                                        if (checkClickEvent == "today") {
+                                            $("#todayAppointment").trigger("click")
+                                        } else if (checkClickEvent == "upcomming") {
+                                            $("#upcommingAppointment").trigger("click")
+                                        } else if (checkClickEvent == "filter") {
+                                            const searchTerm = $("#searchBox").val().toLowerCase();
+                                            if (searchTerm != "") {
+                                                if (searchTerm.length >= 1) {
+                                                    debugger
+                                                    const filteredResults = newAppointmentArray.filter(item => item.userName.toLowerCase().includes(searchTerm) | item.userMobile.includes(searchTerm) | item.userEmail.includes(searchTerm))
+                                                    showAppointmentSlots(filteredResults, "filter");
+                                                } else {
+                                                    $('#resultsList').empty();  // Clear list if search term is empty
+                                                }
+                                            } else {
+                                                showAppointmentSlots(newAppointmentArray, "filter");
+
+                                            }
+                                        } else if (checkClickEvent == "bookMark") {
+                                            $("#BookMark").trigger("click")
+
+                                        }
+
+                                    }
+                                });
+
+
+
+                            }
+                        },
+                        error: function () {
+                            Swal.fire({
+                                title: "error",
+                                text: "some error occured",
+                                icon: "error",
+
+                            });
+                        }
+                    });
+
+                }
+
+            });
+
+
+
+
+
+        }
+
+
+        //   $.ajax({
+        //       url: BaseUrl + `api/Jyotish/BookMark`,
+        //       type: 'GET',
+        //       data: { appointmentId: id},
+        //       headers: {
+        //           'Authorization': `Bearer ${localStorage.getItem("Token2")}`
+
+        //       },
+        //       success: function (result) {
+        //           if (result.status == 200) {
+        //               fetchData()
+        //               Swal.fire({
+        //                   title: "Success",
+        //                   text: result.message,
+        //                   icon: "success",
+        //                   didClose: () => {
+
+        //                       if (checkClickEvent == "today") {
+        //                           $("#todayAppointment").trigger("click")
+        //                       } else if (checkClickEvent == "upcomming") {
+        //                           $("#upcommingAppointment").trigger("click")
+        //                       } else if (checkClickEvent == "filter") {
+        //                           const searchTerm = $("#searchBox").val().toLowerCase();
+        //                           if (searchTerm != "") {
+        //                               if (searchTerm.length >= 1) {
+        //                                   debugger
+        //                                   const filteredResults = newAppointmentArray.filter(item => item.userName.toLowerCase().includes(searchTerm) | item.userMobile.includes(searchTerm) | item.userEmail.includes(searchTerm))
+        //                                   showAppointmentSlots(filteredResults, "filter");
+        //                               } else {
+        //                                   $('#resultsList').empty();  // Clear list if search term is empty
+        //                               }
+        //                           } else {
+        //                               showAppointmentSlots(newAppointmentArray, "filter");
+
+        //                           }
+        //                       } else if (checkClickEvent == "bookMark") {
+        //                           $("#BookMark").trigger("click")
+
+        //                       }
+
+        //                   }
+        //               })
+        //           }else{
+        //               Swal.fire({
+        //                   title:"error",
+        //                   text:result.message,
+        //                   icon:"error"
+        //               })
+        //           }
+        //       },error:function(){
+        //           Swal.fire({
+        //               title: "error",
+        //               text: result.message,
+        //               icon: "error"
+        //           })
+        //       }
+
+        // })
+
+    }
+
+
+
+    $('#AddAppointmentBookmark').on('click', function () {
+
+        // Get values from input fields
+        var AppointmentId = $('#AppointmentIdForAddBookmark').val();
+        var EndDate = $('#endDateForAddBookmark').val();
+        var Reason = $('#reasonForAddBookmark').val();
+
+        // Validate the input fields
+        if (!AppointmentId || !EndDate || !Reason) {
+            Swal.fire({
+                title: "Error",
+                text: "Please fill in all fields.",
+                icon: "error",
+            });
+            return; // Prevent further execution if validation fails
+        }
+
+        // Get JyotishId from localStorage
+        var JyotishId = localStorage.getItem('Id');
+
+        // Create data object for the API request
+        var DataContainer = {
+            AppointmentId: AppointmentId,
+            EndDate: EndDate,
+            Reason: Reason,
+            JyotishId: JyotishId
+        }
+
+        // Show loading spinner
         Swal.fire({
-            title: "Processing Your Request",
-            allowOutsideClick: false,
+            title: "Processing...",
+            text: "Please wait while we process your request.",
             didOpen: () => {
                 Swal.showLoading();
             }
-        })
-        var Id = localStorage.getItem('Id');
+        });
+
+
         $.ajax({
-            url: BaseUrl + `api/Jyotish/BookMark`,
-            type: 'GET',
-            data: { appointmentId: id},
+            url: BaseUrl + 'Api/Jyotish/AddAppointmentBookmark',
+            type: 'POST',
             headers: {
-                'Authorization': `Bearer ${localStorage.getItem("Token2")}`
-                
+                'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
             },
-            success: function (result) {
-                if (result.status == 200) {
-                    fetchData()
+            data: JSON.stringify(DataContainer),
+            contentType: 'application/json',
+            success: function (response) {
+
+                Swal.close();
+
+
+                if (response.status == 200) {
                     Swal.fire({
-                        title: "Success",
-                        text: result.message,
+                        title: "Successful",
+                        text: "Bookmark Added Successfully",
                         icon: "success",
                         didClose: () => {
-
-                            if (checkClickEvent == "today") {
-                                $("#todayAppointment").trigger("click")
-                            } else if (checkClickEvent == "upcomming") {
-                                $("#upcommingAppointment").trigger("click")
-                            } else if (checkClickEvent == "filter") {
-                                const searchTerm = $("#searchBox").val().toLowerCase();
-                                if (searchTerm != "") {
-                                    if (searchTerm.length >= 1) {
-                                        debugger
-                                        const filteredResults = newAppointmentArray.filter(item => item.userName.toLowerCase().includes(searchTerm) | item.userMobile.includes(searchTerm) | item.userEmail.includes(searchTerm))
-                                        showAppointmentSlots(filteredResults, "filter");
-                                    } else {
-                                        $('#resultsList').empty();  // Clear list if search term is empty
-                                    }
-                                } else {
-                                    showAppointmentSlots(newAppointmentArray, "filter");
-
-                                }
-                            } else if (checkClickEvent == "bookMark") {
-                                $("#BookMark").trigger("click")
-
-                            }
-
+                            location.reload();
                         }
-                    })
-                }else{
-                    Swal.fire({
-                        title:"error",
-                        text:result.message,
-                        icon:"error"
-                    })
-                }
-            },error:function(){
-                Swal.fire({
-                    title: "error",
-                    text: result.message,
-                    icon: "error"
-                })
-            }
-           
-      })
-    }
+                    });
 
-    $("#todayAppointment").click(function(){
-       
+                } else {
+
+                    Swal.fire({
+                        title: "Error",
+                        text: "An unexpected error occurred. Please try again.",
+                        icon: "error",
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+
+                Swal.close();
+
+
+                Swal.fire({
+                    title: "Error",
+                    text: `Error: ${xhr.status} - ${xhr.responseText || error}`,
+                    icon: "error",
+                });
+            }
+        });
+
+    });
+
+
+    $("#todayAppointment").click(function () {
+
         let upcommingAppointment = appointmentslots.filter((d) => d.appoinDate >= d.currentDate);
         let todayAppointment = upcommingAppointment.filter((d) => d.appoinDate == d.currentDate)
         newAppointmentArray = todayAppointment
-        showAppointmentSlots(todayAppointment,"today")
+        showAppointmentSlots(todayAppointment, "today")
         $("#headingtop").text("Taday Appointments")
     })
 
 
-    $("#upcommingAppointment").click(function(){
+    $("#upcommingAppointment").click(function () {
 
         newAppointmentArray = appointmentslots;
 
-        showAppointmentSlots(appointmentslots,"upcomming")
+        showAppointmentSlots(appointmentslots, "upcomming")
         $("#headingtop").text("Upcomming Appointments")
 
     })
     $("#arriveClient").click(function () {
-       
+
         let upcommingAppointment = appointmentslots.filter((d) => d.appoinDate >= d.currentDate);
 
         let approved = upcommingAppointment.filter((d) => d.arriveStatus == 1);
         newAppointmentArray = approved
 
-        showAppointmentSlots(approved,"arrived")
+        showAppointmentSlots(approved, "arrived")
         $("#headingtop").text("Arrived Clients")
 
     })
     $("#BookMark").click(function () {
-       
+
         let upcommingAppointment = appointmentslots.filter((d) => d.appoinDate >= d.currentDate);
 
         let bookMark = upcommingAppointment.filter((d) => d.bookMark == 1);
@@ -1262,12 +1461,12 @@ didClose:()=>{
             if (searchTerm.length >= 1) {
                 debugger
                 const filteredResults = newAppointmentArray.filter(item => item.userName.toLowerCase().includes(searchTerm) | item.userMobile.includes(searchTerm) | item.userEmail.includes(searchTerm))
-                showAppointmentSlots(filteredResults,"filter");
+                showAppointmentSlots(filteredResults, "filter");
             } else {
                 $('#resultsList').empty();  // Clear list if search term is empty
             }
         } else {
-            showAppointmentSlots(newAppointmentArray,"filter");
+            showAppointmentSlots(newAppointmentArray, "filter");
 
         }
     });
@@ -1294,7 +1493,7 @@ didClose:()=>{
                 })
                 var Id = localStorage.getItem('Id');
                 $.ajax({
-                    url: BaseUrl+`api/Jyotish/updateArrivedClient`,
+                    url: BaseUrl + `api/Jyotish/updateArrivedClient`,
                     type: 'GET',
                     data: { appointmentId: appointmentId, jyotishId: Id },
                     headers: {
@@ -1308,13 +1507,13 @@ didClose:()=>{
                                 title: "Success",
                                 text: result.message,
                                 icon: "success",
-                                didClose:()=>{
-                                    
-                                        if (checkClickEvent == "today") {
-                                            $("#todayAppointment").trigger("click")
-                                        } else if (checkClickEvent == "upcomming") {
-                                            $("#upcommingAppointment").trigger("click")
-                                        } else if (checkClickEvent == "filter") {
+                                didClose: () => {
+
+                                    if (checkClickEvent == "today") {
+                                        $("#todayAppointment").trigger("click")
+                                    } else if (checkClickEvent == "upcomming") {
+                                        $("#upcommingAppointment").trigger("click")
+                                    } else if (checkClickEvent == "filter") {
                                         const searchTerm = $("#searchBox").val().toLowerCase();
                                         if (searchTerm != "") {
                                             if (searchTerm.length >= 1) {
@@ -1328,11 +1527,11 @@ didClose:()=>{
                                             showAppointmentSlots(newAppointmentArray, "filter");
 
                                         }
-                                        }
-                                
+                                    }
+
                                 }
                             })
-                            
+
                         } else {
                             Swal.fire({
                                 title: "error",
@@ -1354,7 +1553,7 @@ didClose:()=>{
         })
     }
 
-    function setMembers(UId,appId) {
+    function setMembers(UId, appId) {
         $("#selectmember").empty()
         Swal.fire({
             title: "Processing Your Request",
@@ -1371,21 +1570,21 @@ didClose:()=>{
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("Token2")}`
             },
-            data: { Id: UId},
+            data: { Id: UId },
             success: function (result) {
                 if (result.status == 200) {
                     $("#userId").val(UId)
                     $("#appointmentId").val(appId)
-                        $("#selectmember").append(`
-                                         <option value='0'>${result.data.userName} </option>
-                                    `)
+                    $("#selectmember").append(`
+                                                     <option value='0'>${result.data.userName} </option>
+                                                `)
                     if (result.data.memberList.length > 0) {
                         result.data.memberList.forEach(function (item, i) {
-                           
-                                $("#selectmember").append(`
-                                 <option value='${item.id}'>${item.name} - ${item.relation}</option>
-                                `)
-                           
+
+                            $("#selectmember").append(`
+                                             <option value='${item.id}'>${item.name} - ${item.relation}</option>
+                                            `)
+
                         })
                     }
                 }
@@ -1402,7 +1601,7 @@ didClose:()=>{
     }
 
     $(document).ready(function () {
-        
+
 
         // Fetch and populate modal form with appointment data
         $(document).on('click', '.edit-appointment', function () {
@@ -1415,7 +1614,7 @@ didClose:()=>{
                     'Content-Type': 'application/json'
                 },
                 success: function (result) {
-                     
+
                     const appointment = result.data;
 
                     // Populate modal fields with fetched data
@@ -1473,34 +1672,34 @@ didClose:()=>{
         fetchData(); // Initial data fetch
     });
 
-    function openAddMemberModal(id){
+    function openAddMemberModal(id) {
         $("#UId").val(id)
         $("#addmembermodal").modal("show")
     }
 
     $(".Addmember").click(function () {
-        
+
     })
 
     $('.add-more-problem').click(function () {
         $('#problemSection').append(`
-                        <div class="w-100 my-2">
-                        <div class='d-flex justify-content-end mb-1 w-100'>
-                                    <button type="button" class="btn btn-outline-danger remove-problem"><i class="fas fa-trash-alt"></i></button>
-                            </div>
-                                <textarea class="form-control" rows="2" name="problem[]" placeholder="Enter problem"></textarea>
-                        </div>
-                    `);
+                                    <div class="w-100 my-2">
+                                    <div class='d-flex justify-content-end mb-1 w-100'>
+                                                <button type="button" class="btn btn-outline-danger remove-problem"><i class="fas fa-trash-alt"></i></button>
+                                        </div>
+                                            <textarea class="form-control" rows="2" name="problem[]" placeholder="Enter problem"></textarea>
+                                    </div>
+                                `);
     });
 
-    
+
     $(document).on('click', '.remove-problem', function () {
         $(this).parent().parent().remove();
     });
 
-    
 
-    $("#memberForm").submit(function(e){
+
+    $("#memberForm").submit(function (e) {
         e.preventDefault()
         Swal.fire({
             title: 'Are you sure?',
@@ -1514,12 +1713,12 @@ didClose:()=>{
             if (result.isConfirmed) {
 
                 let memberObject = {}
-        let arrayData = $(this).serializeArray();
-        arrayData.forEach(function(d){
-                    memberObject[d.name]= d.value;
-        })
-      debugger
-                
+                let arrayData = $(this).serializeArray();
+                arrayData.forEach(function (d) {
+                    memberObject[d.name] = d.value;
+                })
+                debugger
+
                 Swal.fire({
                     title: "Processing Your Request",
                     allowOutsideClick: false,
@@ -1534,7 +1733,7 @@ didClose:()=>{
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem("Token2")}`
                     },
-                  
+
                     contentType: "application/json",
                     data: JSON.stringify(memberObject),
                     success: function (result) {
@@ -1546,7 +1745,7 @@ didClose:()=>{
                                 didClose: () => {
                                     $("#addmembermodal").modal("hide")
                                     document.getElementById("memberForm").reset()
-                                   
+
                                 }
                             });
                         } else {
@@ -1557,20 +1756,20 @@ didClose:()=>{
 
                             });
                         }
-                    },error:function(){
+                    }, error: function () {
                         Swal.fire({
                             title: "error",
                             text: "some error occured",
                             icon: "error",
 
                         });
-                        }
-                    })
-                }
-            })
+                    }
+                })
+            }
+        })
     })
 
-    function getClientMember(UId){
+    function getClientMember(UId) {
         $("#memberbody").empty()
         Swal.fire({
             title: "Processing Your Request",
@@ -1590,34 +1789,34 @@ didClose:()=>{
             },
             data: { Id: UId },
             success: function (result) {
-                 console.log(result)
+                console.log(result)
                 if (result.status == 200) {
-                    if(result.data.memberList.length>0){
+                    if (result.data.memberList.length > 0) {
                         result.data.memberList.forEach(function (d, i) {
                             $("#memberbody").append(`
-                            <tr class='text-center'>
-                            <td>${i+1}</td>
-                            <td>${d.name}</td>
-                            <td>${d.dob}</td>
-                            <td>${d.gender}</td>
-                            <td>${d.relation}</td>
-                            </tr>
-                            `)
+                                        <tr class='text-center'>
+                                        <td>${i + 1}</td>
+                                        <td>${d.name}</td>
+                                        <td>${d.dob}</td>
+                                        <td>${d.gender}</td>
+                                        <td>${d.relation}</td>
+                                        </tr>
+                                        `)
                         })
-                    }else{
+                    } else {
                         $("#memberbody").append(`
-                              <tr>
-                                <td></td>
-                                <td></td>
-                                <td>No record found</td>
-                                <td></td>
-                                <td></td>
-                                </tr>
-                        `)
+                                          <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td>No record found</td>
+                                            <td></td>
+                                            <td></td>
+                                            </tr>
+                                    `)
                     }
                 }
                 Swal.close()
-            },error:function(){
+            }, error: function () {
                 Swal.fire({
                     title: "error",
                     text: "some error occured",
@@ -1628,41 +1827,41 @@ didClose:()=>{
         })
     }
 
-    
-      function printReceipt(d){
-           let data=d
-           console.log(data)
-       let printWindow = window.open('', '_blank', 'width=600,height=400');
 
-       // Prepare the HTML content for printing
-       let printContent = `<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap-grid.min.css" integrity="sha512-JQksK36WdRekVrvdxNyV3B0Q1huqbTkIQNbz1dlcFVgNynEMRl0F8OSqOGdVppLUDIvsOejhr/W5L3G/b3J+8w==" crossorigin="anonymous" referrerpolicy="no-referrer" />  <div class="problem-solution-container">
-                                    <div class="d-flex justify-content-between">
-                                                            <div><div class="section-title">${data.memberName != null ? "Member Name" : "User Name"}:</div><p>${data.memberName != null ? data.memberName : data.userName}</p></div>
-                                  <div><div class="section-title">Date:</div><p>${data.appointmentDate}</p></div>
-                                  <div><div class="section-title">Time:</div><p>${data.appointmentTime}</p></div>
-                                    </div>
-                                    <div class="section-title">Problems:</div>
-                                    <ol>${data.problems.map(problem => `<li>${problem}</li>`).join('')}</ol>
-                                    <div class="section-title">Solutions:</div>
-                                    <div>${data.solution}</div>
-                                </div>`
+    function printReceipt(d) {
+        let data = d
+        console.log(data)
+        let printWindow = window.open('', '_blank', 'width=600,height=400');
 
-       // Write the HTML content to the new window
-       printWindow.document.write(printContent);
-       printWindow.document.close();
+        // Prepare the HTML content for printing
+        let printContent = `<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap-grid.min.css" integrity="sha512-JQksK36WdRekVrvdxNyV3B0Q1huqbTkIQNbz1dlcFVgNynEMRl0F8OSqOGdVppLUDIvsOejhr/W5L3G/b3J+8w==" crossorigin="anonymous" referrerpolicy="no-referrer" />  <div class="problem-solution-container">
+                                                <div class="d-flex justify-content-between">
+                                                                        <div><div class="section-title">${data.memberName != null ? "Member Name" : "User Name"}:</div><p>${data.memberName != null ? data.memberName : data.userName}</p></div>
+                                              <div><div class="section-title">Date:</div><p>${data.appointmentDate}</p></div>
+                                              <div><div class="section-title">Time:</div><p>${data.appointmentTime}</p></div>
+                                                </div>
+                                                <div class="section-title">Problems:</div>
+                                                <ol>${data.problems.map(problem => `<li>${problem}</li>`).join('')}</ol>
+                                                <div class="section-title">Solutions:</div>
+                                                <div>${data.solution}</div>
+                                            </div>`
 
-       // Wait for the content to load and then print
-       printWindow.onload = function () {
-           printWindow.print();
+        // Write the HTML content to the new window
+        printWindow.document.write(printContent);
+        printWindow.document.close();
 
-       setTimeout(function () {
-           printWindow.close(); // Close the window after a short delay
-       }, 20000);
-       }
-      }
+        // Wait for the content to load and then print
+        printWindow.onload = function () {
+            printWindow.print();
+
+            setTimeout(function () {
+                printWindow.close(); // Close the window after a short delay
+            }, 20000);
+        }
+    }
 </script>
 <script>
-    
+
     $('#submitForm').click(function () {
         // Get selected item ID from the active list item
         Swal.fire({
@@ -1676,7 +1875,7 @@ didClose:()=>{
             AppointmentId: $("#appointmentId").val(),
             memberId: $("#selectmember").val(),
             problem: $('textarea[name="problem[]"]').map(function () { return $(this).val(); }).get(),
-            solution: $("#solution").val()  
+            solution: $("#solution").val()
         };
         debugger
         $.ajax({
@@ -1718,8 +1917,8 @@ didClose:()=>{
             }
         });
     });
-    
-   
+
+
 </script>
 
 

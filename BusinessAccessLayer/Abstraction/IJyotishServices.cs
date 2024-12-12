@@ -83,6 +83,13 @@ namespace BusinessAccessLayer.Abstraction
         public bool SendRequest(RedeemCodeRequestViewModel model);
 
         public dynamic getRedeemCode(int jyotishId);
+
+        public bool AddAppointmentBookmark(AppointmentBookmarkViewModal modal);
+        public bool DeleteAppointmentBookmark(int Id);
+        public AppointmentBookmarkViewModal GetAppointmentBookmark(int Id);
+
+
+    }
         public bool AddJyotishPooja(JyotishPoojaViewModel model);
         public dynamic getJyotishPoojaList(int Id);
 

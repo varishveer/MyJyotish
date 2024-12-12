@@ -65,6 +65,7 @@ namespace BusinessAccessLayer.Abstraction
         public dynamic getAllPoojaList();
         public dynamic getPoojaDetailByPoojaId(int Id);
         public bool BookPooja(BookedPoojaViewModel model);
+        public string GetTimezone(string country);
 
     }
 

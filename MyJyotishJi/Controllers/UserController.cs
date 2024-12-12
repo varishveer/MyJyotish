@@ -725,6 +725,25 @@ namespace MyJyotishGApi.Controllers
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
         }
 
+        [AllowAnonymous]
+        [HttpGet("GetTimezone")]
+        public IActionResult GetTimezone(string Country)
+        {
+            try
+            {
+                var record = _services.GetTimezone(Country);
+                if (record == null)
+                {
+                    return Ok(new { Status = 400, Message = "Record not found" });
+                }
+                else
+                {
+                    return Ok(new { Status = 200, Data = record });
+                }
+            }
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
+        }
+
 
 
         /* [AllowAnonymous]

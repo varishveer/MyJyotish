@@ -1104,5 +1104,15 @@ namespace BusinessAccessLayer.Implementation
             return _context.SaveChanges() > 0;
         }
 
+
+        public string GetTimezone(string country)
+        {
+            var CountryCode = _context.Countries.Where(x=>x.Name == country).Select(x=>x.CountryCode).FirstOrDefault(); 
+            if(CountryCode == null) { return null; }
+            var Timezone = _context.Timezone.Where(x => x.Country == CountryCode).Select(x=>x.Timezone).FirstOrDefault();
+            if (Timezone == null) { return null; }
+            return Timezone;
+        }
+
 	}
 }
