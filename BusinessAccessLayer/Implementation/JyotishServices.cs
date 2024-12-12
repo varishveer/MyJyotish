@@ -2007,6 +2007,7 @@ namespace BusinessAccessLayer.Implementation
             {
                 AppointmentBookmark.EndDate = modal.EndDate;
                 AppointmentBookmark.Reason = modal.Reason;
+                AppointmentBookmark.Status = true;
                 _context.AppointmentBookmark.Update(AppointmentBookmark);
                 if (_context.SaveChanges() > 0)
                 {
@@ -2058,23 +2059,23 @@ namespace BusinessAccessLayer.Implementation
         public bool DeleteAppointmentBookmark(int Id)
         {
             var Trasaction = _context.Database.BeginTransaction();
-            var AppointmentBookmark = _context.AppointmentBookmark.Where(x => x.Id == Id).FirstOrDefault();
-            if (AppointmentBookmark == null)
+            var Appointment = _context.AppointmentRecords.Where(x => x.Id == Id).FirstOrDefault();
+            if (Appointment == null)
             { return false; }
 
-            AppointmentBookmark.Status = false;
-            _context.AppointmentBookmark.Update(AppointmentBookmark);
+            Appointment.BookMark = 0;
+            _context.AppointmentRecords.Update(Appointment);
             if (_context.SaveChanges() > 0)
             {
-                var Appointment = _context.AppointmentRecords.Where(x => x.Id == AppointmentBookmark.Id).FirstOrDefault();
-                if (Appointment == null)
+                var AppointmentBookmark = _context.AppointmentBookmark.Where(x => x.AppointmentId == Appointment.Id).FirstOrDefault();
+                if (AppointmentBookmark == null)
                 {
                     Trasaction.Rollback();
                     return false;
                 }
 
-                Appointment.BookMark = 10;
-                _context.AppointmentRecords.Update(Appointment);
+                AppointmentBookmark.Status = false; 
+                _context.AppointmentBookmark.Update(AppointmentBookmark);
                 if (_context.SaveChanges() > 0)
                 {
                     Trasaction.Commit();
@@ -2091,6 +2092,18 @@ namespace BusinessAccessLayer.Implementation
             else { return false; }
         }
 
+        public AppointmentBookmarkViewModal GetAppointmentBookmark(int Id)
+        {
+            var AppointmentBookmark = _context.AppointmentBookmark.Where(x => x.AppointmentId == Id).FirstOrDefault();
+            if (AppointmentBookmark == null) { return null; }
+            AppointmentBookmarkViewModal Record = new AppointmentBookmarkViewModal();
+            Record.Reason = AppointmentBookmark.Reason;
+            Record.AppointmentId = Id;
+            Record.JyotishId = AppointmentBookmark.JyotishId;
+            Record.EndDate = AppointmentBookmark.EndDate;
+            Record.Id = AppointmentBookmark.Id;
+            return Record;
+        }
 
 
 

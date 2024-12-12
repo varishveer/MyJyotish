@@ -27,13 +27,13 @@ namespace MyJyotishGApi.Controllers
         public IActionResult GetAllAppointment(int Id)
         {
             var records = _jyotish.GetAllAppointment(Id);
-            return Ok(new { Status =200,data = records });
-        } 
+            return Ok(new { Status = 200, data = records });
+        }
         [HttpGet("GetTodayAppointment")]
         public IActionResult GetTodayAppointment(int Id)
         {
             var records = _jyotish.GetTodayAppointment(Id);
-            return Ok(new { Status =200,data = records });
+            return Ok(new { Status = 200, data = records });
         }
         [HttpGet("UpcomingAppointment")]
         public IActionResult UpcomingAppointment(int Id)
@@ -53,7 +53,7 @@ namespace MyJyotishGApi.Controllers
                 }
 
                 else if (result == "Successful") { return Ok(new { Status = 200, message = result }); }
-             
+
                 else { return Ok(new { Status = 500, message = result }); }
             }
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
@@ -69,7 +69,7 @@ namespace MyJyotishGApi.Controllers
                 {
                     return Ok(new { Status = 400, Message = "Appointment Not Found" });
                 }
-                else { return Ok(new { Status = 200, Data = result ,message = "Successful" }); }
+                else { return Ok(new { Status = 200, Data = result, message = "Successful" }); }
             }
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
         }
@@ -93,12 +93,12 @@ namespace MyJyotishGApi.Controllers
         }
 
         [HttpGet("updateArrivedClient")]
-        public IActionResult UpdateArrivedClient(int appointmentId,int jyotishId)
+        public IActionResult UpdateArrivedClient(int appointmentId, int jyotishId)
         {
             try
             {
                 var result = _jyotish.updateArrivedClient(appointmentId, jyotishId);
-                
+
                 if (!result)
                 {
                     return Ok(new { Status = 400, Message = "Invalid Data or maybe some error internal error occured" });
@@ -136,9 +136,9 @@ namespace MyJyotishGApi.Controllers
             try
             {
                 var result = _jyotish.getClientMembers(Id);
-                if (result!= "not found")
+                if (result != "not found")
                 {
-                    return Ok(new { Status = 200, Message = "Retrieve Successfully", Data=result });
+                    return Ok(new { Status = 200, Message = "Retrieve Successfully", Data = result });
                 }
                 else
                 {
@@ -152,23 +152,25 @@ namespace MyJyotishGApi.Controllers
         [HttpGet("GetAllUpcommingAppointment")]
         public IActionResult GetAllUpcommingAppointment(int jyotishId)
         {
-            try {
+            try
+            {
                 var result = _jyotish.GetAllUpcommingAppointment(jyotishId);
-                return Ok(new { Status = 200,Data = result,Message="Data Retrieve Successfully"});
+                return Ok(new { Status = 200, Data = result, Message = "Data Retrieve Successfully" });
             }
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
         }
         [HttpGet("GetAllAppointmentHistory")]
         public IActionResult GetAllAppointmentHistroy(int jyotishId)
         {
-            try {
+            try
+            {
                 var result = _jyotish.GetAllAppointmentHistory(jyotishId);
-                
-                return Ok(new { Status = 200,Data = result,Message="Data Retrieve Successfully"});
+
+                return Ok(new { Status = 200, Data = result, Message = "Data Retrieve Successfully" });
             }
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
         }
-            [AllowAnonymous]
+        [AllowAnonymous]
         [HttpGet("Country")]
         public IActionResult Country()
         {
@@ -221,7 +223,7 @@ namespace MyJyotishGApi.Controllers
             }
         }
 
-      
+
 
         [AllowAnonymous]
         [HttpGet("GetSpecializationList")]
@@ -252,7 +254,7 @@ namespace MyJyotishGApi.Controllers
             }
             catch { return BadRequest(); }
         }
-       
+
         [HttpPost("UpdateProfile")]
         public IActionResult UpdateProfile(JyotishUpdateViewModel model)
         {
@@ -266,7 +268,8 @@ namespace MyJyotishGApi.Controllers
 
 
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 return StatusCode(500, new { Status = 500, Message = ex.Message, Error = ex });
             }
         }
@@ -274,7 +277,7 @@ namespace MyJyotishGApi.Controllers
 
 
         [HttpPost("AddJyotishVideo")]
-        public IActionResult AddJyotishVideo( JyotishVideosViewModel model)
+        public IActionResult AddJyotishVideo(JyotishVideosViewModel model)
         {
             try
             {
@@ -291,7 +294,7 @@ namespace MyJyotishGApi.Controllers
 
         // Method to add Jyotish gallery
         [HttpPost("AddJyotishGallery")]
-        public IActionResult AddJyotishGallery( JyotishGalleryViewModel model)
+        public IActionResult AddJyotishGallery(JyotishGalleryViewModel model)
         {
             try
             {
@@ -392,12 +395,12 @@ namespace MyJyotishGApi.Controllers
             try
             {
                 var records = _jyotish.TeamMember(Id);
-                return Ok(new { status = 200, data =records });
+                return Ok(new { status = 200, data = records });
 
             }
 
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
-           
+
         }
 
         [HttpGet("JyotishPaymentrecords")]
@@ -416,46 +419,46 @@ namespace MyJyotishGApi.Controllers
             { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
         }
         [HttpPost("PurchaseWithJyotishWallets")]
-         public IActionResult PurchaseWithJyotishWallets(JyotishWalletViewmodel jw)
-         {
-             try
-             {
-                 var Result = _jyotish.PurchaseWithJyotishWallets(jw);
-                 if (Result == "Successful")
+        public IActionResult PurchaseWithJyotishWallets(JyotishWalletViewmodel jw)
+        {
+            try
+            {
+                var Result = _jyotish.PurchaseWithJyotishWallets(jw);
+                if (Result == "Successful")
                 {
-                    
-                        WalletHistoryViewmodel js = new WalletHistoryViewmodel
-                        {
-                            JId = (int)jw.jyotishId,
-                            amount = (long)jw.WalletAmount,
-                            PaymentAction = "Debit",
-                            PaymentStatus = "success",
-                            PaymentFor = jw.paymentfor
-                        };
-                        var historyres = _jyotish.AddWalletHistory(js);
-                    
-                    return Ok(new { Status = 200, Message = "Successful" });
-                    
-                }
-                 else
-                 { 
 
-                    return Ok(new { Status = 404, Message ="Some error occured" }); 
+                    WalletHistoryViewmodel js = new WalletHistoryViewmodel
+                    {
+                        JId = (int)jw.jyotishId,
+                        amount = (long)jw.WalletAmount,
+                        PaymentAction = "Debit",
+                        PaymentStatus = "success",
+                        PaymentFor = jw.paymentfor
+                    };
+                    var historyres = _jyotish.AddWalletHistory(js);
+
+                    return Ok(new { Status = 200, Message = "Successful" });
+
                 }
-             }
-             catch (Exception ex)
-             { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
-         }
+                else
+                {
+
+                    return Ok(new { Status = 404, Message = "Some error occured" });
+                }
+            }
+            catch (Exception ex)
+            { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+        }
         [HttpGet("GetWallet")]
         public IActionResult GetWallet(int JyotishId)
         {
             try
             {
                 var Result = _jyotish.GetWallet(JyotishId);
-                if (Result !=null)
-                { return Ok(new { Status = 200, Data = Result}); }
+                if (Result != null)
+                { return Ok(new { Status = 200, Data = Result }); }
                 else
-                { return Ok(new { Status = 404, Message ="Some error occured" }); }
+                { return Ok(new { Status = 404, Message = "Some error occured" }); }
             }
             catch (Exception ex)
             { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
@@ -473,7 +476,7 @@ namespace MyJyotishGApi.Controllers
                 { return Ok(new { Status = 404, Message = "Some error occured" }); }
             }
             catch (Exception ex)
-            {return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+            { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
         }
 
         [HttpGet("GetWalletHistroy")]
@@ -515,8 +518,8 @@ namespace MyJyotishGApi.Controllers
                 if (Result == "Invalid Date")
                 { return Ok(new { Status = 400, Message = Result }); }
 
-                else if(Result == "Invalid Jyotish")
-                { return Ok(new { Status = 409,  Message =Result }); }
+                else if (Result == "Invalid Jyotish")
+                { return Ok(new { Status = 409, Message = Result }); }
                 else if (Result == "Invalid Data")
                 { return Ok(new { Status = 409, Message = Result }); }
 
@@ -525,7 +528,7 @@ namespace MyJyotishGApi.Controllers
 
                 else if (Result == "Successful")
                 { return Ok(new { Status = 200, Message = Result }); }
-                else 
+                else
                 { return Ok(new { Status = 500, Message = Result }); }
             }
             catch (Exception ex)
@@ -569,7 +572,7 @@ namespace MyJyotishGApi.Controllers
                 { return Ok(new { Status = 500, Message = Result }); }
                 else if (Result == "Successful")
                 { return Ok(new { Status = 200, Message = Result }); }
-                else if(Result == "Slot Has Been Booked It Can't Be Updated.")
+                else if (Result == "Slot Has Been Booked It Can't Be Updated.")
                 { return Ok(new { Status = 500, Message = Result }); }
                 else
                 { return Ok(new { Status = 500, Message = Result }); }
@@ -604,28 +607,28 @@ namespace MyJyotishGApi.Controllers
             try
             {
                 var Result = _jyotish.GetAllAppointmentSlot(Id);
-                if (Result.Count==0)
+                if (Result.Count == 0)
                 { return Ok(new { Status = 400, Message = "Data Not Found" }); }
 
 
                 else
-                { return Ok(new { Status = 200,data = Result, Message = "Successful" }); }
+                { return Ok(new { Status = 200, data = Result, Message = "Successful" }); }
             }
             catch (Exception ex)
             { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
         }
-         [HttpGet("GetAllBookedAppointmentSlot")]
+        [HttpGet("GetAllBookedAppointmentSlot")]
         public IActionResult GetAllbookedAppointment(int Id)
         {
             try
             {
                 var Result = _jyotish.GetAllbookedAppointment(Id);
-                if (Result.Count==0)
+                if (Result.Count == 0)
                 { return Ok(new { Status = 400, Message = "Data Not Found" }); }
 
 
                 else
-                { return Ok(new { Status = 200,data = Result, Message = "Successful" }); }
+                { return Ok(new { Status = 200, data = Result, Message = "Successful" }); }
             }
             catch (Exception ex)
             { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
@@ -679,21 +682,21 @@ namespace MyJyotishGApi.Controllers
         {
             try
             {
-               
+
                 var result = _jyotish.GetProblemSolution(id);
 
-               
-                if (result == null )
+
+                if (result == null)
                 {
                     return Ok(new { Status = 400, Message = "Data Not Found" });
                 }
 
-               
+
                 return Ok(new { Status = 200, Data = result, Message = "Successful" });
             }
             catch (Exception ex)
             {
-               
+
                 return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message });
             }
         }
@@ -731,13 +734,13 @@ namespace MyJyotishGApi.Controllers
             catch (Exception ex)
             { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
 
-        } 
+        }
         [HttpGet("GetAllProblemSolutionByUser")]
-        public IActionResult GetAllProblemSolutionByUser(int JyotishId,int UId)
+        public IActionResult GetAllProblemSolutionByUser(int JyotishId, int UId)
         {
             try
             {
-                var Result = _jyotish.GetAllProblemSolutionByUser(JyotishId,UId);
+                var Result = _jyotish.GetAllProblemSolutionByUser(JyotishId, UId);
                 if (Result.Count == 0 || Result == null)
                 { return Ok(new { Status = 404, Message = "Data Not Found" }); }
 
@@ -911,11 +914,11 @@ namespace MyJyotishGApi.Controllers
             }
         }
         [HttpGet("GetAllUserAttachmentsByAppointmentId")]
-        public IActionResult GetAllUserAttachmentsByAppointment(int Id,int memberId)
+        public IActionResult GetAllUserAttachmentsByAppointment(int Id, int memberId)
         {
             try
             {
-                var result = _jyotish.GetAttachmentByAppointment(Id,memberId);
+                var result = _jyotish.GetAttachmentByAppointment(Id, memberId);
 
                 if (result == null || result.Count == 0)
                 {
@@ -994,7 +997,7 @@ namespace MyJyotishGApi.Controllers
             }
         }
 
-        
+
         [HttpGet("AppointmentSlotDetails")]
         public IActionResult AppointmentSlotDetails(int Id)
         {
@@ -1002,7 +1005,7 @@ namespace MyJyotishGApi.Controllers
             {
                 var result = _jyotish.AppointmentSlotDetails(Id);
 
-                if (result == null )
+                if (result == null)
                 {
                     return Ok(new { Status = 400, Message = "No appointment found for the provided Jyotish Id." });
                 }
@@ -1015,7 +1018,7 @@ namespace MyJyotishGApi.Controllers
             }
         }
 
-        
+
         [HttpGet("SkipDateList")]
         public IActionResult SkipDateList(int Id)
         {
@@ -1023,7 +1026,7 @@ namespace MyJyotishGApi.Controllers
             {
                 var result = _jyotish.SkipDateList(Id);
 
-                if (result == null|| result.Count ==0)
+                if (result == null || result.Count == 0)
                 {
                     return Ok(new { Status = 400, Message = "No skip Date found for the provided Jyotish Id." });
                 }
@@ -1035,14 +1038,14 @@ namespace MyJyotishGApi.Controllers
                 return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex.Message });
             }
         }
-         [HttpGet("NotificationData")]
+        [HttpGet("NotificationData")]
         public IActionResult NotificationData(int Id)
         {
             try
             {
                 var result = _jyotish.NotificationData(Id);
 
-                if (result == null|| result.Count ==0)
+                if (result == null || result.Count == 0)
                 {
                     return Ok(new { Status = 400, Message = "No Data found for the provided Jyotish Id." });
                 }
@@ -1073,12 +1076,12 @@ namespace MyJyotishGApi.Controllers
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
 
         }
-         [HttpGet("getPlan")]
+        [HttpGet("getPlan")]
         public IActionResult GetPlan(int Id)
         {
             try
             {
-                var result =  _jyotish.getPlan(Id);
+                var result = _jyotish.getPlan(Id);
                 if (result == null)
                 {
                     return Ok(new { Status = 404, Message = "Not Found" });
@@ -1108,7 +1111,7 @@ namespace MyJyotishGApi.Controllers
 
             catch { return StatusCode(500, new { Status = 500, Message = "Internal Server Error " }); }
 
-        } 
+        }
         [HttpGet("BookMark")]
         public IActionResult BookMark(int appointmentId)
         {
@@ -1141,11 +1144,11 @@ namespace MyJyotishGApi.Controllers
             catch { return StatusCode(500, new { Status = 500, Message = "Internal Server Error " }); }
         }
         [HttpGet("purchaseWithReadmCode")]
-        public IActionResult purchaseWithReadmCode(string redeamCode,int jyotishId,int planId)
+        public IActionResult purchaseWithReadmCode(string redeamCode, int jyotishId, int planId)
         {
             try
             {
-                var res = _jyotish.purchaseWithReadmCode(redeamCode,jyotishId,planId);
+                var res = _jyotish.purchaseWithReadmCode(redeamCode, jyotishId, planId);
                 return Ok(new { Status = 200, message = "data retrieved", amount = res });
             }
             catch { return StatusCode(500, new { Status = 500, Message = "Internal Server Error " }); }
@@ -1154,15 +1157,16 @@ namespace MyJyotishGApi.Controllers
         [HttpGet("JyotishDashboardData")]
         public IActionResult JyotishDashboardData(int Id)
         {
-            try {
+            try
+            {
                 var record = _jyotish.JyotishDashboardData(Id);
-                if(record ==null)
+                if (record == null)
                 {
                     return Ok(new { Status = 400, Message = "Record Not Found" });
                 }
                 else
                 {
-                    return Ok(new { Status = 200, Data= record, Message = "Successful" });
+                    return Ok(new { Status = 200, Data = record, Message = "Successful" });
                 }
             }
             catch { return StatusCode(500, new { Status = 500, Message = "Internal Server Error " }); }
@@ -1182,15 +1186,79 @@ namespace MyJyotishGApi.Controllers
                 return Ok(new { status = 501, message = "Your request already has been registered" });
 
             }
-        } 
+        }
         [HttpGet("getRedeemCode")]
         public IActionResult getRedeemCode(int jyotishId)
         {
             var res = _jyotish.getRedeemCode(jyotishId);
-           
-                return Ok(new { status = 200, message = "data retrieved" ,data=res });
-           
+
+            return Ok(new { status = 200, message = "data retrieved", data = res });
+
         }
 
+
+        [HttpPost("AddAppointmentBookmark")]
+        public IActionResult AddAppointmentBookmark(AppointmentBookmarkViewModal model)
+        {
+            try
+            {
+                var res = _jyotish.AddAppointmentBookmark(model);
+                if (res)
+                {
+                    return Ok(new { status = 200, message = "Request Added Successfully" });
+                }
+                else
+                {
+                    return Ok(new { status = 501, message = "Something went wrong" });
+
+                }
+            }
+            catch
+            {
+                return StatusCode(500, new { Status = 500, Message = "Internal Server Error " });
+            }
+        }
+
+
+        [HttpDelete("DeleteAppointmentBookmark")]
+        public IActionResult DeleteAppointmentBookmark(int Id)
+        {
+            try
+            {
+                var res = _jyotish.DeleteAppointmentBookmark(Id);
+                if (res)
+                {
+                    return Ok(new { status = 200, message = "Request Deleted Successfully" });
+                }
+                else
+                {
+                    return Ok(new { status = 501, message = "Your request already has been registered" });
+
+                }
+            }
+            catch
+            {
+                return StatusCode(500, new { Status = 500, Message = "Internal Server Error " });
+            }
+        }
+
+
+        [HttpGet("GetAppointmentBookmark")]
+        public IActionResult GetAppointmentBookmark(int Id)
+        {
+            try
+            {
+                var record = _jyotish.GetAppointmentBookmark(Id);
+                if (record == null)
+                {
+                    return Ok(new { Status = 400, Message = "Record Not Found" });
+                }
+                else
+                {
+                    return Ok(new { Status = 200, Data = record, Message = "Successful" });
+                }
+            }
+            catch { return StatusCode(500, new { Status = 500, Message = "Internal Server Error " }); }
+        }
     }
 }
