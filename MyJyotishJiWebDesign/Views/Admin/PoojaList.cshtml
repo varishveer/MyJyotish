@@ -2,7 +2,6 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-	Layout = "JyotishLayout";
 
 }
 
@@ -122,10 +121,10 @@
 			}
 		})
 		$.ajax({
-			url: BaseUrl + "api/jyotish/getPoojaByJyotish",
+			url: BaseUrl + "api/admin/getAllPooja",
 			type: "get",
 			headers: {
-				'Authorization': `Bearer ${localStorage.getItem("Token2")}`
+				'Authorization': `Bearer ${localStorage.getItem("Token")}`
 			},
 			data: { jyotishId: localStorage.getItem("Id") },
 			success: function (res) {
@@ -139,7 +138,7 @@
 									<td>${i + 1}</td>
 										<td>${d.poojaName}</td>
 											<td>${d.poojaTitle.slice(0, 15)}...</td>
-											<td><img height='100' width='100' src='${BaseUrl}${d.image}' alt="thumbnail"></td>
+												<td><a href='${BaseUrl}${d.image}' target='_blank'><img height='100' width='100' src='${BaseUrl}${d.image}' alt="thumbnail"><a></td>
 											<td class='text-center'>
 																			<i role='button' id="proc_${d.id}" onClick="setDataintoModal(${d.id},'proc')" data-value='${d.procedure.replace(/`/g, '\\`').replace(/'/g, '&apos;')}'  class="fas fs-5 fa-eye"></i></td>
 													<td class='text-center'>
@@ -174,10 +173,10 @@
 			}
 		})
 		$.ajax({
-			url: BaseUrl + "api/jyotish/getpoojaByPoojaId",
+			url: BaseUrl + "api/admin/getpoojaByPoojaId",
 			type: "get",
 			headers: {
-				'Authorization': `Bearer ${localStorage.getItem("Token2")}`
+				'Authorization': `Bearer ${localStorage.getItem("Token")}`
 			},
 			data: { poojaId: id },
 			success: function (res) {
@@ -267,10 +266,10 @@
 			}
 		})
 		$.ajax({
-			url: BaseUrl + "api/jyotish/UpdatePooja",
+			url: BaseUrl + "api/admin/UpdatePooja",
 			type: "Post",
 			headers: {
-				'Authorization': `Bearer ${localStorage.getItem("Token2")}`
+				'Authorization': `Bearer ${localStorage.getItem("Token")}`
 			},
 			processData: false,
 			contentType: false,
@@ -325,11 +324,11 @@
 					}
 				})
 				$.ajax({
-					url: BaseUrl + `api/Jyotish/removePooja`,
+					url: BaseUrl + `api/admin/removePooja`,
 					type: 'GET',
 					data: { Id: id },
 					headers: {
-						'Authorization': `Bearer ${localStorage.getItem("Token2")}`
+						'Authorization': `Bearer ${localStorage.getItem("Token")}`
 					},
 					success: function (res) {
 						if (res.status == 200) {
@@ -363,10 +362,5 @@
 		})
 	}
 
-	$(document).ready(function(){
-		setTimeout(function(){
 
-		$(".table").DataTable()
-		},1000)
-	})
 </script>

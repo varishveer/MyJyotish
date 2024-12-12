@@ -2657,6 +2657,7 @@ Expiry : <span>{res.startDate}-{res.endDate}</span>
 			var res = (from pooja in _context.PoojaRecord
 					   join poojaType in _context.PoojaList on pooja.PoojaType equals poojaType.Id
 					   where pooja.status && poojaType.Status
+                       orderby pooja.Id descending
 					   select new
 					   {
 						   id = pooja.Id,
