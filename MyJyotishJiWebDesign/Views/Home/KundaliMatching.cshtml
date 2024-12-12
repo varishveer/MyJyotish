@@ -326,15 +326,12 @@
                 var UserId = localStorage.getItem('userId');
                 var Token = localStorage.getItem('Token');
                 $.ajax({
-                    url: BaseUrl + `Api/User/DeleteKundaliRecord`,
+                    url: BaseUrl + `Api/User/DeleteKundaliRecord?Id=${Id}`,
                     type: 'DELETE',
                     headers: {
                         'Authorization': `Bearer ${Token}`
                     },
-                    data: {
-                        UserId:UserId,
-                        Id:Id
-                    },
+               
                     success: function (response) {
                         if (response.status == 200) {
                             Swal.fire({
