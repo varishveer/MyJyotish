@@ -2605,6 +2605,77 @@ Expiry : <span>{res.startDate}-{res.endDate}</span>
             return res;
         }
 
+		//pooja record
+		public bool CreateAPooja(PoojaRecordModel model)
+		{
+			var isPoojaValid = _context.PoojaRecord.Where(x => x.PoojaType == model.PoojaType && x.status).FirstOrDefault();
+			if (isPoojaValid != null)
+			{ return false; }
+			_context.PoojaRecord.Add(model);
+			int result = _context.SaveChanges();
+			if (result > 0)
+			{ return true; }
+			else { return false; }
+		}
 
-    }
+		public bool UpdatePooja(PoojaRecordModel model)
+		{
+			var isPoojaValid = _context.PoojaRecord.Where(x => x.Id == model.Id && x.status).FirstOrDefault();
+			if (isPoojaValid == null)
+			{ return false; }
+			isPoojaValid.PoojaType = model.PoojaType;
+			isPoojaValid.title = model.title;
+			isPoojaValid.Benefits = model.Benefits;
+			isPoojaValid.Procedure = model.Procedure;
+			isPoojaValid.AboutGod = model.AboutGod;
+			if (model.Image != null)
+			{
+				isPoojaValid.Image = model.Image;
+			}
+
+			_context.PoojaRecord.Update(isPoojaValid);
+			int result = _context.SaveChanges();
+			if (result > 0)
+			{ return true; }
+			else { return false; }
+		}
+
+		public bool removePooja(int Id)
+		{
+			var isPoojaValid = _context.PoojaRecord.Where(x => x.Id == Id && x.status).FirstOrDefault();
+			if (isPoojaValid == null)
+			{ return false; }
+			isPoojaValid.status = false;
+			_context.PoojaRecord.Update(isPoojaValid);
+			int result = _context.SaveChanges();
+			if (result > 0)
+			{ return true; }
+			else { return false; }
+		}
+		public dynamic getAllPooja()
+		{
+			var res = (from pooja in _context.PoojaRecord
+					   join poojaType in _context.PoojaList on pooja.PoojaType equals poojaType.Id
+					   where pooja.status && poojaType.Status
+					   select new
+					   {
+						   id = pooja.Id,
+						   poojaName = poojaType.Name,
+						   poojaTitle = pooja.title,
+						   benefits = pooja.Benefits,
+						   procedure = pooja.Procedure,
+						   aboutGod = pooja.AboutGod,
+						   image = pooja.Image
+					   }
+					   ).ToList();
+
+			return res;
+		}
+
+		public dynamic poojaByPoojaId(int id)
+		{
+			var res = _context.PoojaRecord.Where(e => e.Id == id && e.status).FirstOrDefault();
+			return res;
+		}
+	}
 }

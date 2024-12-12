@@ -255,6 +255,15 @@ namespace ModelAccessLayer.ViewModels
 
     }
 
+    public class BookedPoojaViewModel
+    {
+        public int Id { get; set; }
+        public int PoojaId { get; set; }
+        public int userId { get; set; }
+        public DateTime BookingDate { get; set; }
+        public bool status { get; set; }
+    }
+
     public class AppointmentBookmarkViewModal
     {
         public int Id { get; set; }

@@ -31,18 +31,18 @@ namespace MyJyotishGApi.Controllers
             try
             {
                 var records = _services.TopAstrologer(city);
-                if(records == null)
+                if (records == null)
                 {
                     return Ok(new { Status = 404, Message = "Jyotish not found" });
                 }
                 else
                 {
-                    return Ok(new {Status = 200 , Data = records, Message = "Jyotish List"});
+                    return Ok(new { Status = 200, Data = records, Message = "Jyotish List" });
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return StatusCode(500, new { Message =  ex.Message, Error = ex });
+                return StatusCode(500, new { Message = ex.Message, Error = ex });
             }
 
         }
@@ -84,7 +84,7 @@ namespace MyJyotishGApi.Controllers
                 {
                     return Ok(new { Status = 200, Data = record, Message = "Jyotish Profile" });
                 }
-            } 
+            }
             catch (Exception ex)
             {
                 return StatusCode(500, new { Message = ex.Message, Error = ex });
@@ -160,18 +160,18 @@ namespace MyJyotishGApi.Controllers
                 var httpRequest = HttpContext.Request;
 
                 FilterModel fm = new FilterModel();
-                fm.country= String.IsNullOrEmpty(httpRequest.Form["country"])?0: Convert.ToInt32(httpRequest.Form["country"]);
+                fm.country = String.IsNullOrEmpty(httpRequest.Form["country"]) ? 0 : Convert.ToInt32(httpRequest.Form["country"]);
 
-                fm.city= String.IsNullOrEmpty(httpRequest.Form["city"])?0: Convert.ToInt32(httpRequest.Form["city"]);
+                fm.city = String.IsNullOrEmpty(httpRequest.Form["city"]) ? 0 : Convert.ToInt32(httpRequest.Form["city"]);
 
-                fm.state= String.IsNullOrEmpty(httpRequest.Form["state"])?0: Convert.ToInt32(httpRequest.Form["state"]);
-                fm.activity= String.IsNullOrEmpty(httpRequest.Form["activity"])?0: Convert.ToInt32(httpRequest.Form["activity"]);
+                fm.state = String.IsNullOrEmpty(httpRequest.Form["state"]) ? 0 : Convert.ToInt32(httpRequest.Form["state"]);
+                fm.activity = String.IsNullOrEmpty(httpRequest.Form["activity"]) ? 0 : Convert.ToInt32(httpRequest.Form["activity"]);
 
-                fm.rating= String.IsNullOrEmpty(httpRequest.Form["rating"])?0: Convert.ToInt32(httpRequest.Form["rating"]); 
-                fm.expertise = String.IsNullOrEmpty(httpRequest.Form["expertise"])?0: Convert.ToInt32(httpRequest.Form["expertise"]);
+                fm.rating = String.IsNullOrEmpty(httpRequest.Form["rating"]) ? 0 : Convert.ToInt32(httpRequest.Form["rating"]);
+                fm.expertise = String.IsNullOrEmpty(httpRequest.Form["expertise"]) ? 0 : Convert.ToInt32(httpRequest.Form["expertise"]);
 
                 fm.experience = httpRequest.Form["experience"];
-                fm.gender = httpRequest.Form["gender"];      
+                fm.gender = httpRequest.Form["gender"];
 
                 var record = _services.FilterAstrologer(fm);
                 if (record == null)
@@ -183,7 +183,7 @@ namespace MyJyotishGApi.Controllers
                     return Ok(new { Status = 200, Data = record, Message = "Jyotish List" });
                 }
             }
-                    catch (Exception ex)
+            catch (Exception ex)
             {
                 return StatusCode(500, new { Message = ex.Message, Error = ex });
             }
@@ -199,14 +199,15 @@ namespace MyJyotishGApi.Controllers
             var searchInp = String.IsNullOrEmpty(httpRequest.Form["searchInp"]) ? "" : httpRequest.Form["searchInp"].ToString();
 
             var res = _services.SearchAstrologer(searchInp);
-            return Ok(new {status=200,message="data retrieved",data=res});
-    }
+            return Ok(new { status = 200, message = "data retrieved", data = res });
+        }
 
         [AllowAnonymous]
         [HttpGet("SliderImageList")]
         public IActionResult SliderImageList()
         {
-            try {
+            try
+            {
                 var records = _services.SliderImageList();
                 if (records == null)
                 {
@@ -214,7 +215,7 @@ namespace MyJyotishGApi.Controllers
                 }
                 else
                 {
-                    return Ok(new { Status = 200, Data = records, Message ="Slider List" });
+                    return Ok(new { Status = 200, Data = records, Message = "Slider List" });
                 }
             }
             catch (Exception ex)
@@ -260,21 +261,22 @@ namespace MyJyotishGApi.Controllers
         [HttpPost("BookAppointment")]
         public IActionResult BookAppointment(AppointmentViewModel model)
         {
-            try {
+            try
+            {
                 var result = _services.BookAppointment(model);
                 if (result == "invalid Data")
                 {
-                    return Ok( new { Status = 400, Message = result });
+                    return Ok(new { Status = 400, Message = result });
                 }
 
-                 else  if(result == "Successful") { return Ok(new { Status = 200, message = result}); }
-                else if(result =="internal Server Error.") { return Ok(new { Status = 500, message = result }); }
+                else if (result == "Successful") { return Ok(new { Status = 200, message = result }); }
+                else if (result == "internal Server Error.") { return Ok(new { Status = 500, message = result }); }
                 else { return Ok(new { Status = 500, message = result }); }
             }
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
         }
 
-       
+
         [HttpGet("GetUserProfile")]
         public IActionResult GetUserProfile(int Id)
         {
@@ -287,13 +289,13 @@ namespace MyJyotishGApi.Controllers
                 }
 
                 else { return Ok(new { Status = 200, Data = result }); }
-               
+
             }
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
         }
 
 
-        
+
         [HttpPost("UpdateProfile")]
         public IActionResult UpdateProfile(UserUpdateViewModel model)
         {
@@ -330,7 +332,7 @@ namespace MyJyotishGApi.Controllers
 
         }
 
-         [HttpGet("AppointmentHistory")]
+        [HttpGet("AppointmentHistory")]
         public IActionResult AppointmentHistory(int Id)
         {
             try
@@ -390,8 +392,8 @@ namespace MyJyotishGApi.Controllers
             try
             {
                 var Result = _services.PurchaseWithUserWallets(uv);
-                if(Result == "Successful")
-                 {
+                if (Result == "Successful")
+                {
                     WalletHistoryViewmodel js = new WalletHistoryViewmodel
                     {
                         UId = (int)uv.userId,
@@ -404,9 +406,9 @@ namespace MyJyotishGApi.Controllers
                     var historyres = _services.AddWalletHistory(js);
 
                     return Ok(new { Status = 200, Message = "Successful" });
-                   
+
                 }
-                 else
+                else
                 {
 
                     return Ok(new { Status = 404, Message = "Some error occured" });
@@ -421,7 +423,7 @@ namespace MyJyotishGApi.Controllers
         public IActionResult selecAllCity()
         {
             var result = _services.selecAllCity();
-          return Ok(new { Status = 200, Data = result });
+            return Ok(new { Status = 200, Data = result });
         }
 
         [HttpGet("GetWallet")]
@@ -503,13 +505,13 @@ namespace MyJyotishGApi.Controllers
 
         }
 
-       [HttpGet("GetAllProblemSolution")]
+        [HttpGet("GetAllProblemSolution")]
         public IActionResult GetAllProblemSolution(int Id)
         {
             try
             {
                 var Result = _services.GetAllProblemSolution(Id);
-                if (Result.Count == 0|| Result == null)
+                if (Result.Count == 0 || Result == null)
                 { return Ok(new { Status = 404, Message = "Data Not Found" }); }
 
                 else
@@ -537,7 +539,7 @@ namespace MyJyotishGApi.Controllers
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
 
         }
-         
+
         [HttpGet("LayoutData")]
         public IActionResult LayoutData(int Id)
         {
@@ -586,10 +588,10 @@ namespace MyJyotishGApi.Controllers
             {
                 var record = _services.JyotishRatingList(Id);
                 if (record == null)
-                { 
-                    return Ok(new { Status = 500, Message = "Internal Server Error" }); 
+                {
+                    return Ok(new { Status = 500, Message = "Internal Server Error" });
                 }
-                else 
+                else
                 {
                     return Ok(new { Status = 200, Data = record, Message = "Jyotish Rating List" });
                 }
@@ -598,7 +600,7 @@ namespace MyJyotishGApi.Controllers
         }
 
         [HttpGet("IsUserValidForRating")]
-        public IActionResult IsUserValidForRating(int UserId , int JyotishId)
+        public IActionResult IsUserValidForRating(int UserId, int JyotishId)
         {
             try
             {
@@ -621,7 +623,7 @@ namespace MyJyotishGApi.Controllers
             try
             {
                 var result = _services.AddUserServiceRecord(data);
-                if (result )
+                if (result)
                 {
                     return Ok(new { Status = 200, Message = "Record Added Successfully." });
                 }
@@ -640,7 +642,7 @@ namespace MyJyotishGApi.Controllers
             try
             {
                 var record = _services.GetUserDataForService(Id);
-                if (record==null)
+                if (record == null)
                 {
                     return Ok(new { Status = 500, Message = "Record not found" });
                 }
@@ -658,7 +660,7 @@ namespace MyJyotishGApi.Controllers
             try
             {
                 var record = _services.GetAllKundaliMatchingRecord(Id);
-                if (record==null)
+                if (record == null)
                 {
                     return Ok(new { Status = 500, Message = "Record not found" });
                 }
@@ -675,7 +677,7 @@ namespace MyJyotishGApi.Controllers
             try
             {
                 var record = _services.GetLatestKundaliRecord(Id);
-                if (record==null)
+                if (record == null)
                 {
                     return Ok(new { Status = 500, Message = "Record not found" });
                 }
@@ -686,7 +688,7 @@ namespace MyJyotishGApi.Controllers
             }
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
         }
-        
+
         [HttpDelete("DeleteKundaliRecord")]
         public IActionResult DeleteKundaliRecord(int Id)
         {
@@ -788,14 +790,39 @@ namespace MyJyotishGApi.Controllers
         public IActionResult getAllPoojaList()
         {
             var res = _services.getAllPoojaList();
-            return Ok(new {status=200,message="data retrieved",data=res});
+            return Ok(new { status = 200, message = "data retrieved", data = res });
         }
-		[AllowAnonymous]
-		[HttpGet("getPoojaDetailByPoojaId")]
+        [AllowAnonymous]
+        [HttpGet("getPoojaDetailByPoojaId")]
         public IActionResult getPoojaDetailByPoojaId(int id)
         {
             var res = _services.getPoojaDetailByPoojaId(id);
-            return Ok(new {status=200,message="data retrieved",data=res});
+            return Ok(new { status = 200, message = "data retrieved", data = res });
+        }
+
+        [HttpPost("BookPooja")]
+        public IActionResult BookPooja()
+        {
+            try
+            {
+                var httpRequest = HttpContext.Request;
+                BookedPoojaViewModel book = new BookedPoojaViewModel
+                {
+                    PoojaId = Convert.ToInt32(httpRequest.Form["poojaId"]),
+                    userId = Convert.ToInt32(httpRequest.Form["userId"]),
+                };
+                var res = _services.BookPooja(book);
+                if (res)
+                {
+                    return Ok(new { status = 200, message = "Pooja Booked Successfully" });
+                }
+                else
+                {
+                    return Ok(new { status = 500, message = "Something went wrong or may be already Booked" });
+
+                }
+            }
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
         }
     }
 }

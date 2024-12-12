@@ -353,6 +353,7 @@ namespace BusinessAccessLayer.Implementation
             FileStream stream = new FileStream(fullPath, FileMode.Create);
             file.CopyTo(stream);
         }
+      
         public bool CreateAPooja(PoojaRecordModel model)
         {
             var isPoojaValid = _context.PoojaRecord.Where(x => x.PoojaType == model.PoojaType && x.status).FirstOrDefault();

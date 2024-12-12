@@ -4,204 +4,220 @@
 @{
 }
 <style>
-    body {
-        font-family: Arial, Helvetica, sans-serif;
-        background-color: #f4f4f4;
-    }
+	body {
+		font-family: Arial, Helvetica, sans-serif;
+		background-color: #f4f4f4;
+	}
 
-   
-    .image-container {
-        width: 100%;
-        overflow: hidden;
-        margin-bottom: 20px;
-    }
+	.button-container {
+		text-align: center;
+		margin-bottom: 20px;
+	}
 
-    .button-container {
-        text-align: center;
-        margin-bottom: 20px;
-    }
+	.button {
+		background-color: #ffcd00;
+		color: #fff;
+		padding: 15px 30px;
+		border: none;
+		border-radius: 5px;
+		font-size: 16px;
+		cursor: pointer;
+		transition: background-color 0.3s;
+	}
 
-    .button {
-        background-color: #ffcd00;
-        color: #fff;
-        padding: 15px 30px;
-        border: none;
-        border-radius: 5px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-    }
+		.button:hover {
+			background-color: #ffc107;
+		}
 
-        .button:hover {
-            background-color: #ffc107;
-        }
+	.time-container {
+		text-align: center;
+		margin-bottom: 20px;
+	}
 
-    .time-container {
-        text-align: center;
-        margin-bottom: 20px;
-    }
+	.time-left {
+		display: inline-block;
+		background-color: #4CAF50;
+		color: #fff;
+		padding: 10px 20px;
+		border-radius: 5px;
+		font-size: 14px;
+	}
 
-    .time-left {
-        display: inline-block;
-        background-color: #4CAF50;
-        color: #fff;
-        padding: 10px 20px;
-        border-radius: 5px;
-        font-size: 14px;
-    }
+		.time-left.timer {
+			background-color: #f44336;
+		}
 
-        .time-left.timer {
-            background-color: #f44336;
-        }
+	.content {
+		margin-bottom: 20px;
+	}
 
-    .content {
-        margin-bottom: 20px;
-    }
+	.profile {
+		display: flex;
+		align-items: center;
+		margin-bottom: 10px;
+	}
 
-    .profile {
-        display: flex;
-        align-items: center;
-        margin-bottom: 10px;
-    }
+		.profile img {
+			width: 50px;
+			height: 50px;
+			border-radius: 50%;
+			margin-right: 10px;
+		}
 
-        .profile img {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
+		.profile p {
+			margin: 0;
+			font-weight: bold;
+		}
 
-        .profile p {
-            margin: 0;
-            font-weight: bold;
-        }
+	.benefits {
+		margin-bottom: 20px;
+	}
 
-    .benefits {
-        margin-bottom: 20px;
-    }
+		.benefits ul {
+			list-style: none;
+			padding: 0;
+		}
 
-        .benefits ul {
-            list-style: none;
-            padding: 0;
-        }
+		.benefits li {
+			margin-bottom: 5px;
+		}
 
-        .benefits li {
-            margin-bottom: 5px;
-        }
+	p {
+		text-align: justify !important;
+	}
 
-    .poojaImage{
-        height:200px;
-        width:200px;
-    }
 </style>
 
 
 <div class="container my-4">
 
-    <div class="image-container mb-3 d-flex gap-4">
-        <img src="~/Img/Pooja.jpg" class="poojaImage rounded" height="200" width="200" alt="thumbnails">
-        <div>
-        <h3 id="poojaName"></h3>
-        <p id="title"></p>
-        <button class="button">Book Now</button>
-        </div>
-    </div>
+	<div class="image-container mb-3 d-flex gap-4">
+		<img src="~/no-image.png" class="poojaImage rounded" height="250" width="400" alt="thumbnails">
+		<div>
+			<h3 id="poojaName" class="mt-3"></h3>
+			<p id="title"></p>
+			<button class="button">Book Now</button>
+		</div>
+	</div>
 
-    <div class="row mt-5">
-        <div class="col-sm-6">
-    <div class="content">
-        <h2 class="jyotishName"></h2>
-        <div class="profile">
-            <img id="jyotishImage" src="~/user-not-found.png" alt="Prashant">
-            <p class="expertise"></p>
-        </div>
-        <p class="aboutJyotish"></p>
-    </div>
-        </div>
-        <div class="col-sm-6">
+	<div class="row mt-5">
+		<div class="col-sm-6">
+			<div class="content">
+				<h2 class="jyotishName"></h2>
+				<div class="profile">
+					<img id="jyotishImage" src="~/user-not-found.png" alt="">
+					<p class="expertise"></p>
+				</div>
+				<p class="aboutJyotish"></p>
+			</div>
+		</div>
+		<div class="col-sm-6">
 
-    <div class="content">
-        <h2>What are the benefits?</h2>
-        <div class="benefits">
-        </div>
-    </div>
-    </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-6">
-    <div class="content">
-            <h2>How will it happen?</h2>
-        <div class="procedure">
-           
-        </div>
-    </div> 
-    </div> 
-        <div class="col-sm-6">
+			<div class="content">
+				<h2>What are the benefits?</h2>
+				<div class="benefits">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="content">
+				<h2>How will it happen?</h2>
+				<div class="procedure">
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-6">
 
-    <div class="content">
-            <h2>About God?</h2>
-        <div class="aboutGod">
-           
-        </div>
-    </div>
-    </div>
-    </div>
-    <div class="content">
-        <h2>
-            Why book with MyJyotishG?
-        </h2>
-        <div class="whyjytoishg">
-            <ul>
-                <li>MyJyotishG is India's largest Devotion tech platform with over 15000 top astrologers and Pandits at your service.</li>
-                <li>The Pooja service has the best Pandits of the platform performing the Pooja to ensure maximum benefits for our users.</li>
-            </ul>
-        </div>
-    </div>
+			<div class="content">
+				<h2>About God?</h2>
+				<div class="aboutGod">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="content mt-4">
+		<h2>
+			Why book with MyJyotishG?
+		</h2>
+		<div class="whyjytoishg">
+			<ul>
+				<li>MyJyotishG is India's largest Devotion tech platform with over 15000 top astrologers and Pandits at your service.</li>
+				<li>The Pooja service has the best Pandits of the platform performing the Pooja to ensure maximum benefits for our users.</li>
+			</ul>
+		</div>
+	</div>
 </div>
 
 
 <script>
-    function getPoojaDetails(){
-        let urlParams = new URLSearchParams(window.location.search);
-        let poojaId = urlParams.get('id');  
-        Swal.fire({
-            title: "Processing Your Request",
-            didOpen: () => {
-                Swal.showLoading();
-            }
-        })
-        $.ajax({
-            url: BaseUrl + "api/user/getPoojaDetailByPoojaId",
-            type: "get",
-            data: { Id: poojaId },
-            success: function (res) {
-                    Swal.close()
-                if (res.status == 200) {
-                    console.log(res)
-                    if(res.data!=null){
-                        let data = res.data;
-                        $("#poojaName").text(data.poojaName)
-                        $("#title").text(data.title)
-                        $(".poojaImage").attr("src",BaseUrl+data.image)
-                        $(".jyotishName").text(data.jyotishName)
-                        $("#jyotishImage").attr("src", data.jyotishImage)
-                        $(".expertise").text(data.expertise)
-                        $(".aboutJyotish").text(data.aboutJyotish)
-                        $(".benefits").html(data.benefits)
-                        $(".procedure").html(data.proccedure)
-                        $(".aboutGod").html(data.aboutgod)
-                    }
+	function getPoojaDetails() {
+		let urlParams = new URLSearchParams(window.location.search);
+		let poojaId = urlParams.get('id');
+		Swal.fire({
+			title: "Processing Your Request",
+			didOpen: () => {
+				Swal.showLoading();
+			}
+		})
+		$.ajax({
+			url: BaseUrl + "api/user/getPoojaDetailByPoojaId",
+			type: "get",
+			data: { Id: poojaId },
+			success: function (res) {
+				Swal.close()
+				if (res.status == 200) {
+					console.log(res)
+					if (res.data != null) {
+						let data = res.data;
+						$("#poojaName").text(data.poojaName)
+						$("#title").text(data.title)
+						if (data.image != null) {
 
-                }
-            },error:function(){
-                Swal.fire({
-                    text: "some error occured",
-                    title: "error",
-                    icon: "error"
+							$(".poojaImage").attr("src", BaseUrl + data.image)
+						}
+						$(".jyotishName").text(data.jyotishName)
+						if (data.jyotishImage != null) {
+							$("#jyotishImage").attr("src", BaseUrl + data.jyotishImage)
+						}
+						$("#jyotishImage").attr("alt", data.jyotishName)
+						$(".expertise").text(data.expertise)
+						$(".aboutJyotish").text(data.aboutJyotish)
+						$(".benefits").html(data.benefits)
+						$(".procedure").html(data.proccedure)
+						$(".aboutGod").html(data.aboutgod)
+					}
 
-                })
-            }
-        })
-    }
-    getPoojaDetails();
+				}
+			}, error: function () {
+				Swal.fire({
+					text: "some error occured",
+					title: "error",
+					icon: "error"
+
+				})
+			}
+		})
+	}
+	getPoojaDetails();
+
+	function bookPooja() {
+		Swal.fire({
+			title: "Processing Your Request",
+			didOpen: () => {
+				Swal.showLoading();
+			}
+		})
+		$.ajax({
+			url: BaseUrl + "api/user/getPoojaDetailByPoojaId",
+			type: "post",
+			data: { Id: poojaId },
+			success: function (res) {
+				if (res.status == 200) {
+
+				}
+			}
+		})
+	}
 </script>
