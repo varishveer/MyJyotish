@@ -2,7 +2,6 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-    Layout = "JyotishLayout";
 }
 
 <form class="p-3 border mx-auto rounded shadow" id="poojaForm">
@@ -83,7 +82,6 @@
             formData.append(d.name, d.value)
         });
 
-        formData.append("jyotishId", localStorage.getItem("Id"));
         formData.append("image", $("#image").get(0).files[0]);
         e.preventDefault();
         Swal.fire({
@@ -93,10 +91,10 @@
             }
         })
         $.ajax({
-            url: BaseUrl + "api/jyotish/createPooja",
+            url: BaseUrl + "api/admin/createPooja",
             type: "Post",
             headers: {
-                'Authorization': `Bearer ${localStorage.getItem("Token2")}`
+                'Authorization': `Bearer ${localStorage.getItem("Token")}`
             },
             processData:false,
             contentType:false,

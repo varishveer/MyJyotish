@@ -14,7 +14,6 @@ namespace ModelAccessLayer.Models
         public int Id { get; set; }
       
         public int PoojaType { get; set; }
-        public int jyotishId { get; set; }
         public string title { get; set; }
         public string Procedure { get; set; }
         public string Benefits { get; set; }
@@ -24,7 +23,6 @@ namespace ModelAccessLayer.Models
         public bool status { get; set; }
 
         public PoojaListModel pooja { get; set; }
-        public JyotishModel jyotish { get; set; }
         public ICollection<BookedPoojaList> BookedPooja { get; set; } = new List<BookedPoojaList>();
 
 

@@ -4,6 +4,7 @@ using DataAccessLayer.DbServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20241212084829_12-12-2024")]
+    partial class _12122024
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1007,38 +1010,6 @@ namespace DataAccessLayer.Migrations
                     b.HasIndex("JyotishId");
 
                     b.ToTable("JyotishPaymentRecord");
-                });
-
-            modelBuilder.Entity("ModelAccessLayer.Models.JyotishPooja", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("JyotishId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("amount")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("poojaType")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("JyotishId");
-
-                    b.HasIndex("poojaType");
-
-                    b.ToTable("JyotishPooja");
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.JyotishRatingModel", b =>
@@ -2480,25 +2451,6 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("Jyotish");
                 });
 
-            modelBuilder.Entity("ModelAccessLayer.Models.JyotishPooja", b =>
-                {
-                    b.HasOne("ModelAccessLayer.Models.JyotishModel", "jyotish")
-                        .WithMany("jyotishPooja")
-                        .HasForeignKey("JyotishId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ModelAccessLayer.Models.PoojaListModel", "pooja")
-                        .WithMany("jyotishPooja")
-                        .HasForeignKey("poojaType")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("jyotish");
-
-                    b.Navigation("pooja");
-                });
-
             modelBuilder.Entity("ModelAccessLayer.Models.JyotishRatingModel", b =>
                 {
                     b.HasOne("ModelAccessLayer.Models.JyotishModel", "Jyotish")
@@ -2921,8 +2873,6 @@ namespace DataAccessLayer.Migrations
 
                     b.Navigation("jyotishPaymentRecords");
 
-                    b.Navigation("jyotishPooja");
-
                     b.Navigation("redeamCode");
 
                     b.Navigation("redeemRequest");
@@ -2932,8 +2882,6 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("ModelAccessLayer.Models.PoojaListModel", b =>
                 {
-                    b.Navigation("jyotishPooja");
-
                     b.Navigation("poojaRecord");
                 });
 
