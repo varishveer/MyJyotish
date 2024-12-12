@@ -5,7 +5,250 @@
 	Layout = "JyotishLayout";
 }
 
-<form>
-
+<form class="border p-3 rounded" id="poojaForm">
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="row">
+				<div class="col-sm-5">
+					<input type="hidden" name="Id" id="poojaId" />
+					<select class="form-select" name="poojaType" id="poojaType">
+						<option value="" selected disabled>--select Pooja Type--</option>
+					</select>
+				</div>
+				<div class="col-sm-5">
+					<input type="number" class="form-control" id="amount" placeholder="Enter Amount" name="amount" />
+				</div>
+				<div class="col-sm-2">
+					<input type="submit" value="Submit" id="subBtn" class="btn btn-primary" />
+				</div>
+			</div>
+		</div>
+	</div>
 </form>
 
+<div class="container-fluid mt-5">
+	<div class="card">
+		<div class="d-flex flex-row justify-content-between align-items-center pt-2 px-4">
+			<h5 class="text-primary">Pooja List</h5>
+		</div>
+		<hr />
+
+		<div class="card-body">
+			<div class="table-responsive">
+				<table id="poojaList" class="table table-striped table-bordered">
+					<thead>
+						<tr>
+							<th scope="col">Sr</th>
+							<th scope="col">Pooja Name</th>
+							<th scope="col">Amount</th>
+							<th scope="col">Action</th>
+
+						</tr>
+					</thead>
+					<tbody class="poojaContainer">
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	function getPoojaList() {
+
+		Swal.fire({
+			title: "Processing Your Request",
+			didOpen: () => {
+				Swal.showLoading();
+			}
+		})
+		$.ajax({
+			url: BaseUrl + "api/jyotish/GetPoojaList",
+			type: "get",
+			success: function (res) {
+
+				if (res.status == 200) {
+					$("#poojaType").empty()
+					res.data.forEach(function (d, i) {
+						$("#poojaType").append(
+							`<option value='${d.id}'>${d.name}</option>
+														`
+						)
+					})
+				}
+				Swal.close();
+			}
+		})
+	}
+	getPoojaList();
+
+	function getJyotishPoojaList() {
+
+		Swal.fire({
+			title: "Processing Your Request",
+			didOpen: () => {
+				Swal.showLoading();
+			}
+		})
+		$.ajax({
+			url: BaseUrl + "api/jyotish/getJyotishPoojaList",
+			type: "get",
+			headers: {
+				'Authorization': `Bearer ${localStorage.getItem("Token2")}`
+			},
+			data: {Id:localStorage.getItem("Id")},
+			success: function (res) {
+
+				if (res.status == 200) {
+					if (res.data.length > 0) {
+						$(".poojaContainer").empty()
+						res.data.forEach(function (d, i) {
+							$(".poojaContainer").append(
+								`
+									<tr>
+									<td>${i+1}</td>
+										<td>${d.poojaType}</td>
+											<td>${d.amount}</td>
+											<td class='text-center'>
+													<i onClick='editPooja(${d.id},${d.poojaTypeId},${d.amount})' class="fas btn p-1 text-warning fs-5 fa-edit"></i>
+															<i onClick="deletePooja(${d.id})" class="fas btn  p-1 text-danger fs-5 fa-trash-alt"></i>
+											</td>
+									</tr>
+									`
+							)
+						})
+					}
+				}
+				Swal.close();
+				$('#poojaList').DataTable();
+
+			},error:function(){
+				Swal.fire({
+					title: "error",
+					text: "some error occured",
+					icon: "error",
+
+				})
+			}
+		})
+	}
+	getJyotishPoojaList();
+
+	function editPooja(id,poojaTyId,amount){
+		$("#poojaType").val(poojaTyId),
+		$("#amount").val(amount)
+		$("#poojaId").val(id)
+		$("#subBtn").val("Update")
+		location.href="#"
+
+	}
+
+	$("#poojaForm").submit(function (e) {
+		e.preventDefault();
+		Swal.fire({
+			title: "Processing Your Request",
+			didOpen: () => {
+				Swal.showLoading();
+			}
+		})
+		let formData = new FormData();
+		let arrData = $(this).serializeArray();
+		arrData.forEach(function (d) {
+			formData.append(d.name, d.value)
+		})
+		formData.append("jyotishId", localStorage.getItem("Id"))
+
+		$.ajax({
+			url: $("#subBtn").val().toLowerCase() == "submit" ? BaseUrl + "api/jyotish/AddJyotishPooja" : BaseUrl+"api/jyotish/UpdateJyotishPooja",
+			type: "post",
+			headers: {
+				'Authorization': `Bearer ${localStorage.getItem("Token2")}`
+			},
+			processData: false,
+			contentType: false,
+			data: formData,
+			success: function (res) {
+				if (res.status == 200) {
+					Swal.fire({
+						title: "success",
+						text: res.message,
+						icon: "success",
+						didClose: () => {
+							location.reload();
+						}
+					})
+				} else {
+					Swal.fire({
+						title: "error",
+						text: res.message,
+						icon: "error",
+
+					})
+				}
+			}, error: function () {
+				Swal.fire({
+					title: "error",
+					text: "some error occured",
+					icon: "error",
+
+				})
+			}
+		})
+
+	})
+
+	function deletePooja(id) {
+		Swal.fire({
+			title: "Are you sure",
+			text: "Do you want to Delete?",
+			showDenyButton: true,
+			showCancelButton: true,
+			confirmButtonText: "yes",
+			denyButtonText: `no`
+		}).then((result) => {
+			if (result.isConfirmed) {
+				Swal.fire({
+					title: "Processing Your Request",
+					allowOutsideClick: false,
+					didOpen: () => {
+						Swal.showLoading();
+					}
+				})
+				$.ajax({
+					url: BaseUrl + "api/jyotish/removeJyotishPooja",
+					type: "get",
+					headers: {
+						'Authorization': `Bearer ${localStorage.getItem("Token2")}`
+					},
+					data: { poojaId: id },
+					success: function (res) {
+						if (res.status == 200) {
+							Swal.fire({
+								title: "Successful!",
+								text: "Pooja Deleted successfully!",
+								icon: "success",
+								confirmButtonText: "OK",
+							}).then(() => {
+								location.reload();
+							});
+						} else {
+							Swal.fire({
+								title: "error",
+								text: res.message,
+								icon: "error",
+								confirmButtonText: "OK",
+							});
+						}
+					}, error: function () {
+						Swal.fire({
+							title: "error",
+							text: "some error occured",
+							icon: "error",
+							confirmButtonText: "OK",
+						})
+					}
+				})
+			}
+		})
+	}
+</script>

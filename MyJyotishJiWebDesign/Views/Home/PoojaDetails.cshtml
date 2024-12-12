@@ -92,25 +92,16 @@
 <div class="container my-4">
 
 	<div class="image-container mb-3 d-flex gap-4">
-		<img src="~/no-image.png" class="poojaImage rounded" height="250" width="400" alt="thumbnails">
+		<img src="~/no-image.png" class="poojaImage rounded" height="300" width="450" alt="thumbnails">
 		<div>
-			<h3 id="poojaName" class="mt-3"></h3>
-			<p id="title"></p>
+			<h3 id="poojaName" class="mt-4"></h3>
+			<p id="title" class="mb-3"></p>
 			<button class="button">Book Now</button>
 		</div>
 	</div>
 
 	<div class="row mt-5">
-		<div class="col-sm-6">
-			<div class="content">
-				<h2 class="jyotishName"></h2>
-				<div class="profile">
-					<img id="jyotishImage" src="~/user-not-found.png" alt="">
-					<p class="expertise"></p>
-				</div>
-				<p class="aboutJyotish"></p>
-			</div>
-		</div>
+		
 		<div class="col-sm-6">
 
 			<div class="content">
@@ -119,15 +110,16 @@
 				</div>
 			</div>
 		</div>
-	</div>
-	<div class="row">
-		<div class="col-sm-6">
-			<div class="content">
-				<h2>How will it happen?</h2>
-				<div class="procedure">
-				</div>
+	<div class="col-sm-6">
+		<div class="content">
+			<h2>How will it happen?</h2>
+			<div class="procedure">
 			</div>
 		</div>
+	</div>
+	</div>
+	<div class="row mt-3">
+		
 		<div class="col-sm-6">
 
 			<div class="content">
@@ -136,20 +128,39 @@
 				</div>
 			</div>
 		</div>
+		<div class="col-sm-6 ">
+			<h2>
+				Why book with MyJyotishG?
+			</h2>
+			<div class="whyjytoishg">
+				<ul>
+					<li>MyJyotishG is India's largest Devotion tech platform with over 15000 top astrologers and Pandits at your service.</li>
+					<li>The Pooja service has the best Pandits of the platform performing the Pooja to ensure maximum benefits for our users.</li>
+				</ul>
+			</div>
+		</div>
 	</div>
-	<div class="content mt-4">
-		<h2>
-			Why book with MyJyotishG?
-		</h2>
-		<div class="whyjytoishg">
-			<ul>
-				<li>MyJyotishG is India's largest Devotion tech platform with over 15000 top astrologers and Pandits at your service.</li>
-				<li>The Pooja service has the best Pandits of the platform performing the Pooja to ensure maximum benefits for our users.</li>
-			</ul>
+	
+</div>
+
+<!-- book Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				...
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary">Save changes</button>
+			</div>
 		</div>
 	</div>
 </div>
-
 
 <script>
 	function getPoojaDetails() {

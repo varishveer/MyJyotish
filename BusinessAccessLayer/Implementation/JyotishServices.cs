@@ -2091,11 +2091,63 @@ namespace BusinessAccessLayer.Implementation
             else { return false; }
         }
 
+        public bool AddJyotishPooja(JyotishPoojaViewModel model)
+        {
+            var res = _context.JyotishPooja.Where(e => e.poojaType == model.poojaType && e.JyotishId==model.JyotishId && e.status).FirstOrDefault();
 
+            if (res != null)
+            {
+                return false;
+            }
 
+            JyotishPoojaModel pooja = new JyotishPoojaModel
+            {
+                poojaType=model.poojaType,
+                JyotishId=model.JyotishId,
+                amount=model.amount,
+                date=DateTime.Now,
+                status=true
+            };
+            _context.JyotishPooja.Add(pooja);
+            return _context.SaveChanges() > 0;
+        } 
+        public bool UpdateJyotishPooja(JyotishPoojaViewModel model)
+        {
+            var res = _context.JyotishPooja.Where(e => e.Id == model.Id && e.status).FirstOrDefault();
 
+            if (res != null)
+            {
+                res.poojaType = model.poojaType;
+                res.amount = model.amount;
+            _context.JyotishPooja.Update(res);
+            }
+            return _context.SaveChanges() > 0;
+        }
 
+        public dynamic getJyotishPoojaList(int Id)
+        {
+            var res = (from pooja in _context.JyotishPooja
+                       join list in _context.PoojaList on pooja.poojaType equals list.Id
+                       where pooja.status && list.Status
+                       select new
+                       {
+                           Id = pooja.Id,
+                           poojaTypeId = pooja.poojaType,
+                           poojaType = list.Name,
+                           amount = pooja.amount
+                       }).ToList();
+            return res;
+        }
 
-
+        public bool removeJyotishPooja(int PoojaId)
+        {
+            var res = _context.JyotishPooja.Where(e => e.Id == PoojaId && e.status).FirstOrDefault();
+            if (res != null)
+            {
+                res.status = false;
+                _context.JyotishPooja.Update(res);
+            }
+            return _context.SaveChanges() > 0;
+        }
     }
 }

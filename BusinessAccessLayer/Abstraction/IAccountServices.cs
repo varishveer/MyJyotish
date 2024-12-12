@@ -38,7 +38,7 @@ namespace BusinessAccessLayer.Abstraction
         public string RegisterUserDetails(UserViewModel _user);
         public string LoginUser(LoginModel model);
         #endregion
-        public List<string> PlaceOfBirthList(string CityName);
+        public dynamic PlaceOfBirthList(string CityName);
         public List<string> LanguageList();
 
 

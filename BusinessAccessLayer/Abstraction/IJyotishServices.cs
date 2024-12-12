@@ -83,6 +83,11 @@ namespace BusinessAccessLayer.Abstraction
         public bool SendRequest(RedeemCodeRequestViewModel model);
 
         public dynamic getRedeemCode(int jyotishId);
-      
+        public bool AddJyotishPooja(JyotishPoojaViewModel model);
+        public dynamic getJyotishPoojaList(int Id);
+
+        public bool UpdateJyotishPooja(JyotishPoojaViewModel model);
+        public bool removeJyotishPooja(int PoojaId);
+
 	}
 }

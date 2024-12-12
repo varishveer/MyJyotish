@@ -26,7 +26,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="row" id="poojaCards">
+	<div class="row gap-2" id="poojaCards">
 		
 	</div>
 
@@ -76,9 +76,9 @@
 					}
 					filterPoojaRecord.forEach(function (d) {
 						$("#poojaCards").append(`
-								<div class="card position-relative p-0" style="width: 18rem;">
+								<div class="card  p-0" style="width: 18rem;">
 							<img src="${BaseUrl}${d.image}" class="card-img-top w-100" height="180" alt="...">
-								<img src="${d.jyotishImage != null ? BaseUrl + d.jyotishImage : "/user-not-found-png"}" class="position-absolute top-0 rounded-circle right-0" height="60" width="60" />
+								
 						<div class="card-body">
 							<div class="card-text">
 									<p class="fw-bold mb-1">${d.poojaName}</p>

@@ -938,33 +938,31 @@ namespace BusinessAccessLayer.Implementation
             return false;
         }
 
-        public List<string> PlaceOfBirthList(string CityName)
+        public dynamic PlaceOfBirthList(string CityName)
         {
             CityName = char.ToUpper(CityName[0]) + CityName.Substring(1).ToLower();
-            var Countries = _context.Countries.ToList();
-            var States = _context.States.ToList();
-            var Cities = _context.Cities.ToList();
+          
 
-            var Table = from Country in Countries
-                        join State in States on Country.Id equals State.CountryId
-                        join City in Cities on State.Id equals City.StateId
+            var Table = (from Country in _context.Countries
+                        join State in _context.States on Country.Id equals State.CountryId
+                        join City in _context.Cities on State.Id equals City.StateId
+                        where City.Name.Contains(CityName)
                         select new
                         {
-                            CityName = City.Name,
-                            StateName = State.Name,
-                            CountryName = Country.Name
-                        };
+                            record=City.Name+","+State.Name+","+Country.Name
+                           
+                        }).Take(15).ToList();
 
-            var Records = Table
-                            .Where(x => x.CityName.Contains(CityName)) 
-                            .OrderByDescending(x => x.CityName.StartsWith(CityName)) 
-                            .ThenBy(x => x.CityName) 
-                            .ThenBy(x => x.StateName) 
-                            .ThenBy(x => x.CountryName) 
-                            .Select(x => $"{x.CityName}, {x.StateName}, {x.CountryName}")
-                            .Take(15).ToList();
+            //var Records = Table
+            //                .Where(x => x.CityName.Contains(CityName)) 
+            //                .OrderByDescending(x => x.CityName.StartsWith(CityName)) 
+            //                .ThenBy(x => x.CityName) 
+            //                .ThenBy(x => x.StateName) 
+            //                .ThenBy(x => x.CountryName) 
+            //                .Select(x => $"{x.CityName}, {x.StateName}, {x.CountryName}")
+            //                .Take(15).ToList();
 
-            return Records;
+            return Table;
         }
         public List<string> LanguageList()
         {

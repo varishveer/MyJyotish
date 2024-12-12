@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ModelAccessLayer.Models
 {
-	public class JyotishPooja
+	public class JyotishPoojaModel
 	{
 		public int Id { get; set; }
 		public int JyotishId { get; set; }

@@ -15,7 +15,7 @@ namespace ModelAccessLayer.Models
         public bool Status { get; set; }
 
         public ICollection<PoojaRecordModel> poojaRecord { get; set; } = new List<PoojaRecordModel>();
-		public ICollection<JyotishPooja> jyotishPooja { get; set; } = new List<JyotishPooja>();
+		public ICollection<JyotishPoojaModel> jyotishPooja { get; set; } = new List<JyotishPoojaModel>();
 
 	}
 }

@@ -273,4 +273,14 @@ namespace ModelAccessLayer.ViewModels
         public int? AppointmentId { get; set; }
         public int? JyotishId { get; set; }
     }
+	public class JyotishPoojaViewModel
+	{
+		public int Id { get; set; }
+		public int JyotishId { get; set; }
+		public int poojaType { get; set; }
+		public int amount { get; set; }
+		public DateTime date { get; set; }
+		public bool status { get; set; }
+		
+	}
 }
