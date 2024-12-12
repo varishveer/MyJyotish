@@ -1862,6 +1862,170 @@ namespace MyJyotishJiApi.Controllers
             return Ok(new { status = 200, message="data retrieved",data=res});
         }
 
+		//manange pooja
+		[HttpPost("createPooja")]
+		public IActionResult CreatePooja()
+		{
+			try
+			{
+				var httpRequest = HttpContext.Request;
+				PoojaRecordModel model = new PoojaRecordModel
+				{
+					PoojaType = Convert.ToInt32(httpRequest.Form["poojaId"]),
+					jyotishId = Convert.ToInt32(httpRequest.Form["jyotishId"]),
+					title = httpRequest.Form["title"],
+					Procedure = httpRequest.Form["proccedure"],
+					Benefits = httpRequest.Form["benefits"],
+					AboutGod = httpRequest.Form["aboutgod"],
+					status = true
 
-    }
+				};
+
+				if (httpRequest.Form.Files["image"] != null)
+				{
+					var image = httpRequest.Form.Files["image"];
+					string uploadsFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Jyotish/pooja");
+					if (!Directory.Exists(uploadsFolderPath))
+					{
+						Directory.CreateDirectory(uploadsFolderPath);
+					}
+
+					// Process each uploaded file
+
+					string uniqueString = Guid.NewGuid().ToString("N").Substring(0, 10);
+					var filename = uniqueString + image.FileName;
+					string filePath = Path.Combine(uploadsFolderPath, filename);
+					string accessPath = Path.Combine("/Images/Jyotish/pooja", uniqueString + image.FileName);
+
+					using (var stream = new FileStream(filePath, FileMode.Create))
+					{
+						image.CopyTo(stream);
+					}
+
+					model.Image = accessPath;
+				}
+
+				var res = _admin.CreateAPooja(model);
+				if (res)
+				{
+					return Ok(new { status = 200, message = "Pooja Create Successfully" });
+				}
+				else
+				{
+					return Ok(new { status = 500, message = "something went wrong or maybe pooja already created for this pooja type" });
+
+				}
+			}
+			catch (Exception ex)
+			{
+				// Log the exception
+				return StatusCode(500, new { Status = 500, Message = "An error occurred while fetching specialization list.", Error = ex.Message });
+			}
+		}
+		[HttpPost("UpdatePooja")]
+		public IActionResult UpdatePooja()
+		{
+			try
+			{
+				var httpRequest = HttpContext.Request;
+				PoojaRecordModel model = new PoojaRecordModel
+				{
+					PoojaType = Convert.ToInt32(httpRequest.Form["poojaId"]),
+					Id = Convert.ToInt32(httpRequest.Form["Id"]),
+					jyotishId = Convert.ToInt32(httpRequest.Form["jyotishId"]),
+					title = httpRequest.Form["title"],
+					Procedure = httpRequest.Form["proccedure"],
+					Benefits = httpRequest.Form["benefits"],
+					AboutGod = httpRequest.Form["aboutgod"],
+					status = true
+
+				};
+
+				if (httpRequest.Form.Files["image"] != null)
+				{
+					var image = httpRequest.Form.Files["image"];
+					string uploadsFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Jyotish/pooja");
+					if (!Directory.Exists(uploadsFolderPath))
+					{
+						Directory.CreateDirectory(uploadsFolderPath);
+					}
+
+					// Process each uploaded file
+
+					string uniqueString = Guid.NewGuid().ToString("N").Substring(0, 10);
+					var filename = uniqueString + image.FileName;
+					string filePath = Path.Combine(uploadsFolderPath, filename);
+					string accessPath = Path.Combine("/Images/Jyotish/pooja", uniqueString + image.FileName);
+
+					using (var stream = new FileStream(filePath, FileMode.Create))
+					{
+						image.CopyTo(stream);
+					}
+
+					model.Image = accessPath;
+				}
+
+				var res = _admin.UpdatePooja(model);
+				if (res)
+				{
+					return Ok(new { status = 200, message = "Pooja Details Updated Successfully" });
+				}
+				else
+				{
+					return Ok(new { status = 500, message = "something went wrong " });
+
+				}
+			}
+			catch (Exception ex)
+			{
+				// Log the exception
+				return StatusCode(500, new { Status = 500, Message = "An error occurred while fetching specialization list.", Error = ex.Message });
+			}
+		}
+
+		[HttpGet("removePooja")]
+		public IActionResult RemovePooja(int Id)
+		{
+			var res = _admin.removePooja(Id);
+			if (res)
+			{
+				return Ok(new { status = 200, message = "Record Deleted Successfully" });
+			}
+			else
+			{
+				return Ok(new { status = 500, message = "something went wrong" });
+
+			}
+
+		}
+
+		[HttpGet("getAllPooja")]
+		public IActionResult getAllPooja()
+		{
+			try
+			{
+				var res = _admin.getAllPooja();
+				return Ok(new { status = 200, message = "data retrieved", data = res });
+			}
+			catch (Exception ex)
+			{
+				// Log the exception
+				return StatusCode(500, new { Status = 500, Message = "An error occurred while fetching specialization list.", Error = ex.Message });
+			}
+		}
+		[HttpGet("getpoojaByPoojaId")]
+		public IActionResult poojaByPoojaId(int poojaId)
+		{
+			try
+			{
+				var res = _admin.poojaByPoojaId(poojaId);
+				return Ok(new { status = 200, message = "data retrieved", data = res });
+			}
+			catch (Exception ex)
+			{
+				// Log the exception
+				return StatusCode(500, new { Status = 500, Message = "An error occurred while fetching specialization list.", Error = ex.Message });
+			}
+		}
+	}
 }

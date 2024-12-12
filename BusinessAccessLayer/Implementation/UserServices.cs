@@ -1089,5 +1089,27 @@ namespace BusinessAccessLayer.Implementation
 					   }).FirstOrDefault();
 			return res;
 		}
+
+        public bool BookPooja(BookedPoojaViewModel model)
+        {
+            var res = _context.BookedPoojaList.Where(e => e.status && e.PoojaId == model.PoojaId && model.userId == e.userId).FirstOrDefault();
+            if (res != null)
+            {
+                return false;
+            }
+
+            BookedPoojaList book = new BookedPoojaList
+            {
+                PoojaId = model.PoojaId,
+                userId = model.userId,
+                BookingDate = DateTime.Now,
+                status=true
+
+            };
+
+            _context.BookedPoojaList.Add(book);
+            return _context.SaveChanges() > 0;
+        }
+
 	}
 }

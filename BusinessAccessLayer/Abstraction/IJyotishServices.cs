@@ -67,7 +67,6 @@ namespace BusinessAccessLayer.Abstraction
 
         public string AddWallet(JyotishWalletViewmodel pr);
         public long GetWallet(int JyotishId);
-        public dynamic getPoojaByJyotish(int Id);
 
         public string AddWalletHistory(WalletHistoryViewmodel pr);
         public dynamic GetWalletHistory(int JyotishId);
@@ -84,13 +83,6 @@ namespace BusinessAccessLayer.Abstraction
         public bool SendRequest(RedeemCodeRequestViewModel model);
 
         public dynamic getRedeemCode(int jyotishId);
-        public bool CreateAPooja(PoojaRecordModel model);
-
-        public dynamic poojaByPoojaId(int id);
-
-        public bool UpdatePooja(PoojaRecordModel model);
-
-        public bool removePooja(int Id);
-
+      
 	}
 }
