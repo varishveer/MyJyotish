@@ -353,7 +353,7 @@ namespace BusinessAccessLayer.Implementation
             FileStream stream = new FileStream(fullPath, FileMode.Create);
             file.CopyTo(stream);
         }
-      
+
         public bool CreateAPooja(PoojaRecordModel model)
         {
             var isPoojaValid = _context.PoojaRecord.Where(x => x.PoojaType == model.PoojaType && x.status).FirstOrDefault();
@@ -1998,34 +1998,102 @@ namespace BusinessAccessLayer.Implementation
 
         public bool AddAppointmentBookmark(AppointmentBookmarkViewModal modal)
         {
+            var Trasaction = _context.Database.BeginTransaction();
             var Appointment = _context.AppointmentRecords.Where(x => x.Id == modal.AppointmentId).FirstOrDefault();
             if (Appointment == null) { return false; }
 
-            AppointmentBookmarkModal Data = new AppointmentBookmarkModal();
-            Data.EndDate = modal.EndDate;
-            Data.Reason = modal.Reason;
-            Data.AppointmentId = modal.AppointmentId;
-            Data.JyotishId = modal.JyotishId;
-            _context.AppointmentBookmark.Add(Data);
-            if(_context.SaveChanges()>0)
-            { return true; }
-            else { return false; }
+            var AppointmentBookmark = _context.AppointmentBookmark.Where(x => x.AppointmentId == modal.AppointmentId).FirstOrDefault();
+            if (AppointmentBookmark != null)
+            {
+                AppointmentBookmark.EndDate = modal.EndDate;
+                AppointmentBookmark.Reason = modal.Reason;
+                _context.AppointmentBookmark.Update(AppointmentBookmark);
+                if (_context.SaveChanges() > 0)
+                {
+                    Appointment.BookMark = 1;
+                    _context.AppointmentRecords.Update(Appointment);
+                    if (_context.SaveChanges() > 0)
+                    {
+                        Trasaction.Commit();
+                        return true;
+                    }
+                    else
+                    {
+                        Trasaction.Rollback();
+                        return false;
+                    }
+                }
+                else { return false; }
+            }
+            else
+            {
+                AppointmentBookmarkModal Data = new AppointmentBookmarkModal();
+                Data.EndDate = modal.EndDate;
+                Data.Reason = modal.Reason;
+                Data.AppointmentId = modal.AppointmentId;
+                Data.JyotishId = modal.JyotishId;
+                _context.AppointmentBookmark.Add(Data);
+                if (_context.SaveChanges() > 0)
+                {
+                    Appointment.BookMark = 1;
+                    _context.AppointmentRecords.Update(Appointment);
+                    if (_context.SaveChanges() > 0)
+                    {
+                        Trasaction.Commit();
+                        return true;
+                    }
+                    else
+                    {
+                        Trasaction.Rollback();
+                        return false;
+                    }
+
+
+                }
+                else { return false; }
+            }
            
+
         }
         public bool DeleteAppointmentBookmark(int Id)
         {
+            var Trasaction = _context.Database.BeginTransaction();
             var AppointmentBookmark = _context.AppointmentBookmark.Where(x => x.Id == Id).FirstOrDefault();
             if (AppointmentBookmark == null)
             { return false; }
 
             AppointmentBookmark.Status = false;
             _context.AppointmentBookmark.Update(AppointmentBookmark);
-            if(_context.SaveChanges()>0)
-            { return true; }
+            if (_context.SaveChanges() > 0)
+            {
+                var Appointment = _context.AppointmentRecords.Where(x => x.Id == AppointmentBookmark.Id).FirstOrDefault();
+                if (Appointment == null)
+                {
+                    Trasaction.Rollback();
+                    return false;
+                }
+
+                Appointment.BookMark = 10;
+                _context.AppointmentRecords.Update(Appointment);
+                if (_context.SaveChanges() > 0)
+                {
+                    Trasaction.Commit();
+                    return true;
+                }
+                else
+                {
+                    Trasaction.Rollback();
+                    return false;
+                }
+
+
+            }
             else { return false; }
-
-
         }
+
+
+
+
 
 
 
