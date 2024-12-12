@@ -72,8 +72,7 @@ namespace DataAccessLayer.DbServices
         public DbSet<KundaliMatchingModel> KundaliMatchingRecord { get; set; }
         public DbSet<AppointmentBookmarkModal> AppointmentBookmark { get; set; }
         public DbSet<TimezoneModal> Timezone { get; set; }
-
-
+        public DbSet<JyotishPooja> JyotishPooja { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         { 
@@ -322,9 +321,17 @@ namespace DataAccessLayer.DbServices
          .WithMany(j => j.AppointmentBookmark)
          .HasForeignKey(c => c.AppointmentId);
 
+			modelBuilder.Entity<JyotishPooja>()
+		.HasOne(c => c.pooja)
+		.WithMany(j => j.jyotishPooja)
+		.HasForeignKey(c => c.poojaType);
+            
+            modelBuilder.Entity<JyotishPooja>()
+		.HasOne(c => c.jyotish)
+		.WithMany(j => j.jyotishPooja)
+		.HasForeignKey(c => c.JyotishId);
 
-
-        }
+		}
 
 
     }
