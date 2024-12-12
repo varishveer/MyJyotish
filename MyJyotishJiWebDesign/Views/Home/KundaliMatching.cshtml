@@ -115,14 +115,14 @@
                     </div>
                 </div>
 
-                <div class="form-group my-1">
+                <div class="form-group my-1 position-relative">
                     <label for="place_boy">Birth Place</label>
 
 
-                    <input list="PlaceOfBirthList_boy" type="text" name="place_boy" id="place_boy" class="form-control  " placeholder="Enter birth place" autocomplete="off" required>
+                    <input list="PlaceOfBirthList_boy" type="text" name="place_boy" id="place_boy" class="form-control" placeholder="Enter birth place" autocomplete="off" required>
 
 
-                    <div class="position-absolute bg-light d-none" id="PlaceOfBirthList_boy">
+                    <div class="position-absolute bg-light d-none w-100 rounded-bottom" id="PlaceOfBirthList_boy">
                     </div>
                 </div>
             </div>
@@ -174,12 +174,12 @@
                     </div>
                 </div>
 
-                <div class="form-group my-1">
+                <div class="form-group my-1 position-relative">
                     <label for="place_girl">Birth Place</label>
                     <input list="PlaceOfBirthList_girl" type="text" name="place_girl" id="place_girl" class="form-control  " placeholder="Enter birth place" autocomplete="off" required>
 
 
-                    <div class="position-absolute bg-light d-none " id="PlaceOfBirthList_girl">
+                    <div class="position-absolute bg-light d-none w-100 rounded-bottom" id="PlaceOfBirthList_girl">
                     </div>
                 </div>
             </div>
@@ -238,7 +238,7 @@
             $('#PlaceOfBirthList_girl').removeClass('d-none');
             $placeOfBirthDropdown.empty();
             data.data.forEach(placeOfBirth => {
-                $placeOfBirthDropdown.append(`<p class="pOBPtag" onClick="setPlace_girl('${placeOfBirth}')"> ${placeOfBirth}</p>`);
+                $placeOfBirthDropdown.append(`<p class="pOBPtag" onClick="setPlace_girl('${placeOfBirth.record}')"> ${placeOfBirth.record}</p>`);
             });
         } catch (error) {
             console.error('Error fetching PlaceOfBirth:', error);
@@ -250,6 +250,7 @@
         $('#PlaceOfBirthList_girl').addClass('d-none');
         $('#place_girl').val(svalue);
     }
+
     $('#place_girl').on('keyup', function () {
 
         $('#PlaceOfBirthList_girl').show();
@@ -262,7 +263,12 @@
 
     });
 
+    $("#place_girl").on("blur",function(){
+        setTimeout(() => {
+            $('#PlaceOfBirthList_girl').hide();
+        },1000)
 
+    })
 
     async function loadPlaceOfBirth_boy(city) {
         if (!city) return;
@@ -275,7 +281,7 @@
             $('#PlaceOfBirthList_boy').removeClass('d-none');
             $placeOfBirthDropdown.empty();
             data.data.forEach(placeOfBirth => {
-                $placeOfBirthDropdown.append(`<p class="pOBPtag" onClick="setPlace_boy('${placeOfBirth}')"> ${placeOfBirth}</p>`);
+                $placeOfBirthDropdown.append(`<p class="pOBPtag" onClick="setPlace_boy('${placeOfBirth.record}')"> ${placeOfBirth.record}</p>`);
             });
         } catch (error) {
             console.error('Error fetching PlaceOfBirth:', error);
@@ -296,6 +302,14 @@
 
 
     });
+
+    $("#place_boy").on("blur", function () {
+        setTimeout(()=>{
+
+        $('#PlaceOfBirthList_boy').hide();
+        },1000)
+
+    })
 
     function kundaliDataFiller(Name, DateOfBirth, TimeOfBirth, PlaceOfBirth, Gender) {
         let [year, month, day] = DateOfBirth.split("-");
