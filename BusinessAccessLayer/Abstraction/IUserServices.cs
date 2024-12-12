@@ -11,12 +11,12 @@ namespace BusinessAccessLayer.Abstraction
 {
     public interface IUserServices
     {
-      
-       
-       
+
+
+
         public List<JyotishModel> GetAstroListCallChat(string ListName);
- /*       public List<PoojaCategoryModel> GetAllPoojaCategory();*/
-      /*  public List<PoojaRecordModel> GetPoojaList(int id);*/
+        /*       public List<PoojaCategoryModel> GetAllPoojaCategory();*/
+        /*  public List<PoojaRecordModel> GetPoojaList(int id);*/
         public PoojaRecordModel GetPoojaDetail(int PoojaId);
         public List<JyotishModel> TopAstrologer(string City);
         public List<JyotishModel> AllAstrologer();
@@ -60,13 +60,10 @@ namespace BusinessAccessLayer.Abstraction
         public bool AddKundaliMatchingRecord(List<KundaliMatchingViewModel> DataList);
         public List<KundaliMatchingViewModel> GetAllKundaliMatchingRecord(int Id);
         public List<KundaliMatchingViewModel> GetLatestKundaliRecord(int Id);
-        public bool DeleteKundaliRecord( int Id);
-    }
+        public bool DeleteKundaliRecord(int Id);
         public bool DeleteKundaliRecord(int UserId, int Id);
         public dynamic getAllPoojaList();
         public dynamic getPoojaDetailByPoojaId(int Id);
+    }
 
-
-
-	}
 }
