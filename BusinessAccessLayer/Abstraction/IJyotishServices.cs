@@ -89,7 +89,7 @@ namespace BusinessAccessLayer.Abstraction
         public AppointmentBookmarkViewModal GetAppointmentBookmark(int Id);
 
 
-    }
+    
         public bool AddJyotishPooja(JyotishPoojaViewModel model);
         public dynamic getJyotishPoojaList(int Id);
 
