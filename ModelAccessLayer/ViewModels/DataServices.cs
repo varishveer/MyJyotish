@@ -263,4 +263,14 @@ namespace ModelAccessLayer.ViewModels
         public DateTime BookingDate { get; set; }
         public bool status { get; set; }
     }
+
+    public class AppointmentBookmarkViewModal
+    {
+        public int Id { get; set; }
+        [AllowNull]
+        public DateOnly? EndDate { get; set; }
+        public string Reason { get; set; }
+        public int? AppointmentId { get; set; }
+        public int? JyotishId { get; set; }
+    }
 }

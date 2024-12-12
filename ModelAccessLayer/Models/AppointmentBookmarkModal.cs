@@ -15,7 +15,7 @@ namespace ModelAccessLayer.Models
         public string Reason { get; set; }
         public int? AppointmentId { get; set; }
         public int? JyotishId { get; set; }
-
+        public bool Status { get; set; }
         public JyotishModel Jyotish { get; set; }
         public AppointmentModel Appointment { get; set; }
     }
