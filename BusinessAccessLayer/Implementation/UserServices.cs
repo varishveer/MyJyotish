@@ -1046,7 +1046,48 @@ namespace BusinessAccessLayer.Implementation
             }
         }
 
+        public dynamic getAllPoojaList()
+        {
+            var res = (from pooja in _context.PoojaRecord
+                       join jyotish in _context.JyotishRecords on pooja.jyotishId equals jyotish.Id
+                       join list in _context.PoojaList on pooja.PoojaType equals list.Id
+                       where pooja.status && jyotish.Status && list.Status
+                       select new
+                       {
+                          Id=pooja.Id,
+                          poojaName=list.Name,
+                          title=pooja.title,
+                          image=pooja.Image,
+                          jyotishImage=jyotish.ProfileImageUrl
 
+                       }).ToList();
+            return res;
+        }
 
-    }
+		public dynamic getPoojaDetailByPoojaId(int Id)
+		{
+			var res = (from pooja in _context.PoojaRecord
+					   join jyotish in _context.JyotishRecords on pooja.jyotishId equals jyotish.Id
+					   join list in _context.PoojaList on pooja.PoojaType equals list.Id
+					   where pooja.Id==Id&& pooja.status && jyotish.Status && list.Status
+					   select new
+					   {
+						   Id = pooja.Id,
+						   poojaName = list.Name,
+						   title = pooja.title,
+						   image = pooja.Image,
+						   jyotishImage = jyotish.ProfileImageUrl,
+                           jyotishName=jyotish.Name,
+                           aboutJyotish=jyotish.About,
+                           expertise=jyotish.Expertise,
+                           experience=jyotish.Experience,
+                           specialization=jyotish.Specialization,
+                           proccedure=pooja.Procedure,
+                           aboutgod=pooja.AboutGod,
+                           benefits=pooja.Benefits
+
+					   }).FirstOrDefault();
+			return res;
+		}
+	}
 }

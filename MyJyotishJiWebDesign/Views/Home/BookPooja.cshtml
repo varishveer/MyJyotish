@@ -5,39 +5,97 @@
 }
 
 <style>
-    .vh-75{
-        height:75vh !important;
-    }
+	.vh-75 {
+		height: 75vh !important;
+	}
 
-    .right-0{
-        right:2px;
-    }
+	.right-0 {
+		right: 2px;
+	}
 </style>
 
 <div class="container my-4 vh-75 ">
-    <div class="d-flex mb-5 justify-content-between align-items-center">
-        <span class="heading-bookpooja text-secondary px-5 bg-warning fw-bold p-3">
-            Book a Pooja
-        </span>
-        <div class="search-box w-25">
-            <div class="input-group mb-3">
-                <span class="input-group-text " id="basic-addon1"><i class="fas fa-search text-warning"></i></span>
-            <input type="search" name="search" id="search" placeholder="Search by name" class="form-control" />
-            </div>
-        </div>
-    </div>
-    <div class="row">
-    <div class="card position-relative p-0" style="width: 18rem;">
-        <img src="/astrologer-bg.jpg" class="card-img-top w-100" alt="...">
-        <img src="/icons8-dashboard-48.png" class="position-absolute top-0 rounded-circle right-0" height="60" width="60"/>
-        <div class="card-body">
-            <div class="card-text">
-               <p class="fw-bold mb-1">lakshami pooja</p>
-               <p class="text-secondary">Dhan ki haani kam hogi</p>
-               <button class="btn btn-warning text-light">Book Pooja &rarr;</button>
-                </div>
-        </div>
-    </div>
-    </div>
+	<div class="d-flex mb-5 justify-content-between align-items-center">
+		<span class="heading-bookpooja text-secondary px-5 bg-warning fw-bold p-3">
+			Book a Pooja
+		</span>
+		<div class="search-box w-25">
+			<div class="input-group mb-3">
+				<span class="input-group-text " id="basic-addon1"><i class="fas fa-search text-warning"></i></span>
+				<input type="search" name="search" id="searchPooja" placeholder="Search by name" class="form-control" />
+			</div>
+		</div>
+	</div>
+	<div class="row" id="poojaCards">
+		
+	</div>
 
 </div>
+
+<script>
+	let poojaRecord = [];
+	function getAllPoojaList() { 
+	Swal.fire({
+		title: "Processing Your Request",
+		allowOutsideClick: false,
+		didOpen: () => {
+			Swal.showLoading();
+		}
+	})
+	$.ajax({
+			url: BaseUrl + "api/user/getAllPoojaList",
+		type: "get",
+		success: function (res) {
+			Swal.close();
+			if(res.status==200){
+				poojaRecord=res.data;
+				
+			}
+		},error:function(){
+				Swal.fire({
+					text: "some error occured",
+					title: "error",
+					icon: "error"
+
+				})
+		}
+	}).then(()=>{
+			$("#searchPooja").on("input", function () {
+				$("#poojaCards").empty()
+				if (poojaRecord.length > 0) {
+					let search=$(this).val()
+					debugger
+					let filterPoojaRecord
+					if (search == "" || search==undefined){
+						filterPoojaRecord = poojaRecord;
+					}else{
+						filterPoojaRecord = poojaRecord.filter(e => {
+							return e.poojaName.toLowerCase().includes(search.toLowerCase()) ||
+								e.title.toLowerCase().includes(search.toLowerCase());
+						});
+					}
+					filterPoojaRecord.forEach(function (d) {
+						$("#poojaCards").append(`
+								<div class="card position-relative p-0" style="width: 18rem;">
+							<img src="${BaseUrl}${d.image}" class="card-img-top w-100" height="180" alt="...">
+								<img src="${d.jyotishImage != null ? BaseUrl + d.jyotishImage : "/user-not-found-png"}" class="position-absolute top-0 rounded-circle right-0" height="60" width="60" />
+						<div class="card-body">
+							<div class="card-text">
+									<p class="fw-bold mb-1">${d.poojaName}</p>
+									<p class="text-secondary">${d.title}</p>
+									<a href='/home/PoojaDetails?id=${d.id}' class="btn btn-warning text-light">Book Pooja &rarr;</a>
+							</div>
+						</div>
+					</div>
+							`)
+					})
+				} else {
+					$("#poojaCards").html("<p class='text-secondary my-4 text-center'>no record found</p>")
+				}
+			})
+			$("#searchPooja").trigger("input")
+	})
+}
+	getAllPoojaList();
+	
+</script>

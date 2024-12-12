@@ -782,6 +782,20 @@ namespace MyJyotishGApi.Controllers
           }*/
 
 
-
+        //get all pooja list
+        [AllowAnonymous]
+        [HttpGet("getAllPoojaList")]
+        public IActionResult getAllPoojaList()
+        {
+            var res = _services.getAllPoojaList();
+            return Ok(new {status=200,message="data retrieved",data=res});
+        }
+		[AllowAnonymous]
+		[HttpGet("getPoojaDetailByPoojaId")]
+        public IActionResult getPoojaDetailByPoojaId(int id)
+        {
+            var res = _services.getPoojaDetailByPoojaId(id);
+            return Ok(new {status=200,message="data retrieved",data=res});
+        }
     }
 }
