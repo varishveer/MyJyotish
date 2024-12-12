@@ -33,31 +33,46 @@
         background-color: skyblue;
         color: white;
     }
-    .btnDelete{
-        bottom:5px;
-        right:5px;
+
+    .btnDelete {
+        bottom: 5px;
+        right: 5px;
     }
 
-    .mainKundaliContainer{
-        max-height:375px;
-       
+    .mainKundaliContainer {
+        max-height: 375px;
     }
 
 
-    .kundaliDetailCard:hover{
-        background-color:lightyellow;
-        cursor:pointer;
+    .kundaliDetailCard:hover {
+        background-color: lightyellow;
+        cursor: pointer;
     }
 </style>
 
 <div class="container py-4">
-    <h3 class="text-center mb-4">Fill Up Partner's Detail</h3>
+   
+    
+    <h3 class="text-center mb-4"> Kundli Matching</h3>
+    <h5 class="text-center mb-4">Find your right one, through matchmaking</h5>
+  <hr />
+    <h5 class="text-center mb-4">Free Match Making - Kundli Milan & Gun Milan to Check Possibilities of Marriage</h5>
+
+    <p>
+
+        Free Match Making - Kundli Milan & Gun Milan to Check Possibilities of Marriage
+        Kundli milan or kundali matching is an important consideration to make when you decide to get married. Kundli matching, also called Gun matching or Horoscope matching is the first step towards marriage when the parents decide to match the kundlis of the girl and the boy to ensure the couple is compatible. The gun milan exercise has been a part of India's culture for 1000s of years now and continues to be so.
+    </p>
+    <p>
+        So, if you too are the lucky one who is planning to get married, and hence looking for a horoscope matching with someone you have started liking, then Astrotalk can help you. The Kundali milan online software on Astrotalk has been prepared by the top astrologers of Astrotalk. The software caters to the free Kundli milan needs of the individuals and gives you insights; such as the number of guns matching for the girl and the boy, what they are compatible in, what their future would be like if they get married, and so much more. The online gun milan software can save you time and the hassle of going out to look for an astrologer to get the gun milan exercise done. Also, in case you have any doubts about the free kundali milan offered by Astrotalk, you can always connect with the astrologers on board and get those doubts sorted for yourself.
+    </p>
+   
 
     <div class="row">
         <!-- Boy's Details Section -->
         <div class="col-md-4 mainKundaliContainer">
             <div class="card p-4 shadow-sm">
-                <h5 class="card-title text-center mb-3">Boy's Details</h5>
+                <h5 class="card-title bg-warning rounded fw-normal w-100 p-2 text-black text-center mb-3">Boy's Details</h5>
 
                 <div class="form-group my-1">
                     <label for="name_boy">Name</label>
@@ -116,7 +131,7 @@
         <!-- Girl's Details Section -->
         <div class="col-md-4 mainKundaliContainer">
             <div class="card p-4 shadow-sm">
-                <h5 class="card-title text-center mb-3">Girl's Details</h5>
+                <h5 class="card-title bg-warning rounded fw-normal w-100 p-2 text-black text-center mb-3">Girl's Details</h5>
 
                 <div class="form-group my-1">
                     <label for="name_girl">Name</label>
@@ -173,8 +188,9 @@
         <div class="col-md-4 mainKundaliContainer">
 
 
-            <div class="card h-100 w-100 p-2 shadow-sm">
-                <h5 class="card-title text-center mb-3">Saved Matches</h5>
+            <div class="card h-100 w-100 p-2 pt-4 shadow-sm">
+
+                <h5 class="card-title bg-warning rounded fw-normal w-100 p-2 text-black text-center mb-3">Saved Matches</h5>
                 <div class="overflow-auto">
 
                     <!-- Search Box -->
@@ -204,7 +220,7 @@
     </div>
 
     <div class="text-center mt-4">
-        <button type="button" id="matchHoroscope" class="btn btn-primary btn-lg">Match Horoscope</button>
+        <button type="button" id="matchHoroscope" class="btn btn-primary bg-warning text-black btn-lg">Match Horoscope</button>
     </div>
 </div>
 
@@ -281,13 +297,11 @@
 
     });
 
-    function kundaliDataFiller(Name, DateOfBirth,TimeOfBirth,PlaceOfBirth,Gender)
-    {
+    function kundaliDataFiller(Name, DateOfBirth, TimeOfBirth, PlaceOfBirth, Gender) {
         let [year, month, day] = DateOfBirth.split("-");
         let [hour, minute, second] = TimeOfBirth.split(":");
 
-        if (Gender == "Male")
-        {
+        if (Gender == "Male") {
             $('#name_boy').val(Name);
             $('#place_boy').val(PlaceOfBirth);
             $('#day_boy').val(day);
@@ -297,8 +311,7 @@
             $('#min_boy').val(minute);
             $('#sec_boy').val(second);
         }
-        if (Gender == "Female") 
-        {
+        if (Gender == "Female") {
             $('#name_girl').val(Name);
             $('#place_girl').val(PlaceOfBirth);
             $('#day_girl').val(day);
@@ -308,12 +321,12 @@
             $('#min_girl').val(minute);
             $('#sec_girl').val(second);
         }
-       
+
 
     }
 
-    function deleteKundaliRecord(Id) { 
-    
+    function deleteKundaliRecord(Id) {
+
         Swal.fire({
             title: 'Are you sure?',
             text: 'Do you want to delete this item?',
@@ -331,7 +344,7 @@
                     headers: {
                         'Authorization': `Bearer ${Token}`
                     },
-               
+
                     success: function (response) {
                         if (response.status == 200) {
                             Swal.fire({
@@ -339,6 +352,7 @@
                                 text: 'Record Deleted Successfully',
                                 icon: 'success'
                             });
+                            location.reload();
                         }
                         else {
                             Swal.fire({
@@ -359,13 +373,13 @@
                 });
 
 
-               
+
             } else {
-                
-               return
+
+                return
             }
         });
-    
+
     }
 
     function LoadData() {
@@ -374,30 +388,30 @@
         let year = currentDate.getFullYear();
         for (var i = 1; i <= 100; i++) {
             if (i <= 31) {
-                if(i<10){
+                if (i < 10) {
                     $('#day_girl').append(` <option value="0${i}">0${i}</option>`);
                     $('#day_boy').append(` <option value="0${i}">0${i}</option>`);
                 }
-                else{
+                else {
                     $('#day_girl').append(` <option value="${i}">${i}</option>`);
                     $('#day_boy').append(` <option value="${i}">${i}</option>`);
                 }
-               
+
             }
 
 
             if (i <= 12) {
-                if(i<10){
+                if (i < 10) {
                     $('#month_girl').append(` <option value="0${i}">0${i}</option>`);
                     $('#month_boy').append(` <option value="0${i}">0${i}</option>`);
                 }
-                else{
+                else {
                     $('#month_girl').append(` <option value="${i}">${i}</option>`);
                     $('#month_boy').append(` <option value="${i}">${i}</option>`);
 
                 }
 
-              
+
 
             }
 
@@ -419,7 +433,7 @@
                     $('#sec_girl').append(` <option value="${i - 1}">${i - 1}</option>`);
                     $('#sec_boy').append(` <option value="${i - 1}">${i - 1}</option>`);
                 }
-               
+
             }
 
             if (i <= 24) {
@@ -427,11 +441,11 @@
                     $('#hour_girl').append(` <option value="0${i}">0${i}</option>`);
                     $('#hour_boy').append(` <option value="0${i}">0${i}</option>`);
                 }
-                else{
+                else {
                     $('#hour_girl').append(` <option value="${i}">${i}</option>`);
                     $('#hour_boy').append(` <option value="${i}">${i}</option>`);
                 }
-               
+
             }
 
         }
@@ -453,41 +467,41 @@
                     if (response.data.length > 0) {
                         var Data = response.data;
                         var container;
-                        
+
                         Data.forEach(function (d) {
 
                             let [year, month, day] = d.dateOfBirth.split("-");
                             var DateOfBirth = `${day}-${month}-${year}`;
                             container = ` <div class="card my-3 position-relative kundaliDetailCard" onClick="kundaliDataFiller('${d.name}', '${d.dateOfBirth}', '${d.timeOfBirth}', '${d.placeOfBirth}', '${d.gender}')"
-    >
-                                              <div class="d-flex align-items-start ">
-                                              <div class="d-flex align-items-start col-sm-2 p-1">
-                                                  <div class="profile_icon_name firstColor rounded-circle bg-primary text-white d-flex justify-content-center align-items-center" style="width: 35px; height: 35px;">${d.name.slice(0, 1).toUpperCase()}
+        >
+                                                  <div class="d-flex align-items-start ">
+                                                  <div class="d-flex align-items-start col-sm-2 p-1">
+                                                      <div class="profile_icon_name firstColor rounded-circle bg-primary text-white d-flex justify-content-center align-items-center" style="width: 35px; height: 35px;">${d.name.slice(0, 1).toUpperCase()}
+                                                        </div>
+                                                  </div>
+
+
+                                                        <div class="ml-3 col-sm-8">
+                                                      <div class="fs-6">${d.name} <span class="font-weight-light">, ${d.gender}</span></div>
+                                                          <div class="text-muted">${DateOfBirth} ${d.timeOfBirth.slice(0, 5)}</div>
+                                                      <div class="text-muted">${d.placeOfBirth}</div>
                                                     </div>
-                                              </div>
+                                                        <div class="col-sm-2">
+                                                             <i class="fa fa-trash position-absolute btnDelete text-danger" onClick="deleteKundaliRecord('${d.id}')"></i>
+                                                    </div>
 
-
-                                                    <div class="ml-3 col-sm-8">
-                                                  <div class="fs-6">${d.name} <span class="font-weight-light">, ${d.gender}</span></div>
-                                                      <div class="text-muted">${DateOfBirth} ${d.timeOfBirth.slice(0,5)}</div>
-                                                  <div class="text-muted">${d.placeOfBirth}</div>
+                                                  </div>
                                                 </div>
-                                                    <div class="col-sm-2">
-                                                         <i class="fa fa-trash position-absolute btnDelete text-danger" onClick="deleteKundaliRecord('${d.id}')"></i>
-                                                </div>
-
-                                              </div>
-                                            </div>
-                            `;
+                                `;
                             $('#previousData').append(container);
 
                             container = "";
                         });
 
                     }
-                    else{
+                    else {
                         $('#previousData').html('No sufficient data available!');
-                            
+
                     }
                 }
             }
@@ -500,7 +514,13 @@
 
     async function kundaliMatchingApi() {
 
-
+        Swal.fire({
+            title: "Processing Your Request",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
         function formatDate(year, month, day) {
             return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
         }
