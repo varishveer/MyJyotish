@@ -29,6 +29,8 @@ namespace ModelAccessLayer.Models
         public ICollection<ProblemSolutionModel> Solution { get; set; }
         public AppointmentSlotModel AppointmentSlotData { get; set; }
         public ICollection<JyotishUserAttachmentModel> JyotishUserAttachmentRecords { get; set; } = new List<JyotishUserAttachmentModel>();
+        public ICollection<AppointmentBookmarkModal> AppointmentBookmark { get; set; } = new List<AppointmentBookmarkModal>();
+
 
     }
 }

@@ -70,6 +70,8 @@ namespace DataAccessLayer.DbServices
         public DbSet<RedeemCodeRequest> RedeemCodeRequest { get; set; }
         public DbSet<BookedPoojaList> BookedPoojaList { get; set; }
         public DbSet<KundaliMatchingModel> KundaliMatchingRecord { get; set; }
+        public DbSet<AppointmentBookmarkModal> AppointmentBookmark { get; set; }
+        public DbSet<TimezoneModal> Timezone { get; set; }
 
 
 
@@ -312,6 +314,17 @@ namespace DataAccessLayer.DbServices
         .HasOne(c => c.User)
         .WithMany(j => j.KundaliMatching)
         .HasForeignKey(c => c.UserId);
+
+            modelBuilder.Entity<AppointmentBookmarkModal>()
+                    .HasOne(c => c.Jyotish)
+                    .WithMany(j => j.AppointmentBookmark)
+                    .HasForeignKey(c => c.JyotishId);
+
+            modelBuilder.Entity<AppointmentBookmarkModal>()
+         .HasOne(c => c.Appointment)
+         .WithMany(j => j.AppointmentBookmark)
+         .HasForeignKey(c => c.AppointmentId);
+
 
 
         }
