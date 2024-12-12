@@ -2033,6 +2033,7 @@ namespace BusinessAccessLayer.Implementation
                 Data.Reason = modal.Reason;
                 Data.AppointmentId = modal.AppointmentId;
                 Data.JyotishId = modal.JyotishId;
+                Data.Status = true;
                 _context.AppointmentBookmark.Add(Data);
                 if (_context.SaveChanges() > 0)
                 {

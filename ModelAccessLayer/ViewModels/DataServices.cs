@@ -266,7 +266,7 @@ namespace ModelAccessLayer.ViewModels
 
     public class AppointmentBookmarkViewModal
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         [AllowNull]
         public DateOnly? EndDate { get; set; }
         public string Reason { get; set; }

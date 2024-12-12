@@ -350,9 +350,12 @@
                             Swal.fire({
                                 title: 'Successful',
                                 text: 'Record Deleted Successfully',
-                                icon: 'success'
+                                icon: 'success',
+                                didClose:()=> {
+                                    LoadData();
+                                }
                             });
-                            location.reload();
+                            
                         }
                         else {
                             Swal.fire({
@@ -465,6 +468,7 @@
             success: function (response) {
                 if (response.status == 200) {
                     if (response.data.length > 0) {
+                        $('#previousData').empty();
                         var Data = response.data;
                         var container;
 
@@ -553,13 +557,14 @@
         await GetGeoLocation(boyPlace, 'boy');
 
         var glatitude = $('#place_girl').attr('data-glatitude');
-        var glongitude = $('#place_girl').attr('data-glongitude');
-
         var blatitude = $('#place_boy').attr('data-blatitude');
+        var glongitude = $('#place_girl').attr('data-glongitude');
         var blongitude = $('#place_boy').attr('data-blongitude');
 
-        var gtimezone = await getTimezone(glatitude, glongitude);
-        var btimezone = await getTimezone(blatitude, blongitude);
+       
+
+        var gtimezone = await getTimezone(girlPlace);
+        var btimezone = await getTimezone(boyPlace);
         var UserId = localStorage.getItem('userId');
         var DataContainer = [
             {
@@ -662,33 +667,20 @@
             });
     }
 
-    async function getTimezone(latitude, longitude) {
+    async function getTimezone(place) {
 
-        var timestamp = Math.floor(Date.now() / 1000);
-        var accessKey = "a1866a87e357e1b13a1ad62ee2e061f3";
+       
+        let parts = place.split(", ");
+        let country = parts[parts.length - 1];
 
-
-        var url = `https://api.positionstack.com/v1/reverse?access_key=${accessKey}&query=${latitude},${longitude}&timezone_module=1`;
+        var url = BaseUrl + `api/User/GetTimezone?Country=${country}`;
         var timezone
 
         await fetch(url)
             .then(response => response.json())
             .then(data => {
-                if (data != null) {
-
-
-                    const offsetSec = data.data[0].timezone_module.offset_sec;
-
-                    const offsetHours = Math.floor(offsetSec / 3600);
-                    const offsetMinutes = (offsetSec % 3600) / 60;
-
-
-                    const offsetDecimal = (offsetHours + offsetMinutes / 60).toFixed(1);
-
-
-
-                    timezone = offsetDecimal;
-
+                if (data.status ==200) {
+                    timezone = data.data;
                 } else {
                     Swal.fire({
                         title: 'error',
