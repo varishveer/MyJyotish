@@ -542,6 +542,7 @@
         function formatDate(year, month, day) {
             return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
         }
+        debugger
 
         var boyDoB = formatDate($('#year_boy').val(), $('#month_boy').val(), $('#day_boy').val());
         var girlDoB = formatDate($('#year_girl').val(), $('#month_girl').val(), $('#day_girl').val());
@@ -619,8 +620,9 @@
             },
             contentType: 'application/json',
             data: JSON.stringify(DataContainer),
-            success: function (response) {
+            success:async function (response) {
                 if (response.status === 200) {
+                   await LoadData()
                     location.href = '/Home/KundaliMatchingReport';
                 }
             },

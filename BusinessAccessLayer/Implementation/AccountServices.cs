@@ -940,7 +940,7 @@ namespace BusinessAccessLayer.Implementation
 
         public dynamic PlaceOfBirthList(string CityName)
         {
-            CityName = char.ToUpper(CityName[0]) + CityName.Substring(1).ToLower();
+            
 
             var collection = CityName.Split(',');
             var city="";
@@ -960,7 +960,7 @@ namespace BusinessAccessLayer.Implementation
                         orderby City.Name
 						 select new
                         {
-                            record=City.Name+","+State.Name+","+Country.Name
+                            record=City.Name+","+" "+State.Name+","+" "+Country.Name
                            
                         }).Take(15).ToList();
 
