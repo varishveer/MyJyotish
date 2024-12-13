@@ -393,7 +393,7 @@
             const month = dateParts[1];
             const year = dateParts[2];
 
-            return `${month}/${day}/${year}`;
+            return `${month}-${day}-${year}`;
         } else {
             return 'Invalid date format';
         }
@@ -405,7 +405,7 @@
 
         var placeOfBirthList = $('#PlaceOfBirthInput').val()
         if (!$('#name').val() || !$('#email').val() || !$('#gender').val() || !$('#mobile').val() ||
-            !$('#DoB').val() || !$('#PlaceOfBirthInput').val() || !$('#TimeOfBirth').val()
+            !$('#DoB').val() || !$('#PlaceOfBirthInput').val()
         ) {
 
             Swal.fire({
@@ -430,10 +430,11 @@
         }
         let formData = new FormData();
         let arrData = $(this).serializeArray();
+
         arrData.forEach(function (d) {
             if (d.name == "doB") {
                 let convertedDate = convertDateFormatdesc(d.value)
-                formData.append(d.name, convertedDate)
+                formData.append(d.name, d.value)
             } else {
                 formData.append(d.name, d.value)
 

@@ -303,12 +303,12 @@ namespace MyJyotishGApi.Controllers
             {
                 string? path = _environment.ContentRootPath;
                 var result = _services.UpdateProfile(model, path);
-                if (result == null)
+                if (!result)
                 {
-                    return Ok(new { Status = 404, Message = "User Not Found" });
+                    return Ok(new { Status = 404, Message = "Something went wrong" });
                 }
 
-                else { return Ok(new { Status = 200, Data = result }); }
+                else { return Ok(new { Status = 200, Data = "Successful" }); }
 
             }
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
@@ -316,7 +316,7 @@ namespace MyJyotishGApi.Controllers
 
         [HttpGet("UpcommingAppointment")]
         public IActionResult UpcommingAppointment(int Id)
-        {
+        {  
             try
             {
                 var result = _services.UpcommingAppointment(Id);

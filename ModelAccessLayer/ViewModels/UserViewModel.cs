@@ -19,7 +19,7 @@ namespace ModelAccessLayer.ViewModels
         [AllowNull]
         public string? Gender { get; set; }
         [AllowNull]
-        public string? DoB { get; set; }
+        public DateOnly? DoB { get; set; }
         [AllowNull]
         public string? PlaceOfBirth { get; set; }
         [AllowNull]

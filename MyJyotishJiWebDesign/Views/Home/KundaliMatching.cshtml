@@ -227,20 +227,8 @@
 
 <script>
     var SavedKundaliRecord = [];
-    
-    // $('#SearchKundaliRecord').on('keyup', function () { 
-    
-    //     var SearchValue = $('#SearchKundaliRecord').val();
-    //     if (SearchValue == "" || SearchValue == undefined) 
-    //     {
-            
-    //     }
-    //     else
-    //     {
-    //         var SearchData = SavedKundaliRecord.Name.include(SearchValue)
-    //     }
-    
-    // });
+
+
     async function loadPlaceOfBirth_girl(city) {
         if (!city) return;
 
@@ -277,10 +265,10 @@
 
     });
 
-    $("#place_girl").on("blur",function(){
+    $("#place_girl").on("blur", function () {
         setTimeout(() => {
             $('#PlaceOfBirthList_girl').hide();
-        },1000)
+        }, 1000)
 
     })
 
@@ -318,10 +306,10 @@
     });
 
     $("#place_boy").on("blur", function () {
-        setTimeout(()=>{
+        setTimeout(() => {
 
-        $('#PlaceOfBirthList_boy').hide();
-        },1000)
+            $('#PlaceOfBirthList_boy').hide();
+        }, 1000)
 
     })
 
@@ -500,45 +488,64 @@
                         $('#previousData').empty();
                         var Data = response.data;
                         SavedKundaliRecord = Data;
-                        var container;
 
-                        Data.forEach(function (d) {
-
-                            let [year, month, day] = d.dateOfBirth.split("-");
-                            var DateOfBirth = `${day}-${month}-${year}`;
-                            container = ` <div class="card my-3 position-relative kundaliDetailCard" onClick="kundaliDataFiller('${d.name}', '${d.dateOfBirth}', '${d.timeOfBirth}', '${d.placeOfBirth}', '${d.gender}')"
-            >
-                                                      <div class="d-flex align-items-start ">
-                                                      <div class="d-flex align-items-start col-sm-2 p-1">
-                                                          <div class="profile_icon_name firstColor rounded-circle bg-primary text-white d-flex justify-content-center align-items-center" style="width: 35px; height: 35px;">${d.name.slice(0, 1).toUpperCase()}
-                                                            </div>
-                                                      </div>
-
-
-                                                            <div class="ml-3 col-sm-8">
-                                                          <div class="fs-6">${d.name} <span class="font-weight-light">, ${d.gender}</span></div>
-                                                              <div class="text-muted">${DateOfBirth} ${d.timeOfBirth.slice(0, 5)}</div>
-                                                          <div class="text-muted">${d.placeOfBirth}</div>
-                                                        </div>
-                                                            <div class="col-sm-2">
-                                                                 <i class="fa fa-trash position-absolute btnDelete text-danger" onClick="deleteKundaliRecord('${d.id}')"></i>
-                                                        </div>
-
-                                                      </div>
-                                                    </div>
-                                    `;
-                            $('#previousData').append(container);
-
-                            container = "";
-                        });
 
                     }
-                    else {
-                        $('#previousData').html('No sufficient data available!');
-
-                    }
+                   
                 }
             }
+        }).then(() => {
+            $('#SearchKundaliRecord').on('keyup', function () {
+
+                var filterData = [];
+                var SearchValue = $('#SearchKundaliRecord').val();
+                if (SearchValue == "" || SearchValue == undefined) {
+                    filterData = SavedKundaliRecord;
+                }
+                else {
+                    filterData = SavedKundaliRecord.filter(e => e.name.toLowerCase().includes(SearchValue.toLowerCase()));
+                }
+                $('#previousData').empty();
+                var container;
+                if (filterData.length > 0) {
+                    
+                    filterData.forEach(function (d) {
+
+                        let [year, month, day] = d.dateOfBirth.split("-");
+                        var DateOfBirth = `${day}-${month}-${year}`;
+                        container = ` <div class="card my-3 position-relative kundaliDetailCard" onClick="kundaliDataFiller('${d.name}', '${d.dateOfBirth}', '${d.timeOfBirth}', '${d.placeOfBirth}', '${d.gender}')"
+                            >
+                                                                      <div class="d-flex align-items-start ">
+                                                                      <div class="d-flex align-items-start col-sm-2 p-1">
+                                                                          <div class="profile_icon_name firstColor rounded-circle bg-primary text-white d-flex justify-content-center align-items-center" style="width: 35px; height: 35px;">${d.name.slice(0, 1).toUpperCase()}
+                                                                            </div>
+                                                                      </div>
+
+
+                                                                            <div class="ml-3 col-sm-8">
+                                                                          <div class="fs-6">${d.name} <span class="font-weight-light">, ${d.gender}</span></div>
+                                                                              <div class="text-muted">${DateOfBirth} ${d.timeOfBirth.slice(0, 5)}</div>
+                                                                          <div class="text-muted">${d.placeOfBirth}</div>
+                                                                        </div>
+                                                                            <div class="col-sm-2">
+                                                                                 <i class="fa fa-trash position-absolute btnDelete text-danger" onClick="deleteKundaliRecord('${d.id}')"></i>
+                                                                        </div>
+
+                                                                      </div>
+                                                                    </div>
+                                                    `;
+                        $('#previousData').append(container);
+
+                        container = "";
+                    });
+                }
+                else{
+                    $('#previousData').html('No sufficient data available!');
+                }
+                
+
+            });
+            $('#SearchKundaliRecord').trigger("keyup")
         })
     }
 
@@ -636,9 +643,9 @@
             },
             contentType: 'application/json',
             data: JSON.stringify(DataContainer),
-            success:async function (response) {
+            success: async function (response) {
                 if (response.status === 200) {
-                   await LoadData()
+                    await LoadData()
                     location.href = '/Home/KundaliMatchingReport';
                 }
             },

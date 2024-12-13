@@ -25,8 +25,8 @@ namespace BusinessAccessLayer.Abstraction
         public List<IdImageViewModel> SliderImageList();
         public string BookAppointment(AppointmentViewModel model);
         public List<JyotishModel> SpecializationFilter(string Keyword);
-        public UserModel GetUserProfile(int Id);
-        public string UpdateProfile(UserUpdateViewModel model, string path);
+        public UserProfileViewModal GetUserProfile(int Id);
+        public bool UpdateProfile(UserUpdateViewModel model, string path);
         public AppointmentModel GetAppointmentDetails(int Id);
         public List<AppointmentDetailViewModel> UpcommingAppointment(int Id);
         public List<AppointmentDetailViewModel> AppointmentHistory(int Id);
