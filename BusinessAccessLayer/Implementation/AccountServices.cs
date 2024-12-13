@@ -940,27 +940,29 @@ namespace BusinessAccessLayer.Implementation
 
         public dynamic PlaceOfBirthList(string CityName)
         {
-            CityName = char.ToUpper(CityName[0]) + CityName.Substring(1).ToLower();
-          
+            
+
+            var collection = CityName.Split(',');
+            var city="";
+            var state="";
+            var country="";
+            if(collection.Length > 0)
+            {
+                city = collection[0];
+                state = collection.Length > 1 ? collection[1] : "";
+                country = collection.Length > 2 ? collection[2] : "";
+            }
 
             var Table = (from Country in _context.Countries
                         join State in _context.States on Country.Id equals State.CountryId
                         join City in _context.Cities on State.Id equals City.StateId
-                        where City.Name.Contains(CityName)
-                        select new
+                        where City.Name.Contains(city) && State.Name.Contains(state) && Country.Name.Contains(country)
+                        orderby City.Name
+						 select new
                         {
-                            record=City.Name+","+State.Name+","+Country.Name
+                            record=City.Name+","+" "+State.Name+","+" "+Country.Name
                            
                         }).Take(15).ToList();
-
-            //var Records = Table
-            //                .Where(x => x.CityName.Contains(CityName)) 
-            //                .OrderByDescending(x => x.CityName.StartsWith(CityName)) 
-            //                .ThenBy(x => x.CityName) 
-            //                .ThenBy(x => x.StateName) 
-            //                .ThenBy(x => x.CountryName) 
-            //                .Select(x => $"{x.CityName}, {x.StateName}, {x.CountryName}")
-            //                .Take(15).ToList();
 
             return Table;
         }
