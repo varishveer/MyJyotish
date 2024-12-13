@@ -108,6 +108,11 @@ namespace BusinessAccessLayer.Implementation
                 return null;
             }
 
+
+            var RatingList = _context.JyotishRating
+      .Where(x => x.JyotishId == jyotishRecord.Id && x.Status)
+      .Select(x => x.Stars);
+            var Rating = RatingList.Any() ? RatingList.Average() : 0;
             // Fetch videos and gallery related to the Jyotish record
             var videos = _context.JyotishVideos
                                  .Where(x => x.JyotishId == Id)
@@ -172,7 +177,8 @@ namespace BusinessAccessLayer.Implementation
                 AwordsAndAchievement = achievementsArray,
                 Specialization = specializationArray,
                 Videos = videos,
-                Gallery = gallery
+                Gallery = gallery,
+                Rating = Rating
             };
 
             return profileViewModel;
@@ -1152,6 +1158,8 @@ namespace BusinessAccessLayer.Implementation
             }).ToList();
             return res;
         }
+
+        
 
 	}
 }
