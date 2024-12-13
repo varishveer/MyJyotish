@@ -444,8 +444,14 @@
                 if (response.status === 200) {
                     debugger
                     var profile = response.data;
-                    var [year, month, day] = profile.doB.split("-");
-                    var dateOfBirth = day + "-" + month + "-" + year;
+                    if (profile.doB != null)
+                    {
+                        var [year, month, day] = profile.doB.split("-");
+                        var dateOfBirth = day + "-" + month + "-" + year;
+                        $('#dateOfBirth').text(profile.doB != null ? dateOfBirth : 'N/A');
+                        $('#userdob').val(profile.doB !== "null" ? profile.doB : 'N/A');
+                    }
+                 
                     var mobileNumber = "+"+profile.countryCode+"-" + profile.mobile;
                     // Fill in the data fields
                     $('#profileImage').attr('src', profile.profilePictureUrl ? BaseUrl + profile.profilePictureUrl : '/Img/UserPlaceholder.png');
@@ -457,7 +463,7 @@
                     $('#insState').text(profile.state !== "null" ? profile.state : 'N/A');
                     $('#insCity').text(profile.city !== "null" ? profile.city : 'N/A');
                     $('#insAddress').text(profile.currentAddress !== "null" ? profile.currentAddress : 'N/A');
-                    $('#dateOfBirth').text(profile.doB != null ? dateOfBirth : 'N/A');
+                   
                     $('#insPincode').text(profile.pincode !== "null" ? profile.pincode : 'N/A');
                     $('#placeOfBirth').text(profile.placeOfBirth !== "null" ? profile.placeOfBirth : 'N/A');
                     $('#timeOfBirth').text(profile.timeOfBirth !== "null" ? profile.timeOfBirth.slice(0,5) : 'N/A');
@@ -472,7 +478,7 @@
                     $('#userName').val(profile.name);
                   
                     $('#mobno').val(profile.mobile);
-                    $('#userdob').val(profile.doB !== "null" ? profile.doB : 'N/A');
+                 
                     $('#PlaceOfBirthInput').val(profile.placeOfBirth !== "null" ? profile.placeOfBirth : 'N/A');
                     $("#userId").val(profile.id)
                     $("#pincode").val(profile.pincode)
