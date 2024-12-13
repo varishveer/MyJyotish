@@ -82,10 +82,43 @@
 			margin-bottom: 5px;
 		}
 
-	p {
-		text-align: justify !important;
+
+	#staticBackdrop,.swal2-container {
+		z-index: 10000;
 	}
 
+	#jyotishContainer {
+		width: 40% !important;
+	}
+
+	.jyotishCards:hover {
+		transform: scale(1.01);
+		box-shadow: 1px 1px 2px gray;
+		cursor: pointer;
+	}
+
+	.card-input:checked + .jyotishCards {
+		transform: scale(1.01);
+		box-shadow: 1px 1px 2px gray;
+	}
+	.JyotishDetailContainer{
+		max-height:100vh !important;
+	}
+	.jyotishProfile{
+		min-height:70vh;
+	}
+	#ratingSection{
+		max-height:500px;
+	}
+
+::-webkit-scrollbar{
+	height:4px;
+	width:4px;
+}
+::-webkit-scrollbar-thumb{
+	background:#fad550;
+	border-radius:5px;
+}
 </style>
 
 
@@ -96,7 +129,7 @@
 		<div>
 			<h3 id="poojaName" class="mt-4"></h3>
 			<p id="title" class="mb-3"></p>
-			<button class="button">Book Now</button>
+			<button class="button" id="bookBtn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Book Now</button>
 		</div>
 	</div>
 
@@ -109,7 +142,7 @@
 
 					<ol>
 						<li><strong>Book the Pooja:</strong> Confirm the date and location of the Pooja with the temple or Pooja organizers. Ensure they have space available for the ceremony.</li>
-						<li><strong>Select Jyotish:</strong> Provide your full name, surname, and Gotra (family lineage) to the Pooja organizer ahead of time. This will ensure that your details are included during the Sankalp (invocation or prayer).</li>
+						<li><strong>Select Jyotish for Sankalp:</strong> Choose your Jyotish (astrological details) and provide them to the Pooja organizer ahead of time. This will ensure that your astrological details are included during the Sankalp (invocation or prayer).</li>
 						<li><strong>Attend the Pooja in Person:</strong> On the scheduled day, attend the Pooja ceremony in person. Arrive at the temple or location where the Pooja will take place.</li>
 						<li><strong>Take the Blessings:</strong> Participate in the ceremony, follow the rituals, and take the blessings from the Pooja. You can also make offerings if part of the tradition.</li>
 					</ol>
@@ -125,7 +158,7 @@
 				</div>
 			</div>
 		</div>
-	
+
 	</div>
 	<div class="row mt-3">
 		<div class="col-sm-6">
@@ -135,7 +168,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="col-sm-6">
 
 			<div class="content">
@@ -144,7 +177,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 	</div>
 	<div class="row mt-3">
 		<div class="col-sm-6 ">
@@ -161,27 +194,98 @@
 	</div>
 </div>
 
-<!-- book Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
+<!--book pooja Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+	<div class="modal-dialog modal-xl modal-dialog-scrollable">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+				<h1 class="modal-title fs-5" id="staticBackdropLabel">Book Pooja</h1>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-				...
+				<div class="d-flex position-sticky top-0">
+					<i role="button" onclick="toggleMenu()" class="fas firstToggle fa-bars"></i>
+				</div>
+				<div class="d-flex w-100">
+
+					<div class="vh-100 w-100 shadow rounded p-2" tabindex="0" id="jyotishContainer">
+						<div class="d-flex flex-column align-items-end">
+							<i role="button" onclick="toggleMenu()" class="fas fa-bars"></i>
+							<div class="w-100 fw-bold">Select Jyotish</div>
+						</div>
+						<div class="w-100" id="jyotishinnerContainer">
+						</div>
+					</div>
+					<div class="JyotishDetailContainer vh-75 w-100 p-2">
+
+						<div class="card w-100 mx-auto jyotishProfile shadow-sm" style="background-color: #ffffff; padding: 20px; border-radius: 10px;">
+							<div class="card-body">
+								<div class="row align-items-start mb-4">
+									<div class="col-md-4 text-center text-md-start">
+										<img id="profilePicture" src="" alt="Profile Picture" class="rounded shadow-sm border p-2 img-thumbnail" style=" width: 150px;height: 145px; border: 2px solid #ffffff;">
+
+										<h2 id="profileName" class="h4 mt-3 mb-1" style="color:#333333;">  </h2>
+										<span class="text-warning me-2">★★★★★</span>
+										<span id="rating" class="mb-0 me-2">4.99</span>|
+										<span id="totalReviews" class="text-muted">
+											(6587)
+										</span>
+										<p id="profileExpertise" class="text-muted mb-1" style="font-size: 14px;"></p>
+										<p id="profileLanguage" class="text-muted mb-1" style="font-size: 14px;"></p>
+										<p class="mb-1 text-muted">Available :<small id="time"></small></p>
+										<p id="profileExperience" class="text-muted mb-1" style="font-size: 14px;"></p>
+									</div>
+									<div class="col-md-8">
+										
+										<div class="mb-4 mt-4">
+											<div class="btn-group mb-3 border-top border-start border-end rounded-0 rounded-top" role="group" aria-label="Basic example">
+												<button type="button" id="aboutBtn" class="btn btn-success">About</button>
+												<button type="button" id="specBtn" class="btn ">Specialization</button>
+												<button type="button" id="achBtn" class="btn ">Achievement</button>
+												<button type="button" id="ratingBtn" class="btn ">Rating</button>
+											</div>
+											<p id="aboutMe" class="text-justify" style="font-size: 14px;"></p>
+											<p id="specialization" class="text-justify mt-3" style="font-size: 14px;"></p>
+											<p id="achievement" class="text-justify" style="font-size: 14px;"></p>
+
+											<div id="outerRatingSection" class="overflow-auto " style="display:none;">
+												<div class="justify-content-end d-flex Row">
+												</div>
+												<div id="ratingSection" class="text-justify h-100 overflow-auto" style="font-size: 14px; display:none;">
+													
+												</div>
+
+											</div>
+
+										</div>
+
+									</div>
+								</div>
+
+							</div>
+						</div>
+
+					</div>
+				</div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-primary">Save changes</button>
+				<button type="button" class="btn btn-primary">Book Now</button>
 			</div>
 		</div>
 	</div>
 </div>
 
+
 <script>
+	$(".firstToggle").hide()
+
+	function toggleMenu() {
+		$("#jyotishContainer").toggle("slow")
+		$(".firstToggle").toggle("slow")
+	}
 	function getPoojaDetails() {
+		let poojaTypeId;
 		let urlParams = new URLSearchParams(window.location.search);
 		let poojaId = urlParams.get('id');
 		Swal.fire({
@@ -193,6 +297,7 @@
 		$.ajax({
 			url: BaseUrl + "api/user/getPoojaDetailByPoojaId",
 			type: "get",
+
 			data: { Id: poojaId },
 			success: function (res) {
 				Swal.close()
@@ -216,6 +321,7 @@
 						$(".benefits").html(data.benefits)
 						$(".procedure").html(data.proccedure)
 						$(".aboutGod").html(data.aboutgod)
+						poojaTypeId = data.poojaTypeId
 					}
 
 				}
@@ -227,6 +333,52 @@
 
 				})
 			}
+		}).then(() => {
+			$("#bookBtn").click(function () {
+				Swal.fire({
+					title: "Processing Your Request",
+					didOpen: () => {
+						Swal.showLoading();
+					}
+				})
+				$.ajax({
+					url: BaseUrl + "api/user/GetJyotishByPoojaType",
+					type: "get",
+					headers: {
+						'Authorization': `Bearer ${localStorage.getItem("Token")}`
+					},
+					data: { poojaTyId: poojaTypeId },
+					success: function (res) {
+						Swal.close()
+						if (res.status == 200) {
+							if (res.data.length > 0) {
+								$("#jyotishinnerContainer").empty();
+								res.data.forEach(function (d) {
+									$("#jyotishinnerContainer").append(`
+													<label class="w-100" onClick='getJyotishDetails(${d.jyotishId})'>
+											<input type="radio" hidden class="card-input">
+											<div class="row g-0 p-1 mt-3 border rounded jyotishCards">
+												<div class="col-sm-3">
+															<img src="${d.jyotishProfile != null ? BaseUrl + d.jyotishProfile : "/user-not-found.png"}" class="rounded - circle w - 100 h - 75" />
+												</div>
+												<div class="col-sm-9 px-1">
+															<p class="p-0 m-0 fw-bold text-align-start">${d.jyotishName} - ${d.experience}Years</p>
+															<p class="p-0 m-0">${d.expertise.split(',')[0]}${d.expertise.split(',').length > 1 ? "+" + d.expertise.split(',').length + "more" : ""}</p >
+																<p>${d.city},${d.state},${d.country}</p>
+												</div>
+											</div>
+										</label>
+									`)
+								})
+							}
+						}
+						Swal.close();
+					},error:function(){
+						Swal.close();
+							
+					}
+				})
+			})
 		})
 	}
 	getPoojaDetails();
@@ -249,4 +401,186 @@
 			}
 		})
 	}
+
+
+</script>
+
+<script>
+
+
+	function getJyotishDetails(id) {
+		var apiUrl = BaseUrl + `Api/User/AstrologerProfile?Id=${id}`;
+		Swal.fire({
+			title: "Processing Your Request",
+			allowOutsideClick: false,
+			didOpen: () => {
+				Swal.showLoading();
+			}
+		})
+		$.ajax({
+			url: apiUrl,
+			method: 'GET',
+			success: function (response) {
+				console.log(response)
+				if (response.status === 200) {
+					var data = response.data;
+					// Update Profile Section
+					$('#profilePicture').attr('src', BaseUrl + data.profileImageUrl);
+					$('#profileName').text(data.name);
+					$('#profileName').append('<i class="fas fs-6 fa-check-circle text-success mx-2"></i>');
+					$('#profileExpertise').text(data.expertise);
+					$('#profileLanguage').text(data.language);
+					if (data.timeFrom != null) { $("#time").text(data.timeFrom.slice(0, 5) + "-" + data.timeTo.slice(0, 5)) }
+
+					$('#profileExperience').text('Experience: ' + data.experience + ' Years');
+					$('#bookAAppointment').attr('href', "/Home/JyotishProfile?Id=" + `${data.id}`);
+					// Update About Section
+					$('#aboutMe').text(data.about != null ? data.about : "About us not added yet!");
+					if (data.specialization != null) {
+						$('#specialization').empty();
+						data.specialization.toString().split(',').forEach((e) => {
+							$('#specialization').append(`<small class='px-3 py-2 border rounded-3'>${e}</small> &nbsp;`);
+
+						})
+					} else {
+
+						$('#specialization').text("Specialization not added yet!");
+					}
+
+					$('#achievement').text(data.awordsAndAchievement != null ? data.awordsAndAchievement : "Achievement not added yet!");
+					$('#specialization').hide();
+					$('#achievement').hide();
+				Swal.close()
+					
+				}
+				 else {
+					Swal.fire({
+						title: "error!",
+						text: response.message,
+						icon: "error"
+					})
+
+				}
+			},
+			error: function (error) {
+
+			}
+		}).then(() => {
+			 function formatDate(dateTime) {
+            const date = new Date(dateTime);
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is 0-indexed
+            const year = date.getFullYear();
+            return `${day}-${month}-${year}`;
+        }
+		  $.ajax({
+            url: BaseUrl + `api/User/JyotishRatingList?Id=${id}`,
+            method: 'GET',
+            success: function (response) {
+                if (response.status == 200) {
+                    let ratingCards = '';
+
+                    response.data.forEach(review => {
+                        const userName = review.userName || 'Anonymous'; // Use 'Anonymous' if review.name is undefined
+                        const profileInitial = userName.charAt(0); // Safely get the first letter of the name
+                        // Create stars dynamically based on review.stars
+                        let stars = '';
+                        for (let i = 0; i < 5; i++) {
+                            stars += (i < review.stars) ? '<span class="star">★</span>' : '<span class="text-secondary">★</span>';
+                        }
+
+                        const formattedDate = formatDate(review.dateTime);
+                        // Rating card template
+                        ratingCards += `
+                                <div class="container d-flex float-start p-0 mb-4" style="background-color:#F7F7F7;">
+                                <div class="profile p-3">
+                                        <h2 class="comment-profile">${profileInitial}</h2>
+                                </div>
+                                <div class="content p-3 w-100 rounded">
+                                    <div class="header d-flex">
+                                            <h6 class="c-name ">${review.userName}</h6>
+                                        <div class="verified text-primary text-italic">- Verified Client</div>
+                                        <div class="stars ml-20">
+                                            ${stars}
+                                        </div>
+                                    </div>
+                                    <div class="text my-2 text-justify">
+                                        ${review.feedbackMessage}
+                                    </div>
+                                    <div class="d-flex text-center mt-2 align-items-center">
+                                        <span class="date-icon">
+                                            <svg height="15" width="15" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                                <path fill="#63E6BE" d="M0 464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V192H0v272zm320-196c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zM192 268c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zM64 268c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H76c-6.6 0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H76c-6.6 0-12-5.4-12-12v-40zM400 64h-48V16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v48H160V16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v48H48C21.5 64 0 85.5 0 112v48h448v-48c0-26.5-21.5-48-48-48z"></path>
+                                            </svg>
+                                        </span>
+                                            <small class="text-secondary">${formattedDate}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+
+                    // Append the rating cards to the container
+                    $('#ratingSection').append(ratingCards);
+                }
+            }
+        });
+
+		})
+	}
+
+
+	$("#aboutBtn").click(function () {
+		$("#aboutMe").show();
+		$("#achievement").hide();
+		$("#specialization").hide();
+		$("#ratingSection").hide();
+
+		$("#outerRatingSection").hide();
+		$(this).addClass("btn-success")
+		$("#specBtn").removeClass("btn-success")
+		$("#achBtn").removeClass("btn-success")
+		$("#ratingBtn").removeClass("btn-success")
+
+	})
+	$("#specBtn").click(function () {
+		$("#aboutMe").hide();
+		$("#achievement").hide();
+		$("#specialization").show();
+		$("#ratingSection").hide();
+
+		$("#outerRatingSection").hide();
+		$(this).addClass("btn-success")
+		$("#aboutBtn").removeClass("btn-success")
+		$("#achBtn").removeClass("btn-success")
+		$("#ratingBtn").removeClass("btn-success")
+
+	})
+	$("#achBtn").click(function () {
+		$("#aboutMe").hide();
+		$("#achievement").show();
+		$("#specialization").hide();
+		$("#ratingSection").hide();
+		$("#outerRatingSection").hide();
+		$(this).addClass("btn-success")
+		$(this).addClass("btn-success")
+		$("#aboutBtn").removeClass("btn-success")
+		$("#specBtn").removeClass("btn-success")
+		$("#ratingBtn").removeClass("btn-success")
+
+	})
+	$("#ratingBtn").click(function () {
+		$("#aboutMe").hide();
+		$("#achievement").hide();
+		$("#specialization").hide();
+		$("#ratingSection").show();
+		$("#outerRatingSection").show();
+		$(this).addClass("btn-success")
+		$(this).addClass("btn-success")
+		$("#aboutBtn").removeClass("btn-success")
+		$("#specBtn").removeClass("btn-success")
+		$("#achBtn").removeClass("btn-success")
+
+
+	})
 </script>

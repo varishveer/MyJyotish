@@ -843,5 +843,13 @@ namespace MyJyotishGApi.Controllers
             }
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
         }
+
+		[HttpGet("GetJyotishByPoojaType")]
+		public IActionResult GetJyotishByPoojaType(int PoojaTyId)
+        {
+            var res = _services.getJyotishRecordByPoojaType(PoojaTyId);
+            return Ok(new { status = 200, message = "data retrieve", data = res });
+
+		}
     }
 }

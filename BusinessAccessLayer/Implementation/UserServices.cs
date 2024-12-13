@@ -1072,6 +1072,7 @@ namespace BusinessAccessLayer.Implementation
 					   select new
 					   {
 						   Id = pooja.Id,
+                           poojaTypeId=pooja.PoojaType,
 						   poojaName = list.Name,
 						   title = pooja.title,
 						   image = pooja.Image,						   
@@ -1112,6 +1113,24 @@ namespace BusinessAccessLayer.Implementation
             var Timezone = _context.Timezone.Where(x => x.Country == CountryCode).Select(x=>x.Timezone).FirstOrDefault();
             if (Timezone == null) { return null; }
             return Timezone;
+        }
+
+        public dynamic getJyotishRecordByPoojaType(int poojaTypeId)
+        {
+            var res = _context.JyotishPooja.Where(e => e.poojaType == poojaTypeId && e.status).Include(s=>s.pooja).Include(f => f.jyotish).Where(e => e.status).Select(e => new
+            {
+               jyotishId=e.jyotish.Id,
+               jyotishName=e.jyotish.Name,
+               jyotishProfile=e.jyotish.ProfileImageUrl,
+               expertise=e.jyotish.Expertise,
+               experience=e.jyotish.Experience,
+               country=e.jyotish.Country,
+               poojaName=e.pooja.Name,
+               state=e.jyotish.State,
+               city=e.jyotish.City,
+               amount=e.amount
+            }).ToList();
+            return res;
         }
 
 	}
