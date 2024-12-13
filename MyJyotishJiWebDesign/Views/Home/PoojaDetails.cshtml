@@ -226,7 +226,7 @@
 					</div>
 					<div class="JyotishDetailContainer w-100 ">
 
-						<div class="card w-100 mx-auto jyotishProfile shadow-sm" style="background-color: #ffffff; padding: 20px; border-radius: 10px;">
+						<div class="card w-100 mx-auto jyotishProfile shadow-sm" style="background-color: #ffffff;display:none; padding: 20px; border-radius: 10px;">
 							<div class="card-body">
 								<div class="row align-items-start mb-4">
 									<div class="col-md-4 text-center text-md-start">
@@ -287,7 +287,6 @@
 
 <script>
 	$(".firstToggle").hide()
-
 	function toggleMenu() {
 		$("#jyotishContainer").toggle("slow")
 		$(".firstToggle").toggle("slow")
@@ -331,7 +330,7 @@
 						$(".aboutGod").html(data.aboutgod)
 						poojaTypeId = data.poojaTypeId
 					}
-
+					$(".jyotishProfile").show();
 				}
 			}, error: function () {
 				Swal.fire({
