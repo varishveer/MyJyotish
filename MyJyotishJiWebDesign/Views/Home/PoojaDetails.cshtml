@@ -103,12 +103,20 @@
 	}
 	.JyotishDetailContainer{
 		max-height:100vh !important;
+		padding-left:10px;
 	}
-	.jyotishProfile{
+	.jyotishProfile,#jyotishContainer{
 		min-height:70vh;
+				max-height:600px;
+
+	}
+	.mainContainer{
+		min-height:70vh;
+		max-height:600px;
+
 	}
 	#ratingSection{
-		max-height:500px;
+		max-height:450px;
 	}
 
 ::-webkit-scrollbar{
@@ -206,9 +214,9 @@
 				<div class="d-flex position-sticky top-0">
 					<i role="button" onclick="toggleMenu()" class="fas firstToggle fa-bars"></i>
 				</div>
-				<div class="d-flex w-100">
+				<div class="d-flex w-100 mainContainer">
 
-					<div class="vh-100 w-100 shadow rounded p-2" tabindex="0" id="jyotishContainer">
+					<div class="w-100 shadow rounded p-2" tabindex="0" id="jyotishContainer">
 						<div class="d-flex flex-column align-items-end">
 							<i role="button" onclick="toggleMenu()" class="fas fa-bars"></i>
 							<div class="w-100 fw-bold">Select Jyotish</div>
@@ -216,7 +224,7 @@
 						<div class="w-100" id="jyotishinnerContainer">
 						</div>
 					</div>
-					<div class="JyotishDetailContainer vh-75 w-100 p-2">
+					<div class="JyotishDetailContainer w-100 ">
 
 						<div class="card w-100 mx-auto jyotishProfile shadow-sm" style="background-color: #ffffff; padding: 20px; border-radius: 10px;">
 							<div class="card-body">
