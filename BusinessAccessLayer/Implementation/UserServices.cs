@@ -270,19 +270,42 @@ namespace BusinessAccessLayer.Implementation
             return record;
         }
 
-        public UserModel GetUserProfile(int Id)
+        public UserProfileViewModal GetUserProfile(int Id)
         {
             var user = _context.Users.Where(x => x.Id == Id).FirstOrDefault();
             if (user == null)
             { return null; }
-            user.CallingModelRecord = null;
-            user.ChattingModelRecord = null;
-            return user;
+
+            var CountryName = _context.Countries.Where(x => x.Id == user.Country).Select(x=>x.Name).FirstOrDefault();
+            var StateName = _context.States.Where(x => x.Id == user.State).Select(x => x.Name).FirstOrDefault();
+            var CityName = _context.Cities.Where(x => x.Id == user.City).Select(x => x.Name).FirstOrDefault();
+            var CountryCode = _context.CountryCode.Where(x => x.Id == user.CountryCodeId).Select(x => x.countryCode).FirstOrDefault();
+            UserProfileViewModal Data = new UserProfileViewModal();
+            Data.Id = Id;
+            Data.Name = user.Name;
+            Data.Email = user.Email;
+            Data.Mobile = user.Mobile;
+            Data.Gender = user.Gender;
+            Data.DoB = user.DoB;
+            Data.PlaceOfBirth = user.PlaceOfBirth;
+            Data.TimeOfBirth = user.TimeOfBirth;
+            Data.CurrentAddress = user.CurrentAddress;
+            Data.CountryId = user.Country;
+            Data.Country = CountryName;
+            Data.StateId = user.State;
+            Data.State = StateName;
+            Data.CityId = user.City;
+            Data.City = CityName;
+            Data.Pincode = user.Pincode;
+            Data.ProfilePictureUrl = user.ProfilePictureUrl;
+            Data.CountryCodeId = user.CountryCodeId;
+            Data.CountryCode = CountryCode;
+            return Data;
         }
-        public string UpdateProfile(UserUpdateViewModel model, string path)
+        public bool UpdateProfile(UserUpdateViewModel model, string path)
         {
             if (model == null)
-            { return "Invalid Data"; }
+            { return false; }
 
             var userModel = _context.Users.Where(x => x.Id == model.Id).FirstOrDefault();
 
@@ -302,7 +325,8 @@ namespace BusinessAccessLayer.Implementation
                 userModel.Gender = model.Gender;
             }
 
-            if (!string.IsNullOrEmpty(model.DoB))
+           
+            if (model.DoB == null)
             {
                 userModel.DoB = model.DoB;
             }
@@ -326,15 +350,11 @@ namespace BusinessAccessLayer.Implementation
             {
                 userModel.Pincode = model.Pincode;
             }
-            var CountryName = _context.Countries.Where(x => x.Id == model.Country).FirstOrDefault();
+           
             var StateName = _context.States.Where(x => x.Id == model.State).FirstOrDefault();
             var CityName = _context.Cities.Where(x => x.Id == model.City).FirstOrDefault();
 
-            if (CountryName != null)
-            {
-
-                userModel.Country = model.Country;
-            }
+           
 
             if (StateName != null)
             {
@@ -359,8 +379,8 @@ namespace BusinessAccessLayer.Implementation
                 }
             }
             _context.Users.Update(userModel);
-            if (_context.SaveChanges() > 0) { return "Successful"; }
-            else { return "Internal Server Error"; }
+            if (_context.SaveChanges() > 0) { return true; }
+            else { return false; }
 
         }
 
@@ -896,7 +916,7 @@ namespace BusinessAccessLayer.Implementation
 
             UserRecord.Name = User.Name;
             UserRecord.Gender = User.Gender;
-            UserRecord.DateOfBirth = DateOnly.Parse(User.DoB);
+            UserRecord.DateOfBirth = (DateOnly)User.DoB;
             if (User.TimeOfBirth != null)
             {
                 UserRecord.TimeOfBirth = (TimeOnly)User.TimeOfBirth;

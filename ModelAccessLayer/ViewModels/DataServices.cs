@@ -2,6 +2,7 @@
 using ModelAccessLayer.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -283,4 +284,29 @@ namespace ModelAccessLayer.ViewModels
 		public bool status { get; set; }
 		
 	}
+
+    public class UserProfileViewModal
+    {
+        public int Id { get; set; }
+        public string? Email { get; set; }
+        public string? Mobile { get; set; }
+        public string? Name { get; set; }
+        public string? Gender { get; set; }
+        public DateOnly? DoB { get; set; }
+        public string? PlaceOfBirth { get; set; }
+        public TimeOnly? TimeOfBirth { get; set; }
+        public string? CurrentAddress { get; set; }
+        public int? CountryId { get; set; }
+        public string? Country { get; set; }
+        public int? StateId { get; set; }
+        public string? State { get; set; }
+        public int? CityId { get; set; }
+        public string? City { get; set; }
+        public int? Pincode { get; set; }
+        public string? ProfilePictureUrl { get; set; }
+        public int? CountryCodeId { get; set; }
+        public int? CountryCode { get; set; }
+
+      
+    }
 }

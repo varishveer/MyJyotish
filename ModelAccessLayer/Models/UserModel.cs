@@ -16,7 +16,7 @@ namespace ModelAccessLayer.Models
         public string? Mobile { get; set; }
         public string? Name { get; set; }
         public string? Gender { get; set; }
-        public string? DoB { get; set; }
+        public DateOnly? DoB { get; set; }
         public string? PlaceOfBirth { get; set; }
         public int? Otp { get; set; }
         

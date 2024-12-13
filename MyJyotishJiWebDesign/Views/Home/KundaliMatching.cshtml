@@ -51,11 +51,11 @@
 </style>
 
 <div class="container py-4">
-   
-    
+
+
     <h3 class="text-center mb-4"> Kundli Matching</h3>
     <h5 class="text-center mb-4">Find your right one, through matchmaking</h5>
-  <hr />
+    <hr />
     <h5 class="text-center mb-4">Free Match Making - Kundli Milan & Gun Milan to Check Possibilities of Marriage</h5>
 
     <p>
@@ -66,7 +66,7 @@
     <p>
         So, if you too are the lucky one who is planning to get married, and hence looking for a horoscope matching with someone you have started liking, then Astrotalk can help you. The Kundali milan online software on Astrotalk has been prepared by the top astrologers of Astrotalk. The software caters to the free Kundli milan needs of the individuals and gives you insights; such as the number of guns matching for the girl and the boy, what they are compatible in, what their future would be like if they get married, and so much more. The online gun milan software can save you time and the hassle of going out to look for an astrologer to get the gun milan exercise done. Also, in case you have any doubts about the free kundali milan offered by Astrotalk, you can always connect with the astrologers on board and get those doubts sorted for yourself.
     </p>
-   
+
 
     <div class="row">
         <!-- Boy's Details Section -->
@@ -197,9 +197,9 @@
                     <div>
                         <form novalidate action="search_box">
                             <div class="input-group mb-3">
-                                <label class="input-group-text" for="inputGroupSelect01"><i class="fa fa-search "></i></label>
+                                <label class="input-group-text" for="SearchKundaliRecord"><i class="fa fa-search "></i></label>
 
-                                <input type="search" name="search" id="inputGroupSelect01" aria-label="Search" class="form-control input-group-text" placeholder="Search match by name">
+                                <input type="search" name="search" id="SearchKundaliRecord" aria-label="Search" class="form-control input-group-text" placeholder="Search match by name">
 
                             </div>
                         </form>
@@ -226,6 +226,8 @@
 
 
 <script>
+    var SavedKundaliRecord = [];
+
 
     async function loadPlaceOfBirth_girl(city) {
         if (!city) return;
@@ -263,10 +265,10 @@
 
     });
 
-    $("#place_girl").on("blur",function(){
+    $("#place_girl").on("blur", function () {
         setTimeout(() => {
             $('#PlaceOfBirthList_girl').hide();
-        },1000)
+        }, 1000)
 
     })
 
@@ -304,10 +306,10 @@
     });
 
     $("#place_boy").on("blur", function () {
-        setTimeout(()=>{
+        setTimeout(() => {
 
-        $('#PlaceOfBirthList_boy').hide();
-        },1000)
+            $('#PlaceOfBirthList_boy').hide();
+        }, 1000)
 
     })
 
@@ -365,11 +367,11 @@
                                 title: 'Successful',
                                 text: 'Record Deleted Successfully',
                                 icon: 'success',
-                                didClose:()=> {
+                                didClose: () => {
                                     LoadData();
                                 }
                             });
-                            
+
                         }
                         else {
                             Swal.fire({
@@ -482,47 +484,68 @@
             success: function (response) {
                 if (response.status == 200) {
                     if (response.data.length > 0) {
+
                         $('#previousData').empty();
                         var Data = response.data;
-                        var container;
+                        SavedKundaliRecord = Data;
 
-                        Data.forEach(function (d) {
-
-                            let [year, month, day] = d.dateOfBirth.split("-");
-                            var DateOfBirth = `${day}-${month}-${year}`;
-                            container = ` <div class="card my-3 position-relative kundaliDetailCard" onClick="kundaliDataFiller('${d.name}', '${d.dateOfBirth}', '${d.timeOfBirth}', '${d.placeOfBirth}', '${d.gender}')"
-        >
-                                                  <div class="d-flex align-items-start ">
-                                                  <div class="d-flex align-items-start col-sm-2 p-1">
-                                                      <div class="profile_icon_name firstColor rounded-circle bg-primary text-white d-flex justify-content-center align-items-center" style="width: 35px; height: 35px;">${d.name.slice(0, 1).toUpperCase()}
-                                                        </div>
-                                                  </div>
-
-
-                                                        <div class="ml-3 col-sm-8">
-                                                      <div class="fs-6">${d.name} <span class="font-weight-light">, ${d.gender}</span></div>
-                                                          <div class="text-muted">${DateOfBirth} ${d.timeOfBirth.slice(0, 5)}</div>
-                                                      <div class="text-muted">${d.placeOfBirth}</div>
-                                                    </div>
-                                                        <div class="col-sm-2">
-                                                             <i class="fa fa-trash position-absolute btnDelete text-danger" onClick="deleteKundaliRecord('${d.id}')"></i>
-                                                    </div>
-
-                                                  </div>
-                                                </div>
-                                `;
-                            $('#previousData').append(container);
-
-                            container = "";
-                        });
 
                     }
-                    else {
-                        $('#previousData').html('No sufficient data available!');
-
-                    }
+                   
                 }
             }
+        }).then(() => {
+            $('#SearchKundaliRecord').on('keyup', function () {
+
+                var filterData = [];
+                var SearchValue = $('#SearchKundaliRecord').val();
+                if (SearchValue == "" || SearchValue == undefined) {
+                    filterData = SavedKundaliRecord;
+                }
+                else {
+                    filterData = SavedKundaliRecord.filter(e => e.name.toLowerCase().includes(SearchValue.toLowerCase()));
+                }
+                $('#previousData').empty();
+                var container;
+                if (filterData.length > 0) {
+                    
+                    filterData.forEach(function (d) {
+
+                        let [year, month, day] = d.dateOfBirth.split("-");
+                        var DateOfBirth = `${day}-${month}-${year}`;
+                        container = ` <div class="card my-3 position-relative kundaliDetailCard" onClick="kundaliDataFiller('${d.name}', '${d.dateOfBirth}', '${d.timeOfBirth}', '${d.placeOfBirth}', '${d.gender}')"
+                            >
+                                                                      <div class="d-flex align-items-start ">
+                                                                      <div class="d-flex align-items-start col-sm-2 p-1">
+                                                                          <div class="profile_icon_name firstColor rounded-circle bg-primary text-white d-flex justify-content-center align-items-center" style="width: 35px; height: 35px;">${d.name.slice(0, 1).toUpperCase()}
+                                                                            </div>
+                                                                      </div>
+
+
+                                                                            <div class="ml-3 col-sm-8">
+                                                                          <div class="fs-6">${d.name} <span class="font-weight-light">, ${d.gender}</span></div>
+                                                                              <div class="text-muted">${DateOfBirth} ${d.timeOfBirth.slice(0, 5)}</div>
+                                                                          <div class="text-muted">${d.placeOfBirth}</div>
+                                                                        </div>
+                                                                            <div class="col-sm-2">
+                                                                                 <i class="fa fa-trash position-absolute btnDelete text-danger" onClick="deleteKundaliRecord('${d.id}')"></i>
+                                                                        </div>
+
+                                                                      </div>
+                                                                    </div>
+                                                    `;
+                        $('#previousData').append(container);
+
+                        container = "";
+                    });
+                }
+                else{
+                    $('#previousData').html('No sufficient data available!');
+                }
+                
+
+            });
+            $('#SearchKundaliRecord').trigger("keyup")
         })
     }
 
@@ -576,7 +599,7 @@
         var glongitude = $('#place_girl').attr('data-glongitude');
         var blongitude = $('#place_boy').attr('data-blongitude');
 
-       
+
 
         var gtimezone = await getTimezone(girlPlace);
         var btimezone = await getTimezone(boyPlace);
@@ -620,9 +643,9 @@
             },
             contentType: 'application/json',
             data: JSON.stringify(DataContainer),
-            success:async function (response) {
+            success: async function (response) {
                 if (response.status === 200) {
-                   await LoadData()
+                    await LoadData()
                     location.href = '/Home/KundaliMatchingReport';
                 }
             },
@@ -685,7 +708,7 @@
 
     async function getTimezone(place) {
 
-       
+
         let parts = place.split(", ");
         let country = parts[parts.length - 1];
 
@@ -695,7 +718,7 @@
         await fetch(url)
             .then(response => response.json())
             .then(data => {
-                if (data.status ==200) {
+                if (data.status == 200) {
                     timezone = data.data;
                 } else {
                     Swal.fire({
