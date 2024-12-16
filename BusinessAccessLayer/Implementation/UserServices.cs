@@ -363,7 +363,7 @@ namespace BusinessAccessLayer.Implementation
             }
 
            
-            if (model.DoB == null)
+            if (model.DoB != null)
             {
                 userModel.DoB = model.DoB;
             }
