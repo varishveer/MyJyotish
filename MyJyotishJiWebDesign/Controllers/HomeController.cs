@@ -66,8 +66,10 @@ namespace MyJyotishJiWebDesign.Controllers
         public IActionResult ProblemSolutionDetails() { return View(); }
         public IActionResult KundaliMatching() { return View(); }
         public IActionResult KundaliMatchingReport() { return View(); }
-        public ActionResult BookPooja() { return View(); }
+        public IActionResult BookPooja() { return View(); }
 
-        public IActionResult WalletPaymentLayout(int amount,int jyotishId,string message,string paymentby) { return PartialView("_WalletPartialView", new { amount = amount,jyotishId=jyotishId,message=message, paymentby = paymentby }); }
+        public IActionResult WalletPaymentLayout(int amount,int jyotishId,string message,string paymentby) {
+            return PartialView("_WalletPartialView", new { amount = amount,jyotishId=jyotishId,message=message, paymentby = paymentby });
+        }
     }
 }
