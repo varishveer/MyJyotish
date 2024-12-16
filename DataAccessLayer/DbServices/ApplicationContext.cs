@@ -299,7 +299,11 @@ namespace DataAccessLayer.DbServices
             modelBuilder.Entity<BookedPoojaList>()
          .HasOne(c => c.User)
          .WithMany(j => j.BookedPooja)
-         .HasForeignKey(c => c.userId);
+         .HasForeignKey(c => c.userId); 
+            modelBuilder.Entity<BookedPoojaList>()
+         .HasOne(c => c.Jyotish)
+         .WithMany(j => j.bookedPooja)
+         .HasForeignKey(c => c.jyotishId);
 
             modelBuilder.Entity<BookedPoojaList>()
          .HasOne(c => c.Pooja)
