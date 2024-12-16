@@ -234,10 +234,10 @@
 										<img id="profilePicture" src="" alt="Profile Picture" class="rounded shadow-sm border p-2 img-thumbnail" style=" width: 150px;height: 145px; border: 2px solid #ffffff;">
 
 										<h2 id="profileName" class="h4 mt-3 mb-1" style="color:#333333;">  </h2>
-										<span class="text-warning me-2">★★★★★</span>
+										<span id="ratingStar" class="text-warning me-2">★★★★★</span>
 										<span id="rating" class="mb-0 me-2">4.99</span>|
-										<span id="totalReviews" class="text-muted">
-											(6587)
+										<span id="totalReview" class="text-muted">
+											(0)
 										</span>
 										<p id="profileExpertise" class="text-muted mb-1" style="font-size: 14px;"></p>
 										<p id="profileLanguage" class="text-muted mb-1" style="font-size: 14px;"></p>
@@ -440,7 +440,9 @@
 					$('#profileExpertise').text(data.expertise);
 					$('#profileLanguage').text(data.language);
 					if (data.timeFrom != null) { $("#time").text(data.timeFrom.slice(0, 5) + "-" + data.timeTo.slice(0, 5)) }
-
+					if (data.totalReview != null && data.totalReview != 0) {
+						$('#totalReview').text(data.totalReview);
+					}
 					$('#profileExperience').text('Experience: ' + data.experience + ' Years');
 					$('#bookAAppointment').attr('href', "/Home/JyotishProfile?Id=" + `${data.id}`);
 					// Update About Section
@@ -455,6 +457,28 @@
 
 						$('#specialization').text("Specialization not added yet!");
 					}
+
+					$('#rating').text(data.rating != null ? data.rating : 0.0 || '4.99');
+
+					$('#ratingStar').html(function () {
+
+						if (data.rating != null) {
+							// Ensure the rating is a valid number before proceeding
+							var fullStars = Math.floor(data.rating);
+							var halfStar = (data.rating % 1) >= 0.5 ? `<i class=" fa-solid fa-star-half-stroke fa-lg"></i>` : "";
+
+							// Build the stars string: full stars + half star (if any) + empty stars to fill up to 5
+							var stars = `<i class="fa-solid fa-star fa-lg"></i>`.repeat(fullStars) + halfStar;
+
+							// Add the empty stars to complete the 5 stars
+							stars += `<i class="fa-regular fa-star fa-lg"></i>`.repeat(5 - fullStars - (halfStar ? 1 : 0));
+
+							return stars;
+						} else {
+							// Default to 4 stars if rating is null
+							return '★★★★☆';
+						}
+					});
 
 					$('#achievement').text(data.awordsAndAchievement != null ? data.awordsAndAchievement : "Achievement not added yet!");
 					$('#specialization').hide();

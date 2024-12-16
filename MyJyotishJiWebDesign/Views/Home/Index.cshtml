@@ -626,7 +626,7 @@ $(document).ready(function () {
                     if (response.status === 200) {
                         const records = response.data.slice(0, 5); 
                         records.forEach(function (astrologer) {
-                            debugger
+                             
                             var src = `${astrologer.profileImageUrl!=null || astrologer.profileImageUrl!=""?BaseUrl+astrologer.profileImageUrl:BaseUrlImg+"user-not-found.png"}`;
                             $('#astrologers-container').append(`
                                

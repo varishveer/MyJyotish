@@ -54,8 +54,8 @@
                     <h2 id="profileName" class="h4 mt-3 mb-1" style="color:#333333;">  </h2>
                     <span id="ratingStar" class="text-warning  me-2">★★★★★</span>
                     <span id="rating" class="mb-0 me-2">4.99</span>|
-                    <span id="totalReviews" class="text-muted">
-                        (6587)
+                    <span id="totalReview" class="text-muted">
+                        (0)
                     </span>
                     <p id="profileExpertise" class="text-muted mb-1" style="font-size: 14px;"></p>
                     <p id="profileLanguage" class="text-muted mb-1" style="font-size: 14px;"></p>
@@ -363,6 +363,10 @@
                     $('#profileName').append('<i class="fas fs-6 fa-check-circle text-success mx-2"></i>');
                     $('#profileExpertise').text(data.expertise);
                     $('#profileLanguage').text(data.language);
+                    if(data.totalReview != null && data.totalReview != 0)
+                    {
+                        $('#totalReview').text(data.totalReview);
+                    }
                     if (data.timeFrom != null) { $("#time").text(data.timeFrom.slice(0, 5) + "-" + data.timeTo.slice(0, 5)) }
 
                     $('#profileExperience').text('Experience: ' + data.experience + ' Years');
@@ -433,7 +437,7 @@
                     $('#rating').text(data.rating != null ? data.rating : 0.0 || '4.99');
 
                     $('#ratingStar').html(function () {
-                        debugger
+                         
                         if (data.rating != null) {
                             // Ensure the rating is a valid number before proceeding
                             var fullStars = Math.floor(data.rating);
@@ -452,7 +456,7 @@
                         }
                     });
 
-
+                    
 
 
 

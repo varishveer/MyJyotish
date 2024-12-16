@@ -71,16 +71,7 @@ namespace BusinessAccessLayer.Implementation
         }
 
 
-        //public List<JyotishModel> TopAstrologer(string City)
-        //{
-
-        //    var records = _context.JyotishRecords.Where(a => a.Role == "Jyotish").Where(x => x.City.Contains(City)).ToList();
-        //    if (records.Count == 0)
-        //    {
-        //        records = _context.JyotishRecords.Where(x => x.Role == "Jyotish").Where(x => x.Country.Contains("India")).ToList();
-        //    }
-        //    return records;     
-        //}
+       
 
           public List<TopAstrologer> TopAstrologer(string City)
         {
@@ -209,7 +200,8 @@ namespace BusinessAccessLayer.Implementation
                 Specialization = specializationArray,
                 Videos = videos,
                 Gallery = gallery,
-                Rating = Rating
+                Rating = Rating,
+                TotalReview = RatingList.Count()
             };
 
             return profileViewModel;
