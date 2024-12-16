@@ -1,14 +1,13 @@
 ﻿@{
     Layout = "JyotishLayout";
-  
+
 }
 
 <style>
-    .back-to-top{
-        display:none !important;
+    .back-to-top {
+        display: none !important;
     }
 
-    
 </style>
 
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -47,6 +46,7 @@
                     </div>
                     <div class="form-group mb-3">
                         <label for="mobile">Mobile:</label>
+                        <input type="text" class="rounded-start countryCode" value="+91" disabled style="width:40px;" /> 
                         <input type="tel" id="mobile" name="mobile" class="form-control form-control-sm" required>
                     </div>
                     <div class="form-group mb-3">
@@ -59,13 +59,8 @@
                         <label for="experience">Experience (Years):</label>
                         <input type="number" id="experience" name="experience" class="form-control form-control-sm" required>
                     </div>
-                    
-                    <div class="form-group mb-3">
-                        <label for="country">Country:</label>
-                        <select id="country" name="country" class="form-control form-control-sm select2" required>
-                            <option selected disabled>Select Country</option>
-                        </select>
-                    </div>
+
+                  
                     <div class="form-group mb-3">
                         <label for="state">State:</label>
                         <select id="state" name="state" class="form-control select2 form-control-sm" disabled>
@@ -78,16 +73,97 @@
                             <option selected disabled>Select City</option>
                         </select>
                     </div>
+
+                    <div class="form-group mb-3">
+                        <label for="specialization">Specialization:</label>
+                        <input type="text" id="specialization" name="specialization" class="form-control form-control-sm" required>
+                    </div>
                 </div>
             </div>
 
             <!-- Profile Image Section -->
             <div class="col-md-12 col-lg-6">
                 <div class="profile-card bg-light rounded p-3 mb-4">
-                    
+
+
+                    <div class="form-group mb-3">
+                        <label>Pooja:</label>
+                        <br />
+                        <div class="gap-2 d-flex">
+                            <div>
+                                <input type="radio" id="poojaYes" name="pooja" value="yes">
+                                <label for="poojaYes">Yes</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="poojaNo" name="pooja" value="no">
+                                <label for="poojaNo">No</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label>Call:</label>
+                        <br />
+                        <div class="gap-2 d-flex">
+                            <div>
+                                <input type="radio" id="callYes" name="call">
+                                <label for="callYes">Yes </label>
+                            </div>
+                            <div>
+                                <input type="radio" id="callNo" name="call">
+                                <label for="callNo">No </label>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="callCharges">Call Charges:</label>
+                        <input type="number" id="callCharges" name="callCharges" class="form-control form-control-sm">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label>Chat:</label>
+                        <br />
+                        <div class="gap-2 d-flex">
+                            <div>
+                                <input type="radio" id="chatYes" name="chat" value="yes">
+                                <label for="chatYes">Yes</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="chatNo" name="chat" value="no">
+                                <label for="chatNo">No</label>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group mb-3">
+                        <label for="chatCharges">Chat Charges:</label>
+                        <input type="number" id="chatCharges" name="chatCharges" class="form-control form-control-sm" required>
+                    </div>
+
+
+                    <div class="form-group mb-3">
+                        <label>Appointment:</label>
+                        <br />
+                        <div class="gap-2 d-flex">
+                            <div>
+                                <input type="radio" id="appointmentYes" name="appointment" value="yes">
+                                <label for="appointmentYes">Yes</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="appointmentNo" name="appointment" value="no">
+                                <label for="appointmentNo">No</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mb-3" id="appointmentChargesDiv">
+                        <label for="appointmentCharges">Appointment Charges</label>
+                        <input type="text" id="appointmentCharges" name="appointmentCharges" class="form-control form-control-sm" required>
+                    </div>
                     <div class="form-group mb-3">
                         <label for="language">Language:</label>
-                        <select id="language" name="language" class="form-control form-control-sm" multiple>
+                        <select id="language" name="language" class="form-control select2 form-control-sm" multiple>
                             <option value="">Select Language</option>
                         </select>
                     </div>
@@ -99,14 +175,9 @@
                         <label for="awardsAndAchievement">Awards and Achievement:</label>
                         <input type="text" id="awardsAndAchievement" name="awardsAndAchievement" class="form-control form-control-sm">
                     </div>
-                    <div class="form-group mb-3">
-                        <label for="callCharges">Call Charges:</label>
-                        <input type="number" id="callCharges" name="callCharges" class="form-control form-control-sm" required>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="chatCharges">Chat Charges:</label>
-                        <input type="number" id="chatCharges" name="chatCharges" class="form-control form-control-sm" required>
-                    </div>
+
+
+                   
                     <div class="form-group mb-3">
                         <label for="address">Address:</label>
                         <input type="text" id="address" name="address" class="form-control form-control-sm" required>
@@ -119,20 +190,10 @@
                         <label for="timeTo">Available To:</label>
                         <input type="time" id="timeTo" name="timeTo" class="form-control form-control-sm" required>
                     </div>
-                    <div class="form-group mb-3">
-                        <label for="appointmentCharges">Appointment Charges</label>
-                        <input type="text" id="appointmentCharges" name="appointmentCharges" class="form-control form-control-sm" required>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="pooja">Pooja</label>
-                        <input type="text" id="pooja" name="pooja" class="form-control form-control-sm" required>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="specialization">Specialization:</label>
-                        <input type="text" id="specialization" name="specialization" class="form-control form-control-sm" required>
-                    </div>
+                 
+                 
                 </div>
-        <button type="submit" class="btn btn-primary float-end">Update Profile</button>
+                <button type="submit" class="btn btn-primary float-end">Update Profile</button>
             </div>
         </div>
 
@@ -143,10 +204,26 @@
 
 <script>
     $(document).ready(function () {
+
+        $('#appointmentYes').on('click')
+
+
+
+
+
+
+
+
+
         $(".select2").select2();
         var token = localStorage.getItem('Token2');
         var id = localStorage.getItem("Id");
-       
+
+
+
+
+
+
         // Load Profile Data on Page Load
         function loadProfileData() {
             if (!token || !id) {
@@ -195,23 +272,17 @@
                         }
                         if (profile.expertise) {
                             let expertiseArray = profile.expertise.split(',');
-                            setTimeout(()=>{
-                            $('#expertise').val(expertiseArray).trigger('change');
-                            },1000)
+                            setTimeout(() => {
+                                $('#expertise').val(expertiseArray).trigger('change');
+                            }, 1000)
                         }
 
 
 
 
-                        if (profile.country != null) {
-                            $(".country").each(function (i, d) {
-                                if (d.text == profile.country) {
-                                    d.setAttribute("selected", true)
-                                }
-                            })
-                        }
+                     
                         if (profile.state != null) {
-                            $("#country").trigger("change");
+                          
                             setTimeout(() => {
                                 $(".state").each(function (i, d) {
                                     if (d.text == profile.state) {
@@ -263,51 +334,11 @@
         loadProfileData();
 
 
-        function loadCountries() {
-            $.ajax({
-                url: BaseUrl + 'Api/Jyotish/Country',
-                type: 'GET',
+       
+      
+       
 
-                success: function (response) {
-                    var countryDropdown = $('#country');
-                    countryDropdown.empty().append('<option value="">Select Country</option>');
-                    response.data.forEach(country => {
-                        countryDropdown.append(`<option class='country' value="${country.id}">${country.name}</option>`);
-                    });
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    console.error('Error fetching countries:', textStatus, errorThrown);
-                }
-            });
-        }
-        // Fetch States based on selected Country
-        $('#country').change(function () {
-            var countryId = $(this).val();
-            $('#state').prop('disabled', false).empty().append('<option value="">Select State</option>'); // Reset State dropdown
-            $('#city').prop('disabled', true).empty().append('<option value="">Select City</option>'); // Reset City dropdown
-
-            if (countryId) {
-                $.ajax({
-                    url: BaseUrl + 'Api/Jyotish/State',
-                    type: 'GET',
-                    data: { Id: countryId },
-
-                    success: function (response) {
-                        var stateDropdown = $('#state');
-                        stateDropdown.empty().append('<option value="">Select State</option>');
-                        response.data.forEach(state => {
-                            stateDropdown.append(`<option class='state' value="${state.id}">${state.name}</option>`);
-                        });
-                        stateDropdown.prop('disabled', false);
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        console.error('Error fetching states:', textStatus, errorThrown);
-                    }
-                });
-            }
-        });
-
-        // Fetch Cities based on selected State
+        
         $('#state').change(function () {
             var stateId = $(this).val();
             $('#city').prop('disabled', false).empty().append('<option value="">Select City</option>'); // Reset City dropdown
@@ -369,7 +400,7 @@
         // Handle form submission
         $('#profileUpdateForm').on('submit', function (e) {
             e.preventDefault();
-             
+
             var formData = new FormData();
 
             // Append basic form data
@@ -380,7 +411,7 @@
             formData.append('mobile', document.getElementById('mobile').value);
             formData.append('email', localStorage.getItem('userEmail')); // Hardcoded for example
             formData.append('role', 'Jyotish'); // Hardcoded for example
-            
+
             // Concatenate expertise options as comma-separated values
             var expertiseOptions = Array.from(document.getElementById('expertise').selectedOptions).map(option => option.value);
             var expertiseString = expertiseOptions.join(',');
@@ -428,7 +459,7 @@
                     'Authorization': `Bearer ${token}` // Ensure token is available in scope
                 },
                 success: function (response) {
-                     
+
                     if (response.status === 200) {
 
                         Swal.fire({
@@ -439,12 +470,12 @@
                             showConfirmButton: true, // Ensure the OK button is shown
                         }).then(() => {
 
-                           
+
                             window.location.href = "/Jyotish/Profile";
                         });
 
 
-                        
+
                     } else {
                         Swal.fire({
                             title: 'Error: ' + response.message,
@@ -457,7 +488,7 @@
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                     
+
                     console.error('Error updating profile:', textStatus, errorThrown);
                 },
                 complete: function () {

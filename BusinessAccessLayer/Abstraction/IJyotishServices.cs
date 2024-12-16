@@ -10,7 +10,7 @@ namespace BusinessAccessLayer.Abstraction
 {
     public interface IJyotishServices
     {
-        public string UpdateProfile(JyotishUpdateViewModel model);
+        public string UpdateProfile(JyotishProfileUpdateViewModal model);
         public List<AppointmentDetailViewModel> GetAllAppointment(int Id);
         public List<AppointmentDetailViewModel> UpcomingAppointment(int Id);
            public string AddAppointment(AddAppointmentJyotishModel model);

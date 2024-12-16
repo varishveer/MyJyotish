@@ -36,7 +36,7 @@ namespace BusinessAccessLayer.Implementation
             }
         }
 
-        public string UpdateProfile(JyotishUpdateViewModel model)
+        public string UpdateProfile(JyotishProfileUpdateViewModal model)
         {
             // Fetch the existing record from the database
             var existingRecord = _context.JyotishRecords.FirstOrDefault(x => x.Id == model.Id);
@@ -44,18 +44,6 @@ namespace BusinessAccessLayer.Implementation
             {
                 return "Jyotish Not Found";
             }
-
-            // Validate email
-            if (existingRecord.Email != model.Email)
-            {
-                return "Invalid Email";
-            }
-
-            // Update properties from the model
-            existingRecord.Role = "Jyotish";
-            existingRecord.ApprovedStatus = "Complete";
-
-
 
             if (model.ProfileImageUrl != null)
             {
@@ -70,39 +58,54 @@ namespace BusinessAccessLayer.Implementation
                 existingRecord.ProfileImageUrl = "Images/Jyotish/" + ProfileGuid + model.ProfileImageUrl.FileName;
 
             }
-            else
-            {
-                existingRecord.ProfileImageUrl = existingRecord.ProfileImageUrl;
-            }
+           
 
 
 
-            var CountryName = _context.Countries.Where(x => x.Id == model.Country).FirstOrDefault();
+          
             var StateName = _context.States.Where(x => x.Id == model.State).FirstOrDefault();
             var CityName = _context.Cities.Where(x => x.Id == model.City).FirstOrDefault();
-            // Update other properties as needed
+         
             existingRecord.Mobile = model.Mobile;
             existingRecord.Name = model.Name;
             existingRecord.Gender = model.Gender;
             existingRecord.Language = model.Language;
             existingRecord.Expertise = model.Expertise;
-            existingRecord.Country = CountryName.Name;
+     
             existingRecord.State = StateName.Name;
             existingRecord.City = CityName.Name;
-
             existingRecord.DateOfBirth = model.DateOfBirth;
-
-            existingRecord.Otp = model.Otp;
             existingRecord.Experience = model.Experience;
-
             existingRecord.Call = model.Call;
-            existingRecord.CallCharges = model.CallCharges;
+            if (model.Call)
+            {
+                existingRecord.CallCharges = model.CallCharges;
+            }
+            else {
+                existingRecord.CallCharges = 0;
+            }
             existingRecord.Chat = model.Chat;
-            existingRecord.ChatCharges = model.ChatCharges;
+            if (model.Chat)
+            {
+                existingRecord.ChatCharges = model.ChatCharges;
+            }
+            else
+            {
+                existingRecord.ChatCharges = 0;
+            }
+            if (model.Appointment) 
+            {
+                existingRecord.AppointmentCharges = model.AppointmentCharges;
+            }
+            else
+            {
+                existingRecord.AppointmentCharges = 0;
+            }
+            existingRecord.Pooja = model.Pooja; 
             existingRecord.Address = model.Address;
             existingRecord.TimeTo = model.TimeTo;
             existingRecord.TimeFrom = model.TimeFrom;
-            existingRecord.AppointmentCharges = model.AppointmentCharges;
+           
             existingRecord.About = model.About;
             existingRecord.Specialization = model.Specialization;
             existingRecord.AwordsAndAchievement = model.AwordsAndAchievement;

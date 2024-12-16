@@ -23,7 +23,7 @@ namespace ModelAccessLayer.ViewModels
         public DateTime ExpiryDate { get; set; }
         public bool Status { get; set; }
     }
-    
+
     public class CountryCodeViewModel
     {
         public int Id { get; set; }
@@ -38,7 +38,7 @@ namespace ModelAccessLayer.ViewModels
         public int JyotishId { get; set; }
         [AllowNull]
         public string? JyotishName { get; set; }
-        
+
         public string Message { get; set; }
 
         public bool ApprovedStatus { get; set; }
@@ -112,17 +112,17 @@ namespace ModelAccessLayer.ViewModels
         public int levels { get; set; }
         public DateTime AddingDate { get; set; }
         public bool status { get; set; }
-    } 
+    }
     public class EmployeesDocsViewModel
     {
         public int Id { get; set; }
         public int employees { get; set; }
-       public string name { get; set; }
+        public string name { get; set; }
         public IFormFile IdProof { get; set; }
         public IFormFile metrics { get; set; }
         public IFormFile postmetrics { get; set; }
         public IFormFile degrees { get; set; }
-       public string url { get; set; }
+        public string url { get; set; }
         public string email { get; set; }
 
         public bool status { get; set; }
@@ -143,7 +143,7 @@ namespace ModelAccessLayer.ViewModels
         public int levelId { get; set; }
         public bool status { get; set; }
 
-       
+
     }
     public class RedeemDiscountValidationViewModel
     {
@@ -175,7 +175,7 @@ namespace ModelAccessLayer.ViewModels
         public string Message { get; set; }
         public int EmployeeId { get; set; }
         public string? EmployeeName { get; set; }
-        public int? JyotishId { get; set;  }
+        public int? JyotishId { get; set; }
         public string? JyotishName { get; set; }
         public int SlotBookingId { get; set; }
         public int Grade { get; set; }
@@ -188,12 +188,12 @@ namespace ModelAccessLayer.ViewModels
         public IFormFile? Video { get; set; }
         public string? ImageUrl { get; set; }
         public IFormFile? Image { get; set; }
-       
+
     }
 
     public class UserServiceRecordViewModel
     {
-       
+
         public string Name { get; set; }
         public string Gender { get; set; }
         public DateOnly DateOfBirth { get; set; }
@@ -215,7 +215,7 @@ namespace ModelAccessLayer.ViewModels
 
     public class SliderImagesViewModel
     {
-    
+
         public IFormFile HomePage { get; set; }
         public int SerialNo { get; set; }
 
@@ -231,7 +231,7 @@ namespace ModelAccessLayer.ViewModels
         public DateOnly DateOfBirth { get; set; }
         public TimeOnly TimeOfBirth { get; set; }
         public string PlaceOfBirth { get; set; }
-       
+
         public string Gender { get; set; }
         public float Latitude { get; set; }
         public float Longitude { get; set; }
@@ -239,7 +239,7 @@ namespace ModelAccessLayer.ViewModels
     }
     public class PoojaRecordViewModel
     {
-       
+
         public int Id { get; set; }
 
         public int PoojaType { get; set; }
@@ -252,7 +252,7 @@ namespace ModelAccessLayer.ViewModels
         public IFormFile Image { get; set; }
         public bool status { get; set; }
 
-      
+
 
     }
 
@@ -275,16 +275,16 @@ namespace ModelAccessLayer.ViewModels
         public int? AppointmentId { get; set; }
         public int? JyotishId { get; set; }
     }
-	public class JyotishPoojaViewModel
-	{
-		public int Id { get; set; }
-		public int JyotishId { get; set; }
-		public int poojaType { get; set; }
-		public int amount { get; set; }
-		public DateTime date { get; set; }
-		public bool status { get; set; }
-		
-	}
+    public class JyotishPoojaViewModel
+    {
+        public int Id { get; set; }
+        public int JyotishId { get; set; }
+        public int poojaType { get; set; }
+        public int amount { get; set; }
+        public DateTime date { get; set; }
+        public bool status { get; set; }
+
+    }
 
     public class UserProfileViewModal
     {
@@ -308,11 +308,11 @@ namespace ModelAccessLayer.ViewModels
         public int? CountryCodeId { get; set; }
         public int? CountryCode { get; set; }
 
-      
+
     }
-     public class TopAstrologer
+    public class TopAstrologer
     {
-        
+
         public int? Id { get; set; }
         public string? profileImageUrl { get; set; }
         public string? Name { get; set; }
@@ -325,5 +325,34 @@ namespace ModelAccessLayer.ViewModels
         public int? ChatPrice { get; set; }
         public double Rating { get; set; }
 
+    }
+
+    public class JyotishProfileUpdateViewModal
+    {
+        
+        public int Id { get; set; }
+        public string Mobile { get; set; }
+        public string Name { get; set; }
+        public string Gender { get; set; }
+        public string Language { get; set; }
+        public string Expertise { get; set; }
+        public int State { get; set; }
+        public int City { get; set; }
+        public DateOnly DateOfBirth { get; set; }
+        public IFormFile? ProfileImageUrl { get; set; }
+        public int Experience { get; set; }
+        public bool Pooja { get; set; }
+        public bool Call { get; set; }
+        public int? CallCharges { get; set; }
+        public bool Chat { get; set; }
+        public int? ChatCharges { get; set; }
+        public bool Appointment { get; set; }
+        public int AppointmentCharges { get; set; }
+        public string Address { get; set; }
+        public TimeOnly TimeTo { get; set; }
+        public TimeOnly TimeFrom { get; set; }
+        public string About { get; set; }
+        public string AwordsAndAchievement { get; set; }
+        public string Specialization { get; set; }
     }
 }
