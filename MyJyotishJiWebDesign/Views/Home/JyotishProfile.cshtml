@@ -377,7 +377,6 @@
 
                         data.specialization.toString().split(',').forEach((e) => {
                             $('#specialization').append(`<small class='px-3 py-2 border rounded-3'>${e}</small> &nbsp;`);
-
                         })
                     } else {
 
@@ -455,12 +454,6 @@
                             return '★★★★☆';
                         }
                     });
-
-                    
-
-
-
-
 
                     $('#totalReviews').text('(6587)'); 
                   
@@ -743,16 +736,34 @@
 
                         var data = response.data;
                         appoinmentArray = data;
+                        var [year,month,day]=appoinmentArray[0].date.split("T")[0].split('-')
                         console.log(appoinmentArray)
                         $("#appointmentDate").attr("min", appoinmentArray[0].date)
                         $("#appointmentDate").attr("max", appoinmentArray[appoinmentArray.length - 1].date)
-                        $("#appointmentDate").val(appoinmentArray[0].date.split("T")[0])
+                        $("#appointmentDate").val(`${month}/${day}/${year}`)
                     }
                 }, error: function (err) {
 
 
                 }
             }).then(() => {
+                 let appointmentDate = document.getElementById("appointmentDate")
+
+    setTimeout(() => {
+        $("#appointmentDate").datepicker({
+            autoclose: true,
+            dateFormat: 'dd-mm-yy',
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "c-100:c+100",
+            startDate: new Date(appointmentDate.getAttribute("min")),
+            endDate: new Date(appointmentDate.getAttribute("max")),
+            showAnim: "slideDown",
+            buttonImageOnly: true,
+            buttonText: "Select date",
+            clearBtn: true,
+        })
+    }, 2000)
 
                 let newArray = [];
                 function setAppoinment(appdata) {
@@ -811,7 +822,7 @@
                     setAppoinment(convertDateFormat($(this).val()))
                 });
 
-                setAppoinment($("#appointmentDate").val())
+                setAppoinment(convertDateFormat($("#appointmentDate").val()))
 
 
             })
@@ -1015,24 +1026,7 @@
 
         }
     })
-    let appointmentDate = document.getElementById("appointmentDate")
-
-    setTimeout(() => {
-        $("#appointmentDate").datepicker({
-            autoclose: true,
-            dateFormat: 'dd-mm-yy',
-            changeMonth: true,
-            changeYear: true,
-            yearRange: "c-100:c+100",
-            startDate: new Date(appointmentDate.getAttribute("min")),
-            endDate: new Date(appointmentDate.getAttribute("max")),
-            showAnim: "slideDown",
-            buttonImageOnly: true,
-            buttonText: "Select date",
-            clearBtn: true,
-        })
-    }, 1000)
-
+   
 
     $('#DataSubmitBtn').on('click', function () {
         const urlParams = new URLSearchParams(window.location.search);
