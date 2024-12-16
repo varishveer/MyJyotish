@@ -102,6 +102,7 @@ namespace ModelAccessLayer.Models
       
         public ICollection<AppointmentBookmarkModal> AppointmentBookmark { get; set; } = new List<AppointmentBookmarkModal>();
         public ICollection<JyotishPoojaModel> jyotishPooja { get; set; } = new List<JyotishPoojaModel>();
+        public ICollection<BookedPoojaList> bookedPooja { get; set; } = new List<BookedPoojaList>();
 
     }
 

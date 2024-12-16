@@ -127,6 +127,7 @@
 	background:#fad550;
 	border-radius:5px;
 }
+
 </style>
 
 
@@ -211,7 +212,7 @@
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-				<div class="d-flex position-sticky top-0">
+				<div class="d-flex mb-4 position-sticky top-0">
 					<i role="button" onclick="toggleMenu()" class="fas firstToggle fa-bars"></i>
 				</div>
 				<div class="d-flex w-100 mainContainer">
@@ -226,7 +227,7 @@
 					</div>
 					<div class="JyotishDetailContainer w-100 ">
 
-						<div class="card w-100 mx-auto jyotishProfile shadow-sm" style="background-color: #ffffff;display:none; padding: 20px; border-radius: 10px;">
+						<div class="card w-100 mx-auto jyotishProfile d-none shadow-sm" style="background-color: #ffffff; padding: 20px; border-radius: 10px;">
 							<div class="card-body">
 								<div class="row align-items-start mb-4">
 									<div class="col-md-4 text-center text-md-start">
@@ -430,6 +431,7 @@
 			success: function (response) {
 				console.log(response)
 				if (response.status === 200) {
+				$(".jyotishProfile").removeClass("d-none")
 					var data = response.data;
 					// Update Profile Section
 					$('#profilePicture').attr('src', BaseUrl + data.profileImageUrl);
