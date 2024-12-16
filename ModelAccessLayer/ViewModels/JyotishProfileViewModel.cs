@@ -53,6 +53,8 @@ namespace ModelAccessLayer.ViewModels
         public string[] AwordsAndAchievement { get; set; }
         public string[] Specialization { get; set; }
         public double? Rating { get; set; }
+        public int? TotalReview { get; set; }
+
         public JyotishVideosUserViewModel[] Videos { get; set; }
         public JyotishGalleryUserViewModel[] Gallery { get; set; }
 

@@ -596,6 +596,28 @@ $(document).ready(function () {
                 Swal.showLoading();
             }
         })
+
+
+
+        function RatingStar(rating) {
+            if (rating != null) {
+                // Ensure the rating is a valid number before proceeding
+                var fullStars = Math.floor(rating);
+                var halfStar = (rating % 1) >= 0.5 ? `<i class="fa-solid fa-star-half-stroke fa-lg"></i>` : "";
+
+                // Build the stars string: full stars + half star (if any) + empty stars to fill up to 5
+                var stars = `<i class="fa-solid fa-star fa-lg"></i>`.repeat(fullStars) + halfStar;
+
+                // Add the empty stars to complete the 5 stars
+                stars += `<i class="fa-regular fa-star fa-lg"></i>`.repeat(5 - fullStars - (halfStar ? 1 : 0));
+
+                return stars;
+            } else {
+                // Default to 4 stars if rating is null
+                return '★★★★☆';
+            }
+        }
+
             $.ajax({
                 url: BaseUrl+'Api/User/TopAstrologer?City=NewDelhi', 
                 method: 'GET',
@@ -604,6 +626,7 @@ $(document).ready(function () {
                     if (response.status === 200) {
                         const records = response.data.slice(0, 5); 
                         records.forEach(function (astrologer) {
+                             
                             var src = `${astrologer.profileImageUrl!=null || astrologer.profileImageUrl!=""?BaseUrl+astrologer.profileImageUrl:BaseUrlImg+"user-not-found.png"}`;
                             $('#astrologers-container').append(`
                                
@@ -613,7 +636,7 @@ $(document).ready(function () {
                                                 <img height="160" width="150" src="${src}" class="card-img-top p-2 px-5 rounded" alt="${astrologer.name}">
                                                 <div class="card-body p-0 pt-2">
                                                                 <h6 class="card-title text-center">${astrologer.name != null ? astrologer.name : "N/A"} <i class="fa-solid fa-circle-check"></i> - ${astrologer.city}</h6 >
-                                                        <p class='text-center text-warning' >${generateFullStars()}</p>
+                                                            <p class='text-center text-warning' >${RatingStar(astrologer.rating)}</p>
                                                     <p class="card-text px-1 text-center" >
                                                                  ${astrologer.expertise.split(",")[0] || "N/A"}${astrologer.expertise.split(",").length - 1 != 0 ? "+" + (astrologer.expertise.split(",").length - 1) + "more" : ""} | ${astrologer.experience != null ? astrologer.experience : 0} Years
                                                         </p>

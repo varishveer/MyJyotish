@@ -71,16 +71,38 @@ namespace BusinessAccessLayer.Implementation
         }
 
 
-        public List<JyotishModel> TopAstrologer(string City)
+       
+
+          public List<TopAstrologer> TopAstrologer(string City)
         {
 
-            var records = _context.JyotishRecords.Where(a => a.Role == "Jyotish").Where(x => x.City.Contains(City)).ToList();
-            if (records.Count == 0)
+            var records = _context.JyotishRecords.Where(a => a.Role == "Jyotish").Where(x => x.City.Contains(City) || x.Country.Contains("India")).Include(x=>x.JyotishRating).Select(x => new TopAstrologer
             {
-                records = _context.JyotishRecords.Where(x => x.Role == "Jyotish").Where(x => x.Country.Contains("India")).ToList();
+                Id = x.Id,
+                profileImageUrl= x.ProfileImageUrl,
+                Name = x.Name,
+                City = x.City,
+                Expertise = x.Expertise,
+                Experience = x.Experience,
+                Language = x.Language,
+                CallPrice = x.CallCharges,
+                ChatPrice = x.ChatCharges,
+                
+
+
+            }).ToList();
+
+            foreach (var Data in records)
+            {
+                var Rating = _context.JyotishRating.Where(x => x.JyotishId == Data.Id).Select(x=>x.Stars).ToList();
+                Data.Rating = Rating.Any() ? Rating.Average() : 0;
             }
-            return records;
+
+
+            return records;     
         }
+
+
         public List<JyotishModel> AllAstrologer()
         {
             List<JyotishModel> record = _context.JyotishRecords.Where(x => x.Role == "Jyotish").ToList();
@@ -178,7 +200,8 @@ namespace BusinessAccessLayer.Implementation
                 Specialization = specializationArray,
                 Videos = videos,
                 Gallery = gallery,
-                Rating = Rating
+                Rating = Rating,
+                TotalReview = RatingList.Count()
             };
 
             return profileViewModel;
@@ -332,7 +355,7 @@ namespace BusinessAccessLayer.Implementation
             }
 
            
-            if (model.DoB == null)
+            if (model.DoB != null)
             {
                 userModel.DoB = model.DoB;
             }

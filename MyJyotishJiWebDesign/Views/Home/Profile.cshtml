@@ -310,7 +310,7 @@
                                             Date of Birth :
                                         </div>
                                         <div class="col-8">
-                                            <input type="text" required id="userdob" class="form-control" name="BootstrapdoB" />
+                                            <input type="text" required id="userdob" class="form-control" name="BootstrapdoB" autocomplete="off" />
                                         </div>
                                     </div>
                                 </div>
@@ -442,7 +442,7 @@
             success: function (response) {
                 $(".loader-container").addClass("d-none");
                 if (response.status === 200) {
-                    debugger
+                     
                     var profile = response.data;
                     if (profile.doB != null)
                     {
@@ -613,7 +613,7 @@
                     const month = dateParts[1];
                     const year = dateParts[2];
 
-                    return `${month}-${day}-${year}`;
+                    return `${year}-${month}-${day}`;
                 } else {
                     return 'Invalid date format';
                 }
@@ -742,7 +742,7 @@
     }
     // Trigger API call on every keypress in the PlaceOfBirth input
     $('#PlaceOfBirthInput').on('keyup', function () {
-        debugger
+         
         $('#PlaceOfBirthList').show();
         const city = $(this).val();
         loadPlaceOfBirth(city);
