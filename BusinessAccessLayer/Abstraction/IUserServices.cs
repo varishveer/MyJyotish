@@ -18,7 +18,7 @@ namespace BusinessAccessLayer.Abstraction
         /*       public List<PoojaCategoryModel> GetAllPoojaCategory();*/
         /*  public List<PoojaRecordModel> GetPoojaList(int id);*/
         public PoojaRecordModel GetPoojaDetail(int PoojaId);
-        public List<JyotishModel> TopAstrologer(string City);
+        public List<TopAstrologer> TopAstrologer(string City);
         public List<JyotishModel> AllAstrologer();
         public JyotishProfileViewModel AstrologerProfile(int Id);
         public List<JyotishModel> FilterAstrologer(FilterModel fm);

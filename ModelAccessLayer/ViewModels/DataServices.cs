@@ -309,4 +309,20 @@ namespace ModelAccessLayer.ViewModels
 
       
     }
+     public class TopAstrologer
+    {
+        
+        public int? Id { get; set; }
+        public string? profileImageUrl { get; set; }
+        public string? Name { get; set; }
+        public string? City { get; set; }
+
+        public string? Expertise { get; set; }
+        public int? Experience { get; set; }
+        public string? Language { get; set; }
+        public int? CallPrice { get; set; }
+        public int? ChatPrice { get; set; }
+        public double Rating { get; set; }
+
+    }
 }
