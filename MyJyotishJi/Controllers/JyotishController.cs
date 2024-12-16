@@ -1374,5 +1374,18 @@ public IActionResult removeJyotishPooja(int poojaId)
 	}
 	catch { return StatusCode(500, new { Status = 500, Message = "Internal Server Error " }); }
 }
+		[HttpGet("getBookedPoojaList")]
+public IActionResult getBookedPoojaList(int jyotishId)
+{
+	try
+	{
+		var res = _jyotish.getBookedPoojaList(jyotishId);
+		
+			return Ok(new { status = 200, message = "data retirieved",data=res });
+
+		
+	}
+	catch { return StatusCode(500, new { Status = 500, Message = "Internal Server Error " }); }
+}
 	}
 }

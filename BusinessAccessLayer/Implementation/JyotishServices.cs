@@ -421,6 +421,32 @@ namespace BusinessAccessLayer.Implementation
             return res;
         }
 
+        public dynamic getBookedPoojaList(int jyotishId)
+        {
+            var res = (
+                from bookpooja in _context.BookedPoojaList
+                join user in _context.Users on bookpooja.userId equals user.Id
+                join pooja in _context.PoojaRecord on bookpooja.PoojaId equals pooja.Id
+                join poojaType in _context.PoojaList on pooja.PoojaType equals poojaType.Id
+                join country in _context.Countries on user.Country equals country.Id 
+                join state in _context.States on user.State equals state.Id
+                join city in _context.Cities on user.City equals city.Id
+                where bookpooja.jyotishId == jyotishId && bookpooja.status
+                orderby bookpooja.Id descending
+                select new
+                {
+                    userId = user.Id,
+                    poojaId = pooja.Id,
+                    userName = user.Name,
+                    mobile = user.Mobile,
+                    poojaName = poojaType.Name,
+                    bookingDate = bookpooja.BookingDate.ToString("dd-MM-yyyy hh:mm"),
+                    address = city.Name + ","+state.Name + "," + country.Name
+                }
+                ).ToList();
+            return res;
+        }
+
         public dynamic poojaByPoojaId(int id)
         {
             var res = _context.PoojaRecord.Where(e => e.Id == id && e.status).FirstOrDefault();
