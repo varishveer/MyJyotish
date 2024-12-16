@@ -1300,7 +1300,8 @@ namespace BusinessAccessLayer.Implementation
                     gender = model.gender,
                     relation = model.relation,
                     status = 1,
-                    UId = model.UId
+                    UId = model.UId,
+                    JId=model.JId
                 };
 
                 _context.ClientMembers.Add(memebers);

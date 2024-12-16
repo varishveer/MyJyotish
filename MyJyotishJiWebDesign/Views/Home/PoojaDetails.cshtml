@@ -462,7 +462,10 @@
 							Swal.fire({
 								title: "success",
 								icon: "success",
-								text: res.message
+								text: res.message,
+								didClose:function(){
+									location.reload();
+								}
 							})
 						} else {
 							Swal.fire({

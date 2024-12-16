@@ -10,6 +10,7 @@ namespace ModelAccessLayer.ViewModels
     {
         public int Id { get; set; }
         public int UId { get; set; }
+        public int JId { get; set; }
         public string? Name { get; set; }
         public string? dob { get; set; }
         public string? gender { get; set; }

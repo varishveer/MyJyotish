@@ -333,7 +333,11 @@ namespace DataAccessLayer.DbServices
             modelBuilder.Entity<JyotishPoojaModel>()
 		.HasOne(c => c.jyotish)
 		.WithMany(j => j.jyotishPooja)
-		.HasForeignKey(c => c.JyotishId);
+		.HasForeignKey(c => c.JyotishId); 
+            modelBuilder.Entity<ClientMembers>()
+		.HasOne(c => c.jyotish)
+		.WithMany(j => j.clientMembers)
+		.HasForeignKey(c => c.JId);
 
 		}
 
