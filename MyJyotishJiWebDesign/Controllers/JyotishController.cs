@@ -35,6 +35,7 @@ namespace MyJyotishJiWebDesign.Controllers
         public ActionResult ProblemSolutionDetail() { return View(); }
         public ActionResult Wallets() { return View(); }
         public ActionResult Pooja() { return View(); }
+        public ActionResult BookedPooja() { return View(); }
       
         public IActionResult WalletPaymentLayout(int amount, string message,string paymentby) { return PartialView("_WalletPaymentJyotish", new { amount = amount, message = message,paymentby=paymentby }); }
 

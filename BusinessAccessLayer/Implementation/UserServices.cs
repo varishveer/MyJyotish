@@ -1122,6 +1122,7 @@ namespace BusinessAccessLayer.Implementation
             {
                 PoojaId = model.PoojaId,
                 userId = model.userId,
+                jyotishId = model.jyotishId,
                 BookingDate = DateTime.Now,
                 status=true
 
@@ -1131,6 +1132,7 @@ namespace BusinessAccessLayer.Implementation
             return _context.SaveChanges() > 0;
         }
 
+      
 
         public string GetTimezone(string country)
         {

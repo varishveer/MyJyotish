@@ -829,11 +829,12 @@ namespace MyJyotishGApi.Controllers
                 {
                     PoojaId = Convert.ToInt32(httpRequest.Form["poojaId"]),
                     userId = Convert.ToInt32(httpRequest.Form["userId"]),
+                    jyotishId = Convert.ToInt32(httpRequest.Form["jyotishId"]),
                 };
                 var res = _services.BookPooja(book);
                 if (res)
                 {
-                    return Ok(new { status = 200, message = "Pooja Booked Successfully" });
+                    return Ok(new { status = 200, message = "your pooja booked successfully. after some times our astrologer try to make contact with you" });
                 }
                 else
                 {

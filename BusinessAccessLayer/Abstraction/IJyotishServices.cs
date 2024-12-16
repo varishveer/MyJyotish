@@ -28,6 +28,7 @@ namespace BusinessAccessLayer.Abstraction
         public JyotishDocumentViewModel DashBoard(string email);
         public int countryCode(int country);
         public float purchaseWithReadmCode(string redeamCode, int JyotishId,int planId);
+        public dynamic getBookedPoojaList(int jyotishId);
 
         public string AddJyotishVideo(JyotishVideosViewModel model);
         public string AddJyotishGallery(JyotishGalleryViewModel model);

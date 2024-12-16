@@ -83,7 +83,7 @@
 		}
 
 
-	#staticBackdrop,.swal2-container {
+	#staticBackdrop, .swal2-container {
 		z-index: 10000;
 	}
 
@@ -101,33 +101,40 @@
 		transform: scale(1.01);
 		box-shadow: 1px 1px 2px gray;
 	}
-	.JyotishDetailContainer{
-		max-height:100vh !important;
-		padding-left:10px;
-	}
-	.jyotishProfile,#jyotishContainer{
-		min-height:70vh;
-				max-height:600px;
 
-	}
-	.mainContainer{
-		min-height:70vh;
-		max-height:600px;
-
-	}
-	#ratingSection{
-		max-height:450px;
+	.JyotishDetailContainer {
+		max-height: 100vh !important;
+		padding-left: 10px;
 	}
 
-::-webkit-scrollbar{
-	height:4px;
-	width:4px;
-}
-::-webkit-scrollbar-thumb{
-	background:#fad550;
-	border-radius:5px;
-}
+	.jyotishProfile, #jyotishContainer {
+		min-height: 70vh;
+		max-height: 600px;
+	}
 
+	.mainContainer {
+		min-height: 70vh;
+		max-height: 600px;
+	}
+
+	#ratingSection {
+		max-height: 450px;
+	}
+
+	::-webkit-scrollbar {
+		height: 4px;
+		width: 4px;
+	}
+
+	::-webkit-scrollbar-thumb {
+		background: #fad550;
+		border-radius: 5px;
+	}
+
+	.selectJyotishAlert {
+		top: 50%;
+		left: 50%;
+	}
 </style>
 
 
@@ -138,7 +145,7 @@
 		<div>
 			<h3 id="poojaName" class="mt-4"></h3>
 			<p id="title" class="mb-3"></p>
-			<button class="button" id="bookBtn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Book Now</button>
+			<button class="button" id="bookBtn" >Book Now</button>
 		</div>
 	</div>
 
@@ -225,8 +232,8 @@
 						<div class="w-100" id="jyotishinnerContainer">
 						</div>
 					</div>
-					<div class="JyotishDetailContainer w-100 ">
-
+					<div class="JyotishDetailContainer position-relative w-100 ">
+						<p class="text-secondary selectJyotishAlert text-center position-absolute">Please Select Jyotish</p>
 						<div class="card w-100 mx-auto jyotishProfile d-none shadow-sm" style="background-color: #ffffff; padding: 20px; border-radius: 10px;">
 							<div class="card-body">
 								<div class="row align-items-start mb-4">
@@ -245,7 +252,7 @@
 										<p id="profileExperience" class="text-muted mb-1" style="font-size: 14px;"></p>
 									</div>
 									<div class="col-md-8">
-										
+
 										<div class="mb-4 mt-4">
 											<div class="btn-group mb-3 border-top border-start border-end rounded-0 rounded-top" role="group" aria-label="Basic example">
 												<button type="button" id="aboutBtn" class="btn btn-success">About</button>
@@ -261,7 +268,6 @@
 												<div class="justify-content-end d-flex Row">
 												</div>
 												<div id="ratingSection" class="text-justify h-100 overflow-auto" style="font-size: 14px; display:none;">
-													
 												</div>
 
 											</div>
@@ -272,6 +278,9 @@
 								</div>
 
 							</div>
+							<div class="text-center">
+								<a target="_blank" class="btn btn-danger showMoreDetail">More Detail &rarr;</a>
+							</div>
 						</div>
 
 					</div>
@@ -279,7 +288,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-primary">Book Now</button>
+				<button type="button" class="btn btn-primary d-none" id="booknow">Book Now</button>
 			</div>
 		</div>
 	</div>
@@ -343,49 +352,68 @@
 			}
 		}).then(() => {
 			$("#bookBtn").click(function () {
-				Swal.fire({
-					title: "Processing Your Request",
-					didOpen: () => {
-						Swal.showLoading();
-					}
-				})
-				$.ajax({
-					url: BaseUrl + "api/user/GetJyotishByPoojaType",
-					type: "get",
-					headers: {
-						'Authorization': `Bearer ${localStorage.getItem("Token")}`
-					},
-					data: { poojaTyId: poojaTypeId },
-					success: function (res) {
-						Swal.close()
-						if (res.status == 200) {
-							if (res.data.length > 0) {
-								$("#jyotishinnerContainer").empty();
-								res.data.forEach(function (d) {
-									$("#jyotishinnerContainer").append(`
-													<label class="w-100" onClick='getJyotishDetails(${d.jyotishId})'>
-											<input type="radio" hidden class="card-input">
-											<div class="row g-0 p-1 mt-3 border rounded jyotishCards">
-												<div class="col-sm-3">
-															<img src="${d.jyotishProfile != null ? BaseUrl + d.jyotishProfile : "/user-not-found.png"}" class="rounded - circle w - 100 h - 75" />
-												</div>
-												<div class="col-sm-9 px-1">
-															<p class="p-0 m-0 fw-bold text-align-start">${d.jyotishName} - ${d.experience}Years</p>
-															<p class="p-0 m-0">${d.expertise.split(',')[0]}${d.expertise.split(',').length > 1 ? "+" + d.expertise.split(',').length + "more" : ""}</p >
-																<p>${d.city},${d.state},${d.country}</p>
-												</div>
-											</div>
-										</label>
-									`)
-								})
-							}
+
+				if (localStorage.getItem("userId") == null || localStorage.getItem("Token") == null) {
+					Swal.fire({
+						title: "Authentication Required",
+						text: "Please login for booking pooja",
+						icon: "warning",
+						showCancelButton: true,
+						confirmButtonColor: "#3085d6",
+						cancelButtonColor: "#d33",
+						confirmButtonText: "Login"
+					}).then((result) => {
+						if (result.isConfirmed) {
+							location.href = "/home/login"
 						}
-						Swal.close();
-					},error:function(){
-						Swal.close();
-							
-					}
-				})
+					})
+				} else {
+					$("#staticBackdrop").modal("show")
+
+					Swal.fire({
+						title: "Processing Your Request",
+						didOpen: () => {
+							Swal.showLoading();
+						}
+					})
+					$.ajax({
+						url: BaseUrl + "api/user/GetJyotishByPoojaType",
+						type: "get",
+						headers: {
+							'Authorization': `Bearer ${localStorage.getItem("Token")}`
+						},
+						data: { poojaTyId: poojaTypeId },
+						success: function (res) {
+							Swal.close()
+							if (res.status == 200) {
+								if (res.data.length > 0) {
+									$("#jyotishinnerContainer").empty();
+									res.data.forEach(function (d) {
+										$("#jyotishinnerContainer").append(`
+														<label class="w-100" onClick='getJyotishDetails(${d.jyotishId})'>
+												<input type="radio" hidden class="card-input jyotishRadio" value='${d.jyotishId}'>
+												<div class="row g-0 p-1 mt-3 border rounded jyotishCards">
+													<div class="col-sm-3">
+																<img src="${d.jyotishProfile != null ? BaseUrl + d.jyotishProfile : "/user-not-found.png"}" class="rounded - circle w - 100 h - 75" />
+													</div>
+													<div class="col-sm-9 px-1">
+																<p class="p-0 m-0 fw-bold text-align-start">${d.jyotishName} - ${d.experience}Years</p>
+																<p class="p-0 m-0">${d.expertise.split(',')[0]}${d.expertise.split(',').length > 1 ? "+" + d.expertise.split(',').length + "more" : ""}</p >
+																	<p>${d.city},${d.state},${d.country}</p>
+													</div>
+												</div>
+											</label>
+										`)
+									})
+								}
+							}
+							Swal.close();
+						}, error: function () {
+							Swal.close();
+
+						}
+					})
+				}
 			})
 		})
 	}
@@ -393,23 +421,68 @@
 
 	function bookPooja() {
 		Swal.fire({
-			title: "Processing Your Request",
-			didOpen: () => {
-				Swal.showLoading();
-			}
-		})
-		$.ajax({
-			url: BaseUrl + "api/user/getPoojaDetailByPoojaId",
-			type: "post",
-			data: { Id: poojaId },
-			success: function (res) {
-				if (res.status == 200) {
-
-				}
+			title: "Are you sure?",
+			text: "really want to book",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "Yes"
+		}).then((result) => {
+			if (result.isConfirmed) {
+				Swal.fire({
+					title: "Processing Your Request",
+					didOpen: () => {
+						Swal.showLoading();
+					}
+				})
+				let urlParams = new URLSearchParams(window.location.search);
+				let poojaId = urlParams.get('id');
+				let userId = localStorage.getItem("userId")
+				let jyotishId = $(".jyotishRadio:checked").val();
+				let formData = new FormData();
+				formData.append("poojaId", poojaId)
+				formData.append("userId", userId)
+				formData.append("jyotishId", jyotishId)
+				debugger
+				$.ajax({
+					url: BaseUrl + "api/user/bookpooja",
+					type: "post",
+					headers: {
+						'Authorization': `Bearer ${localStorage.getItem("Token")}`
+					},
+					processData: false,
+					contentType: false,
+					data: formData,
+					success: function (res) {
+						if (res.status == 200) {
+							Swal.fire({
+								title: "success",
+								icon: "success",
+								text: res.message
+							})
+						} else {
+							Swal.fire({
+								title: "error",
+								icon: "error",
+								text: res.message
+							})
+						}
+					}, errir: function () {
+						Swal.fire({
+							title: "error",
+							icon: "error",
+							text: "some error occured"
+						})
+					}
+				})
 			}
 		})
 	}
 
+	$("#booknow").click(function () {
+		bookPooja()
+	})
 
 </script>
 
@@ -431,8 +504,10 @@
 			success: function (response) {
 				console.log(response)
 				if (response.status === 200) {
-				$(".jyotishProfile").removeClass("d-none")
 					var data = response.data;
+					$(".jyotishProfile").removeClass("d-none")
+					$("#booknow").removeClass("d-none")
+					$(".showMoreDetail").attr("href", "/Home/JyotishProfile?Id="+data.id)
 					// Update Profile Section
 					$('#profilePicture').attr('src', BaseUrl + data.profileImageUrl);
 					$('#profileName').text(data.name);
@@ -459,10 +534,10 @@
 					$('#achievement').text(data.awordsAndAchievement != null ? data.awordsAndAchievement : "Achievement not added yet!");
 					$('#specialization').hide();
 					$('#achievement').hide();
-				Swal.close()
-					
+					Swal.close()
+
 				}
-				 else {
+				else {
 					Swal.fire({
 						title: "error!",
 						text: response.message,
@@ -475,68 +550,69 @@
 
 			}
 		}).then(() => {
-			 function formatDate(dateTime) {
-            const date = new Date(dateTime);
-            const day = String(date.getDate()).padStart(2, '0');
-            const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is 0-indexed
-            const year = date.getFullYear();
-            return `${day}-${month}-${year}`;
-        }
-		  $.ajax({
-            url: BaseUrl + `api/User/JyotishRatingList?Id=${id}`,
-            method: 'GET',
-            success: function (response) {
-                if (response.status == 200) {
-                    let ratingCards = '';
+			function formatDate(dateTime) {
+				const date = new Date(dateTime);
+				const day = String(date.getDate()).padStart(2, '0');
+				const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is 0-indexed
+				const year = date.getFullYear();
+				return `${day}-${month}-${year}`;
+			}
+			$.ajax({
+				url: BaseUrl + `api/User/JyotishRatingList?Id=${id}`,
+				method: 'GET',
+				success: function (response) {
+					if (response.status == 200) {
+						let ratingCards = '';
 
-                    response.data.forEach(review => {
-                        const userName = review.userName || 'Anonymous'; // Use 'Anonymous' if review.name is undefined
-                        const profileInitial = userName.charAt(0); // Safely get the first letter of the name
-                        // Create stars dynamically based on review.stars
-                        let stars = '';
-                        for (let i = 0; i < 5; i++) {
-                            stars += (i < review.stars) ? '<span class="star">★</span>' : '<span class="text-secondary">★</span>';
-                        }
+						response.data.forEach(review => {
+							const userName = review.userName || 'Anonymous'; // Use 'Anonymous' if review.name is undefined
+							const profileInitial = userName.charAt(0); // Safely get the first letter of the name
+							// Create stars dynamically based on review.stars
+							let stars = '';
+							for (let i = 0; i < 5; i++) {
+								stars += (i < review.stars) ? '<span class="star">★</span>' : '<span class="text-secondary">★</span>';
+							}
 
-                        const formattedDate = formatDate(review.dateTime);
-                        // Rating card template
-                        ratingCards += `
-                                <div class="container d-flex float-start p-0 mb-4" style="background-color:#F7F7F7;">
-                                <div class="profile p-3">
-                                        <h2 class="comment-profile">${profileInitial}</h2>
-                                </div>
-                                <div class="content p-3 w-100 rounded">
-                                    <div class="header d-flex">
-                                            <h6 class="c-name ">${review.userName}</h6>
-                                        <div class="verified text-primary text-italic">- Verified Client</div>
-                                        <div class="stars ml-20">
-                                            ${stars}
-                                        </div>
-                                    </div>
-                                    <div class="text my-2 text-justify">
-                                        ${review.feedbackMessage}
-                                    </div>
-                                    <div class="d-flex text-center mt-2 align-items-center">
-                                        <span class="date-icon">
-                                            <svg height="15" width="15" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-                                                <path fill="#63E6BE" d="M0 464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V192H0v272zm320-196c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zM192 268c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zM64 268c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H76c-6.6 0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H76c-6.6 0-12-5.4-12-12v-40zM400 64h-48V16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v48H160V16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v48H48C21.5 64 0 85.5 0 112v48h448v-48c0-26.5-21.5-48-48-48z"></path>
-                                            </svg>
-                                        </span>
-                                            <small class="text-secondary">${formattedDate}</small>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                    });
+							const formattedDate = formatDate(review.dateTime);
+							// Rating card template
+							ratingCards += `
+									<div class="container d-flex float-start p-0 mb-4" style="background-color:#F7F7F7;">
+									<div class="profile p-3">
+											<h2 class="comment-profile">${profileInitial}</h2>
+									</div>
+									<div class="content p-3 w-100 rounded">
+										<div class="header d-flex">
+												<h6 class="c-name ">${review.userName}</h6>
+											<div class="verified text-primary text-italic">- Verified Client</div>
+											<div class="stars ml-20">
+												${stars}
+											</div>
+										</div>
+										<div class="text my-2 text-justify">
+											${review.feedbackMessage}
+										</div>
+										<div class="d-flex text-center mt-2 align-items-center">
+											<span class="date-icon">
+												<svg height="15" width="15" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+													<path fill="#63E6BE" d="M0 464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V192H0v272zm320-196c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zM192 268c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zM64 268c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H76c-6.6 0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H76c-6.6 0-12-5.4-12-12v-40zM400 64h-48V16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v48H160V16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v48H48C21.5 64 0 85.5 0 112v48h448v-48c0-26.5-21.5-48-48-48z"></path>
+												</svg>
+											</span>
+												<small class="text-secondary">${formattedDate}</small>
+										</div>
+									</div>
+								</div>
+							`;
+						});
 
-                    // Append the rating cards to the container
-                    $('#ratingSection').append(ratingCards);
-                }
-            }
-        });
+						// Append the rating cards to the container
+						$('#ratingSection').append(ratingCards);
+					}
+				}
+			});
 
 		})
 	}
+
 
 
 	$("#aboutBtn").click(function () {

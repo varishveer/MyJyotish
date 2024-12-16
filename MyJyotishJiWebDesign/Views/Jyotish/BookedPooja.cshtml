@@ -1,0 +1,77 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "JyotishLayout";
+}
+
+
+<div class="card-body">
+    <h3 class="mb-5 text-primary">Pooja Requests List</h3>
+    <div class="table-responsive">
+        <table id="DataTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Sr</th>
+                    <th>UserName</th>
+                    <th>Mobile Number</th>
+                    <th>poojaType</th>
+                    <th>Booking Date</th>
+                    <th>Address</th>
+                </tr>
+            </thead>
+            <tbody id="bookedpoojaList">
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    function getBookedPoojaList(){
+        Swal.fire({
+            title: "Processing Your Request",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
+        let jyotishId=localStorage.getItem("Id")
+        $.ajax({
+            url: BaseUrl + 'api/Jyotish/getBookedPoojaList',
+            type: 'get',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token2")}`
+            },
+            data: { jyotishId: jyotishId },
+            success: function (res) {
+                Swal.close()
+                console.log(res)
+                if(res.status==200){
+                    if (res.data.length > 0) {
+                        res.data.forEach(function(d,i){
+                        $("#bookedpoojaList").append(`
+                    <tr>
+                    <td>${i+1}</td>
+                    <td>${d.userName}</td>
+                    <td>${d.mobile}</td>
+                    <td>${d.poojaName}</td>
+                    <td>${d.bookingDate}</td>
+                    <td>${d.address}</td>
+                    </tr>
+                    `)
+                        })
+                    }
+                }
+                
+        $('#DataTable').DataTable();
+            },error:function(){
+                Swal.fire({
+                    title:"error",
+                    text:"some error occured",
+                    icon:"error"
+                })
+            }
+        })
+    }
+    getBookedPoojaList();
+</script>
