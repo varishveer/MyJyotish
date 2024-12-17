@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Reflection.Metadata;
 using System.Reflection.PortableExecutable;
 using System.Text;
@@ -575,10 +576,51 @@ namespace BusinessAccessLayer.Implementation
             return records;
         }
 
-        public JyotishModel GetProfile(int Id)
+        public JyotishProfileUpdateViewModal GetProfile(int Id)
         {
             var record = _context.JyotishRecords.Where(x => x.Id == Id).FirstOrDefault();
-            return record;
+
+
+            JyotishProfileUpdateViewModal Data = new JyotishProfileUpdateViewModal();
+            Data.Id = record.Id;
+            Data.Name = record.Name;
+            Data.Gender = record.Gender;
+            Data.Language = record.Language;
+            Data.Expertise = record.Expertise;
+            Data.Country = _context.Countries.Where(y => y.Name == record.Country).Select(y => y.Id).FirstOrDefault();
+            Data.State = _context.States.Where(z => z.CountryId == Data.Country).Select(a => a.Id).FirstOrDefault();
+            Data.City = _context.Cities.Where(z => z.StateId == Data.State).Select(a => a.Id).FirstOrDefault();
+            Data.DateOfBirth = (DateOnly)record.DateOfBirth;
+            Data.ProfileImage = record.ProfileImageUrl;
+            Data.Experience = (int)record.Experience;
+            Data.Pooja = (bool)record.Pooja;
+            Data.Call = (bool)record.Call;
+            if(Data.Call)
+            {
+                Data.CallCharges = record.CallCharges;
+            }
+
+            Data.Chat = (bool)record.Chat;
+            if (Data.Chat)
+            {
+                Data.ChatCharges = record.ChatCharges;
+            }
+
+
+            Data.Appointment = (bool)record.Appointment;
+            if (Data.Appointment)
+            {
+                Data.AppointmentCharges = record.AppointmentCharges;
+            }
+
+            Data.Address = record.Address;
+            Data.TimeTo = (TimeOnly)record.TimeTo;
+            Data.TimeFrom = (TimeOnly)record.TimeFrom;
+            Data.About = record.About;
+            Data.AwordsAndAchievement = record.AwordsAndAchievement;
+            Data.Specialization = record.Specialization;
+
+            return Data;
         }
 
         /* public List<SubscrictionListJyotishViewModel> GetAllSubscription()
