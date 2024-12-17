@@ -1324,21 +1324,21 @@ namespace BusinessAccessLayer.Implementation
 
         }
 
-        public dynamic getClientMembers(int Id)
+        public dynamic getClientMembers(int Id,int jyotishId)
         {
             var Appointment = _context.AppointmentRecords.Where(x => x.UserId == Id).FirstOrDefault();
             if (Appointment != null)
             {
                 var clientMember = (
                     from user in _context.Users
-                    where user.Id == Id // Adjust where clause for null check
+                    where user.Id == Id 
                     select new
                     {
                         uId = user.Id,
                         userName = user.Name,
                         memberList = (
             from m in _context.ClientMembers
-            where m.UId == Id && m.status == 1
+            where m.UId == Id && m.status == 1 && m.JId==jyotishId
             orderby m.Id descending
 
             select new

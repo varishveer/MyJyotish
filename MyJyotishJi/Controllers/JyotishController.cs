@@ -137,11 +137,11 @@ namespace MyJyotishGApi.Controllers
 		}
 
 		[HttpGet("GetClientMembers")]
-		public IActionResult GetClientMembers(int Id)
+		public IActionResult GetClientMembers(int Id, int jyotishId)
 		{
 			try
 			{
-				var result = _jyotish.getClientMembers(Id);
+				var result = _jyotish.getClientMembers(Id, jyotishId);
 				if (result != "not found")
 				{
 					return Ok(new { Status = 200, Message = "Retrieve Successfully", Data = result });

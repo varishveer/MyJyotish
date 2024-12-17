@@ -63,7 +63,7 @@ namespace BusinessAccessLayer.Abstraction
        public bool AddClientMembers(ClientMembersViewModel model);
         public string PurchaseWithJyotishWallets(JyotishWalletViewmodel uw);
 
-        public dynamic getClientMembers(int Id);
+        public dynamic getClientMembers(int Id,int jyotishId);
         public dynamic GetAllUpcommingAppointment(int jyotishId);
 
         public string AddWallet(JyotishWalletViewmodel pr);

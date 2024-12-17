@@ -295,6 +295,10 @@
 			</div>
 			<div class="modal-body">
 				<div class="card-body ">
+					
+						<div class="text-end mb-3">
+							<button class="btn btn-primary"><i class="fas fa-plus-circle"></i></button>
+						</div>
 					<div class="table-responsive">
 						<table id="DataTable2" class="table py-3 table-bordered table-striped">
 							<thead>
@@ -383,7 +387,6 @@
 </div>
 
 <!--Add Attachment for Update-->
-<!-- Modal -->
 <div class="modal fade" id="attachmentModal2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg modal-dialog-scrollable">
 		<div class="modal-content">
@@ -430,8 +433,6 @@
 </div>
 
 <!-- Modal for add solution -->
-
-
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg modal-dialog-scrollable">
 		<div class="modal-content">
@@ -544,7 +545,6 @@
 
 
 <!-- Button trigger modal -->
-<!-- Modal -->
 <div class="modal fade" id="AddBookmarkModal" tabindex="-1" aria-labelledby="AddBookmarkModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -924,6 +924,7 @@
 	}
 
 	function fetchProblemDate(uid) {
+
 		Swal.fire({
 			title: "Processing Your Request",
 			allowOutsideClick: false,
@@ -981,7 +982,6 @@
 			method: "GET",
 			headers: {
 				'Authorization': `Bearer ${localStorage.getItem("Token2")}`
-
 			},
 			data: { appointmentId: id },
 			success: function (response) {
@@ -1181,10 +1181,10 @@
 																	 <i class="fas fa-users text-info " onClick='getClientMember(${item.uId})'  role='button' role='show member'></i>
 
 
-																						   <svg role='button' onclick='setMembers(${item.uId},${item.id})'  data-id="${item.id}" class="edit-appointment" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+																						   <svg role='button' onclick='setMembers(${item.uId},)'  data-id="${item.id}" class="edit-appointment" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
 																		<path fill="currentColor" d="M13.654 21v-2.21l5.96-5.934l2.19 2.204l-5.94 5.94zm6.885-5.94l-.926-.945zm-6 5.056h.95l3.467-3.474l-.45-.494l-.475-.47l-3.493 3.488zM5 21V3h9.5L19 7.5v2.596h-1V8h-4V4H6v16h5.27v1zm13.506-4.852l-.475-.47l.925.964z"/>
 																	</svg>
-																		  <a role='button' onClick='fetchProblemDate(${item.uId})'><i class="fas fa-eye"></i></a>
+																			  <a role='button' onClick='fetchProblemDate(${item.uId},${item.id})'><i class="fas fa-eye"></i></a>
 																				  <i role='button' onClick='BookMark(${item.id},${item.bookMark})' class="${item.bookMark == 1 ? "fas" : "far"} fa-bookmark"></i>
 															  </td>`;
 				htmls += '</tr>';
@@ -1495,7 +1495,6 @@ $("#problemDetails").text(problem)
 	});
 
 	function updateArrivedClient(id) {
-
 		Swal.fire({
 			title: 'Are you sure?',
 			text: 'Client Are Arrived?',
@@ -1593,7 +1592,7 @@ $("#problemDetails").text(problem)
 			headers: {
 				'Authorization': `Bearer ${localStorage.getItem("Token2")}`
 			},
-			data: { Id: UId },
+			data: { Id: UId ,jyotishId:Id},
 			success: function (result) {
 				if (result.status == 200) {
 					$("#userId").val(UId)
@@ -1624,8 +1623,6 @@ $("#problemDetails").text(problem)
 	}
 
 	$(document).ready(function () {
-
-
 		// Fetch and populate modal form with appointment data
 		$(document).on('click', '.edit-appointment', function () {
 			const appointmentId = $(this).attr('data-id');
@@ -1724,6 +1721,7 @@ $("#problemDetails").text(problem)
 		$(this).parent().parent().remove();
 	});
 
+	let userId;
 
 
 	$("#memberForm").submit(function (e) {
@@ -1771,8 +1769,9 @@ $("#problemDetails").text(problem)
 								icon: "success",
 								didClose: () => {
 									$("#addmembermodal").modal("hide")
+									$("#showmembermodal").modal("show")
 									document.getElementById("memberForm").reset()
-
+									getClientMember(userId)
 								}
 							});
 						} else {
@@ -1797,8 +1796,10 @@ $("#problemDetails").text(problem)
 	})
 
 	function getClientMember(UId) {
+		userId=UId;
 		$("#memberbody").empty()
 		$(".Addmember").attr("data-id",UId)
+		let jyotishId=localStorage.getItem("Id")
 		Swal.fire({
 			title: "Processing Your Request",
 			allowOutsideClick: false,
@@ -1815,7 +1816,7 @@ $("#problemDetails").text(problem)
 			headers: {
 				'Authorization': `Bearer ${localStorage.getItem("Token2")}`
 			},
-			data: { Id: UId },
+			data: { Id: UId, jyotishId: jyotishId },
 			success: function (result) {
 				console.log(result)
 				if (result.status == 200) {
