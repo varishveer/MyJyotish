@@ -46,7 +46,7 @@
                     </div>
                     <div class="form-group mb-2">
                         <label for="mobile">Mobile:</label>
-                        <input type="text" class="rounded-start countryCode" value="+91" disabled style="width:40px;" /> 
+                        <input type="text" class="rounded-start countryCode" value="+91" disabled style="width:40px;" />
                         <input type="tel" id="mobile" name="mobile" class="form-control form-control-sm" required>
                     </div>
                     <div class="form-group mb-2">
@@ -60,7 +60,7 @@
                         <input type="number" id="experience" name="experience" class="form-control form-control-sm" required>
                     </div>
 
-                  
+
                     <div class="form-group mb-2">
                         <label for="state">State:</label>
                         <select id="state" name="state" class="form-control select2 form-control-sm" disabled>
@@ -100,27 +100,28 @@
                             </div>
                         </div>
                     </div>
-                        <div class="form-group ">
-                            <label>Call:</label>
-                            <br />
-                            <div class="gap-2 d-flex">
-                                <div>
-                                    <input type="radio" id="callYes" name="call">
-                                    <label for="callYes">Yes </label>
-                                </div>
-                                <div>
-                                    <input type="radio" id="callNo" name="call">
-                                    <label for="callNo">No </label>
-                                </div>
+                    <div class="form-group ">
+                        <label>Call:</label>
+                        <br />
+                        <div class="gap-2 d-flex">
+                            <div>
+                                <input type="radio" id="callYes" name="call">
+                                <label for="callYes">Yes </label>
                             </div>
-
-
+                            <div>
+                                <input type="radio" id="callNo" name="call">
+                                <label for="callNo">No </label>
+                            </div>
                         </div>
 
-                    <div class="form-group mb-2">
+
+                    </div>
+
+                    <div class="form-group mb-2 d-none" id="callChargesInputDiv">
                         <label for="callCharges">Call Charges:</label>
                         <input type="number" id="callCharges" name="callCharges" class="form-control form-control-sm">
                     </div>
+
                     <div class="form-group mb-2">
                         <label>Chat:</label>
                         <br />
@@ -177,7 +178,7 @@
                     </div>
 
 
-                   
+
                     <div class="form-group mb-2">
                         <label for="address">Address:</label>
                         <input type="text" id="address" name="address" class="form-control form-control-sm" required>
@@ -190,8 +191,8 @@
                         <label for="timeTo">Available To:</label>
                         <input type="time" id="timeTo" name="timeTo" class="form-control form-control-sm" required>
                     </div>
-                 
-                 
+
+
                 </div>
                 <button type="submit" class="btn btn-primary float-end">Update Profile</button>
             </div>
@@ -206,16 +207,16 @@
     $(document).ready(function () {
 
         $('#callYes').on('click', function () {
-           
-            console.log('Yes selected');
-          
+
+            $('#callChargesInputDiv').removeClass('d-none');
+
         });
 
-       
+
         $('#callNo').on('click', function () {
-         
-            console.log('No selected');
-           
+
+            $('#callChargesInputDiv').addClass('d-none');
+
         });
 
 
@@ -291,9 +292,9 @@
 
 
 
-                     
+
                         if (profile.state != null) {
-                          
+
                             setTimeout(() => {
                                 $(".state").each(function (i, d) {
                                     if (d.text == profile.state) {
@@ -345,11 +346,11 @@
         loadProfileData();
 
 
-       
-      
-       
 
-        
+
+
+
+
         $('#state').change(function () {
             var stateId = $(this).val();
             $('#city').prop('disabled', false).empty().append('<option value="">Select City</option>'); // Reset City dropdown
