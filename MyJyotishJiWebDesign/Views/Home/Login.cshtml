@@ -123,21 +123,21 @@
 <!-- Template Javascript -->
 <script src="~/js/main.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  
 
-    <script>
-        $(document).ready(function () {
-            $('#loginForm').submit(function (e) {
-                e.preventDefault(); // Prevent the form from submitting normally
 
-                var email = $('#email').val();
-                var password = $('#password').val();
+<script>
+    $(document).ready(function () {
+        $('#loginForm').submit(function (e) {
+            e.preventDefault(); // Prevent the form from submitting normally
 
-                // Prepare the data to be sent
-                var data = {
-                    email: email,
-                    password: password
-                };
+            var email = $('#email').val();
+            var password = $('#password').val();
+
+            // Prepare the data to be sent
+            var data = {
+                email: email,
+                password: password
+            };
             Swal.fire({
                 title: "Processing Your Request",
                 allowOutsideClick: false,
@@ -153,7 +153,7 @@
                     data: JSON.stringify(data),
                     success: function (response) {
 
-                        if (response.status === 200) {
+                    if (response.status === 200) {
 
 
 
@@ -178,11 +178,11 @@
 
 
 
-                            // Store the token and user email in local storage
-                           
+                        // Store the token and user email in local storage
 
-                        } else if (response.status === 409) {
-                            // Handle invalid email or incorrect password scenarios
+
+                    } else if (response.status === 409) {
+                        // Handle invalid email or incorrect password scenarios
                         Swal.fire({
                             title: response.message,
 
@@ -190,10 +190,10 @@
 
                             showConfirmButton: true, // Ensure the OK button is shown
                         })
-                        } else {
-                            // Handle unexpected success responses
-                            console.error("Unexpected response status:", response.status);
-                         
+                    } else {
+                        // Handle unexpected success responses
+                        console.error("Unexpected response status:", response.status);
+
                         Swal.fire({
                             title: "An unexpected error occurred.",
 
@@ -205,19 +205,35 @@
                         });
 
                     }
-                    },
-                    error: function (xhr, status, error) {
-                        // Handle HTTP error responses
-                        if (xhr.status === 401) {
-                            alert("Unauthorized access. Please check your credentials.");
-                        } else {
-                            console.error("Error:", xhr.responseText);
-                            alert("An error occurred. Please try again.");
-                        }
+                },
+                error: function (xhr, status, error) {
+                   
+                    if (xhr.status === 401) {
+                        Swal.fire({
+                            title: "Warning",
+
+                            icon: "warning",
+                            text: "Unauthorized access. Please check your credentials.",
+                            showConfirmButton: true,
+                        })
+
+
+                    } else {
+                        console.error("Error:", xhr.responseText);
+                        Swal.fire({
+                            title: "Error",
+
+                            icon: "error",
+                            text: "An error occurred. Please try again.",
+                            showConfirmButton: true,
+                        })
+
+
                     }
-                });
+                }
             });
         });
-    </script>
+    });
+</script>
 
 

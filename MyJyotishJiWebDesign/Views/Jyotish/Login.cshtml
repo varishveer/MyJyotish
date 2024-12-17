@@ -1,6 +1,6 @@
 ﻿@{
     Layout = "Extra";
-  
+
 }
 <link href="~/Img/" rel="icon">
 
@@ -129,14 +129,9 @@
 
 
         $('#loginForm').submit(function (e) {
-            
+
             e.preventDefault(); // Prevent the form from submitting normally
-            Swal.fire({
-                title: "Processing Your Request",
-                didOpen: () => {
-                    Swal.showLoading();
-                }
-            })
+
             var email = $('#email').val();
             var password = $('#password').val();
             Swal.fire({
@@ -147,8 +142,8 @@
                 }
             })
             $.ajax({
-               
-                url:BaseUrl+ "Api/Account/LoginJyotish",
+
+                url: BaseUrl + "Api/Account/LoginJyotish",
                 type: 'POST',
                 contentType: 'application/json', // Specify that the content type is JSON
                 data: JSON.stringify({
@@ -157,17 +152,19 @@
                 }),
                 success: function (response) {
                     if (response.status === 200) {
-                       
+
                         // Successful login
-                      
+
                         localStorage.setItem('Username', response.userName);
                         localStorage.setItem('userEmail', response.user);
                         localStorage.setItem('userRole', response.role);
 
-                     
-                      
-                      
+
+
+
                         if (response.role == "Pending") {
+
+                            Swal.close();
                             Swal.fire({
                                 title: "Successful!",
                                 text: "You successfully login",
@@ -189,6 +186,7 @@
 
                         }
                         else if (response.role == "Jyotish") {
+                            Swal.close();
                             Swal.fire({
                                 title: "Login Successful!",
                                 text: "Redirecting to dashboard...",
@@ -206,7 +204,7 @@
 
                         else if (response.role == "Rejected") {
 
-
+                            Swal.close();
                             Swal.fire({
                                 title: "Login Successful!",
                                 text: "Redirecting to dashboard...",
@@ -214,55 +212,57 @@
 
                                 showConfirmButton: true, // Ensure the OK button is shown
                             }).then(() => {
-                            localStorage.setItem("Id", response.id);
-                            localStorage.setItem("Role", response.role);
-                            localStorage.setItem("UserName", response.userName);
-                          
-                            window.location.href = "/PendingJyotish/Rejected";
-                              });
+                                localStorage.setItem("Id", response.id);
+                                localStorage.setItem("Role", response.role);
+                                localStorage.setItem("UserName", response.userName);
+
+                                window.location.href = "/PendingJyotish/Rejected";
+                            });
                         }
 
-                        } else if (response.status === 409) {
+                    } else if (response.status === 409) {
+                        Swal.close();
 
-                            Swal.fire({
-                                title: response.message,
-                            
-                                icon: "warning",
+                        Swal.fire({
+                            title: response.message,
 
-                                showConfirmButton: true, // Ensure the OK button is shown
-                            })
-                           
-                        } else if (response.status === 401) {
-                                Swal.fire({
-                                    title: response.message,
+                            icon: "warning",
 
-                                    icon: "warning",
+                            showConfirmButton: true, // Ensure the OK button is shown
+                        })
 
-                                    showConfirmButton: true, // Ensure the OK button is shown
-                                }).then(() => {
-                                    window.location.reload();
-                                });
-                           
-                        } 
-                        else {
-                             Swal.fire({
-                                    title: "Something went wrong",
+                    } else if (response.status === 401) {
+                        Swal.close();
+                        Swal.fire({
+                            title: response.message,
 
-                                    icon: "warning",
+                            icon: "warning",
 
-                                   
-                                });
-                            console.log("Unexpected response: " + response.message);
-                        }
-                        Swal.close()
+                            showConfirmButton: true, // Ensure the OK button is shown
+                        })
+
+                    }
+                    else {
+                        Swal.close();
+                        Swal.fire({
+                            title: "Something went wrong",
+
+                            icon: "warning",
+                            showConfirmButton: true,
+
+                        });
+                        console.log("Unexpected response: " + response.message);
+                    }
+                    
                 },
                 error: function (xhr) {
                     console.error("Error:", xhr.responseText);
+                    Swal.close();
                     Swal.fire({
                         title: "Something went wrong",
 
                         icon: "warning",
-
+                        showConfirmButton: true,
 
                     });
                 }
