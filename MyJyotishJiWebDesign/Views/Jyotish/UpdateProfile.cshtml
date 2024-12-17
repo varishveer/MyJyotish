@@ -9,7 +9,8 @@
     }
 
 </style>
-
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <div class="container mt-2">
     <h3 style="font-weight:300;" class="mb-4">Update Profile Information</h3>
@@ -51,7 +52,7 @@
                     </div>
                     <div class="form-group mb-2">
                         <label for="expertise">Expertise:</label>
-                        <select id="expertise" name="expertise" class="form-control select2 form-control-sm" multiple>
+                        <select id="expertise" name="expertise" class="form-control   form-control-sm" multiple>
                             <option value="">Select Expertise</option>
                         </select>
                     </div>
@@ -63,13 +64,13 @@
 
                     <div class="form-group mb-2">
                         <label for="state">State:</label>
-                        <select id="state" name="state" class="form-control select2 form-control-sm" disabled>
+                        <select id="state" name="state" class="form-control   form-control-sm" disabled>
                             <option selected disabled>Select State</option>
                         </select>
                     </div>
                     <div class="form-group mb-2">
                         <label for="city">City:</label>
-                        <select id="city" name="city" class="form-control select2 form-control-sm" disabled>
+                        <select id="city" name="city" class="form-control   form-control-sm" disabled>
                             <option selected disabled>Select City</option>
                         </select>
                     </div>
@@ -86,7 +87,7 @@
                 <div class="profile-card bg-light rounded p-3 mb-4">
 
 
-                    <div class="form-group ">
+                    <div class="form-group py-0">
                         <label>Pooja:</label>
                         <br />
                         <div class="gap-2 d-flex">
@@ -100,7 +101,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group ">
+                    <div class="form-group py-0 ">
                         <label>Call:</label>
                         <br />
                         <div class="gap-2 d-flex">
@@ -117,12 +118,12 @@
 
                     </div>
 
-                    <div class="form-group mb-2 d-none" id="callChargesInputDiv">
+                    <div class="form-group mb-2 py-0 d-none" id="callChargesInputDiv">
                         <label for="callCharges">Call Charges:</label>
                         <input type="number" id="callCharges" name="callCharges" class="form-control form-control-sm">
                     </div>
 
-                    <div class="form-group mb-2">
+                    <div class="form-group py-0 ">
                         <label>Chat:</label>
                         <br />
                         <div class="gap-2 d-flex">
@@ -138,13 +139,13 @@
                     </div>
 
 
-                    <div class="form-group mb-2">
+                    <div class="form-group mb-2  py-0 d-none" id="chatChargesInputDiv">
                         <label for="chatCharges">Chat Charges:</label>
                         <input type="number" id="chatCharges" name="chatCharges" class="form-control form-control-sm" required>
                     </div>
 
 
-                    <div class="form-group mb-2">
+                    <div class="form-group py-0">
                         <label>Appointment:</label>
                         <br />
                         <div class="gap-2 d-flex">
@@ -158,16 +159,29 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group mb-2" id="appointmentChargesDiv">
+                    <div class="form-group mb-2 py-0  d-none" id="appointmentChargesInputDiv">
                         <label for="appointmentCharges">Appointment Charges</label>
                         <input type="text" id="appointmentCharges" name="appointmentCharges" class="form-control form-control-sm" required>
                     </div>
-                    <div class="form-group mb-2">
+                   @*  <div class="form-group mb-2">
                         <label for="language">Language:</label>
-                        <select id="language" name="language" class="form-control select2 form-control-sm" multiple>
+                        <select id="language" name="language" class="form-control   form-control-sm" multiple>
                             <option value="">Select Language</option>
                         </select>
-                    </div>
+                    </div> *@
+
+                    <div class="form-group col-md-6" style="margin-bottom: 0.2rem;">
+                        <label for="language" class="form-label">Language:</label>
+                        <select id="language" name="language" class="form-select form-control form-control-sm" multiple>
+                            <option value="">Select Language</option>
+                            <!-- Languages will be dynamically populated here -->
+                        </select>
+                    </div>>
+
+
+
+
+
                     <div class="form-group mb-2">
                         <label for="about">About:</label>
                         <textarea id="about" name="about" class="form-control form-control-sm" required></textarea>
@@ -194,8 +208,9 @@
 
 
                 </div>
-                <button type="submit" class="btn btn-primary float-end">Update Profile</button>
+                
             </div>
+            <button type="submit" class="btn btn-primary float-end">Update Profile</button>
         </div>
 
         <!-- Submit Button -->
@@ -211,13 +226,35 @@
             $('#callChargesInputDiv').removeClass('d-none');
 
         });
-
-
         $('#callNo').on('click', function () {
 
             $('#callChargesInputDiv').addClass('d-none');
 
         });
+        
+        $('#chatYes').on('click', function () {
+
+            $('#chatChargesInputDiv').removeClass('d-none');
+
+        });
+        $('#chatNo').on('click', function () {
+
+            $('#chatChargesInputDiv').addClass('d-none');
+
+        });
+         
+        $('#appointmentYes').on('click', function () {
+
+            $('#appointmentChargesInputDiv').removeClass('d-none');
+
+        });
+        $('#appointmentNo').on('click', function () {
+
+            $('#appointmentChargesInputDiv').addClass('d-none');
+
+        });
+
+        $('#language').select2();
 
 
 
@@ -225,9 +262,7 @@
 
 
 
-
-
-        $(".select2").select2();
+       
         var token = localStorage.getItem('Token2');
         var id = localStorage.getItem("Id");
 
@@ -397,18 +432,42 @@
         }
         async function loadLanguage() {
             try {
+                // Show loading indicator while fetching data
+                Swal.fire({
+                    title: "Processing Your Request",
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                // Make sure BaseUrl is defined or replace it with your API base URL
                 const response = await fetch(BaseUrl + 'Api/Account/Languages');
                 const data = await response.json();
+
+                // Clear the dropdown and add the default option
                 const $languageDropdown = $('#language');
                 $languageDropdown.html('<option value="">Select Language</option>');
 
-                data.data.forEach(language => {
-                    $languageDropdown.append(`<option value="${language}">${language}</option>`);
-                });
+                // Populate the dropdown with languages (assuming `data.data` is the correct structure)
+                if (data && data.data) {
+                    data.data.forEach(language => {
+                        $languageDropdown.append(`<option value="${language}">${language}</option>`);
+                    });
+                } else {
+                    Swal.fire('No languages found', 'Please try again later.', 'error');
+                }
+
+                // Close loading indicator
+                Swal.close();
             } catch (error) {
                 console.error('Error fetching Language:', error);
+                Swal.fire('Error', 'There was an issue fetching the language data. Please try again later.', 'error');
             }
         }
+
+        
+        loadLanguage();
         // Handle form submission
         $('#profileUpdateForm').on('submit', function (e) {
             e.preventDefault();
@@ -521,7 +580,7 @@
         });
 
         // Initial function calls
-        loadCountries();
+      
         loadExpertise();
         loadLanguage();
     });
