@@ -52,7 +52,7 @@ namespace BusinessAccessLayer.Abstraction
         public ProblemSolutionJyotishGetViewModel GetProblemSolution(int appointmentId);
         public List<ProblemSolutionJyotishGetAllViewModel> GetAllProblemSolution(int JyotishId);
         public dynamic GetProblemSolutionDetail(int appointmentId);
-        public List<ProblemSolutionJyotishGetAllViewModel> GetAllProblemSolutionByUser(int jyotishId, int UId);
+        public List<AppointmentDetailViewModel> GetAllProblemSolutionByUser(int jyotishId, int UId);
 
         public string UpdateProblemSolution(ProblemSolutionViewModel model);
         public string DeleteProblemSolution(int Id);

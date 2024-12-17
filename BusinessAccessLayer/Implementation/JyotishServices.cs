@@ -221,6 +221,7 @@ namespace BusinessAccessLayer.Implementation
             appointment.Amount = Jyotish.AppointmentCharges;
             appointment.Status = "Upcomming";
             appointment.ArrivedStatus = 0;
+            appointment.BookMark = 0;
             _context.AppointmentRecords.Add(appointment);
             Slot.Status = "Booked";
             _context.AppointmentSlots.Update(Slot);
@@ -1469,7 +1470,7 @@ namespace BusinessAccessLayer.Implementation
 
             return data;
         }
-        public List<ProblemSolutionJyotishGetAllViewModel> GetAllProblemSolutionByUser(int jyotishId, int UId)
+        public List<AppointmentDetailViewModel> GetAllProblemSolutionByUser(int jyotishId, int UId)
         {
             var data = _context.ProblemSolution
                 .Include(x => x.Appointment)
@@ -1480,15 +1481,15 @@ namespace BusinessAccessLayer.Implementation
                     ProblemSolution = x,
                     AppointmentSlot = _context.AppointmentSlots.FirstOrDefault(s => s.Id == x.Appointment.SlotId)
                 })
-                .Select(x => new ProblemSolutionJyotishGetAllViewModel
-                {
-                    Id = x.ProblemSolution.Id,
+				.Select(x => new AppointmentDetailViewModel
+				{
+                    
                     UserName = x.ProblemSolution.Appointment.UserRecord.Name,
                     UserId = x.ProblemSolution.Appointment.UserRecord.Id,
-                    Date = x.AppointmentSlot != null ? DateOnly.FromDateTime(x.AppointmentSlot.Date) : DateOnly.MinValue,
+                    Date = x.AppointmentSlot.Date,
                     Time = x.AppointmentSlot != null ? x.AppointmentSlot.TimeFrom : TimeOnly.MinValue,
                     AppointmentId = x.ProblemSolution.AppointmentId
-                }).OrderByDescending(e => e.Id)
+                }).Distinct().OrderByDescending(e=>e.Date)
                 .ToList();
 
             return data;

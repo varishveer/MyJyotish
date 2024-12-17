@@ -13,6 +13,7 @@ namespace ModelAccessLayer.ViewModels
         public string UserMobile { get; set; }
         public string UserEmail { get; set; }
         public int UserId { get; set; }
+        public int AppointmentId { get; set; }
         public string Problem { get; set; }
         public DateTime Date { get; set; }
         public TimeOnly Time { get; set; }
