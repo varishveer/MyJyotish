@@ -336,10 +336,14 @@ namespace ModelAccessLayer.ViewModels
         public string Gender { get; set; }
         public string Language { get; set; }
         public string Expertise { get; set; }
+
+        public int? Country { get; set; }
         public int State { get; set; }
         public int City { get; set; }
         public DateOnly DateOfBirth { get; set; }
         public IFormFile? ProfileImageUrl { get; set; }
+        public string? ProfileImage { get; set; }
+
         public int Experience { get; set; }
         public bool Pooja { get; set; }
         public bool Call { get; set; }
@@ -347,7 +351,7 @@ namespace ModelAccessLayer.ViewModels
         public bool Chat { get; set; }
         public int? ChatCharges { get; set; }
         public bool Appointment { get; set; }
-        public int AppointmentCharges { get; set; }
+        public int? AppointmentCharges { get; set; }
         public string Address { get; set; }
         public TimeOnly TimeTo { get; set; }
         public TimeOnly TimeFrom { get; set; }
