@@ -86,7 +86,7 @@
                 <div class="profile-card bg-light rounded p-3 mb-4">
 
 
-                    <div class="form-group mb-2">
+                    <div class="form-group ">
                         <label>Pooja:</label>
                         <br />
                         <div class="gap-2 d-flex">
@@ -100,22 +100,22 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group mb-2">
-                        <label>Call:</label>
-                        <br />
-                        <div class="gap-2 d-flex">
-                            <div>
-                                <input type="radio" id="callYes" name="call">
-                                <label for="callYes">Yes </label>
+                        <div class="form-group ">
+                            <label>Call:</label>
+                            <br />
+                            <div class="gap-2 d-flex">
+                                <div>
+                                    <input type="radio" id="callYes" name="call">
+                                    <label for="callYes">Yes </label>
+                                </div>
+                                <div>
+                                    <input type="radio" id="callNo" name="call">
+                                    <label for="callNo">No </label>
+                                </div>
                             </div>
-                            <div>
-                                <input type="radio" id="callNo" name="call">
-                                <label for="callNo">No </label>
-                            </div>
+
+
                         </div>
-
-
-                    </div>
 
                     <div class="form-group mb-2">
                         <label for="callCharges">Call Charges:</label>
@@ -205,7 +205,18 @@
 <script>
     $(document).ready(function () {
 
-        $('#appointmentYes').on('click')
+        $('#callYes').on('click', function () {
+           
+            console.log('Yes selected');
+          
+        });
+
+       
+        $('#callNo').on('click', function () {
+         
+            console.log('No selected');
+           
+        });
 
 
 
