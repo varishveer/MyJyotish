@@ -405,6 +405,9 @@
 											</label>
 										`)
 									})
+								}else{
+									$("#jyotishinnerContainer").html("<p class='text-secondary my-5 text-center'>there is no jyotish</p>")
+
 								}
 							}
 							Swal.close();
@@ -459,7 +462,10 @@
 							Swal.fire({
 								title: "success",
 								icon: "success",
-								text: res.message
+								text: res.message,
+								didClose:function(){
+									location.reload();
+								}
 							})
 						} else {
 							Swal.fire({
