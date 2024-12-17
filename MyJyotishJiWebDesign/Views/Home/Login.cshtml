@@ -1,7 +1,6 @@
 ﻿@{
     Layout = "Extra";
-   // string BaseUrl = "https://api.myjyotishg.in/";
-    string BaseUrl = "https://localhost:7118/";
+  
 }
 <link href="~/Img/" rel="icon">
 
@@ -148,7 +147,7 @@
             })
                 // Perform the AJAX request
                 $.ajax({
-                    url: "@BaseUrl" + "api/Account/LoginUser",
+                    url: BaseUrl + "api/Account/LoginUser",
                     type: 'POST',
                     contentType: 'application/json', // Specify that the content type is JSON
                     data: JSON.stringify(data),
