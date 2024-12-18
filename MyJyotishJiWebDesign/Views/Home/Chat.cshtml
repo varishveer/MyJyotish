@@ -157,13 +157,14 @@
 
 
      $('#DataSubmitBtn').on('click', function () {
-        const urlParams = new URLSearchParams(window.location.search);
-        var astrologerId = urlParams.get('Id');
+       
+        
         var Name = $("#Name").val();
         var Gender = $("#Gender").val();
         var DateOfBirth = $("#DateOfBirth").val();
         var TimeOfBirth = $("#TimeOfBirth").val();
         var PlaceOfBirth = $("#PlaceOfBirth").val();
+        var astrologerId = $('#JyotishId').val();
 
         var UserId = localStorage.getItem('userId');
      
@@ -215,7 +216,11 @@
         });
 
     });
-
+    var UserId = localStorage.getItem('userId');
+    if(UserId != null && UserId != undefined)
+    {
+        GetUserDataForService(UserId);
+    }
 
      function GetUserDataForService(Id) {
 
@@ -244,6 +249,11 @@
                 console.log("XHR:", xhr);
             }
         });
+    }
+
+    function ChatBtn(id)
+    {
+         $('#JyotishId').val(id);
     }
     // Function to fetch astrologers for the chat
     function GetAstroListCallChat() {
@@ -299,7 +309,7 @@
                                                         </p>
                                                     </div>
                         </a><br>
-                                 <button class="btn btn-primary chatBtn me-2 mb-2 mb-md-0" style="background-color: #4CAF50; border-color: #4CAF50;" data-bs-toggle="modal" data-bs-target="#exampleModal3">
+                                 <button class="btn btn-primary chatBtn me-2 mb-2 mb-md-0 " onclick="ChatBtn(${astrologer.id})"   style="background-color: #4CAF50; border-color: #4CAF50;" data-bs-toggle="modal" data-bs-target="#exampleModal3">
                                         Start Chat ₹${astrologer.chatCharges}/min
                             </button>
                     </div>
