@@ -2174,7 +2174,6 @@ namespace BusinessAccessLayer.Implementation
             Record.Reason = AppointmentBookmark.Reason;
             Record.AppointmentId = Id;
             Record.JyotishId = AppointmentBookmark.JyotishId;
-            Record.EndDate = AppointmentBookmark.EndDate;
             Record.Id = AppointmentBookmark.Id;
             return Record;
         }

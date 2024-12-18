@@ -1211,7 +1211,7 @@
 			modal.show();
 		}
 		else {
-
+			
 			Swal.fire({
 				title: 'Are you sure?',
 				text: 'Do you really want to remove Bookmark?',
@@ -1285,10 +1285,25 @@
 				}
 
 			});
-
+				
 
 		}
 
+
+		function getBookmark(id){
+			$.ajax({
+				url: BaseUrl + `api/Jyotish/GetAppointmentBookmark?Id=${id}`,
+				type: 'get',
+				headers: {
+					'Authorization': `Bearer ${localStorage.getItem("Token2")}`
+
+				},
+				data:{Id:id},
+				success: function (res) {
+					console.log(res)
+				}
+			})
+		}
 
 		//   $.ajax({
 		//       url: BaseUrl + `api/Jyotish/BookMark`,
