@@ -603,13 +603,13 @@ $(document).ready(function () {
             if (rating != null) {
                 // Ensure the rating is a valid number before proceeding
                 var fullStars = Math.floor(rating);
-                var halfStar = (rating % 1) >= 0.5 ? `<i class="fa-solid fa-star-half-stroke fa-lg"></i>` : "";
+                var halfStar = (rating % 1) >= 0.5 ? `<i class="fa-solid fa-star-half-stroke "></i>` : "";
 
                 // Build the stars string: full stars + half star (if any) + empty stars to fill up to 5
-                var stars = `<i class="fa-solid fa-star fa-lg"></i>`.repeat(fullStars) + halfStar;
+                var stars = `<i class="fa-solid fa-star "></i>`.repeat(fullStars) + halfStar;
 
                 // Add the empty stars to complete the 5 stars
-                stars += `<i class="fa-regular fa-star fa-lg"></i>`.repeat(5 - fullStars - (halfStar ? 1 : 0));
+                stars += `<i class="fa-regular fa-star "></i>`.repeat(5 - fullStars - (halfStar ? 1 : 0));
 
                 return stars;
             } else {

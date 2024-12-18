@@ -89,20 +89,61 @@
 </div>
 
 <!-- Modal call-->
-<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModal2Label" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Scan QR code to download MyjyotishgApp</h1>
+                <h1 class="modal-title fs-5" id="exampleModal2Label"> Please enter your details </h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body text-center">
-                <h4 class="text-center">MyJyotishg</h4>
-                <p class="text-center">Scan QR</p>
-                <img src="https://api.myjyotishg.in/qr-code.jpg" class="w-50 h-50" />
+            <div class="modal-body">
+
+                <div class="row d-flex">
+                    <div class="col-md-4 mb-2">
+                        <label name="Name">Name</label>
+                        <input class="form-control" name="Name" id="Name" type="text" />
+                    </div>
+
+                    <div class="col-md-4  mb-2">
+                        <label name="Gender">Gender</label>
+                        <select id="Gender" name="Gender" class="form-select custom-field" required>
+                            <option value="Male" selected>Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-4  mb-2">
+                        <label name="DateOfBirth">DateOfBirth</label>
+                        <input class="form-control" name="DateOfBirth" id="DateOfBirth" type="date" />
+                    </div>
+                </div>
+
+                <div class="row d-flex">
+                    <div class="col-md-4 mb-2 ">
+                        <label name="TimeOfBirth">TimeOfBirth</label>
+                        <input class="form-control" name="TimeOfBirth" id="TimeOfBirth" type="time" />
+                    </div>
+                    <div class="col-md-4 mb-2 position-relative">
+                        <label name="PlaceOfBirth">PlaceOfBirth</label>
+
+                        <input list="PlaceOfBirthList" type="text" id="PlaceOfBirth" name="placeOfBirth" class="form-control custom-field"
+                               placeholder="Enter City" autocomplete="off" />
+                        <div class="position-absolute w-100 bg-light d-none" id="PlaceOfBirthList">
+                        </div>
+                    </div>
+                    <div class="col-md-4  mb-2">
+                        <input id="JyotishId" hidden />
+                        <input id="UserId" hidden />
+                        <input id="Action" value="2" hidden />
+                    </div>
+                </div>
+
             </div>
             <div class="modal-footer">
+
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="DataSubmitBtn">Submit</button>
             </div>
         </div>
     </div>
@@ -163,7 +204,8 @@
                                                             </p>
                                                         </div>
                             </a><br>
-                                     <button class="btn btn-primary callBtn" style="background-color: #4CAF50; border-color: #4CAF50;" data-bs-toggle="modal" data-bs-target="#exampleModal2">
+                                        <button class="btn btn-primary callBtn"   onclick="CallBtn(${astrologer.id})"
+     style="background-color: #4CAF50; border-color: #4CAF50;" data-bs-toggle="modal" data-bs-target="#exampleModal2">
                                     Start Call ₹${astrologer.callCharges}/min
                             </button>
                     </div>
@@ -175,5 +217,104 @@
     // Initialize the function to get astrologers on page load
     GetAstroListCallChat();
 
+
+     $('#DataSubmitBtn').on('click', function () {
+      
+        var astrologerId = $('#JyotishId').val();
+        var Name = $("#Name").val();
+        var Gender = $("#Gender").val();
+        var DateOfBirth = $("#DateOfBirth").val();
+        var TimeOfBirth = $("#TimeOfBirth").val();
+        var PlaceOfBirth = $("#PlaceOfBirth").val();
+
+        var UserId = localStorage.getItem('userId');
+
+
+        var DataContainer = {
+            Name: Name,
+            Gender: Gender,
+            DateOfBirth: DateOfBirth,
+            TimeOfBirth: TimeOfBirth,
+            PlaceOfBirth: PlaceOfBirth,
+            JyotishId: astrologerId,
+            UserId: UserId,
+            Action: 2
+        }
+
+        $.ajax({
+            url: BaseUrl + "api/User/AddUserServiceRecord", // Ensure BaseUrl is properly defined
+            method: "POST",
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token")}` // Retrieve token from localStorage
+            },
+            data: JSON.stringify(DataContainer), // Corrected JSON.stringify
+            contentType: "application/json", // Ensure content type is set to JSON
+            success: function (response) {
+                if (response.status === 200) {
+                    // Success case: Show success message using SweetAlert
+                    Swal.fire({
+                        title: "Success!",
+                        text: "Successful",
+                        icon: "success"
+                    });
+                } else {
+                    // Handle unexpected response status (if needed)
+                    Swal.fire({
+                        title: "Error!",
+                        text: "There was an issue with the response.",
+                        icon: "error"
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                // Error case: Handle request errors
+                Swal.fire({
+                    title: "Error!",
+                    text: "Something went wrong. Please try again later.",
+                    icon: "error"
+                });
+            }
+        });
+
+    });
+    var UserId = localStorage.getItem('userId');
+    if(UserId != null && UserId != undefined)
+    {
+        GetUserDataForService(UserId);
+    }
+
+     function GetUserDataForService(Id) {
+
+
+        $.ajax({
+            url: `${BaseUrl}api/User/GetUserDataForService?Id=${Id}`,
+            method: "GET",
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token")}`
+            },
+            success: function (response) {
+                if (response.status === 200) {
+
+                    $('#Name').val(response.data.name);
+                    $('#Gender').val(response.data.gender);
+                    $('#DateOfBirth').val(response.data.dateOfBirth);
+                    $('#TimeOfBirth').val(response.data.timeOfBirth);
+                    $('#PlaceOfBirth').val(response.data.placeOfBirth);
+
+                }
+            },
+            error: function (xhr, status, error) {
+
+                console.log("Error:", error);
+                console.log("Status:", status);
+                console.log("XHR:", xhr);
+            }
+        });
+    }
     
+    function CallBtn(id)
+    {
+         $('#JyotishId').val(id);
+    }
+   
 </script>
