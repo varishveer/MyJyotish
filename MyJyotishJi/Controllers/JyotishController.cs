@@ -1076,7 +1076,7 @@ public IActionResult NotificationData(int Id)
 	}
 }
 
-
+[AllowAnonymous]
 [HttpGet("LayoutData")]
 public IActionResult LayoutData(int Id)
 {

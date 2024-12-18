@@ -57,7 +57,8 @@
         margin-bottom: 10px;
         padding: 10px;
         border-radius: 5px;
-        max-width: 70%;
+        max-width: 50%;
+        width:auto !important
     }
 
         .message.sent {
@@ -76,13 +77,7 @@
         position: relative;
     }
 
-        .input-group .form-control {
-            border-radius: 20px; /* Rounded corners for input */
-        }
-
-        .input-group .btn {
-            border-radius: 20px; /* Rounded corners for button */
-        }
+        
         #ChatModal{
             z-index:10000;
         }
@@ -94,6 +89,8 @@
     .messageInpBox {
         padding: 10px;
         font-size: 20px;
+        outline:none !important;
+        box-shadow:none !important;
     }
 </style>
 
@@ -299,31 +296,21 @@
         <div class="modal-content" >
             <div class="modal-header">
                 <div class="d-flex align-items-center">
-                    <i class="fa-solid fa-user"></i>
-                    <h1 class="modal-title fs-5 ms-2" id="ChatModalLabel">User 's Name</h1>
+                    <img id="jyotishdetailschatheader" height="50" width="50" class="rounded-circle border" src="~/user-not-found.png" alt="jyotish profile"/>
+                    <h1 class="modal-title fs-5 ms-2" id="ChatModalLabel"></h1>
                 </div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body chat-modal-body">
                 <div class="chat-history">
-                    <div class="message sent">
-                        <div class="message-content">Hello! How can I help you today?</div>
-                    </div>
-                    <div class="message received">
-                        <div class="message-content">I have a question about my order.</div>
-                    </div>
-                    <div class="message sent">
-                        <div class="message-content">Sure! Please provide your order number.</div>
-                    </div>
-
+                    
                 </div>
-
             </div>
             <div class="modal-footer">
-                <form class="w-100">
+                <form class="w-100" id="messageForm">
                 <div class="input-group mt-3">
-                    <input type="text" class="form-control messageInpBox" placeholder="Type your message..." aria-label="User 's message">
-                    <button class="btn btn-primary" type="submit"><i class="fas fs-5 fa-location-arrow"></i></button>
+                    <input type="text" class="form-control rounded-start messageInpBox" placeholder="Type your message..." aria-label="User 's message">
+                    <button disabled class="btn btn-primary rounded-end" id="sendMessageBtn" type="submit"><i class="fas fs-5 fa-location-arrow"></i></button>
                 </div>
                 </form>
             </div>
@@ -1085,7 +1072,7 @@
 
         }
     })
-   
+
 
     $('#DataSubmitBtn').on('click', function () {
         const urlParams = new URLSearchParams(window.location.search);
@@ -1183,9 +1170,105 @@
         });
     }
 
+        const params = new URLSearchParams(window.location.search);
+        let jyotishId=params.get("Id")
+    function getSomeJyotish(){
+        $.ajax({
+            url: `${BaseUrl}api/jyotish/LayoutData`,
+            method: "GET",
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token")}`
+            },
+            data:{Id:jyotishId},
+            success: function (res) {
+                if (res.status === 200)
+                {
+                    console.log(res)
+
+                    if(res.data!=null){
+                        $("#jyotishdetailschatheader").attr("src",res.data.image)
+                        $("#ChatModalLabel").text(res.data.name)
+                    }
+                }
+            }
+        })
+    }
+    getSomeJyotish()
     var UserId = localStorage.getItem('userId');
     GetUserDataForService(UserId);
 
+
+    $(".messageInpBox").on("keyup", function () {
+        let characterLength=$(this).val().length
+        if (characterLength > 0) {
+            $("#sendMessageBtn").attr("disabled",false);
+        }else{
+            $("#sendMessageBtn").attr("disabled",true);
+
+        }
+    });
+    $(document).ready(function () {
+        $('#ChatModal').modal('show');
+    });
+    
+    let socket;
+    let userId=localStorage.getItem("userId")
+    
+    function establishedConnection(){
+        socket = new WebSocket(`wss://api.myjyotishg.in/api/chat/connect?id=${userId}&sendBy=client`);
+    }
+    establishedConnection();
+    if (socket) {
+        socket.onopen = function (event) {
+            console.log('WebSocket connection established:', event);
+
+        };
+        socket.onmessage = function (event) {
+            const messagesDiv = document.querySelector('.chat-modal-body');
+            messagesDiv.innerHTML += ` <div class="message received">
+                                    <div class="message-content"> ${JSON.parse(event.data).mssg}</div>
+                            </div>`
+
+        };
+
+        socket.onerror = function (event) {
+            console.error('WebSocket error observed:', event);
+            Swal.fire({
+                text: "some error occured while making connection",
+                title: "error",
+                icon: "error"
+            });
+        };
+
+        socket.onclose = function (event) {
+            console.log('WebSocket connection closed:', event);
+
+        };
+
+
+        $("#messageForm").submit(function (e) {
+            e.preventDefault();
+
+            let message = $(".messageInpBox").val();
+            const messagesDiv = document.querySelector('.chat-modal-body');
+            messagesDiv.innerHTML += `<div class="message sent">
+                                    <div class="message-content">${message}</div>
+                            </div>`
+
+            if (socket && socket.readyState === WebSocket.OPEN) {
+                if (jyotishId && message) {
+                    socket.send(`${jyotishId}:${message}`);
+                    $(".messageInpBox").val("");
+                }
+            } else {
+                Swal.fire({
+                    text: "connection is closed.",
+                    title: "error",
+                    icon: "error"
+                });
+            }
+        });
+    }
 </script>
 
 
