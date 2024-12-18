@@ -71,15 +71,15 @@ namespace BusinessAccessLayer.Implementation
         }
 
 
-       
 
-          public List<TopAstrologer> TopAstrologer(string City)
+
+        public List<TopAstrologer> TopAstrologer(string City)
         {
 
-            var records = _context.JyotishRecords.Where(a => a.Role == "Jyotish").Where(x => x.City.Contains(City) || x.Country.Contains("India")).Include(x=>x.JyotishRating).Select(x => new TopAstrologer
+            var records = _context.JyotishRecords.Where(a => a.Role == "Jyotish").Where(x => x.City.Contains(City) || x.Country.Contains("India")).Include(x => x.JyotishRating).Select(x => new TopAstrologer
             {
                 Id = x.Id,
-                profileImageUrl= x.ProfileImageUrl,
+                profileImageUrl = x.ProfileImageUrl,
                 Name = x.Name,
                 City = x.City,
                 Expertise = x.Expertise,
@@ -87,19 +87,19 @@ namespace BusinessAccessLayer.Implementation
                 Language = x.Language,
                 CallPrice = x.CallCharges,
                 ChatPrice = x.ChatCharges,
-                
+
 
 
             }).ToList();
 
             foreach (var Data in records)
             {
-                var Rating = _context.JyotishRating.Where(x => x.JyotishId == Data.Id).Select(x=>x.Stars).ToList();
+                var Rating = _context.JyotishRating.Where(x => x.JyotishId == Data.Id).Select(x => x.Stars).ToList();
                 Data.Rating = Rating.Any() ? Rating.Average() : 0;
             }
 
 
-            return records;     
+            return records;
         }
 
 
@@ -305,7 +305,7 @@ namespace BusinessAccessLayer.Implementation
             if (user == null)
             { return null; }
 
-            var CountryName = _context.Countries.Where(x => x.Id == user.Country).Select(x=>x.Name).FirstOrDefault();
+            var CountryName = _context.Countries.Where(x => x.Id == user.Country).Select(x => x.Name).FirstOrDefault();
             var StateName = _context.States.Where(x => x.Id == user.State).Select(x => x.Name).FirstOrDefault();
             var CityName = _context.Cities.Where(x => x.Id == user.City).Select(x => x.Name).FirstOrDefault();
             var CountryCode = _context.CountryCode.Where(x => x.Id == user.CountryCodeId).Select(x => x.countryCode).FirstOrDefault();
@@ -354,7 +354,7 @@ namespace BusinessAccessLayer.Implementation
                 userModel.Gender = model.Gender;
             }
 
-           
+
             if (model.DoB != null)
             {
                 userModel.DoB = model.DoB;
@@ -379,11 +379,11 @@ namespace BusinessAccessLayer.Implementation
             {
                 userModel.Pincode = model.Pincode;
             }
-           
+
             var StateName = _context.States.Where(x => x.Id == model.State).FirstOrDefault();
             var CityName = _context.Cities.Where(x => x.Id == model.City).FirstOrDefault();
 
-           
+
 
             if (StateName != null)
             {
@@ -916,6 +916,24 @@ namespace BusinessAccessLayer.Implementation
             {
                 return false;
             }
+            var OldData = _context.UserServiceRecord.Where(x => x.UserId == data.UserId && x.JyotishId == data.JyotishId && x.Status).ToList();
+            if (OldData.Count > 0)
+            {
+                foreach (var it in OldData)
+                {
+                    if (it.Name == data.Name && it.Gender == data.Gender && it.DateOfBirth == data.DateOfBirth && it.TimeOfBirth == data.TimeOfBirth && it.PlaceOfBirth == data.PlaceOfBirth)
+                    {
+                        it.Count = it.Count + 1;
+                        _context.UserServiceRecord.Update(it);
+                        if (_context.SaveChanges() > 0)
+                        { return true; }
+                        else { return false; }
+                    }
+
+
+                }
+
+            }
 
             UserServiceRecordModel newData = new UserServiceRecordModel();
             newData.Name = data.Name;
@@ -927,6 +945,7 @@ namespace BusinessAccessLayer.Implementation
             newData.JyotishId = data.JyotishId;
             newData.Action = data.Action;
             newData.Status = true;
+            newData.Count = 1;
             _context.UserServiceRecord.Add(newData);
             if (_context.SaveChanges() > 0)
             {
@@ -976,12 +995,13 @@ namespace BusinessAccessLayer.Implementation
                     _context.KundaliMatchingRecord.UpdateRange(KundaliRecords);
                     Step1 = _context.SaveChanges();
                 }
-                else {
+                else
+                {
                     Step1 = 1;
                 }
 
 
-                if (Step1>0)
+                if (Step1 > 0)
                 {
                     List<KundaliMatchingModel> KundaliList = new List<KundaliMatchingModel>();
                     foreach (var data in DataList)
@@ -1033,17 +1053,17 @@ namespace BusinessAccessLayer.Implementation
             var User = _context.Users.Where(x => x.Id == Id).FirstOrDefault();
             if (User == null)
             { return null; }
-            var Record = _context.KundaliMatchingRecord.Where(x => x.UserId == Id && x.Status).Select(x=> new
+            var Record = _context.KundaliMatchingRecord.Where(x => x.UserId == Id && x.Status).Select(x => new
             KundaliMatchingViewModel
             {
-                Id=x.Id,
+                Id = x.Id,
                 Name = x.Name,
                 UserId = x.UserId,
-                DateOfBirth= x.DateOfBirth,
+                DateOfBirth = x.DateOfBirth,
                 TimeOfBirth = x.TimeOfBirth,
                 PlaceOfBirth = x.PlaceOfBirth,
                 Gender = x.Gender,
-                Latitude= x.Latitude,
+                Latitude = x.Latitude,
                 Longitude = x.Longitude,
                 Timezone = x.Timezone,
 
@@ -1057,7 +1077,7 @@ namespace BusinessAccessLayer.Implementation
             var User = _context.Users.Where(x => x.Id == Id).FirstOrDefault();
             if (User == null)
             { return null; }
-            var Record = _context.KundaliMatchingRecord.Where(x => x.UserId == Id && x.Status &&x.ActiveStatus).Select(x => new
+            var Record = _context.KundaliMatchingRecord.Where(x => x.UserId == Id && x.Status && x.ActiveStatus).Select(x => new
             KundaliMatchingViewModel
             {
                 Id = x.Id,
@@ -1077,7 +1097,7 @@ namespace BusinessAccessLayer.Implementation
         public bool DeleteKundaliRecord(int Id)
         {
             var Record = _context.KundaliMatchingRecord.Where(x => x.Id == Id && x.Status).FirstOrDefault();
-            if(Record == null)
+            if (Record == null)
             {
                 return false;
             }
@@ -1098,40 +1118,40 @@ namespace BusinessAccessLayer.Implementation
         public dynamic getAllPoojaList()
         {
             var res = (from pooja in _context.PoojaRecord
-                     
+
                        join list in _context.PoojaList on pooja.PoojaType equals list.Id
-                       where pooja.status &&  list.Status
+                       where pooja.status && list.Status
                        select new
                        {
-                          Id=pooja.Id,
-                          poojaName=list.Name,
-                          title=pooja.title,
-                          image=pooja.Image,
-                          
+                           Id = pooja.Id,
+                           poojaName = list.Name,
+                           title = pooja.title,
+                           image = pooja.Image,
+
 
                        }).ToList();
             return res;
         }
 
-		public dynamic getPoojaDetailByPoojaId(int Id)
-		{
-			var res = (from pooja in _context.PoojaRecord
-					   join list in _context.PoojaList on pooja.PoojaType equals list.Id
-					   where pooja.Id==Id&& pooja.status &&  list.Status
-					   select new
-					   {
-						   Id = pooja.Id,
-                           poojaTypeId=pooja.PoojaType,
-						   poojaName = list.Name,
-						   title = pooja.title,
-						   image = pooja.Image,						   
-                           proccedure=pooja.Procedure,
-                           aboutgod=pooja.AboutGod,
-                           benefits=pooja.Benefits
+        public dynamic getPoojaDetailByPoojaId(int Id)
+        {
+            var res = (from pooja in _context.PoojaRecord
+                       join list in _context.PoojaList on pooja.PoojaType equals list.Id
+                       where pooja.Id == Id && pooja.status && list.Status
+                       select new
+                       {
+                           Id = pooja.Id,
+                           poojaTypeId = pooja.PoojaType,
+                           poojaName = list.Name,
+                           title = pooja.title,
+                           image = pooja.Image,
+                           proccedure = pooja.Procedure,
+                           aboutgod = pooja.AboutGod,
+                           benefits = pooja.Benefits
 
-					   }).FirstOrDefault();
-			return res;
-		}
+                       }).FirstOrDefault();
+            return res;
+        }
 
         public bool BookPooja(BookedPoojaViewModel model)
         {
@@ -1147,7 +1167,7 @@ namespace BusinessAccessLayer.Implementation
                 userId = model.userId,
                 jyotishId = model.jyotishId,
                 BookingDate = DateTime.Now,
-                status=true
+                status = true
 
             };
 
@@ -1155,36 +1175,36 @@ namespace BusinessAccessLayer.Implementation
             return _context.SaveChanges() > 0;
         }
 
-      
+
 
         public string GetTimezone(string country)
         {
-            var CountryCode = _context.Countries.Where(x=>x.Name == country).Select(x=>x.CountryCode).FirstOrDefault(); 
-            if(CountryCode == null) { return null; }
-            var Timezone = _context.Timezone.Where(x => x.Country == CountryCode).Select(x=>x.Timezone).FirstOrDefault();
+            var CountryCode = _context.Countries.Where(x => x.Name == country).Select(x => x.CountryCode).FirstOrDefault();
+            if (CountryCode == null) { return null; }
+            var Timezone = _context.Timezone.Where(x => x.Country == CountryCode).Select(x => x.Timezone).FirstOrDefault();
             if (Timezone == null) { return null; }
             return Timezone;
         }
 
         public dynamic getJyotishRecordByPoojaType(int poojaTypeId)
         {
-            var res = _context.JyotishPooja.Where(e => e.poojaType == poojaTypeId && e.status).Include(s=>s.pooja).Include(f => f.jyotish).Where(e => e.status).Select(e => new
+            var res = _context.JyotishPooja.Where(e => e.poojaType == poojaTypeId && e.status).Include(s => s.pooja).Include(f => f.jyotish).Where(e => e.status).Select(e => new
             {
-               jyotishId=e.jyotish.Id,
-               jyotishName=e.jyotish.Name,
-               jyotishProfile=e.jyotish.ProfileImageUrl,
-               expertise=e.jyotish.Expertise,
-               experience=e.jyotish.Experience,
-               country=e.jyotish.Country,
-               poojaName=e.pooja.Name,
-               state=e.jyotish.State,
-               city=e.jyotish.City,
-               amount=e.amount
+                jyotishId = e.jyotish.Id,
+                jyotishName = e.jyotish.Name,
+                jyotishProfile = e.jyotish.ProfileImageUrl,
+                expertise = e.jyotish.Expertise,
+                experience = e.jyotish.Experience,
+                country = e.jyotish.Country,
+                poojaName = e.pooja.Name,
+                state = e.jyotish.State,
+                city = e.jyotish.City,
+                amount = e.amount
             }).ToList();
             return res;
         }
 
-        
 
-	}
+
+    }
 }

@@ -18,7 +18,7 @@ namespace ModelAccessLayer.Models
         public int JyotishId { get; set; }
         public int Action { get; set; }
         public bool Status { get; set; }
-
+        public int Count { get; set; }
 
         public UserModel User { get; set; }
         public JyotishModel Jyotish { get; set; }
