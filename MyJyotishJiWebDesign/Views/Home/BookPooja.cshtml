@@ -82,7 +82,7 @@
 						<div class="card-body">
 							<div class="card-text">
 									<p class="fw-bold mb-1">${d.poojaName}</p>
-									<p class="text-secondary">${d.title}</p>
+										<p class="text-secondary" id='title_${d.id}'>${d.title.slice(0, 25)}...<span class='text-primary' onclick='seemoretitle("${d.title}",${d.id})' role='button'> more</span ></p >
 									<a href='/home/PoojaDetails?id=${d.id}' class="btn btn-warning text-light">Book Pooja &rarr;</a>
 							</div>
 						</div>
@@ -97,5 +97,14 @@
 	})
 }
 	getAllPoojaList();
+
+	function seemoretitle(title,id){
+		let oldTitle = $("#title_" + id).html();
+		$("#title_" + id).html(title + `&nbsp;&nbsp;<span onclick='seelesstitle("${oldTitle}",${id})' role='button' class='text-primary'>less</span>`)
+	}
 	
+	function seelesstitle(title,id){
+
+		$("#title_" + id).html(title +`<span class='text-primary' onclick='seemoretitle("${title}",${id})'`)
+	}
 </script>

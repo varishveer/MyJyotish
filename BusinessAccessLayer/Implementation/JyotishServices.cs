@@ -2165,7 +2165,7 @@ namespace BusinessAccessLayer.Implementation
             }
             else { return false; }
         }
-
+        
         public AppointmentBookmarkViewModal GetAppointmentBookmark(int Id)
         {
             var AppointmentBookmark = _context.AppointmentBookmark.Where(x => x.AppointmentId == Id).FirstOrDefault();

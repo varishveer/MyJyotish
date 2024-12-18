@@ -42,6 +42,59 @@
         overflow: auto;
     }
 
+    .chat-modal-body {
+        height:60vh;
+        max-height: 600px; /* Set a max height for the chat area */
+        overflow-y: auto; /* Enable scrolling */
+        background-color: #f8f9fa; /* Light background for the chat area */
+    }
+
+    .chat-history {
+        padding: 15px;
+    }
+
+    .message {
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 5px;
+        max-width: 70%;
+    }
+
+        .message.sent {
+            background-color: #007bff; /* Bootstrap primary color */
+            color: white;
+            margin-left: auto; /* Align to the right */
+        }
+
+        .message.received {
+            background-color: #e9ecef; /* Light gray for received messages */
+            color: black;
+            margin-right: auto; /* Align to the left */
+        }
+
+    .input-group {
+        position: relative;
+    }
+
+        .input-group .form-control {
+            border-radius: 20px; /* Rounded corners for input */
+        }
+
+        .input-group .btn {
+            border-radius: 20px; /* Rounded corners for button */
+        }
+        #ChatModal{
+            z-index:10000;
+        }
+
+    .fa-location-arrow{
+        transform: rotate(44deg);
+    }
+
+    .messageInpBox {
+        padding: 10px;
+        font-size: 20px;
+    }
 </style>
 
 <div class="container my-3" style="margin-top:100px; background-color: #f7f7f7; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
@@ -200,8 +253,10 @@
                         <label name="Name">Name</label>
                         <input class="form-control" name="Name" id="Name" type="text" />
                     </div>
-
-                    <div class="col-md-4  mb-2">
+                    <input id="JyotishId" hidden />
+                    <input id="UserId" hidden />
+                    <input id="Action" value="2" hidden />
+                    <div class="col-md-4 mb-2">
                         <label name="Gender">Gender</label>
                         <select id="Gender" name="Gender" class="form-select custom-field" required>
                             <option value="Male" selected>Male</option>
@@ -228,17 +283,10 @@
                                placeholder="Enter City" autocomplete="off" />
                         <div class="position-absolute w-100 bg-light d-none" id="PlaceOfBirthList">
                         </div>
-                    </div>
-                    <div class="col-md-4  mb-2">
-                        <input id="JyotishId" hidden />
-                        <input id="UserId" hidden />
-                        <input id="Action" value="2" hidden />
-                    </div>
+                    </div>          
                 </div>
-
             </div>
             <div class="modal-footer">
-
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" id="DataSubmitBtn">Submit</button>
             </div>
@@ -246,31 +294,9 @@
     </div>
 </div>
 
-
-<!-- Modal chat-->
-<div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Scan QR code to download MyjyotishgApp</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body text-center">
-                <h4 class="text-center">MyJyotishg</h4>
-                <p class="text-center">Scan QR</p>
-                <img src="https://myjyotishg.in/qr-code.jpg" class="w-50 h-50" />
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="modal fade" id="ChatModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="ChatModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content" style="height: 80vh;">
+        <div class="modal-content" >
             <div class="modal-header">
                 <div class="d-flex align-items-center">
                     <i class="fa-solid fa-user"></i>
@@ -294,10 +320,12 @@
 
             </div>
             <div class="modal-footer">
+                <form class="w-100">
                 <div class="input-group mt-3">
-                    <input type="text" class="form-control" placeholder="Type your message..." aria-label="User 's message">
-                    <button class="btn btn-primary" type="button">Send</button>
+                    <input type="text" class="form-control messageInpBox" placeholder="Type your message..." aria-label="User 's message">
+                    <button class="btn btn-primary" type="submit"><i class="fas fs-5 fa-location-arrow"></i></button>
                 </div>
+                </form>
             </div>
         </div>
     </div>
@@ -683,8 +711,6 @@
                 }
             });
         });
-
-
 
         //handle specialization aboutus and achievement
 
@@ -1083,6 +1109,13 @@
             UserId: UserId,
             Action: Action
         }
+        Swal.fire({
+            title: "Processing Your Request",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
 
         $.ajax({
             url: BaseUrl + "api/User/AddUserServiceRecord", // Ensure BaseUrl is properly defined
@@ -1094,12 +1127,11 @@
             contentType: "application/json", // Ensure content type is set to JSON
             success: function (response) {
                 if (response.status === 200) {
-                    // Success case: Show success message using SweetAlert
-                    Swal.fire({
-                        title: "Success!",
-                        text: "Successful",
-                        icon: "success"
-                    });
+                    Swal.close();
+                    if(Action=='1'){
+                        $("#ChatModal").modal("show")
+                    }
+                    $("#exampleModal2").modal("hide")
                 } else {
                     // Handle unexpected response status (if needed)
                     Swal.fire({
