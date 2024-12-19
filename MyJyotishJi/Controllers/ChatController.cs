@@ -44,32 +44,10 @@ namespace MyJyotishGApi.Controllers
         private async Task HandleWebSocketCommunication(WebSocket webSocket, string clientId, string sendBy)
         {
             var buffer = new byte[1024 * 4];
-            var pingDelay = TimeSpan.FromSeconds(30);
-            var cancellationTokenSource = new CancellationTokenSource();
+         
             try
             {
-                var pingTask = Task.Run(async () =>
-                {
-                    while (webSocket.State == WebSocketState.Open)
-                    {
-                        await Task.Delay(pingDelay, cancellationTokenSource.Token);
-
-                        if (webSocket.State == WebSocketState.Open)
-                        {
-                            try
-                            {
-                                var pingMessage = new ArraySegment<byte>(Encoding.UTF8.GetBytes("ping"));
-                                await webSocket.SendAsync(pingMessage, WebSocketMessageType.Text, true, CancellationToken.None);
-                            }
-                            catch (Exception ex)
-                            {
-                                Console.WriteLine($"Ping error: {ex.Message}");
-                                break;  
-                            }
-                        }
-                    }
-                });
-
+               
                 while (webSocket.State == WebSocketState.Open)
                 {
                     var result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
@@ -104,7 +82,6 @@ namespace MyJyotishGApi.Controllers
                         cu.FirstMessageAt = DateTime.Now;
                         cu.LastMessageAt = DateTime.Now;
 
-
                         var cres = _chat.AddChatUser(cu);
                         var res = _chat.AddChat(md);
                         var changeresPref = sendBy == "client" ? recipientId + "B" : recipientId + "A";
@@ -131,7 +108,7 @@ namespace MyJyotishGApi.Controllers
             }
            
         }
-       
+        
 
         [HttpGet("getchats")]
         public List<ChatModel> GetChats(int sender, int receiver)

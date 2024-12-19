@@ -3,1338 +3,1347 @@
 <script src="~/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
 <script src="~/bootstrap-datepicker/datepicker.js"></script>
 <style>
-    .bg-light-sec {
-        background: #d2e2fc !important;
-        background-blend-mode: darken;
-    }
+	.bg-light-sec {
+		background: #d2e2fc !important;
+		background-blend-mode: darken;
+	}
 
-    .bookedContainer {
-        background: rgb(40, 41, 40,0.7);
-        left: 3%;
-    }
+	.bookedContainer {
+		background: rgb(40, 41, 40,0.7);
+		left: 3%;
+	}
 
-    .manupScroll::-webkit-scrollbar {
-        height: 5px;
-    }
+	.manupScroll::-webkit-scrollbar {
+		height: 5px;
+	}
 
-    .manupScroll::-webkit-scrollbar-thumb {
-        background: #e8985f;
-        border-radius: 10px;
-    }
+	.manupScroll::-webkit-scrollbar-thumb {
+		background: #e8985f;
+		border-radius: 10px;
+	}
 
-    .manupScroll::-webkit-scrollbar-track {
-        background: #fcdfb6;
-    }
+	.manupScroll::-webkit-scrollbar-track {
+		background: #fcdfb6;
+	}
 
-    .custom-tooltip {
-        --bs-tooltip-bg: var(--bs-primary);
-    }
+	.custom-tooltip {
+		--bs-tooltip-bg: var(--bs-primary);
+	}
 
-    #ratingSection {
-        overflow: auto;
-        height: 100px;
-    }
+	#ratingSection {
+		overflow: auto;
+		height: 100px;
+	}
 
-    #PlaceOfBirthList {
-        position: absolute;
-        height: 250px;
-        padding: 10px;
-        overflow: auto;
-    }
+	#PlaceOfBirthList {
+		position: absolute;
+		height: 250px;
+		padding: 10px;
+		overflow: auto;
+	}
 
-    .chat-modal-body {
-        height:60vh;
-        max-height: 600px; /* Set a max height for the chat area */
-        overflow-y: auto; /* Enable scrolling */
-        background-color: #f8f9fa; /* Light background for the chat area */
-    }
+	.chat-modal-body {
+		height: 60vh;
+		max-height: 600px; /* Set a max height for the chat area */
+		overflow-y: auto; /* Enable scrolling */
+		background-color: #f8f9fa; /* Light background for the chat area */
+	}
 
-    .chat-history {
-        padding: 15px;
-    }
+	.chat-history {
+		padding: 15px;
+	}
 
-    .message {
-        margin-bottom: 10px;
-        padding: 10px;
-        border-radius: 5px;
-        max-width: 50%;
-        clear:both;
-        word-wrap: break-word;
-    }
+	.message {
+		margin-bottom: 10px;
+		padding: 10px;
+		border-radius: 5px;
+		max-width: 50%;
+		clear: both;
+		word-wrap: break-word;
+	}
 
-        .message.sent {
-            background-color: #007bff; /* Bootstrap primary color */
-            color: white;
-            margin-left: auto; /* Align to the right */
-        }
+		.message.sent {
+			background-color: #007bff; /* Bootstrap primary color */
+			color: white;
+			margin-left: auto; /* Align to the right */
+		}
 
-        .message.received {
-            background-color: #e9ecef; /* Light gray for received messages */
-            color: black;
-            margin-right: auto; /* Align to the left */
-        }
+		.message.received {
+			background-color: #e9ecef; /* Light gray for received messages */
+			color: black;
+			margin-right: auto; /* Align to the left */
+		}
 
-    .input-group {
-        position: relative;
-    }
+	.input-group {
+		position: relative;
+	}
 
-        
-        #ChatModal{
-            z-index:10000;
-        }
 
-    .fa-location-arrow{
-        transform: rotate(44deg);
-    }
+	#ChatModal {
+		z-index: 10000;
+	}
 
-    .messageInpBox {
-        padding: 10px;
-        font-size: 20px;
-        outline:none !important;
-        box-shadow:none !important;
-    }
+	.fa-location-arrow {
+		transform: rotate(44deg);
+	}
 
-    .chat-modal-body::-webkit-scrollbar{
-        width:4px;
-        height:4px;
-    }
+	.messageInpBox {
+		padding: 10px;
+		font-size: 20px;
+		outline: none !important;
+		box-shadow: none !important;
+	}
 
-    .chat-modal-body::-webkit-scrollbar-thumb{
-        border-radius:10px;
-        background:skyblue;
-    }
+	.chat-modal-body::-webkit-scrollbar {
+		width: 4px;
+		height: 4px;
+	}
+
+	.chat-modal-body::-webkit-scrollbar-thumb {
+		border-radius: 10px;
+		background: skyblue;
+	}
 </style>
 
 <div class="container my-3" style="margin-top:100px; background-color: #f7f7f7; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
-    <div class="card w-100 mx-auto shadow-sm" style="background-color: #ffffff; padding: 20px; border-radius: 10px;">
-        <div class="card-body">
-            <div class="row align-items-start mb-4">
-                <div class="col-md-4 text-center text-md-start">
-                    <img id="profilePicture" src="" alt="Profile Picture" class="rounded shadow-sm border p-2 img-thumbnail" style=" width: 150px;height: 145px; border: 2px solid #ffffff;">
+	<div class="card w-100 mx-auto shadow-sm" style="background-color: #ffffff; padding: 20px; border-radius: 10px;">
+		<div class="card-body">
+			<div class="row align-items-start mb-4">
+				<div class="col-md-4 text-center text-md-start">
+					<img id="profilePicture" src="" alt="Profile Picture" class="rounded shadow-sm border p-2 img-thumbnail" style=" width: 150px;height: 145px; border: 2px solid #ffffff;">
 
-                    <h2 id="profileName" class="h4 mt-3 mb-1" style="color:#333333;">  </h2>
-                    <span id="ratingStar" class="text-warning  me-2">★★★★★</span>
-                    <span id="rating" class="mb-0 me-2">4.99</span>|
-                    <span id="totalReview" class="text-muted">
-                        (0)
-                    </span>
-                    <p id="profileExpertise" class="text-muted mb-1" style="font-size: 14px;"></p>
-                    <p id="profileLanguage" class="text-muted mb-1" style="font-size: 14px;"></p>
-                    <p class="mb-1 text-muted">Available :<small id="time"></small></p>
-                    <p id="profileExperience" class="text-muted mb-1" style="font-size: 14px;"></p>
-                </div>
-                <div class="col-md-8">
-                    <div class="mt-2 border-bottom py-2">
+					<h2 id="profileName" class="h4 mt-3 mb-1" style="color:#333333;">  </h2>
+					<span id="ratingStar" class="text-warning  me-2">★★★★★</span>
+					<span id="rating" class="mb-0 me-2">4.99</span>|
+					<span id="totalReview" class="text-muted">
+						(0)
+					</span>
+					<p id="profileExpertise" class="text-muted mb-1" style="font-size: 14px;"></p>
+					<p id="profileLanguage" class="text-muted mb-1" style="font-size: 14px;"></p>
+					<p class="mb-1 text-muted">Available :<small id="time"></small></p>
+					<p id="profileExperience" class="text-muted mb-1" style="font-size: 14px;"></p>
+				</div>
+				<div class="col-md-8">
+					<div class="mt-2 border-bottom py-2">
 
-                        <button class="btn btn-success chatBtn me-2 mb-2 mb-md-0" data-bs-toggle="tooltip1" data-bs-placement="top"
-                                data-bs-custom-class="custom-tooltip"
-                                data-bs-title=""
-                                data-action="1">
-                            Start Chat
-                        </button>
-                        <button class="btn btn-success callBtn" data-bs-toggle="tooltip2" data-bs-placement="top"
-                                data-bs-custom-class="custom-tooltip"
-                                data-bs-title="" data-action="2">
-                            Start Call
-                        </button>
-                        <button class="btn btn-success" id="bookAppointmentModalBtn" data-bs-toggle="modal" data-bs-target="#exampleModal">Book Appointmnet</button>
-                    </div>
-                    <div class="mb-4 mt-4">
-                        <div class="btn-group mb-3 border-top border-start border-end rounded-0 rounded-top" role="group" aria-label="Basic example">
-                            <button type="button" id="aboutBtn" class="btn btn-success">About</button>
-                            <button type="button" id="specBtn" class="btn ">Specialization</button>
-                            <button type="button" id="achBtn" class="btn ">Achievement</button>
-                            <button type="button" id="ratingBtn" class="btn ">Rating</button>
-                        </div>
-                        <p id="aboutMe" class="text-justify" style="font-size: 14px;"></p>
-                        <p id="specialization" class="text-justify mt-3" style="font-size: 14px;"></p>
-                        <p id="achievement" class="text-justify" style="font-size: 14px;"></p>
+						<button class="btn btn-success chatBtn me-2 mb-2 mb-md-0" data-bs-toggle="tooltip1" data-bs-placement="top"
+								data-bs-custom-class="custom-tooltip"
+								data-bs-title=""
+								data-action="1">
+							Start Chat
+						</button>
+						<button class="btn btn-success callBtn" data-bs-toggle="tooltip2" data-bs-placement="top"
+								data-bs-custom-class="custom-tooltip"
+								data-bs-title="" data-action="2">
+							Start Call
+						</button>
+						<button class="btn btn-success" id="bookAppointmentModalBtn" data-bs-toggle="modal" data-bs-target="#exampleModal">Book Appointmnet</button>
+					</div>
+					<div class="mb-4 mt-4">
+						<div class="btn-group mb-3 border-top border-start border-end rounded-0 rounded-top" role="group" aria-label="Basic example">
+							<button type="button" id="aboutBtn" class="btn btn-success">About</button>
+							<button type="button" id="specBtn" class="btn ">Specialization</button>
+							<button type="button" id="achBtn" class="btn ">Achievement</button>
+							<button type="button" id="ratingBtn" class="btn ">Rating</button>
+						</div>
+						<p id="aboutMe" class="text-justify" style="font-size: 14px;"></p>
+						<p id="specialization" class="text-justify mt-3" style="font-size: 14px;"></p>
+						<p id="achievement" class="text-justify" style="font-size: 14px;"></p>
 
-                        <div id="outerRatingSection" style="display:none;">
-                            <div class="justify-content-end d-flex Row">
-                                <button type="button" id="addRatingBtn" data-bs-toggle="modal" data-bs-target="#AddRatingModal" class="btn bg-primary btn-sm text-light">Give Feedback</button>
-                            </div>
-                            <div>
-                                <p id="ratingSection" class="text-justify" style="font-size: 14px; display:none;">
+						<div id="outerRatingSection" style="display:none;">
+							<div class="justify-content-end d-flex Row">
+								<button type="button" id="addRatingBtn" data-bs-toggle="modal" data-bs-target="#AddRatingModal" class="btn bg-primary btn-sm text-light">Give Feedback</button>
+							</div>
+							<div>
+								<p id="ratingSection" class="text-justify" style="font-size: 14px; display:none;">
 
-                                </p>
-                            </div>
+								</p>
+							</div>
 
-                        </div>
+						</div>
 
-                    </div>
+					</div>
 
-                </div>
-            </div>
-
-
+				</div>
+			</div>
 
 
-        </div>
-    </div>
-    <div class="mb-4 mt-4 galleryContainer d-none">
-        <h3 class="h5 py-2 mb-3 border-bottom" style="color: #333333;">Gallery</h3>
-        <div class="row g-2 py-3 manupScroll flex-nowrap overflow-auto" id="gallerySection">
-            <!-- Gallery images will be dynamically loaded here -->
-        </div>
-    </div>
 
-    <div class="mb-4 videoContainer d-none">
-        <h3 class="h5 py-2 mb-3 border-bottom" style="color: #333333;">Videos</h3>
-        <div id="videosSection" class="flex-nowrap py-3 manupScroll overflow-auto row">
-            <!-- Videos will be dynamically loaded here -->
-        </div>
-    </div>
 
-    <div class="mb-4 consultantContainer d-none">
-        <h3 class="h5 border-bottom" style="color: #333333;">Check Similar Consultants</h3>
-        <div class="row flex-nowrap py-3 manupScroll overflow-auto g-2" id="consultant">
-            <!-- Similar consultants section -->
-        </div>
-    </div>
+		</div>
+	</div>
+	<div class="mb-4 mt-4 galleryContainer d-none">
+		<h3 class="h5 py-2 mb-3 border-bottom" style="color: #333333;">Gallery</h3>
+		<div class="row g-2 py-3 manupScroll flex-nowrap overflow-auto" id="gallerySection">
+			<!-- Gallery images will be dynamically loaded here -->
+		</div>
+	</div>
+
+	<div class="mb-4 videoContainer d-none">
+		<h3 class="h5 py-2 mb-3 border-bottom" style="color: #333333;">Videos</h3>
+		<div id="videosSection" class="flex-nowrap py-3 manupScroll overflow-auto row">
+			<!-- Videos will be dynamically loaded here -->
+		</div>
+	</div>
+
+	<div class="mb-4 consultantContainer d-none">
+		<h3 class="h5 border-bottom" style="color: #333333;">Check Similar Consultants</h3>
+		<div class="row flex-nowrap py-3 manupScroll overflow-auto g-2" id="consultant">
+			<!-- Similar consultants section -->
+		</div>
+	</div>
 </div>
 
 
 <!-- Modal Add Rating-->
 <div class="modal z-5 fade" id="AddRatingModal" tabindex="-1" aria-labelledby="AddRatingModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="AddRatingModalLabel">Add Feedback</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
+	<div class="modal-dialog modal-dialog-scrollable">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5" id="AddRatingModalLabel">Add Feedback</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
 
-                <input id="RatingStarCount" type="number" hidden />
-                <textarea class="form-control mt-1" id="FeedbackMessage" placeholder="Write your feedback here "></textarea>
-                <div class="rating fs-1">
-                    <span class="text-secondary user-rating-stars cursor-pointer text-orange" data-value="1" role="button">★</span>
-                    <span class="text-secondary user-rating-stars cursor-pointer text-orange selected-star" data-value="2" role="button">★</span>
-                    <span class="text-secondary user-rating-stars cursor-pointer" data-value="3" role="button">★</span>
-                    <span class="text-secondary user-rating-stars cursor-pointer" data-value="4" role="button">★</span>
-                    <span class="text-secondary user-rating-stars cursor-pointer" data-value="5" role="button">★</span>
-                </div>
-                <button class=" btn btn-success" id="AddfeedbackSubmitBtn"> Submit</button>
-            </div>
+				<input id="RatingStarCount" type="number" hidden />
+				<textarea class="form-control mt-1" id="FeedbackMessage" placeholder="Write your feedback here "></textarea>
+				<div class="rating fs-1">
+					<span class="text-secondary user-rating-stars cursor-pointer text-orange" data-value="1" role="button">★</span>
+					<span class="text-secondary user-rating-stars cursor-pointer text-orange selected-star" data-value="2" role="button">★</span>
+					<span class="text-secondary user-rating-stars cursor-pointer" data-value="3" role="button">★</span>
+					<span class="text-secondary user-rating-stars cursor-pointer" data-value="4" role="button">★</span>
+					<span class="text-secondary user-rating-stars cursor-pointer" data-value="5" role="button">★</span>
+				</div>
+				<button class=" btn btn-success" id="AddfeedbackSubmitBtn"> Submit</button>
+			</div>
 
-        </div>
-    </div>
+		</div>
+	</div>
 </div>
 
 <!-- Modal book appoinment-->
 <div class="modal z-5 fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Book An Appoinment</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div id="walletPaymentContainer"></div>
-                <input type="text" autocomplete="off" name="date" id="appointmentDate" class="form-control" />
-                <div id="appoinmentDetail" class="py-3"></div>
-                <div id="problem">
-                    <textarea class="form-control mt-1" id="problem-desc" placeholder="Describe Your Problem "></textarea>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button class="btn btn-primary" id="prev-btn">Previous</button>
-                <button class="btn btn-primary" disabled id="next-btn">Next</button>
-            </div>
-        </div>
-    </div>
+	<div class="modal-dialog modal-dialog-scrollable">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5" id="exampleModalLabel">Book An Appoinment</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<div id="walletPaymentContainer"></div>
+				<input type="text" autocomplete="off" name="date" id="appointmentDate" class="form-control" />
+				<div id="appoinmentDetail" class="py-3"></div>
+				<div id="problem">
+					<textarea class="form-control mt-1" id="problem-desc" placeholder="Describe Your Problem "></textarea>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button class="btn btn-primary" id="prev-btn">Previous</button>
+				<button class="btn btn-primary" disabled id="next-btn">Next</button>
+			</div>
+		</div>
+	</div>
 </div>
 
 <!-- Modal call-->
 <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel"> Please enter your details </h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
+	<div class="modal-dialog modal-lg modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5" id="exampleModalLabel"> Please enter your details </h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
 
-                <div class="row d-flex">
-                    <div class="col-md-4 mb-2">
-                        <label name="Name">Name</label>
-                        <input class="form-control" name="Name" id="Name" type="text" />
-                    </div>
-                    <input id="JyotishId" hidden />
-                    <input id="UserId" hidden />
-                    <input id="Action" value="2" hidden />
-                    <div class="col-md-4 mb-2">
-                        <label name="Gender">Gender</label>
-                        <select id="Gender" name="Gender" class="form-select custom-field" required>
-                            <option value="Male" selected>Male</option>
-                            <option value="Female">Female</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
+				<div class="row d-flex">
+					<div class="col-md-4 mb-2">
+						<label name="Name">Name</label>
+						<input class="form-control" name="Name" id="Name" type="text" />
+					</div>
+					<input id="JyotishId" hidden />
+					<input id="UserId" hidden />
+					<input id="Action" value="2" hidden />
+					<div class="col-md-4 mb-2">
+						<label name="Gender">Gender</label>
+						<select id="Gender" name="Gender" class="form-select custom-field" required>
+							<option value="Male" selected>Male</option>
+							<option value="Female">Female</option>
+							<option value="Other">Other</option>
+						</select>
+					</div>
 
-                    <div class="col-md-4  mb-2">
-                        <label name="DateOfBirth">DateOfBirth</label>
-                        <input class="form-control" name="DateOfBirth" id="DateOfBirth" type="date" />
-                    </div>
-                </div>
+					<div class="col-md-4  mb-2">
+						<label name="DateOfBirth">DateOfBirth</label>
+						<input class="form-control" name="DateOfBirth" id="DateOfBirth" type="date" />
+					</div>
+				</div>
 
-                <div class="row d-flex">
-                    <div class="col-md-4 mb-2 ">
-                        <label name="TimeOfBirth">TimeOfBirth</label>
-                        <input class="form-control" name="TimeOfBirth" id="TimeOfBirth" type="time" />
-                    </div>
-                    <div class="col-md-4 mb-2 position-relative">
-                        <label name="PlaceOfBirth">PlaceOfBirth</label>
+				<div class="row d-flex">
+					<div class="col-md-4 mb-2 ">
+						<label name="TimeOfBirth">TimeOfBirth</label>
+						<input class="form-control" name="TimeOfBirth" id="TimeOfBirth" type="time" />
+					</div>
+					<div class="col-md-4 mb-2 position-relative">
+						<label name="PlaceOfBirth">PlaceOfBirth</label>
 
-                        <input list="PlaceOfBirthList" type="text" id="PlaceOfBirth" name="placeOfBirth" class="form-control custom-field"
-                               placeholder="Enter City" autocomplete="off" />
-                        <div class="position-absolute w-100 bg-light d-none" id="PlaceOfBirthList">
-                        </div>
-                    </div>          
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="DataSubmitBtn">Submit</button>
-            </div>
-        </div>
-    </div>
+						<input list="PlaceOfBirthList" type="text" id="PlaceOfBirth" name="placeOfBirth" class="form-control custom-field"
+							   placeholder="Enter City" autocomplete="off" />
+						<div class="position-absolute w-100 bg-light d-none" id="PlaceOfBirthList">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary" id="DataSubmitBtn">Submit</button>
+			</div>
+		</div>
+	</div>
 </div>
 
 <div class="modal fade" id="ChatModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="ChatModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content" >
-            <div class="modal-header">
-                <div class="d-flex align-items-center">
-                    <img id="jyotishdetailschatheader" height="50" width="50" class="rounded-circle border" src="~/user-not-found.png" alt="jyotish profile"/>
-                    <h1 class="modal-title fs-5 ms-2" id="ChatModalLabel"></h1>
-                </div>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body chat-modal-body">
-                <div class="chat-history">
-                    
-                </div>
-            </div>
-            <div class="modal-footer">
-                <form class="w-100" id="messageForm">
-                <div class="input-group mt-3">
-                    <input type="text" class="form-control rounded-start messageInpBox" placeholder="Type your message..." aria-label="User 's message">
-                    <button disabled class="btn btn-primary rounded-end" id="sendMessageBtn" type="submit"><i class="fas fs-5 fa-location-arrow"></i></button>
-                </div>
-                </form>
-            </div>
-        </div>
-    </div>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<div class="d-flex align-items-center">
+					<img id="jyotishdetailschatheader" height="50" width="50" class="rounded-circle border" src="~/user-not-found.png" alt="jyotish profile" />
+					<h1 class="modal-title fs-5 ms-2" id="ChatModalLabel"></h1>
+				</div>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body chat-modal-body">
+				<div class="chat-history">
+				</div>
+			</div>
+			<div class="modal-footer">
+				<form class="w-100" id="messageForm">
+					<div class="input-group mt-3">
+						<input type="text" class="form-control rounded-start messageInpBox" placeholder="Type your message..." aria-label="User 's message">
+						<button disabled class="btn btn-primary rounded-end" id="sendMessageBtn" type="submit"><i class="fas fs-5 fa-location-arrow"></i></button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 </div>
 
 <script>
 
-    let stars = document.querySelectorAll('.user-rating-stars');
-    stars.forEach(function (d) {
-        d.classList.remove("text-warning");
-        d.classList.remove("selected-star");
-    });
+	let stars = document.querySelectorAll('.user-rating-stars');
+	stars.forEach(function (d) {
+		d.classList.remove("text-warning");
+		d.classList.remove("selected-star");
+	});
 
-    $(".user-rating-stars").click(function () {
+	$(".user-rating-stars").click(function () {
 
-        let userRating = $(this).attr("data-value");
-        $('#RatingStarCount').val(userRating);
-        stars.forEach(function (d) {
-            d.classList.remove("text-warning");
-            d.classList.remove("selected-star");
-            d.classList.add("text-secondary");
-        });
+		let userRating = $(this).attr("data-value");
+		$('#RatingStarCount').val(userRating);
+		stars.forEach(function (d) {
+			d.classList.remove("text-warning");
+			d.classList.remove("selected-star");
+			d.classList.add("text-secondary");
+		});
 
-        for (let i = 0; i < userRating; i++) {
-            stars[i].classList.add("text-warning");
-            stars[i].classList.remove("text-secondary");
+		for (let i = 0; i < userRating; i++) {
+			stars[i].classList.add("text-warning");
+			stars[i].classList.remove("text-secondary");
 
-        }
-        $("#RatingStarCount").val(userRating);
+		}
+		$("#RatingStarCount").val(userRating);
 
-        stars[userRating - 1].classList.add("selected-star");
-    });
+		stars[userRating - 1].classList.add("selected-star");
+	});
 </script>
 <script>
-    async function loadPlaceOfBirth(city) {
-        if (!city) return;
-
-        try {
-            const response = await fetch(BaseUrl + `Api/Account/PlaceOfBirthList?City=${encodeURIComponent(city)}`);
-            const data = await response.json();
-            const $placeOfBirthDropdown = $('#PlaceOfBirthList');
-            console.log(data);
-            $('#PlaceOfBirthList').removeClass('d-none');
-            $placeOfBirthDropdown.empty();
-            data.data.forEach(placeOfBirth => {
-                $placeOfBirthDropdown.append(`<p class="pOBPtag" onClick="setPlace('${placeOfBirth}')"> ${placeOfBirth}</p>`);
-            });
-        } catch (error) {
-            console.error('Error fetching PlaceOfBirth:', error);
-        }
-    }
-    function setPlace(svalue) {
-
-        $('#PlaceOfBirthList').addClass('d-none');
-        $('#PlaceOfBirth').val(svalue);
-    }
-    $('#PlaceOfBirth').on('keyup', function () {
-
-        $('#PlaceOfBirthList').show();
-        const city = $(this).val();
-        loadPlaceOfBirth(city);
-
-    });
-
-    // Make AJAX call to the WalletPaymentLayout action
-    function makePaymentWithWallet(amount, JId, message) {
-        $.get('/home/WalletPaymentLayout', { amount: amount, jyotishId: JId, message: message, paymentby: "user" }, function (data) {
-            $('#walletPaymentContainer').html(data);
-        });
-    }
-
-
-    $(document).ready(function () {
-
-        const urlParams = new URLSearchParams(window.location.search);
-        var astrologerId = urlParams.get('Id');
-
-        var apiUrl = BaseUrl + `Api/User/AstrologerProfile?Id=${astrologerId}`;
-        Swal.fire({
-            title: "Processing Your Request",
-            allowOutsideClick: false,
-            didOpen: () => {
-                Swal.showLoading();
-            }
-        })
-        $.ajax({
-            url: apiUrl,
-            method: 'GET',
-            success: function (response) {
-                console.log(response)
-                if (response.status === 200) {
-                    var data = response.data;
-                    // Update Profile Section
-                    $('#profilePicture').attr('src', BaseUrl + data.profileImageUrl);
-                    $('#profileName').text(data.name);
-                    $('#profileName').append('<i class="fas fs-6 fa-check-circle text-success mx-2"></i>');
-                    $('#profileExpertise').text(data.expertise);
-                    $('#profileLanguage').text(data.language);
-                    if(data.totalReview != null && data.totalReview != 0)
-                    {
-                        $('#totalReview').text(data.totalReview);
-                    }
-                    if (data.timeFrom != null) { $("#time").text(data.timeFrom.slice(0, 5) + "-" + data.timeTo.slice(0, 5)) }
-
-                    $('#profileExperience').text('Experience: ' + data.experience + ' Years');
-                    $('#bookAAppointment').attr('href', "/Home/JyotishProfile?Id=" + `${data.id}`);
-                    // Update About Section
-                    $('#aboutMe').text(data.about != null ? data.about : "About us not added yet!");
-                    if (data.specialization != null) {
-
-                        data.specialization.toString().split(',').forEach((e) => {
-                            $('#specialization').append(`<small class='px-3 py-2 border rounded-3'>${e}</small> &nbsp;`);
-                        })
-                    } else {
-
-                        $('#specialization').text("Specialization not added yet!");
-                    }
-
-                    $('#achievement').text(data.awordsAndAchievement != null ? data.awordsAndAchievement : "Achievement not added yet!");
-                    $('#specialization').hide();
-                    $('#achievement').hide();
-                    if (!data.call) {
-                        $(".callBtn").hide()
-                    } else {
-                        $(".callBtn").attr("data-bs-title", `₹${data.callCharges != null ? data.callCharges : 0} /min`)
-
-                        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip2"]')
-                        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => {
-                            const tooltipInstance = new bootstrap.Tooltip(tooltipTriggerEl);
-                            tooltipInstance.show();
-                            return tooltipInstance;
-                        })
-
-                    }
-                    if (!data.chat) {
-                        $(".callBtn").hide()
-                    } else {
-                        $(".chatBtn").attr("data-bs-title", `₹${data.chatCharges != null ? data.chatCharges : 0} /min`)
-                        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip1"]')
-                        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => {
-                            const tooltipInstance = new bootstrap.Tooltip(tooltipTriggerEl);
-                            tooltipInstance.show();
-                            return tooltipInstance;
-                        })
-
-                    }
-
-                    // Update Gallery Section
-                    if (data.gallery.length > 0) {
-                        $(".galleryContainer").removeClass("d-none")
-                        var galleryHtml = '';
-                        $.each(data.gallery, function (index, item) {
-                            galleryHtml += '<div class="col-6 col-md-3">';
-                            galleryHtml += '<img src="' + BaseUrl + item.imageUrl + '" alt="Gallery Image" class="img-fluid rounded-4 img-thumbnail border-0" style="height:250px; width:250; border: 2px solid #ffffff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);">';
-                            galleryHtml += '</div>';
-                        });
-                        $('#gallerySection').html(galleryHtml);
-                    }
-                    // Update Videos Section
-                    if (data.videos.length > 0) {
-                        $(".videoContainer").removeClass("d-none")
-                        var videosHtml = '';
-                        $.each(data.videos, function (index, video) {
-                            videosHtml += '<div class="col-4"> <iframe class="img-fluid rounded-4 img-thumbnail border-0" style="height:250px; border: 2px solid #ffffff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);"  src="' + video.videoUrl + '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> </div>';
-                        });
-                        $('#videosSection').html(videosHtml);
-                    }
-                    // Update Rating & Reviews Section
-                    $('#rating').text(data.rating != null ? data.rating : 0.0 || '4.99');
-
-                    $('#ratingStar').html(function () {
-                         
-                        if (data.rating != null) {
-                            // Ensure the rating is a valid number before proceeding
-                            var fullStars = Math.floor(data.rating);
-                            var halfStar = (data.rating % 1) >= 0.5 ? `<i class=" fa-solid fa-star-half-stroke fa-lg"></i>` : "";
-
-                            // Build the stars string: full stars + half star (if any) + empty stars to fill up to 5
-                            var stars = `<i class="fa-solid fa-star fa-lg"></i>`.repeat(fullStars) + halfStar;
-
-                            // Add the empty stars to complete the 5 stars
-                            stars += `<i class="fa-regular fa-star fa-lg"></i>`.repeat(5 - fullStars - (halfStar ? 1 : 0));
-
-                            return stars;
-                        } else {
-                            // Default to 4 stars if rating is null
-                            return '★★★★☆';
-                        }
-                    });
-
-                    $('#totalReviews').text('(6587)'); 
-                  
-                } else {
-                    Swal.fire({
-                        title: "error!",
-                        text: response.message,
-                        icon: "error"
-                    })
-
-                }
-            },
-            error: function (error) {
-
-            }
-        }).then(() => {
-            Swal.close()
-
-        })
-
-        $.ajax({
-            url: BaseUrl + `api/User/JyotishRatingList?Id=${astrologerId}`,
-            method: 'GET',
-            success: function (response) {
-                if (response.status == 200) {
-                    let ratingCards = '';
-
-                    response.data.forEach(review => {
-                        const userName = review.userName || 'Anonymous'; // Use 'Anonymous' if review.name is undefined
-                        const profileInitial = userName.charAt(0); // Safely get the first letter of the name
-                        // Create stars dynamically based on review.stars
-                        let stars = '';
-                        for (let i = 0; i < 5; i++) {
-                            stars += (i < review.stars) ? '<span class="star">★</span>' : '<span class="text-secondary">★</span>';
-                        }
-
-                        const formattedDate = formatDate(review.dateTime);
-                        // Rating card template
-                        ratingCards += `
-                                <div class="container d-flex float-start p-0 mb-4" style="background-color:#F7F7F7;">
-                                <div class="profile p-3">
-                                        <h2 class="comment-profile">${profileInitial}</h2>
-                                </div>
-                                <div class="content p-3 w-100 rounded">
-                                    <div class="header d-flex">
-                                            <h6 class="c-name ">${review.userName}</h6>
-                                        <div class="verified text-primary text-italic">- Verified Client</div>
-                                        <div class="stars ml-20">
-                                            ${stars}
-                                        </div>
-                                    </div>
-                                    <div class="text my-2 text-justify">
-                                        ${review.feedbackMessage}
-                                    </div>
-                                    <div class="d-flex text-center mt-2 align-items-center">
-                                        <span class="date-icon">
-                                            <svg height="15" width="15" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-                                                <path fill="#63E6BE" d="M0 464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V192H0v272zm320-196c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zM192 268c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zM64 268c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H76c-6.6 0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H76c-6.6 0-12-5.4-12-12v-40zM400 64h-48V16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v48H160V16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v48H48C21.5 64 0 85.5 0 112v48h448v-48c0-26.5-21.5-48-48-48z"></path>
-                                            </svg>
-                                        </span>
-                                            <small class="text-secondary">${formattedDate}</small>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                    });
-
-                    // Append the rating cards to the container
-                    $('#ratingSection').append(ratingCards);
-                }
-            }
-        });
-
-
-        function formatDate(dateTime) {
-            const date = new Date(dateTime);
-            const day = String(date.getDate()).padStart(2, '0');
-            const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is 0-indexed
-            const year = date.getFullYear();
-            return `${day}-${month}-${year}`;
-        }
-
-        function IsUserValidForRating() {
-            var DataContainer = {
-                userId: localStorage.getItem('userId'),
-                jyotishId: astrologerId
-            }
-
-            if (localStorage.getItem('userId') == null) {
-                $('#addRatingBtn').hide();
-            }
-            else {
-                $.ajax({
-                    url: BaseUrl + `api/user/IsUserValidForRating`,
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem("Token")}`,
-                        'Content-Type': 'application/json'
-                    },
-                    data: DataContainer, // Ensure DataContainer is defined and holds the necessary data
-                    success: function (response) {
-
-                        if (response.status == 200 && response.data == "Yes") {
-                            $('#addRatingBtn').show();  // Show the button if the user is valid for rating
-                        } else {
-                            $('#addRatingBtn').hide();  // Hide the button if the user is not valid for rating
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        console.error('Error:', error);
-                        // Handle error, you may want to hide the button in case of failure too
-                        $('#addRatingBtn').hide();
-                    }
-                });
-            }
-
-
-        }
-
-        IsUserValidForRating();
-        // let stars = document.querySelectorAll('.user-rating-stars');
-        // stars.forEach(function (d) {
-        //     d.classList.remove("text-orange")
-        //     d.classList.remove("selected-star")
-        // })
-        // $(".user-rating-stars").click(function () {
-        //     let userRating = $(this).attr("data-value")
-        //     $('#RatingStarCount').val(userRating);
-        //     stars.forEach(function (d) {
-
-        //         d.classList.remove("text-orange")
-        //         d.classList.remove("selected-star")
-        //     })
-
-
-        //     for (let i = 0; i <= userRating - 1; i++) {
-        //         stars[i].classList.add("text-orange")
-        //     }
-        //     stars[userRating - 1].classList.add("selected-star")
-        // })
-
-
-        $('#AddfeedbackSubmitBtn').on('click', function () {
-
-            var DataContainer = {
-                userId: Number(localStorage.getItem('userId')),  // Convert to number
-                jyotishId: Number(astrologerId),  // Ensure it's a number (if astrologerId is a string)
-                FeedbackMessage: $('#FeedbackMessage').val(),
-                Stars: Number($('#RatingStarCount').val())  // Convert Stars to number
-            };
-
-            $.ajax({
-                url: BaseUrl + `api/user/AddRating`,
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem("Token")}`,
-                    'Content-Type': 'application/json'
-                },
-                data: JSON.stringify(DataContainer),  // Convert the DataContainer to a JSON string
-                success: function (response) {
-                    if (response.status === 200) {
-                        Swal.fire({
-                            title: "Successful!",
-                            text: "Feedback Added Successfully",
-                            icon: "success"
-                        }).then(function (result) {
-                            // If the user clicks "OK" (or confirms the alert)
-                            if (result.isConfirmed) {
-                                location.reload();
-                            }
-                        });
-
-
-                    }
-                    else if (response.status === 500) {
-                        Swal.fire({
-                            title: "Error!",
-                            text: "Something went wrong",
-                            icon: "error"
-                        });
-                    }
-                    else {
-                        Swal.fire({
-                            title: "Error!",
-                            text: response.message,
-                            icon: "error"
-                        });
-                    }
-
-                },
-                error: function (xhr, status, error) {
-                    console.error('Error:', error);
-                    $('#addRatingBtn').hide();
-                }
-            });
-        });
-
-        //handle specialization aboutus and achievement
-
-        $("#aboutBtn").click(function () {
-            $("#aboutMe").show();
-            $("#achievement").hide();
-            $("#specialization").hide();
-            $("#ratingSection").hide();
-
-            $("#outerRatingSection").hide();
-            $(this).addClass("btn-success")
-            $("#specBtn").removeClass("btn-success")
-            $("#achBtn").removeClass("btn-success")
-		$("#ratingBtn").removeClass("btn-success")
-
-        })
-        $("#specBtn").click(function () {
-            $("#aboutMe").hide();
-            $("#achievement").hide();
-            $("#specialization").show();
-            $("#ratingSection").hide();
-
-            $("#outerRatingSection").hide();
-            $(this).addClass("btn-success")
-            $("#aboutBtn").removeClass("btn-success")
-            $("#achBtn").removeClass("btn-success")
-            $("#ratingBtn").removeClass("btn-success")
-
-        })
-        $("#achBtn").click(function () {
-            $("#aboutMe").hide();
-            $("#achievement").show();
-            $("#specialization").hide();
-            $("#ratingSection").hide();
-            $("#outerRatingSection").hide();
-            $(this).addClass("btn-success")
-            $(this).addClass("btn-success")
-            $("#aboutBtn").removeClass("btn-success")
-            $("#specBtn").removeClass("btn-success")
-            $("#ratingBtn").removeClass("btn-success")
-
-        })
-        $("#ratingBtn").click(function () {
-            $("#aboutMe").hide();
-            $("#achievement").hide();
-            $("#specialization").hide();
-            $("#ratingSection").show();
-            $("#outerRatingSection").show();
-            $(this).addClass("btn-success")
-            $(this).addClass("btn-success")
-            $("#aboutBtn").removeClass("btn-success")
-            $("#specBtn").removeClass("btn-success")
-            $("#achBtn").removeClass("btn-success")
-
-
-        })
-
-        // select appoinment
-        function reverseDate(dateString) {
-            const parts = dateString.split('-');
-
-            const reversedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
-
-            return reversedDate;
-        }
-        var appoinmentUrl = BaseUrl + `api/User/getAllAppointmentSlot?Id=${astrologerId}`;
-        let appoinmentArray;
-        if (localStorage.getItem("userId") != null & localStorage.getItem("Token") != null) {
-
-            $.ajax({
-                url: appoinmentUrl,
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem("Token")}`,
-                    'Content-Type': 'application/json'
-                },
-                success: function (response) {
-                    $("#problem").hide()
-                    $("#prev-btn").hide()
-
-                    if (response.status === 200) {
-
-                        var data = response.data;
-                        appoinmentArray = data;
-                        var [year,month,day]=appoinmentArray[0].date.split("T")[0].split('-')
-                        console.log(appoinmentArray)
-                        $("#appointmentDate").attr("min", appoinmentArray[0].date)
-                        $("#appointmentDate").attr("max", appoinmentArray[appoinmentArray.length - 1].date)
-                        $("#appointmentDate").val(`${month}/${day}/${year}`)
-                    }
-                }, error: function (err) {
-
-
-                }
-            }).then(() => {
-                 let appointmentDate = document.getElementById("appointmentDate")
-
-    setTimeout(() => {
-        $("#appointmentDate").datepicker({
-            autoclose: true,
-            dateFormat: 'dd-mm-yy',
-            changeMonth: true,
-            changeYear: true,
-            yearRange: "c-100:c+100",
-            startDate: new Date(appointmentDate.getAttribute("min")),
-            endDate: new Date(appointmentDate.getAttribute("max")),
-            showAnim: "slideDown",
-            buttonImageOnly: true,
-            buttonText: "Select date",
-            clearBtn: true,
-        })
-    }, 2000)
-
-                let newArray = [];
-                function setAppoinment(appdata) {
-                    console.log(appdata)
-                    Swal.fire({
-                        title: "Processing Your Request",
-                        allowOutsideClick: false,
-                        didOpen: () => {
-                            Swal.showLoading();
-                        }
-                    })
-                    newArray = appoinmentArray.filter((e) => {
-                        return e.date.split("T")[0] == appdata;
-                    })
-
-                    $("#appoinmentDetail").empty();
-                    if (newArray.length > 0) {
-                        newArray[0].slotList.forEach(function (d) {
-                            $("#appoinmentDetail").append(
-                                `<label class='w-100'>
-                                           <div class='d-flex  bg-light-sec border rounded text-secondary fw-semi-bold my-2 p-2 justify-content-between align-items-center'  ${d.status == 'Booked' ? `style="background:rgb(40, 41, 40, 0.7) !important"` : ''} >
-                                       <div class='row w-100 position-relative'>
-
-                        <div class='col-sm-1'>
-                                               <input type='radio' data-amount='${d.amount}' onChange='selectSlots()' ${d.status == 'Booked' ? 'disabled' : ""} name='jyotishAppoinment' data-userId='${localStorage.getItem('userId')}' data-slotId='${d.id}' data-jyotishId='${d.jyotishId}'>
-                                       </div>
-
-                                               <div class='col-sm-5'>
-
-                                   <span> ${d.timeFrom
-                                } - ${d.timeTo} </span>
-                               </div>
-                                                   <div class='col-sm-4'>
-                               <span class=''>Time :&nbsp;${d.timeDuration}min</span>
-                               </div>
-                               </div>
-                               </div>
-                               </label>
-                            `
-                            )
-
-                        })
-                    } else {
-                        $("#appoinmentDetail").append(`<p class='mt-4 text-center text-secondary'>No record found</p>`)
-                    }
-                    Swal.close()
-                }
-                function convertDateFormat(date) {
-                    // Split the date by the '/' separator
-                    const [month, day, year] = date.split('/');
-
-                    // Return the date in DD/MM/YYYY format
-                    return `${year}-${month}-${day}`;
-                }
-                $("#appointmentDate").on("change", function () {
-                    setAppoinment(convertDateFormat($(this).val()))
-                });
-
-                setAppoinment(convertDateFormat($("#appointmentDate").val()))
-
-
-            })
-
-        }
-
-    });
-    $("#next-btn").click(function () {
-        if ($(this).text() == "Book") {
-            if ($("#problem-desc").val() == null || $("#problem-desc").val() == "") {
-                Swal.fire({
-                    title: "Required!",
-                    text: "Please describe your problems",
-                    icon: "warning"
-                })
-            } else {
-                let amount = $("input[name='jyotishAppoinment']:checked").attr("data-amount")
-                let JId = $("input[name='jyotishAppoinment']:checked").attr("data-jyotishId")
-                if (amount && JId) {
-
-                    makePaymentWithWallet(amount, JId, "Book Appointment")
-                }
-            }
-        } else {
-
-            $("#problem").show()
-            $("#prev-btn").show()
-            $("#appointmentDate").attr("disabled", true)
-            $("#appoinmentDetail").hide()
-            $(this).text("Book");
-        }
-    })
-
-    $("#prev-btn").click(function () {
-        $("#problem").hide()
-        $("#prev-btn").hide()
-        $("#appointmentDate").attr("disabled", false)
-        $("#appoinmentDetail").show()
-        $("#next-btn").text("Next");
-    });
-    var bookAppoinmentUrl = BaseUrl + `api/User/bookAppointment`;
-    function bookAppoinment() {
-        if ($("#problem-desc").val() == null || $("#problem-desc").val() == "") {
-            Swal.fire({
-                title: "Required!",
-                text: "Please describe your problems",
-                icon: "warning"
-            })
-        }
-        else {
-
-
-            Swal.fire({
-                title: "Proccessing Please Wait!",
-                timerProgressBar: true,
-                didOpen: () => {
-                    Swal.showLoading();
-                }
-            })
-            let appointmentDetail = $("input[name='jyotishAppoinment']:checked");
-
-            let userId = appointmentDetail[0].getAttribute("data-userId")
-            let jyotishId = appointmentDetail[0].getAttribute("data-jyotishId")
-            let slotId = appointmentDetail[0].getAttribute("data-slotId")
-            let problem = $("#problem-desc").val()
-
-            $.ajax({
-                url: bookAppoinmentUrl,
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem("Token")}`,
-                    'Content-Type': 'application/json'
-                },
-                data: JSON.stringify({
-                    userId: userId,
-                    jyotishId: jyotishId,
-                    slotId: slotId,
-                    problem: problem
-                }),
-                success: function (res) {
-
-                    if (res.status == 200) {
-                        Swal.fire({
-                            title: "Success!",
-                            text: "Booked Successfully",
-                            icon: "success",
-                            didClose: () => {
-                                location.reload(true);
-                            }
-                        });
-                        $("#exampleModal").modal("hide")
-                        $("#problem").hide()
-                        $("#prev-btn").hide()
-                        $("#appoinmentDetail").show()
-                        $("#next-btn").text("Next");
-                    } else {
-                        Swal.fire({
-                            title: "error!",
-                            text: res.message,
-                            icon: "error"
-                        })
-                    }
-                },
-                error: function (err) {
-
-                }
-
-
-            });
-        }
-    }
-    function makeActionAfterWalletPayment() {
-        bookAppoinment()
-
-    }
-
-    function selectSlots() {
-        $("#next-btn").attr("disabled", false)
-    }
-</script>
-
-<script>
-    $(document).ready(function () {
-        $('#exampleModal').on('shown.bs.modal', function () {
-            const tooltipTriggerList = document.querySelector('[data-bs-toggle="tooltip1"]')
-            const tooltip = bootstrap.Tooltip.getOrCreateInstance(tooltipTriggerList)
-            const tooltipTriggerList1 = document.querySelector('[data-bs-toggle="tooltip2"]')
-            const tooltip1 = bootstrap.Tooltip.getOrCreateInstance(tooltipTriggerList1)
-            tooltip.hide()
-            tooltip1.hide()
-        });
-
-        $('#exampleModal').on('hidden.bs.modal', function () {
-            const tooltipTriggerList = document.querySelector('[data-bs-toggle="tooltip1"]')
-            const tooltip = bootstrap.Tooltip.getOrCreateInstance(tooltipTriggerList)
-            const tooltipTriggerList1 = document.querySelector('[data-bs-toggle="tooltip2"]')
-            const tooltip1 = bootstrap.Tooltip.getOrCreateInstance(tooltipTriggerList1)
-            tooltip.show()
-            tooltip1.show()
-            $("#problem-desc").text("")
-
-        });
-        $('#AddRatingModal').on('shown.bs.modal', function () {
-            const tooltipTriggerList = document.querySelector('[data-bs-toggle="tooltip1"]')
-            const tooltip = bootstrap.Tooltip.getOrCreateInstance(tooltipTriggerList)
-            const tooltipTriggerList1 = document.querySelector('[data-bs-toggle="tooltip2"]')
-            const tooltip1 = bootstrap.Tooltip.getOrCreateInstance(tooltipTriggerList1)
-            tooltip.hide()
-            tooltip1.hide()
-        });
-    });
+	async function loadPlaceOfBirth(city) {
+		if (!city) return;
+
+		try {
+			const response = await fetch(BaseUrl + `Api/Account/PlaceOfBirthList?City=${encodeURIComponent(city)}`);
+			const data = await response.json();
+			const $placeOfBirthDropdown = $('#PlaceOfBirthList');
+			console.log(data);
+			$('#PlaceOfBirthList').removeClass('d-none');
+			$placeOfBirthDropdown.empty();
+			data.data.forEach(placeOfBirth => {
+				$placeOfBirthDropdown.append(`<p class="pOBPtag" onClick="setPlace('${placeOfBirth}')"> ${placeOfBirth}</p>`);
+			});
+		} catch (error) {
+			console.error('Error fetching PlaceOfBirth:', error);
+		}
+	}
+	function setPlace(svalue) {
+
+		$('#PlaceOfBirthList').addClass('d-none');
+		$('#PlaceOfBirth').val(svalue);
+	}
+	$('#PlaceOfBirth').on('keyup', function () {
+
+		$('#PlaceOfBirthList').show();
+		const city = $(this).val();
+		loadPlaceOfBirth(city);
+
+	});
+
+	// Make AJAX call to the WalletPaymentLayout action
+	function makePaymentWithWallet(amount, JId, message) {
+		$.get('/home/WalletPaymentLayout', { amount: amount, jyotishId: JId, message: message, paymentby: "user" }, function (data) {
+			$('#walletPaymentContainer').html(data);
+		});
+	}
+
+
+	$(document).ready(function () {
+
+		const urlParams = new URLSearchParams(window.location.search);
+		var astrologerId = urlParams.get('Id');
+
+		var apiUrl = BaseUrl + `Api/User/AstrologerProfile?Id=${astrologerId}`;
+		Swal.fire({
+			title: "Processing Your Request",
+			allowOutsideClick: false,
+			didOpen: () => {
+				Swal.showLoading();
+			}
+		})
+		$.ajax({
+			url: apiUrl,
+			method: 'GET',
+			success: function (response) {
+				console.log(response)
+				if (response.status === 200) {
+					var data = response.data;
+					// Update Profile Section
+					$('#profilePicture').attr('src', BaseUrl + data.profileImageUrl);
+					$('#profileName').text(data.name);
+					$('#profileName').append('<i class="fas fs-6 fa-check-circle text-success mx-2"></i>');
+					$('#profileExpertise').text(data.expertise);
+					$('#profileLanguage').text(data.language);
+					if (data.totalReview != null && data.totalReview != 0) {
+						$('#totalReview').text(data.totalReview);
+					}
+					if (data.timeFrom != null) { $("#time").text(data.timeFrom.slice(0, 5) + "-" + data.timeTo.slice(0, 5)) }
+
+					$('#profileExperience').text('Experience: ' + data.experience + ' Years');
+					$('#bookAAppointment').attr('href', "/Home/JyotishProfile?Id=" + `${data.id}`);
+					// Update About Section
+					$('#aboutMe').text(data.about != null ? data.about : "About us not added yet!");
+					if (data.specialization != null) {
+
+						data.specialization.toString().split(',').forEach((e) => {
+							$('#specialization').append(`<small class='px-3 py-2 border rounded-3'>${e}</small> &nbsp;`);
+						})
+					} else {
+
+						$('#specialization').text("Specialization not added yet!");
+					}
+
+					$('#achievement').text(data.awordsAndAchievement != null ? data.awordsAndAchievement : "Achievement not added yet!");
+					$('#specialization').hide();
+					$('#achievement').hide();
+					if (!data.call) {
+						$(".callBtn").hide()
+					} else {
+						$(".callBtn").attr("data-bs-title", `₹${data.callCharges != null ? data.callCharges : 0} /min`)
+
+						const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip2"]')
+						const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => {
+							const tooltipInstance = new bootstrap.Tooltip(tooltipTriggerEl);
+							tooltipInstance.show();
+							return tooltipInstance;
+						})
+
+					}
+					if (!data.chat) {
+						$(".callBtn").hide()
+					} else {
+						$(".chatBtn").attr("data-bs-title", `₹${data.chatCharges != null ? data.chatCharges : 0} /min`)
+						const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip1"]')
+						const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => {
+							const tooltipInstance = new bootstrap.Tooltip(tooltipTriggerEl);
+							tooltipInstance.show();
+							return tooltipInstance;
+						})
+
+					}
+
+					// Update Gallery Section
+					if (data.gallery.length > 0) {
+						$(".galleryContainer").removeClass("d-none")
+						var galleryHtml = '';
+						$.each(data.gallery, function (index, item) {
+							galleryHtml += '<div class="col-6 col-md-3">';
+							galleryHtml += '<img src="' + BaseUrl + item.imageUrl + '" alt="Gallery Image" class="img-fluid rounded-4 img-thumbnail border-0" style="height:250px; width:250; border: 2px solid #ffffff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);">';
+							galleryHtml += '</div>';
+						});
+						$('#gallerySection').html(galleryHtml);
+					}
+					// Update Videos Section
+					if (data.videos.length > 0) {
+						$(".videoContainer").removeClass("d-none")
+						var videosHtml = '';
+						$.each(data.videos, function (index, video) {
+							videosHtml += '<div class="col-4"> <iframe class="img-fluid rounded-4 img-thumbnail border-0" style="height:250px; border: 2px solid #ffffff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);"  src="' + video.videoUrl + '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> </div>';
+						});
+						$('#videosSection').html(videosHtml);
+					}
+					// Update Rating & Reviews Section
+					$('#rating').text(data.rating != null ? data.rating : 0.0 || '4.99');
+
+					$('#ratingStar').html(function () {
+
+						if (data.rating != null) {
+							// Ensure the rating is a valid number before proceeding
+							var fullStars = Math.floor(data.rating);
+							var halfStar = (data.rating % 1) >= 0.5 ? `<i class=" fa-solid fa-star-half-stroke fa-lg"></i>` : "";
+
+							// Build the stars string: full stars + half star (if any) + empty stars to fill up to 5
+							var stars = `<i class="fa-solid fa-star fa-lg"></i>`.repeat(fullStars) + halfStar;
+
+							// Add the empty stars to complete the 5 stars
+							stars += `<i class="fa-regular fa-star fa-lg"></i>`.repeat(5 - fullStars - (halfStar ? 1 : 0));
+
+							return stars;
+						} else {
+							// Default to 4 stars if rating is null
+							return '★★★★☆';
+						}
+					});
+
+					$('#totalReviews').text('(6587)');
+
+				} else {
+					Swal.fire({
+						title: "error!",
+						text: response.message,
+						icon: "error"
+					})
+
+				}
+			},
+			error: function (error) {
+
+			}
+		}).then(() => {
+			Swal.close()
+
+		})
+
+		$.ajax({
+			url: BaseUrl + `api/User/JyotishRatingList?Id=${astrologerId}`,
+			method: 'GET',
+			success: function (response) {
+				if (response.status == 200) {
+					let ratingCards = '';
+
+					response.data.forEach(review => {
+						const userName = review.userName || 'Anonymous'; // Use 'Anonymous' if review.name is undefined
+						const profileInitial = userName.charAt(0); // Safely get the first letter of the name
+						// Create stars dynamically based on review.stars
+						let stars = '';
+						for (let i = 0; i < 5; i++) {
+							stars += (i < review.stars) ? '<span class="star">★</span>' : '<span class="text-secondary">★</span>';
+						}
+
+						const formattedDate = formatDate(review.dateTime);
+						// Rating card template
+						ratingCards += `
+									<div class="container d-flex float-start p-0 mb-4" style="background-color:#F7F7F7;">
+									<div class="profile p-3">
+											<h2 class="comment-profile">${profileInitial}</h2>
+									</div>
+									<div class="content p-3 w-100 rounded">
+										<div class="header d-flex">
+												<h6 class="c-name ">${review.userName}</h6>
+											<div class="verified text-primary text-italic">- Verified Client</div>
+											<div class="stars ml-20">
+												${stars}
+											</div>
+										</div>
+										<div class="text my-2 text-justify">
+											${review.feedbackMessage}
+										</div>
+										<div class="d-flex text-center mt-2 align-items-center">
+											<span class="date-icon">
+												<svg height="15" width="15" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+													<path fill="#63E6BE" d="M0 464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V192H0v272zm320-196c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zM192 268c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zM64 268c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H76c-6.6 0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H76c-6.6 0-12-5.4-12-12v-40zM400 64h-48V16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v48H160V16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v48H48C21.5 64 0 85.5 0 112v48h448v-48c0-26.5-21.5-48-48-48z"></path>
+												</svg>
+											</span>
+												<small class="text-secondary">${formattedDate}</small>
+										</div>
+									</div>
+								</div>
+							`;
+					});
+
+					// Append the rating cards to the container
+					$('#ratingSection').append(ratingCards);
+				}
+			}
+		});
+
+
+		function formatDate(dateTime) {
+			const date = new Date(dateTime);
+			const day = String(date.getDate()).padStart(2, '0');
+			const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is 0-indexed
+			const year = date.getFullYear();
+			return `${day}-${month}-${year}`;
+		}
+
+		function IsUserValidForRating() {
+			var DataContainer = {
+				userId: localStorage.getItem('userId'),
+				jyotishId: astrologerId
+			}
+
+			if (localStorage.getItem('userId') == null) {
+				$('#addRatingBtn').hide();
+			}
+			else {
+				$.ajax({
+					url: BaseUrl + `api/user/IsUserValidForRating`,
+					method: 'GET',
+					headers: {
+						'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+						'Content-Type': 'application/json'
+					},
+					data: DataContainer, // Ensure DataContainer is defined and holds the necessary data
+					success: function (response) {
+
+						if (response.status == 200 && response.data == "Yes") {
+							$('#addRatingBtn').show();  // Show the button if the user is valid for rating
+						} else {
+							$('#addRatingBtn').hide();  // Hide the button if the user is not valid for rating
+						}
+					},
+					error: function (xhr, status, error) {
+						console.error('Error:', error);
+						// Handle error, you may want to hide the button in case of failure too
+						$('#addRatingBtn').hide();
+					}
+				});
+			}
+
+
+		}
+
+		IsUserValidForRating();
+		// let stars = document.querySelectorAll('.user-rating-stars');
+		// stars.forEach(function (d) {
+		//     d.classList.remove("text-orange")
+		//     d.classList.remove("selected-star")
+		// })
+		// $(".user-rating-stars").click(function () {
+		//     let userRating = $(this).attr("data-value")
+		//     $('#RatingStarCount').val(userRating);
+		//     stars.forEach(function (d) {
+
+		//         d.classList.remove("text-orange")
+		//         d.classList.remove("selected-star")
+		//     })
+
+
+		//     for (let i = 0; i <= userRating - 1; i++) {
+		//         stars[i].classList.add("text-orange")
+		//     }
+		//     stars[userRating - 1].classList.add("selected-star")
+		// })
+
+
+		$('#AddfeedbackSubmitBtn').on('click', function () {
+
+			var DataContainer = {
+				userId: Number(localStorage.getItem('userId')),  // Convert to number
+				jyotishId: Number(astrologerId),  // Ensure it's a number (if astrologerId is a string)
+				FeedbackMessage: $('#FeedbackMessage').val(),
+				Stars: Number($('#RatingStarCount').val())  // Convert Stars to number
+			};
+
+			$.ajax({
+				url: BaseUrl + `api/user/AddRating`,
+				method: 'POST',
+				headers: {
+					'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+					'Content-Type': 'application/json'
+				},
+				data: JSON.stringify(DataContainer),  // Convert the DataContainer to a JSON string
+				success: function (response) {
+					if (response.status === 200) {
+						Swal.fire({
+							title: "Successful!",
+							text: "Feedback Added Successfully",
+							icon: "success"
+						}).then(function (result) {
+							// If the user clicks "OK" (or confirms the alert)
+							if (result.isConfirmed) {
+								location.reload();
+							}
+						});
+
+
+					}
+					else if (response.status === 500) {
+						Swal.fire({
+							title: "Error!",
+							text: "Something went wrong",
+							icon: "error"
+						});
+					}
+					else {
+						Swal.fire({
+							title: "Error!",
+							text: response.message,
+							icon: "error"
+						});
+					}
+
+				},
+				error: function (xhr, status, error) {
+					console.error('Error:', error);
+					$('#addRatingBtn').hide();
+				}
+			});
+		});
+
+		//handle specialization aboutus and achievement
+
+		$("#aboutBtn").click(function () {
+			$("#aboutMe").show();
+			$("#achievement").hide();
+			$("#specialization").hide();
+			$("#ratingSection").hide();
+
+			$("#outerRatingSection").hide();
+			$(this).addClass("btn-success")
+			$("#specBtn").removeClass("btn-success")
+			$("#achBtn").removeClass("btn-success")
+			$("#ratingBtn").removeClass("btn-success")
+
+		})
+		$("#specBtn").click(function () {
+			$("#aboutMe").hide();
+			$("#achievement").hide();
+			$("#specialization").show();
+			$("#ratingSection").hide();
+
+			$("#outerRatingSection").hide();
+			$(this).addClass("btn-success")
+			$("#aboutBtn").removeClass("btn-success")
+			$("#achBtn").removeClass("btn-success")
+			$("#ratingBtn").removeClass("btn-success")
+
+		})
+		$("#achBtn").click(function () {
+			$("#aboutMe").hide();
+			$("#achievement").show();
+			$("#specialization").hide();
+			$("#ratingSection").hide();
+			$("#outerRatingSection").hide();
+			$(this).addClass("btn-success")
+			$(this).addClass("btn-success")
+			$("#aboutBtn").removeClass("btn-success")
+			$("#specBtn").removeClass("btn-success")
+			$("#ratingBtn").removeClass("btn-success")
+
+		})
+		$("#ratingBtn").click(function () {
+			$("#aboutMe").hide();
+			$("#achievement").hide();
+			$("#specialization").hide();
+			$("#ratingSection").show();
+			$("#outerRatingSection").show();
+			$(this).addClass("btn-success")
+			$(this).addClass("btn-success")
+			$("#aboutBtn").removeClass("btn-success")
+			$("#specBtn").removeClass("btn-success")
+			$("#achBtn").removeClass("btn-success")
+
+
+		})
+
+		// select appoinment
+		function reverseDate(dateString) {
+			const parts = dateString.split('-');
+
+			const reversedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
+
+			return reversedDate;
+		}
+		var appoinmentUrl = BaseUrl + `api/User/getAllAppointmentSlot?Id=${astrologerId}`;
+		let appoinmentArray;
+		if (localStorage.getItem("userId") != null & localStorage.getItem("Token") != null) {
+
+			$.ajax({
+				url: appoinmentUrl,
+				method: 'GET',
+				headers: {
+					'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+					'Content-Type': 'application/json'
+				},
+				success: function (response) {
+					$("#problem").hide()
+					$("#prev-btn").hide()
+
+					if (response.status === 200) {
+
+						var data = response.data;
+						appoinmentArray = data;
+						var [year, month, day] = appoinmentArray[0].date.split("T")[0].split('-')
+						console.log(appoinmentArray)
+						$("#appointmentDate").attr("min", appoinmentArray[0].date)
+						$("#appointmentDate").attr("max", appoinmentArray[appoinmentArray.length - 1].date)
+						$("#appointmentDate").val(`${month}/${day}/${year}`)
+					}
+				}, error: function (err) {
+
+
+				}
+			}).then(() => {
+				let appointmentDate = document.getElementById("appointmentDate")
+
+				setTimeout(() => {
+					$("#appointmentDate").datepicker({
+						autoclose: true,
+						dateFormat: 'dd-mm-yy',
+						changeMonth: true,
+						changeYear: true,
+						yearRange: "c-100:c+100",
+						startDate: new Date(appointmentDate.getAttribute("min")),
+						endDate: new Date(appointmentDate.getAttribute("max")),
+						showAnim: "slideDown",
+						buttonImageOnly: true,
+						buttonText: "Select date",
+						clearBtn: true,
+					})
+				}, 2000)
+
+				let newArray = [];
+				function setAppoinment(appdata) {
+					console.log(appdata)
+					Swal.fire({
+						title: "Processing Your Request",
+						allowOutsideClick: false,
+						didOpen: () => {
+							Swal.showLoading();
+						}
+					})
+					newArray = appoinmentArray.filter((e) => {
+						return e.date.split("T")[0] == appdata;
+					})
+
+					$("#appoinmentDetail").empty();
+					if (newArray.length > 0) {
+						newArray[0].slotList.forEach(function (d) {
+							$("#appoinmentDetail").append(
+								`<label class='w-100'>
+											   <div class='d-flex  bg-light-sec border rounded text-secondary fw-semi-bold my-2 p-2 justify-content-between align-items-center'  ${d.status == 'Booked' ? `style="background:rgb(40, 41, 40, 0.7) !important"` : ''} >
+										   <div class='row w-100 position-relative'>
+
+							<div class='col-sm-1'>
+												   <input type='radio' data-amount='${d.amount}' onChange='selectSlots()' ${d.status == 'Booked' ? 'disabled' : ""} name='jyotishAppoinment' data-userId='${localStorage.getItem('userId')}' data-slotId='${d.id}' data-jyotishId='${d.jyotishId}'>
+										   </div>
+
+												   <div class='col-sm-5'>
+
+									   <span> ${d.timeFrom
+								} - ${d.timeTo} </span>
+								   </div>
+													   <div class='col-sm-4'>
+								   <span class=''>Time :&nbsp;${d.timeDuration}min</span>
+								   </div>
+								   </div>
+								   </div>
+								   </label>
+								`
+							)
+
+						})
+					} else {
+						$("#appoinmentDetail").append(`<p class='mt-4 text-center text-secondary'>No record found</p>`)
+					}
+					Swal.close()
+				}
+				function convertDateFormat(date) {
+					// Split the date by the '/' separator
+					const [month, day, year] = date.split('/');
+
+					// Return the date in DD/MM/YYYY format
+					return `${year}-${month}-${day}`;
+				}
+				$("#appointmentDate").on("change", function () {
+					setAppoinment(convertDateFormat($(this).val()))
+				});
+
+				setAppoinment(convertDateFormat($("#appointmentDate").val()))
+
+
+			})
+
+		}
+
+	});
+	$("#next-btn").click(function () {
+		if ($(this).text() == "Book") {
+			if ($("#problem-desc").val() == null || $("#problem-desc").val() == "") {
+				Swal.fire({
+					title: "Required!",
+					text: "Please describe your problems",
+					icon: "warning"
+				})
+			} else {
+				let amount = $("input[name='jyotishAppoinment']:checked").attr("data-amount")
+				let JId = $("input[name='jyotishAppoinment']:checked").attr("data-jyotishId")
+				if (amount && JId) {
+
+					makePaymentWithWallet(amount, JId, "Book Appointment")
+				}
+			}
+		} else {
+
+			$("#problem").show()
+			$("#prev-btn").show()
+			$("#appointmentDate").attr("disabled", true)
+			$("#appoinmentDetail").hide()
+			$(this).text("Book");
+		}
+	})
+
+	$("#prev-btn").click(function () {
+		$("#problem").hide()
+		$("#prev-btn").hide()
+		$("#appointmentDate").attr("disabled", false)
+		$("#appoinmentDetail").show()
+		$("#next-btn").text("Next");
+	});
+	var bookAppoinmentUrl = BaseUrl + `api/User/bookAppointment`;
+	function bookAppoinment() {
+		if ($("#problem-desc").val() == null || $("#problem-desc").val() == "") {
+			Swal.fire({
+				title: "Required!",
+				text: "Please describe your problems",
+				icon: "warning"
+			})
+		}
+		else {
+
+
+			Swal.fire({
+				title: "Proccessing Please Wait!",
+				timerProgressBar: true,
+				didOpen: () => {
+					Swal.showLoading();
+				}
+			})
+			let appointmentDetail = $("input[name='jyotishAppoinment']:checked");
+
+			let userId = appointmentDetail[0].getAttribute("data-userId")
+			let jyotishId = appointmentDetail[0].getAttribute("data-jyotishId")
+			let slotId = appointmentDetail[0].getAttribute("data-slotId")
+			let problem = $("#problem-desc").val()
+
+			$.ajax({
+				url: bookAppoinmentUrl,
+				method: 'POST',
+				headers: {
+					'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+					'Content-Type': 'application/json'
+				},
+				data: JSON.stringify({
+					userId: userId,
+					jyotishId: jyotishId,
+					slotId: slotId,
+					problem: problem
+				}),
+				success: function (res) {
+
+					if (res.status == 200) {
+						Swal.fire({
+							title: "Success!",
+							text: "Booked Successfully",
+							icon: "success",
+							didClose: () => {
+								location.reload(true);
+							}
+						});
+						$("#exampleModal").modal("hide")
+						$("#problem").hide()
+						$("#prev-btn").hide()
+						$("#appoinmentDetail").show()
+						$("#next-btn").text("Next");
+					} else {
+						Swal.fire({
+							title: "error!",
+							text: res.message,
+							icon: "error"
+						})
+					}
+				},
+				error: function (err) {
+
+				}
+
+
+			});
+		}
+	}
+	function makeActionAfterWalletPayment() {
+		bookAppoinment()
+
+	}
+
+	function selectSlots() {
+		$("#next-btn").attr("disabled", false)
+	}
 </script>
 
 <script>
-    //handle chat and call
-    $(".chatBtn").click(function () {
-        $("#exampleModal2").modal("show")
+	$(document).ready(function () {
+		$('#exampleModal').on('shown.bs.modal', function () {
+			const tooltipTriggerList = document.querySelector('[data-bs-toggle="tooltip1"]')
+			const tooltip = bootstrap.Tooltip.getOrCreateInstance(tooltipTriggerList)
+			const tooltipTriggerList1 = document.querySelector('[data-bs-toggle="tooltip2"]')
+			const tooltip1 = bootstrap.Tooltip.getOrCreateInstance(tooltipTriggerList1)
+			tooltip.hide()
+			tooltip1.hide()
+		});
 
-        var Action = $(this).attr('data-action');
-        $('#Action').val(Action);
+		$('#exampleModal').on('hidden.bs.modal', function () {
+			const tooltipTriggerList = document.querySelector('[data-bs-toggle="tooltip1"]')
+			const tooltip = bootstrap.Tooltip.getOrCreateInstance(tooltipTriggerList)
+			const tooltipTriggerList1 = document.querySelector('[data-bs-toggle="tooltip2"]')
+			const tooltip1 = bootstrap.Tooltip.getOrCreateInstance(tooltipTriggerList1)
+			tooltip.show()
+			tooltip1.show()
+			$("#problem-desc").text("")
 
-        const tooltipTriggerList = document.querySelector('[data-bs-toggle="tooltip1"]')
-        const tooltip = bootstrap.Tooltip.getOrCreateInstance(tooltipTriggerList)
-        const tooltipTriggerList1 = document.querySelector('[data-bs-toggle="tooltip2"]')
-        const tooltip1 = bootstrap.Tooltip.getOrCreateInstance(tooltipTriggerList1)
-        tooltip.hide()
-        tooltip1.hide()
-    })
-    $(".callBtn").click(function () {
-        $("#exampleModal2").modal("show")
-        var Action = $(this).attr('data-action');
-        $('#Action').val(Action);
+		});
+		$('#AddRatingModal').on('shown.bs.modal', function () {
+			const tooltipTriggerList = document.querySelector('[data-bs-toggle="tooltip1"]')
+			const tooltip = bootstrap.Tooltip.getOrCreateInstance(tooltipTriggerList)
+			const tooltipTriggerList1 = document.querySelector('[data-bs-toggle="tooltip2"]')
+			const tooltip1 = bootstrap.Tooltip.getOrCreateInstance(tooltipTriggerList1)
+			tooltip.hide()
+			tooltip1.hide()
+		});
+	});
+</script>
 
-        const tooltipTriggerList = document.querySelector('[data-bs-toggle="tooltip1"]')
-        const tooltip = bootstrap.Tooltip.getOrCreateInstance(tooltipTriggerList)
-        const tooltipTriggerList1 = document.querySelector('[data-bs-toggle="tooltip2"]')
-        const tooltip1 = bootstrap.Tooltip.getOrCreateInstance(tooltipTriggerList1)
-        tooltip.hide()
-        tooltip1.hide()
-    })
+<script>
+	//handle chat and call
+	$(".chatBtn").click(function () {
+		$("#exampleModal2").modal("show")
 
-    //handle modal for book appoinment
-    $("#exampleModal").on("show.bs.modal", function () {
-        if (localStorage.getItem("userId") == null || localStorage.getItem("Token") == null) {
-            setTimeout(() => {
-                $("#exampleModal").modal("hide")
-                Swal.fire({
-                    title: "Authentication Required",
-                    text: "Please login for booking appointment",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Login"
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        location.href = "/home/login"
-                    }
-                })
-            }, 1000)
+		var Action = $(this).attr('data-action');
+		$('#Action').val(Action);
 
-        }
-    })
+		const tooltipTriggerList = document.querySelector('[data-bs-toggle="tooltip1"]')
+		const tooltip = bootstrap.Tooltip.getOrCreateInstance(tooltipTriggerList)
+		const tooltipTriggerList1 = document.querySelector('[data-bs-toggle="tooltip2"]')
+		const tooltip1 = bootstrap.Tooltip.getOrCreateInstance(tooltipTriggerList1)
+		tooltip.hide()
+		tooltip1.hide()
+	})
+	$(".callBtn").click(function () {
+		$("#exampleModal2").modal("show")
+		var Action = $(this).attr('data-action');
+		$('#Action').val(Action);
 
+		const tooltipTriggerList = document.querySelector('[data-bs-toggle="tooltip1"]')
+		const tooltip = bootstrap.Tooltip.getOrCreateInstance(tooltipTriggerList)
+		const tooltipTriggerList1 = document.querySelector('[data-bs-toggle="tooltip2"]')
+		const tooltip1 = bootstrap.Tooltip.getOrCreateInstance(tooltipTriggerList1)
+		tooltip.hide()
+		tooltip1.hide()
+	})
 
-    $('#DataSubmitBtn').on('click', function () {
-        const urlParams = new URLSearchParams(window.location.search);
-        var astrologerId = urlParams.get('Id');
-        var Name = $("#Name").val();
-        var Gender = $("#Gender").val();
-        var DateOfBirth = $("#DateOfBirth").val();
-        var TimeOfBirth = $("#TimeOfBirth").val();
-        var PlaceOfBirth = $("#PlaceOfBirth").val();
+	//handle modal for book appoinment
+	$("#exampleModal").on("show.bs.modal", function () {
+		if (localStorage.getItem("userId") == null || localStorage.getItem("Token") == null) {
+			setTimeout(() => {
+				$("#exampleModal").modal("hide")
+				Swal.fire({
+					title: "Authentication Required",
+					text: "Please login for booking appointment",
+					icon: "warning",
+					showCancelButton: true,
+					confirmButtonColor: "#3085d6",
+					cancelButtonColor: "#d33",
+					confirmButtonText: "Login"
+				}).then((result) => {
+					if (result.isConfirmed) {
+						location.href = "/home/login"
+					}
+				})
+			}, 1000)
 
-        var UserId = localStorage.getItem('userId');
-        var Action = $("#Action").val();
-
-        var DataContainer = {
-            Name: Name,
-            Gender: Gender,
-            DateOfBirth: DateOfBirth,
-            TimeOfBirth: TimeOfBirth,
-            PlaceOfBirth: PlaceOfBirth,
-            JyotishId: astrologerId,
-            UserId: UserId,
-            Action: Action
-        }
-        Swal.fire({
-            title: "Processing Your Request",
-            allowOutsideClick: false,
-            didOpen: () => {
-                Swal.showLoading();
-            }
-        })
-
-        $.ajax({
-            url: BaseUrl + "api/User/AddUserServiceRecord", // Ensure BaseUrl is properly defined
-            method: "POST",
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem("Token")}` // Retrieve token from localStorage
-            },
-            data: JSON.stringify(DataContainer), // Corrected JSON.stringify
-            contentType: "application/json", // Ensure content type is set to JSON
-            success: function (response) {
-                if (response.status === 200) {
-                    Swal.close();
-                    if(Action=='1'){
-                        $("#ChatModal").modal("show")
-                    }
-                    $("#exampleModal2").modal("hide")
-                   
-
-                } else {
-                    // Handle unexpected response status (if needed)
-                    Swal.fire({
-                        title: "Error!",
-                        text: "There was an issue with the response.",
-                        icon: "error"
-                    });
-                }
-            },
-            error: function (xhr, status, error) {
-                // Error case: Handle request errors
-                Swal.fire({
-                    title: "Error!",
-                    text: "Something went wrong. Please try again later.",
-                    icon: "error"
-                });
-            }
-        });
-
-    });
-
-    
-    function GetUserDataForService(Id) {
-       
-
-        $.ajax({
-            url: `${BaseUrl}api/User/GetUserDataForService?Id=${Id}`, 
-            method: "GET",
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem("Token")}` 
-            },
-            success: function (response) {
-                if (response.status === 200) {
-                   
-                    $('#Name').val(response.data.name);
-                    $('#Gender').val(response.data.gender);
-                    $('#DateOfBirth').val(response.data.dateOfBirth);
-                    $('#TimeOfBirth').val(response.data.timeOfBirth);
-                    $('#PlaceOfBirth').val(response.data.placeOfBirth);
-                   
-                }
-            },
-            error: function (xhr, status, error) {
-               
-                console.log("Error:", error);
-                console.log("Status:", status);
-                console.log("XHR:", xhr);
-            }
-        });
-    }
+		}
+	})
 
 
-        const params = new URLSearchParams(window.location.search);
-        let jyotishId=params.get("Id")
-    function getSomeJyotish(){
-        $.ajax({
-            url: `${BaseUrl}api/jyotish/LayoutData`,
-            method: "GET",
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem("Token")}`
-            },
-            data:{Id:jyotishId},
-            success: function (res) {
-                if (res.status === 200)
-                {
-                    console.log(res)
+	$('#DataSubmitBtn').on('click', function () {
+		const urlParams = new URLSearchParams(window.location.search);
+		var astrologerId = urlParams.get('Id');
+		var Name = $("#Name").val();
+		var Gender = $("#Gender").val();
+		var DateOfBirth = $("#DateOfBirth").val();
+		var TimeOfBirth = $("#TimeOfBirth").val();
+		var PlaceOfBirth = $("#PlaceOfBirth").val();
 
-                    if(res.data!=null){
-                        $("#jyotishdetailschatheader").attr("src",res.data.image)
-                        $("#ChatModalLabel").text(res.data.name)
-                    }
-                }
-            }
-        })
-    }
-    var UserId = localStorage.getItem('userId');
-    GetUserDataForService(UserId);
+		var UserId = localStorage.getItem('userId');
+		var Action = $("#Action").val();
 
+		var DataContainer = {
+			Name: Name,
+			Gender: Gender,
+			DateOfBirth: DateOfBirth,
+			TimeOfBirth: TimeOfBirth,
+			PlaceOfBirth: PlaceOfBirth,
+			JyotishId: astrologerId,
+			UserId: UserId,
+			Action: Action
+		}
+		Swal.fire({
+			title: "Processing Your Request",
+			allowOutsideClick: false,
+			didOpen: () => {
+				Swal.showLoading();
+			}
+		})
 
-    $(".messageInpBox").on("keyup", function () {
-        let characterLength=$(this).val().length
-        if (characterLength > 0) {
-            $("#sendMessageBtn").attr("disabled",false);
-        }else{
-            $("#sendMessageBtn").attr("disabled",true);
-
-        }
-    });
-    $(document).ready(function () {
-        $('#ChatModal').modal('show');
-    });
-    
-   
-    let userId=localStorage.getItem("userId")
-    
-    function establishedConnection(){
-        let socket = new WebSocket(`wss://localhost:7118/api/chat/connect?id=${userId}&sendBy=client`);
-        return new Promise((res,rej)=>{
-            if(socket){
-
-            res(socket)
-            }else{
-                rej(false)
-            }
-        }) ;
-    }
-    establishedConnection().then((socket) => {
-        if (socket) {
-            socket.onopen = function (event) {
-                console.log('WebSocket connection established:', event);
-
-            };
-            socket.onmessage = function (event) {
-                const messagesDiv = document.querySelector('.chat-modal-body');
-                messagesDiv.innerHTML += ` <div class="message float-start received">
-                                        <div class="message-content"> ${JSON.parse(event.data).mssg}</div>
-                                </div>`
+		$.ajax({
+			url: BaseUrl + "api/User/AddUserServiceRecord", // Ensure BaseUrl is properly defined
+			method: "POST",
+			headers: {
+				'Authorization': `Bearer ${localStorage.getItem("Token")}` // Retrieve token from localStorage
+			},
+			data: JSON.stringify(DataContainer), // Corrected JSON.stringify
+			contentType: "application/json", // Ensure content type is set to JSON
+			success: function (response) {
+				if (response.status === 200) {
+					Swal.close();
+					if (Action == '1') {
+						getSomeJyotish()
+						getChatHistory();
+						establishedConnection().then((socket) => {
+							if (socket) {
+								socket.onopen = function (event) {
+									console.log('WebSocket connection established:', event);
+									$("#ChatModal").modal("show")
+								};
+								socket.onmessage = function (event) {
+									const now = new Date();
+									const hours = now.getHours();
+									const minutes = now.getMinutes();
+									const messagesDiv = document.querySelector('.chat-modal-body');
+									messagesDiv.innerHTML += ` <div class="message float-start received">
+														<div class="message-content"> ${JSON.parse(event.data).mssg}</div>
+														<small>${hours}:${minutes}<small>
+												</div>`
 
 
-                messagesDiv.scrollTop = messagesDiv.scrollHeight;
-                const lastChild = messagesDiv.lastElementChild;
-                lastChild.scrollIntoView({ behavior: 'smooth', block: 'end' });
-            };
+									messagesDiv.scrollTop = messagesDiv.scrollHeight;
+									const lastChild = messagesDiv.lastElementChild;
+									lastChild.scrollIntoView({ behavior: 'smooth', block: 'end' });
+								};
 
-            socket.onerror = function (event) {
-                console.error('WebSocket error observed:', event);
-                Swal.fire({
-                    text: "some error occured while making connection",
-                    title: "error",
-                    icon: "error"
-                });
-            };
+								socket.onerror = function (event) {
+									console.error('WebSocket error observed:', event);
+									Swal.fire({
+										text: "some error occured while making connection",
+										title: "error",
+										icon: "error"
+									});
+								};
 
-            socket.onclose = function (event) {
-                console.log('WebSocket connection closed:', event);
+								socket.onclose = function (event) {
+									console.log('WebSocket connection closed:', event);
+									$("#ChatModal").modal("hide")
 
-            };
+								};
 
 
-            $("#messageForm").submit(function (e) {
-                e.preventDefault();
+								$("#messageForm").submit(function (e) {
+									e.preventDefault();
 
-                let message = $(".messageInpBox").val();
-                const messagesDiv = document.querySelector('.chat-modal-body');
-                
+									let message = $(".messageInpBox").val();
+									const messagesDiv = document.querySelector('.chat-modal-body');
 
-                if (socket && socket.readyState === WebSocket.OPEN) {
-                    messagesDiv.scrollTop = messagesDiv.scrollHeight;
-                    const lastChild = messagesDiv.lastElementChild;
-                    lastChild.scrollIntoView({ behavior: 'smooth', block: 'end' });
-                    if (jyotishId && message) {
-                        messagesDiv.innerHTML += `<div class="message float-end sent">
-                                            <div class="message-content">${message}</div>
-                                    </div>`
-                        socket.send(`${jyotishId}:${message}`);
-                    }
-                    $(".messageInpBox").val("");
-                }
-            });
-        }
 
-    });
-    getSomeJyotish()
-   
-    function getChatHistory(){
-        $.ajax({
-            url: `${BaseUrl}api/chat/getchats`,
-            method: "GET",
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem("Token")}`
-            },
-            data: { sender: UserId, receiver: jyotishId },
-            success: function (res) {
-                console.log(res,"chatData")
-                if(res.length>0){
-                    const messagesDiv = document.querySelector('.chat-modal-body');
-                   res.forEach(function(d){
-                       if(d.sendBy=="client"){
-                           
-                            messagesDiv.innerHTML += `<div class="message float-end sent">
-                                            <div class="message-content">${d.message}</div>
-                                </div>`
+									if (socket && socket.readyState === WebSocket.OPEN) {
 
-                       }else{
-                            messagesDiv.innerHTML += `<div class="message float-start received">
-                                                <div class="message-content">${d.message}</div>
-                                    </div>`
-                       }
-                   })
-                    messagesDiv.scrollTop = messagesDiv.scrollHeight;
-                    const lastChild = messagesDiv.lastElementChild;
-                    lastChild.scrollIntoView({ behavior: 'smooth', block: 'end' });
-                }
-            }
-        })
-    }
-    getChatHistory();
+										if (jyotishId && message) {
+											const now = new Date();
+											const hours = now.getHours();
+											const minutes = now.getMinutes();
+											messagesDiv.innerHTML += `<div class="message float-end sent">
+															<div class="message-content">${message}</div>
+															<small>${hours}:${minutes}<small>
 
-    const image = document.querySelector('#jyotishdetailschatheader');
+													</div>`
+											socket.send(`${jyotishId}:${message}`);
+										}
+										$(".messageInpBox").val("");
+										messagesDiv.scrollTop = messagesDiv.scrollHeight;
+										const lastChild = messagesDiv.lastElementChild;
+										lastChild.scrollIntoView({ behavior: 'smooth', block: 'end' });
+									}
+								});
+							}
 
-    image.addEventListener('error', function () {
-        image.src = '/user-not-found.png';  
-    });
+						});
+						const image = document.querySelector('#jyotishdetailschatheader');
+
+						image.addEventListener('error', function () {
+							image.src = '/user-not-found.png';
+						});
+					}
+					$("#exampleModal2").modal("hide")
+
+
+				} else {
+					// Handle unexpected response status (if needed)
+					Swal.fire({
+						title: "Error!",
+						text: "There was an issue with the response.",
+						icon: "error"
+					});
+				}
+			},
+			error: function (xhr, status, error) {
+				// Error case: Handle request errors
+				Swal.fire({
+					title: "Error!",
+					text: "Something went wrong. Please try again later.",
+					icon: "error"
+				});
+			}
+		});
+
+	});
+
+
+	function GetUserDataForService(Id) {
+
+
+		$.ajax({
+			url: `${BaseUrl}api/User/GetUserDataForService?Id=${Id}`,
+			method: "GET",
+			headers: {
+				'Authorization': `Bearer ${localStorage.getItem("Token")}`
+			},
+			success: function (response) {
+				if (response.status === 200) {
+
+					$('#Name').val(response.data.name);
+					$('#Gender').val(response.data.gender);
+					$('#DateOfBirth').val(response.data.dateOfBirth);
+					$('#TimeOfBirth').val(response.data.timeOfBirth);
+					$('#PlaceOfBirth').val(response.data.placeOfBirth);
+
+				}
+			},
+			error: function (xhr, status, error) {
+
+				console.log("Error:", error);
+				console.log("Status:", status);
+				console.log("XHR:", xhr);
+			}
+		});
+	}
+
+	//time management for message
+	
+
+	const params = new URLSearchParams(window.location.search);
+	let jyotishId = params.get("Id")
+	function getSomeJyotish() {
+		$.ajax({
+			url: `${BaseUrl}api/jyotish/LayoutData`,
+			method: "GET",
+			headers: {
+				'Authorization': `Bearer ${localStorage.getItem("Token")}`
+			},
+			data: { Id: jyotishId },
+			success: function (res) {
+				if (res.status === 200) {
+
+					if (res.data != null) {
+						$("#jyotishdetailschatheader").attr("src", res.data.image)
+						$("#ChatModalLabel").text(res.data.name)
+					}
+				}
+			}
+		})
+	}
+	var UserId = localStorage.getItem('userId');
+	GetUserDataForService(UserId);
+
+
+	$(".messageInpBox").on("keyup", function () {
+		let characterLength = $(this).val().length
+		if (characterLength > 0) {
+			$("#sendMessageBtn").attr("disabled", false);
+		} else {
+			$("#sendMessageBtn").attr("disabled", true);
+
+		}
+	});
+
+
+	let userId = localStorage.getItem("userId")
+
+	function establishedConnection() {
+		let socket = new WebSocket(`wss://api.myjyotishg.in/api/chat/connect?id=${userId}&sendBy=client`);
+		return new Promise((res, rej) => {
+			if (socket) {
+
+				res(socket)
+			} else {
+				rej(false)
+			}
+		});
+	}
+
+	function getChatHistory() {
+		$.ajax({
+			url: `${BaseUrl}api/chat/getchats`,
+			method: "GET",
+			headers: {
+				'Authorization': `Bearer ${localStorage.getItem("Token")}`
+			},
+			data: { sender: UserId, receiver: jyotishId },
+			success: function (res) {
+				console.log(res, "chatData")
+				if (res.length > 0) {
+					const messagesDiv = document.querySelector('.chat-modal-body');
+					res.forEach(function (d) {
+						if (d.sendBy == "client") {
+
+							messagesDiv.innerHTML += `<div class="message float-end sent">
+												<div class="message-content">${d.message}</div>
+															<small>${d.mssDate}</small>
+									</div>`
+
+						} else {
+							messagesDiv.innerHTML += `<div class="message float-start received">
+													<div class="message-content">${d.message}</div>
+																<small>${d.mssDate}</small>
+										</div>`
+						}
+					})
+					setTimeout(() => {
+						messagesDiv.scrollTop = messagesDiv.scrollHeight;
+						const lastChild = messagesDiv.lastElementChild;
+						lastChild.scrollIntoView({ behavior: 'smooth', block: 'end' });
+					}, 1000)
+				}
+			}
+		})
+	} 
+
 </script>
 
 
