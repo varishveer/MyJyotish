@@ -58,7 +58,8 @@
         padding: 10px;
         border-radius: 5px;
         max-width: 50%;
-        width:auto !important
+        clear:both;
+        word-wrap: break-word;
     }
 
         .message.sent {
@@ -91,6 +92,16 @@
         font-size: 20px;
         outline:none !important;
         box-shadow:none !important;
+    }
+
+    .chat-modal-body::-webkit-scrollbar{
+        width:4px;
+        height:4px;
+    }
+
+    .chat-modal-body::-webkit-scrollbar-thumb{
+        border-radius:10px;
+        background:skyblue;
     }
 </style>
 
@@ -1119,6 +1130,8 @@
                         $("#ChatModal").modal("show")
                     }
                     $("#exampleModal2").modal("hide")
+                   
+
                 } else {
                     // Handle unexpected response status (if needed)
                     Swal.fire({
@@ -1140,7 +1153,7 @@
 
     });
 
-
+    
     function GetUserDataForService(Id) {
        
 
@@ -1170,6 +1183,7 @@
         });
     }
 
+
         const params = new URLSearchParams(window.location.search);
         let jyotishId=params.get("Id")
     function getSomeJyotish(){
@@ -1193,7 +1207,6 @@
             }
         })
     }
-    getSomeJyotish()
     var UserId = localStorage.getItem('userId');
     GetUserDataForService(UserId);
 
@@ -1211,64 +1224,117 @@
         $('#ChatModal').modal('show');
     });
     
-    let socket;
+   
     let userId=localStorage.getItem("userId")
     
     function establishedConnection(){
-        socket = new WebSocket(`wss://api.myjyotishg.in/api/chat/connect?id=${userId}&sendBy=client`);
+        let socket = new WebSocket(`wss://localhost:7118/api/chat/connect?id=${userId}&sendBy=client`);
+        return new Promise((res,rej)=>{
+            if(socket){
+
+            res(socket)
+            }else{
+                rej(false)
+            }
+        }) ;
     }
-    establishedConnection();
-    if (socket) {
-        socket.onopen = function (event) {
-            console.log('WebSocket connection established:', event);
+    establishedConnection().then((socket) => {
+        if (socket) {
+            socket.onopen = function (event) {
+                console.log('WebSocket connection established:', event);
 
-        };
-        socket.onmessage = function (event) {
-            const messagesDiv = document.querySelector('.chat-modal-body');
-            messagesDiv.innerHTML += ` <div class="message received">
-                                    <div class="message-content"> ${JSON.parse(event.data).mssg}</div>
-                            </div>`
-
-        };
-
-        socket.onerror = function (event) {
-            console.error('WebSocket error observed:', event);
-            Swal.fire({
-                text: "some error occured while making connection",
-                title: "error",
-                icon: "error"
-            });
-        };
-
-        socket.onclose = function (event) {
-            console.log('WebSocket connection closed:', event);
-
-        };
+            };
+            socket.onmessage = function (event) {
+                const messagesDiv = document.querySelector('.chat-modal-body');
+                messagesDiv.innerHTML += ` <div class="message float-start received">
+                                        <div class="message-content"> ${JSON.parse(event.data).mssg}</div>
+                                </div>`
 
 
-        $("#messageForm").submit(function (e) {
-            e.preventDefault();
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+                const lastChild = messagesDiv.lastElementChild;
+                lastChild.scrollIntoView({ behavior: 'smooth', block: 'end' });
+            };
 
-            let message = $(".messageInpBox").val();
-            const messagesDiv = document.querySelector('.chat-modal-body');
-            messagesDiv.innerHTML += `<div class="message sent">
-                                    <div class="message-content">${message}</div>
-                            </div>`
-
-            if (socket && socket.readyState === WebSocket.OPEN) {
-                if (jyotishId && message) {
-                    socket.send(`${jyotishId}:${message}`);
-                    $(".messageInpBox").val("");
-                }
-            } else {
+            socket.onerror = function (event) {
+                console.error('WebSocket error observed:', event);
                 Swal.fire({
-                    text: "connection is closed.",
+                    text: "some error occured while making connection",
                     title: "error",
                     icon: "error"
                 });
+            };
+
+            socket.onclose = function (event) {
+                console.log('WebSocket connection closed:', event);
+
+            };
+
+
+            $("#messageForm").submit(function (e) {
+                e.preventDefault();
+
+                let message = $(".messageInpBox").val();
+                const messagesDiv = document.querySelector('.chat-modal-body');
+                
+
+                if (socket && socket.readyState === WebSocket.OPEN) {
+                    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+                    const lastChild = messagesDiv.lastElementChild;
+                    lastChild.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                    if (jyotishId && message) {
+                        messagesDiv.innerHTML += `<div class="message float-end sent">
+                                            <div class="message-content">${message}</div>
+                                    </div>`
+                        socket.send(`${jyotishId}:${message}`);
+                    }
+                    $(".messageInpBox").val("");
+                }
+            });
+        }
+
+    });
+    getSomeJyotish()
+   
+    function getChatHistory(){
+        $.ajax({
+            url: `${BaseUrl}api/chat/getchats`,
+            method: "GET",
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token")}`
+            },
+            data: { sender: UserId, receiver: jyotishId },
+            success: function (res) {
+                console.log(res,"chatData")
+                if(res.length>0){
+                    const messagesDiv = document.querySelector('.chat-modal-body');
+                   res.forEach(function(d){
+                       if(d.sendBy=="client"){
+                           
+                            messagesDiv.innerHTML += `<div class="message float-end sent">
+                                            <div class="message-content">${d.message}</div>
+                                </div>`
+
+                       }else{
+                            messagesDiv.innerHTML += `<div class="message float-start received">
+                                                <div class="message-content">${d.message}</div>
+                                    </div>`
+                       }
+                   })
+                    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+                    const lastChild = messagesDiv.lastElementChild;
+                    lastChild.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                }
             }
-        });
+        })
     }
+    getChatHistory();
+
+    const image = document.querySelector('#jyotishdetailschatheader');
+
+    image.addEventListener('error', function () {
+        image.src = '/user-not-found.png';  
+    });
 </script>
 
 

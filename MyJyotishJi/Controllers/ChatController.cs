@@ -6,6 +6,8 @@ using ModelAccessLayer.ViewModels;
 using Newtonsoft.Json;
 using System.Collections.Concurrent;
 using System.Net.WebSockets;
+using System.Text;
+using System.Threading;
 
 namespace MyJyotishGApi.Controllers
 {
@@ -42,9 +44,33 @@ namespace MyJyotishGApi.Controllers
         private async Task HandleWebSocketCommunication(WebSocket webSocket, string clientId, string sendBy)
         {
             var buffer = new byte[1024 * 4];
+            var pingDelay = TimeSpan.FromSeconds(30);
+            var cancellationTokenSource = new CancellationTokenSource();
             try
             {
-                while (true)
+                var pingTask = Task.Run(async () =>
+                {
+                    while (webSocket.State == WebSocketState.Open)
+                    {
+                        await Task.Delay(pingDelay, cancellationTokenSource.Token);
+
+                        if (webSocket.State == WebSocketState.Open)
+                        {
+                            try
+                            {
+                                var pingMessage = new ArraySegment<byte>(Encoding.UTF8.GetBytes("ping"));
+                                await webSocket.SendAsync(pingMessage, WebSocketMessageType.Text, true, CancellationToken.None);
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine($"Ping error: {ex.Message}");
+                                break;  
+                            }
+                        }
+                    }
+                });
+
+                while (webSocket.State == WebSocketState.Open)
                 {
                     var result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
                     var changeIdPref = sendBy == "client" ? clientId + "A" : clientId + "B";
@@ -105,6 +131,7 @@ namespace MyJyotishGApi.Controllers
             }
            
         }
+       
 
         [HttpGet("getchats")]
         public List<ChatModel> GetChats(int sender, int receiver)
