@@ -122,6 +122,77 @@
         .showMessageCount{
             right:0;
         }
+        .toast-container{
+
+            bottom:50px;
+            z-index:10000;
+        }
+
+        .chat-modal-body {
+            height: 60vh;
+            max-height: 600px; /* Set a max height for the chat area */
+            overflow-y: auto; /* Enable scrolling */
+            background-color: #f8f9fa; /* Light background for the chat area */
+        }
+
+        .chat-history {
+            padding: 15px;
+        }
+
+        .message {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            max-width: 50%;
+            clear: both;
+            word-wrap: break-word;
+        }
+
+            .message.sent {
+                background-color: #007bff; /* Bootstrap primary color */
+                color: white;
+                margin-left: auto; /* Align to the right */
+            }
+
+            .message.received {
+                background-color: #e9ecef; /* Light gray for received messages */
+                color: black;
+                margin-right: auto; /* Align to the left */
+            }
+
+        .input-group {
+            position: relative;
+        }
+
+
+        #ChatModal {
+            z-index: 10000;
+        }
+
+        .fa-location-arrow {
+            transform: rotate(44deg);
+        }
+
+        .messageInpBox {
+            padding: 10px;
+            font-size: 20px;
+            outline: none !important;
+            box-shadow: none !important;
+        }
+
+        .chat-modal-body::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+
+        .chat-modal-body::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            background: skyblue;
+        }
+
+        .swal2-container {
+            z-index: 100000;
+        }
     </style>
 </head>
 
@@ -669,6 +740,22 @@
             </div>
         </div>
         <!-- End Custom template -->
+
+        <!--show user request for chat-->
+            <div class="toast-container position-fixed  end-0 p-3">
+                <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header">
+                        <img src="..." id="userImage" height="50" width="50" class="rounded me-2" alt="...">
+                        <strong class="me-auto" id="userNameForchat"></strong>
+                        <small id="requestDateTime"></small>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body d-flex justify-content-between">
+                        <span>Chat Request</span>
+                        <button class="btn btn-success" role="button" id="AcceptChatRequest">Accept</button>
+                    </div>
+                </div>
+            </div>
         <!-- Content Start -->
      
             
@@ -715,6 +802,31 @@
         </div>
         <!-- Content End -->
       </div>
+    <div class="modal fade" id="ChatModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="ChatModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="d-flex align-items-center">
+                        <img id="userhdetailschatheader" height="50" width="50" class="rounded-circle border" src="~/user-not-found.png" alt="user profile" />
+                        <h1 class="modal-title fs-5 ms-2" id="ChatModalLabel"></h1>
+                    </div>
+                    <button type="button" class="btn-close" id="exitFromChat"></button>
+                </div>
+                <div class="modal-body chat-modal-body">
+                    <div class="chat-history">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <form class="w-100" id="messageForm">
+                        <div class="input-group mt-3">
+                            <input type="text" class="form-control rounded-start messageInpBoxs" placeholder="Type your message..." aria-label="User 's message">
+                            <button disabled class="btn btn-primary rounded-end" id="sendMessageBtn" type="submit"><i class="fas fs-5 fa-location-arrow"></i></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="~/assets/js/core/jquery-3.7.1.min.js"></script>
    <!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>-->
 
@@ -762,8 +874,6 @@
  <!--Manage Feature -->
 
     <script>
-
-
         let FeaturesArray = []
         let planUrl = []
         let planData = []
@@ -996,11 +1106,7 @@ if(res.data.length>0){
         });
 
 
-
-
-
-
-        $(document).ready(function () {
+       
                 $('.summernote').summernote({
      height: 300, // set the height of the editor
      toolbar: [
@@ -1035,24 +1141,257 @@ if(res.data.length>0){
                 });
             });
 
-           
-            // Highlight the active link
-        //     $("a").each(function (i, d) {
-        //         if (d.href.toLowerCase() === window.location.href.toLowerCase()) {
-        //             d.classList.add("active");
-        //             let element = d.parentElement.previousElementSibling;
-        //             if (element) element.classList.add("active");
-        //         }
-        //     });
+        $(".messageInpBoxs").on("keyup", function () {
+            let characterLength = $(this).val().length
+            if (characterLength > 0) {
+                $("#sendMessageBtn").attr("disabled", false);
+            } else {
+                $("#sendMessageBtn").attr("disabled", true);
+
+            }
         });
-    </script>
-    <script>
-      
-            
+
+            //make connection for chat
+        function establishedConnection() {
+            let socket = new WebSocket(`wss://api.myjyotishg.in/api/chat/connect?id=${jyotishId}&sendBy=jyotish`);
+            return new Promise((res, rej) => {
+                if (socket) {
+
+                    res(socket)
+                } else {
+                    rej(false)
+                }
+            });
+        }
+            //chat request management
+            let jyotishId=localStorage.getItem("Id")
+            function establishedConnectionForSendRequest() {
+                let socket = new WebSocket(`wss://api.myjyotishg.in/api/chat/sendChatRequest?id=${jyotishId}&sendBy=jyotish`);
+                return new Promise((res, rej) => {
+                    if (socket) {
+
+                        res(socket)
+                    } else {
+                        rej(false)
+                    }
+                });
+            }
+
+            let userId=null;
+            establishedConnectionForSendRequest().then((socket) => {
+                debugger
+                if (socket) {
+                    socket.onopen = function (event) {
+                        console.log('WebSocket connection established:', event);
+                       
+                    };
+                    socket.onmessage = function (event) {
+                        let response = JSON.parse(event.data)
+                        let userDetail=JSON.parse(response.data)
+                        console.log(userDetail)
+                        if (userDetail != null) {
+                        $("#userImage").attr("src",userDetail.Image)
+                        $("#userNameForchat").text(userDetail.Name)
+                        const toastElList = document.querySelectorAll('.toast');
+
+                        const toastList = [...toastElList].map(toastEl => {
+                            const toast = new bootstrap.Toast(toastEl, {
+                                autohide: false
+                            });
+
+                            toast.show();
+                        })
+                            const now = new Date();
+                            const hours = now.getHours();
+                            const minutes = now.getMinutes();
+                            $("#requestDateTime").text(`${hours}:${minutes}`);
+                            const image = document.querySelector('#userImage');
+                            userId = userDetail.Id
+                            image.addEventListener('error', function () {
+                                image.src = '/user-not-found.png';
+                            });
+                        }
+                    };
+
+                    socket.onerror = function (event) {
+                        console.error('WebSocket error observed:', event);
+                        Swal.fire({
+                            text: "some error occured while making connection",
+                            title: "error",
+                            icon: "error"
+                        });
+                    };
+
+                    socket.onclose = function (event) {
+                        console.log('WebSocket connection closed:', event);
+                        
+
+                    };
+                $("#AcceptChatRequest").click(function(){
+                    if (userId != null)
+                        socket.send(`${userId}`)
+                        startChat();
+                })
+
+                }
+            })
+
+        function getChatHistory() {
+            $.ajax({
+                url: `${BaseUrl}api/chat/getchats`,
+                method: "GET",
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token")}`
+                },
+                data: { sender: jyotishId, receiver: userId },
+                success: function (res) {
+                    console.log(res, "chatData")
+                    if (res.length > 0) {
+                        const messagesDiv = document.querySelector('.chat-modal-body');
+                        res.forEach(function (d) {
+                            if (d.sendBy == "client") {
+
+                                messagesDiv.innerHTML += `<div class="message float-start received ">
+                                                            <div class="message-content">${d.message}</div>
+                                                                        <small>${d.mssDate}</small>
+                                                </div>`
+
+                            } else {
+                                messagesDiv.innerHTML += `<div class="message float-end sent">
+                                                                <div class="message-content">${d.message}</div>
+                                                                            <small>${d.mssDate}</small>
+                                                    </div>`
+                            }
+                        })
+                        setTimeout(() => {
+                            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+                            const lastChild = messagesDiv.lastElementChild;
+                            lastChild.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                        }, 1000)
+                    }
+                }
+            })
+        }
+       
+        function getSomeUser() {
+            $.ajax({
+                url: `${BaseUrl}api/user/LayoutData`,
+                method: "GET",
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token")}`
+                },
+                data: { Id: userId },
+                success: function (res) {
+                    if (res.status === 200) {
+
+                        if (res.data != null) {
+                            $("#userhdetailschatheader").attr("src", res.data.image)
+                            $("#ChatModalLabel").text(res.data.name)
+                        }
+                    }
+                }
+            })
+        }
+        function startChat() {
+            getSomeUser()
+            getChatHistory();
+            establishedConnection().then((socket) => {
+                if (socket) {
+                    socket.onopen = function (event) {
+                        console.log('WebSocket connection established:', event);
+                        $("#ChatModal").modal("show")
+                        const toastElList = document.querySelectorAll('.toast');
+
+                        const toastList = [...toastElList].map(toastEl => {
+                            const toast = new bootstrap.Toast(toastEl, {
+                               
+                            });
+
+                            toast.hide();
+                        })
+                    };
+                    socket.onmessage = function (event) {
+                        const now = new Date();
+                        const hours = now.getHours();
+                        const minutes = now.getMinutes();
+                        const messagesDiv = document.querySelector('.chat-modal-body');
+                        messagesDiv.innerHTML += ` <div class="message float-start received">
+                                                                            <div class="message-content"> ${JSON.parse(event.data).mssg}</div>
+                                                                            <small>${hours}:${minutes}<small>
+                                                                    </div>`
+
+                        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+                        const lastChild = messagesDiv.lastElementChild;
+                        lastChild.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                    };
+
+                    socket.onerror = function (event) {
+                        console.error('WebSocket error observed:', event);
+                        Swal.fire({
+                            text: "some error occured while making connection",
+                            title: "error",
+                            icon: "error"
+                        });
+                    };
+
+                    socket.onclose = function (event) {
+                        console.log('WebSocket connection closed:', event);
+                        $("#ChatModal").modal("hide")
+
+                    };
+
+
+                    $("#messageForm").submit(function (e) {
+                        e.preventDefault();
+                        debugger
+                        let message = $(".messageInpBoxs").val();
+                        const messagesDiv = document.querySelector('.chat-modal-body');
+
+
+                        if (socket && socket.readyState === WebSocket.OPEN) {
+
+                            if (jyotishId && message) {
+                                const now = new Date();
+                                const hours = now.getHours();
+                                const minutes = now.getMinutes();
+                                messagesDiv.innerHTML += `<div class="message float-end sent">
+                                                                                <div class="message-content">${message}</div>
+                                                                                <small>${hours}:${minutes}<small>
+
+                                                                        </div>`
+                                socket.send(`${userId}:${message}`);
+                            }
+                            $(".messageInpBoxs").val("");
+                            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+                            const lastChild = messagesDiv.lastElementChild;
+                            lastChild.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                        }
+                    });
+                }
+                $("#exitFromChat").click(function () {
+                    Swal.fire({
+                        title: "warning",
+                        text: "Do you really want to end chat",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Leave"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            socket.close();
+                        }
+                    })
+                })
+            });
+            const image = document.querySelector('#userhdetailschatheader');
+
+            image.addEventListener('error', function () {
+                image.src = '/user-not-found.png';
+            });
+        }
     </script>
    
-
-
 </body>
 
 </html>

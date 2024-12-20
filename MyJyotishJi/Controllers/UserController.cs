@@ -540,6 +540,7 @@ namespace MyJyotishGApi.Controllers
 
         }
 
+        [AllowAnonymous]
         [HttpGet("LayoutData")]
         public IActionResult LayoutData(int Id)
         {
