@@ -113,7 +113,7 @@ namespace MyJyotishGApi.Controllers
         }
 
         private static readonly ConcurrentDictionary<string, WebSocket> _clientRequest = new();
-        private static Dictionary<string, dynamic> _clientRequestMessage = new();
+        private static Dictionary<string, string> _clientRequestMessage = new();
 
         [HttpGet("sendChatRequest")]
         public async Task SendChatRequest(string id, string sendBy)
@@ -129,7 +129,7 @@ namespace MyJyotishGApi.Controllers
                     dynamic userRequestRecord=null;
                     if (sendBy != "client")
                     {
-                        userRequestRecord = _clientRequestMessage.Count > 0 ? _clientRequestMessage.Where(e => e.Key == id).First().Value : "";
+                        userRequestRecord = _clientRequestMessage.ContainsKey(id) ? _clientRequestMessage.Where(e => e.Key == id).First().Value : null;
                    
                         string jsonString = JsonConvert.SerializeObject(new { status = true, type = "chat", data = userRequestRecord });
                         var msgBuffer = System.Text.Encoding.UTF8.GetBytes(jsonString);
@@ -164,10 +164,16 @@ namespace MyJyotishGApi.Controllers
                         await webSocket.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
                         if (sendBy == "client")
                         {
-                            if (_clientRequestMessage.ContainsKey(clientId))
+                            var castId = Convert.ToInt32(clientId);
+                            var userDetail = _services.LayoutData(castId);
+                            string jsonString = JsonConvert.SerializeObject(userDetail);
+
+                            var clientKey = _clientRequestMessage.FirstOrDefault(e => e.Value.Equals(jsonString)).Key;
+                            if (clientKey != null)
                             {
-                                _clientRequestMessage.Remove(clientId);
+                                _clientRequestMessage.Remove(clientKey);
                             }
+                            
                         } else 
                         break;
                     }
@@ -178,22 +184,28 @@ namespace MyJyotishGApi.Controllers
                     {
                         var recipientId = message.Trim();
                         var changeresPref = sendBy == "client" ? recipientId + "B" : recipientId + "A";
+                        dynamic userRequestRecord = false;
                         if (sendBy == "client")
                         {
                             var castId = Convert.ToInt32(clientId);
                             var userDetail = _services.LayoutData(castId);
-                            if (!_clientRequestMessage.ContainsKey(recipientId))
+                                string userJson = JsonConvert.SerializeObject(userDetail);
+                            if (!_clientRequestMessage.ContainsKey(recipientId)&& !string.IsNullOrEmpty(recipientId))
                             {
-
-                            _clientRequestMessage.Add(recipientId, userDetail);
+                           _clientRequestMessage.Add(recipientId, userJson);
                             }
+                            ;
                         }
                         if (_clientRequest.TryGetValue(changeresPref, out var recipientSocket))
                         {
-                            dynamic userRequestRecord=false;
                             if (sendBy != "client")
                             {
                                 userRequestRecord = true;
+                            }
+                            else
+                            {
+
+                            userRequestRecord = userRequestRecord = _clientRequestMessage.ContainsKey(recipientId) ? _clientRequestMessage.Where(e => e.Key == recipientId).First().Value : null;
                             }
                          
                             string jsonString = JsonConvert.SerializeObject(new {status=true,type="chat",data= userRequestRecord });
