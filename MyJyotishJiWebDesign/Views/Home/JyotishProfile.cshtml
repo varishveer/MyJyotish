@@ -1077,7 +1077,6 @@
 
 		var UserId = localStorage.getItem('userId');
 		var Action = $("#Action").val();
-
 		var DataContainer = {
 			Name: Name,
 			Gender: Gender,
@@ -1088,93 +1087,101 @@
 			UserId: UserId,
 			Action: Action
 		}
-		Swal.fire({
-			title: "Processing Your Request",
-			allowOutsideClick: false,
-			didOpen: () => {
-				Swal.showLoading();
-			}
-		})
+		if (TimeOfBirth == "") {
+			Swal.fire({
+				title: "warning",
+				text: "Time of birth are Required",
+				icon: "warning"
+			})
 
-		$.ajax({
-			url: BaseUrl + "api/User/AddUserServiceRecord", // Ensure BaseUrl is properly defined
-			method: "POST",
-			headers: {
-				'Authorization': `Bearer ${localStorage.getItem("Token")}` // Retrieve token from localStorage
-			},
-			data: JSON.stringify(DataContainer), // Corrected JSON.stringify
-			contentType: "application/json", // Ensure content type is set to JSON
-			success: function (response) {
-				if (response.status === 200) {
-					Swal.close();
-					if (Action == '1') {
-						establishedConnectionForSendRequest().then((socket)=>{
-							debugger
-						if (socket) {
-							socket.onopen = function (event) {
-								console.log('WebSocket connection established:', event);
-									if (jyotishId) {
-										socket.send(`${jyotishId}`);
-										$(".chatBtn").hide();
-										$("#waitingBtn").removeClass("d-none")
-									}
-							};
-							socket.onmessage = function (event) {
-									let response = JSON.parse(event.data)
-								console.log(response)
-								if(response.data){
-									startChat();
-									socket.close()
-										$("#messageInpBox").val(`
-														Hi, Below are my Details : Name: ${Name} Gender:${Gender}
-																	DOB: ${DateOfBirth} DOT: ${TimeOfBirth} POB: ${PlaceOfBirth}
-												`)
+		} else {
+
+			Swal.fire({
+				title: "Processing Your Request",
+				allowOutsideClick: false,
+				didOpen: () => {
+					Swal.showLoading();
+				}
+			})
+
+			$.ajax({
+				url: BaseUrl + "api/User/AddUserServiceRecord", // Ensure BaseUrl is properly defined
+				method: "POST",
+				headers: {
+					'Authorization': `Bearer ${localStorage.getItem("Token")}` // Retrieve token from localStorage
+				},
+				data: JSON.stringify(DataContainer), // Corrected JSON.stringify
+				contentType: "application/json", // Ensure content type is set to JSON
+				success: function (response) {
+					if (response.status === 200) {
+						Swal.close();
+						if (Action == '1') {
+							establishedConnectionForSendRequest().then((socket) => {
+								debugger
+								if (socket) {
+									socket.onopen = function (event) {
+										console.log('WebSocket connection established:', event);
+										if (jyotishId) {
+											socket.send(`${jyotishId}`);
+											$(".chatBtn").hide();
+											$("#waitingBtn").removeClass("d-none")
+										}
+									};
+									socket.onmessage = function (event) {
+										let response = JSON.parse(event.data)
+										console.log(response)
+										if (response.data) {
+
+											startChat();
+											socket.close()
+											$(".messageInpBox").val(`
+Hi, Below are my Details : Name: ${Name} Gender:${Gender} DOB: ${DateOfBirth} DOT: ${TimeOfBirth} POB: ${PlaceOfBirth}`)
+										}
+									};
+
+									socket.onerror = function (event) {
+										console.error('WebSocket error observed:', event);
+										Swal.fire({
+											text: "some error occured while making connection",
+											title: "error",
+											icon: "error"
+										});
+									};
+
+									socket.onclose = function (event) {
+										console.log('WebSocket connection closed:', event);
+										$(".chatBtn").show();
+										$("#waitingBtn").addClass("d-none")
+
+									};
+
+
 								}
-							};
-
-							socket.onerror = function (event) {
-								console.error('WebSocket error observed:', event);
-								Swal.fire({
-									text: "some error occured while making connection",
-									title: "error",
-									icon: "error"
-								});
-							};
-
-							socket.onclose = function (event) {
-								console.log('WebSocket connection closed:', event);
-									$(".chatBtn").show();
-									$("#waitingBtn").addClass("d-none")
-
-							};
-
+							})
 
 						}
-						})
+						$("#exampleModal2").modal("hide")
 
+
+					} else {
+						// Handle unexpected response status (if needed)
+						Swal.fire({
+							title: "Error!",
+							text: "There was an issue with the response.",
+							icon: "error"
+						});
 					}
-					$("#exampleModal2").modal("hide")
-
-
-				} else {
-					// Handle unexpected response status (if needed)
+				},
+				error: function (xhr, status, error) {
+					// Error case: Handle request errors
 					Swal.fire({
 						title: "Error!",
-						text: "There was an issue with the response.",
+						text: "Something went wrong. Please try again later.",
 						icon: "error"
 					});
 				}
-			},
-			error: function (xhr, status, error) {
-				// Error case: Handle request errors
-				Swal.fire({
-					title: "Error!",
-					text: "Something went wrong. Please try again later.",
-					icon: "error"
-				});
-			}
-		});
-
+			});
+		}
 	});
 
 
@@ -1187,11 +1194,11 @@
 			},
 			success: function (response) {
 				if (response.status === 200) {
-
+					debugger
 					$('#Name').val(response.data.name);
 					$('#Gender').val(response.data.gender);
 					$('#DateOfBirth').val(response.data.dateOfBirth);
-					$('#TimeOfBirth').val(response.data.timeOfBirth);
+					$('#TimeOfBirth').val(response.data.timeOfBirth != null || response.data.timeOfBirth != "" ? response.data.timeOfBirth.split(' ')[0]:"");
 					$('#PlaceOfBirth').val(response.data.placeOfBirth);
 
 				}
@@ -1230,7 +1237,7 @@
 	GetUserDataForService(UserId);
 
 
-	$(".messageInpBox").on("keyup", function () {
+	$(".messageInpBox").on("input", function () {
 		let characterLength = $(this).val().length
 		if (characterLength > 0) {
 			$("#sendMessageBtn").attr("disabled", false);

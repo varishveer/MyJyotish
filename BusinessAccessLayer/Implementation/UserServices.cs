@@ -968,7 +968,7 @@ namespace BusinessAccessLayer.Implementation
             UserRecord.DateOfBirth = (DateOnly)User.DoB;
             if (User.TimeOfBirth != null)
             {
-                UserRecord.TimeOfBirth = (TimeOnly)User.TimeOfBirth;
+                UserRecord.TimeOfBirth = User.TimeOfBirth.ToString();
             }
 
             UserRecord.PlaceOfBirth = User.PlaceOfBirth;

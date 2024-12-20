@@ -58,8 +58,20 @@ namespace MyJyotishGApi.Controllers
 
                     if (result.CloseStatus.HasValue)
                     {
+                        ReceiveChat ms = new ReceiveChat
+                        {
+                            mssg = sendBy=="client"?"Client":"Jyotish" + "Are Disconnected",
+                            date = DateTime.Now.ToString("hh:mm tt")
+                        };
                         _clients.TryRemove(changeIdPref, out _);
                         await webSocket.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
+
+                        if (_clients.TryGetValue(changeIdPref, out var recipientSocket))
+                        {
+                            string jsonString = JsonConvert.SerializeObject(ms);
+                            var msgBuffer = System.Text.Encoding.UTF8.GetBytes(jsonString);
+                            await recipientSocket.SendAsync(new ArraySegment<byte>(msgBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
+                        }
                         break;
                     }
 
@@ -78,6 +90,8 @@ namespace MyJyotishGApi.Controllers
                         md.sendBy = sendBy;
                         md.status = 1;
 
+
+
                         ChatedUserViewModel cu = new ChatedUserViewModel();
                         cu.Status = 1;
                         cu.UserId = sendBy == "client" ? Convert.ToInt32(clientId):Convert.ToInt32(recipientId);
@@ -89,9 +103,12 @@ namespace MyJyotishGApi.Controllers
                         var res = _chat.AddChat(md);
                         var changeresPref = sendBy == "client" ? recipientId + "B" : recipientId + "A";
 
-        
+                       
+
                         if (_clients.TryGetValue(changeresPref, out var recipientSocket))
                         {
+
+
                             ReceiveChat ms = new ReceiveChat
                             {
                                 mssg = msgContent,

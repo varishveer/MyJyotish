@@ -12,7 +12,7 @@ namespace ModelAccessLayer.Models
         public string Name { get; set; }
         public string Gender { get; set; }
         public DateOnly DateOfBirth { get; set; }
-        public TimeOnly TimeOfBirth { get; set; }
+        public string TimeOfBirth { get; set; }
         public string PlaceOfBirth { get; set;  }
         public int UserId { get; set;  }
         public int JyotishId { get; set; }

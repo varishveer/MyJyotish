@@ -1,157 +1,157 @@
 ﻿
 <style>
-    /* Background and container styling */
-    body {
-        font-family: 'Poppins', sans-serif;
-        background: linear-gradient(135deg, #f0f4fd, #dae9f4);
-        margin: 0;
-        padding: 0;
-    }
+	/* Background and container styling */
+	body {
+		font-family: 'Poppins', sans-serif;
+		background: linear-gradient(135deg, #f0f4fd, #dae9f4);
+		margin: 0;
+		padding: 0;
+	}
 
-    .astrologer-list {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 30px;
-        padding: 50px 20px;
-        max-width: 1200px;
-        margin: 0 auto;
-    }
+	.astrologer-list {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+		gap: 30px;
+		padding: 50px 20px;
+		max-width: 1200px;
+		margin: 0 auto;
+	}
 
-    /* Card styling */
-    .astrologer-card {
-        position: relative;
-        background: white;
-        border-radius: 15px;
-        overflow: hidden;
-        text-align: center;
-        padding: 30px 20px; 
-        transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    }
+	/* Card styling */
+	.astrologer-card {
+		position: relative;
+		background: white;
+		border-radius: 15px;
+		overflow: hidden;
+		text-align: center;
+		padding: 30px 20px;
+		transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+	}
 
-        .astrologer-card:hover {
-            transform: translateY(-20px) scale(1.05);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-        }
+		.astrologer-card:hover {
+			transform: translateY(-20px) scale(1.05);
+			box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+		}
 
-        /* Avatar with unique animation and effect */
-        .astrologer-card img {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 15px;
-            border: 5px solid #f0f4fd;
-            transition: border-color 0.4s ease-in-out;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
-        }
+		/* Avatar with unique animation and effect */
+		.astrologer-card img {
+			width: 120px;
+			height: 120px;
+			border-radius: 50%;
+			object-fit: cover;
+			margin-bottom: 15px;
+			border: 5px solid #f0f4fd;
+			transition: border-color 0.4s ease-in-out;
+			box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+		}
 
-        .astrologer-card:hover img {
-            border-color: #ffc107;
-            transform: rotate(360deg);
-        }
+		.astrologer-card:hover img {
+			border-color: #ffc107;
+			transform: rotate(360deg);
+		}
 
-        /* Card content styling */
-        .astrologer-card h4 {
-            font-size: 1.3em;
-            margin: 10px 0 5px;
-            color: #333;
-        }
+		/* Card content styling */
+		.astrologer-card h4 {
+			font-size: 1.3em;
+			margin: 10px 0 5px;
+			color: #333;
+		}
 
-        .astrologer-card p {
-            font-size: 0.95em;
-            color: #666;
-            margin: 8px 0;
-        }
+		.astrologer-card p {
+			font-size: 0.95em;
+			color: #666;
+			margin: 8px 0;
+		}
 
-            .astrologer-card p span {
-                color: #333;
-                font-weight: bold;
-            }
+			.astrologer-card p span {
+				color: #333;
+				font-weight: bold;
+			}
 
-        /* Add a decorative icon for creativity */
-        .astrologer-card .decorative-icon {
-            position: absolute;
-            top: -20px;
-            right: -20px;
-            font-size: 50px;
-            color: rgba(255, 193, 7, 0.1);
-            transition: transform 0.4s ease;
-        }
+		/* Add a decorative icon for creativity */
+		.astrologer-card .decorative-icon {
+			position: absolute;
+			top: -20px;
+			right: -20px;
+			font-size: 50px;
+			color: rgba(255, 193, 7, 0.1);
+			transition: transform 0.4s ease;
+		}
 
-        .astrologer-card:hover .decorative-icon {
-            transform: rotate(45deg);
-            color: rgba(255, 193, 7, 0.3);
-        }
+		.astrologer-card:hover .decorative-icon {
+			transform: rotate(45deg);
+			color: rgba(255, 193, 7, 0.3);
+		}
 
-    .chat-modal-body {
-        height: 60vh;
-        max-height: 600px; /* Set a max height for the chat area */
-        overflow-y: auto; /* Enable scrolling */
-        background-color: #f8f9fa; /* Light background for the chat area */
-    }
+	.chat-modal-body {
+		height: 60vh;
+		max-height: 600px; /* Set a max height for the chat area */
+		overflow-y: auto; /* Enable scrolling */
+		background-color: #f8f9fa; /* Light background for the chat area */
+	}
 
-    .chat-history {
-        padding: 15px;
-    }
+	.chat-history {
+		padding: 15px;
+	}
 
-    .message {
-        margin-bottom: 10px;
-        padding: 10px;
-        border-radius: 5px;
-        max-width: 50%;
-        clear: both;
-        word-wrap: break-word;
-    }
+	.message {
+		margin-bottom: 10px;
+		padding: 10px;
+		border-radius: 5px;
+		max-width: 50%;
+		clear: both;
+		word-wrap: break-word;
+	}
 
-        .message.sent {
-            background-color: #007bff; /* Bootstrap primary color */
-            color: white;
-            margin-left: auto; /* Align to the right */
-        }
+		.message.sent {
+			background-color: #007bff; /* Bootstrap primary color */
+			color: white;
+			margin-left: auto; /* Align to the right */
+		}
 
-        .message.received {
-            background-color: #e9ecef; /* Light gray for received messages */
-            color: black;
-            margin-right: auto; /* Align to the left */
-        }
+		.message.received {
+			background-color: #e9ecef; /* Light gray for received messages */
+			color: black;
+			margin-right: auto; /* Align to the left */
+		}
 
-    .input-group {
-        position: relative;
-    }
+	.input-group {
+		position: relative;
+	}
 
 
-    #ChatModal {
-        z-index: 10000;
-    }
+	#ChatModal {
+		z-index: 10000;
+	}
 
-    .fa-location-arrow {
-        transform: rotate(44deg);
-    }
+	.fa-location-arrow {
+		transform: rotate(44deg);
+	}
 
-    .messageInpBox {
-        padding: 10px;
-        font-size: 20px;
-        outline: none !important;
-        box-shadow: none !important;
-    }
+	.messageInpBox {
+		padding: 10px;
+		font-size: 20px;
+		outline: none !important;
+		box-shadow: none !important;
+	}
 
-    .chat-modal-body::-webkit-scrollbar {
-        width: 4px;
-        height: 4px;
-    }
+	.chat-modal-body::-webkit-scrollbar {
+		width: 4px;
+		height: 4px;
+	}
 
-    .chat-modal-body::-webkit-scrollbar-thumb {
-        border-radius: 10px;
-        background: skyblue;
-    }
+	.chat-modal-body::-webkit-scrollbar-thumb {
+		border-radius: 10px;
+		background: skyblue;
+	}
 
-    .swal2-container {
-        z-index: 100000;
-    }
+	.swal2-container {
+		z-index: 100000;
+	}
 </style>
 <div class="astrologer-list mt-3" id="astrologerList">
-    <!-- Astrologer results will be injected here -->
+	<!-- Astrologer results will be injected here -->
 </div>
 
 
@@ -159,492 +159,496 @@
 
 
 <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModal3Label" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModal3Label"> Please enter your details </h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
+	<div class="modal-dialog modal-lg modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5" id="exampleModal3Label"> Please enter your details </h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
 
-                <div class="row d-flex">
-                    <div class="col-md-4 mb-2">
-                        <label name="Name">Name</label>
-                        <input class="form-control" name="Name" id="Name" type="text" />
-                    </div>
+				<div class="row d-flex">
+					<div class="col-md-4 mb-2">
+						<label name="Name">Name</label>
+						<input class="form-control" name="Name" id="Name" type="text" />
+					</div>
 
-                    <div class="col-md-4  mb-2">
-                        <label name="Gender">Gender</label>
-                        <select id="Gender" name="Gender" class="form-select custom-field" required>
-                            <option value="Male" selected>Male</option>
-                            <option value="Female">Female</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
+					<div class="col-md-4  mb-2">
+						<label name="Gender">Gender</label>
+						<select id="Gender" name="Gender" class="form-select custom-field" required>
+							<option value="Male" selected>Male</option>
+							<option value="Female">Female</option>
+							<option value="Other">Other</option>
+						</select>
+					</div>
 
-                    <div class="col-md-4  mb-2">
-                        <label name="DateOfBirth">DateOfBirth</label>
-                        <input class="form-control" name="DateOfBirth" id="DateOfBirth" type="date" />
-                    </div>
-                </div>
+					<div class="col-md-4  mb-2">
+						<label name="DateOfBirth">DateOfBirth</label>
+						<input class="form-control" name="DateOfBirth" id="DateOfBirth" type="date" />
+					</div>
+				</div>
 
-                <div class="row d-flex">
-                    <div class="col-md-4 mb-2 ">
-                        <label name="TimeOfBirth">TimeOfBirth</label>
-                        <input class="form-control" name="TimeOfBirth" id="TimeOfBirth" type="time" />
-                    </div>
-                    <div class="col-md-4 mb-2 position-relative">
-                        <label name="PlaceOfBirth">PlaceOfBirth</label>
+				<div class="row d-flex">
+					<div class="col-md-4 mb-2 ">
+						<label name="TimeOfBirth">TimeOfBirth</label>
+						<input class="form-control" name="TimeOfBirth" id="TimeOfBirth" type="time" />
+					</div>
+					<div class="col-md-4 mb-2 position-relative">
+						<label name="PlaceOfBirth">PlaceOfBirth</label>
 
-                        <input list="PlaceOfBirthList" type="text" id="PlaceOfBirth" name="placeOfBirth" class="form-control custom-field"
-                               placeholder="Enter City" autocomplete="off" />
-                        <div class="position-absolute w-100 bg-light d-none" id="PlaceOfBirthList">
-                        </div>
-                    </div>
-                    <div class="col-md-4  mb-2">
-                        <input id="JyotishId" hidden />
-                        <input id="UserId" hidden />
-                        <input id="Action" value="2" hidden />
-                    </div>
-                </div>
+						<input list="PlaceOfBirthList" type="text" id="PlaceOfBirth" name="placeOfBirth" class="form-control custom-field"
+							   placeholder="Enter City" autocomplete="off" />
+						<div class="position-absolute w-100 bg-light d-none" id="PlaceOfBirthList">
+						</div>
+					</div>
+					<div class="col-md-4  mb-2">
+						<input id="JyotishId" hidden />
+						<input id="UserId" hidden />
+						<input id="Action" value="2" hidden />
+					</div>
+				</div>
 
-            </div>
-            <div class="modal-footer">
+			</div>
+			<div class="modal-footer">
 
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="DataSubmitBtn">Submit</button>
-            </div>
-        </div>
-    </div>
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary" id="DataSubmitBtn">Submit</button>
+			</div>
+		</div>
+	</div>
 </div>
 
 <div class="modal fade" id="ChatModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="ChatModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="d-flex align-items-center">
-                    <img id="jyotishdetailschatheader" height="50" width="50" class="rounded-circle border" src="~/user-not-found.png" alt="jyotish profile" />
-                    <h1 class="modal-title fs-5 ms-2" id="ChatModalLabel"></h1>
-                </div>
-                <button type="button" class="btn-close" id="exitFromChat"></button>
-            </div>
-            <div class="modal-body chat-modal-body">
-                <div class="chat-history">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <form class="w-100" id="messageForm">
-                    <div class="input-group mt-3">
-                        <input type="text" class="form-control rounded-start messageInpBox" placeholder="Type your message..." aria-label="User 's message">
-                        <button disabled class="btn btn-primary rounded-end" id="sendMessageBtn" type="submit"><i class="fas fs-5 fa-location-arrow"></i></button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<div class="d-flex align-items-center">
+					<img id="jyotishdetailschatheader" height="50" width="50" class="rounded-circle border" src="~/user-not-found.png" alt="jyotish profile" />
+					<h1 class="modal-title fs-5 ms-2" id="ChatModalLabel"></h1>
+				</div>
+				<button type="button" class="btn-close" id="exitFromChat"></button>
+			</div>
+			<div class="modal-body chat-modal-body">
+				<div class="chat-history">
+				</div>
+			</div>
+			<div class="modal-footer">
+				<form class="w-100" id="messageForm">
+					<div class="input-group mt-3">
+						<input type="text" class="form-control rounded-start messageInpBox" placeholder="Type your message..." aria-label="User 's message">
+						<button disabled class="btn btn-primary rounded-end" id="sendMessageBtn" type="submit"><i class="fas fs-5 fa-location-arrow"></i></button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 </div>
 
 <script>
 
 
-   
-    var UserId = localStorage.getItem('userId');
-    if(UserId != null && UserId != undefined)
-    {
-        GetUserDataForService(UserId);
-    }
 
-     function GetUserDataForService(Id) {
+	var UserId = localStorage.getItem('userId');
+	if (UserId != null && UserId != undefined) {
+		GetUserDataForService(UserId);
+	}
 
-
-        $.ajax({
-            url: `${BaseUrl}api/User/GetUserDataForService?Id=${Id}`,
-            method: "GET",
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem("Token")}`
-            },
-            success: function (response) {
-                if (response.status === 200) {
-
-                    $('#Name').val(response.data.name);
-                    $('#Gender').val(response.data.gender);
-                    $('#DateOfBirth').val(response.data.dateOfBirth);
-                    $('#TimeOfBirth').val(response.data.timeOfBirth);
-                    $('#PlaceOfBirth').val(response.data.placeOfBirth);
-
-                }
-            },
-            error: function (xhr, status, error) {
-
-                console.log("Error:", error);
-                console.log("Status:", status);
-                console.log("XHR:", xhr);
-            }
-        });
-    }
-
-    function ChatBtn(id)
-    {
-         $('#JyotishId').val(id);
-    }
-    // Function to fetch astrologers for the chat
-    function GetAstroListCallChat() {
-        Swal.fire({
-            title: "Processing Your Request",
-            allowOutsideClick: false,
-            didOpen: () => {
-                Swal.showLoading();
-            }
-        })
-        $.ajax({
-            url: BaseUrl + 'Api/User/GetAstroListCallChat?listName=Chat',
-            type: 'GET',
-            success: function (response) {
-                 
-                if (response.status === 200) {
-                    var astrologers = response.data;
-                    if (astrologers.length > 0) {
-                        displayAstrologers(astrologers);
-                    } else {
-                        $('#astrologerList').html('<p>No astrologers found.</p>');
-                    }
-                } else {
-                    $('#astrologerList').html('<p>No astrologers found.</p>');
-                }
-                Swal.close()
-            },
-            error: function () {
-                 
-                $('#astrologerList').html('<p>An error occurred while searching for astrologers.</p>');
-            }
-        });
-    }
-    function generateFullStars() {
-        return '<i class="fa fa-star"></i>'.repeat(5); // Return 5 filled stars
-    }
-    // Function to display astrologers dynamically
-    function displayAstrologers(astrologers) {
-        console.log(astrologers)
-        var html = '';
-        astrologers.forEach(function (astrologer) {
-            var ImgSrc = BaseUrl + astrologer.profileImageUrl;
-            html += `
-                    <div class="astrologer-card">
-                            <a href="/Home/JyotishProfile?Id=${astrologer.id}" class="text-decoration-none">
-                            <i class="decorative-icon fa fa-star"></i>
-                                <img src=  "${ImgSrc}"  alt="${astrologer.name}">
-                                                    <div class="card-body p-0 pt-2">
-                                                        <h6 class="card-title  text-center">${astrologer.name} - ${astrologer.city}</h6>
-                                                            <p class='text-center text-warning' >${generateFullStars()}</p>
-                                                        <p class="card-text px-1 text-center" >
-                                                             ${astrologer.expertise} | ${astrologer.experience != null ? astrologer.experience : 0} Years
-                                                        </p>
-                                                    </div>
-                        </a><br>
-                                     <button class="btn btn-primary chatBtn me-2 mb-2 mb-md-0 " id='chatBtn_${astrologer.id}' onclick="ChatBtn(${astrologer.id})"   style="background-color: #4CAF50; border-color: #4CAF50;" data-bs-toggle="modal" data-bs-target="#exampleModal3">
-                                        Start Chat ₹${astrologer.chatCharges}/min
-                            </button>
-                                <button class="btn btn-outline-success d-none" id="waitingBtn_${astrologer.id}">Waiting...</button>
-
-                    </div>
-                `;
-        });
-        $('#astrologerList').html(html);
-    }
-
-    // Initialize the function to get astrologers on page load
-    GetAstroListCallChat();
-
-    $('#DataSubmitBtn').on('click', function () {
+	function GetUserDataForService(Id) {
 
 
-        var Name = $("#Name").val();
-        var Gender = $("#Gender").val();
-        var DateOfBirth = $("#DateOfBirth").val();
-        var TimeOfBirth = $("#TimeOfBirth").val();
-        var PlaceOfBirth = $("#PlaceOfBirth").val();
-        var astrologerId = $('#JyotishId').val();
+		$.ajax({
+			url: `${BaseUrl}api/User/GetUserDataForService?Id=${Id}`,
+			method: "GET",
+			headers: {
+				'Authorization': `Bearer ${localStorage.getItem("Token")}`
+			},
+			success: function (response) {
+				if (response.status === 200) {
+					debugger
+					$('#Name').val(response.data.name);
+					$('#Gender').val(response.data.gender);
+					$('#DateOfBirth').val(response.data.dateOfBirth);
+					$('#TimeOfBirth').val(response.data.timeOfBirth);
+					$('#PlaceOfBirth').val(response.data.placeOfBirth);
 
-        var UserId = localStorage.getItem('userId');
+				}
+			},
+			error: function (xhr, status, error) {
 
+				console.log("Error:", error);
+				console.log("Status:", status);
+				console.log("XHR:", xhr);
+			}
+		});
+	}
 
-        var DataContainer = {
-            Name: Name,
-            Gender: Gender,
-            DateOfBirth: DateOfBirth,
-            TimeOfBirth: TimeOfBirth,
-            PlaceOfBirth: PlaceOfBirth,
-            JyotishId: astrologerId,
-            UserId: UserId,
-            Action: 1
-        }
+	function ChatBtn(id) {
+		$('#JyotishId').val(id);
+	}
+	// Function to fetch astrologers for the chat
+	function GetAstroListCallChat() {
+		Swal.fire({
+			title: "Processing Your Request",
+			allowOutsideClick: false,
+			didOpen: () => {
+				Swal.showLoading();
+			}
+		})
+		$.ajax({
+			url: BaseUrl + 'Api/User/GetAstroListCallChat?listName=Chat',
+			type: 'GET',
+			success: function (response) {
 
-        $.ajax({
-            url: BaseUrl + "api/User/AddUserServiceRecord", // Ensure BaseUrl is properly defined
-            method: "POST",
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem("Token")}` // Retrieve token from localStorage
-            },
-            data: JSON.stringify(DataContainer), // Corrected JSON.stringify
-            contentType: "application/json", // Ensure content type is set to JSON
-            success: function (response) {
-                if (response.status === 200) {
-                    establishedConnectionForSendRequest().then((socket) => {
-                        debugger
-                        if (socket) {
-                            socket.onopen = function (event) {
-                                console.log('WebSocket connection established:', event);
-                                if (astrologerId) {
-                                    socket.send(`${astrologerId}`);
-                                    $("#chatBtn_" + astrologerId).hide();
-                                    $("#waitingBtn_" + astrologerId).removeClass("d-none")
-                                }
-                            };
-                            socket.onmessage = function (event) {
-                                let response = JSON.parse(event.data)
-                                console.log(response)
-                                if (response.data) {
-                                    startChat(astrologerId);
-                                    socket.close()
-                                    $("#messageInpBox").val(`
-                                                    Hi, Below are my Details : Name: ${Name} Gender:${Gender}
-                                                                DOB: ${DateOfBirth} DOT: ${TimeOfBirth} POB: ${PlaceOfBirth}
-                                            `)
-                                }
-                            };
+				if (response.status === 200) {
+					var astrologers = response.data;
+					if (astrologers.length > 0) {
+						displayAstrologers(astrologers);
+					} else {
+						$('#astrologerList').html('<p>No astrologers found.</p>');
+					}
+				} else {
+					$('#astrologerList').html('<p>No astrologers found.</p>');
+				}
+				Swal.close()
+			},
+			error: function () {
 
-                            socket.onerror = function (event) {
-                                console.error('WebSocket error observed:', event);
-                                Swal.fire({
-                                    text: "some error occured while making connection",
-                                    title: "error",
-                                    icon: "error"
-                                });
-                            };
+				$('#astrologerList').html('<p>An error occurred while searching for astrologers.</p>');
+			}
+		});
+	}
+	function generateFullStars() {
+		return '<i class="fa fa-star"></i>'.repeat(5); // Return 5 filled stars
+	}
+	// Function to display astrologers dynamically
+	function displayAstrologers(astrologers) {
+		console.log(astrologers)
+		var html = '';
+		astrologers.forEach(function (astrologer) {
+			var ImgSrc = BaseUrl + astrologer.profileImageUrl;
+			html += `
+						<div class="astrologer-card">
+								<a href="/Home/JyotishProfile?Id=${astrologer.id}" class="text-decoration-none">
+								<i class="decorative-icon fa fa-star"></i>
+									<img src=  "${ImgSrc}"  alt="${astrologer.name}">
+														<div class="card-body p-0 pt-2">
+															<h6 class="card-title  text-center">${astrologer.name} - ${astrologer.city}</h6>
+																<p class='text-center text-warning' >${generateFullStars()}</p>
+															<p class="card-text px-1 text-center" >
+																 ${astrologer.expertise} | ${astrologer.experience != null ? astrologer.experience : 0} Years
+															</p>
+														</div>
+							</a><br>
+										 <button class="btn btn-primary chatBtn me-2 mb-2 mb-md-0 " id='chatBtn_${astrologer.id}' onclick="ChatBtn(${astrologer.id})"   style="background-color: #4CAF50; border-color: #4CAF50;" data-bs-toggle="modal" data-bs-target="#exampleModal3">
+											Start Chat ₹${astrologer.chatCharges}/min
+								</button>
+									<button class="btn btn-outline-success d-none" id="waitingBtn_${astrologer.id}">Waiting...</button>
 
-                            socket.onclose = function (event) {
-                                console.log('WebSocket connection closed:', event);
-                                $("#chatBtn_" + astrologerId).show();
-                                $("#waitingBtn_" + astrologerId).addClass("d-none")
+						</div>
+					`;
+		});
+		$('#astrologerList').html(html);
+	}
 
-                            };
+	// Initialize the function to get astrologers on page load
+	GetAstroListCallChat();
 
-
-                        }
-                    })
-
-                    $("#exampleModal3").modal("hide")
-                } else {
-                    // Handle unexpected response status (if needed)
-                    Swal.fire({
-                        title: "Error!",
-                        text: "There was an issue with the response.",
-                        icon: "error"
-                    });
-                }
-            },
-            error: function (xhr, status, error) {
-                // Error case: Handle request errors
-                Swal.fire({
-                    title: "Error!",
-                    text: "Something went wrong. Please try again later.",
-                    icon: "error"
-                });
-            }
-        });
-
-    });
-
-    //time management for message
-
-    function getSomeJyotish(astrologerId) {
-        $.ajax({
-            url: `${BaseUrl}api/jyotish/LayoutData`,
-            method: "GET",
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem("Token")}`
-            },
-            data: { Id: astrologerId },
-            success: function (res) {
-                if (res.status === 200) {
-
-                    if (res.data != null) {
-                        $("#jyotishdetailschatheader").attr("src", res.data.image)
-                        $("#ChatModalLabel").text(res.data.name)
-                    }
-                }
-            }
-        })
-    }
-    var UserId = localStorage.getItem('userId');
-    GetUserDataForService(UserId);
+	$('#DataSubmitBtn').on('click', function () {
 
 
-    $(".messageInpBox").on("keyup", function () {
-        let characterLength = $(this).val().length
-        if (characterLength > 0) {
-            $("#sendMessageBtn").attr("disabled", false);
-        } else {
-            $("#sendMessageBtn").attr("disabled", true);
-
-        }
-    });
-
-    let userId = localStorage.getItem("userId")
-
-    function establishedConnection() {
-        let socket = new WebSocket(`wss://api.myjyotishg.in/api/chat/connect?id=${userId}&sendBy=client`);
-        return new Promise((res, rej) => {
-            if (socket) {
-
-                res(socket)
-            } else {
-                rej(false)
-            }
-        });
-    }
-
-    function establishedConnectionForSendRequest() {
-        let socket = new WebSocket(`wss://api.myjyotishg.in/api/chat/sendChatRequest?id=${userId}&sendBy=client`);
-        return new Promise((res, rej) => {
-            if (socket) {
-
-                res(socket)
-            } else {
-                rej(false)
-            }
-        });
-    }
-
-    function startChat(astrologerId) {
-        getSomeJyotish(astrologerId)
-        getChatHistory(astrologerId);
-        establishedConnection().then((socket) => {
-            if (socket) {
-                socket.onopen = function (event) {
-                    console.log('WebSocket connection established:', event);
-                    $("#ChatModal").modal("show")
-                };
-                socket.onmessage = function (event) {
-                    const now = new Date();
-                    const hours = now.getHours();
-                    const minutes = now.getMinutes();
-                    const messagesDiv = document.querySelector('.chat-modal-body');
-                    messagesDiv.innerHTML += ` <div class="message float-start received">
-                                                                        <div class="message-content"> ${JSON.parse(event.data).mssg}</div>
-                                                                        <small>${hours}:${minutes}<small>
-                                                                </div>`
+		var Name = $("#Name").val();
+		var Gender = $("#Gender").val();
+		var DateOfBirth = $("#DateOfBirth").val();
+		var TimeOfBirth = $("#TimeOfBirth").val();
+		var PlaceOfBirth = $("#PlaceOfBirth").val();
+		var astrologerId = $('#JyotishId').val();
+		debugger
+		var UserId = localStorage.getItem('userId');
 
 
-                    messagesDiv.scrollTop = messagesDiv.scrollHeight;
-                    const lastChild = messagesDiv.lastElementChild;
-                    lastChild.scrollIntoView({ behavior: 'smooth', block: 'end' });
-                };
+		var DataContainer = {
+			Name: Name,
+			Gender: Gender,
+			DateOfBirth: DateOfBirth,
+			TimeOfBirth: TimeOfBirth,
+			PlaceOfBirth: PlaceOfBirth,
+			JyotishId: astrologerId,
+			UserId: UserId,
+			Action: 1
+		}
 
-                socket.onerror = function (event) {
-                    console.error('WebSocket error observed:', event);
-                    Swal.fire({
-                        text: "some error occured while making connection",
-                        title: "error",
-                        icon: "error"
-                    });
-                };
+		if (TimeOfBirth == "") {
+			Swal.fire({
+				title: "warning",
+				text: "Time of birth are Required",
+				icon: "warning"
+			})
 
-                socket.onclose = function (event) {
-                    console.log('WebSocket connection closed:', event);
-                    $("#ChatModal").modal("hide")
+		} else {
 
-                };
+			$.ajax({
+				url: BaseUrl + "api/User/AddUserServiceRecord", // Ensure BaseUrl is properly defined
+				method: "POST",
+				headers: {
+					'Authorization': `Bearer ${localStorage.getItem("Token")}` // Retrieve token from localStorage
+				},
+				data: JSON.stringify(DataContainer), // Corrected JSON.stringify
+				contentType: "application/json", // Ensure content type is set to JSON
+				success: function (response) {
+					if (response.status === 200) {
+						establishedConnectionForSendRequest().then((socket) => {
+							debugger
+							if (socket) {
+								socket.onopen = function (event) {
+									console.log('WebSocket connection established:', event);
+									if (astrologerId) {
+										socket.send(`${astrologerId}`);
+										$("#chatBtn_" + astrologerId).hide();
+										$("#waitingBtn_" + astrologerId).removeClass("d-none")
+									}
+								};
+								socket.onmessage = function (event) {
+									let response = JSON.parse(event.data)
+									console.log(response)
+									if (response.data) {
+										startChat(astrologerId);
+										socket.close()
+										$(".messageInpBox").val(`
+	Hi, Below are my Details : Name: ${Name} Gender:${Gender} DOB: ${DateOfBirth} DOT: ${TimeOfBirth} POB: ${PlaceOfBirth}`)}
+								};
 
+								socket.onerror = function (event) {
+									console.error('WebSocket error observed:', event);
+									Swal.fire({
+										text: "some error occured while making connection",
+										title: "error",
+										icon: "error"
+									});
+								};
 
-                $("#messageForm").submit(function (e) {
-                    e.preventDefault();
+								socket.onclose = function (event) {
+									console.log('WebSocket connection closed:', event);
+									$("#chatBtn_" + astrologerId).show();
+									$("#waitingBtn_" + astrologerId).addClass("d-none")
 
-                    let message = $(".messageInpBox").val();
-                    const messagesDiv = document.querySelector('.chat-modal-body');
-
-
-                    if (socket && socket.readyState === WebSocket.OPEN) {
-
-                        if (astrologerId && message) {
-                            const now = new Date();
-                            const hours = now.getHours();
-                            const minutes = now.getMinutes();
-                            messagesDiv.innerHTML += `<div class="message float-end sent">
-                                                                            <div class="message-content">${message}</div>
-                                                                            <small>${hours}:${minutes}<small>
-
-                                                                    </div>`
-                            socket.send(`${astrologerId}:${message}`);
-                        }
-                        $(".messageInpBox").val("");
-                        messagesDiv.scrollTop = messagesDiv.scrollHeight;
-                        const lastChild = messagesDiv.lastElementChild;
-                        lastChild.scrollIntoView({ behavior: 'smooth', block: 'end' });
-                    }
-                });
-            }
-
-            $("#exitFromChat").click(function () {
-                Swal.fire({
-                    title: "warning",
-                    text: "Do you really want to end chat",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Leave"
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        socket.close();
-                    }
-                })
-            })
-
-        });
-        const image = document.querySelector('#jyotishdetailschatheader');
-
-        image.addEventListener('error', function () {
-            image.src = '/user-not-found.png';
-        });
-    }
+								};
 
 
-    function getChatHistory(astrologerId) {
-        $.ajax({
-            url: `${BaseUrl}api/chat/getchats`,
-            method: "GET",
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem("Token")}`
-            },
-            data: { sender: UserId, receiver: astrologerId },
-            success: function (res) {
-                console.log(res, "chatData")
-                if (res.length > 0) {
-                    const messagesDiv = document.querySelector('.chat-modal-body');
-                    res.forEach(function (d) {
-                        if (d.sendBy == "client") {
+							}
+						})
 
-                            messagesDiv.innerHTML += `<div class="message float-end sent">
-                                                        <div class="message-content">${d.message}</div>
-                                                                    <small>${d.mssDate}</small>
-                                            </div>`
+						$("#exampleModal3").modal("hide")
+					} else {
+						// Handle unexpected response status (if needed)
+						Swal.fire({
+							title: "Error!",
+							text: "There was an issue with the response.",
+							icon: "error"
+						});
+					}
+				},
+				error: function (xhr, status, error) {
+					// Error case: Handle request errors
+					Swal.fire({
+						title: "Error!",
+						text: "Something went wrong. Please try again later.",
+						icon: "error"
+					});
+				}
+			});
+		}
+	});
 
-                        } else {
-                            messagesDiv.innerHTML += `<div class="message float-start received">
-                                                            <div class="message-content">${d.message}</div>
-                                                                        <small>${d.mssDate}</small>
-                                                </div>`
-                        }
-                    })
-                    setTimeout(() => {
-                        messagesDiv.scrollTop = messagesDiv.scrollHeight;
-                        const lastChild = messagesDiv.lastElementChild;
-                        lastChild.scrollIntoView({ behavior: 'smooth', block: 'end' });
-                    }, 1000)
-                }
-            }
-        })
-    }
+	//time management for message
+
+	function getSomeJyotish(astrologerId) {
+		$.ajax({
+			url: `${BaseUrl}api/jyotish/LayoutData`,
+			method: "GET",
+			headers: {
+				'Authorization': `Bearer ${localStorage.getItem("Token")}`
+			},
+			data: { Id: astrologerId },
+			success: function (res) {
+				if (res.status === 200) {
+
+					if (res.data != null) {
+						$("#jyotishdetailschatheader").attr("src", res.data.image)
+						$("#ChatModalLabel").text(res.data.name)
+					}
+				}
+			}
+		})
+	}
+	var UserId = localStorage.getItem('userId');
+	GetUserDataForService(UserId);
+
+
+	$(".messageInpBox").on("input", function () {
+		let characterLength = $(this).val().length
+		if (characterLength > 0) {
+			$("#sendMessageBtn").attr("disabled", false);
+		} else {
+			$("#sendMessageBtn").attr("disabled", true);
+
+		}
+	});
+
+	let userId = localStorage.getItem("userId")
+
+	function establishedConnection() {
+		let socket = new WebSocket(`wss://api.myjyotishg.in/api/chat/connect?id=${userId}&sendBy=client`);
+		return new Promise((res, rej) => {
+			if (socket) {
+
+				res(socket)
+			} else {
+				rej(false)
+			}
+		});
+	}
+
+	function establishedConnectionForSendRequest() {
+		let socket = new WebSocket(`wss://api.myjyotishg.in/api/chat/sendChatRequest?id=${userId}&sendBy=client`);
+		return new Promise((res, rej) => {
+			if (socket) {
+
+				res(socket)
+			} else {
+				rej(false)
+			}
+		});
+	}
+
+	function startChat(astrologerId) {
+		getSomeJyotish(astrologerId)
+		getChatHistory(astrologerId);
+		establishedConnection().then((socket) => {
+			if (socket) {
+				socket.onopen = function (event) {
+					console.log('WebSocket connection established:', event);
+					$("#ChatModal").modal("show")
+				};
+				socket.onmessage = function (event) {
+					const now = new Date();
+					const hours = now.getHours();
+					const minutes = now.getMinutes();
+					const messagesDiv = document.querySelector('.chat-modal-body');
+					messagesDiv.innerHTML += ` <div class="message float-start received">
+																			<div class="message-content"> ${JSON.parse(event.data).mssg}</div>
+																			<small>${hours}:${minutes}<small>
+																	</div>`
+
+
+					messagesDiv.scrollTop = messagesDiv.scrollHeight;
+					const lastChild = messagesDiv.lastElementChild;
+					lastChild.scrollIntoView({ behavior: 'smooth', block: 'end' });
+				};
+
+				socket.onerror = function (event) {
+					console.error('WebSocket error observed:', event);
+					Swal.fire({
+						text: "some error occured while making connection",
+						title: "error",
+						icon: "error"
+					});
+				};
+
+				socket.onclose = function (event) {
+					console.log('WebSocket connection closed:', event);
+					$("#ChatModal").modal("hide")
+
+				};
+
+
+				$("#messageForm").submit(function (e) {
+					e.preventDefault();
+
+					let message = $(".messageInpBox").val();
+					const messagesDiv = document.querySelector('.chat-modal-body');
+
+
+					if (socket && socket.readyState === WebSocket.OPEN) {
+
+						if (astrologerId && message) {
+							const now = new Date();
+							const hours = now.getHours();
+							const minutes = now.getMinutes();
+							messagesDiv.innerHTML += `<div class="message float-end sent">
+																				<div class="message-content">${message}</div>
+																				<small>${hours}:${minutes}<small>
+
+																		</div>`
+							socket.send(`${astrologerId}:${message}`);
+						}
+						$(".messageInpBox").val("");
+						messagesDiv.scrollTop = messagesDiv.scrollHeight;
+						const lastChild = messagesDiv.lastElementChild;
+						lastChild.scrollIntoView({ behavior: 'smooth', block: 'end' });
+					}
+				});
+			}
+
+			$("#exitFromChat").click(function () {
+				Swal.fire({
+					title: "warning",
+					text: "Do you really want to end chat",
+					icon: "warning",
+					showCancelButton: true,
+					confirmButtonColor: "#3085d6",
+					cancelButtonColor: "#d33",
+					confirmButtonText: "Leave"
+				}).then((result) => {
+					if (result.isConfirmed) {
+						socket.close();
+					}
+				})
+			})
+
+		});
+		const image = document.querySelector('#jyotishdetailschatheader');
+
+		image.addEventListener('error', function () {
+			image.src = '/user-not-found.png';
+		});
+	}
+
+
+	function getChatHistory(astrologerId) {
+		$.ajax({
+			url: `${BaseUrl}api/chat/getchats`,
+			method: "GET",
+			headers: {
+				'Authorization': `Bearer ${localStorage.getItem("Token")}`
+			},
+			data: { sender: UserId, receiver: astrologerId },
+			success: function (res) {
+				console.log(res, "chatData")
+				if (res.length > 0) {
+					const messagesDiv = document.querySelector('.chat-modal-body');
+					res.forEach(function (d) {
+						if (d.sendBy == "client") {
+
+							messagesDiv.innerHTML += `<div class="message float-end sent">
+															<div class="message-content">${d.message}</div>
+																		<small>${d.mssDate}</small>
+												</div>`
+
+						} else {
+							messagesDiv.innerHTML += `<div class="message float-start received">
+																<div class="message-content">${d.message}</div>
+																			<small>${d.mssDate}</small>
+													</div>`
+						}
+					})
+					setTimeout(() => {
+						messagesDiv.scrollTop = messagesDiv.scrollHeight;
+						const lastChild = messagesDiv.lastElementChild;
+						lastChild.scrollIntoView({ behavior: 'smooth', block: 'end' });
+					}, 1000)
+				}
+			}
+		})
+	}
 
 </script>
