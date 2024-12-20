@@ -1,5 +1,6 @@
 ﻿using BusinessAccessLayer.Abstraction;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using ModelAccessLayer.Models;
 using ModelAccessLayer.ViewModels;
@@ -122,7 +123,21 @@ namespace MyJyotishGApi.Controllers
                 var changeIdPref = sendBy == "client" ? id + "A" : id + "B";
                 var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
                 _clientRequest[changeIdPref] = webSocket;
-                
+
+                if (_clientRequest.TryGetValue(changeIdPref, out var recipientSocket))
+                {
+                    dynamic userRequestRecord=null;
+                    if (sendBy != "client")
+                    {
+                        userRequestRecord = _clientRequestMessage.Count > 0 ? _clientRequestMessage.Where(e => e.Key == id).First().Value : "";
+                   
+                        string jsonString = JsonConvert.SerializeObject(new { status = true, type = "chat", data = userRequestRecord });
+                        var msgBuffer = System.Text.Encoding.UTF8.GetBytes(jsonString);
+                        await recipientSocket.SendAsync(new ArraySegment<byte>(msgBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
+                    }
+                   
+                }
+
                 await HandleChatRequest(webSocket, id, sendBy);
             }
             else
@@ -153,7 +168,7 @@ namespace MyJyotishGApi.Controllers
                             {
                                 _clientRequestMessage.Remove(clientId);
                             }
-                        }   
+                        } else 
                         break;
                     }
 
@@ -167,20 +182,20 @@ namespace MyJyotishGApi.Controllers
                         {
                             var castId = Convert.ToInt32(clientId);
                             var userDetail = _services.LayoutData(castId);
+                            if (!_clientRequestMessage.ContainsKey(recipientId))
+                            {
+
                             _clientRequestMessage.Add(recipientId, userDetail);
+                            }
                         }
                         if (_clientRequest.TryGetValue(changeresPref, out var recipientSocket))
                         {
-                            dynamic userRequestRecord;
+                            dynamic userRequestRecord=false;
                             if (sendBy != "client")
-                            {
-                                userRequestRecord = _clientRequestMessage.Count > 0 ? _clientRequestMessage.Where(e => e.Key == clientId).First().Value : "";
-                            }
-                            else
                             {
                                 userRequestRecord = true;
                             }
-                           
+                         
                             string jsonString = JsonConvert.SerializeObject(new {status=true,type="chat",data= userRequestRecord });
                             var msgBuffer = System.Text.Encoding.UTF8.GetBytes(jsonString);
                             await recipientSocket.SendAsync(new ArraySegment<byte>(msgBuffer), result.MessageType, result.EndOfMessage, CancellationToken.None);
