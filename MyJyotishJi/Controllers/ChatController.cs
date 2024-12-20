@@ -18,10 +18,12 @@ namespace MyJyotishGApi.Controllers
         private static readonly ConcurrentDictionary<string, WebSocket> _clients = new();
 
         private readonly IChat _chat;
+        private readonly IUserServices _services;
 
-        public ChatController(IChat chat)
+        public ChatController(IChat chat, IUserServices services)
         {
             _chat = chat;
+            _services = services;
         }
 
         [HttpGet("connect")]
@@ -108,7 +110,91 @@ namespace MyJyotishGApi.Controllers
             }
            
         }
-        
+
+        private static readonly ConcurrentDictionary<string, WebSocket> _clientRequest = new();
+        private static Dictionary<string, dynamic> _clientRequestMessage = new();
+
+        [HttpGet("sendChatRequest")]
+        public async Task SendChatRequest(string id, string sendBy)
+        {
+            if (HttpContext.WebSockets.IsWebSocketRequest)
+            {
+                var changeIdPref = sendBy == "client" ? id + "A" : id + "B";
+                var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
+                _clientRequest[changeIdPref] = webSocket;
+                
+                await HandleChatRequest(webSocket, id, sendBy);
+            }
+            else
+            {
+                HttpContext.Response.StatusCode = 400; // Bad Request
+            }
+        }
+
+        private async Task HandleChatRequest(WebSocket webSocket, string clientId, string sendBy)
+        {
+            var buffer = new byte[1024 * 4];
+
+            try
+            {
+
+                while (webSocket.State == WebSocketState.Open)
+                {
+                    var result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+                    var changeIdPref = sendBy == "client" ? clientId + "A" : clientId + "B";
+
+                    if (result.CloseStatus.HasValue)
+                    {
+                        _clientRequest.TryRemove(changeIdPref, out _);
+                        await webSocket.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
+                        if (sendBy == "client")
+                        {
+                            if (_clientRequestMessage.ContainsKey(clientId))
+                            {
+                                _clientRequestMessage.Remove(clientId);
+                            }
+                        }   
+                        break;
+                    }
+
+                    var message = System.Text.Encoding.UTF8.GetString(buffer, 0, result.Count);
+                  
+                    if (message!=null)
+                    {
+                        var recipientId = message.Trim();
+                        var changeresPref = sendBy == "client" ? recipientId + "B" : recipientId + "A";
+                        if (sendBy == "client")
+                        {
+                            var castId = Convert.ToInt32(clientId);
+                            var userDetail = _services.LayoutData(castId);
+                            _clientRequestMessage.Add(recipientId, userDetail);
+                        }
+                        if (_clientRequest.TryGetValue(changeresPref, out var recipientSocket))
+                        {
+                            dynamic userRequestRecord;
+                            if (sendBy != "client")
+                            {
+                                userRequestRecord = _clientRequestMessage.Count > 0 ? _clientRequestMessage.Where(e => e.Key == clientId).First().Value : "";
+                            }
+                            else
+                            {
+                                userRequestRecord = true;
+                            }
+                           
+                            string jsonString = JsonConvert.SerializeObject(new {status=true,type="chat",data= userRequestRecord });
+                            var msgBuffer = System.Text.Encoding.UTF8.GetBytes(jsonString);
+                            await recipientSocket.SendAsync(new ArraySegment<byte>(msgBuffer), result.MessageType, result.EndOfMessage, CancellationToken.None);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+
+        }
+
 
         [HttpGet("getchats")]
         public List<ChatModel> GetChats(int sender, int receiver)

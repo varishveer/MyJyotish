@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
-using MyJyotishGApi.Hubs;
 using MyJyotishGApi.RazorPay;
 using System.Collections.Generic;
 using System.Net;
@@ -118,13 +117,12 @@ builder.Services.AddAuthorization(options =>
 });*/
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowSpecificOrigins", builder =>
+    options.AddPolicy("AllowAnyOrigin", builder =>
     {
-        // Specify the exact allowed origin
-        builder.WithOrigins("https://localhost:7169")  // Your client URL
+        // Allow any origin, but don't allow credentials
+        builder.AllowAnyOrigin()
                .AllowAnyMethod()
-               .AllowAnyHeader()
-               .AllowCredentials();
+               .AllowAnyHeader();
     });
 });
 
@@ -136,7 +134,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseCors("AllowSpecificOrigins");
+app.UseCors("AllowAnyOrigin");
 app.UseStaticFiles();
 app.UseHttpsRedirection();
 app.UseAuthentication();
@@ -158,7 +156,5 @@ app.Use(async (context, next) =>
 
 
 app.MapControllers();
-app.MapHub<CallHub>("/callHub");
-app.MapHub<SendChatRequest>("/SendChatRequest");
 app.Run();
 
