@@ -2208,7 +2208,7 @@ namespace BusinessAccessLayer.Implementation
             AppointmentBookmarkViewModal Record = new AppointmentBookmarkViewModal();
             Record.Reason = AppointmentBookmark.Reason;
             Record.AppointmentId = Id;
-            Record.RemoveDate = AppointmentBookmark.EndDate!=null? Convert.ToDateTime(AppointmentBookmark.EndDate).ToString("dd-MM-yyyy"):null;
+            Record.EndDate = AppointmentBookmark.EndDate;
             Record.JyotishId = AppointmentBookmark.JyotishId;
             Record.Id = AppointmentBookmark.Id;
             return Record;
