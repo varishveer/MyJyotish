@@ -342,6 +342,20 @@ public IActionResult GetJyotishGallery(int id)
 		return StatusCode(500, new { Status = 500, Message = ex.Message, Error = ex });
 	}
 }
+		// Method to fetch Jyotish gallery images by Jyotish ID
+[HttpGet("JyotishVideos")]
+public IActionResult JyotishVideos(int id)
+{
+	try
+	{
+		var gallery = _jyotish.JyotishVideos(id);
+		return Ok(new { Status = 200, Data = gallery });
+	}
+	catch (Exception ex)
+	{
+		return StatusCode(500, new { Status = 500, Message = ex.Message, Error = ex });
+	}
+}
 
 [HttpGet("GetProfile")]
 public IActionResult GetProfile(int Id)

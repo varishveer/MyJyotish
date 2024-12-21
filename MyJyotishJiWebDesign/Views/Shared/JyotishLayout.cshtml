@@ -191,7 +191,7 @@
         }
 
         .swal2-container {
-            z-index: 100000;
+            z-index: 100000000;
         }
     </style>
 </head>
@@ -760,8 +760,8 @@
      
             
                 <script>
-                     var BaseUrl = "https://api.myjyotishg.in/"
-                    // var BaseUrl = "https://localhost:7118/"
+                     //var BaseUrl = "https://api.myjyotishg.in/"
+                     var BaseUrl = "https://localhost:7118/"
                 </script>
 
         <div class="container">
@@ -1105,9 +1105,8 @@ if(res.data.length>0){
                 });
         });
 
-
-       
-                $('.summernote').summernote({
+        $(document).ready(function(){
+ $('.summernote').summernote({
      height: 300, // set the height of the editor
      toolbar: [
     // Define your toolbar groups here. Exclude 'image' and 'video'
@@ -1117,11 +1116,10 @@ if(res.data.length>0){
     ['view', ['fullscreen', 'codeview']] // remove image/video
   ]
 });
+ })
+       
             // Sidebar Toggler
             let hide = true;
-
-          
-
             // Logout
             $("#logout").click(function () {
                
@@ -1141,7 +1139,7 @@ if(res.data.length>0){
                 });
             });
 
-        $(".messageInpBoxs").on("keyup", function () {
+        $(".messageInpBoxs").on("input", function () {
             let characterLength = $(this).val().length
             if (characterLength > 0) {
                 $("#sendMessageBtn").attr("disabled", false);
@@ -1189,7 +1187,8 @@ if(res.data.length>0){
                         let response = JSON.parse(event.data)
                         let userDetail=JSON.parse(response.data)
                         console.log(userDetail)
-                        if (userDetail != null) {
+                        debugger
+                        if (userDetail != null && userDetail!=false) {
                         $("#userImage").attr("src",userDetail.Image)
                         $("#userNameForchat").text(userDetail.Name)
                         const toastElList = document.querySelectorAll('.toast');
@@ -1210,6 +1209,16 @@ if(res.data.length>0){
                             image.addEventListener('error', function () {
                                 image.src = '/user-not-found.png';
                             });
+                        }else{
+                             const toastElList = document.querySelectorAll('.toast');
+
+                        const toastList = [...toastElList].map(toastEl => {
+                            const toast = new bootstrap.Toast(toastEl, {
+                                autohide: false
+                            });
+
+                            toast.hide();
+                        })
                         }
                     };
 

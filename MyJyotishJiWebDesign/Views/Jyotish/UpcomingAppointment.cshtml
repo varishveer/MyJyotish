@@ -756,25 +756,25 @@
 								$(".attachmentRecord").append(
 
 									`<div class='col-sm-4'>
-																<div class='text-end text-danger'><i data-id='${d.id}' role='button' onClick='removeAttachment(${d.id})' class="fas removeAttachment fa-trash-alt"></i></div>
-														<a class=" display-block" href='${BaseUrl}${d.image}' target='_blank'>
-														   <div  class='w-100'>
-																		<iframe frameborder="0" src="${BaseUrl}${d.image}" height="170" class="w-100  border rounded p-2"/> </iframe>
-															<p class="text-center text-secondary">${d.title}</p>
-														</div>
-															</a></div>
-													   `
+																		<div class='text-end text-danger'><i data-id='${d.id}' role='button' onClick='removeAttachment(${d.id})' class="fas removeAttachment fa-trash-alt"></i></div>
+																<a class=" display-block" href='${BaseUrl}${d.image}' target='_blank'>
+																   <div  class='w-100'>
+																				<iframe frameborder="0" src="${BaseUrl}${d.image}" height="170" class="w-100  border rounded p-2"/> </iframe>
+																	<p class="text-center text-secondary">${d.title}</p>
+																</div>
+																	</a></div>
+															   `
 								)
 							} else {
 								$(".attachmentRecord").append(
 									`
-													   <div class="col-sm-4">
-																				<div class='text-end text-danger'><i data-id='${d.id}'  role='button' class="fas fa-trash-alt" onClick='removeAttachment(${d.id})'></i></div>
+															   <div class="col-sm-4">
+																						<div class='text-end text-danger'><i data-id='${d.id}'  role='button' class="fas fa-trash-alt" onClick='removeAttachment(${d.id})'></i></div>
 
-																	<a href='${BaseUrl}${d.image}' target='_blank'> <img src="${BaseUrl}${d.image}" class="w-100 border rounded p-2" height="170"/></a>
-														<p class="text-center">${d.title}</p>
-													</div>
-												   `
+																			<a href='${BaseUrl}${d.image}' target='_blank'> <img src="${BaseUrl}${d.image}" class="w-100 border rounded p-2" height="170"/></a>
+																<p class="text-center">${d.title}</p>
+															</div>
+														   `
 								)
 							}
 						})
@@ -915,8 +915,8 @@
 		})
 	}
 
-	function fetchProblemDate(uid,appid) {
-		userId=uid
+	function fetchProblemDate(uid, appid) {
+		userId = uid
 		debugger
 		$(".edit-appointment").attr("onclick", `setMembers(${uid},${appid})`)
 		$(".edit-appointment").attr("data-id", appid)
@@ -945,7 +945,7 @@
 				var counterForId = 1;
 				let htmls = '';
 				$.each(result.data, function (key, item) {
-					let [year,month,day] = item.date.split('T')[0].split('-')
+					let [year, month, day] = item.date.split('T')[0].split('-')
 					htmls += '<tr>';
 					htmls += `<td class="text-center">${counterForId}</td>`;
 					htmls += `<td class="text-center">${item.userName}</td>`;
@@ -992,24 +992,24 @@
 					if (data.length > 0) {
 						data.forEach(function (d) {
 							const content = `
-														   <div class="container my-3 text-end">
-														   <button role='button' class='btn btn-info' onClick='printReceipt(${JSON.stringify(d)})' type='button'><i class="fas fa-print"></i></button>
-															   <button role="button" type="button" class="btn btn-secondary attachmentModaltriggerforUpdate" onClick='showAttachmentUpdateModal(${d.appointmentId},${d.memberId},${d.uId})' ><i class="fas fa-paperclip"></i></button>
-														<a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#updateProblemSolutionModal"
-														   onclick='populateUpdateModal(${JSON.stringify(d)})'>Update</a>
-													</div>
-													<div class="problem-solution-container">
-														<div class="d-flex justify-content-between">
-																				<div><div class="section-title">${d.memberName != null ? "Member Name" : "User Name"}:</div><p>${d.memberName != null ? d.memberName : d.userName}</p></div>
-															<div><div class="section-title">Date:</div><p>${d.appointmentDate}</p></div>
-																<div><div class="section-title">Time:</div><p>${d.appointmentTime}</p></div>
-														</div>
-														<div class="section-title">Problems:</div>
-														<ol>${d.problems.map(problem => `<li>${problem}</li>`).join('')}</ol>
-														<div class="section-title">Solutions:</div>
-														<div>${d.solution}</div>
-													</div>
-												`;
+																   <div class="container my-3 text-end">
+																   <button role='button' class='btn btn-info' onClick='printReceipt(${JSON.stringify(d)})' type='button'><i class="fas fa-print"></i></button>
+																	   <button role="button" type="button" class="btn btn-secondary attachmentModaltriggerforUpdate" onClick='showAttachmentUpdateModal(${d.appointmentId},${d.memberId},${d.uId})' ><i class="fas fa-paperclip"></i></button>
+																<a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#updateProblemSolutionModal"
+																   onclick='populateUpdateModal(${JSON.stringify(d)})'>Update</a>
+															</div>
+															<div class="problem-solution-container">
+																<div class="d-flex justify-content-between">
+																						<div><div class="section-title">${d.memberName != null ? "Member Name" : "User Name"}:</div><p>${d.memberName != null ? d.memberName : d.userName}</p></div>
+																	<div><div class="section-title">Date:</div><p>${d.appointmentDate}</p></div>
+																		<div><div class="section-title">Time:</div><p>${d.appointmentTime}</p></div>
+																</div>
+																<div class="section-title">Problems:</div>
+																<ol>${d.problems.map(problem => `<li>${problem}</li>`).join('')}</ol>
+																<div class="section-title">Solutions:</div>
+																<div>${d.solution}</div>
+															</div>
+														`;
 							$('#problemSolutionContent').append(content);
 						})
 					} else {
@@ -1113,13 +1113,13 @@
 		let problemhtml = "";
 		data.problems.forEach(function (d) {
 			problemhtml += `
-											<div class="w-100 my-2">
-											<div class='d-flex justify-content-end mb-1 w-100'>
-														<button type="button" class="btn btn-outline-danger remove-problem"><i class="fas fa-trash-alt"></i></button>
-												</div>
-													<textarea class="form-control" rows="2" name="problem[]" placeholder="Enter problem">${d}</textarea>
-											</div>
-										`
+													<div class="w-100 my-2">
+													<div class='d-flex justify-content-end mb-1 w-100'>
+																<button type="button" class="btn btn-outline-danger remove-problem"><i class="fas fa-trash-alt"></i></button>
+														</div>
+															<textarea class="form-control" rows="2" name="problem[]" placeholder="Enter problem">${d}</textarea>
+													</div>
+												`
 
 		})
 		$('#addProblemSolutionContainer').html(problemhtml)
@@ -1130,13 +1130,13 @@
 
 	$('.add-more-problemup').click(function () {
 		$('#addProblemSolutionContainer').append(`
-											<div class="w-100 my-2">
-											<div class='d-flex justify-content-end mb-1 w-100'>
-														<button type="button" class="btn btn-outline-danger remove-problem"><i class="fas fa-trash-alt"></i></button>
-												</div>
-													<textarea class="form-control" rows="2" name="problem[]" placeholder="Enter problem"></textarea>
-											</div>
-										`);
+													<div class="w-100 my-2">
+													<div class='d-flex justify-content-end mb-1 w-100'>
+																<button type="button" class="btn btn-outline-danger remove-problem"><i class="fas fa-trash-alt"></i></button>
+														</div>
+															<textarea class="form-control" rows="2" name="problem[]" placeholder="Enter problem"></textarea>
+													</div>
+												`);
 	});
 
 
@@ -1177,15 +1177,15 @@
 				htmls += `<td class="text-center">${item.amount || 'N/A'}</td>`;
 				htmls += `<td class="text-center">
 
-																	<i class="fas ${item.arriveStatus == 0 || item.arriveStatus == null ? "fs-4 fa-user-slash text-secondary" : ""
+																			<i class="fas ${item.arriveStatus == 0 || item.arriveStatus == null ? "fs-4 fa-user-slash text-secondary" : ""
 					} arrivedClientBtn" ${item.arriveStatus == 0 || item.arriveStatus == null ? `onClick = 'updateArrivedClient(${item.id})' title="click here if user arrived" role='button'` : ""
 					} ></i >
-						<span class="d-flex gap-3 ${item.arriveStatus == 0 || item.arriveStatus == null ? 'd-none':''}">
-									<i class="fas fa-users text-info fs-4" onClick='getClientMember(${item.uId})'  role='button' role='show member'></i>
+								<span class="d-flex gap-3 ${item.arriveStatus == 0 || item.arriveStatus == null ? 'd-none' : ''}">
+											<i class="fas fa-users text-info fs-4" onClick='getClientMember(${item.uId})'  role='button' role='show member'></i>
 
-																						  <a role='button' onClick='fetchProblemDate(${item.uId},${item.id})'><i class="fas fs-4 fa-list-alt"></i></a>
-																							  <i role='button'  onClick='BookMark(${item.id},${item.bookMark})' class="${item.bookMark == 1 ? "fas" : "far"} fs-4 fa-bookmark"></i></span>
-																  </td>`;
+																								  <a role='button' onClick='fetchProblemDate(${item.uId},${item.id})'><i class="fas fs-4 fa-list-alt"></i></a>
+																									  <i role='button'  onClick='BookMark(${item.id},${item.bookMark})' class="${item.bookMark == 1 ? "fas" : "far"} fs-4 fa-bookmark"></i></span>
+																		  </td>`;
 				htmls += '</tr>';
 			});
 			$('#DataTable tbody').html(htmls);
@@ -1200,7 +1200,7 @@
 		$("#exampleModal2").modal("show")
 	}
 
-	function BookMark(id,bookmark) {
+	async function BookMark(id, bookmark) {
 		debugger
 		var Id = localStorage.getItem('Id');
 
@@ -1211,14 +1211,14 @@
 			modal.show();
 		}
 		else {
-			
+		let bookMarkDetail=await getBookmark(id)
+			console.log(bookMarkDetail);
 			Swal.fire({
-				title: 'Are you sure?',
-				text: 'Do you really want to remove Bookmark?',
-				icon: 'warning',
+				title:bookMarkDetail.data.reason,
+				text: bookMarkDetail.data.endDate,
 				showCancelButton: true,
-				confirmButtonText: 'Yes',
-				cancelButtonText: 'No, cancel',
+				confirmButtonText: 'Remove',
+				cancelButtonText: 'close',
 				showConfirmButton: true,
 				reverseButtons: true
 			}).then((result) => {
@@ -1260,7 +1260,7 @@
 										} else if (checkClickEvent == "bookMark") {
 											$("#BookMark").trigger("click")
 
-										}else{
+										} else {
 											showAppointmentSlots(newAppointmentArray, "filter");
 
 										}
@@ -1285,85 +1285,21 @@
 				}
 
 			});
-				
-
 		}
+	}
+	function getBookmark(id) {
+		return $.ajax({
+			url: BaseUrl + `api/Jyotish/GetAppointmentBookmark?Id=${id}`,
+			type: 'get',
+			headers: {
+				'Authorization': `Bearer ${localStorage.getItem("Token2")}`
 
-
-		function getBookmark(id){
-			$.ajax({
-				url: BaseUrl + `api/Jyotish/GetAppointmentBookmark?Id=${id}`,
-				type: 'get',
-				headers: {
-					'Authorization': `Bearer ${localStorage.getItem("Token2")}`
-
-				},
-				data:{Id:id},
-				success: function (res) {
-					console.log(res)
-				}
-			})
-		}
-
-		//   $.ajax({
-		//       url: BaseUrl + `api/Jyotish/BookMark`,
-		//       type: 'GET',
-		//       data: { appointmentId: id},
-		//       headers: {
-		//           'Authorization': `Bearer ${localStorage.getItem("Token2")}`
-
-		//       },
-		//       success: function (result) {
-		//           if (result.status == 200) {
-		//               fetchData()
-		//               Swal.fire({
-		//                   title: "Success",
-		//                   text: result.message,
-		//                   icon: "success",
-		//                   didClose: () => {
-
-		//                       if (checkClickEvent == "today") {
-		//                           $("#todayAppointment").trigger("click")
-		//                       } else if (checkClickEvent == "upcomming") {
-		//                           $("#upcommingAppointment").trigger("click")
-		//                       } else if (checkClickEvent == "filter") {
-		//                           const searchTerm = $("#searchBox").val().toLowerCase();
-		//                           if (searchTerm != "") {
-		//                               if (searchTerm.length >= 1) {
-		//                                   debugger
-		//                                   const filteredResults = newAppointmentArray.filter(item => item.userName.toLowerCase().includes(searchTerm) | item.userMobile.includes(searchTerm) | item.userEmail.includes(searchTerm))
-		//                                   showAppointmentSlots(filteredResults, "filter");
-		//                               } else {
-		//                                   $('#resultsList').empty();  // Clear list if search term is empty
-		//                               }
-		//                           } else {
-		//                               showAppointmentSlots(newAppointmentArray, "filter");
-
-		//                           }
-		//                       } else if (checkClickEvent == "bookMark") {
-		//                           $("#BookMark").trigger("click")
-
-		//                       }
-
-		//                   }
-		//               })
-		//           }else{
-		//               Swal.fire({
-		//                   title:"error",
-		//                   text:result.message,
-		//                   icon:"error"
-		//               })
-		//           }
-		//       },error:function(){
-		//           Swal.fire({
-		//               title: "error",
-		//               text: result.message,
-		//               icon: "error"
-		//           })
-		//       }
-
-		// })
-
+			},
+			data: { Id: id },
+			success: function (res) {
+				console.log(res)
+			}
+		})
 	}
 
 
@@ -1391,7 +1327,7 @@
 		// Create data object for the API request
 		var DataContainer = {
 			AppointmentId: AppointmentId,
-			EndDate: EndDate!=""?EndDate:null,
+			EndDate: EndDate != "" ? EndDate : null,
 			Reason: Reason,
 			JyotishId: JyotishId
 		}
@@ -1616,14 +1552,14 @@
 					$("#userId").val(UId)
 					$("#appointmentId").val(appId)
 					$("#selectmember").append(`
-															 <option value='0'>${result.data.userName} </option>
-														`)
+																	 <option value='0'>${result.data.userName} </option>
+																`)
 					if (result.data.memberList.length > 0) {
 						result.data.memberList.forEach(function (item, i) {
 
 							$("#selectmember").append(`
-													 <option value='${item.id}'>${item.name} - ${item.relation}</option>
-													`)
+															 <option value='${item.id}'>${item.name} - ${item.relation}</option>
+															`)
 
 						})
 					}
@@ -1708,13 +1644,13 @@
 
 	$('.add-more-problem').click(function () {
 		$('#problemSection').append(`
-											<div class="w-100 my-2">
-											<div class='d-flex justify-content-end mb-1 w-100'>
-														<button type="button" class="btn btn-outline-danger remove-problem"><i class="fas fa-trash-alt"></i></button>
-												</div>
-													<textarea class="form-control" rows="2" name="problem[]" placeholder="Enter problem"></textarea>
-											</div>
-										`);
+													<div class="w-100 my-2">
+													<div class='d-flex justify-content-end mb-1 w-100'>
+																<button type="button" class="btn btn-outline-danger remove-problem"><i class="fas fa-trash-alt"></i></button>
+														</div>
+															<textarea class="form-control" rows="2" name="problem[]" placeholder="Enter problem"></textarea>
+													</div>
+												`);
 	});
 
 
@@ -1823,25 +1759,25 @@
 					if (result.data.memberList.length > 0) {
 						result.data.memberList.forEach(function (d, i) {
 							$("#memberbody").append(`
-												<tr class='text-center'>
-												<td>${i + 1}</td>
-												<td>${d.name}</td>
-												<td>${d.dob}</td>
-												<td>${d.gender}</td>
-												<td>${d.relation}</td>
-												</tr>
-												`)
+														<tr class='text-center'>
+														<td>${i + 1}</td>
+														<td>${d.name}</td>
+														<td>${d.dob}</td>
+														<td>${d.gender}</td>
+														<td>${d.relation}</td>
+														</tr>
+														`)
 						})
 					} else {
 						$("#memberbody").append(`
-												  <tr>
-													<td></td>
-													<td></td>
-													<td>No record found</td>
-													<td></td>
-													<td></td>
-													</tr>
-											`)
+														  <tr>
+															<td></td>
+															<td></td>
+															<td>No record found</td>
+															<td></td>
+															<td></td>
+															</tr>
+													`)
 					}
 				}
 				Swal.close()
@@ -1864,16 +1800,16 @@
 
 		// Prepare the HTML content for printing
 		let printContent = `<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap-grid.min.css" integrity="sha512-JQksK36WdRekVrvdxNyV3B0Q1huqbTkIQNbz1dlcFVgNynEMRl0F8OSqOGdVppLUDIvsOejhr/W5L3G/b3J+8w==" crossorigin="anonymous" referrerpolicy="no-referrer" />  <div class="problem-solution-container">
-														<div class="d-flex justify-content-between">
-																				<div><div class="section-title">${data.memberName != null ? "Member Name" : "User Name"}:</div><p>${data.memberName != null ? data.memberName : data.userName}</p></div>
-													  <div><div class="section-title">Date:</div><p>${data.appointmentDate}</p></div>
-													  <div><div class="section-title">Time:</div><p>${data.appointmentTime}</p></div>
-														</div>
-														<div class="section-title">Problems:</div>
-														<ol>${data.problems.map(problem => `<li>${problem}</li>`).join('')}</ol>
-														<div class="section-title">Solutions:</div>
-														<div>${data.solution}</div>
-													</div>`
+																<div class="d-flex justify-content-between">
+																						<div><div class="section-title">${data.memberName != null ? "Member Name" : "User Name"}:</div><p>${data.memberName != null ? data.memberName : data.userName}</p></div>
+															  <div><div class="section-title">Date:</div><p>${data.appointmentDate}</p></div>
+															  <div><div class="section-title">Time:</div><p>${data.appointmentTime}</p></div>
+																</div>
+																<div class="section-title">Problems:</div>
+																<ol>${data.problems.map(problem => `<li>${problem}</li>`).join('')}</ol>
+																<div class="section-title">Solutions:</div>
+																<div>${data.solution}</div>
+															</div>`
 
 		// Write the HTML content to the new window
 		printWindow.document.write(printContent);

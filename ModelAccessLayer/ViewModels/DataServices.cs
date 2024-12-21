@@ -271,6 +271,7 @@ namespace ModelAccessLayer.ViewModels
         public int? Id { get; set; }
         [AllowNull]
         public DateOnly? EndDate { get; set; }
+        public string RemoveDate { get; set; }
         public string Reason { get; set; }
         public int? AppointmentId { get; set; }
         public int? JyotishId { get; set; }
