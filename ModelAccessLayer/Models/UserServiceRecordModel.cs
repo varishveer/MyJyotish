@@ -11,7 +11,7 @@ namespace ModelAccessLayer.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Gender { get; set; }
-        public DateOnly DateOfBirth { get; set; }
+        public DateTime DateOfBirth { get; set; }
         public string TimeOfBirth { get; set; }
         public string PlaceOfBirth { get; set;  }
         public int UserId { get; set;  }

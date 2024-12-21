@@ -81,6 +81,10 @@
         background-color: skyblue;
         color: white;
     }
+
+    #exampleModal{
+        z-index:10000000;
+    }
 </style>
 
 <div class="container profile-container ">
@@ -469,9 +473,6 @@
                     $('#timeOfBirth').text(profile.timeOfBirth !== "null" ? profile.timeOfBirth.slice(0,5) : 'N/A');
 
 
-
-
-
                     // upate user
 
                     $('#userImage').attr('src', profile.profilePictureUrl ? BaseUrl + profile.profilePictureUrl : '/Img/UserPlaceholder.png');
@@ -540,8 +541,15 @@
                             }
                         });
                     }
-
                     $('#userTimeOfBirth').val(profile.timeOfBirth);
+                    const image = document.querySelector('#userImage');
+                    image.addEventListener('error', function () {
+                        image.src = '/user-not-found.png';
+                    }); 
+                    const image2 = document.querySelector('#profileImage');
+                    image2.addEventListener('error', function () {
+                        image2.src = '/user-not-found.png';
+                    });
 
 
                 } else {
@@ -566,10 +574,6 @@
             }
         })
 
-        
-       
-
-        
         $('#state').change(function () {
             var stateId = $(this).val();
             $('#city').prop('disabled', false).empty().append('<option value="">Select City</option>'); // Reset City dropdown
@@ -620,6 +624,7 @@
             }
             let formdata = new FormData();
             let formarray = $(this).serializeArray();
+            debugger
             formarray.forEach(function (e) {
                 if (e.name == "BootstrapdoB"){
                     formdata.append("doB", convertDateFormatdesc(e.value));
@@ -641,10 +646,9 @@
                     'Authorization': `Bearer ${localStorage.getItem("Token")}`,
 
                 },
-                data: formdata,
-
                 contentType: false,
                 processData: false,
+                data: formdata,   
                 success: function (response) {
                     if (response.status == 200) {
                         Swal.fire({
@@ -654,7 +658,6 @@
                             didClose: () => {
                                 location.reload(true)
                             }
-
                         });
                     } else {
                         Swal.fire({

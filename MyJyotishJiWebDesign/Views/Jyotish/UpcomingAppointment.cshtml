@@ -1887,6 +1887,11 @@
 		});
 	});
 
+	$(document).ready(function(){
+		let curretDate = new Date();
+		curretDate.setDate(curretDate.getDate() + 1);
+		$("#endDateForAddBookmark").attr("min", curretDate.toISOString().split('T')[0])
+	})
 
 </script>
 

@@ -13,18 +13,18 @@ namespace ModelAccessLayer.ViewModels
     {
         [Required]
         public int Id { get; set; }
-   
+        [AllowNull]
         public string? Mobile { get; set; }
         [AllowNull]
         public string? Name { get; set; }
         [AllowNull]
         public string? Gender { get; set; }
         [AllowNull]
-        public DateOnly? DoB { get; set; }
+        public DateTime? DoB { get; set; }
         [AllowNull]
         public string? PlaceOfBirth { get; set; }
         [AllowNull]
-        public TimeOnly? TimeOfBirth { get; set; }
+        public string? TimeOfBirth { get; set; }
         [AllowNull]
         public string? CurrentAddress { get; set; }
    

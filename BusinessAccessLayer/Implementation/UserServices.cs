@@ -366,7 +366,7 @@ namespace BusinessAccessLayer.Implementation
                 userModel.PlaceOfBirth = model.PlaceOfBirth;
             }
 
-            if (model.TimeOfBirth.HasValue)
+            if (!string.IsNullOrEmpty(model.TimeOfBirth))
             {
                 userModel.TimeOfBirth = model.TimeOfBirth;
             }
@@ -939,7 +939,7 @@ namespace BusinessAccessLayer.Implementation
             UserServiceRecordModel newData = new UserServiceRecordModel();
             newData.Name = data.Name;
             newData.Gender = data.Gender;
-            newData.DateOfBirth = data.DateOfBirth;
+            newData.DateOfBirth = (DateTime)data.DateOfBirth;
             newData.TimeOfBirth = data.TimeOfBirth;
             newData.PlaceOfBirth = data.PlaceOfBirth;
             newData.UserId = data.UserId;
@@ -965,7 +965,7 @@ namespace BusinessAccessLayer.Implementation
 
             UserRecord.Name = User.Name;
             UserRecord.Gender = User.Gender;
-            UserRecord.DateOfBirth = (DateOnly)User.DoB;
+            UserRecord.DateOfBirth = (DateTime)User.DoB;
             if (User.TimeOfBirth != null)
             {
                 UserRecord.TimeOfBirth = User.TimeOfBirth.ToString();

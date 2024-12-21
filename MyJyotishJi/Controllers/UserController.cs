@@ -297,11 +297,30 @@ namespace MyJyotishGApi.Controllers
 
 
         [HttpPost("UpdateProfile")]
-        public IActionResult UpdateProfile(UserUpdateViewModel model)
+        public IActionResult UpdateProfile()
         {
             try
             {
-                string? path = _environment.ContentRootPath;
+
+                var httpRequest = HttpContext.Request;
+                UserUpdateViewModel model = new UserUpdateViewModel
+                {
+                    Id = Convert.ToInt32(httpRequest.Form["id"]),
+                    Mobile = httpRequest.Form["mobile"],
+                    Name = httpRequest.Form["name"],
+                    Gender = httpRequest.Form["gender"],
+                    DoB = Convert.ToDateTime(httpRequest.Form["timeOfBirth"]),
+                    PlaceOfBirth = httpRequest.Form["placeOfBirth"],
+                    TimeOfBirth = httpRequest.Form["timeOfBirth"],
+                    CurrentAddress = httpRequest.Form["currentAddress"],
+                    State = Convert.ToInt32(httpRequest.Form["state"]),
+                    Pincode = Convert.ToInt32(httpRequest.Form["pincode"]),
+                    ProfilePictureUrl = httpRequest.Form.Files["profilePictureUrl"],
+
+                };
+
+
+				string? path = _environment.ContentRootPath;
                 var result = _services.UpdateProfile(model, path);
                 if (!result)
                 {

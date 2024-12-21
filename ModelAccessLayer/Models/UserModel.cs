@@ -16,14 +16,14 @@ namespace ModelAccessLayer.Models
         public string? Mobile { get; set; }
         public string? Name { get; set; }
         public string? Gender { get; set; }
-        public DateOnly? DoB { get; set; }
+        public DateTime? DoB { get; set; }
         public string? PlaceOfBirth { get; set; }
         public int? Otp { get; set; }
         
         
         public string? Password { get; set; }
        
-        public TimeOnly? TimeOfBirth { get; set; }
+        public string? TimeOfBirth { get; set; }
         public string? CurrentAddress { get; set; }
         public int? Country { get; set; }
         public int? State { get; set; }

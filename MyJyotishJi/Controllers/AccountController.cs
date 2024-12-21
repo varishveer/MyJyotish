@@ -397,7 +397,7 @@ namespace MyJyotishJiApi.Controllers
                     Mobile = httpRequest.Form["mobile"],
                     Name = httpRequest.Form["name"],
                     Gender = httpRequest.Form["gender"],
-                    DoB = DateOnly.Parse(httpRequest.Form["doB"]),
+                    DoB =Convert.ToDateTime(httpRequest.Form["doB"]),
                     PlaceOfBirth = httpRequest.Form["placeOfBirth"],
                     Country = int.Parse( httpRequest.Form["country"]),
                     State = int.Parse( httpRequest.Form["state"]),
@@ -408,7 +408,7 @@ namespace MyJyotishJiApi.Controllers
 
                 if (!string.IsNullOrEmpty(httpRequest.Form["timeOfBirth"]))
                 {
-                    _user.TimeOfBirth = TimeOnly.Parse(httpRequest.Form["timeOfBirth"]);
+                    _user.TimeOfBirth =httpRequest.Form["timeOfBirth"];
                 }
                
 

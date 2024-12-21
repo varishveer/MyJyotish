@@ -196,7 +196,7 @@ namespace ModelAccessLayer.ViewModels
 
         public string Name { get; set; }
         public string Gender { get; set; }
-        public DateOnly DateOfBirth { get; set; }
+        public DateTime DateOfBirth { get; set; }
         public string TimeOfBirth { get; set; }
         public string PlaceOfBirth { get; set; }
         public int UserId { get; set; }
@@ -293,9 +293,9 @@ namespace ModelAccessLayer.ViewModels
         public string? Mobile { get; set; }
         public string? Name { get; set; }
         public string? Gender { get; set; }
-        public DateOnly? DoB { get; set; }
+        public DateTime? DoB { get; set; }
         public string? PlaceOfBirth { get; set; }
-        public TimeOnly? TimeOfBirth { get; set; }
+        public string? TimeOfBirth { get; set; }
         public string? CurrentAddress { get; set; }
         public int? CountryId { get; set; }
         public string? Country { get; set; }
