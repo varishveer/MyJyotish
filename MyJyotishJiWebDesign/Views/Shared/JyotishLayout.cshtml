@@ -1175,7 +1175,7 @@ if(res.data.length>0){
                 });
             }
 
-            let userId=null;
+            let userIdForchat=null;
             establishedConnectionForSendRequest().then((socket) => {
                 debugger
                 if (socket) {
@@ -1205,7 +1205,7 @@ if(res.data.length>0){
                             const minutes = now.getMinutes();
                             $("#requestDateTime").text(`${hours}:${minutes}`);
                             const image = document.querySelector('#userImage');
-                            userId = userDetail.Id
+                            userIdForchat = userDetail.Id
                             image.addEventListener('error', function () {
                                 image.src = '/user-not-found.png';
                             });
@@ -1237,8 +1237,8 @@ if(res.data.length>0){
 
                     };
                 $("#AcceptChatRequest").click(function(){
-                    if (userId != null)
-                        socket.send(`${userId}`)
+                    if (userIdForchat != null)
+                        socket.send(`${userIdForchat}`)
                         startChat();
                 })
 
@@ -1252,7 +1252,7 @@ if(res.data.length>0){
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("Token")}`
                 },
-                data: { sender: jyotishId, receiver: userId },
+                data: { sender: jyotishId, receiver: userIdForchat },
                 success: function (res) {
                     console.log(res, "chatData")
                     if (res.length > 0) {
@@ -1289,7 +1289,7 @@ if(res.data.length>0){
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("Token")}`
                 },
-                data: { Id: userId },
+                data: { Id: userIdForchat },
                 success: function (res) {
                     if (res.status === 200) {
 
@@ -1368,7 +1368,7 @@ if(res.data.length>0){
                                                                                 <small>${hours}:${minutes}<small>
 
                                                                         </div>`
-                                socket.send(`${userId}:${message}`);
+                                socket.send(`${userIdForchat}:${message}`);
                             }
                             $(".messageInpBoxs").val("");
                             messagesDiv.scrollTop = messagesDiv.scrollHeight;

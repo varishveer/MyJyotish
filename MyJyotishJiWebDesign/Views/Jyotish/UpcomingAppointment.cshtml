@@ -1213,9 +1213,10 @@
 		else {
 		let bookMarkDetail=await getBookmark(id)
 			console.log(bookMarkDetail);
+			let [year,month,day] = bookMarkDetail.data.endDate != null ? bookMarkDetail.data.endDate.split("-") : "";
 			Swal.fire({
 				title:bookMarkDetail.data.reason,
-				text: bookMarkDetail.data.endDate,
+				text:  bookMarkDetail.data.endDate!=null?`End Date : ${day}-${month}-${year}`:"",
 				showCancelButton: true,
 				confirmButtonText: 'Remove',
 				cancelButtonText: 'close',

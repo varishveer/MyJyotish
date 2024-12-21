@@ -1165,6 +1165,29 @@ namespace BusinessAccessLayer.Implementation
 
         public dynamic GetAllUpcommingAppointment(int jyotishId)
         {
+
+			var checkBookmarkValidation = _context.AppointmentBookmark.Where(e => e.JyotishId == jyotishId && DateTime.Compare(Convert.ToDateTime(e.EndDate), DateTime.Now.Date)<=0).ToList();
+            if (checkBookmarkValidation.Count > 0)
+            {
+                List<AppointmentModel> appointment = new List<AppointmentModel>();
+                foreach(var item in checkBookmarkValidation)
+                {
+                    item.Status = false;
+                var appointmentRecords = _context.AppointmentRecords.Where(e => e.Id == item.AppointmentId).FirstOrDefault();
+                    appointmentRecords.BookMark = 0;
+                    appointment.Add(appointmentRecords);
+
+				}
+
+                _context.AppointmentBookmark.UpdateRange(checkBookmarkValidation);
+                if (_context.SaveChanges() > 0)
+                {
+                    _context.AppointmentRecords.UpdateRange(appointment);
+                        _context.SaveChanges();
+                }
+
+            }
+
             var result = (
                 from appointmentRecords in _context.AppointmentRecords
                 join user in _context.Users
