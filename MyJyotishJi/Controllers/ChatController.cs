@@ -177,8 +177,6 @@ namespace MyJyotishGApi.Controllers
 
                     if (result.CloseStatus.HasValue)
                     {
-                        _clientRequest.TryRemove(changeIdPref, out _);
-                        await webSocket.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
                         if (sendBy == "client")
                         {
                             var castId = Convert.ToInt32(clientId);
@@ -188,22 +186,28 @@ namespace MyJyotishGApi.Controllers
                             var clientKey = _clientRequestMessage.FirstOrDefault(e => e.Value.Equals(jsonString)).Key;
                             if (clientKey != null)
                             {
-                                _clientRequestMessage.Remove(clientKey);
-                                var changeresPref =clientKey + "B";
+                                var changeresPref = clientKey + "B";
+
                                 if (_clientRequest.TryGetValue(changeresPref, out var recipientSocket))
                                 {
+                                    _clientRequestMessage.Remove(clientKey);
 
-                                    string jsonStrings = JsonConvert.SerializeObject(new { status = true, type = "chat", data = "" });
+                                    string jsonStrings = JsonConvert.SerializeObject(new { status = true, type = "chat", data = false });
                                     var msgBuffer = System.Text.Encoding.UTF8.GetBytes(jsonStrings);
-                                    await recipientSocket.SendAsync(new ArraySegment<byte>(msgBuffer), result.MessageType, result.EndOfMessage, CancellationToken.None);
+
+                                        await recipientSocket.SendAsync(new ArraySegment<byte>(msgBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
+                                    
                                 }
-
-                                   
                             }
+                        }
 
-                        } else 
+                        _clientRequest.TryRemove(changeIdPref, out _);
+
+                        await webSocket.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, "Closing connection", CancellationToken.None);
+
                         break;
                     }
+
 
                     var message = System.Text.Encoding.UTF8.GetString(buffer, 0, result.Count);
                   
