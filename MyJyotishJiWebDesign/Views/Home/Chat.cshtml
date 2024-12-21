@@ -268,7 +268,7 @@
 					$('#Name').val(response.data.name);
 					$('#Gender').val(response.data.gender);
 					$('#DateOfBirth').val(response.data.dateOfBirth);
-					$('#TimeOfBirth').val(response.data.timeOfBirth);
+					$('#TimeOfBirth').val(response.data.timeOfBirth != null || response.data.timeOfBirth != "" ? response.data.timeOfBirth.split(' ')[0] : "");
 					$('#PlaceOfBirth').val(response.data.placeOfBirth);
 
 				}

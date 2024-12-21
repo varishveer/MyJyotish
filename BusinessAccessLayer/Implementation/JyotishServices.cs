@@ -1211,6 +1211,41 @@ namespace BusinessAccessLayer.Implementation
             return result;
         }
 
+        public dynamic GetUpcommingAppointmentById(int appointmentId)
+        {
+            var result = (
+                from appointmentRecords in _context.AppointmentRecords
+                join user in _context.Users
+                    on appointmentRecords.UserId equals user.Id
+                join slots in _context.AppointmentSlots
+                    on appointmentRecords.SlotId equals slots.Id
+
+                where (appointmentRecords.Id == appointmentId)
+                orderby appointmentRecords.Id descending
+                select new
+                {
+                    Id = appointmentRecords.Id,
+                    uId = appointmentRecords.UserId,
+                    userName = user.Name,
+                    userMobile = user.Mobile,
+                    problem = appointmentRecords.Problem,
+                    userEmail = user.Email,
+                    userProfile = user.ProfilePictureUrl,
+                    appoinDate = slots.Date.ToString("dd-MM-yyyy"),
+                    appoinTimeFrom = slots.TimeFrom,
+                    appoinTimeTo = slots.TimeTo,
+                    amount = appointmentRecords.Amount,
+                    arriveStatus = appointmentRecords.ArrivedStatus,
+                    BookMark = appointmentRecords.BookMark,
+                    currentDate = DateTime.Now.ToString("dd-MM-yyyy"),
+                   
+                }
+                ).FirstOrDefault();
+
+
+            return result;
+        }
+
         public dynamic GetAllAppointmentHistory(int jyotishId)
         {
             var result = (

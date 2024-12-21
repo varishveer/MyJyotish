@@ -189,8 +189,18 @@ namespace MyJyotishGApi.Controllers
                             if (clientKey != null)
                             {
                                 _clientRequestMessage.Remove(clientKey);
+                                var changeresPref =clientKey + "B";
+                                if (_clientRequest.TryGetValue(changeresPref, out var recipientSocket))
+                                {
+
+                                    string jsonStrings = JsonConvert.SerializeObject(new { status = true, type = "chat", data = "" });
+                                    var msgBuffer = System.Text.Encoding.UTF8.GetBytes(jsonStrings);
+                                    await recipientSocket.SendAsync(new ArraySegment<byte>(msgBuffer), result.MessageType, result.EndOfMessage, CancellationToken.None);
+                                }
+
+                                   
                             }
-                            
+
                         } else 
                         break;
                     }
