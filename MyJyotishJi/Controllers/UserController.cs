@@ -309,7 +309,7 @@ namespace MyJyotishGApi.Controllers
                     Mobile = httpRequest.Form["mobile"],
                     Name = httpRequest.Form["name"],
                     Gender = httpRequest.Form["gender"],
-                    DoB = Convert.ToDateTime(httpRequest.Form["timeOfBirth"]),
+                    DoB = Convert.ToDateTime(httpRequest.Form["doB"]),
                     PlaceOfBirth = httpRequest.Form["placeOfBirth"],
                     TimeOfBirth = httpRequest.Form["timeOfBirth"],
                     CurrentAddress = httpRequest.Form["currentAddress"],
