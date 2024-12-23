@@ -85,7 +85,16 @@
     #exampleModal{
         z-index:10000000;
     }
-</style>
+
+    .swal2-container{
+        z-index: 100000000;
+    }
+
+    .datepicker{
+        z-index: 10000000000 !important;
+    }
+        
+        </style>
 
 <div class="container profile-container ">
     <div class="shadow rounded-3 w-100 mx-auto profile-detals-container">
@@ -448,12 +457,10 @@
                 if (response.status === 200) {
                      
                     var profile = response.data;
-                    if (profile.doB != null)
-                    {
-                        var [year, month, day] = profile.doB.split("-");
-                        var dateOfBirth = day + "-" + month + "-" + year;
-                        $('#dateOfBirth').text(profile.doB != null ? dateOfBirth : 'N/A');
-                        $('#userdob').val(profile.doB !== "null" ? profile.doB : 'N/A');
+                    if (profile.dateOfBirth != null) {
+                       
+                        $('#dateOfBirth').text(profile.dateOfBirth != null ? profile.dateOfBirth : 'N/A');
+                        $('#userdob').val(profile.dateOfBirth !== "null" ? profile.dateOfBirth : 'N/A');
                     }
                  
                     var mobileNumber = "+"+profile.countryCode+"-" + profile.mobile;
