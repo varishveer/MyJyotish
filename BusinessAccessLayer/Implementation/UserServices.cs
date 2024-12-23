@@ -316,7 +316,7 @@ namespace BusinessAccessLayer.Implementation
             Data.Email = user.Email;
             Data.Mobile = user.Mobile;
             Data.Gender = user.Gender;
-            Data.DateOfBirth = user.DoB!=null?Convert.ToDateTime(user.DoB).ToString("dd-MM-yyy"):null;
+            Data.DateOfBirth = user.DoB!=null?Convert.ToDateTime(user.DoB).ToString("dd/MM/yyy"):null;
             Data.PlaceOfBirth = user.PlaceOfBirth;
             Data.TimeOfBirth = user.TimeOfBirth;
             Data.CurrentAddress = user.CurrentAddress;

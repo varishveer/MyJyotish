@@ -53,7 +53,7 @@ namespace MyJyotishJiWebDesign.Controllers
         public IActionResult AppointmentForm() { return View(); }
         public IActionResult JyotishProfile() { return View(); }
         public IActionResult TodayHoroscope() { return View(); }
-        public IActionResult FreeKundli() { return View(); }
+        public IActionResult FreeKundaliReport() { return View(); }
         public IActionResult Compatibility() { return View(); }
         public IActionResult IndianCalendarFestivals() { return View(); }
         public IActionResult BlogDetails() { return View(); }

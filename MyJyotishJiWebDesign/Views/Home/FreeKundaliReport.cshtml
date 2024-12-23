@@ -1,0 +1,352 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<style>
+	.menuButtonHover:hover {
+		background: orange;
+		color: white;
+		transition: .5s;
+	}
+
+	.active {
+		background: orange;
+		color: white;
+	}
+</style>
+
+<div class="container mb-5 mt-3">
+	<div class="row">
+		<div class="col-sm-12  my-2">
+			<div class="row justify-content-center">
+				<div role="button" data-sr="1" class="col-sm-1 active menuButtonHover border text-center  rounded-start p-2">Basic</div>
+				<div role="button" data-sr="2" class="col-sm-1 menuButtonHover border text-center p-2">Kundali</div>
+				<div role="button" data-sr="3" class="col-sm-1 menuButtonHover border text-center p-2">KP</div>
+				<div role="button" data-sr="4" class="col-sm-2 menuButtonHover border text-center p-2">Ashtakvarga</div>
+				<div role="button" data-sr="5" class="col-sm-1 menuButtonHover border text-center p-2">Charts</div>
+				<div role="button" data-sr="6" class="col-sm-1 menuButtonHover border text-center p-2">Dasha</div>
+				<div role="button" data-sr="7" class="col-sm-2 menuButtonHover border text-center rounded-end p-2">Free Reports</div>
+			</div>
+		</div>
+		<div class="col-sm-12" id="basicDetails">
+			<div class="row">
+				<!-- Basic Details -->
+				<div class="col-md-6">
+					<div class="card">
+						<div class="card-header bg-warning text-white">
+							Basic Details
+						</div>
+						<div class="card-body" id="basicDetailContainer">
+						</div>
+					</div>
+					<div class="row mt-4">
+						<!-- Panchang Details -->
+						<div class="col-md-12">
+							<div class="card">
+								<div class="card-header bg-warning text-white">
+									Panchang Details
+								</div>
+								<div class="card-body" id="panchangDetail">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Avakhada Details -->
+				<div class="col-md-6">
+					<div class="card">
+						<div class="card-header bg-warning text-white">
+							Avakhada Details
+						</div>
+						<div class="card-body" id="AvakhadaDetails">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-12 mt-3" id="KundaliDetails">
+			<div class="row">
+				<div class="col-sm-6 text-center" id="birthChart"></div>
+				<div class="col-sm-6 text-center" id="navamsaChart"></div>
+				<div class="col-sm-12 mt-3" id="planetsDetails">
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<th>Planet</th>
+								<th>Sign</th>
+								<th>Sign Lord</th>
+								<th>Nakshatra</th>
+								<th>Naksh Lord</th>
+								<th>Full Degree</th>
+								<th>Norm Degree</th>
+								<th>Speed</th>
+								<th>Retro(R)</th>
+								<th>Avastha</th>
+								<th>House</th>
+							</tr>
+						</thead>
+						<tbody id="planetsDetailstable"></tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-12 mt-3" id="kpDetails">
+			<div class="row">
+				<div class="col-sm-6" id="chalitChart"></div>
+				<div class="col-sm-6"></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	let userId = "635917";
+	let apiKey = "9a46579435ffa112ae21e585082b108880007de7";
+	var auth = "Basic " + btoa(userId + ":" + apiKey).toString("base64");
+	function getCookie(name) {
+		const cookies = document.cookie.split("; ");
+		for (let cookie of cookies) {
+			const [key, value] = cookie.split("=");
+			if (key === name) {
+				return JSON.parse(decodeURIComponent(value));
+			}
+		}
+		return null;
+	}
+	function getBasicDetails(apiData) {
+		console.log(apiData)
+		$.ajax({
+			url: "https://json.astrologyapi.com/v1/birth_details",
+			type: "post",
+			headers: {
+				"authorization": auth,
+				"Content-Type": 'application/json',
+				"Accept-Language": "en"
+			},
+			data: JSON.stringify(apiData),
+			success: function (res) {
+				$("#basicDetailContainer").html(`
+										 <p><strong>Name:</strong> ${res.name}</p>
+											<p><strong>Date:</strong> ${res.day}/${res.month}/${res.year}</p>
+										<p><strong>Time:</strong> ${res.hour}:${res.minute} </p>
+											<p><strong>Place:</strong> ${apiData.place}</p>
+											<p><strong>Latitude:</strong> ${res.latitude}</p>
+											<p><strong>Longitude:</strong> ${res.longitude}</p>
+											<p><strong>Timezone:</strong> ${res.timezone}</p>
+											<p><strong>Sunrise:</strong> ${res.sunrise}</p>
+											<p><strong>Sunset:</strong> ${res.sunset}</p>
+											<p><strong>Ayanamsha:</strong> ${res.ayanamsha}</p>
+								`)
+			}, error: function (xhr, status, error) {
+				console.error("Error:", xhr.status, xhr.responseText);
+			}
+		}).then(() => {
+			$.ajax({
+				url: "https://json.astrologyapi.com/v1/astro_details",
+				type: "post",
+				headers: {
+					"authorization": auth,
+					"Content-Type": 'application/json',
+					"Accept-Language": "en"
+				},
+				data: JSON.stringify(apiData),
+				success: function (res) {
+					$("#AvakhadaDetails").html(`
+												  <p><strong>Gan:</strong> ${res.Gan}</p>
+													<p><strong>Karan:</strong>  ${res.Karan}</p>
+													<p><strong>Nadi:</strong>  ${res.Nadi}</p>
+													<p><strong>Naksahtra:</strong>  ${res.Naksahtra}</p>
+													<p><strong>NaksahtraLord:</strong>  ${res.NaksahtraLord}</p>
+													<p><strong>Sign Lord:</strong>  ${res.SignLord}</p>
+													<p><strong>Tithi:</strong>  ${res.Tithi}</p>
+													<p><strong>Varna:</strong>  ${res.Varna}</p>
+													<p><strong>Vashya:</strong>  ${res.Vashya}</p>
+															<p><strong>Charan:</strong>  ${res.Charan}</p>
+													<p><strong>Yog:</strong>  ${res.Yog}</p>
+													<p><strong>Yoni:</strong>  ${res.Yoni}</p>
+													<p><strong>Ascendant:</strong>  ${res.ascendant}</p>
+													<p><strong>Ascendant Lord:</strong>  ${res.ascendant_lord}</p>
+												<p><strong>Name Alphabet:</strong>  ${res.name_alphabet}</p>
+												<p><strong>Paya:</strong>  ${res.paya}</p>
+														<p><strong>Sign:</strong>  ${res.sign}</p>
+														<p><strong>Tatva:</strong>  ${res.tatva}</p>
+														<p><strong>Yunja:</strong>  ${res.yunja}</p>
+									`)
+				}, error: function (xhr, status, error) {
+					console.error("Error:", xhr.status, xhr.responseText);
+				}
+			})
+		}).then(() => {
+			$.ajax({
+				url: "https://json.astrologyapi.com/v1/basic_panchang",
+				type: "post",
+				headers: {
+					"authorization": auth,
+					"Content-Type": 'application/json',
+					"Accept-Language": "en"
+				},
+				data: JSON.stringify(apiData),
+				success: function (res) {
+					console.log(res)
+					$("#panchangDetail").html(`
+										<p><strong>Day:</strong> ${res.day}</p>
+										<p><strong>Karan:</strong> ${res.karan}</p>
+												<p><strong>Nakshatra:</strong> ${res.nakshatra}</p>
+												<p><strong>Tithi:</strong> ${res.tithi} </p>
+												<p><strong>Yog:</strong> ${res.yog}</p>
+		`)
+				}
+			})
+		})
+	}
+
+	let kundaliData = getCookie("freeKundali")
+	if (kundaliData != null) {
+		getBasicDetails(kundaliData)
+	} else {
+		location.href = "/home/FreeKundali"
+	}
+
+	function getKundaliBirth(apiData) {
+		$.ajax({
+			url: "https://json.astrologyapi.com/v1/horo_chart_image/D1",
+			type: "post",
+			headers: {
+				"authorization": auth,
+				"Content-Type": 'application/json',
+				"Accept-Language": "en"
+			},
+			data: JSON.stringify(apiData),
+			success: function (res) {
+				console.log(res)
+				$("#birthChart").html(`
+							<p class='fw-bold  mb-0 pb-0'>Lagna / Ascendant / Basic Birth Chart</p>
+					${res.svg}
+					`)
+			}, error: function (xhr, status, error) {
+				console.error("Error:", xhr.status, xhr.responseText);
+			}
+		}).then(() => {
+			$.ajax({
+				url: "https://json.astrologyapi.com/v1/horo_chart_image/D9",
+				type: "post",
+				headers: {
+					"authorization": auth,
+					"Content-Type": 'application/json',
+					"Accept-Language": "en"
+				},
+				data: JSON.stringify(apiData),
+				success: function (res) {
+					console.log(res)
+					$("#navamsaChart").html(`
+								<p class='fw-bold mb-0 pb-0'>Navamsa</p>
+						${res.svg}
+						`)
+				}, error: function (xhr, status, error) {
+					console.error("Error:", xhr.status, xhr.responseText);
+				}
+			})
+		}).then(() => {
+			function decimalToDMS(decimalDegrees) {
+				const degrees = Math.floor(decimalDegrees);
+
+				const minutesDecimal = (decimalDegrees - degrees) * 60;
+				const minutes = Math.floor(minutesDecimal);
+
+				const seconds = ((minutesDecimal - minutes) * 60).toFixed(2);
+
+				return `${degrees}° ${minutes}′ ${seconds}″`;
+			}
+
+			$.ajax({
+				url: "https://json.astrologyapi.com/v1/planets/extended",
+				type: "post",
+				headers: {
+					"authorization": auth,
+					"Content-Type": 'application/json',
+					"Accept-Language": "en"
+				},
+				data: JSON.stringify(apiData),
+				success: function (res) {
+					console.log(res)
+					res.forEach(function (d) {
+						$("#planetsDetailstable").append(`
+						<tr>
+							<td>${d.name || ""}</td>
+								<td>${d.sign || ""}</td>
+									<td>${d.signLord || ""}</td>
+									<td>${d.nakshatra || ""}</td>
+									<td>${d.nakshatraLord || ""}</td>
+										<td>${decimalToDMS(d.fullDegree) || ""}</td>
+									<td>${decimalToDMS(d.normDegree) || ""}</td>
+										<td>${decimalToDMS(d.speed) || ""}</td>
+									<td>${d.isRetro ? "Retro" : "Direct" || ""}</td>
+									<td>${d.planet_awastha || ""}</td>
+									<td>${d.house || ""}</td>
+						</tr>
+						`)
+					})
+				}, error: function (xhr, status, error) {
+					console.error("Error:", xhr.status, xhr.responseText);
+				}
+			})
+		})
+	}
+
+	function getChalitDetails(apiData) {
+		$.ajax({
+			url: "https://json.astrologyapi.com/v1/horo_chart_image/Chalit",
+			type: "post",
+			headers: {
+				"authorization": auth,
+				"Content-Type": 'application/json',
+				"Accept-Language": "en"
+			},
+			data: JSON.stringify(apiData),
+			success: function (res) {
+				console.log(res)
+				$("#chalitChart").html(`
+									<p class='fw-bold  mb-0 pb-0'>Bhav Chalit Chart</p>
+						${res}
+						`)
+			}, error: function (xhr, status, error) {
+				console.error("Error:", xhr.status, xhr.responseText);
+			}
+		})
+	}
+
+
+	$("#KundaliDetails").hide();
+	$("#kpDetails").hide();
+	let isKundali = true;
+	let isKp = true;
+	$(".menuButtonHover").click(function () {
+		$(".menuButtonHover").removeClass("active")
+		$(this).addClass("active")
+
+		if ($(this).attr("data-sr") == 1) {
+			$("#basicDetails").show();
+			$("#KundaliDetails").hide();
+			$("#kpDetails").hide();
+		} else if ($(this).attr("data-sr") == 2) {
+			$("#KundaliDetails").show();
+			$("#basicDetails").hide();
+			$("#kpDetails").hide();
+			if (isKundali) {
+
+				getKundaliBirth(kundaliData)
+				isKundali = false;
+			}
+		} else if ($(this).attr("data-sr") == 3) {
+			$("#kpDetails").show();
+			$("#KundaliDetails").hide();
+			$("#basicDetails").hide();
+			if(isKp){
+				getChalitDetails(kundaliData)
+				isKp = false;
+			}
+		}
+	})
+</script>
