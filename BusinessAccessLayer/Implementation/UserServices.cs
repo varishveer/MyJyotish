@@ -1168,6 +1168,7 @@ namespace BusinessAccessLayer.Implementation
                 userId = model.userId,
                 jyotishId = model.jyotishId,
                 BookingDate = DateTime.Now,
+                PoojaDate = model.PoojaDate,
                 status = true
 
             };

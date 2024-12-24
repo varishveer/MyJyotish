@@ -446,6 +446,7 @@ namespace BusinessAccessLayer.Implementation
                     mobile = user.Mobile,
                     poojaName = poojaType.Name,
                     bookingDate = bookpooja.BookingDate.ToString("dd-MM-yyyy hh:mm"),
+                    poojaDate = bookpooja.PoojaDate.ToString("dd-MM-yyyy"),
                     address = city.Name + ","+state.Name + "," + country.Name
                 }
                 ).ToList();

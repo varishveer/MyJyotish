@@ -850,6 +850,7 @@ namespace MyJyotishGApi.Controllers
                     PoojaId = Convert.ToInt32(httpRequest.Form["poojaId"]),
                     userId = Convert.ToInt32(httpRequest.Form["userId"]),
                     jyotishId = Convert.ToInt32(httpRequest.Form["jyotishId"]),
+                    PoojaDate = Convert.ToDateTime(httpRequest.Form["poojadate"]),
                 };
                 var res = _services.BookPooja(book);
                 if (res)

@@ -15,6 +15,37 @@
 		background: orange;
 		color: white;
 	}
+	.connect-section {
+      background-color: #ffeb85; /* Light yellow background */
+      text-align: center;
+      padding: 20px;
+      border-radius: 8px;
+    }
+    .connect-section .btn {
+      margin: 5px;
+    }
+    .download-section {
+      background-color: #000; /* Black background */
+      color: #fff; /* White text */
+      text-align: center;
+      padding: 40px 20px;
+      border-radius: 8px;
+    }
+    .download-section .btn {
+      background-color: #ffc107; /* Yellow button */
+      color: #000;
+      font-weight: bold;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+    }
+    .download-section .btn:hover {
+      background-color: #e0a800; /* Slightly darker yellow */
+    }
+    .kundli-icon {
+      width: 80px;
+      margin-bottom: 20px;
+    }
 </style>
 
 <div class="container mb-5 mt-3">
@@ -163,10 +194,10 @@
 			<div class="VimshottariDasha">
 				<p class="fw-bold">Vimshottari Dasha</p>
 				<div class="d-flex">
-					<div><span>1.</span>Mahadasha</div><hr class="w-50"/>
-					<div><span>2.</span>Antardasha</div><hr class="w-50" />
-					<div><span>3.</span>Pratyantardasha</div><hr class="w-50" />
-					<div><span>4.</span>Sookshmadasha</div>
+					<div><span class="bg-warning rounded highlightvishmottari">1.</span>Mahadasha</div><hr class="w-50"/>
+					<div><span class="bg-warning rounded highlightvishmottari">2.</span>Antardasha</div><hr class="w-50" />
+					<div><span class="bg-warning rounded highlightvishmottari">3.</span>Pratyantardasha</div><hr class="w-50" />										arit		  t
+					<div><span class="bg-warning rounded highlightvishmottari">4.</span>Sookshmadasha</div>
 				</div>
 				<table class="table table-bordered">
 					<thead>
@@ -215,9 +246,30 @@
 	</div>
 </div>
 
+
+<div class="container my-5">
+  <!-- Connect Section -->
+  <div class="connect-section">
+    <p class="mb-3">
+      Connect with an Astrologer on Call or Chat for more personalised detailed predictions.
+    </p>
+    <a class="btn btn-warning text-light fw-bold" href="/Home/talk" target="_blank">Talk to Astrologer</a>
+    <a class="btn btn-light border fw-bold" href="/Home/chat" target="_blank">Chat with Astrologer</a>
+  </div>
+
+  <!-- Download Section -->
+  <div class="download-section mt-4">
+    <img src="https://via.placeholder.com/80" alt="Kundli Icon" class="kundli-icon">
+    <h3 class="mb-3">Download & share your kundli report</h3>
+    <button class="btn">Download Kundli PDF</button>
+  </div>
+</div>
+
+
+
 <script>
-	let userId = "635944";
-	let apiKey = "52e8de7570b4bc99217c37123aa38c8789daf601";
+	let userId = "635952";
+	let apiKey = "e7a8121ccbc006c32fddcf03d5be648a9d42f071";
 	var auth = "Basic " + btoa(userId + ":" + apiKey).toString("base64");
 	function getCookie(name) {
 		const cookies = document.cookie.split("; ");
@@ -621,6 +673,8 @@ gemHtml+=`
 	}
 
 	function getDasha(apiData){
+		$(".highlightvishmottari").removeClass("bg-warning")
+		$(this).addClass("bg-warning")
 		$.ajax({
 			url: "https://json.astrologyapi.com/v1/major_vdasha/",
 			type: "post",
@@ -635,8 +689,8 @@ gemHtml+=`
 					$("#vimshottariDashaDetail").append(`
 					<tr>
 							<td>${d.planet}</td>
-							<td role="button" data-name='${d.name}' class='vimshottariDasha'>${d.start} <i class="fas fa-chevron-right float-end"></i></td>
-												<td role="button" data-name='${d.name}'  class='vimshottariDasha'>${d.end} <i class="fas fa-chevron-right float-end"></i></td>
+							<td role="button" onclick='getSubVimshottari("${d.planet}")' class='vimshottariDasha'>${d.start} <i class="fas fa-chevron-right float-end"></i></td>
+												<td role="button" data-name='${d.planet}'  class='vimshottariDasha'>${d.end} <i class="fas fa-chevron-right float-end"></i></td>
 					</tr>
 					`)
 				})
@@ -694,6 +748,96 @@ gemHtml+=`
 
 			})
 		})
+	}
+
+	function getSubVimshottari(md){
+		$(".highlightvishmottari").removeClass("bg-warning")
+		$(this).addClass("bg-warning")
+		$.ajax({
+				url: "https://json.astrologyapi.com/v1/sub_vdasha/"+md,
+				type: "post",
+				headers: {
+					"authorization": auth,
+					"Content-Type": 'application/json',
+					"Accept-Language": "en"
+				},
+				data: JSON.stringify(kundaliData),
+				success: function (res) {
+					debugger
+					$("#vimshottariDashaDetail").empty()
+					res.forEach(function (d) {
+						$("#vimshottariDashaDetail").append(`
+							<tr>
+							<td>${md}-${d.planet}</td>
+							<td role="button" onclick='getSubsubVimshottari("${md}","${d.planet}")' class='subvimshottariDasha'>${d.start} <i class="fas fa-chevron-right float-end"></i></td>
+												<td role="button" onclick='getSubsubVimshottari("${md}","${d.planet}")' class='subvimshottariDasha'>${d.end} <i class="fas fa-chevron-right float-end"></i></td>
+					</tr>
+							`)
+					})
+
+				}
+
+			})
+	}
+
+	function getSubsubVimshottari(md,submd){
+		$(".highlightvishmottari").removeClass("bg-warning")
+		$(this).addClass("bg-warning")
+		$.ajax({
+				url: `https://json.astrologyapi.com/v1/sub_sub_vdasha/${md}/${submd}`,
+				type: "post",
+				headers: {
+					"authorization": auth,
+					"Content-Type": 'application/json',
+					"Accept-Language": "en"
+				},
+				data: JSON.stringify(kundaliData),
+				success: function (res) {
+					debugger
+					$("#vimshottariDashaDetail").empty()
+					res.forEach(function (d) {
+						$("#vimshottariDashaDetail").append(`
+							<tr>
+							<td>${md}-${submd}-${d.planet}</td>
+							<td role="button" onclick='getSubsubsubVimshottari("${md}","${submd}","${d.planet}")' class='subvimshottariDasha'>${d.start} <i class="fas fa-chevron-right float-end"></i></td>
+												<td role="button" onclick='getSubsubsubVimshottari("${md}","${submd}","${d.planet}")' class='subvimshottariDasha'>${d.end} <i class="fas fa-chevron-right float-end"></i></td>
+					</tr>
+							`)
+					})
+
+				}
+
+			})
+	}
+
+	function getSubsubsubVimshottari(md,submd,subsubmd){
+		$(".highlightvishmottari").removeClass("bg-warning")
+		$(this).addClass("bg-warning")
+		$.ajax({
+				url: `https://json.astrologyapi.com/v1/sub_sub_sub_vdasha/${md}/${submd}/${subsubmd}`,
+				type: "post",
+				headers: {
+					"authorization": auth,
+					"Content-Type": 'application/json',
+					"Accept-Language": "en"
+				},
+				data: JSON.stringify(kundaliData),
+				success: function (res) {
+					debugger
+					$("#vimshottariDashaDetail").empty()
+					res.forEach(function (d) {
+						$("#vimshottariDashaDetail").append(`
+							<tr>
+							<td>${md}-${submd}-${subsubmd}-${d.planet}</td>
+							<td role="button" data-name='${md}-${submd}-${subsubmd}-${d.planet}' class='subvimshottariDasha'>${d.start} <i class="fas fa-chevron-right float-end"></i></td>
+												<td role="button" data-name='${md}-${submd}-${subsubmd}-${d.planet}' class='subvimshottariDasha'>${d.end} <i class="fas fa-chevron-right float-end"></i></td>
+					</tr>
+							`)
+					})
+
+				}
+
+			})
 	}
 
 	$("#KundaliDetails").hide();

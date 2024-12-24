@@ -428,7 +428,7 @@
 	}
 	getPoojaDetails();
 
-	function bookPooja() {
+	function bookPooja(poojaDate) {
 		Swal.fire({
 			title: "Are you sure?",
 			text: "really want to book",
@@ -453,6 +453,7 @@
 				formData.append("poojaId", poojaId)
 				formData.append("userId", userId)
 				formData.append("jyotishId", jyotishId)
+				formData.append("poojaDate", poojaDate)
 				debugger
 				$.ajax({
 					url: BaseUrl + "api/user/bookpooja",
@@ -493,7 +494,30 @@
 	}
 
 	$("#booknow").click(function () {
-		bookPooja()
+		Swal.fire({
+			title: 'Enter Pooja Date',
+			input: 'date', 
+			inputLabel: 'Choose a date:',
+			inputPlaceholder: 'Select a date',
+			inputLabel: 'Pooja Date',
+			showCancelButton: true, 
+			confirmButtonText: 'Book',
+			cancelButtonText: 'Cancel',
+			didOpen: () => {
+				const today = new Date().toISOString().split('T')[0];
+				const input = Swal.getInput();
+				input.setAttribute('min', today);
+			},
+			inputValidator: (value) => {
+				if (!value) {
+					return 'Pooja date is required!';
+				}
+			}
+		}).then((result) => {
+			if (result.isConfirmed) {
+		bookPooja(result.value)
+			}
+		})
 	})
 
 </script>
