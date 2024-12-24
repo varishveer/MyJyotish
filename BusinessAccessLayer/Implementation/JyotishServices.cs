@@ -2273,7 +2273,7 @@ namespace BusinessAccessLayer.Implementation
         {
             var res = (from pooja in _context.JyotishPooja
                        join list in _context.PoojaList on pooja.poojaType equals list.Id
-                       where pooja.status && list.Status
+                       where pooja.status && list.Status && pooja.JyotishId==Id
                        select new
                        {
                            Id = pooja.Id,

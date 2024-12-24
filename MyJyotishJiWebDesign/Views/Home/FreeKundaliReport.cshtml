@@ -26,8 +26,9 @@
 				<div role="button" data-sr="3" class="col-sm-1 menuButtonHover border text-center p-2">KP</div>
 				<div role="button" data-sr="4" class="col-sm-2 menuButtonHover border text-center p-2">Ashtakvarga</div>
 				<div role="button" data-sr="5" class="col-sm-1 menuButtonHover border text-center p-2">Charts</div>
-				<div role="button" data-sr="6" class="col-sm-1 menuButtonHover border text-center p-2">Dasha</div>
-				<div role="button" data-sr="7" class="col-sm-2 menuButtonHover border text-center rounded-end p-2">Free Reports</div>
+				<div role="button" data-sr="6" class="col-sm-2 menuButtonHover border text-center p-2">Suggestions</div>
+				<div role="button" data-sr="7" class="col-sm-1 menuButtonHover border text-center p-2">Dasha</div>
+				<div role="button" data-sr="8" class="col-sm-2 menuButtonHover border text-center rounded-end p-2">Free Reports</div>
 			</div>
 		</div>
 		<div class="col-sm-12" id="basicDetails">
@@ -71,6 +72,7 @@
 				<div class="col-sm-6 text-center" id="birthChart"></div>
 				<div class="col-sm-6 text-center" id="navamsaChart"></div>
 				<div class="col-sm-12 mt-3" id="planetsDetails">
+					<p class="fw-bold">Planets</p>
 					<table class="table table-bordered">
 						<thead>
 							<tr>
@@ -96,14 +98,126 @@
 			<div class="row">
 				<div class="col-sm-6" id="chalitChart"></div>
 				<div class="col-sm-6"></div>
+				<div class="col-sm-12 my-3">
+					<p class="fw-bold">Planets</p>
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<th>Planet</th>
+								<th>Cusp</th>
+								<th>Degree</th>
+								<th>Nakshatra</th>
+								<th>Sign</th>
+								<th>Sign Lord</th>
+								<th>Star Lord</th>
+								<th>Sub Lord</th>
+								<th>Sub Sub Lord</th>
+							</tr>
+						</thead>
+						<tbody id="Kp_planets"></tbody>
+					</table>
+				</div>
+				<div class="col-sm-12">
+					<p class="fw-bold">Cusps</p>
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<th>Cusp</th>
+								<th>Degree</th>
+								<th>Nakshatra</th>
+								<th>Sign</th>
+								<th>Sign Lord</th>
+								<th>Star Lord</th>
+								<th>Sub Lord</th>
+								<th>Sub Sub Lord</th>
+							</tr>
+						</thead>
+						<tbody id="Kp_planetsCusp"></tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-12 mt-3" id="ashtakvarga">
+			<div class="row">
+				<div class="col-sm-12">
+					<p>
+						<strong>Ashtakvarga Chart</strong><br />
+						Ashtakvarga is used to assess the strength and patterns that are present in a birth chart. The Ashtakvarga or Ashtakavarga is a numerical quantification or score of each planet placed in the chart with reference to the other 7 planets and the Lagna. In Sarva Ashtaka Varga the total scores of all the BAVs are overlaid and then totalled. This makes the SAV of the chart. The total of all the scores should be 337.
+					</p>
+				</div>
+				<div class="col-sm-6 text-center" id="birthChart"></div>
+				<div class="col-sm-6 text-center" id="navamsaChart"></div>
+
+			</div>
+		</div>
+		<div class="col-sm-12 mt-3" id="charts">
+			<div class="row" id="chartsContainer">
+			</div>
+		</div>
+		<div class="col-sm-12 mt-3" id="rudrakshSuggetionas">
+			<div class="fw-bold">Following are the suggestions based on your horoscope and planetary combinations.</div>
+			<div class="row" id="poojaContainer">
+			</div>
+		</div>
+		<div class="col-sm-12 mt-3" id="dashaContainer">
+			<div class="VimshottariDasha">
+				<p class="fw-bold">Vimshottari Dasha</p>
+				<div class="d-flex">
+					<div><span>1.</span>Mahadasha</div><hr class="w-50"/>
+					<div><span>2.</span>Antardasha</div><hr class="w-50" />
+					<div><span>3.</span>Pratyantardasha</div><hr class="w-50" />
+					<div><span>4.</span>Sookshmadasha</div>
+				</div>
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>Planet</th>
+							<th>Start Date</th>
+							<th>End Date</th>
+						</tr>
+					</thead>
+					<tbody id="vimshottariDashaDetail">
+
+					</tbody>
+				</table>
+			</div>
+			<div class="charDasha mt-3">
+				<p class="fw-bold">Char Dasha</p>
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>Sign</th>
+							<th>Start Date</th>
+							<th>End Date</th>
+							<th>Duration</th>
+						</tr>
+					</thead>
+					<tbody id="charDashaDetail">
+					</tbody>
+				</table>
+			</div>
+			<div class="yoginiDasha mt-3">
+				<p class="fw-bold">Yogini Dasha</p>
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th>Start Date</th>
+							<th>End Date</th>
+							<th>Duration</th>
+						</tr>
+					</thead>
+					<tbody id="yoginiDashaDetail">
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>
 </div>
 
 <script>
-	let userId = "635917";
-	let apiKey = "9a46579435ffa112ae21e585082b108880007de7";
+	let userId = "635944";
+	let apiKey = "52e8de7570b4bc99217c37123aa38c8789daf601";
 	var auth = "Basic " + btoa(userId + ":" + apiKey).toString("base64");
 	function getCookie(name) {
 		const cookies = document.cookie.split("; ");
@@ -128,17 +242,17 @@
 			data: JSON.stringify(apiData),
 			success: function (res) {
 				$("#basicDetailContainer").html(`
-										 <p><strong>Name:</strong> ${res.name}</p>
-											<p><strong>Date:</strong> ${res.day}/${res.month}/${res.year}</p>
-										<p><strong>Time:</strong> ${res.hour}:${res.minute} </p>
-											<p><strong>Place:</strong> ${apiData.place}</p>
-											<p><strong>Latitude:</strong> ${res.latitude}</p>
-											<p><strong>Longitude:</strong> ${res.longitude}</p>
-											<p><strong>Timezone:</strong> ${res.timezone}</p>
-											<p><strong>Sunrise:</strong> ${res.sunrise}</p>
-											<p><strong>Sunset:</strong> ${res.sunset}</p>
-											<p><strong>Ayanamsha:</strong> ${res.ayanamsha}</p>
-								`)
+												 <p><strong>Name:</strong> ${res.name}</p>
+													<p><strong>Date:</strong> ${res.day}/${res.month}/${res.year}</p>
+												<p><strong>Time:</strong> ${res.hour}:${res.minute} </p>
+													<p><strong>Place:</strong> ${apiData.place}</p>
+													<p><strong>Latitude:</strong> ${res.latitude}</p>
+													<p><strong>Longitude:</strong> ${res.longitude}</p>
+													<p><strong>Timezone:</strong> ${res.timezone}</p>
+													<p><strong>Sunrise:</strong> ${res.sunrise}</p>
+													<p><strong>Sunset:</strong> ${res.sunset}</p>
+													<p><strong>Ayanamsha:</strong> ${res.ayanamsha}</p>
+										`)
 			}, error: function (xhr, status, error) {
 				console.error("Error:", xhr.status, xhr.responseText);
 			}
@@ -154,26 +268,26 @@
 				data: JSON.stringify(apiData),
 				success: function (res) {
 					$("#AvakhadaDetails").html(`
-												  <p><strong>Gan:</strong> ${res.Gan}</p>
-													<p><strong>Karan:</strong>  ${res.Karan}</p>
-													<p><strong>Nadi:</strong>  ${res.Nadi}</p>
-													<p><strong>Naksahtra:</strong>  ${res.Naksahtra}</p>
-													<p><strong>NaksahtraLord:</strong>  ${res.NaksahtraLord}</p>
-													<p><strong>Sign Lord:</strong>  ${res.SignLord}</p>
-													<p><strong>Tithi:</strong>  ${res.Tithi}</p>
-													<p><strong>Varna:</strong>  ${res.Varna}</p>
-													<p><strong>Vashya:</strong>  ${res.Vashya}</p>
-															<p><strong>Charan:</strong>  ${res.Charan}</p>
-													<p><strong>Yog:</strong>  ${res.Yog}</p>
-													<p><strong>Yoni:</strong>  ${res.Yoni}</p>
-													<p><strong>Ascendant:</strong>  ${res.ascendant}</p>
-													<p><strong>Ascendant Lord:</strong>  ${res.ascendant_lord}</p>
-												<p><strong>Name Alphabet:</strong>  ${res.name_alphabet}</p>
-												<p><strong>Paya:</strong>  ${res.paya}</p>
-														<p><strong>Sign:</strong>  ${res.sign}</p>
-														<p><strong>Tatva:</strong>  ${res.tatva}</p>
-														<p><strong>Yunja:</strong>  ${res.yunja}</p>
-									`)
+														  <p><strong>Gan:</strong> ${res.Gan}</p>
+															<p><strong>Karan:</strong>  ${res.Karan}</p>
+															<p><strong>Nadi:</strong>  ${res.Nadi}</p>
+															<p><strong>Naksahtra:</strong>  ${res.Naksahtra}</p>
+															<p><strong>NaksahtraLord:</strong>  ${res.NaksahtraLord}</p>
+															<p><strong>Sign Lord:</strong>  ${res.SignLord}</p>
+															<p><strong>Tithi:</strong>  ${res.Tithi}</p>
+															<p><strong>Varna:</strong>  ${res.Varna}</p>
+															<p><strong>Vashya:</strong>  ${res.Vashya}</p>
+																	<p><strong>Charan:</strong>  ${res.Charan}</p>
+															<p><strong>Yog:</strong>  ${res.Yog}</p>
+															<p><strong>Yoni:</strong>  ${res.Yoni}</p>
+															<p><strong>Ascendant:</strong>  ${res.ascendant}</p>
+															<p><strong>Ascendant Lord:</strong>  ${res.ascendant_lord}</p>
+														<p><strong>Name Alphabet:</strong>  ${res.name_alphabet}</p>
+														<p><strong>Paya:</strong>  ${res.paya}</p>
+																<p><strong>Sign:</strong>  ${res.sign}</p>
+																<p><strong>Tatva:</strong>  ${res.tatva}</p>
+																<p><strong>Yunja:</strong>  ${res.yunja}</p>
+											`)
 				}, error: function (xhr, status, error) {
 					console.error("Error:", xhr.status, xhr.responseText);
 				}
@@ -191,16 +305,19 @@
 				success: function (res) {
 					console.log(res)
 					$("#panchangDetail").html(`
-										<p><strong>Day:</strong> ${res.day}</p>
-										<p><strong>Karan:</strong> ${res.karan}</p>
-												<p><strong>Nakshatra:</strong> ${res.nakshatra}</p>
-												<p><strong>Tithi:</strong> ${res.tithi} </p>
-												<p><strong>Yog:</strong> ${res.yog}</p>
-		`)
+												<p><strong>Day:</strong> ${res.day}</p>
+												<p><strong>Karan:</strong> ${res.karan}</p>
+														<p><strong>Nakshatra:</strong> ${res.nakshatra}</p>
+														<p><strong>Tithi:</strong> ${res.tithi} </p>
+														<p><strong>Yog:</strong> ${res.yog}</p>
+				`)
 				}
 			})
 		})
 	}
+
+
+
 
 	let kundaliData = getCookie("freeKundali")
 	if (kundaliData != null) {
@@ -222,9 +339,9 @@
 			success: function (res) {
 				console.log(res)
 				$("#birthChart").html(`
-							<p class='fw-bold  mb-0 pb-0'>Lagna / Ascendant / Basic Birth Chart</p>
-					${res.svg}
-					`)
+									<p class='fw-bold  mb-0 pb-0'>Lagna / Ascendant / Basic Birth Chart</p>
+							${res.svg}
+							`)
 			}, error: function (xhr, status, error) {
 				console.error("Error:", xhr.status, xhr.responseText);
 			}
@@ -241,9 +358,9 @@
 				success: function (res) {
 					console.log(res)
 					$("#navamsaChart").html(`
-								<p class='fw-bold mb-0 pb-0'>Navamsa</p>
-						${res.svg}
-						`)
+										<p class='fw-bold mb-0 pb-0'>Navamsa</p>
+								${res.svg}
+								`)
 				}, error: function (xhr, status, error) {
 					console.error("Error:", xhr.status, xhr.responseText);
 				}
@@ -273,20 +390,20 @@
 					console.log(res)
 					res.forEach(function (d) {
 						$("#planetsDetailstable").append(`
-						<tr>
-							<td>${d.name || ""}</td>
-								<td>${d.sign || ""}</td>
-									<td>${d.signLord || ""}</td>
-									<td>${d.nakshatra || ""}</td>
-									<td>${d.nakshatraLord || ""}</td>
-										<td>${decimalToDMS(d.fullDegree) || ""}</td>
-									<td>${decimalToDMS(d.normDegree) || ""}</td>
-										<td>${decimalToDMS(d.speed) || ""}</td>
-									<td>${d.isRetro ? "Retro" : "Direct" || ""}</td>
-									<td>${d.planet_awastha || ""}</td>
-									<td>${d.house || ""}</td>
-						</tr>
-						`)
+								<tr>
+									<td>${d.name || ""}</td>
+										<td>${d.sign || ""}</td>
+											<td>${d.signLord || ""}</td>
+											<td>${d.nakshatra || ""}</td>
+											<td>${d.nakshatraLord || ""}</td>
+												<td>${decimalToDMS(d.fullDegree) || ""}</td>
+											<td>${decimalToDMS(d.normDegree) || ""}</td>
+												<td>${decimalToDMS(d.speed) || ""}</td>
+											<td>${d.isRetro ? "Retro" : "Direct" || ""}</td>
+											<td>${d.planet_awastha || ""}</td>
+											<td>${d.house || ""}</td>
+								</tr>
+								`)
 					})
 				}, error: function (xhr, status, error) {
 					console.error("Error:", xhr.status, xhr.responseText);
@@ -308,20 +425,289 @@
 			success: function (res) {
 				console.log(res)
 				$("#chalitChart").html(`
-									<p class='fw-bold  mb-0 pb-0'>Bhav Chalit Chart</p>
-						${res}
-						`)
+											<p class='fw-bold  mb-0 pb-0'>Bhav Chalit Chart</p>
+								${res}
+								`)
 			}, error: function (xhr, status, error) {
 				console.error("Error:", xhr.status, xhr.responseText);
 			}
+		}).then(() => {
+			$.ajax({
+				url: "https://json.astrologyapi.com/v1/kp_planets",
+				type: "post",
+				headers: {
+					"authorization": auth,
+					"Content-Type": 'application/json',
+					"Accept-Language": "en"
+				},
+				data: JSON.stringify(apiData),
+				success: function (res) {
+					console.log(res)
+
+					res.forEach(function (d) {
+						$("#Kp_planets").append(`
+									<tr>
+											<td>${d.planet_name || ""}</td>
+												<td>${d.house || ""}</td>
+														<td>${d.formatted_degree || ""}</td>
+														<td>${d.sign || ""}</td>
+															<td>${d.nakshatra || ""}</td>
+													<td>${d.sign_lord || ""}</td>
+													<td>${d.nakshatra_lord || ""}</td>
+													<td>${d.sub_lord || ""}</td>
+													<td>${d.sub_sub_lord || ""}</td>
+									</tr>
+									`)
+
+					})
+				}, error: function (xhr, status, error) {
+					console.error("Error:", xhr.status, xhr.responseText);
+				}
+			}).then(() => {
+				$.ajax({
+					url: "https://json.astrologyapi.com/v1/kp_house_cusps",
+					type: "post",
+					headers: {
+						"authorization": auth,
+						"Content-Type": 'application/json',
+						"Accept-Language": "en"
+					},
+					data: JSON.stringify(apiData),
+					success: function (res) {
+						res.forEach(function (d) {
+
+							$("#Kp_planetsCusp").append(`
+										<tr>
+													<td>${d.house_id || ""}</td>
+														<td>${d.formatted_degree || ""}</td>
+																<td>${d.nakshatra || ""}</td>
+															<td>${d.sign || ""}</td>
+																	<td>${d.sign_lord || ""}</td>
+															<td>${d.nakshatra_lord || ""}</td>
+															<td>${d.sub_lord || ""}</td>
+															<td>${d.sub_sub_lord || ""}</td>
+										</tr>
+										`)
+
+						})
+					}, error: function (xhr, status, error) {
+						console.error("Error:", xhr.status, xhr.responseText);
+					}
+				})
+			})
 		})
 	}
 
+	function getAllCharts(apiData) {
+		let charts = ["chalit:CHALIT", "SUN:SUN", "MOON:MOON", "D1:Lagna / Ascendant / Basic Birth Chart", "D2:Hora Chart,", "D3:Dreshkan Chart", "D4:Chathurthamasha Chart", "D5:Panchmansha Chart", "D7:Saptamansha Chart", "D8:Ashtamansha Chart", "D9:Navamansha Chart", "D10:Dashamansha Chart", "D12:Dwadashamsha chart", "D16:Shodashamsha Chart", "D20:Vishamansha Chart", "D24:Chaturvimshamsha Chart", "D27:Bhamsha Chart", "D30:Trishamansha Chart", "D40:Khavedamsha Chart", "D45:Akshvedansha Chart", "D60:Shashtymsha Chart"]
+		charts.forEach(async function (d) {
+			await $.ajax({
+				url: "https://json.astrologyapi.com/v1/horo_chart_image/" + d.split(":")[0],
+				type: "post",
+				headers: {
+					"authorization": auth,
+					"Content-Type": 'application/json',
+					"Accept-Language": "en"
+				},
+				data: JSON.stringify(apiData),
+				success: function (res) {
+					console.log(res, d.split(":")[1])
+					$("#chartsContainer").append(`
+								<div class="col-sm-6 text-center">
+								<p class='fw-bold'>${d.split(":")[1]}</p>
+								${res.svg || res}
+								</div>
+
+								`)
+				}
+			})
+		})
+
+	}
+
+	function getsuggetionsDetails(apiData) {
+		$.ajax({
+			url: "https://json.astrologyapi.com/v1/rudraksha_suggestion",
+			type: "post",
+			headers: {
+				"authorization": auth,
+				"Content-Type": 'application/json',
+				"Accept-Language": "en"
+			},
+			data: JSON.stringify(apiData),
+			success: function (res) {
+				$("#poojaContainer").append(`
+									<div class='my-3'>
+													<p class='fw-bold'>Rudraksha Suggestion</p>
+										<img src='https://json.astrologyapi.com/v1${res.img_url}' />
+															<p>${res.name} </p>
+																<p>${res.recommend}</p>
+																	<p>${res.detail}</p>
+																		</div>
+									`)
+			}
+		}).then(() => {
+			$.ajax({
+				url: "https://json.astrologyapi.com/v1/basic_gem_suggestion",
+				type: "post",
+				headers: {
+					"authorization": auth,
+					"Content-Type": 'application/json',
+					"Accept-Language": "en"
+				},
+				data: JSON.stringify(apiData),
+				success: function (res) {
+					console.log(res)
+					let gemHtml=`
+										<div>
+											<p class='fw-bold'>Gemstone Suggestions</p>
+										<table class='table table-bordered'>
+										<thead>
+										<tr>
+										<th>For</th>
+										<th>Name</th>
+										<th>Type</th>
+										<th>Wear Type</th>
+									    <th>Weight Caret</th>
+									    <th>Wear Metal</th>
+									    <th>Wear Day</th>
+									    <th>Gem Deity</th>
+										</tr>
+										</thead>
+										<tbody>
+										
+										`
+gemHtml+=`
+<tr>
+	<td>Life</td>
+			<td>${res.LIFE.name}</td>
+				<td>${res.LIFE.semi_gem}</td>
+				<td>${res.LIFE.wear_finger}</td>
+				<td>${res.LIFE.weight_caret}</td>
+				<td>${res.LIFE.wear_metal}</td>
+				<td>${res.LIFE.wear_day}</td>
+				<td>${res.LIFE.gem_deity}</td>
+</tr>
+<tr>
+		<td>BENEFIC</td>
+					<td>${res.BENEFIC.name}</td>
+						<td>${res.BENEFIC.semi_gem}</td>
+						<td>${res.BENEFIC.wear_finger}</td>
+						<td>${res.BENEFIC.weight_caret}</td>
+						<td>${res.BENEFIC.wear_metal}</td>
+						<td>${res.BENEFIC.wear_day}</td>
+						<td>${res.BENEFIC.gem_deity}</td>
+</tr>
+<tr>
+		<td>Luvk</td>
+						<td>${res.LUCKY.name}</td>
+							<td>${res.LUCKY.semi_gem}</td>
+							<td>${res.LUCKY.wear_finger}</td>
+							<td>${res.LUCKY.weight_caret}</td>
+							<td>${res.LUCKY.wear_metal}</td>
+							<td>${res.LUCKY.wear_day}</td>
+							<td>${res.LUCKY.gem_deity}</td>
+</tr>
+`
+
+					gemHtml += `</tbody>
+											</table>
+											</div>`
+
+					$("#poojaContainer").append(gemHtml)
+				}
+			})
+		})
+	}
+
+	function getDasha(apiData){
+		$.ajax({
+			url: "https://json.astrologyapi.com/v1/major_vdasha/",
+			type: "post",
+			headers: {
+				"authorization": auth,
+				"Content-Type": 'application/json',
+				"Accept-Language": "en"
+			},
+			data: JSON.stringify(apiData),
+			success: function (res) {
+				res.forEach(function(d){
+					$("#vimshottariDashaDetail").append(`
+					<tr>
+							<td>${d.planet}</td>
+							<td role="button" data-name='${d.name}' class='vimshottariDasha'>${d.start} <i class="fas fa-chevron-right float-end"></i></td>
+												<td role="button" data-name='${d.name}'  class='vimshottariDasha'>${d.end} <i class="fas fa-chevron-right float-end"></i></td>
+					</tr>
+					`)
+				})
+				
+			}
+		
+	}).then(()=>{
+			$.ajax({
+				url: "https://json.astrologyapi.com/v1/major_chardasha",
+				type: "post",
+				headers: {
+					"authorization": auth,
+					"Content-Type": 'application/json',
+					"Accept-Language": "en"
+				},
+				data: JSON.stringify(apiData),
+				success: function (res) {
+					res.forEach(function (d) {
+						$("#charDashaDetail").append(`
+						<tr>
+								    <td>${d.sign_name}</td>
+									<td>${d.start_date}</td>
+									<td>${d.end_date}</td>
+									<td>${d.duration}</td>
+						</tr>
+						`)
+					})
+
+				}
+
+			})
+		}).then(() => {
+			$.ajax({
+				url: "https://json.astrologyapi.com/v1/major_yogini_dasha",
+				type: "post",
+				headers: {
+					"authorization": auth,
+					"Content-Type": 'application/json',
+					"Accept-Language": "en"
+				},
+				data: JSON.stringify(apiData),
+				success: function (res) {
+					res.forEach(function (d) {
+						$("#yoginiDashaDetail").append(`
+							<tr>
+											<td>${d.dasha_name}</td>
+										<td>${d.start_date}</td>
+										<td>${d.end_date}</td>
+										<td>${d.duration}</td>
+							</tr>
+							`)
+					})
+
+				}
+
+			})
+		})
+	}
 
 	$("#KundaliDetails").hide();
 	$("#kpDetails").hide();
+	$("#ashtakvarga").hide();
+	$("#charts").hide();
+	$("#rudrakshSuggetionas").hide();
+	$("#dashaContainer").hide();
+
 	let isKundali = true;
 	let isKp = true;
+	let isCharts = true;
+	let ispooja = true;
+	let isdasha = true;
 	$(".menuButtonHover").click(function () {
 		$(".menuButtonHover").removeClass("active")
 		$(this).addClass("active")
@@ -330,10 +716,19 @@
 			$("#basicDetails").show();
 			$("#KundaliDetails").hide();
 			$("#kpDetails").hide();
+			$("#ashtakvarga").hide();
+			$("#charts").hide();
+			$("#rudrakshSuggetionas").hide();
+
 		} else if ($(this).attr("data-sr") == 2) {
 			$("#KundaliDetails").show();
 			$("#basicDetails").hide();
 			$("#kpDetails").hide();
+			$("#ashtakvarga").hide();
+			$("#charts").hide();
+			$("#rudrakshSuggetionas").hide();
+			$("#dashaContainer").hide();
+
 			if (isKundali) {
 
 				getKundaliBirth(kundaliData)
@@ -343,10 +738,68 @@
 			$("#kpDetails").show();
 			$("#KundaliDetails").hide();
 			$("#basicDetails").hide();
-			if(isKp){
+			$("#ashtakvarga").hide();
+			$("#charts").hide();
+			$("#rudrakshSuggetionas").hide();
+			$("#dashaContainer").hide();
+
+
+			if (isKp) {
 				getChalitDetails(kundaliData)
 				isKp = false;
 			}
+		} else if ($(this).attr("data-sr") == 4) {
+			$("#kpDetails").hide();
+			$("#KundaliDetails").hide();
+			$("#basicDetails").hide();
+			$("#ashtakvarga").show();
+			$("#charts").hide();
+			$("#rudrakshSuggetionas").hide();
+			$("#dashaContainer").hide();
+
+
+		} else if ($(this).attr("data-sr") == 5) {
+			$("#kpDetails").hide();
+			$("#KundaliDetails").hide();
+			$("#basicDetails").hide();
+			$("#ashtakvarga").hide();
+			$("#charts").show();
+			$("#rudrakshSuggetionas").hide();
+			$("#dashaContainer").hide();
+
+			if (isCharts) {
+				getAllCharts(kundaliData)
+				isCharts = false;
+			}
+
+		}
+		else if ($(this).attr("data-sr") == 6) {
+			$("#kpDetails").hide();
+			$("#KundaliDetails").hide();
+			$("#basicDetails").hide();
+			$("#ashtakvarga").hide();
+			$("#charts").hide();
+			$("#rudrakshSuggetionas").show();
+			$("#dashaContainer").hide();
+
+			if (ispooja) {
+				getsuggetionsDetails(kundaliData)
+				ispooja = false;
+			}
+
+		}else if ($(this).attr("data-sr") == 7) {
+			$("#kpDetails").hide();
+			$("#KundaliDetails").hide();
+			$("#basicDetails").hide();
+			$("#ashtakvarga").hide();
+			$("#charts").hide();
+			$("#rudrakshSuggetionas").hide();
+			$("#dashaContainer").show();
+			if (isdasha) {
+				getDasha(kundaliData)
+				isdasha = false;
+			}
+
 		}
 	})
 </script>

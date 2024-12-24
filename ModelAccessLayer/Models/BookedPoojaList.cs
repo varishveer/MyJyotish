@@ -13,6 +13,7 @@ namespace ModelAccessLayer.Models
         public int jyotishId { get; set; }
         public int userId { get; set; }
         public DateTime BookingDate { get; set; }
+        public DateTime PoojaDate { get; set; }
         public bool status { get; set; }
 
         public UserModel User { get; set; }
