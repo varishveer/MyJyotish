@@ -20,6 +20,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
     <script src="~/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+
     <style>
 
         /* Custom styles */
@@ -346,6 +347,12 @@
        var BaseUrl = "https://localhost:7118/";
 
         var BaseUrlImg = "https://myjyotishg.in/";
+        let userId = "636001";
+        let apiKey = "58547b5b6c5211fa99d428ff4eee17f55dd71ac1";
+        //let userId = "636002";
+       // let apiKey = "4a4c2c2493e4f406999b2144cb11f05fb09492ba";
+        var auth = "Basic " + btoa(userId + ":" + apiKey).toString("base64");
+        var pdfauth = "Basic " + btoa("4545" + ":" + "ByVOIaODH57QRVi6CqswHXGlcpDvj7tZBRoorY").toString("base64");
   </script>
       
     <div>

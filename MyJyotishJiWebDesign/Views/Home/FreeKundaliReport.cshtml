@@ -15,42 +15,48 @@
 		background: orange;
 		color: white;
 	}
+
 	.connect-section {
-      background-color: #ffeb85; /* Light yellow background */
-      text-align: center;
-      padding: 20px;
-      border-radius: 8px;
-    }
-    .connect-section .btn {
-      margin: 5px;
-    }
-    .download-section {
-      background-color: #000; /* Black background */
-      color: #fff; /* White text */
-      text-align: center;
-      padding: 40px 20px;
-      border-radius: 8px;
-    }
-    .download-section .btn {
-      background-color: #ffc107; /* Yellow button */
-      color: #000;
-      font-weight: bold;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-    }
-    .download-section .btn:hover {
-      background-color: #e0a800; /* Slightly darker yellow */
-    }
-    .kundli-icon {
-      width: 80px;
-      margin-bottom: 20px;
-    }
+		background-color: #ffeb85; /* Light yellow background */
+		text-align: center;
+		padding: 20px;
+		border-radius: 8px;
+	}
+
+		.connect-section .btn {
+			margin: 5px;
+		}
+
+	.download-section {
+		background-color: #000; /* Black background */
+		color: #fff; /* White text */
+		text-align: center;
+		padding: 40px 20px;
+		border-radius: 8px;
+	}
+
+		.download-section .btn {
+			background-color: #ffc107; /* Yellow button */
+			color: #000;
+			font-weight: bold;
+			padding: 10px 20px;
+			border: none;
+			border-radius: 5px;
+		}
+
+			.download-section .btn:hover {
+				background-color: #e0a800; /* Slightly darker yellow */
+			}
+
+	.kundli-icon {
+		width: 80px;
+		margin-bottom: 20px;
+	}
 </style>
 
 <div class="container mb-5 mt-3">
 	<div class="row">
-		<div class="col-sm-12  my-2">
+		<div class="col-sm-12  my-3">
 			<div class="row justify-content-center">
 				<div role="button" data-sr="1" class="col-sm-1 active menuButtonHover border text-center  rounded-start p-2">Basic</div>
 				<div role="button" data-sr="2" class="col-sm-1 menuButtonHover border text-center p-2">Kundali</div>
@@ -58,8 +64,7 @@
 				<div role="button" data-sr="4" class="col-sm-2 menuButtonHover border text-center p-2">Ashtakvarga</div>
 				<div role="button" data-sr="5" class="col-sm-1 menuButtonHover border text-center p-2">Charts</div>
 				<div role="button" data-sr="6" class="col-sm-2 menuButtonHover border text-center p-2">Suggestions</div>
-				<div role="button" data-sr="7" class="col-sm-1 menuButtonHover border text-center p-2">Dasha</div>
-				<div role="button" data-sr="8" class="col-sm-2 menuButtonHover border text-center rounded-end p-2">Free Reports</div>
+				<div role="button" data-sr="7" class="col-sm-1 menuButtonHover border rounded-end  text-center p-2">Dasha</div>
 			</div>
 		</div>
 		<div class="col-sm-12" id="basicDetails">
@@ -128,7 +133,22 @@
 		<div class="col-sm-12 mt-3" id="kpDetails">
 			<div class="row">
 				<div class="col-sm-6" id="chalitChart"></div>
-				<div class="col-sm-6"></div>
+				<div class="col-sm-6">
+					<p class="fw-bold">Planets and Their Significators</p>
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<th>Planet ID</th>
+								<th>Planet Name</th>
+								<th>Significators</th>
+							</tr>
+						</thead>
+						<tbody id="planetsTable">
+							<!-- Data will be dynamically inserted here -->
+						</tbody>
+					</table>
+
+				</div>
 				<div class="col-sm-12 my-3">
 					<p class="fw-bold">Planets</p>
 					<table class="table table-bordered">
@@ -176,8 +196,10 @@
 						Ashtakvarga is used to assess the strength and patterns that are present in a birth chart. The Ashtakvarga or Ashtakavarga is a numerical quantification or score of each planet placed in the chart with reference to the other 7 planets and the Lagna. In Sarva Ashtaka Varga the total scores of all the BAVs are overlaid and then totalled. This makes the SAV of the chart. The total of all the scores should be 337.
 					</p>
 				</div>
-				<div class="col-sm-6 text-center" id="birthChart"></div>
-				<div class="col-sm-6 text-center" id="navamsaChart"></div>
+				<div class="col-sm-12" id="ashtakVargaTable">
+					<p class="fw-bold">Ashtakvarga/Planets</p>
+
+				</div>
 
 			</div>
 		</div>
@@ -187,6 +209,7 @@
 		</div>
 		<div class="col-sm-12 mt-3" id="rudrakshSuggetionas">
 			<div class="fw-bold">Following are the suggestions based on your horoscope and planetary combinations.</div>
+			<hr />
 			<div class="row" id="poojaContainer">
 			</div>
 		</div>
@@ -194,10 +217,10 @@
 			<div class="VimshottariDasha">
 				<p class="fw-bold">Vimshottari Dasha</p>
 				<div class="d-flex">
-					<div><span class="bg-warning rounded highlightvishmottari">1.</span>Mahadasha</div><hr class="w-50"/>
-					<div><span class="bg-warning rounded highlightvishmottari">2.</span>Antardasha</div><hr class="w-50" />
-					<div><span class="bg-warning rounded highlightvishmottari">3.</span>Pratyantardasha</div><hr class="w-50" />										arit		  t
-					<div><span class="bg-warning rounded highlightvishmottari">4.</span>Sookshmadasha</div>
+					<div><span class="bg-warning rounded hl1 highlightvishmottari">1.</span>Mahadasha</div><hr class="w-50" />
+					<div><span class="bg-warning rounded hl2 highlightvishmottari">2.</span>Antardasha</div><hr class="w-50" />
+					<div><span class="bg-warning rounded hl3 highlightvishmottari">3.</span>Pratyantardasha</div><hr class="w-50" />
+					<div><span class="bg-warning rounded hl4 highlightvishmottari">4.</span>Sookshmadasha</div>
 				</div>
 				<table class="table table-bordered">
 					<thead>
@@ -208,9 +231,9 @@
 						</tr>
 					</thead>
 					<tbody id="vimshottariDashaDetail">
-
 					</tbody>
 				</table>
+				<div class="text-center vmLevelBtn d-none"><button class="btn btn-warning text-light">Level Up</button></div>
 			</div>
 			<div class="charDasha mt-3">
 				<p class="fw-bold">Char Dasha</p>
@@ -226,6 +249,7 @@
 					<tbody id="charDashaDetail">
 					</tbody>
 				</table>
+				<div class="text-center charLevelBtn d-none"><button class="btn btn-warning text-light">Level Up</button></div>
 			</div>
 			<div class="yoginiDasha mt-3">
 				<p class="fw-bold">Yogini Dasha</p>
@@ -248,29 +272,27 @@
 
 
 <div class="container my-5">
-  <!-- Connect Section -->
-  <div class="connect-section">
-    <p class="mb-3">
-      Connect with an Astrologer on Call or Chat for more personalised detailed predictions.
-    </p>
-    <a class="btn btn-warning text-light fw-bold" href="/Home/talk" target="_blank">Talk to Astrologer</a>
-    <a class="btn btn-light border fw-bold" href="/Home/chat" target="_blank">Chat with Astrologer</a>
-  </div>
+	<!-- Connect Section -->
+	<div class="connect-section">
+		<p class="mb-3">
+			Connect with an Astrologer on Call or Chat for more personalised detailed predictions.
+		</p>
+		<a class="btn btn-warning text-light fw-bold" href="/Home/talk" target="_blank">Talk to Astrologer</a>
+		<a class="btn btn-light border fw-bold" href="/Home/chat" target="_blank">Chat with Astrologer</a>
+	</div>
 
-  <!-- Download Section -->
-  <div class="download-section mt-4">
-    <img src="https://via.placeholder.com/80" alt="Kundli Icon" class="kundli-icon">
-    <h3 class="mb-3">Download & share your kundli report</h3>
-    <button class="btn">Download Kundli PDF</button>
-  </div>
+	<!-- Download Section -->
+	<div class="download-section mt-4">
+		<img src="~/palm-Image.jpg" alt="Kundli Icon" class="kundli-icon rounded-circle">
+		<h3 class="mb-3">Download & share your kundli report</h3>
+		<button class="btn" id="downloadKundaliPdf">Download Kundli PDF</button>
+	</div>
 </div>
 
 
 
 <script>
-	let userId = "635952";
-	let apiKey = "e7a8121ccbc006c32fddcf03d5be648a9d42f071";
-	var auth = "Basic " + btoa(userId + ":" + apiKey).toString("base64");
+	
 	function getCookie(name) {
 		const cookies = document.cookie.split("; ");
 		for (let cookie of cookies) {
@@ -289,22 +311,22 @@
 			headers: {
 				"authorization": auth,
 				"Content-Type": 'application/json',
-				"Accept-Language": "en"
+				"Accept-Language": kundaliData.language
 			},
 			data: JSON.stringify(apiData),
 			success: function (res) {
 				$("#basicDetailContainer").html(`
-												 <p><strong>Name:</strong> ${res.name}</p>
-													<p><strong>Date:</strong> ${res.day}/${res.month}/${res.year}</p>
-												<p><strong>Time:</strong> ${res.hour}:${res.minute} </p>
-													<p><strong>Place:</strong> ${apiData.place}</p>
-													<p><strong>Latitude:</strong> ${res.latitude}</p>
-													<p><strong>Longitude:</strong> ${res.longitude}</p>
-													<p><strong>Timezone:</strong> ${res.timezone}</p>
-													<p><strong>Sunrise:</strong> ${res.sunrise}</p>
-													<p><strong>Sunset:</strong> ${res.sunset}</p>
-													<p><strong>Ayanamsha:</strong> ${res.ayanamsha}</p>
-										`)
+																								 <p><strong>Name:</strong> ${res.name}</p>
+																									<p><strong>Date:</strong> ${res.day}/${res.month}/${res.year}</p>
+																								<p><strong>Time:</strong> ${res.hour}:${res.minute} </p>
+																									<p><strong>Place:</strong> ${apiData.place}</p>
+																									<p><strong>Latitude:</strong> ${res.latitude}</p>
+																									<p><strong>Longitude:</strong> ${res.longitude}</p>
+																									<p><strong>Timezone:</strong> ${res.timezone}</p>
+																									<p><strong>Sunrise:</strong> ${res.sunrise}</p>
+																									<p><strong>Sunset:</strong> ${res.sunset}</p>
+																									<p><strong>Ayanamsha:</strong> ${res.ayanamsha}</p>
+																						`)
 			}, error: function (xhr, status, error) {
 				console.error("Error:", xhr.status, xhr.responseText);
 			}
@@ -315,31 +337,31 @@
 				headers: {
 					"authorization": auth,
 					"Content-Type": 'application/json',
-					"Accept-Language": "en"
+					"Accept-Language": kundaliData.language
 				},
 				data: JSON.stringify(apiData),
 				success: function (res) {
 					$("#AvakhadaDetails").html(`
-														  <p><strong>Gan:</strong> ${res.Gan}</p>
-															<p><strong>Karan:</strong>  ${res.Karan}</p>
-															<p><strong>Nadi:</strong>  ${res.Nadi}</p>
-															<p><strong>Naksahtra:</strong>  ${res.Naksahtra}</p>
-															<p><strong>NaksahtraLord:</strong>  ${res.NaksahtraLord}</p>
-															<p><strong>Sign Lord:</strong>  ${res.SignLord}</p>
-															<p><strong>Tithi:</strong>  ${res.Tithi}</p>
-															<p><strong>Varna:</strong>  ${res.Varna}</p>
-															<p><strong>Vashya:</strong>  ${res.Vashya}</p>
-																	<p><strong>Charan:</strong>  ${res.Charan}</p>
-															<p><strong>Yog:</strong>  ${res.Yog}</p>
-															<p><strong>Yoni:</strong>  ${res.Yoni}</p>
-															<p><strong>Ascendant:</strong>  ${res.ascendant}</p>
-															<p><strong>Ascendant Lord:</strong>  ${res.ascendant_lord}</p>
-														<p><strong>Name Alphabet:</strong>  ${res.name_alphabet}</p>
-														<p><strong>Paya:</strong>  ${res.paya}</p>
-																<p><strong>Sign:</strong>  ${res.sign}</p>
-																<p><strong>Tatva:</strong>  ${res.tatva}</p>
-																<p><strong>Yunja:</strong>  ${res.yunja}</p>
-											`)
+																										  <p><strong>Gan:</strong> ${res.Gan}</p>
+																											<p><strong>Karan:</strong>  ${res.Karan}</p>
+																											<p><strong>Nadi:</strong>  ${res.Nadi}</p>
+																											<p><strong>Naksahtra:</strong>  ${res.Naksahtra}</p>
+																											<p><strong>NaksahtraLord:</strong>  ${res.NaksahtraLord}</p>
+																											<p><strong>Sign Lord:</strong>  ${res.SignLord}</p>
+																											<p><strong>Tithi:</strong>  ${res.Tithi}</p>
+																											<p><strong>Varna:</strong>  ${res.Varna}</p>
+																											<p><strong>Vashya:</strong>  ${res.Vashya}</p>
+																													<p><strong>Charan:</strong>  ${res.Charan}</p>
+																											<p><strong>Yog:</strong>  ${res.Yog}</p>
+																											<p><strong>Yoni:</strong>  ${res.Yoni}</p>
+																											<p><strong>Ascendant:</strong>  ${res.ascendant}</p>
+																											<p><strong>Ascendant Lord:</strong>  ${res.ascendant_lord}</p>
+																										<p><strong>Name Alphabet:</strong>  ${res.name_alphabet}</p>
+																										<p><strong>Paya:</strong>  ${res.paya}</p>
+																												<p><strong>Sign:</strong>  ${res.sign}</p>
+																												<p><strong>Tatva:</strong>  ${res.tatva}</p>
+																												<p><strong>Yunja:</strong>  ${res.yunja}</p>
+																							`)
 				}, error: function (xhr, status, error) {
 					console.error("Error:", xhr.status, xhr.responseText);
 				}
@@ -351,18 +373,18 @@
 				headers: {
 					"authorization": auth,
 					"Content-Type": 'application/json',
-					"Accept-Language": "en"
+					"Accept-Language": kundaliData.language
 				},
 				data: JSON.stringify(apiData),
 				success: function (res) {
 					console.log(res)
 					$("#panchangDetail").html(`
-												<p><strong>Day:</strong> ${res.day}</p>
-												<p><strong>Karan:</strong> ${res.karan}</p>
-														<p><strong>Nakshatra:</strong> ${res.nakshatra}</p>
-														<p><strong>Tithi:</strong> ${res.tithi} </p>
-														<p><strong>Yog:</strong> ${res.yog}</p>
-				`)
+																								<p><strong>Day:</strong> ${res.day}</p>
+																								<p><strong>Karan:</strong> ${res.karan}</p>
+																										<p><strong>Nakshatra:</strong> ${res.nakshatra}</p>
+																										<p><strong>Tithi:</strong> ${res.tithi} </p>
+																										<p><strong>Yog:</strong> ${res.yog}</p>
+																`)
 				}
 			})
 		})
@@ -385,15 +407,15 @@
 			headers: {
 				"authorization": auth,
 				"Content-Type": 'application/json',
-				"Accept-Language": "en"
+				"Accept-Language": kundaliData.language
 			},
 			data: JSON.stringify(apiData),
 			success: function (res) {
 				console.log(res)
 				$("#birthChart").html(`
-									<p class='fw-bold  mb-0 pb-0'>Lagna / Ascendant / Basic Birth Chart</p>
-							${res.svg}
-							`)
+																					<p class='fw-bold  mb-0 pb-0'>Lagna / Ascendant / Basic Birth Chart</p>
+																			${res.svg}
+																			`)
 			}, error: function (xhr, status, error) {
 				console.error("Error:", xhr.status, xhr.responseText);
 			}
@@ -404,15 +426,15 @@
 				headers: {
 					"authorization": auth,
 					"Content-Type": 'application/json',
-					"Accept-Language": "en"
+					"Accept-Language": kundaliData.language
 				},
 				data: JSON.stringify(apiData),
 				success: function (res) {
 					console.log(res)
 					$("#navamsaChart").html(`
-										<p class='fw-bold mb-0 pb-0'>Navamsa</p>
-								${res.svg}
-								`)
+																						<p class='fw-bold mb-0 pb-0'>Navamsa</p>
+																				${res.svg}
+																				`)
 				}, error: function (xhr, status, error) {
 					console.error("Error:", xhr.status, xhr.responseText);
 				}
@@ -435,27 +457,27 @@
 				headers: {
 					"authorization": auth,
 					"Content-Type": 'application/json',
-					"Accept-Language": "en"
+					"Accept-Language": kundaliData.language
 				},
 				data: JSON.stringify(apiData),
 				success: function (res) {
 					console.log(res)
 					res.forEach(function (d) {
 						$("#planetsDetailstable").append(`
-								<tr>
-									<td>${d.name || ""}</td>
-										<td>${d.sign || ""}</td>
-											<td>${d.signLord || ""}</td>
-											<td>${d.nakshatra || ""}</td>
-											<td>${d.nakshatraLord || ""}</td>
-												<td>${decimalToDMS(d.fullDegree) || ""}</td>
-											<td>${decimalToDMS(d.normDegree) || ""}</td>
-												<td>${decimalToDMS(d.speed) || ""}</td>
-											<td>${d.isRetro ? "Retro" : "Direct" || ""}</td>
-											<td>${d.planet_awastha || ""}</td>
-											<td>${d.house || ""}</td>
-								</tr>
-								`)
+																				<tr>
+																					<td>${d.name || ""}</td>
+																						<td>${d.sign || ""}</td>
+																							<td>${d.signLord || ""}</td>
+																							<td>${d.nakshatra || ""}</td>
+																							<td>${d.nakshatraLord || ""}</td>
+																								<td>${decimalToDMS(d.fullDegree) || ""}</td>
+																							<td>${decimalToDMS(d.normDegree) || ""}</td>
+																								<td>${decimalToDMS(d.speed) || ""}</td>
+																							<td>${d.isRetro ? "Retro" : "Direct" || ""}</td>
+																							<td>${d.planet_awastha || ""}</td>
+																							<td>${d.house || ""}</td>
+																				</tr>
+																				`)
 					})
 				}, error: function (xhr, status, error) {
 					console.error("Error:", xhr.status, xhr.responseText);
@@ -471,18 +493,45 @@
 			headers: {
 				"authorization": auth,
 				"Content-Type": 'application/json',
-				"Accept-Language": "en"
+				"Accept-Language": kundaliData.language
 			},
 			data: JSON.stringify(apiData),
 			success: function (res) {
 				console.log(res)
 				$("#chalitChart").html(`
-											<p class='fw-bold  mb-0 pb-0'>Bhav Chalit Chart</p>
-								${res}
-								`)
+																							<p class='fw-bold  mb-0 pb-0'>Bhav Chalit Chart</p>
+																				${res}
+																				`)
 			}, error: function (xhr, status, error) {
 				console.error("Error:", xhr.status, xhr.responseText);
 			}
+		}).then(() => {
+			$.ajax({
+				url: "https://json.astrologyapi.com/v1/kp_planet_significator",
+				type: "post",
+				headers: {
+					"authorization": auth,
+					"Content-Type": 'application/json',
+					"Accept-Language": kundaliData.language
+				},
+				data: JSON.stringify(apiData),
+				success: function (res) {
+					console.log(res)
+
+					res.forEach(function (d) {
+						$("#planetsTable").append(`
+																					<tr>
+																									 <td>${d.planet_id}</td>
+													<td>${d.planet_name || "N/A"}</td>
+														<td>${d.significators.join(', ') || "N/A"}</td>
+																					</tr>
+																					`)
+
+					})
+				}, error: function (xhr, status, error) {
+					console.error("Error:", xhr.status, xhr.responseText);
+				}
+			})
 		}).then(() => {
 			$.ajax({
 				url: "https://json.astrologyapi.com/v1/kp_planets",
@@ -490,7 +539,7 @@
 				headers: {
 					"authorization": auth,
 					"Content-Type": 'application/json',
-					"Accept-Language": "en"
+					"Accept-Language": kundaliData.language
 				},
 				data: JSON.stringify(apiData),
 				success: function (res) {
@@ -498,18 +547,18 @@
 
 					res.forEach(function (d) {
 						$("#Kp_planets").append(`
-									<tr>
-											<td>${d.planet_name || ""}</td>
-												<td>${d.house || ""}</td>
-														<td>${d.formatted_degree || ""}</td>
-														<td>${d.sign || ""}</td>
-															<td>${d.nakshatra || ""}</td>
-													<td>${d.sign_lord || ""}</td>
-													<td>${d.nakshatra_lord || ""}</td>
-													<td>${d.sub_lord || ""}</td>
-													<td>${d.sub_sub_lord || ""}</td>
-									</tr>
-									`)
+																					<tr>
+																							<td>${d.planet_name || ""}</td>
+																								<td>${d.house || ""}</td>
+																										<td>${d.formatted_degree || ""}</td>
+																										<td>${d.sign || ""}</td>
+																											<td>${d.nakshatra || ""}</td>
+																									<td>${d.sign_lord || ""}</td>
+																									<td>${d.nakshatra_lord || ""}</td>
+																									<td>${d.sub_lord || ""}</td>
+																									<td>${d.sub_sub_lord || ""}</td>
+																					</tr>
+																					`)
 
 					})
 				}, error: function (xhr, status, error) {
@@ -522,24 +571,24 @@
 					headers: {
 						"authorization": auth,
 						"Content-Type": 'application/json',
-						"Accept-Language": "en"
+						"Accept-Language": kundaliData.language
 					},
 					data: JSON.stringify(apiData),
 					success: function (res) {
 						res.forEach(function (d) {
 
 							$("#Kp_planetsCusp").append(`
-										<tr>
-													<td>${d.house_id || ""}</td>
-														<td>${d.formatted_degree || ""}</td>
-																<td>${d.nakshatra || ""}</td>
-															<td>${d.sign || ""}</td>
-																	<td>${d.sign_lord || ""}</td>
-															<td>${d.nakshatra_lord || ""}</td>
-															<td>${d.sub_lord || ""}</td>
-															<td>${d.sub_sub_lord || ""}</td>
-										</tr>
-										`)
+																						<tr>
+																									<td>${d.house_id || ""}</td>
+																										<td>${d.formatted_degree || ""}</td>
+																												<td>${d.nakshatra || ""}</td>
+																											<td>${d.sign || ""}</td>
+																													<td>${d.sign_lord || ""}</td>
+																											<td>${d.nakshatra_lord || ""}</td>
+																											<td>${d.sub_lord || ""}</td>
+																											<td>${d.sub_sub_lord || ""}</td>
+																						</tr>
+																						`)
 
 						})
 					}, error: function (xhr, status, error) {
@@ -548,6 +597,72 @@
 				})
 			})
 		})
+	}
+
+	function getAshtakvarga(apiData) {
+		let planets = ["Jupiter", "Mars", "Mercury", "Moon", "Saturn", "Sun", "Venus"]
+		planets.forEach(async function (d) {
+			await $.ajax({
+				url: "https://json.astrologyapi.com/v1/planet_ashtak/" + d,
+				type: "post",
+				headers: {
+					"authorization": auth,
+					"Content-Type": 'application/json',
+					"Accept-Language": kundaliData.language
+				},
+				data: JSON.stringify(apiData),
+				success: function (res) {
+					console.log(res)
+					let ashtakvargaTable = `<div class="ashtakVargaInfo">
+									 <p><strong>Type:</strong> ${res.ashtak_varga.type}</p>
+							<p><strong>Planet:</strong> ${res.ashtak_varga.planet}</p>
+							<p><strong>Sign:</strong> ${res.ashtak_varga.sign} (ID: ${res.ashtak_varga.sign_id})</p>
+								</div>
+									<table id = "ashtakPointsTable" class="table table-bordered" >
+									<thead>
+										<tr>
+											<th>Sign</th>
+											<th>Sun</th>
+											<th>Moon</th>
+											<th>Mars</th>
+											<th>Mercury</th>
+											<th>Jupiter</th>
+											<th>Venus</th>
+											<th>Saturn</th>
+											<th>Ascendant</th>
+											<th>Total</th>
+										</tr>
+									</thead>
+									<tbody class="ashtakvargaDetails">
+
+									`
+
+					const ashtakPoints = res.ashtak_points;
+					Object.keys(ashtakPoints).forEach(sign => {
+						const points = ashtakPoints[sign];
+						ashtakvargaTable += `
+																							<tr>
+									<td>${sign.charAt(0).toUpperCase() + sign.slice(1)}</td>
+									<td>${points.sun}</td>
+									<td>${points.moon}</td>
+									<td>${points.mars}</td>
+									<td>${points.mercury}</td>
+									<td>${points.jupiter}</td>
+									<td>${points.venus}</td>
+									<td>${points.saturn}</td>
+									<td>${points.ascendant}</td>
+									<td>${points.total}</td>
+									`
+					})
+					ashtakvargaTable += `</tbody>
+									</table><hr/>`
+					$("#ashtakVargaTable").append(ashtakvargaTable)
+				}, error: function (xhr, status, error) {
+					console.error("Error:", xhr.status, xhr.responseText);
+				}
+			})
+		})
+
 	}
 
 	function getAllCharts(apiData) {
@@ -559,18 +674,18 @@
 				headers: {
 					"authorization": auth,
 					"Content-Type": 'application/json',
-					"Accept-Language": "en"
+					"Accept-Language": kundaliData.language
 				},
 				data: JSON.stringify(apiData),
 				success: function (res) {
 					console.log(res, d.split(":")[1])
 					$("#chartsContainer").append(`
-								<div class="col-sm-6 text-center">
-								<p class='fw-bold'>${d.split(":")[1]}</p>
-								${res.svg || res}
-								</div>
+																				<div class="col-sm-6 text-center">
+																				<p class='fw-bold'>${d.split(":")[1]}</p>
+																				${res.svg || res}
+																				</div>
 
-								`)
+																				`)
 				}
 			})
 		})
@@ -584,19 +699,19 @@
 			headers: {
 				"authorization": auth,
 				"Content-Type": 'application/json',
-				"Accept-Language": "en"
+				"Accept-Language": kundaliData.language
 			},
 			data: JSON.stringify(apiData),
 			success: function (res) {
 				$("#poojaContainer").append(`
-									<div class='my-3'>
-													<p class='fw-bold'>Rudraksha Suggestion</p>
-										<img src='https://json.astrologyapi.com/v1${res.img_url}' />
-															<p>${res.name} </p>
-																<p>${res.recommend}</p>
-																	<p>${res.detail}</p>
-																		</div>
-									`)
+																					<div class='my-3'>
+																									<p class='fw-bold'>Rudraksha Suggestion</p>
+																						<img src='/rudrakshImage.jpeg' class='rounded' height='200' weight='350'/>
+																											<p>${res.name} </p>
+																												<p>${res.recommend}</p>
+																													<p>${res.detail}</p>
+																														</div>
+																					`)
 			}
 		}).then(() => {
 			$.ajax({
@@ -605,66 +720,66 @@
 				headers: {
 					"authorization": auth,
 					"Content-Type": 'application/json',
-					"Accept-Language": "en"
+					"Accept-Language": kundaliData.language
 				},
 				data: JSON.stringify(apiData),
 				success: function (res) {
 					console.log(res)
-					let gemHtml=`
-										<div>
-											<p class='fw-bold'>Gemstone Suggestions</p>
-										<table class='table table-bordered'>
-										<thead>
-										<tr>
-										<th>For</th>
-										<th>Name</th>
-										<th>Type</th>
-										<th>Wear Type</th>
-									    <th>Weight Caret</th>
-									    <th>Wear Metal</th>
-									    <th>Wear Day</th>
-									    <th>Gem Deity</th>
-										</tr>
-										</thead>
-										<tbody>
-										
-										`
-gemHtml+=`
-<tr>
-	<td>Life</td>
-			<td>${res.LIFE.name}</td>
-				<td>${res.LIFE.semi_gem}</td>
-				<td>${res.LIFE.wear_finger}</td>
-				<td>${res.LIFE.weight_caret}</td>
-				<td>${res.LIFE.wear_metal}</td>
-				<td>${res.LIFE.wear_day}</td>
-				<td>${res.LIFE.gem_deity}</td>
-</tr>
-<tr>
-		<td>BENEFIC</td>
-					<td>${res.BENEFIC.name}</td>
-						<td>${res.BENEFIC.semi_gem}</td>
-						<td>${res.BENEFIC.wear_finger}</td>
-						<td>${res.BENEFIC.weight_caret}</td>
-						<td>${res.BENEFIC.wear_metal}</td>
-						<td>${res.BENEFIC.wear_day}</td>
-						<td>${res.BENEFIC.gem_deity}</td>
-</tr>
-<tr>
-		<td>Luvk</td>
-						<td>${res.LUCKY.name}</td>
-							<td>${res.LUCKY.semi_gem}</td>
-							<td>${res.LUCKY.wear_finger}</td>
-							<td>${res.LUCKY.weight_caret}</td>
-							<td>${res.LUCKY.wear_metal}</td>
-							<td>${res.LUCKY.wear_day}</td>
-							<td>${res.LUCKY.gem_deity}</td>
-</tr>
-`
+					let gemHtml = `<hr/>
+																						<div>
+																							<p class='fw-bold'>Gemstone Suggestions</p>
+																						<table class='table table-bordered'>
+																						<thead>
+																						<tr>
+																						<th>For</th>
+																						<th>Name</th>
+																						<th>Type</th>
+																						<th>Wear Type</th>
+																						<th>Weight Caret</th>
+																						<th>Wear Metal</th>
+																						<th>Wear Day</th>
+																						<th>Gem Deity</th>
+																						</tr>
+																						</thead>
+																						<tbody>
+
+																						`
+					gemHtml += `
+												<tr>
+													<td>Life</td>
+															<td>${res.LIFE.name}</td>
+																<td>${res.LIFE.semi_gem}</td>
+																<td>${res.LIFE.wear_finger}</td>
+																<td>${res.LIFE.weight_caret}</td>
+																<td>${res.LIFE.wear_metal}</td>
+																<td>${res.LIFE.wear_day}</td>
+																<td>${res.LIFE.gem_deity}</td>
+												</tr>
+												<tr>
+														<td>BENEFIC</td>
+																	<td>${res.BENEFIC.name}</td>
+																		<td>${res.BENEFIC.semi_gem}</td>
+																		<td>${res.BENEFIC.wear_finger}</td>
+																		<td>${res.BENEFIC.weight_caret}</td>
+																		<td>${res.BENEFIC.wear_metal}</td>
+																		<td>${res.BENEFIC.wear_day}</td>
+																		<td>${res.BENEFIC.gem_deity}</td>
+												</tr>
+												<tr>
+														<td>Luck</td>
+																		<td>${res.LUCKY.name}</td>
+																			<td>${res.LUCKY.semi_gem}</td>
+																			<td>${res.LUCKY.wear_finger}</td>
+																			<td>${res.LUCKY.weight_caret}</td>
+																			<td>${res.LUCKY.wear_metal}</td>
+																			<td>${res.LUCKY.wear_day}</td>
+																			<td>${res.LUCKY.gem_deity}</td>
+												</tr>
+												`
 
 					gemHtml += `</tbody>
-											</table>
-											</div>`
+																							</table>
+																							</div>`
 
 					$("#poojaContainer").append(gemHtml)
 				}
@@ -672,173 +787,325 @@ gemHtml+=`
 		})
 	}
 
-	function getDasha(apiData){
+	function getVmDasha() {
 		$(".highlightvishmottari").removeClass("bg-warning")
-		$(this).addClass("bg-warning")
+		$(".hl1").addClass("bg-warning")
+		$(".vmLevelBtn").addClass("d-none")
 		$.ajax({
 			url: "https://json.astrologyapi.com/v1/major_vdasha/",
 			type: "post",
 			headers: {
 				"authorization": auth,
 				"Content-Type": 'application/json',
-				"Accept-Language": "en"
+				"Accept-Language": kundaliData.language
 			},
-			data: JSON.stringify(apiData),
+			data: JSON.stringify(kundaliData),
 			success: function (res) {
-				res.forEach(function(d){
+				$("#vimshottariDashaDetail").empty()
+				res.forEach(function (d) {
 					$("#vimshottariDashaDetail").append(`
-					<tr>
-							<td>${d.planet}</td>
-							<td role="button" onclick='getSubVimshottari("${d.planet}")' class='vimshottariDasha'>${d.start} <i class="fas fa-chevron-right float-end"></i></td>
-												<td role="button" data-name='${d.planet}'  class='vimshottariDasha'>${d.end} <i class="fas fa-chevron-right float-end"></i></td>
-					</tr>
-					`)
+																		<tr>
+																				<td>${d.planet}</td>
+																				<td role="button" onclick='getSubVimshottari("${d.planet}")' class='vimshottariDasha'>${d.start} <i class="fas fa-chevron-right float-end"></i></td>
+																									<td role="button" data-name='${d.planet}'  class='vimshottariDasha'>${d.end} <i class="fas fa-chevron-right float-end"></i></td>
+																		</tr>
+																		`)
 				})
-				
+
 			}
-		
-	}).then(()=>{
-			$.ajax({
-				url: "https://json.astrologyapi.com/v1/major_chardasha",
-				type: "post",
-				headers: {
-					"authorization": auth,
-					"Content-Type": 'application/json',
-					"Accept-Language": "en"
-				},
-				data: JSON.stringify(apiData),
-				success: function (res) {
-					res.forEach(function (d) {
-						$("#charDashaDetail").append(`
-						<tr>
-								    <td>${d.sign_name}</td>
-									<td>${d.start_date}</td>
-									<td>${d.end_date}</td>
-									<td>${d.duration}</td>
-						</tr>
-						`)
-					})
-
-				}
-
-			})
-		}).then(() => {
-			$.ajax({
-				url: "https://json.astrologyapi.com/v1/major_yogini_dasha",
-				type: "post",
-				headers: {
-					"authorization": auth,
-					"Content-Type": 'application/json',
-					"Accept-Language": "en"
-				},
-				data: JSON.stringify(apiData),
-				success: function (res) {
-					res.forEach(function (d) {
-						$("#yoginiDashaDetail").append(`
-							<tr>
-											<td>${d.dasha_name}</td>
-										<td>${d.start_date}</td>
-										<td>${d.end_date}</td>
-										<td>${d.duration}</td>
-							</tr>
-							`)
-					})
-
-				}
-
-			})
 		})
 	}
 
-	function getSubVimshottari(md){
-		$(".highlightvishmottari").removeClass("bg-warning")
-		$(this).addClass("bg-warning")
+	function getcharDasha() {
+		$(".charLevelBtn").addClass("d-none")
 		$.ajax({
-				url: "https://json.astrologyapi.com/v1/sub_vdasha/"+md,
-				type: "post",
-				headers: {
-					"authorization": auth,
-					"Content-Type": 'application/json',
-					"Accept-Language": "en"
-				},
-				data: JSON.stringify(kundaliData),
-				success: function (res) {
-					debugger
-					$("#vimshottariDashaDetail").empty()
-					res.forEach(function (d) {
-						$("#vimshottariDashaDetail").append(`
-							<tr>
-							<td>${md}-${d.planet}</td>
-							<td role="button" onclick='getSubsubVimshottari("${md}","${d.planet}")' class='subvimshottariDasha'>${d.start} <i class="fas fa-chevron-right float-end"></i></td>
-												<td role="button" onclick='getSubsubVimshottari("${md}","${d.planet}")' class='subvimshottariDasha'>${d.end} <i class="fas fa-chevron-right float-end"></i></td>
-					</tr>
-							`)
-					})
+			url: "https://json.astrologyapi.com/v1/major_chardasha",
+			type: "post",
+			headers: {
+				"authorization": auth,
+				"Content-Type": 'application/json',
+				"Accept-Language": kundaliData.language
+			},
+			data: JSON.stringify(kundaliData),
+			success: function (res) {
+				$("#charDashaDetail").empty();
+				res.forEach(function (d) {
+					$("#charDashaDetail").append(`
+																			<tr>
+																						<td>${d.sign_name}</td>
+																								<td role="button" onclick='getsubchar("${d.sign_name}")'>${d.start_date} <i class="fas fa-chevron-right float-end"></i></td>
+																								<td role="button" onclick='getsubchar("${d.sign_name}")'>${d.end_date} <i class="fas fa-chevron-right float-end"></i></td>
+																									<td role="button" onclick='getsubchar("${d.sign_name}")'>${d.duration} <i class="fas fa-chevron-right float-end"></i></td>
+																			</tr>
+																			`)
+				})
 
-				}
+			}
 
-			})
+		})
 	}
 
-	function getSubsubVimshottari(md,submd){
-		$(".highlightvishmottari").removeClass("bg-warning")
-		$(this).addClass("bg-warning")
+	async function getDasha(apiData) {
+		await getVmDasha()
+		await getcharDasha()
 		$.ajax({
-				url: `https://json.astrologyapi.com/v1/sub_sub_vdasha/${md}/${submd}`,
-				type: "post",
-				headers: {
-					"authorization": auth,
-					"Content-Type": 'application/json',
-					"Accept-Language": "en"
-				},
-				data: JSON.stringify(kundaliData),
-				success: function (res) {
-					debugger
-					$("#vimshottariDashaDetail").empty()
-					res.forEach(function (d) {
-						$("#vimshottariDashaDetail").append(`
-							<tr>
-							<td>${md}-${submd}-${d.planet}</td>
-							<td role="button" onclick='getSubsubsubVimshottari("${md}","${submd}","${d.planet}")' class='subvimshottariDasha'>${d.start} <i class="fas fa-chevron-right float-end"></i></td>
-												<td role="button" onclick='getSubsubsubVimshottari("${md}","${submd}","${d.planet}")' class='subvimshottariDasha'>${d.end} <i class="fas fa-chevron-right float-end"></i></td>
-					</tr>
-							`)
-					})
+			url: "https://json.astrologyapi.com/v1/major_yogini_dasha",
+			type: "post",
+			headers: {
+				"authorization": auth,
+				"Content-Type": 'application/json',
+				"Accept-Language": kundaliData.language
+			},
+			data: JSON.stringify(apiData),
+			success: function (res) {
+				res.forEach(function (d) {
+					$("#yoginiDashaDetail").append(`
+																			<tr>
+																							<td>${d.dasha_name}</td>
+																							<td>${d.start_date} </td>
+																							<td>${d.end_date}</td>
+																							<td>${d.duration}</td>
+																			</tr>
+																			`)
+				})
 
-				}
+			}
 
-			})
+		})
 	}
 
-	function getSubsubsubVimshottari(md,submd,subsubmd){
+	function getSubVimshottari(md) {
 		$(".highlightvishmottari").removeClass("bg-warning")
-		$(this).addClass("bg-warning")
+		$(".vmLevelBtn").removeClass("d-none")
+		$(".hl2").addClass("bg-warning")
+		$(".vmLevelBtn").children().attr("onclick", "getVmDasha()")
 		$.ajax({
-				url: `https://json.astrologyapi.com/v1/sub_sub_sub_vdasha/${md}/${submd}/${subsubmd}`,
-				type: "post",
-				headers: {
-					"authorization": auth,
-					"Content-Type": 'application/json',
-					"Accept-Language": "en"
-				},
-				data: JSON.stringify(kundaliData),
-				success: function (res) {
-					debugger
-					$("#vimshottariDashaDetail").empty()
-					res.forEach(function (d) {
-						$("#vimshottariDashaDetail").append(`
-							<tr>
-							<td>${md}-${submd}-${subsubmd}-${d.planet}</td>
-							<td role="button" data-name='${md}-${submd}-${subsubmd}-${d.planet}' class='subvimshottariDasha'>${d.start} <i class="fas fa-chevron-right float-end"></i></td>
-												<td role="button" data-name='${md}-${submd}-${subsubmd}-${d.planet}' class='subvimshottariDasha'>${d.end} <i class="fas fa-chevron-right float-end"></i></td>
-					</tr>
-							`)
-					})
+			url: "https://json.astrologyapi.com/v1/sub_vdasha/" + md,
+			type: "post",
+			headers: {
+				"authorization": auth,
+				"Content-Type": 'application/json',
+				"Accept-Language": kundaliData.language
+			},
+			data: JSON.stringify(kundaliData),
+			success: function (res) {
+				debugger
+				$("#vimshottariDashaDetail").empty()
+				res.forEach(function (d) {
+					$("#vimshottariDashaDetail").append(`
+																			<tr>
+																			<td>${md}-${d.planet}</td>
+																			<td role="button" onclick='getSubsubVimshottari("${md}","${d.planet}")' class='subvimshottariDasha'>${d.start} <i class="fas fa-chevron-right float-end"></i></td>
+																								<td role="button" onclick='getSubsubVimshottari("${md}","${d.planet}")' class='subvimshottariDasha'>${d.end} <i class="fas fa-chevron-right float-end"></i></td>
+																	</tr>
+																			`)
+				})
+
+			}
+
+		})
+	}
+
+	function getSubsubVimshottari(md, submd) {
+		$(".highlightvishmottari").removeClass("bg-warning")
+		$(".hl3").addClass("bg-warning")
+
+		$.ajax({
+			url: `https://json.astrologyapi.com/v1/sub_sub_vdasha/${md}/${submd}`,
+			type: "post",
+			headers: {
+				"authorization": auth,
+				"Content-Type": 'application/json',
+				"Accept-Language": kundaliData.language
+			},
+			data: JSON.stringify(kundaliData),
+			success: function (res) {
+				debugger
+				$("#vimshottariDashaDetail").empty()
+				res.forEach(function (d) {
+					$("#vimshottariDashaDetail").append(`
+																			<tr>
+																			<td>${md}-${submd}-${d.planet}</td>
+																			<td role="button" onclick='getSubsubsubVimshottari("${md}","${submd}","${d.planet}")' class='subvimshottariDasha'>${d.start} <i class="fas fa-chevron-right float-end"></i></td>
+																								<td role="button" onclick='getSubsubsubVimshottari("${md}","${submd}","${d.planet}")' class='subvimshottariDasha'>${d.end} <i class="fas fa-chevron-right float-end"></i></td>
+																	</tr>
+																			`)
+				})
+
+			}
+
+		})
+	}
+
+	function getSubsubsubVimshottari(md, submd, subsubmd) {
+		$(".highlightvishmottari").removeClass("bg-warning")
+		$(".hl4").addClass("bg-warning")
+
+		$.ajax({
+			url: `https://json.astrologyapi.com/v1/sub_sub_sub_vdasha/${md}/${submd}/${subsubmd}`,
+			type: "post",
+			headers: {
+				"authorization": auth,
+				"Content-Type": 'application/json',
+				"Accept-Language": kundaliData.language
+			},
+			data: JSON.stringify(kundaliData),
+			success: function (res) {
+				debugger
+				$("#vimshottariDashaDetail").empty()
+				res.forEach(function (d) {
+					$("#vimshottariDashaDetail").append(`
+																			<tr>
+																			<td>${md}-${submd}-${subsubmd}-${d.planet}</td>
+																			<td role="button" data-name='${md}-${submd}-${subsubmd}-${d.planet}' class='subvimshottariDasha'>${d.start} <i class="fas fa-chevron-right float-end"></i></td>
+																								<td role="button" data-name='${md}-${submd}-${subsubmd}-${d.planet}' class='subvimshottariDasha'>${d.end} <i class="fas fa-chevron-right float-end"></i></td>
+																	</tr>
+																			`)
+				})
+
+			}
+
+		})
+	}
+
+	function getsubchar(md) {
+		$(".charLevelBtn").removeClass("d-none")
+		$(".charLevelBtn").children().attr("onclick", "getcharDasha()")
+
+		$.ajax({
+			url: `https://json.astrologyapi.com/v1/sub_chardasha/${md}`,
+			type: "post",
+			headers: {
+				"authorization": auth,
+				"Content-Type": 'application/json',
+				"Accept-Language": kundaliData.language
+			},
+			data: JSON.stringify(kundaliData),
+			success: function (res) {
+				debugger
+				$("#charDashaDetail").empty();
+				res.sub_dasha.forEach(function (d) {
+					$("#charDashaDetail").append(`
+																				<tr>
+																									<td>${md}-${d.sign_name}</td>
+																										<td role="button" onclick="getsubsubchar('${md}','${d.sign_name}')">${d.start_date} <i class="fas fa-chevron-right float-end"></i></td>
+																									<td role="button" onclick="getsubsubchar('${md}','${d.sign_name}')">${d.end_date} <i class="fas fa-chevron-right float-end"></i></td>
+																										<td role="button" onclick="getsubsubchar('${md}','${d.sign_name}')">${d.duration || "N/A"}</td>
+																				</tr>
+																				`)
+				})
+
+			}
+
+		})
+	}
+	function getsubsubchar(md, submd) {
+		$.ajax({
+			url: `https://json.astrologyapi.com/v1/sub_chardasha/${md}/${submd}`,
+			type: "post",
+			headers: {
+				"authorization": auth,
+				"Content-Type": 'application/json',
+				"Accept-Language": kundaliData.language
+			},
+			data: JSON.stringify(kundaliData),
+			success: function (res) {
+				debugger
+				$("#charDashaDetail").empty();
+				res.sub_sub_dasha.forEach(function (d) {
+					$("#charDashaDetail").append(`
+																					<tr>
+																												<td>${md}-${submd}-${d.sign_name}</td>
+																										<td>${d.start_date} </td>
+																										<td>${d.end_date}</td>
+																									<td>${d.duration || "N/A"}</td>
+																					</tr>
+																					`)
+				})
+
+			}
+
+		})
+	}
+
+	function getKundaliPdfReport(kundaliType, language) {
+		debugger
+		let kundaliPdfData = kundaliData
+
+		kundaliPdfData["chart_style"] = kundaliType
+		kundaliPdfData["footer_link"] = "myjyotishg.in"
+		kundaliPdfData["logo_url"] = "https://api.myjyotishg.in/Images/Logo.png"
+		kundaliPdfData["company_name"] = "macreel infosof pvt ltd"
+		kundaliPdfData["company_info"] = "Macreel Infosoft Pvt. Ltd. is Top IT Services Company in Delhi NCR, India with a diversified portfolio and a precise approach to Website design & development, Software, Mobile App Development and Digital Marketing keeping your business goals in mind and providing a scalable solution for your business. We are a creative and committed web design, development and digital marketing agency in Noida (India), known for more than a decade to build the most beautiful & engaging UI designs for distinct businesses."
+		kundaliPdfData["domain_url"] = "https://myjyotishg.in/"
+		kundaliPdfData["company_email"] = "sales@macreel.co.in"
+		kundaliPdfData["company_landline"] = "+(91) 836 864 8746"
+		kundaliPdfData["company_landline"] = "+(91) 836 864 8746"
+		kundaliPdfData["language"] = language
+
+		$.ajax({
+			url: `https://pdf.astrologyapi.com/v1/pro_horoscope_pdf`,
+			type: "post",
+			headers: {
+				"authorization": pdfauth,
+				"Content-Type": 'application/json',
+				"Accept-Language": language
+			},
+			data: JSON.stringify(kundaliPdfData),
+			success: function (res) {
+				console.log(res)
+				if (res.status) {
+					window.open(res.pdf_url, '_blank');
 
 				}
+			}
 
-			})
+		})
 	}
+
+	$("#downloadKundaliPdf").click(function () {
+		Swal.fire({
+			title: 'Select Kundali Type and Language',
+			html: `
+				<label for="kundaliType" class='d-block text-start'>Kundali Type:</label>
+						<select id="kundaliType" class="form-control my-3">
+							<option value="EAST_INDIAN" selected>EAST_INDIAN</option>
+							<option value="SOUTH_INDIAN">SOUTH_INDIAN</option>
+							<option value="NORTH_INDIAN">NORTH_INDIAN</option>
+				</select>
+						<label class='d-block text-start' for="languageType">Language:</label>
+					<select id="languageType" class="form-control">
+						 <option value="en">English</option>
+			<option value="hi">Hindi</option>
+			<option value="ma">Marathi</option>
+			<option value="bn">Bengali</option>
+			<option value="ta">Tamil</option>
+			<option value="te">Telugu</option>
+			<option value="kn">Kannada</option>
+			<option value="ml">Malayalam</option>
+				</select>
+			`,
+			showCancelButton: true,
+			confirmButtonText: 'Download',
+			cancelButtonText: 'Cancel',
+			preConfirm: () => {
+				const kundaliType = document.getElementById('kundaliType').value;
+				const languageType = document.getElementById('languageType').value;
+
+				if (!kundaliType || !languageType) {
+					Swal.showValidationMessage('Both Kundali Type and Language are required!');
+					return false;
+				}
+
+				return { kundaliType, languageType };
+			}
+		}).then((result) => {
+			if (result.isConfirmed) {
+				const { kundaliType, languageType } = result.value;
+				getKundaliPdfReport(kundaliType, languageType);
+			}
+		});
+	})
 
 	$("#KundaliDetails").hide();
 	$("#kpDetails").hide();
@@ -852,6 +1119,7 @@ gemHtml+=`
 	let isCharts = true;
 	let ispooja = true;
 	let isdasha = true;
+	let isAshtak = true;
 	$(".menuButtonHover").click(function () {
 		$(".menuButtonHover").removeClass("active")
 		$(this).addClass("active")
@@ -863,6 +1131,8 @@ gemHtml+=`
 			$("#ashtakvarga").hide();
 			$("#charts").hide();
 			$("#rudrakshSuggetionas").hide();
+			$("#dashaContainer").hide();
+
 
 		} else if ($(this).attr("data-sr") == 2) {
 			$("#KundaliDetails").show();
@@ -900,7 +1170,10 @@ gemHtml+=`
 			$("#charts").hide();
 			$("#rudrakshSuggetionas").hide();
 			$("#dashaContainer").hide();
-
+			if (isAshtak) {
+				getAshtakvarga(kundaliData)
+				isAshtak = false;
+			}
 
 		} else if ($(this).attr("data-sr") == 5) {
 			$("#kpDetails").hide();
@@ -931,7 +1204,7 @@ gemHtml+=`
 				ispooja = false;
 			}
 
-		}else if ($(this).attr("data-sr") == 7) {
+		} else if ($(this).attr("data-sr") == 7) {
 			$("#kpDetails").hide();
 			$("#KundaliDetails").hide();
 			$("#basicDetails").hide();
@@ -947,3 +1220,6 @@ gemHtml+=`
 		}
 	})
 </script>
+
+
+

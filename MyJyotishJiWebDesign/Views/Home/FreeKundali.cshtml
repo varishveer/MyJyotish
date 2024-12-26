@@ -80,23 +80,23 @@
 
                 <div class="form-group my-1">
                     <label for="name_boy">Name</label>
-                    <input type="text" name="name_boy" id="name_boy" class="form-control" placeholder="Enter name" required>
+                    <input type="text" name="name_boy" id="name_boy" class="form-control requiredInp" placeholder="Enter name" required>
                 </div>
 
                 <div class="form-group row my-1">
                     <div class="col-md-4">
                         <label for="day_boy">Day</label>
-                        <select name="day_boy" id="day_boy" class="form-control" required>
+                        <select name="day_boy" id="day_boy" class="form-control requiredInp" required>
                         </select>
                     </div>
                     <div class="col-md-4">
                         <label for="month_boy">Month</label>
-                        <select name="month_boy" id="month_boy" class="form-control" required>
+                        <select name="month_boy" id="month_boy" class="form-control requiredInp" required>
                         </select>
                     </div>
                     <div class="col-md-4">
                         <label for="year_boy">Year</label>
-                        <select name="year_boy" id="year_boy" class="form-control" required>
+                        <select name="year_boy" id="year_boy" class="form-control requiredInp" required>
                         </select>
                     </div>
                 </div>
@@ -104,17 +104,17 @@
                 <div class="form-group row my-1">
                     <div class="col-md-4">
                         <label for="hour_boy">Hour</label>
-                        <select name="hour_boy" id="hour_boy" class="form-control" required>
+                        <select name="hour_boy" id="hour_boy" class="form-control requiredInp" required>
                         </select>
                     </div>
                     <div class="col-md-4">
                         <label for="min_boy">Minute</label>
-                        <select name="min_boy" id="min_boy" class="form-control" required>
+                        <select name="min_boy" id="min_boy" class="form-control requiredInp" required>
                         </select>
                     </div>
                     <div class="col-md-4">
                         <label for="sec_boy">Second</label>
-                        <select name="sec_boy" id="sec_boy" class="form-control" required>
+                        <select name="sec_boy" id="sec_boy" class="form-control requiredInp" required>
                         </select>
                     </div>
                 </div>
@@ -123,7 +123,7 @@
                     <label for="place_boy">Birth Place</label>
 
 
-                    <input list="PlaceOfBirthList_boy" type="text" name="place_boy" id="place_boy" class="form-control" placeholder="Enter birth place" autocomplete="off" required>
+                    <input list="PlaceOfBirthList_boy" type="text" name="place_boy requiredInp" id="place_boy" class="form-control" placeholder="Enter birth place" autocomplete="off" required>
 
 
                     <div class="position-absolute bg-light d-none w-100 rounded-bottom" id="PlaceOfBirthList_boy">
@@ -299,11 +299,9 @@
         for (var i = 1; i <= 100; i++) {
             if (i <= 31) {
                 if (i < 10) {
-                    $('#day_girl').append(` <option value="0${i}">0${i}</option>`);
                     $('#day_boy').append(` <option value="0${i}">0${i}</option>`);
                 }
                 else {
-                    $('#day_girl').append(` <option value="${i}">${i}</option>`);
                     $('#day_boy').append(` <option value="${i}">${i}</option>`);
                 }
 
@@ -312,11 +310,9 @@
 
             if (i <= 12) {
                 if (i < 10) {
-                    $('#month_girl').append(` <option value="0${i}">0${i}</option>`);
                     $('#month_boy').append(` <option value="0${i}">0${i}</option>`);
                 }
                 else {
-                    $('#month_girl').append(` <option value="${i}">${i}</option>`);
                     $('#month_boy').append(` <option value="${i}">${i}</option>`);
 
                 }
@@ -434,8 +430,20 @@
     }
     LoadData();
 
-    async function kundaliMatchingApi() {
-
+    async function kundaliMatchingApi(language) {
+        let checkValidation=true
+        $(".requiredInp").each(function(i,d){
+            if (d.value == ""){
+                Swal.fire({
+                    title: "warning",
+                    text:"All Fields Are Required",
+                   icon:"warning"
+                   
+                });
+                checkValidation=false;
+            }
+        })
+        if (checkValidation) {
         Swal.fire({
             title: "Processing Your Request",
             allowOutsideClick: false,
@@ -481,7 +489,8 @@
             "lat": parseFloat(blatitude),
             "lon": parseFloat(blongitude),
             "tzone": parseFloat(btimezone),
-            "place": boyPlace
+            "place": boyPlace,
+            "language": language
             }
         deleteCookie("freeKundali")
         setCookie("freeKundali", JSON.stringify(DataContainer), 6).then((data)=>{
@@ -489,7 +498,7 @@
                 location.href="/home/freeKundaliReport"
             }
         })
-      
+        }
     }
     function setCookie(name, value, hours) {
         const now = new Date();
@@ -504,8 +513,6 @@
         document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     }
     async function GetGeoLocation(place, type) {
-
-
 
         const url = `https://nominatim.openstreetmap.org/search?q=${place}&format=json`;
 
@@ -579,7 +586,36 @@
 
 
     $('#matchHoroscope').on('click', function () {
-        kundaliMatchingApi();
+
+        Swal.fire({
+            title: 'Select Language',
+            html: `
+                    
+                            <label class='d-block text-start' for="languageType">Language:</label>
+                        <select id="languageType" class="form-control">
+                             <option value="en">English</option>
+                <option value="hi">Hindi</option>
+                    </select>
+                `,
+            showCancelButton: true,
+            confirmButtonText: 'Next',
+            cancelButtonText: 'Cancel',
+            preConfirm: () => {
+                const languageType = document.getElementById('languageType').value;
+
+                if (!languageType) {
+                    Swal.showValidationMessage('Language are required!');
+                    return false;
+                }
+
+                return { languageType };
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const {languageType } = result.value;
+                kundaliMatchingApi(languageType);
+            }
+        })
     })
 </script>
 
