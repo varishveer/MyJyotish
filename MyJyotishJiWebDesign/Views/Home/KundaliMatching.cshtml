@@ -1,747 +1,783 @@
 ﻿<style>
-    /* Example Custom CSS */
-    .card {
-        border-radius: 8px;
-        background-color: #f9f9f9;
-    }
+	/* Example Custom CSS */
+	.card {
+		border-radius: 8px;
+		background-color: #f9f9f9;
+	}
 
-    .card-title {
-        font-size: 1.25rem;
-        font-weight: bold;
-        color: #4A90E2;
-    }
+	.card-title {
+		font-size: 1.25rem;
+		font-weight: bold;
+		color: #4A90E2;
+	}
 
-    input[type="text"], select {
-        border-radius: 5px;
-    }
+	input[type="text"], select {
+		border-radius: 5px;
+	}
 
-    #PlaceOfBirthList_girl {
-        position: absolute;
-        height: 250px;
-        padding: 10px;
-        overflow: auto;
-    }
+	#PlaceOfBirthList_girl {
+		position: absolute;
+		height: 250px;
+		padding: 10px;
+		overflow: auto;
+	}
 
-    #PlaceOfBirthList_boy {
-        position: absolute;
-        height: 250px;
-        padding: 10px;
-        overflow: auto;
-    }
+	#PlaceOfBirthList_boy {
+		position: absolute;
+		height: 250px;
+		padding: 10px;
+		overflow: auto;
+	}
 
-    .pOBPtag:hover {
-        background-color: skyblue;
-        color: white;
-    }
+	.pOBPtag:hover {
+		background-color: skyblue;
+		color: white;
+	}
 
-    .btnDelete {
-        bottom: 5px;
-        right: 5px;
-    }
+	.btnDelete {
+		bottom: 5px;
+		right: 5px;
+	}
 
-    .mainKundaliContainer {
-        max-height: 375px;
-    }
+	.mainKundaliContainer {
+		max-height: 375px;
+	}
 
 
-    .kundaliDetailCard:hover {
-        background-color: lightyellow;
-        cursor: pointer;
-    }
+	.kundaliDetailCard:hover {
+		background-color: lightyellow;
+		cursor: pointer;
+	}
 </style>
 
 <div class="container py-4">
 
 
-    <h3 class="text-center mb-4"> Kundli Matching</h3>
-    <h5 class="text-center mb-4">Find your right one, through matchmaking</h5>
-    <hr />
-    <h5 class="text-center mb-4">Free Match Making - Kundli Milan & Gun Milan to Check Possibilities of Marriage</h5>
+	<h3 class="text-center mb-4"> Kundli Matching</h3>
+	<h5 class="text-center mb-4">Find your right one, through matchmaking</h5>
+	<hr />
+	<h5 class="text-center mb-4">Free Match Making - Kundli Milan & Gun Milan to Check Possibilities of Marriage</h5>
 
-    <p>
+	<p>
 
-        Free Match Making - Kundli Milan & Gun Milan to Check Possibilities of Marriage
-        Kundli milan or kundali matching is an important consideration to make when you decide to get married. Kundli matching, also called Gun matching or Horoscope matching is the first step towards marriage when the parents decide to match the kundlis of the girl and the boy to ensure the couple is compatible. The gun milan exercise has been a part of India's culture for 1000s of years now and continues to be so.
-    </p>
-    <p>
-        So, if you too are the lucky one who is planning to get married, and hence looking for a horoscope matching with someone you have started liking, then Astrotalk can help you. The Kundali milan online software on Astrotalk has been prepared by the top astrologers of Astrotalk. The software caters to the free Kundli milan needs of the individuals and gives you insights; such as the number of guns matching for the girl and the boy, what they are compatible in, what their future would be like if they get married, and so much more. The online gun milan software can save you time and the hassle of going out to look for an astrologer to get the gun milan exercise done. Also, in case you have any doubts about the free kundali milan offered by Astrotalk, you can always connect with the astrologers on board and get those doubts sorted for yourself.
-    </p>
-
-
-    <div class="row">
-        <!-- Boy's Details Section -->
-        <div class="col-md-4 mainKundaliContainer">
-            <div class="card p-4 shadow-sm">
-                <h5 class="card-title bg-warning rounded fw-normal w-100 p-2 text-black text-center mb-3">Boy's Details</h5>
-
-                <div class="form-group my-1">
-                    <label for="name_boy">Name</label>
-                    <input type="text" name="name_boy" id="name_boy" class="form-control" placeholder="Enter name" required>
-                </div>
-
-                <div class="form-group row my-1">
-                    <div class="col-md-4">
-                        <label for="day_boy">Day</label>
-                        <select name="day_boy" id="day_boy" class="form-control" required>
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <label for="month_boy">Month</label>
-                        <select name="month_boy" id="month_boy" class="form-control" required>
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <label for="year_boy">Year</label>
-                        <select name="year_boy" id="year_boy" class="form-control" required>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-group row my-1">
-                    <div class="col-md-4">
-                        <label for="hour_boy">Hour</label>
-                        <select name="hour_boy" id="hour_boy" class="form-control" required>
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <label for="min_boy">Minute</label>
-                        <select name="min_boy" id="min_boy" class="form-control" required>
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <label for="sec_boy">Second</label>
-                        <select name="sec_boy" id="sec_boy" class="form-control" required>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-group my-1 position-relative">
-                    <label for="place_boy">Birth Place</label>
+		Free Match Making - Kundli Milan & Gun Milan to Check Possibilities of Marriage
+		Kundli milan or kundali matching is an important consideration to make when you decide to get married. Kundli matching, also called Gun matching or Horoscope matching is the first step towards marriage when the parents decide to match the kundlis of the girl and the boy to ensure the couple is compatible. The gun milan exercise has been a part of India's culture for 1000s of years now and continues to be so.
+	</p>
+	<p>
+		So, if you too are the lucky one who is planning to get married, and hence looking for a horoscope matching with someone you have started liking, then Astrotalk can help you. The Kundali milan online software on Astrotalk has been prepared by the top astrologers of Astrotalk. The software caters to the free Kundli milan needs of the individuals and gives you insights; such as the number of guns matching for the girl and the boy, what they are compatible in, what their future would be like if they get married, and so much more. The online gun milan software can save you time and the hassle of going out to look for an astrologer to get the gun milan exercise done. Also, in case you have any doubts about the free kundali milan offered by Astrotalk, you can always connect with the astrologers on board and get those doubts sorted for yourself.
+	</p>
 
 
-                    <input list="PlaceOfBirthList_boy" type="text" name="place_boy" id="place_boy" class="form-control" placeholder="Enter birth place" autocomplete="off" required>
+	<div class="row">
+		<!-- Boy's Details Section -->
+		<div class="col-md-4 mainKundaliContainer">
+			<div class="card p-4 shadow-sm">
+				<h5 class="card-title bg-warning rounded fw-normal w-100 p-2 text-black text-center mb-3">Boy's Details</h5>
+
+				<div class="form-group my-1">
+					<label for="name_boy">Name</label>
+					<input type="text" name="name_boy" id="name_boy" class="form-control" placeholder="Enter name" required>
+				</div>
+
+				<div class="form-group row my-1">
+					<div class="col-md-4">
+						<label for="day_boy">Day</label>
+						<select name="day_boy" id="day_boy" class="form-control" required>
+						</select>
+					</div>
+					<div class="col-md-4">
+						<label for="month_boy">Month</label>
+						<select name="month_boy" id="month_boy" class="form-control" required>
+						</select>
+					</div>
+					<div class="col-md-4">
+						<label for="year_boy">Year</label>
+						<select name="year_boy" id="year_boy" class="form-control" required>
+						</select>
+					</div>
+				</div>
+
+				<div class="form-group row my-1">
+					<div class="col-md-4">
+						<label for="hour_boy">Hour</label>
+						<select name="hour_boy" id="hour_boy" class="form-control" required>
+						</select>
+					</div>
+					<div class="col-md-4">
+						<label for="min_boy">Minute</label>
+						<select name="min_boy" id="min_boy" class="form-control" required>
+						</select>
+					</div>
+					<div class="col-md-4">
+						<label for="sec_boy">Second</label>
+						<select name="sec_boy" id="sec_boy" class="form-control" required>
+						</select>
+					</div>
+				</div>
+
+				<div class="form-group my-1 position-relative">
+					<label for="place_boy">Birth Place</label>
 
 
-                    <div class="position-absolute bg-light d-none w-100 rounded-bottom" id="PlaceOfBirthList_boy">
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Girl's Details Section -->
-        <div class="col-md-4 mainKundaliContainer">
-            <div class="card p-4 shadow-sm">
-                <h5 class="card-title bg-warning rounded fw-normal w-100 p-2 text-black text-center mb-3">Girl's Details</h5>
-
-                <div class="form-group my-1">
-                    <label for="name_girl">Name</label>
-                    <input type="text" name="name_girl" id="name_girl" class="form-control" placeholder="Enter name" required>
-                </div>
-
-                <div class="form-group row my-1">
-                    <div class="col-md-4">
-                        <label for="day_girl">Day</label>
-                        <select name="day_girl" id="day_girl" class="form-control" required>
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <label for="month_girl">Month</label>
-                        <select name="month_girl" id="month_girl" class="form-control" required>
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <label for="year_girl">Year</label>
-                        <select name="year_girl" id="year_girl" class="form-control" required>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-group row my-1">
-                    <div class="col-md-4">
-                        <label for="hour_girl">Hour</label>
-                        <select name="hour_girl" id="hour_girl" class="form-control" required>
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <label for="min_girl">Minute</label>
-                        <select name="min_girl" id="min_girl" class="form-control" required>
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <label for="sec_girl">Second</label>
-                        <select name="sec_girl" id="sec_girl" class="form-control" required>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-group my-1 position-relative">
-                    <label for="place_girl">Birth Place</label>
-                    <input list="PlaceOfBirthList_girl" type="text" name="place_girl" id="place_girl" class="form-control  " placeholder="Enter birth place" autocomplete="off" required>
+					<input list="PlaceOfBirthList_boy" type="text" name="place_boy" id="place_boy" class="form-control" placeholder="Enter birth place" autocomplete="off" required>
 
 
-                    <div class="position-absolute bg-light d-none w-100 rounded-bottom" id="PlaceOfBirthList_girl">
-                    </div>
-                </div>
-            </div>
-        </div>
+					<div class="position-absolute bg-light d-none w-100 rounded-bottom" id="PlaceOfBirthList_boy">
+					</div>
+				</div>
+			</div>
+		</div>
 
-        <div class="col-md-4 mainKundaliContainer">
+		<!-- Girl's Details Section -->
+		<div class="col-md-4 mainKundaliContainer">
+			<div class="card p-4 shadow-sm">
+				<h5 class="card-title bg-warning rounded fw-normal w-100 p-2 text-black text-center mb-3">Girl's Details</h5>
+
+				<div class="form-group my-1">
+					<label for="name_girl">Name</label>
+					<input type="text" name="name_girl" id="name_girl" class="form-control" placeholder="Enter name" required>
+				</div>
+
+				<div class="form-group row my-1">
+					<div class="col-md-4">
+						<label for="day_girl">Day</label>
+						<select name="day_girl" id="day_girl" class="form-control" required>
+						</select>
+					</div>
+					<div class="col-md-4">
+						<label for="month_girl">Month</label>
+						<select name="month_girl" id="month_girl" class="form-control" required>
+						</select>
+					</div>
+					<div class="col-md-4">
+						<label for="year_girl">Year</label>
+						<select name="year_girl" id="year_girl" class="form-control" required>
+						</select>
+					</div>
+				</div>
+
+				<div class="form-group row my-1">
+					<div class="col-md-4">
+						<label for="hour_girl">Hour</label>
+						<select name="hour_girl" id="hour_girl" class="form-control" required>
+						</select>
+					</div>
+					<div class="col-md-4">
+						<label for="min_girl">Minute</label>
+						<select name="min_girl" id="min_girl" class="form-control" required>
+						</select>
+					</div>
+					<div class="col-md-4">
+						<label for="sec_girl">Second</label>
+						<select name="sec_girl" id="sec_girl" class="form-control" required>
+						</select>
+					</div>
+				</div>
+
+				<div class="form-group my-1 position-relative">
+					<label for="place_girl">Birth Place</label>
+					<input list="PlaceOfBirthList_girl" type="text" name="place_girl" id="place_girl" class="form-control  " placeholder="Enter birth place" autocomplete="off" required>
 
 
-            <div class="card h-100 w-100 p-2 pt-4 shadow-sm">
+					<div class="position-absolute bg-light d-none w-100 rounded-bottom" id="PlaceOfBirthList_girl">
+					</div>
+				</div>
+			</div>
+		</div>
 
-                <h5 class="card-title bg-warning rounded fw-normal w-100 p-2 text-black text-center mb-3">Saved Matches</h5>
-                <div class="overflow-auto">
-
-                    <!-- Search Box -->
-                    <div>
-                        <form novalidate action="search_box">
-                            <div class="input-group mb-3">
-                                <label class="input-group-text" for="SearchKundaliRecord"><i class="fa fa-search "></i></label>
-
-                                <input type="search" name="search" id="SearchKundaliRecord" aria-label="Search" class="form-control input-group-text" placeholder="Search match by name">
-
-                            </div>
-                        </form>
-                    </div>
-
-                    <h6 class="fw-normal">Recently Opened</h6>
+		<div class="col-md-4 mainKundaliContainer">
 
 
-                    <div>
-                        <div>
-                            <div id="previousData" class="overflow-auto"></div>
-                        </div>
-                    </div>
+			<div class="card h-100 w-100 p-2 pt-4 shadow-sm">
 
-                </div>
-            </div>
-        </div>
-    </div>
+				<h5 class="card-title bg-warning rounded fw-normal w-100 p-2 text-black text-center mb-3">Saved Matches</h5>
+				<div class="overflow-auto">
 
-    <div class="text-center mt-4">
-        <button type="button" id="matchHoroscope" class="btn btn-primary bg-warning text-black btn-lg">Match Horoscope</button>
-    </div>
+					<!-- Search Box -->
+					<div>
+						<form novalidate action="search_box">
+							<div class="input-group mb-3">
+								<label class="input-group-text" for="SearchKundaliRecord"><i class="fa fa-search "></i></label>
+
+								<input type="search" name="search" id="SearchKundaliRecord" aria-label="Search" class="form-control input-group-text" placeholder="Search match by name">
+
+							</div>
+						</form>
+					</div>
+
+					<h6 class="fw-normal">Recently Opened</h6>
+
+
+					<div>
+						<div>
+							<div id="previousData" class="overflow-auto"></div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="text-center mt-4">
+		<button type="button" id="matchHoroscope" class="btn btn-primary bg-warning text-black btn-lg">Match Horoscope</button>
+	</div>
 </div>
 
 
 <script>
-    var SavedKundaliRecord = [];
+	var SavedKundaliRecord = [];
 
-
-    async function loadPlaceOfBirth_girl(city) {
-        if (!city) return;
-
-        try {
-            const response = await fetch(BaseUrl + `Api/Account/PlaceOfBirthList?City=${encodeURIComponent(city)}`);
-            const data = await response.json();
-            const $placeOfBirthDropdown = $('#PlaceOfBirthList_girl');
-
-            $('#PlaceOfBirthList_girl').removeClass('d-none');
-            $placeOfBirthDropdown.empty();
-            data.data.forEach(placeOfBirth => {
-                $placeOfBirthDropdown.append(`<p class="pOBPtag" onClick="setPlace_girl('${placeOfBirth.record}')"> ${placeOfBirth.record}</p>`);
-            });
-        } catch (error) {
-            console.error('Error fetching PlaceOfBirth:', error);
-        }
-    }
-
-    function setPlace_girl(svalue) {
-
-        $('#PlaceOfBirthList_girl').addClass('d-none');
-        $('#place_girl').val(svalue);
-    }
-
-    $('#place_girl').on('keyup', function () {
-
-        $('#PlaceOfBirthList_girl').show();
-        const city = $(this).val();
-        loadPlaceOfBirth_girl(city);
-
-        // Replace with your Google Maps API Key
-
-
-
-    });
-
-    $("#place_girl").on("blur", function () {
-        setTimeout(() => {
-            $('#PlaceOfBirthList_girl').hide();
-        }, 1000)
-
-    })
-
-    async function loadPlaceOfBirth_boy(city) {
-        if (!city) return;
-
-        try {
-            const response = await fetch(BaseUrl + `Api/Account/PlaceOfBirthList?City=${encodeURIComponent(city)}`);
-            const data = await response.json();
-            const $placeOfBirthDropdown = $('#PlaceOfBirthList_boy');
-
-            $('#PlaceOfBirthList_boy').removeClass('d-none');
-            $placeOfBirthDropdown.empty();
-            data.data.forEach(placeOfBirth => {
-                $placeOfBirthDropdown.append(`<p class="pOBPtag" onClick="setPlace_boy('${placeOfBirth.record}')"> ${placeOfBirth.record}</p>`);
-            });
-        } catch (error) {
-            console.error('Error fetching PlaceOfBirth:', error);
-        }
-    }
-
-    function setPlace_boy(svalue) {
-
-        $('#PlaceOfBirthList_boy').addClass('d-none');
-        $('#place_boy').val(svalue);
-    }
-    $('#place_boy').on('keyup', function () {
-
-        $('#PlaceOfBirthList_boy').show();
-        const city = $(this).val();
-        loadPlaceOfBirth_boy(city);
-        // Replace with your Google Maps API Key
-
-
-    });
-
-    $("#place_boy").on("blur", function () {
-        setTimeout(() => {
-
-            $('#PlaceOfBirthList_boy').hide();
-        }, 1000)
-
-    })
-
-    function kundaliDataFiller(Name, DateOfBirth, TimeOfBirth, PlaceOfBirth, Gender) {
-        let [year, month, day] = DateOfBirth.split("-");
-        let [hour, minute, second] = TimeOfBirth.split(":");
-
-        if (Gender == "Male") {
-            $('#name_boy').val(Name);
-            $('#place_boy').val(PlaceOfBirth);
-            $('#day_boy').val(day);
-            $('#month_boy').val(month);
-            $('#year_boy').val(year);
-            $('#hour_boy').val(hour);
-            $('#min_boy').val(minute);
-            $('#sec_boy').val(second);
-        }
-        if (Gender == "Female") {
-            $('#name_girl').val(Name);
-            $('#place_girl').val(PlaceOfBirth);
-            $('#day_girl').val(day);
-            $('#month_girl').val(month);
-            $('#year_girl').val(year);
-            $('#hour_girl').val(hour);
-            $('#min_girl').val(minute);
-            $('#sec_girl').val(second);
-        }
-
-
-    }
-
-    function deleteKundaliRecord(Id) {
-
-        Swal.fire({
-            title: 'Are you sure?',
-            text: 'Do you want to delete this item?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, delete it!',
-            cancelButtonText: 'No, cancel!',
-        }).then((result) => {
-            if (result.isConfirmed) {
-                var UserId = localStorage.getItem('userId');
-                var Token = localStorage.getItem('Token');
-                $.ajax({
-                    url: BaseUrl + `Api/User/DeleteKundaliRecord?Id=${Id}`,
-                    type: 'DELETE',
-                    headers: {
-                        'Authorization': `Bearer ${Token}`
-                    },
-
-                    success: function (response) {
-                        if (response.status == 200) {
-                            Swal.fire({
-                                title: 'Successful',
-                                text: 'Record Deleted Successfully',
-                                icon: 'success',
-                                didClose: () => {
-                                    LoadData();
-                                }
-                            });
-
-                        }
-                        else {
-                            Swal.fire({
-                                title: 'Error',
-                                text: 'Something went wrong',
-                                icon: 'error'
-                            });
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        Swal.fire({
-                            title: 'Error',
-                            text: 'Something went wrong',
-                            icon: 'error'
-                        });
-                    }
-
-                });
-
-
-
-            } else {
-
-                return
-            }
-        });
-
-    }
-
-    function LoadData() {
-
-        let currentDate = new Date();
-        let year = currentDate.getFullYear();
-        for (var i = 1; i <= 100; i++) {
-            if (i <= 31) {
-                if (i < 10) {
-                    $('#day_girl').append(` <option value="0${i}">0${i}</option>`);
-                    $('#day_boy').append(` <option value="0${i}">0${i}</option>`);
-                }
-                else {
-                    $('#day_girl').append(` <option value="${i}">${i}</option>`);
-                    $('#day_boy').append(` <option value="${i}">${i}</option>`);
-                }
-
-            }
-
-
-            if (i <= 12) {
-                if (i < 10) {
-                    $('#month_girl').append(` <option value="0${i}">0${i}</option>`);
-                    $('#month_boy').append(` <option value="0${i}">0${i}</option>`);
-                }
-                else {
-                    $('#month_girl').append(` <option value="${i}">${i}</option>`);
-                    $('#month_boy').append(` <option value="${i}">${i}</option>`);
-
-                }
-
-
-
-            }
-
-            $('#year_girl').append(` <option value="${year}">${year}</option>`);
-            $('#year_boy').append(` <option value="${year}">${year}</option>`);
-            year = year - 1;
-
-            if (i <= 60) {
-
-                if (i < 11) {
-                    $('#min_girl').append(` <option value="0${i - 1}">0${i - 1}</option>`);
-                    $('#min_boy').append(` <option value="0${i - 1}">0${i - 1}</option>`);
-                    $('#sec_girl').append(` <option value="0${i - 1}">0${i - 1}</option>`);
-                    $('#sec_boy').append(` <option value="0${i - 1}">0${i - 1}</option>`);
-                }
-                else {
-                    $('#min_girl').append(` <option value="${i - 1}">${i - 1}</option>`);
-                    $('#min_boy').append(` <option value="${i - 1}">${i - 1}</option>`);
-                    $('#sec_girl').append(` <option value="${i - 1}">${i - 1}</option>`);
-                    $('#sec_boy').append(` <option value="${i - 1}">${i - 1}</option>`);
-                }
-
-            }
-
-            if (i <= 24) {
-                if (i < 10) {
-                    $('#hour_girl').append(` <option value="0${i}">0${i}</option>`);
-                    $('#hour_boy').append(` <option value="0${i}">0${i}</option>`);
-                }
-                else {
-                    $('#hour_girl').append(` <option value="${i}">${i}</option>`);
-                    $('#hour_boy').append(` <option value="${i}">${i}</option>`);
-                }
-
-            }
-
-        }
-
-        var UserId = localStorage.getItem('userId');
-        var Token = localStorage.getItem('Token');
-
-        if (UserId == null || Token == null) {
-            location.href = "/Home/Login";
-        }
-        $.ajax({
-            url: BaseUrl + `Api/User/GetAllKundaliMatchingRecord?Id=${UserId}`,
-            type: 'GET',
-            headers: {
-                'Authorization': `Bearer ${Token}`
-            },
-            success: function (response) {
-                if (response.status == 200) {
-                    if (response.data.length > 0) {
-
-                        $('#previousData').empty();
-                        var Data = response.data;
-                        SavedKundaliRecord = Data;
-
-
-                    }
-                   
-                }
-            }
-        }).then(() => {
-            $('#SearchKundaliRecord').on('keyup', function () {
-
-                var filterData = [];
-                var SearchValue = $('#SearchKundaliRecord').val();
-                if (SearchValue == "" || SearchValue == undefined) {
-                    filterData = SavedKundaliRecord;
-                }
-                else {
-                    filterData = SavedKundaliRecord.filter(e => e.name.toLowerCase().includes(SearchValue.toLowerCase()));
-                }
-                $('#previousData').empty();
-                var container;
-                if (filterData.length > 0) {
-                    
-                    filterData.forEach(function (d) {
-
-                        let [year, month, day] = d.dateOfBirth.split("-");
-                        var DateOfBirth = `${day}-${month}-${year}`;
-                        container = ` <div class="card my-3 position-relative kundaliDetailCard" onClick="kundaliDataFiller('${d.name}', '${d.dateOfBirth}', '${d.timeOfBirth}', '${d.placeOfBirth}', '${d.gender}')"
-                            >
-                                                                      <div class="d-flex align-items-start ">
-                                                                      <div class="d-flex align-items-start col-sm-2 p-1">
-                                                                          <div class="profile_icon_name firstColor rounded-circle bg-primary text-white d-flex justify-content-center align-items-center" style="width: 35px; height: 35px;">${d.name.slice(0, 1).toUpperCase()}
-                                                                            </div>
-                                                                      </div>
-
-
-                                                                            <div class="ml-3 col-sm-8">
-                                                                          <div class="fs-6">${d.name} <span class="font-weight-light">, ${d.gender}</span></div>
-                                                                              <div class="text-muted">${DateOfBirth} ${d.timeOfBirth.slice(0, 5)}</div>
-                                                                          <div class="text-muted">${d.placeOfBirth}</div>
-                                                                        </div>
-                                                                            <div class="col-sm-2">
-                                                                                 <i class="fa fa-trash position-absolute btnDelete text-danger" onClick="deleteKundaliRecord('${d.id}')"></i>
-                                                                        </div>
-
-                                                                      </div>
-                                                                    </div>
-                                                    `;
-                        $('#previousData').append(container);
-
-                        container = "";
-                    });
-                }
-                else{
-                    $('#previousData').html('No sufficient data available!');
-                }
-                
-
-            });
-            $('#SearchKundaliRecord').trigger("keyup")
-        })
-    }
-
-    LoadData();
-
-
-
-    async function kundaliMatchingApi() {
-
-        Swal.fire({
-            title: "Processing Your Request",
-            allowOutsideClick: false,
-            didOpen: () => {
-                Swal.showLoading();
-            }
-        });
-        function formatDate(year, month, day) {
-            return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-        }
-        debugger
-
-        var boyDoB = formatDate($('#year_boy').val(), $('#month_boy').val(), $('#day_boy').val());
-        var girlDoB = formatDate($('#year_girl').val(), $('#month_girl').val(), $('#day_girl').val());
-
-        function formatTime(hour, min, sec) {
-            return `${hour.padStart(2, '0')}:${min.padStart(2, '0')}:${sec.padStart(2, '0')}`;
-        }
-
-        var boyToB = formatTime($('#hour_boy').val(), $('#min_boy').val(), $('#sec_boy').val());
-        var girlToB = formatTime($('#hour_girl').val(), $('#min_girl').val(), $('#sec_girl').val());
-
-
-        var boyName = $('#name_boy').val();
-
-
-
-        var boyPlace = $('#place_boy').val();
-
-        var girlName = $('#name_girl').val();
-
-
-
-        var girlPlace = $('#place_girl').val();
-
-
-        await GetGeoLocation(girlPlace, 'girl');
-        await GetGeoLocation(boyPlace, 'boy');
-
-        var glatitude = $('#place_girl').attr('data-glatitude');
-        var blatitude = $('#place_boy').attr('data-blatitude');
-        var glongitude = $('#place_girl').attr('data-glongitude');
-        var blongitude = $('#place_boy').attr('data-blongitude');
-
-
-
-        var gtimezone = await getTimezone(girlPlace);
-        var btimezone = await getTimezone(boyPlace);
-        var UserId = localStorage.getItem('userId');
-        var DataContainer = [
-            {
-                "UserId": UserId,
-                "Name": girlName,
-                "DateOfBirth": girlDoB,
-                "TimeOfBirth": girlToB,
-                "PlaceOfBirth": girlPlace,
-                "latitude": parseFloat(glatitude),
-                "longitude": parseFloat(glongitude),
-                "timezone": parseFloat(gtimezone),
-                "Gender": "Female"
-            },
-            {
-                "UserId": UserId,
-                "Name": boyName,
-                "DateOfBirth": boyDoB,
-                "TimeOfBirth": boyToB,
-                "PlaceOfBirth": boyPlace,
-                "latitude": parseFloat(blatitude),
-                "longitude": parseFloat(blongitude),
-                "timezone": parseFloat(btimezone),
-                "Gender": "Male"
-            }
-        ]
-
-
-
-
-
-        $.ajax({
-            url: BaseUrl + `Api/User/AddKundaliMatchingRecord`,
-            type: 'POST',
-
-            headers: {
-
-                'Authorization': `Bearer ${localStorage.getItem("Token")}`,
-            },
-            contentType: 'application/json',
-            data: JSON.stringify(DataContainer),
-            success: async function (response) {
-                if (response.status === 200) {
-                    await LoadData()
-                    location.href = '/Home/KundaliMatchingReport';
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error("Error: " + error);
-                Swal.fire({
-                    title: 'error',
-                    text: 'Something went wrong',
-                    icon: 'error'
-                })
-            }
-        });
-
-
-
-
-    }
-
-
-    async function GetGeoLocation(place, type) {
-   
-
-
-        const url = `https://nominatim.openstreetmap.org/search?q=${place}&format=json`;
-
-        await fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                if (data != null) {
-                    const latitude = data[0].lat;
-                    const longitude = data[0].lon;
-
-                    if (type == 'boy') {
-                        $('#place_boy').attr('data-blatitude', latitude);
-                        $('#place_boy').attr('data-blongitude', longitude);
-                    }
-                    if (type == 'girl') {
-                        $('#place_girl').attr('data-glatitude', latitude);
-                        $('#place_girl').attr('data-glongitude', longitude);
-                    }
-
-
-                } else {
-                    Swal.fire({
-                        title: 'error',
-                        text: 'Something went wrong',
-                        icon: 'error'
-                    })
-                }
-            })
-            .catch(error => {
-                console.error("Error:", error);
-                Swal.fire({
-                    title: 'error',
-                    text: 'Something went wrong',
-                    icon: 'error'
-                })
-            });
-    }
-
-    async function getTimezone(place) {
-
-
-        let parts = place.split(", ");
-        let country = parts[parts.length - 1];
-
-        var url = BaseUrl + `api/User/GetTimezone?Country=${country}`;
-        var timezone
-
-        await fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                if (data.status == 200) {
-                    timezone = data.data;
-                } else {
-                    Swal.fire({
-                        title: 'error',
-                        text: 'Something went wrong while fetching data',
-                        icon: 'error'
-                    })
-                }
-            })
-            .catch(error => {
-                console.error("Error:", error);
-                Swal.fire({
-                    title: 'error',
-                    text: 'Something went wrong',
-                    icon: 'error'
-                })
-            });
-        return timezone
-    }
-
-
-    $('#matchHoroscope').on('click', function () {
-        kundaliMatchingApi();
-    })
+	function setCookie(name, value, hours) {
+		const now = new Date();
+		now.setTime(now.getTime() + hours * 60 * 60 * 1000);
+		const expires = "expires=" + now.toUTCString();
+		document.cookie = name + "=" +value + ";" + expires + ";path=/";
+		return new Promise((res, rej) => {
+			res(true)
+		})
+	}
+	function deleteCookie(name) {
+		document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+	}
+	
+
+	async function loadPlaceOfBirth_girl(city) {
+		if (!city) return;
+
+		try {
+			const response = await fetch(BaseUrl + `Api/Account/PlaceOfBirthList?City=${encodeURIComponent(city)}`);
+			const data = await response.json();
+			const $placeOfBirthDropdown = $('#PlaceOfBirthList_girl');
+
+			$('#PlaceOfBirthList_girl').removeClass('d-none');
+			$placeOfBirthDropdown.empty();
+			data.data.forEach(placeOfBirth => {
+				$placeOfBirthDropdown.append(`<p class="pOBPtag" onClick="setPlace_girl('${placeOfBirth.record}')"> ${placeOfBirth.record}</p>`);
+			});
+		} catch (error) {
+			console.error('Error fetching PlaceOfBirth:', error);
+		}
+	}
+
+	function setPlace_girl(svalue) {
+
+		$('#PlaceOfBirthList_girl').addClass('d-none');
+		$('#place_girl').val(svalue);
+	}
+
+	$('#place_girl').on('keyup', function () {
+
+		$('#PlaceOfBirthList_girl').show();
+		const city = $(this).val();
+		loadPlaceOfBirth_girl(city);
+
+		// Replace with your Google Maps API Key
+
+
+
+	});
+
+	$("#place_girl").on("blur", function () {
+		setTimeout(() => {
+			$('#PlaceOfBirthList_girl').hide();
+		}, 1000)
+
+	})
+
+	async function loadPlaceOfBirth_boy(city) {
+		if (!city) return;
+
+		try {
+			const response = await fetch(BaseUrl + `Api/Account/PlaceOfBirthList?City=${encodeURIComponent(city)}`);
+			const data = await response.json();
+			const $placeOfBirthDropdown = $('#PlaceOfBirthList_boy');
+
+			$('#PlaceOfBirthList_boy').removeClass('d-none');
+			$placeOfBirthDropdown.empty();
+			data.data.forEach(placeOfBirth => {
+				$placeOfBirthDropdown.append(`<p class="pOBPtag" onClick="setPlace_boy('${placeOfBirth.record}')"> ${placeOfBirth.record}</p>`);
+			});
+		} catch (error) {
+			console.error('Error fetching PlaceOfBirth:', error);
+		}
+	}
+
+	function setPlace_boy(svalue) {
+
+		$('#PlaceOfBirthList_boy').addClass('d-none');
+		$('#place_boy').val(svalue);
+	}
+	$('#place_boy').on('keyup', function () {
+
+		$('#PlaceOfBirthList_boy').show();
+		const city = $(this).val();
+		loadPlaceOfBirth_boy(city);
+		// Replace with your Google Maps API Key
+
+
+	});
+
+	$("#place_boy").on("blur", function () {
+		setTimeout(() => {
+
+			$('#PlaceOfBirthList_boy').hide();
+		}, 1000)
+
+	})
+
+	function kundaliDataFiller(Name, DateOfBirth, TimeOfBirth, PlaceOfBirth, Gender) {
+		let [year, month, day] = DateOfBirth.split("-");
+		let [hour, minute, second] = TimeOfBirth.split(":");
+
+		if (Gender == "Male") {
+			$('#name_boy').val(Name);
+			$('#place_boy').val(PlaceOfBirth);
+			$('#day_boy').val(day);
+			$('#month_boy').val(month);
+			$('#year_boy').val(year);
+			$('#hour_boy').val(hour);
+			$('#min_boy').val(minute);
+			$('#sec_boy').val(second);
+		}
+		if (Gender == "Female") {
+			$('#name_girl').val(Name);
+			$('#place_girl').val(PlaceOfBirth);
+			$('#day_girl').val(day);
+			$('#month_girl').val(month);
+			$('#year_girl').val(year);
+			$('#hour_girl').val(hour);
+			$('#min_girl').val(minute);
+			$('#sec_girl').val(second);
+		}
+
+
+	}
+
+	function deleteKundaliRecord(Id) {
+
+		Swal.fire({
+			title: 'Are you sure?',
+			text: 'Do you want to delete this item?',
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonText: 'Yes, delete it!',
+			cancelButtonText: 'No, cancel!',
+		}).then((result) => {
+			if (result.isConfirmed) {
+				var UserId = localStorage.getItem('userId');
+				var Token = localStorage.getItem('Token');
+				$.ajax({
+					url: BaseUrl + `Api/User/DeleteKundaliRecord?Id=${Id}`,
+					type: 'DELETE',
+					headers: {
+						'Authorization': `Bearer ${Token}`
+					},
+
+					success: function (response) {
+						if (response.status == 200) {
+							Swal.fire({
+								title: 'Successful',
+								text: 'Record Deleted Successfully',
+								icon: 'success',
+								didClose: () => {
+									LoadData();
+								}
+							});
+
+						}
+						else {
+							Swal.fire({
+								title: 'Error',
+								text: 'Something went wrong',
+								icon: 'error'
+							});
+						}
+					},
+					error: function (xhr, status, error) {
+						Swal.fire({
+							title: 'Error',
+							text: 'Something went wrong',
+							icon: 'error'
+						});
+					}
+
+				});
+
+
+
+			} else {
+
+				return
+			}
+		});
+
+	}
+
+	function LoadData() {
+
+		let currentDate = new Date();
+		let year = currentDate.getFullYear();
+		for (var i = 1; i <= 100; i++) {
+			if (i <= 31) {
+				if (i < 10) {
+					$('#day_girl').append(` <option value="0${i}">0${i}</option>`);
+					$('#day_boy').append(` <option value="0${i}">0${i}</option>`);
+				}
+				else {
+					$('#day_girl').append(` <option value="${i}">${i}</option>`);
+					$('#day_boy').append(` <option value="${i}">${i}</option>`);
+				}
+
+			}
+
+
+			if (i <= 12) {
+				if (i < 10) {
+					$('#month_girl').append(` <option value="0${i}">0${i}</option>`);
+					$('#month_boy').append(` <option value="0${i}">0${i}</option>`);
+				}
+				else {
+					$('#month_girl').append(` <option value="${i}">${i}</option>`);
+					$('#month_boy').append(` <option value="${i}">${i}</option>`);
+
+				}
+
+
+
+			}
+
+			$('#year_girl').append(` <option value="${year}">${year}</option>`);
+			$('#year_boy').append(` <option value="${year}">${year}</option>`);
+			year = year - 1;
+
+			if (i <= 60) {
+
+				if (i < 11) {
+					$('#min_girl').append(` <option value="0${i - 1}">0${i - 1}</option>`);
+					$('#min_boy').append(` <option value="0${i - 1}">0${i - 1}</option>`);
+					$('#sec_girl').append(` <option value="0${i - 1}">0${i - 1}</option>`);
+					$('#sec_boy').append(` <option value="0${i - 1}">0${i - 1}</option>`);
+				}
+				else {
+					$('#min_girl').append(` <option value="${i - 1}">${i - 1}</option>`);
+					$('#min_boy').append(` <option value="${i - 1}">${i - 1}</option>`);
+					$('#sec_girl').append(` <option value="${i - 1}">${i - 1}</option>`);
+					$('#sec_boy').append(` <option value="${i - 1}">${i - 1}</option>`);
+				}
+
+			}
+
+			if (i <= 24) {
+				if (i < 10) {
+					$('#hour_girl').append(` <option value="0${i}">0${i}</option>`);
+					$('#hour_boy').append(` <option value="0${i}">0${i}</option>`);
+				}
+				else {
+					$('#hour_girl').append(` <option value="${i}">${i}</option>`);
+					$('#hour_boy').append(` <option value="${i}">${i}</option>`);
+				}
+
+			}
+
+		}
+
+		var UserId = localStorage.getItem('userId');
+		var Token = localStorage.getItem('Token');
+
+		if (UserId == null || Token == null) {
+			location.href = "/Home/Login";
+		}
+		$.ajax({
+			url: BaseUrl + `Api/User/GetAllKundaliMatchingRecord?Id=${UserId}`,
+			type: 'GET',
+			headers: {
+				'Authorization': `Bearer ${Token}`
+			},
+			success: function (response) {
+				if (response.status == 200) {
+					if (response.data.length > 0) {
+
+						$('#previousData').empty();
+						var Data = response.data;
+						SavedKundaliRecord = Data;
+
+
+					}
+
+				}
+			}
+		}).then(() => {
+			$('#SearchKundaliRecord').on('keyup', function () {
+
+				var filterData = [];
+				var SearchValue = $('#SearchKundaliRecord').val();
+				if (SearchValue == "" || SearchValue == undefined) {
+					filterData = SavedKundaliRecord;
+				}
+				else {
+					filterData = SavedKundaliRecord.filter(e => e.name.toLowerCase().includes(SearchValue.toLowerCase()));
+				}
+				$('#previousData').empty();
+				var container;
+				if (filterData.length > 0) {
+
+					filterData.forEach(function (d) {
+
+						let [year, month, day] = d.dateOfBirth.split("-");
+						var DateOfBirth = `${day}-${month}-${year}`;
+						container = ` <div class="card my-3 position-relative kundaliDetailCard" onClick="kundaliDataFiller('${d.name}', '${d.dateOfBirth}', '${d.timeOfBirth}', '${d.placeOfBirth}', '${d.gender}')"
+									>
+																			  <div class="d-flex align-items-start ">
+																			  <div class="d-flex align-items-start col-sm-2 p-1">
+																				  <div class="profile_icon_name firstColor rounded-circle bg-primary text-white d-flex justify-content-center align-items-center" style="width: 35px; height: 35px;">${d.name.slice(0, 1).toUpperCase()}
+																					</div>
+																			  </div>
+
+
+																					<div class="ml-3 col-sm-8">
+																				  <div class="fs-6">${d.name} <span class="font-weight-light">, ${d.gender}</span></div>
+																					  <div class="text-muted">${DateOfBirth} ${d.timeOfBirth.slice(0, 5)}</div>
+																				  <div class="text-muted">${d.placeOfBirth}</div>
+																				</div>
+																					<div class="col-sm-2">
+																						 <i class="fa fa-trash position-absolute btnDelete text-danger" onClick="deleteKundaliRecord('${d.id}')"></i>
+																				</div>
+
+																			  </div>
+																			</div>
+															`;
+						$('#previousData').append(container);
+
+						container = "";
+					});
+				}
+				else {
+					$('#previousData').html('No sufficient data available!');
+				}
+
+
+			});
+			$('#SearchKundaliRecord').trigger("keyup")
+		})
+	}
+
+	LoadData();
+
+
+
+	async function kundaliMatchingApi(language) {
+
+		Swal.fire({
+			title: "Processing Your Request",
+			allowOutsideClick: false,
+			didOpen: () => {
+				Swal.showLoading();
+			}
+		});
+		function formatDate(year, month, day) {
+			return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+		}
+		debugger
+
+		var boyDoB = formatDate($('#year_boy').val(), $('#month_boy').val(), $('#day_boy').val());
+		var girlDoB = formatDate($('#year_girl').val(), $('#month_girl').val(), $('#day_girl').val());
+
+		function formatTime(hour, min, sec) {
+			return `${hour.padStart(2, '0')}:${min.padStart(2, '0')}:${sec.padStart(2, '0')}`;
+		}
+
+		var boyToB = formatTime($('#hour_boy').val(), $('#min_boy').val(), $('#sec_boy').val());
+		var girlToB = formatTime($('#hour_girl').val(), $('#min_girl').val(), $('#sec_girl').val());
+
+
+		var boyName = $('#name_boy').val();
+
+
+
+		var boyPlace = $('#place_boy').val();
+
+		var girlName = $('#name_girl').val();
+
+
+
+		var girlPlace = $('#place_girl').val();
+
+
+		await GetGeoLocation(girlPlace, 'girl');
+		await GetGeoLocation(boyPlace, 'boy');
+
+		var glatitude = $('#place_girl').attr('data-glatitude');
+		var blatitude = $('#place_boy').attr('data-blatitude');
+		var glongitude = $('#place_girl').attr('data-glongitude');
+		var blongitude = $('#place_boy').attr('data-blongitude');
+
+
+
+		var gtimezone = await getTimezone(girlPlace);
+		var btimezone = await getTimezone(boyPlace);
+		var UserId = localStorage.getItem('userId');
+		var DataContainer = [
+			{
+				"UserId": UserId,
+				"Name": girlName,
+				"DateOfBirth": girlDoB,
+				"TimeOfBirth": girlToB,
+				"PlaceOfBirth": girlPlace,
+				"latitude": parseFloat(glatitude),
+				"longitude": parseFloat(glongitude),
+				"timezone": parseFloat(gtimezone),
+				"Gender": "Female"
+			},
+			{
+				"UserId": UserId,
+				"Name": boyName,
+				"DateOfBirth": boyDoB,
+				"TimeOfBirth": boyToB,
+				"PlaceOfBirth": boyPlace,
+				"latitude": parseFloat(blatitude),
+				"longitude": parseFloat(blongitude),
+				"timezone": parseFloat(btimezone),
+				"Gender": "Male"
+			}
+		]
+
+		$.ajax({
+			url: BaseUrl + `Api/User/AddKundaliMatchingRecord`,
+			type: 'POST',
+
+			headers: {
+
+				'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+			},
+			contentType: 'application/json',
+			data: JSON.stringify(DataContainer),
+			success: async function (response) {
+				if (response.status === 200) {
+					await LoadData()
+					deleteCookie("languageKundali")
+					setCookie("languageKundali", encodeURIComponent(language), 6).then((data) => {
+						if (data) {
+							location.href = '/Home/KundaliMatchingReport';
+						}
+					})
+				}
+			},
+			error: function (xhr, status, error) {
+				console.error("Error: " + error);
+				Swal.fire({
+					title: 'error',
+					text: 'Something went wrong',
+					icon: 'error'
+				})
+			}
+		});
+
+	}
+
+
+	async function GetGeoLocation(place, type) {
+
+		const url = `https://nominatim.openstreetmap.org/search?q=${place}&format=json`;
+
+		await fetch(url)
+			.then(response => response.json())
+			.then(data => {
+				if (data != null) {
+					const latitude = data[0].lat;
+					const longitude = data[0].lon;
+
+					if (type == 'boy') {
+						$('#place_boy').attr('data-blatitude', latitude);
+						$('#place_boy').attr('data-blongitude', longitude);
+					}
+					if (type == 'girl') {
+						$('#place_girl').attr('data-glatitude', latitude);
+						$('#place_girl').attr('data-glongitude', longitude);
+					}
+
+
+				} else {
+					Swal.fire({
+						title: 'error',
+						text: 'Something went wrong',
+						icon: 'error'
+					})
+				}
+			})
+			.catch(error => {
+				console.error("Error:", error);
+				Swal.fire({
+					title: 'error',
+					text: 'Something went wrong',
+					icon: 'error'
+				})
+			});
+	}
+
+	async function getTimezone(place) {
+
+		let parts = place.split(", ");
+		let country = parts[parts.length - 1];
+
+		var url = BaseUrl + `api/User/GetTimezone?Country=${country}`;
+		var timezone
+
+		await fetch(url)
+			.then(response => response.json())
+			.then(data => {
+				if (data.status == 200) {
+					timezone = data.data;
+				} else {
+					Swal.fire({
+						title: 'error',
+						text: 'Something went wrong while fetching data',
+						icon: 'error'
+					})
+				}
+			})
+			.catch(error => {
+				console.error("Error:", error);
+				Swal.fire({
+					title: 'error',
+					text: 'Something went wrong',
+					icon: 'error'
+				})
+			});
+		return timezone
+	}
+
+
+	$('#matchHoroscope').on('click', function () {
+		Swal.fire({
+			title: 'Select Language',
+			html: `
+
+										<label class='d-block text-start' for="languageType">Language:</label>
+									<select id="languageType" class="form-control">
+										 <option value="en">English</option>
+							<option value="hi">Hindi</option>
+								</select>
+							`,
+			showCancelButton: true,
+			confirmButtonText: 'Next',
+			cancelButtonText: 'Cancel',
+			preConfirm: () => {
+				const languageType = document.getElementById('languageType').value;
+
+				if (!languageType) {
+					Swal.showValidationMessage('Language are required!');
+					return false;
+				}
+
+				return { languageType };
+			}
+		}).then((result) => {
+			if (result.isConfirmed) {
+				const { languageType } = result.value;
+				kundaliMatchingApi(languageType);
+			}
+		})
+	})
 </script>
 

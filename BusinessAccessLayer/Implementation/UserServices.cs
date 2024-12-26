@@ -27,10 +27,6 @@ namespace BusinessAccessLayer.Implementation
             _context = context;
         }
 
-
-
-
-
         public List<JyotishModel> GetAstroListCallChat(string ListName)
         {
             if (ListName == "Chat")
@@ -776,40 +772,45 @@ namespace BusinessAccessLayer.Implementation
             var result = record.Where(x => x.Date > yesterdayDateOnly).ToList();
             return result;
         }
-        public List<ProblemSolutionGetAllViewModel> GetAllProblemSolution(int id)
+        public dynamic GetAllProblemSolution(int id)
         {
             if (id == 0)
             {
                 return null;
             }
 
-            var data = _context.ProblemSolution
-                .Include(x => x.Appointment)
-                    .ThenInclude(x => x.UserRecord)
-                .Include(x => x.Appointment)
-                    .ThenInclude(x => x.JyotishRecord)
-                .Where(x => x.Appointment.UserId == id)
-                .AsEnumerable() // Switch to client-side evaluation for in-memory processing
-                .GroupBy(x => new { x.Appointment.UserId, x.Appointment.JyotishId, x.Appointment.Id })
-                .Select(group =>
-                {
-                    var first = group.FirstOrDefault();
-                    var slot = _context.AppointmentSlots.FirstOrDefault(s => s.Id == first.Appointment.SlotId);
-
-                    return new ProblemSolutionGetAllViewModel
-                    {
-                        Id = first.Id,
-                        JyotishId = group.Key.JyotishId,
-                        JyotishName = first.Appointment.JyotishRecord.Name,
-                        JyotishEmail = first.Appointment.JyotishRecord.Email,
-                        UserId = group.Key.UserId,
-                        AppointmentId = group.Key.Id,
-                        Date = slot != null ? DateOnly.FromDateTime(slot.Date) : DateOnly.MinValue,
-                        Time = slot != null ? slot.TimeFrom : TimeOnly.MinValue,
-
-                    };
-                })
-                .ToList();
+            var data = (from ps in _context.ProblemSolution
+                        join appointment in _context.AppointmentRecords on ps.AppointmentId equals appointment.Id
+                        join jyotishRecord in _context.JyotishRecords on appointment.JyotishId equals jyotishRecord.Id
+                        join slots in _context.AppointmentSlots on appointment.SlotId equals slots.Id into slotGroup
+                        from slot in slotGroup.DefaultIfEmpty()
+                        where appointment.UserId == id
+                        group new { ps, appointment, jyotishRecord, slot } by jyotishRecord.Id into grouped
+                        select new
+                        {
+                            JyotishId = grouped.Key,
+                            JyotishName = grouped.FirstOrDefault().jyotishRecord.Name,
+                            JyotishEmail = grouped.FirstOrDefault().jyotishRecord.Email,
+                            Appointments = grouped.Select(g => new
+                            {
+                                Id = g.ps.Id,
+                                AppointmentId = g.appointment.Id,
+                                UserId = g.appointment.UserId,
+                                Date = g.slot != null ? DateOnly.FromDateTime(g.slot.Date) : DateOnly.MinValue,
+                                Time = g.slot != null ? g.slot.TimeFrom : TimeOnly.MinValue,
+                                Members = _context.ClientMembers.Where(e => e.UId == id).ToList(),
+                                MembersProblems = (from member in _context.ClientMembers
+                                                   join problem in _context.ProblemSolution on member.Id equals problem.memberId
+                                                   select new
+                                                   {
+                                                       MemberId = member.Id,
+                                                       JyotishId = member.jyotish,
+                                                       MemberName = member.Name,
+                                                       Relation = member.relation,
+                                                       
+                                                   }).ToList()
+                            }).ToList()
+                        }).ToList();
 
             return data;
         }

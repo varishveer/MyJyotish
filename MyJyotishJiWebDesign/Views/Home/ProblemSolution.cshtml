@@ -41,8 +41,7 @@
             Problem Solution
         </h4>
         <div class="col-sm-12 my-3">
-            <div class="row justify-content-evenly problemSolution">
-               
+            <div class="accordion row" id="accordionExample">
             </div>
         </div>
     </div>
@@ -90,21 +89,23 @@
                 newSolution.forEach(function (d) {
                     let cards = `
             <div class="col-sm-6 col-md-6 mb-3">
-                <div class="problem-card border shadow-sm rounded p-3">
-                        <a href="/home/ProblemSolutionDetails?Id=${d.appointmentId}" class="text-decoration-none text-dark">
-                        <div class="row fw-semi-bold">
-                            <div class="col-sm-6">
-                                <strong>Name:</strong> ${d.jyotishName}<br />
-                                    <strong>Date:</strong> ${formatDate(d.date)}<br />
-                                    <strong>Time:</strong> ${d.time.substring(0, 5)}<br />
-                               
+                 <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading_${d.appointmentId}">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_${d.appointmentId}" aria-expanded="true" aria-controls="collapse_${d.appointmentId}">
+                                Accordion Item #1
+                            </button>
+                        </h2>
+                                <div id="collapse_${d.appointmentId}" class="accordion-collapse collapse" aria-labelledby="heading_${d.appointmentId}" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                    <a href="/home/ProblemSolutionDetails?Id=${d.appointmentId}" class="text-decoration-none text-dark">
+                                        <strong>Name:</strong> ${d.jyotishName}<br />
+                                        <strong>Date:</strong> ${formatDate(d.date)}<br />
+                                        <strong>Time:</strong> ${d.time.substring(0, 5)}<br />
                             </div>
-                          
                         </div>
-                    </a>
-                </div>
+                    </div>
             </div>`;
-                    $(".problemSolution").append(cards);
+                    $("#accordionExample").append(cards);
                 });
             } else {
                 $(".problemSolution").html(`<p class='my-5 text-center text-secondary'>There are no appointments yet.</p>`);

@@ -3,8 +3,41 @@
 *@
 @{
 }
+<style>
+	.custom-table-header {
+		ba--bs-table-color: #ffc108;
+		--bs-table-bg: #ffc108;
+	}
+
+	.custom-table-row:nth-child(even) {
+		background-color: #fff5cc;
+	}
+
+	.custom-table-row:nth-child(odd) {
+		background-color: #fffcf2;
+	}
+
+	.custom-table-row:hover {
+		background-color: #ffe680;
+	}
+
+	.summary-section, .additional-reports, .list-group {
+		background-color: #fff5cc;
+		padding: 15px;
+		border: 1px solid #fad550;
+		border-radius: 5px;
+	}
+
+		.list-group li {
+			border: none;
+			background-color: #fff5cc;
+			padding: 15px;
+			border-bottom: 1px solid #fad550;
+		}
+</style>
+
 <div class="container">
-	<h1 class="text-center text-primary mb-4">Kundli Matching Report</h1>
+	<h1 class="text-center text-warning my-4">Kundli Matching Report</h1>
 	<div class="row justify-content-center mb-4 align-items-center">
 
 
@@ -12,10 +45,10 @@
 		<div class="col-md-4 text-center  mb-md-0">
 			<div class=" ">
 
-				<div class=" d-flex justify-content-center align-item-center">
-					<h4 id="boyHeadName" class="m-0 fw-normal">Boy's Name</h4>
-					<img src="https://aws.astrotalk.com/assets/images/rings.webp" class="img-fluid rounded-circle" height="80" width="80" alt="match making engagement ring">
-					<h4 id="girlHeadName" class="m-0 fw-normal">Girl's Name</h4>
+				<div class=" d-flex justify-content-center gap-2 align-items-center">
+					<h4 id="boyHeadName" class="m-0 fw-normal shadow-sm border rounded border-warning px-2 py-1">Boy's Name</h4>
+					<img src="/two-heart.png" class="img-fluid rounded-circle" height="80" width="80" alt="match making engagement ring">
+					<h4 id="girlHeadName" class="m-0 fw-normal border shadow-sm rounded border-warning px-2 py-1">Girl's Name</h4>
 				</div>
 
 			</div>
@@ -27,7 +60,7 @@
 		<div class="col-md-6">
 			<div class="card shadow-sm mb-4">
 				<div class="card-header bg-warning ">
-					<i class="fa fa-male" aria-hidden="true"></i> Basic Details <span>Male</span>
+					<i class="fa fa-male" aria-hidden="true"></i> Basic Details <span class="rounded px-2 bg-success text-light py-1">Male</span>
 
 				</div>
 				<div class="card-body">
@@ -86,7 +119,7 @@
 		<div class="col-md-6">
 			<div class="card shadow-sm mb-4">
 				<div class="card-header bg-warning">
-					<i class="fa fa-female" aria-hidden="true"></i> Basic Details <span>Female</span>
+					<i class="fa fa-female" aria-hidden="true"></i> Basic Details <span class="rounded bg-success text-light px-2 py-1">Female</span>
 				</div>
 				<div class="card-body">
 
@@ -133,145 +166,127 @@
 			</div>
 		</div>
 	</div>
-
-	<h2 class="">Match Ashtakoot Points</h2>
+	<h1 class="text-center my-4">Ashtakoota Match Report</h1>
 	<div class="table-responsive">
-		<table class="table table-bordered table-striped table-hover">
-			<thead>
-				<tr>
-					<th id="kootam_type">Kootam Type</th>
-					<th id="bride_details">Bride Details</th>
-					<th id="groom_details">Groom Details</th>
-					<th id="out_of">Out of</th>
-					<th id="score">Score</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td id="varna_kootam"></td>
-					<td id="bride_varna_details"></td>
-					<td id="groom_varna_details"></td>
-					<td id="varna_out_of"></td>
-					<td id="varna_score"></td>
-				</tr>
-				<tr>
-					<td id="vasya_kootam"></td>
-					<td id="bride_vasya_details"></td>
-					<td id="groom_vasya_details"></td>
-					<td id="vasya_out_of"></td>
-					<td id="vasya_score"></td>
-				</tr>
-				<tr>
-					<td id="tara_kootam"></td>
-					<td id="bride_tara_details"></td>
-					<td id="groom_tara_details"></td>
-					<td id="tara_out_of"></td>
-					<td id="tara_score"></td>
-				</tr>
-				<tr>
-					<td id="yoni_kootam"></td>
-					<td id="bride_yoni_details"></td>
-					<td id="groom_yoni_details"></td>
-					<td id="yoni_out_of">4</td>
-					<td id="yoni_score">4</td>
-				</tr>
-				<tr>
-					<td id="graha_maitri_kootam"></td>
-					<td id="bride_graha_details"></td>
-					<td id="groom_graha_details"></td>
-					<td id="graha_out_of">5</td>
-					<td id="graha_score">0.5</td>
-				</tr>
-				<tr>
-					<td id="gana_kootam"></td>
-					<td id="bride_gana_details"></td>
-					<td id="groom_gana_details"></td>
-					<td id="gana_out_of">6</td>
-					<td id="gana_score">0</td>
-				</tr>
-				<tr>
-					<td id="rasi_kootam">Rasi Kootam</td>
-					<td id="bride_rasi_details"></td>
-					<td id="groom_rasi_details"></td>
-					<td id="rasi_out_of">7</td>
-					<td id="rasi_score">7</td>
-				</tr>
-				<tr>
-					<td id="nadi_kootam">Nadi Kootam</td>
-					<td id="bride_nadi_details"></td>
-					<td id="groom_nadi_details"></td>
-					<td id="nadi_out_of">8</td>
-					<td id="nadi_score">0</td>
-				</tr>
-				<tr>
-					<td id="total_score_label">Total Score</td>
-					<td colspan="4" id="total_score_value"></td>
-				</tr>
-			</tbody>
-		</table>
 
+		<!-- Summary Card -->
+		<div class="card mb-4 summary-section shadow-sm">
+			<div class="card-body">
+				<h3 class="card-title">Summary</h3>
+				<p class="mb-1"><strong>Total Points:</strong> <span id="totalReceived"></span> / <span id="totalPoints"></span></p>
+				<p class="mb-1"><strong>Minimum Required:</strong> <span id="minimumRequired"></span></p>
+				<p id="ashtakootaConclusion" class="mt-3"></p>
+			</div>
+		</div>
+
+		<!-- Ashtakoota Table -->
+		<div class="card mb-4 shadow-sm">
+			<div class="card-header">
+				<h3 class="card-title mb-0">Ashtakoota Details</h3>
+			</div>
+			<div class="table-responsive">
+				<table class="table table-bordered table-hover">
+					<thead class="custom-table-header">
+						<tr>
+							<th>Aspect</th>
+							<th>Description</th>
+							<th>Male Attribute</th>
+							<th>Female Attribute</th>
+							<th>Total Points</th>
+							<th>Received Points</th>
+							<th>Male Points</th>
+							<th>Female Points</th>
+						</tr>
+					</thead>
+					<tbody id="ashtakootaTable">
+						<!-- Dynamic rows will be added here -->
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<!-- Additional Reports -->
+		<div class="card mb-4 shadow-sm additional-reports">
+			<div class="card-body">
+				<h3 class="card-title">Additional Reports</h3>
+				<ul class="list-group">
+					<li class="list-group-item">
+						<strong>Manglik Status:</strong> <span id="manglikStatus"></span>
+					</li>
+					<li class="list-group-item">
+						<strong>Male Percentage:</strong> <span id="malePercentage"></span>%
+					</li>
+					<li class="list-group-item">
+						<strong>Female Percentage:</strong> <span id="femalePercentage"></span>%
+					</li>
+					<li class="list-group-item">
+						<strong>Rajju Dosha:</strong> <span id="rajjuDosha"></span>
+					</li>
+					<li class="list-group-item">
+						<strong>Vedha Dosha:</strong> <span id="vedhaDosha"></span>
+					</li>
+				</ul>
+				<p id="matchConclusion" class="mt-3 border rounded p-2 border-warning"></p>
+			</div>
+		</div>
 	</div>
-
-
-
 
 </div>
 
 
 
 <script>
-	function fillKootamValues(data) {
-		document.getElementById('varna_kootam').innerText = "Varna Kootam";
-		document.getElementById('bride_varna_details').innerText = `Moon Sign: ${data.varna_kootam.bride.moon_sign} (${data.varna_kootam.bride.moon_sign_number}), Varna: ${data.varna_kootam.bride.varnam_name} (${data.varna_kootam.bride.varnam})`;
-		document.getElementById('groom_varna_details').innerText = `Moon Sign: ${data.varna_kootam.groom.moon_sign} (${data.varna_kootam.groom.moon_sign_number}), Varna: ${data.varna_kootam.groom.varnam_name} (${data.varna_kootam.groom.varnam})`;
-		document.getElementById('varna_out_of').innerText = data.varna_kootam.out_of;
-		document.getElementById('varna_score').innerText = data.varna_kootam.score;
 
-		document.getElementById('vasya_kootam').innerText = "Vasya Kootam";
-		document.getElementById('bride_vasya_details').innerText = `Kootam: ${data.vasya_kootam.bride.bride_kootam_name} (${data.vasya_kootam.bride.bride_kootam})`;
-		document.getElementById('groom_vasya_details').innerText = `Kootam: ${data.vasya_kootam.groom.groom_kootam_name} (${data.vasya_kootam.groom.groom_kootam})`;
-		document.getElementById('vasya_out_of').innerText = data.vasya_kootam.out_of;
-		document.getElementById('vasya_score').innerText = data.vasya_kootam.score;
-
-		document.getElementById('tara_kootam').innerText = "Tara Kootam";
-		document.getElementById('bride_tara_details').innerText = `Star: ${data.tara_kootam.bride.star_name} (${data.tara_kootam.bride.star_number})`;
-		document.getElementById('groom_tara_details').innerText = `Star: ${data.tara_kootam.groom.star_name} (${data.tara_kootam.groom.star_number})`;
-		document.getElementById('tara_out_of').innerText = data.tara_kootam.out_of;
-		document.getElementById('tara_score').innerText = data.tara_kootam.score;
-
-		document.getElementById('yoni_kootam').innerText = "Yoni Kootam";
-		document.getElementById('bride_yoni_details').innerText = `Yoni: ${data.yoni_kootam.bride.yoni} (${data.yoni_kootam.bride.yoni_number})`;
-		document.getElementById('groom_yoni_details').innerText = `Yoni: ${data.yoni_kootam.groom.yoni} (${data.yoni_kootam.groom.yoni_number})`;
-		document.getElementById('yoni_out_of').innerText = data.yoni_kootam.out_of;
-		document.getElementById('yoni_score').innerText = data.yoni_kootam.score;
-
-		document.getElementById('graha_maitri_kootam').innerText = "Graha Maitri Kootam";
-		document.getElementById('bride_graha_details').innerText = `Moon Sign Lord: ${data.graha_maitri_kootam.bride.moon_sign_lord_name} (${data.graha_maitri_kootam.bride.moon_sign_lord})`;
-		document.getElementById('groom_graha_details').innerText = `Moon Sign Lord: ${data.graha_maitri_kootam.groom.moon_sign_lord_name} (${data.graha_maitri_kootam.groom.moon_sign_lord})`;
-		document.getElementById('graha_out_of').innerText = data.graha_maitri_kootam.out_of;
-		document.getElementById('graha_score').innerText = data.graha_maitri_kootam.score;
-
-		document.getElementById('gana_kootam').innerText = "Gana Kootam";
-		document.getElementById('bride_gana_details').innerText = `Nadi: ${data.gana_kootam.bride.bride_nadi_name} (${data.gana_kootam.bride.bride_nadi})`;
-		document.getElementById('groom_gana_details').innerText = `Nadi: ${data.gana_kootam.groom.groom_nadi_name} (${data.gana_kootam.groom.groom_nadi})`;
-		document.getElementById('gana_out_of').innerText = data.gana_kootam.out_of;
-		document.getElementById('gana_score').innerText = data.gana_kootam.score;
-
-		document.getElementById('rasi_kootam').innerText = "Rasi Kootam";
-		document.getElementById('bride_rasi_details').innerText = `Moon Sign: ${data.rasi_kootam.bride.moon_sign_name} (${data.rasi_kootam.bride.moon_sign})`;
-		document.getElementById('groom_rasi_details').innerText = `Moon Sign: ${data.rasi_kootam.groom.moon_sign_name} (${data.rasi_kootam.groom.moon_sign})`;
-		document.getElementById('rasi_out_of').innerText = data.rasi_kootam.out_of;
-		document.getElementById('rasi_score').innerText = data.rasi_kootam.score;
-
-		document.getElementById('nadi_kootam').innerText = "Nadi Kootam";
-		document.getElementById('bride_nadi_details').innerText = `Nadi: ${data.nadi_kootam.bride.nadi_name} (${data.nadi_kootam.bride.nadi})`;
-		document.getElementById('groom_nadi_details').innerText = `Nadi: ${data.nadi_kootam.groom.nadi_name} (${data.nadi_kootam.groom.nadi})`;
-		document.getElementById('nadi_out_of').innerText = data.nadi_kootam.out_of;
-		document.getElementById('nadi_score').innerText = data.nadi_kootam.score;
-
-		document.getElementById('total_score_value').innerText = `${data.total_score}/${data.out_of}`;
+	function getCookie(name) {
+		const cookieArray = document.cookie.split('; ');
+		for (let i = 0; i < cookieArray.length; i++) {
+			const [key, value] = cookieArray[i].split('=');
+			if (key === name) {
+				return decodeURIComponent(value);
+			}
+		}
+		return null;
 	}
-	async function kundaliMatchingApi(response) {
+
+	let languageKundali = getCookie("languageKundali")
+	
+
+	function fillKootamValues(data) {
+
+		// Populate Ashtakoota Table
+		const ashtakootaTable = document.getElementById('ashtakootaTable');
+		for (const [key, value] of Object.entries(data.ashtakoota)) {
+			if (key !== 'total' && key !== 'conclusion') {
+				const row = document.createElement('tr');
+				row.classList.add("custom-table-row")
+				row.innerHTML = `
+								<td>${key.charAt(0).toUpperCase() + key.slice(1)}</td>
+								<td>${value.description}</td>
+								<td>${value.male_koot_attribute}</td>
+								<td>${value.female_koot_attribute}</td>
+								<td>${value.total_points}</td>
+								<td>${value.received_points}</td>
+								<td>${value.male_point}</td>
+								<td>${value.female_point}</td>
+							`;
+				ashtakootaTable.appendChild(row);
+			}
+		}
+
+		document.getElementById('totalReceived').textContent = data.ashtakoota.total.received_points;
+		document.getElementById('totalPoints').textContent = data.ashtakoota.total.total_points;
+		document.getElementById('minimumRequired').textContent = data.ashtakoota.total.minimum_required;
+		document.getElementById('ashtakootaConclusion').textContent = data.ashtakoota.conclusion.report;
+
+		document.getElementById('manglikStatus').textContent = data.manglik.status ? 'Yes' : 'No';
+		document.getElementById('malePercentage').textContent = data.manglik.male_percentage;
+		document.getElementById('femalePercentage').textContent = data.manglik.female_percentage;
+		document.getElementById('rajjuDosha').textContent = data.rajju_dosha.status ? 'Yes' : 'No';
+		document.getElementById('vedhaDosha').textContent = data.vedha_dosha.status ? 'Yes' : 'No';
+		document.getElementById('matchConclusion').textContent = data.conclusion.match_report;
+
+	}
+	async function kundaliMatchingApi(language,response) {
 
 		var Data = response.data;
 		if (Data[0].gender == "Female") {
@@ -330,52 +345,40 @@
 		$('#girlPlaceOfBirth').text(girlData.placeOfBirth);
 
 		var DataContainer = {
-			"female": {
-				"year": parseInt(girlYear),
-				"month": parseInt(girlMonth),
-				"date": parseInt(girlDate),
-				"hours": parseInt(girlhour),
-				"minutes": parseInt(girlmin),
-				"seconds": parseInt(girlSec),
-				"latitude": parseFloat(glatitude),
-				"longitude": parseFloat(glongitude),
-				"timezone": parseFloat(gtimezone)
-			},
-			"male": {
-				"year": parseInt(boyYear),
-				"month": parseInt(boyMonth),
-				"date": parseInt(boyDate),
-				"hours": parseInt(boyhour),
-				"minutes": parseInt(boymin),
-				"seconds": parseInt(boySec),
-				"latitude": parseFloat(blatitude),
-				"longitude": parseFloat(blongitude),
-				"timezone": parseFloat(btimezone)
-			},
-			"config": {
-				"observation_point": "topocentric",
-				"language": "en",
-				"ayanamsha": "lahiri"
-			}
-		}
+			"f_year": parseInt(girlYear),
+			"f_month": parseInt(girlMonth),
+			"f_day": parseInt(girlDate),
+			"f_hour": parseInt(girlhour),
+			"f_min": parseInt(girlmin),
+			"f_lat": parseFloat(glatitude),
+			"f_lon": parseFloat(glongitude),
+			"f_tzone": parseFloat(gtimezone),
+			"m_year": parseInt(boyYear),
+			"m_month": parseInt(boyMonth),
+			"m_day": parseInt(boyDate),
+			"m_hour": parseInt(boyhour),
+			"m_min": parseInt(boymin),
+			"m_lat": parseFloat(blatitude),
+			"m_lon": parseFloat(blongitude),
+			"m_tzone": parseFloat(btimezone)
+		};
+
 
 		console.log(DataContainer);
 		$.ajax({
-			url: 'https://json.freeastrologyapi.com/match-making/ashtakoot-score',
+			url: 'https://json.astrologyapi.com/v1/match_making_detailed_report',
 			type: 'POST',
-
 			headers: {
-				'x-api-key': 'y8gZTCePup5YM0XGzDmRf5UbZo4IMcTR9Wg3CZ6Z'
+				"authorization": auth,
+				"Content-Type": 'application/json',
+				"Accept-Language": language
 			},
 			contentType: 'application/json',
 			data: JSON.stringify(DataContainer),
 			success: function (response) {
 				console.log(response);
-				if (response.statusCode === 200) {
-					fillKootamValues(response.output);
-					Swal.close()
-				}
-
+				fillKootamValues(response);
+				Swal.close()
 			},
 			error: function (xhr, status, error) {
 				console.error("Error: " + xhr);
@@ -397,13 +400,13 @@
 			'Authorization': `Bearer ${localStorage.getItem("Token")}`,
 		},
 
-
 		success: function (response) {
-
-
 			if (response.status === 200) {
-
-				kundaliMatchingApi(response)
+				if (languageKundali != null) {
+					kundaliMatchingApi(languageKundali, response)
+				} else {
+					location.href = "/Home/KundaliMatching"
+				}
 
 			}
 		},
@@ -418,19 +421,5 @@
 	});
 
 
-
-</script>
-
-
-
-
-<script>
-	// Function to fill values using the ids
-
-
-	// Example Data to Fill in the Table
-
-
-	// Fill the table with values
 
 </script>

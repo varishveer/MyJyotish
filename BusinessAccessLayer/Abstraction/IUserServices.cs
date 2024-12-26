@@ -33,7 +33,7 @@ namespace BusinessAccessLayer.Abstraction
         public List<UserPaymentRecordModel> UserPaymentrecords(int Id);
         public UserPaymentRecordModel UserPaymentDetail(int Id);
         public List<AppointmentSlotUserViewModel> GetAllAppointmentSlot(int id);
-        public List<ProblemSolutionGetAllViewModel> GetAllProblemSolution(int Id);
+        public dynamic GetAllProblemSolution(int Id);
 
         public string AddUserWallets(UserWalletViewmodel uw);
         public string PurchaseWithUserWallets(UserWalletViewmodel uw);
