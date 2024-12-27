@@ -54,7 +54,6 @@ namespace MyJyotishJiWebDesign.Controllers
         public IActionResult JyotishProfile() { return View(); }
         public IActionResult TodayHoroscope() { return View(); }
         public IActionResult FreeKundaliReport() { return View(); }
-        public IActionResult Compatibility() { return View(); }
         public IActionResult IndianCalendarFestivals() { return View(); }
         public IActionResult BlogDetails() { return View(); }
         public IActionResult SignUp() { return View(); }
@@ -68,7 +67,11 @@ namespace MyJyotishJiWebDesign.Controllers
         public IActionResult KundaliMatchingReport() { return View(); }
         public IActionResult BookPooja() { return View(); }
         public IActionResult FreeKundali() { return View(); }
-
+        public IActionResult Astrology() { return View(); }
+        public IActionResult Palmistry() { return View(); }
+        public IActionResult Tarot() { return View(); }
+        public IActionResult Vastu() { return View(); }
+        public IActionResult Compatibility() { return View(); }
         public IActionResult WalletPaymentLayout(int amount,int jyotishId,string message,string paymentby) {
             return PartialView("_WalletPartialView", new { amount = amount,jyotishId=jyotishId,message=message, paymentby = paymentby });
         }

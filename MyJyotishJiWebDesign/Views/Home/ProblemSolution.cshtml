@@ -5,111 +5,227 @@
 }
 
 <style>
-    .problemSolution-cont {
-        margin-top: 4rem;
-        margin-bottom: 4rem;
-    }
+	.problemSolution-cont {
+		margin-top: 2rem;
+		margin-bottom: 4rem;
+	}
 
-    body {
-        background: url("https://api.myjyotishg.in/astrologer-bg.jpg");
-        background-attachment: fixed;
-        backdrop-filter: blur(3px);
-    }
+	body {
+		background: url("https://api.myjyotishg.in/astrologer-bg.jpg");
+		background-attachment: fixed;
+		backdrop-filter: blur(3px);
+	}
 
-    .problemSolution > div {
-        background: rgba(255, 255, 255, 0.7);
-    }   
+	.problemSolution > div {
+		background: rgba(255, 255, 255, 0.7);
+	}
 
-    .problem-card {
-        background: rgba(255, 255, 255, 0.9); /* Slightly more opaque background */
-        transition: transform 0.2s;
-    }
+	.problem-card {
+		background: rgba(255, 255, 255, 0.9); /* Slightly more opaque background */
+		transition: transform 0.2s;
+	}
 
-        .problem-card:hover {
-            transform: scale(1.02); /* Scale up on hover */
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Add shadow effect */
-        }
+		.problem-card:hover {
+			transform: scale(1.02); /* Scale up on hover */
+			box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Add shadow effect */
+		}
 
-
-
-   
 </style>
 
 <div class="container problemSolution-cont">
-    <div class="row">
-        <h4 class="fw-bold pb-3 border-bottom text-center">
-            Problem Solution
-        </h4>
-        <div class="col-sm-12 my-3">
-            <div class="accordion row" id="accordionExample">
-            </div>
-        </div>
-    </div>
+	<div class="row">
+		<h4 class="fw-bold pb-3 border-bottom text-center">
+			Problem Solution
+		</h4>
+		<div class="col-sm-12 my-3">
+			<div class="accordion row" id="accordionExample">
+			</div>
+		</div>
+	</div>
 </div>
 
 <script>
-    $(document).ready(function () {
-        function reverseDate(dateString) {
-            const parts = dateString.split('-');
-            return `${parts[2]}-${parts[1]}-${parts[0]}`;
-        }
+	function reverseDate(dateString) {
+		const parts = dateString.split('-');
+		return `${parts[2]}-${parts[1]}-${parts[0]}`;
+	}
 
-        var appoinmentUrl = BaseUrl + `api/User/getAllProblemSolution?Id=${localStorage.getItem('userId')}`;
-        let ProblemSolutionArray = [];
+	var appoinmentUrl = BaseUrl + `api/User/getAllmembers?userId=${localStorage.getItem('userId')}`;
+	let ProblemSolutionArray = [];
+	Swal.fire({
+		title: "Processing Your Request",
+		allowOutsideClick: false,
+		didOpen: () => {
+			Swal.showLoading();
+		}
+	})
+	$.ajax({
+		url: appoinmentUrl,
+		method: 'GET',
 
-        $.ajax({
-            url: appoinmentUrl,
-            method: 'GET',
-
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem("Token")}`,
-                'Content-Type': 'application/json',
-            },
-            success: function (response) {
-                ProblemSolutionArray = response.data || [];
-                filterRecords(); // Call filterRecords after data is loaded
-            },
-            error: function (err) {
-                console.log(err);
-            }
-        });
+		headers: {
+			'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+			'Content-Type': 'application/json',
+		},
+		success: function (response) {
+			console.log(response)
+			ProblemSolutionArray = response.data || [];
+			filterRecords(); // Call filterRecords after data is loaded
+			Swal.close()
+		},
+		error: function (err) {
+			console.log(err);
+		}
+	});
 
 
-        function formatDate(isoDate) {
-            let date = new Date(isoDate);
-            return date.toLocaleDateString('en-GB'); // Formats as DD/MM/YYYY
-        }
-        function filterRecords() {
-            let newSolution = ProblemSolutionArray;
+	function formatDate(isoDate) {
+		let date = new Date(isoDate);
+		return date.toLocaleDateString('en-GB'); // Formats as DD/MM/YYYY
+	}
+	function filterRecords() {
+		let newSolution = ProblemSolutionArray;
 
-            // $(".problemSolution").empty();
+		// $(".problemSolution").empty();
 
-            if (newSolution.length > 0) {
-                let pi=1
-                newSolution.forEach(function (d) {
-                    let cards = `
-            <div class="col-sm-6 col-md-6 mb-3">
-                 <div class="accordion-item">
-                            <h2 class="accordion-header" id="heading_${d.appointmentId}">
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_${d.appointmentId}" aria-expanded="true" aria-controls="collapse_${d.appointmentId}">
-                                Accordion Item #1
-                            </button>
-                        </h2>
-                                <div id="collapse_${d.appointmentId}" class="accordion-collapse collapse" aria-labelledby="heading_${d.appointmentId}" data-bs-parent="#accordionExample">
-                            <div class="accordion-body">
-                                    <a href="/home/ProblemSolutionDetails?Id=${d.appointmentId}" class="text-decoration-none text-dark">
-                                        <strong>Name:</strong> ${d.jyotishName}<br />
-                                        <strong>Date:</strong> ${formatDate(d.date)}<br />
-                                        <strong>Time:</strong> ${d.time.substring(0, 5)}<br />
-                            </div>
-                        </div>
-                    </div>
-            </div>`;
-                    $("#accordionExample").append(cards);
-                });
-            } else {
-                $(".problemSolution").html(`<p class='my-5 text-center text-secondary'>There are no appointments yet.</p>`);
-            }
-        }
-    });
+		if (newSolution.length > 0) {
+			let pi = 1
+			newSolution.forEach(function (d) {
+				let cards = `
+						<div class="col-sm-6 col-md-6 mb-3">
+							 <div class="accordion-item">
+												<h2 onClick="getJyotishByUser(${d.userid},0)" class="accordion-header" id="headingu_${d.userid}">
+																<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseu_${d.userid}" aria-expanded="true" aria-controls="collapseu_${d.userid}">
+													   ${d.userName}
+										</button>
+									</h2>
+															<div id="collapseu_${d.userid}" class="accordion-collapse collapse" aria-labelledby="headingu_${d.userid}" data-bs-parent="#accordionExample">
+											<div class="accordion" id="topUserAndMemberu_0">
+
+										</div>
+									</div>
+								</div>
+						</div>`;
+				$("#accordionExample").append(cards);
+				d.members.forEach(function (e) {
+					let cards = `
+							<div class="col-sm-6 col-md-6 mb-3">
+								 <div class="accordion-item">
+															<h2 onClick="getJyotishByUser(${d.userid},${e.id})" class="accordion-header" id="heading_${e.id}">
+																		<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_${e.id}" aria-expanded="true" aria-controls="collapse_${e.id}">
+															   ${e.name} ${e.relation && "-"} ${e.relation || ""}
+											</button>
+										</h2>
+																		<div id="collapse_${e.id}" class="accordion-collapse collapse" aria-labelledby="heading_${e.id}" data-bs-parent="#accordionExample">
+													<div class="accordion-body" id="topUserAndMember_${e.id}">
+
+											</div>
+										</div>
+									</div>
+							</div>`;
+					$("#accordionExample").append(cards);
+				})
+			});
+
+
+		} else {
+			$(".problemSolution").html(`<p class='my-5 text-center text-secondary'>There are no appointments yet.</p>`);
+		}
+	}
+
+	function getJyotishByUser(userId, memId) {
+		$.ajax({
+			url: BaseUrl + "api/User/getjyotishByuserAppointment",
+			method: 'GET',
+			headers: {
+				'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+				'Content-Type': 'application/json',
+			},
+			data: { userid: userId, memberId: memId },
+			success: function (response) {
+				console.log(response)
+					$("#topUserAndMemberu_" + memId).empty()
+					$("#topUserAndMember_" + memId).empty()
+				if (response.status == 200) {
+					if (response.data.length > 0) {
+						response.data.forEach(function (e) {
+							if (memId == 0) {
+								$("#topUserAndMemberu_" + memId).append(`
+									 <div class="accordion-item">
+																					<h2 onClick="getappointmentByjyotish(${userId},${memId},${e.jyotishId})" class="accordion-header" id="headingjj_${e.jyotishId}">
+																					<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapsejj_${e.jyotishId}" aria-expanded="true" aria-controls="collapsejj_${e.jyotishId}">
+																				   ${e.jyotishName}-${e.experience} Year ${"-" + e.expertise.split(",")[0] || ""}${e.expertise.split(",").length > 0 ? "+" + e.expertise.split(",").length + "more" : ""}
+												</button>
+											</h2>
+																						<div id="collapsejj_${e.jyotishId}" class="accordion-collapse collapse" aria-labelledby="headingjj_${e.jyotishId}" data-bs-parent="#topUserAndMemberu_0">
+															<div class="accordion-body" id="appointmentDetail_${e.jyotishId}">
+
+												</div>
+											</div>
+										</div>
+								`)
+							} else {
+								$("#topUserAndMember_" + memId).append(`
+											<div class="accordion-item">
+																						<h2 onClick="getappointmentByjyotish(${userId},${memId},${e.jyotishId})" class="accordion-header" id="headingmm_${e.jyotishId}">
+																						<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapsemm_${e.jyotishId}" aria-expanded="true" aria-controls="collapsemm_${e.jyotishId}">
+																			   ${e.jyotishName} -${e.experience} Year ${"-" + e.expertise.split(",")[0] || ""}${e.expertise.split(",").length > 0 ? "+" + e.expertise.split(",").length + "more" : ""}
+
+													</button>
+												</h2>
+																							<div id="collapsemm_${e.jyotishId}" class="accordion-collapse collapse" aria-labelledby="headingmm_${e.jyotishId}" data-bs-parent="#topUserAndMemberu_${e.memId}">
+																	<div class="accordion-body" id="appointmentDetail_${e.jyotishId}">
+
+													</div>
+												</div>
+											</div>
+									`)
+							}
+						})
+					}
+				}else{
+					$("#topUserAndMemberu_" + memId).html(`<div class="text-secondary text-center">Record not found</div>`)
+					$("#topUserAndMember_" + memId).html(`<div class="text-secondary text-center">Record not found</div>`)
+				}
+
+				Swal.close()
+			},
+			error: function (err) {
+				Swal.fire({
+					title: "error",
+					icon: "error",
+					text: "some error occured"
+				})
+			}
+		});
+	}
+
+	function getappointmentByjyotish(userId, memberId, jyotishId) {
+		debugger
+		$.ajax({
+			url: BaseUrl + "api/User/getAllAppointmentBymemebersanduser",
+			method: 'GET',
+			headers: {
+				'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+				'Content-Type': 'application/json',
+			},
+			data: { userid: userId, memberId: memberId, jyotishId: jyotishId },
+			success: function (response) {
+				console.log(response)
+				if (response.status == 200) {
+					$("#appointmentDetail_" + jyotishId).empty();
+					if (response.data.length > 0) {
+						response.data.forEach(function (d) {
+							$("#appointmentDetail_" + jyotishId).append(`
+											<div class='p-2 my-2 px-4 rounded d-flex justify-content-between border'><span>${d.appointmentDate} - (${d.appointmentTimeFrom}-${d.appointmentTimeTo})</span> <span><a href='/Home/ProblemSolutionDetails?Id=${d.appointmentId}' class='btn btn-success'>View</a></span></div>
+						`)
+						})
+					}else{
+						$("#appointmentDetail_" + jyotishId).html(`<div class="text-secondary text-center">Record not found</div>`);
+
+					}
+				}
+			}
+		})
+	}
 </script>

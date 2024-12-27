@@ -33,8 +33,6 @@ namespace BusinessAccessLayer.Abstraction
         public List<UserPaymentRecordModel> UserPaymentrecords(int Id);
         public UserPaymentRecordModel UserPaymentDetail(int Id);
         public List<AppointmentSlotUserViewModel> GetAllAppointmentSlot(int id);
-        public dynamic GetAllProblemSolution(int Id);
-
         public string AddUserWallets(UserWalletViewmodel uw);
         public string PurchaseWithUserWallets(UserWalletViewmodel uw);
         public List<JyotishModel> SearchAstrologer(string? searchInp);
@@ -67,9 +65,14 @@ namespace BusinessAccessLayer.Abstraction
         public bool BookPooja(BookedPoojaViewModel model);
         public string GetTimezone(string country);
         public dynamic getJyotishRecordByPoojaType(int poojaTypeId);
+        public dynamic getAllmembers(int userId);
+
+        public dynamic getAllAppointmentBymemebersanduser(int memberId, int userId, int jyotishId);
+        public dynamic getjyotishByuserAppointment(int userId,int memberId);
 
 
 
-	}
+
+    }
 
 }

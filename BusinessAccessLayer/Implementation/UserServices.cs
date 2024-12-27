@@ -772,49 +772,63 @@ namespace BusinessAccessLayer.Implementation
             var result = record.Where(x => x.Date > yesterdayDateOnly).ToList();
             return result;
         }
-        public dynamic GetAllProblemSolution(int id)
+       
+
+        public dynamic getAllmembers(int userId)
         {
-            if (id == 0)
-            {
-                return null;
-            }
-
-            var data = (from ps in _context.ProblemSolution
-                        join appointment in _context.AppointmentRecords on ps.AppointmentId equals appointment.Id
-                        join jyotishRecord in _context.JyotishRecords on appointment.JyotishId equals jyotishRecord.Id
-                        join slots in _context.AppointmentSlots on appointment.SlotId equals slots.Id into slotGroup
-                        from slot in slotGroup.DefaultIfEmpty()
-                        where appointment.UserId == id
-                        group new { ps, appointment, jyotishRecord, slot } by jyotishRecord.Id into grouped
-                        select new
-                        {
-                            JyotishId = grouped.Key,
-                            JyotishName = grouped.FirstOrDefault().jyotishRecord.Name,
-                            JyotishEmail = grouped.FirstOrDefault().jyotishRecord.Email,
-                            Appointments = grouped.Select(g => new
-                            {
-                                Id = g.ps.Id,
-                                AppointmentId = g.appointment.Id,
-                                UserId = g.appointment.UserId,
-                                Date = g.slot != null ? DateOnly.FromDateTime(g.slot.Date) : DateOnly.MinValue,
-                                Time = g.slot != null ? g.slot.TimeFrom : TimeOnly.MinValue,
-                                Members = _context.ClientMembers.Where(e => e.UId == id).ToList(),
-                                MembersProblems = (from member in _context.ClientMembers
-                                                   join problem in _context.ProblemSolution on member.Id equals problem.memberId
-                                                   select new
-                                                   {
-                                                       MemberId = member.Id,
-                                                       JyotishId = member.jyotish,
-                                                       MemberName = member.Name,
-                                                       Relation = member.relation,
-                                                       
-                                                   }).ToList()
-                            }).ToList()
-                        }).ToList();
-
-            return data;
+            var res = (from user in _context.Users
+                       where user.Id == userId
+                       select new
+                       {
+                           userid = user.Id,
+                           userMemberId = 0,
+                           userName = user.Name,
+                           userDob = user.DoB,
+                           members = _context.ClientMembers
+                                              .Where(e => e.UId == userId && e.status == 1)
+                                              .GroupBy(e => e.Name).AsEnumerable()
+                                              .Select(g => g.First())
+                       }).ToList();
+            return res;
         }
 
+       
+        public dynamic getAllAppointmentBymemebersanduser(int memberId, int userId,int jyotishId)
+        {
+            string memberFromatedId = memberId == 0 ? null : memberId.ToString();
+            var res = (from problem in _context.ProblemSolution
+                       join appointment in _context.AppointmentRecords on problem.AppointmentId equals appointment.Id
+                       orderby appointment.Id descending
+                       where (problem.memberId.ToString() == memberFromatedId && appointment.UserId == userId && appointment.JyotishId==jyotishId) && (problem.Member.status == 1 || problem.Member == null)
+                       select new
+                       {
+                           appointmentId = appointment.Id,
+                           appointmentDate = appointment.AppointmentSlotData.Date.ToString("dd-MM-yyyy"),
+                           appointmentTimeFrom = appointment.AppointmentSlotData.TimeFrom.ToString("hh:mm"),
+                           appointmentTimeTo = appointment.AppointmentSlotData.TimeTo.ToString("hh:mm"),
+                           jyotishNama = appointment.AppointmentSlotData.JyotishData.Name
+                       }).ToList();
+            return res;
+        }
+        public dynamic getjyotishByuserAppointment(int userId,int memberId)
+        {
+            var res = (from appointment in _context.AppointmentRecords
+                       join user in _context.Users on appointment.UserId equals user.Id
+                       join jyotish in _context.JyotishRecords on appointment.JyotishId equals jyotish.Id
+                       join client in _context.ClientMembers on jyotish.Id equals client.JId
+					   join ps in _context.ProblemSolution on appointment.Id equals ps.AppointmentId into psJoin
+					   from ps in psJoin.DefaultIfEmpty()
+					   where appointment.UserId == userId && (client.Id == memberId || memberId == 0)
+                       orderby ps.Id
+                       select new
+                       {
+                           jyotishId = jyotish.Id,
+                           jyotishName = jyotish.Name,
+                           expertise = jyotish.Expertise,
+                           experience = jyotish.Experience
+                       }).ToList().Distinct();
+            return res;
+        }
 
         public LayoutDataViewModel LayoutData(int Id)
         {
@@ -1207,7 +1221,6 @@ namespace BusinessAccessLayer.Implementation
             return res;
         }
 
-
-
+      
     }
 }

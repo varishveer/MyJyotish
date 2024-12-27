@@ -524,23 +524,7 @@ namespace MyJyotishGApi.Controllers
 
         }
 
-        [HttpGet("GetAllProblemSolution")]
-        public IActionResult GetAllProblemSolution(int Id)
-        {
-            try
-            {
-                var Result = _services.GetAllProblemSolution(Id);
-                if (Result.Count == 0 || Result == null)
-                { return Ok(new { Status = 404, Message = "Data Not Found" }); }
-
-                else
-                { return Ok(new { Status = 200, Data = Result, Message = "Successful" }); }
-            }
-            catch (Exception ex)
-            { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
-
-        }
-
+       
         [HttpGet("GetProblemSolution")]
         public IActionResult GetProblemSolution(int Id)
         {
@@ -870,6 +854,27 @@ namespace MyJyotishGApi.Controllers
 		public IActionResult GetJyotishByPoojaType(int PoojaTyId)
         {
             var res = _services.getJyotishRecordByPoojaType(PoojaTyId);
+            return Ok(new { status = 200, message = "data retrieve", data = res });
+
+		}
+        [HttpGet("getAllmembers")]
+		public IActionResult getAllmembers(int userId)
+        {
+            var res = _services.getAllmembers(userId);
+            return Ok(new { status = 200, message = "data retrieve", data = res });
+
+		}
+        [HttpGet("getAllAppointmentBymemebersanduser")]
+		public IActionResult getAllAppointmentBymemebersanduser(int memberId,int userId, int jyotishId)
+        {
+            var res = _services.getAllAppointmentBymemebersanduser(memberId,userId, jyotishId);
+            return Ok(new { status = 200, message = "data retrieve", data = res });
+
+		}
+        [HttpGet("getjyotishByuserAppointment")]
+		public IActionResult getjyotishByuserAppointment(int userId,int memberId)
+        {
+            var res = _services.getjyotishByuserAppointment(userId,memberId);
             return Ok(new { status = 200, message = "data retrieve", data = res });
 
 		}

@@ -1,0 +1,194 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<style>
+    .content {
+            padding: 20px;
+            max-width: 1100px;
+            margin: 20px auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            color: #333;
+        }
+        h3 {
+            color: #555;
+        }
+        ul {
+            margin-left: 20px;
+        }
+        .zodiac-signs, .planets, .houses {
+            margin-bottom: 30px;
+        }
+        .zodiac-signs li, .planets li, .houses li {
+            margin-bottom: 8px;
+        }
+        .box {
+            background-color: #e9f4f7;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+       
+
+        /* Responsive Styles */
+        @@media (max-width: 768px) {
+            header h1 {
+                font-size: 1.5rem;
+            }
+            .content {
+                padding: 15px;
+            }
+            .content h2 {
+                font-size: 1.3rem;
+            }
+            .zodiac-signs li, .planets li, .houses li {
+                font-size: 0.9rem;
+            }
+        }
+
+        @@media (max-width: 480px) {
+            header {
+                padding: 15px;
+            }
+            header h1 {
+                font-size: 1.2rem;
+            }
+            .content {
+                padding: 10px;
+            }
+            .content h2 {
+                font-size: 1.1rem;
+            }
+            .box {
+                padding: 12px;
+            }
+        }
+</style>
+
+<div class="container ">
+    <div class="row">
+        <div class="col-sm-12 mt-4">
+            <div class="row">
+                <div class="col-sm-4">
+                    <img src="https://api.myjyotishg.in/Images/Tabs/Astrology.jpg"
+                         class="card-img-top w-75 h-75 rounded-circle servicecard"
+                         alt="Astrology" />
+                </div>
+                <div class="col-sm-8 d-flex align-items-center">
+                    <p>
+                        Astrology is an ancient belief system that posits a connection between the positions and movements of celestial bodies—such as the stars, planets, and the Moon—and events on Earth, including human behavior, personality traits, and even life’s larger patterns. According to astrology, the alignment of these celestial bodies at the time of one's birth influences their individual characteristics, life path, and experiences. While astrology is not recognized as a science by the scientific community, it has endured across centuries and cultures, remaining a popular tool for self-reflection, guidance, and prediction.
+
+                        At its core, astrology is based on the idea that the universe is interconnected. The celestial bodies, which include the Sun, Moon, planets, and stars, all affect the natural world and human affairs. Astrology divides the sky into twelve distinct sections, known as the zodiac signs, each representing different personality traits, behaviors, and tendencies. These signs are based on the position of the Sun relative to the stars at the time of one's birth. The twelve signs are grouped into four elements: Fire, Earth, Air, and Water, which symbolize different characteristics.
+
+                        The twelve zodiac signs—Aries, Taurus, Gemini, Cancer, Leo, Virgo, Libra, Scorpio, Sagittarius, Capricorn, Aquarius, and Pisces—are often the most widely recognized aspect of astrology. Each sign has distinct traits, such as Aries being assertive and energetic, while Cancer is known for being emotional and nurturing. The Sun sign, which is determined by the month and day of a person’s birth, is the most common astrological reference, but astrologers also look at other factors, including the Moon sign and Rising sign (Ascendant), for a more comprehensive understanding.
+                       </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header class="mt-5">
+        <h3 class="text-center">Astrology Overview</h3>
+    </header>
+
+    <div class="content">
+        <section>
+            <h2 class="section-title"><i class="fas fa-stars"></i> Zodiac Signs</h2>
+            <p>The zodiac consists of 12 signs, each representing different personality traits. Here's a brief overview of each sign:</p>
+            <div class="list-group">
+                <li class="list-group-item"><strong>Aries</strong> (March 21 - April 19): Assertive, courageous, energetic</li>
+                <li class="list-group-item"><strong>Taurus</strong> (April 20 - May 20): Practical, reliable, sensual</li>
+                <li class="list-group-item"><strong>Gemini</strong> (May 21 - June 20): Curious, adaptable, social</li>
+                <li class="list-group-item"><strong>Cancer</strong> (June 21 - July 22): Emotional, nurturing, intuitive</li>
+                <li class="list-group-item"><strong>Leo</strong> (July 23 - August 22): Charismatic, creative, confident</li>
+                <li class="list-group-item"><strong>Virgo</strong> (August 23 - September 22): Analytical, detail-oriented, practical</li>
+                <li class="list-group-item"><strong>Libra</strong> (September 23 - October 22): Diplomatic, charming, balanced</li>
+                <li class="list-group-item"><strong>Scorpio</strong> (October 23 - November 21): Intense, passionate, resourceful</li>
+                <li class="list-group-item"><strong>Sagittarius</strong> (November 22 - December 21): Adventurous, optimistic, independent</li>
+                <li class="list-group-item"><strong>Capricorn</strong> (December 22 - January 19): Disciplined, responsible, ambitious</li>
+                <li class="list-group-item"><strong>Aquarius</strong> (January 20 - February 18): Innovative, independent, humanitarian</li>
+                <li class="list-group-item"><strong>Pisces</strong> (February 19 - March 20): Compassionate, artistic, intuitive</li>
+            </div>
+        </section>
+
+        <!-- Planets Section -->
+        <section class="mt-5">
+            <h2 class="section-title"><i class="fas fa-planet"></i> Planets and Their Influence</h2>
+            <p>In astrology, each planet represents certain energies that influence different aspects of life. Here are some of the most important planets:</p>
+            <div class="list-group">
+                <li class="list-group-item"><strong>Sun</strong>: Represents your core self, ego, and identity.</li>
+                <li class="list-group-item"><strong>Moon</strong>: Governs emotions, instincts, and your subconscious.</li>
+                <li class="list-group-item"><strong>Mercury</strong>: Affects communication, thinking, and intellect.</li>
+                <li class="list-group-item"><strong>Venus</strong>: Governs love, beauty, and relationships.</li>
+                <li class="list-group-item"><strong>Mars</strong>: Represents energy, action, and drive.</li>
+                <li class="list-group-item"><strong>Jupiter</strong>: Symbolizes growth, optimism, and abundance.</li>
+                <li class="list-group-item"><strong>Saturn</strong>: Influences discipline, structure, and responsibility.</li>
+                <li class="list-group-item"><strong>Uranus</strong>: Represents innovation, originality, and sudden changes.</li>
+                <li class="list-group-item"><strong>Neptune</strong>: Governs dreams, intuition, and spiritual growth.</li>
+                <li class="list-group-item"><strong>Pluto</strong>: Represents transformation, power, and rebirth.</li>
+            </div>
+        </section>
+
+        <!-- Houses Section -->
+        <section class="mt-5">
+            <h2 class="section-title"><i class="fas fs-4 fa-home"></i> Houses in Astrology</h2>
+            <p>The sky is divided into 12 sections, or "houses," each representing a different aspect of life. Here’s a brief description of the 12 houses:</p>
+            <div class="list-group">
+                <li class="list-group-item"><strong>1st House</strong>: Self-image, personality</li>
+                <li class="list-group-item"><strong>2nd House</strong>: Money, values, possessions</li>
+                <li class="list-group-item"><strong>3rd House</strong>: Communication, short trips, siblings</li>
+                <li class="list-group-item"><strong>4th House</strong>: Home, family, roots</li>
+                <li class="list-group-item"><strong>5th House</strong>: Creativity, romance, children</li>
+                <li class="list-group-item"><strong>6th House</strong>: Health, daily work, service</li>
+                <li class="list-group-item"><strong>7th House</strong>: Partnerships, marriage</li>
+                <li class="list-group-item"><strong>8th House</strong>: Transformation, sex, shared resources</li>
+                <li class="list-group-item"><strong>9th House</strong>: Travel, higher education, philosophy</li>
+                <li class="list-group-item"><strong>10th House</strong>: Career, reputation, authority</li>
+                <li class="list-group-item"><strong>11th House</strong>: Friendships, social groups, dreams</li>
+                <li class="list-group-item"><strong>12th House</strong>: Subconscious, isolation, spirituality</li>
+            </div>
+        </section>
+
+        <!-- Aspects Section -->
+        <section class="mt-5">
+            <h2 class="section-title"><i class="fas fa-random"></i> Aspects in Astrology</h2>
+            <p>Aspects refer to the angles that planets form with one another. They are critical in astrology because they reveal how the energies of planets interact. Below are common aspects and their meanings:</p>
+            <div class="list-group">
+                <li class="list-group-item"><strong>Conjunction</strong>: Planets in the same position, intensifying their combined energies.</li>
+                <li class="list-group-item"><strong>Opposition</strong>: Planets opposite each other, creating tension but also balance.</li>
+                <li class="list-group-item"><strong>Square</strong>: A challenging aspect (90-degree angle) that may create conflict.</li>
+                <li class="list-group-item"><strong>Trine</strong>: A harmonious aspect (120-degree angle) that brings ease and flow.</li>
+                <li class="list-group-item"><strong>Sextile</strong>: A supportive aspect (60-degree angle) that provides opportunities.</li>
+            </div>
+        </section>
+
+        <!-- Retrograde Section -->
+        <section class="mt-5">
+            <h2 class="section-title"><i class="fas fa-retweet"></i> Retrograde Planets</h2>
+            <p>When a planet appears to move backward through the zodiac (retrograde motion), its energy is often misunderstood or blocked. Here’s what you need to know about retrogrades:</p>
+            <div class="list-group">
+                <li class="list-group-item"><strong>Mercury Retrograde</strong>: Known for communication mishaps, delays, and technology problems.</li>
+                <li class="list-group-item"><strong>Venus Retrograde</strong>: A time for reflecting on relationships, love, and personal values.</li>
+                <li class="list-group-item"><strong>Mars Retrograde</strong>: A period of re-evaluating action, ambition, and energy levels.</li>
+            </div>
+        </section>
+
+        <!-- Birth Chart Section -->
+        <section class="mt-5">
+            <h2 class="section-title"><i class="fas fa-chart-line"></i> Birth Chart (Natal Chart)</h2>
+            <p>Your birth chart is a map of where all the planets were located at the time of your birth. Each planet's position reveals insights into your personality, strengths, and challenges:</p>
+            <ul>
+                <li><strong>Sun Sign</strong>: Represents your core identity and ego.</li>
+                <li><strong>Moon Sign</strong>: Governs emotions and your subconscious self.</li>
+                <li><strong>Rising Sign</strong>: Also known as the Ascendant, represents how others see you and your outward persona.</li>
+            </ul>
+        </section>
+    </div>
+
+</div>
