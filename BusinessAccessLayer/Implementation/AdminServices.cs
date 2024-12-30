@@ -1267,8 +1267,8 @@ namespace BusinessAccessLayer.Implementation
         {
             var Subscription = _context.Subscriptions.Where(x => x.SubscriptionId == model.SubscriptionId && x.Status == true).FirstOrDefault();
 
-            var OldRecord = _context.ManageSubscriptionModels.Where(x => x.SubscriptionId == model.SubscriptionId && x.Status == true).Select(x=>x.FeatureId). ToList();
-            if (OldRecord.Contains(model.FeatureId))
+            var OldRecord = _context.ManageSubscriptionModels.Where(x => x.SubscriptionId == model.SubscriptionId && x.ServiceCount==model.ServiceCount && x.FeatureId==model.FeatureId && x.Status == true).FirstOrDefault();
+            if (OldRecord!=null)
             {
                 return "Nothing For Update";
 

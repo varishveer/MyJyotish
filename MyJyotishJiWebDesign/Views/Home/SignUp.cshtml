@@ -91,12 +91,12 @@
             <form id="registrationForm">
                 <div class="form-row row">
                     <div class="form-group col-md-6 mb-0">
-                        <label for="name" class="form-label">Name:</label>
+                        <label for="name" class="form-label">Name<span class="text-danger">*</span>:</label>
                         <input type="text" id="name" name="name" placeholder="Enter your name" class="form-control mb-0"
                                required>
                     </div>
                     <div class="form-group col-md-6 mb-0">
-                        <label for="email" class="form-label">Email:</label>
+                        <label for="email" class="form-label">Email<span class="text-danger">*</span>:</label>
                         <div class="input-group">
                             <input type="email" id="email" name="email" class="form-control mb-0"
                                    placeholder="Enter your email" aria-label="Recipient's username" required>
@@ -106,7 +106,7 @@
                 </div>
 
                 <div class="form-group col-md-12 mb-0 d-none otpContainer">
-                    <label for="otp" class="form-label otp-label">Verification:</label>
+                    <label for="otp" class="form-label otp-label">Verification<span class="text-danger">*</span>:</label>
                     <div class="input-group">
                         <input type="number" id="otp" name="otp" class="form-control otp-input"
                                placeholder="Enter OTP">
@@ -118,7 +118,7 @@
 
                 <div class="form-row row">
                     <div class="form-group col-md-6">
-                        <label for="gender" class="form-label">Gender:</label>
+                        <label for="gender" class="form-label">Gender<span class="text-danger">*</span>:</label>
                         <select id="gender" name="gender" class="form-select custom-field" required>
                             <option value="Male" selected>Male</option>
                             <option value="Female">Female</option>
@@ -126,7 +126,7 @@
                         </select>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="DoB" class="form-label">Date Of Birth:</label>
+                        <label for="DoB" class="form-label">Date Of Birth<span class="text-danger">*</span>:</label>
                         <input type="text" class="form-control custom-field" id="DoB" name="doB" placeholder="Enter DOB" />
                     </div>
                 </div>
@@ -134,7 +134,7 @@
                 <div class="form-row row">
 
                     <div class="form-group col-md-6 position-relative">
-                        <label for="PlaceOfBirthInput" class="form-label">Place of Birth:</label>
+                        <label for="PlaceOfBirthInput" class="form-label">Place of Birth<span class="text-danger">*</span>:</label>
                         <input list="PlaceOfBirthList" type="text" id="PlaceOfBirthInput" name="placeOfBirth" class="form-control custom-field"
                                placeholder="Enter City" autocomplete="off" />
                         <div class="position-absolute bg-light d-none" id="PlaceOfBirthList">
@@ -144,7 +144,7 @@
                         </datalist> *@
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="TimeOfBirth" class="form-label">Time Of Birth:</label>
+                        <label for="TimeOfBirth" class="form-label">Time Of Birth<span class="text-danger">*</span>:</label>
                         <input type="time" class="form-control custom-field" id="TimeOfBirth" name="timeOfBirth" />
                     </div>
                 </div>
@@ -153,14 +153,14 @@
 
 
                     <div class="form-group col-md-6" style="margin-bottom: 0.2rem;">
-                        <label for="country" class="form-label ">Country:</label>
+                        <label for="country" class="form-label ">Country<span class="text-danger">*</span>:</label>
                         <select id="country" name="country" class="form-select disabledInput custom-field" required>
                             <option value="">Select Country</option>
                             <!-- Add country options here -->
                         </select>
                     </div>
                     <div class="form-group col-md-6" style="margin-bottom: 0.6rem;">
-                        <label for="state" class="form-label">State:</label>
+                        <label for="state" class="form-label">State<span class="text-danger">*</span>:</label>
                         <select id="state" name="state" class="form-select disabledInput" disabled>
                             <option value="">Select State</option>
                             <!-- Add state options here -->
@@ -172,7 +172,7 @@
 
 
                     <div class="form-group col-md-6" style="margin-bottom: 0.6rem;">
-                        <label for="city" class="form-label">City:</label>
+                        <label for="city" class="form-label">City<span class="text-danger">*</span>:</label>
                         <select id="city" name="city" class="form-select disabledInput" disabled>
                             <option value="">Select City</option>
                             <!-- Add city options here -->
@@ -180,7 +180,7 @@
                     </div>
 
                     <div class="form-group col-md-6">
-                        <label for="mobile" class="form-label">Mobile:</label>
+                        <label for="mobile" class="form-label">Mobile<span class="text-danger">*</span>:</label>
                         @* <input type="tel" id="mobile" name="mobile" class="form-control custom-field" placeholder="Mobile Number"
                         required> *@
                         <div class="d-flex">
@@ -245,7 +245,11 @@
                 $placeOfBirthDropdown.append(`<p class="pOBPtag" onClick="setPlace('${placeOfBirth.record}')"> ${placeOfBirth.record}</p>`);
             });
         } catch (error) {
-            console.error('Error fetching PlaceOfBirth:', error);
+            Swal.fire({
+                text:'Error fetching PlaceOfBirth',
+                title:"error",
+                icon:"error"
+            });
         }
     }
     function setPlace(svalue) {
@@ -481,7 +485,11 @@
 
             },
             error: function (xhr) {
-                alert('Error: ' + xhr.status + ' - ' + xhr.statusText);
+                Swal.fire({
+                text:'Error fetching',
+                title:"error",
+                icon:"error"
+            });
             }
         });
     });
@@ -531,6 +539,8 @@
             Swal.close();
             $stateDropdown.prop('disabled', false);
         } catch (error) {
+            Swal.close()
+
             console.error('Error fetching states:', error);
         }
     }
@@ -555,6 +565,8 @@
             $cityDropdown.prop('disabled', false);
         } catch (error) {
             console.error('Error fetching cities:', error);
+            Swal.close()
+
         }
     }
 

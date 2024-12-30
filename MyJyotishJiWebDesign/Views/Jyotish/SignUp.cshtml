@@ -84,11 +84,11 @@
             <form id="registrationForm">
                 <div class="form-row">
                     <div class="form-group col-md-6" style="margin-bottom: 0.1rem;">
-                        <label for="name" class="form-label">Name:</label>
+                        <label for="name" class="form-label">Name<span class="text-danger">*</span>:</label>
                         <input type="text" id="name" name="name" placeholder="Enter your name" class="form-control" required>
                     </div>
                     <div class="form-group col-md-6" style="margin-bottom: 0.1rem;">
-                        <label for="email" class="form-label">Email:</label>
+                        <label for="email" class="form-label">Email<span class="text-danger">*</span>:</label>
                         <div class="input-group">
                             <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email" aria-label="Recipient's username" required>
                             <button class="btn btn-outline-secondary otpcolour rounded-end bg-info" type="button" id="getOtp">Get OTP</button>
@@ -98,7 +98,7 @@
                 </div>
 
                 <div class="form-row d-none" id="verifyOtp-container">
-                    <label for="otp" class="form-label">Verification:</label>
+                    <label for="otp" class="form-label">Verification<span class="text-danger">*</span>:</label>
                     <div class="input-group col-md-12" style="margin-bottom: 0.2rem;">
                         <input type="number" id="otp" name="otp" class="form-control" placeholder="Enter OTP">
                         <button class="btn btn-outline-secondary bg-info text-white" type="button" id="verifyOtp">Verify OTP</button>
@@ -108,7 +108,7 @@
                 <div class="form-row">
 
                     <div class="form-group col-md-6" style="margin-bottom: 0.2rem;">
-                        <label for="gender" class="form-label">Gender:</label>
+                        <label for="gender" class="form-label">Gender<span class="text-danger">*</span>:</label>
                         <select id="gender" name="gender" class="form-select disabledInput" required>
                             <option value="Male" selected>Male</option>
                             <option value="Female">Female</option>
@@ -116,7 +116,7 @@
                         </select>
                     </div>
                     <div class="form-group col-md-6" style="margin-bottom: 0.2rem;">
-                        <label for="language" class="form-label">Language:</label>
+                        <label for="language" class="form-label">Language<span class="text-danger">*</span>:</label>
                         <select id="language" name="language" class="form-select disabledInput" required>
                             <option value="">Select Language</option>
                             <!-- Add language options here -->
@@ -127,14 +127,14 @@
                 <div class="form-row">
 
                     <div class="form-group col-md-6" style="margin-bottom: 0.2rem;">
-                        <label for="expertise" class="form-label">Expertise:</label>
+                        <label for="expertise" class="form-label">Expertise<span class="text-danger">*</span>:</label>
                         <select id="expertise" name="expertise" class="form-select disabledInput" required>
                             <option value="">Select Expertise</option>
                             <!-- Add expertise options here -->
                         </select>
                     </div>
                     <div class="form-group col-md-6" style="margin-bottom: 0.2rem;">
-                        <label for="country" class="form-label">Country:</label>
+                        <label for="country" class="form-label">Country<span class="text-danger">*</span>:</label>
                         <select id="country" name="country" class="form-select disabledInput" required>
                             <option value="">Select Country</option>
                             <!-- Add country options here -->
@@ -145,14 +145,14 @@
                 <div class="form-row">
 
                     <div class="form-group col-md-6" style="margin-bottom: 0.6rem;">
-                        <label for="state" class="form-label">State:</label>
+                        <label for="state" class="form-label">State<span class="text-danger">*</span>:</label>
                         <select id="state" name="state" class="form-select disabledInput" disabled>
                             <option value="">Select State</option>
                             <!-- Add state options here -->
                         </select>
                     </div>
                     <div class="form-group col-md-6" style="margin-bottom: 0.6rem;">
-                        <label for="city" class="form-label">City:</label>
+                        <label for="city" class="form-label">City<span class="text-danger">*</span>:</label>
                         <select id="city" name="city" class="form-select disabledInput" disabled>
                             <option value="">Select City</option>
                             <!-- Add city options here -->
@@ -163,7 +163,7 @@
 
                 <div class="form-row mb-2">
                     <div class="form-group col-md-6" style="margin-bottom: 0.2rem;">
-                        <label for="mobile" class="form-label">Mobile Number:</label>
+                        <label for="mobile" class="form-label">Mobile Number<span class="text-danger">*</span>:</label>
                         <div class="d-flex">
                             <input type="text" class="rounded-start countryCode" value="+91" disabled style="width:40px;" />
                             <input type="number" id="mobile" name="mobile" class="form-control rounded-start-0 rounded-end disabledInput" placeholder="Mobile Number" required>
@@ -224,9 +224,6 @@
                 });
                 return; 
             }
-
-
-
 
             Swal.fire({
                 title: "Processing Your Request",
@@ -361,11 +358,10 @@
                 },
                 error: function (xhr) {
                     Swal.fire({
-                        title: "Something went Wrong",
+                        title: "Something went wrong",
+                        text: "some error occured",
                         icon: "warning",
                     });
-
-
                     console.log("Error: " + xhr.status + " - " + xhr.statusText);
                 }
             });
@@ -392,6 +388,8 @@
                 });
                 Swal.close()
             } catch (error) {
+                Swal.close()
+
                 console.error('Error fetching Language:', error);
             }
         }
@@ -419,6 +417,8 @@
                 });
                 Swal.close()
             } catch (error) {
+                Swal.close()
+
                 console.error('Error fetching expertise:', error);
             }
         }
@@ -433,6 +433,8 @@
                     $countryDropdown.append(`<option value="${country.id}" data-countryName="${country.name}">${country.name}</option>`);
                 });
             } catch (error) {
+                Swal.close()
+
                 console.error('Error fetching countries:', error);
             }
         }
@@ -456,6 +458,7 @@
                 Swal.close();
                 $stateDropdown.prop('disabled', false);
             } catch (error) {
+                Swal.close()
                 console.error('Error fetching states:', error);
             }
         }
@@ -479,6 +482,7 @@
                 Swal.close()
                 $cityDropdown.prop('disabled', false);
             } catch (error) {
+                Swal.close()
                 console.error('Error fetching cities:', error);
             }
         }
@@ -604,7 +608,8 @@
                         }
                     } catch (e) {
                         Swal.fire({
-                            title: "Something went wrong",
+                            title: "erroe",
+                            text:"some error occured"
                             icon: "warning",
                         });
                         // Fallback if parsing fails

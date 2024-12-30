@@ -70,106 +70,16 @@
         background-color: #28a745
     }
 
-
+    .select2 {
+        width:100% !important;
+    }
+    .select2-selection{
+               height:100% !important;
+               border-radius:0 !important;
+display:block;
+    }
 
 </style>
-
-
-<div class="container d-flex justify-content-center align-items-center min-vh-90 mt-4">
-    <div class="main-container row w-75 rounded-3">
-
-        <div class="col-lg-12 col-md-12 p-2 bg-white right-part ">
-            <h4 class="mb-3  text-primary font-weight-bold">Create Plan</h4>
-            <hr />
-            <form method="post">   
-                <div class="form-row ">
-                    <div class="form-group col-md-2">
-                        <label for="username" class="form-label">Plan Name :</label>
-                    </div> 
-                    <div class="form-group col-md-4">
-                        <input type="text" class="form-control" id="Name" name="Name" placeholder="Enter name">
-                    </div>
-                     <div class="form-group col-md-2">
-                        <label for="username" class="form-label">Plan Type :</label>
-                    </div> 
-                    <div class="form-group col-md-4">
-                        <select id="PlanType" name="PlanType" class="form-select" required>
-                          <option disabled>--Select Plan Type--</option>
-                          <option value="Yearly">Yearly</option>
-                          <option value="Monthly">Monthly</option>
-                        </select>
-                    </div>
-                   
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-2">
-                        <label for="mobile" class="form-label">Amount :</label>
-                    </div>
-                    <div class="form-group col-md-4">
-                        <input type="number" class="form-control" id="OldPrice" name="OldPrice" placeholder="Enter old price">
-                    </div>
-                    <div class="form-group col-md-2">
-                        <label for="email" class="form-label">Discount :</label>
-                    </div>
-                    <div class="form-group col-md-4">
-                        <input type="number" name="Discount" id="Discount" class="form-control" placeholder="Enter discount" value="" step="any" autocomplete="off">
-                    </div>
-
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-2">
-                        <label for="problems" class="form-label">GST :</label>
-                    </div>
-                    <div class="form-group col-md-4">
-                        <input type="number" id="Gst" name="Gst" class="form-control" placeholder="Enter GST">
-                    </div>
-                   
-                    <div class="form-group col-md-2">
-                        <label for="email" class="form-label">Discount Amount :</label>
-                    </div>
-                    <div class="form-group col-md-4">
-                        <input type="number" name="DiscountAmount" id="DiscountAmount" class="form-control" placeholder="Discount amount" value="" step="any" autocomplete="off" readonly>
-                    </div>
-
-                </div>    
-
-                <div class="form-row">
-
-                    <div class="form-group col-md-2">
-                        <label for="date" class="form-label">New Amount :</label>
-                    </div>
-                    <div class="form-group col-md-4">
-                        <input type="number" id="NewPrice" name="NewPrice" class="form-control" placeholder="New amount"  value="" autocomplete="off" readonly step="any">
-                    </div>
-                      
-                
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-2">
-                        <label for="problems" class="form-label">Description :</label>
-                    </div>
-                    <div class="form-group col-md-10">
-                        <textarea id="description" name="description" class="form-control" placeholder="Enter Description" style="resize:none;">
-                           
-                        </textarea>
-                    </div>
-
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <button id="btnUpdate" class="btn btn-success px-3" style="display:none;">Update</button>
-                        <button id="btnCreate" class="btn btn-success px-3">Create</button>
-                    </div>
-
-                    
-                </div>
-
-            </form>
-        </div>
-    </div>
-</div>
-
 
 
 <div class="container-fluid mt-4">
@@ -177,9 +87,7 @@
 
         <div class="d-flex flex-row justify-content-between align-items-center pt-2 px-4">
             <h5 class="text-primary">Subscription List</h5>
-            <a href="/Admin/AddPoojaCategory">
-            </a>
-
+            <button class="btn btn-success" onclick="addSubscription()">New Subscription</button>
         </div>
         <hr />
 
@@ -201,7 +109,7 @@
                            
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="planTBody">
                       
                     </tbody>
                 </table>
@@ -210,6 +118,345 @@
     </div>
 </div>
 
+<!-- create plan -->
+<div class="modal fade" id="CreatePlanModal" tabindex="-1" aria-labelledby="CreatePlanModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="CreatePlanModalLabel">Create Plan</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form method="post" id="subscriptionForm">   
+              <div class="form-row ">
+                    <div class="form-group col-md-2">
+                        <label for="username" class="form-label">Plan Name :</label>
+                    </div> 
+                    <div class="form-group col-md-4">
+                        <input type="text" class="form-control Name" name="Name" placeholder="Enter name">
+                    </div>
+                     <div class="form-group col-md-2">
+                        <label for="username" class="form-label">Plan Type :</label>
+                    </div> 
+                    <div class="form-group col-md-4">
+                        <select name="PlanType" class="form-select PlanType" required>
+                          <option disabled>--Select Plan Type--</option>
+                          <option value="Yearly">Yearly</option>
+                          <option value="Monthly">Monthly</option>
+                        </select>
+                    </div>
+                   
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-2">
+                        <label for="mobile" class="form-label">Amount :</label>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <input type="number" class="form-control OldPrice" name="OldPrice" placeholder="Enter old price">
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="email" class="form-label">Discount :</label>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <input type="number" name="Discount"  class="form-control Discount" placeholder="Enter discount" value="" step="any" autocomplete="off">
+                    </div>
+
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-2">
+                        <label for="problems" class="form-label">GST :</label>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <input type="number" name="Gst" class="form-control Gst" placeholder="Enter GST">
+                    </div>
+                   
+                    <div class="form-group col-md-2">
+                        <label for="email" class="form-label">Discount Amount :</label>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <input type="number" name="DiscountAmount"  class="form-control DiscountAmount" placeholder="Discount amount" value="" step="any" autocomplete="off" readonly>
+                    </div>
+
+                </div>    
+
+                <div class="form-row">
+
+                    <div class="form-group col-md-2">
+                        <label for="date" class="form-label">New Amount :</label>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <input type="number" name="NewPrice" class="form-control NewPrice" placeholder="New amount"  value="" autocomplete="off" readonly step="any">
+                    </div>
+                      
+                
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-2">
+                        <label for="problems" class="form-label">Description :</label>
+                    </div>
+                    <div class="form-group col-md-10">
+                        <textarea  name="description" class="form-control description" placeholder="Enter Description" style="resize:none;"></textarea>
+                    </div>
+
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-12 text-center">
+                        <button role="button" id="btnCreate" class="btn btn-success px-3">Create</button>
+                    </div>
+                </div>
+            </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--Update Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Update Plans</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form method="post" id="subscriptionForm">   
+                <div class="form-row ">
+                    <div class="form-group col-md-2">
+                        <label for="username" class="form-label">Plan Name :</label>
+                    </div> 
+                    <div class="form-group col-md-4">
+                        <input type="text" class="form-control Name" name="Name" placeholder="Enter name">
+                    </div>
+                     <div class="form-group col-md-2">
+                        <label for="username" class="form-label">Plan Type :</label>
+                    </div> 
+                    <div class="form-group col-md-4">
+                        <select name="PlanType" class="form-select PlanType" required>
+                          <option disabled>--Select Plan Type--</option>
+                          <option value="Yearly">Yearly</option>
+                          <option value="Monthly">Monthly</option>
+                        </select>
+                    </div>
+                   
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-2">
+                        <label for="mobile" class="form-label">Amount :</label>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <input type="number" class="form-control OldPrice" name="OldPrice" placeholder="Enter old price">
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="email" class="form-label">Discount :</label>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <input type="number" name="Discount"  class="form-control Discount" placeholder="Enter discount" value="" step="any" autocomplete="off">
+                    </div>
+
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-2">
+                        <label for="problems" class="form-label">GST :</label>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <input type="number" name="Gst" class="form-control Gst" placeholder="Enter GST">
+                    </div>
+                   
+                    <div class="form-group col-md-2">
+                        <label for="email" class="form-label">Discount Amount :</label>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <input type="number" name="DiscountAmount"  class="form-control DiscountAmount" placeholder="Discount amount" value="" step="any" autocomplete="off" readonly>
+                    </div>
+
+                </div>    
+
+                <div class="form-row">
+
+                    <div class="form-group col-md-2">
+                        <label for="date" class="form-label">New Amount :</label>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <input type="number" name="NewPrice" class="form-control NewPrice" placeholder="New amount"  value="" autocomplete="off" readonly step="any">
+                    </div>
+                      <div class="col-md-2">Services</div>
+                      <div class="col-md-4">
+                          <div class="w-100 btn btn-success" id="AddServiceBtn"><i class="fas text-light fa-plus-circle"></i> &nbsp; Services </div>
+                      </div>
+                
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-2">
+                        <label for="problems" class="form-label">Description :</label>
+                    </div>
+                    <div class="form-group col-md-10">
+                        <textarea  name="description" class="form-control description" placeholder="Enter Description" style="resize:none;"></textarea>
+                    </div>
+
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-12 text-center">
+                        <button role="button btnUpdate" id="btnUpdate" class="btn btn-success px-3" >Update</button>
+                      
+                    </div>
+
+                    
+                </div>
+
+            </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>    
+    </div>
+  </div>
+</div>
+
+<!-- Service Modal -->
+<div class="modal fade" id="serviceModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="serviceModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="serviceModalLabel">Add Services</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="w-100 mt-4 mx-auto border rounded p-3" id="serviceForm">
+        <input type="hidden" name="features" id="featureId" />
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-6">
+                    <span>Plan</span>
+        <select name="plan" class="form-select" id="planSelect" required>
+            <option selected disabled>--select plan--</option>
+        </select>
+                </div>
+                <div class="col-sm-6 ">
+                    <span>Features</span>
+                    <div class="d-flex w-100">
+                    <select id="Features" name="features" class="form-select select serviceFeatures rounded-0" required>
+                     <option>--select features--</option>
+                    </select><button id="addFeatures" type="button" role="button" class="btn btn-success rounded-0"><i class="fas text-light fa-plus-circle"></i></button>
+        </div>
+        </div>
+        </div>
+                <div class="col-sm-12 my-3">
+                    <div class="row">
+                <div class="col-sm-6 pl-0">
+        <input type="number" name="serviceCount" id="serviceCount" required placeholder="Enter Service Count"  class="form-control"/>
+        </div>
+        <div class="col-sm-12 mb-3 mt-4 text-center">
+        <input type="submit" value="Add" id="subBtn"  class="btn btn-success"/>
+        <button class="btn btn-danger d-none" id="cancelServiceUpdate" role="button" type="button">Cancel</button>
+        </div>
+        </div>
+    </div>
+    </div>
+    </form>
+    <div class="card">
+
+        <div class="d-flex flex-row justify-content-between align-items-center pt-2 px-4">
+            <h5 class="text-primary">Service List</h5>
+            
+        </div>
+        <hr />
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="DataTable" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Sr</th>
+                            <th>Plan Name</th>
+                            <th>Plan Feature</th>
+                            <th>Service Count</th>
+                            <th>Action</th>
+
+                        </tr>
+                    </thead>
+                    <tbody id="serviceTBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--add feature Modal -->
+<div class="modal fade" id="featuresModal" tabindex="-1" aria-labelledby="featuresModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="featuresModalLabel">Add Feature</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="featureForm">
+                <div class="form-row">
+                    <div class="form-group col-md-2">
+                        <label for="problems" class="form-label">Features :</label>
+                    </div>
+                    <div class="form-group col-md-10 mb-3 d-flex gap-2">
+                        <input type="text" class="form-control" id="Name" required name="Name" placeholder="Enter Feature Name">
+                        <input type="text" class="form-control" id="Url" required name="Url" placeholder="Enter Url">
+                        <input type="hidden" class="form-control" id="featureId">
+                    </div>
+
+                </div>
+           
+                <div class="form-group d-flex gap-2 justify-content-center">
+
+                    <button id="btnupdate" class="btn btn-success px-3" style="display:none;">Update</button>
+                    <button id="btnsubmit" class="btn btn-success px-3" >Add</button>
+        <button class="btn btn-danger d-none" id="cancelFeatureUpdate" role="button" type="button">Cancel</button>
+
+                </div>
+
+            </form>
+            <div class="card">
+        <div class="d-flex flex-row justify-content-between align-items-center pt-2 px-4">
+            <h5 class="text-primary">Features List</h5>
+        </div>
+        <hr />
+
+        <div class="card-body ">
+            <div class="table-responsive">
+                <table id="DataTable" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Features</th>
+                            <th>Url</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="featureTBody">
+                        <!-- Dynamic Data goes here -->
+                      
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
 <!-- Optional: Initialize DataTable -->
@@ -221,12 +468,40 @@
             placeholder: "--Select Option--"
         });
     });
+
+    function addSubscription(){
+        document.getElementById("subscriptionForm").reset();
+        $("#CreatePlanModal").modal("show")
+    }
+
+    $("#AddServiceBtn").click(function(){
+        $("#serviceModal").modal("show")
+        $("#staticBackdrop").modal("hide")
+        getServicesData();
+        getAllservicesList();
+
+    })
+
+   $(document).ready(function() {
+  $("#serviceModal").on("hide.bs.modal", function() {
+    $("#staticBackdrop").modal("show");
+  });
+  $("#featuresModal").on("hide.bs.modal", function() {
+    $("#serviceModal").modal("show");
+  });
+});
+
+$("#addFeatures").click(function(){
+    $("#featuresModal").modal("show")
+        $("#serviceModal").modal("hide")
+        getAllFeatures()
+        setTimeout(()=>{
+        $("#staticBackdrop").modal("hide")
+        },500)
+
+
+})
 </script>
-
-
-
-
-
 
 <!----Discount Calculation------>
 
@@ -234,59 +509,59 @@
    
     function GetPrice(){
       
-        if ($("#OldPrice").val() == "" || $("#OldPrice")==null){
-            $("#OldPrice").focus();
+        if ($(".OldPrice").val() == "" || $(".OldPrice")==null){
+            $(".OldPrice").focus();
             return 0;
         }
 
-        if ($("#Discount").val() == "" || $("#Discount")==null){
+        if ($(".Discount").val() == "" || $(".Discount")==null){
             $(this).focus();
             return 0;
         }
 
-        let percentage = parseFloat($("#Discount").val());
-        let oldPrice = parseFloat($("#OldPrice").val());
+        let percentage = parseFloat($(".Discount").val());
+        let oldPrice = parseFloat($(".OldPrice").val());
 
-        if ($("#Gst").val() > 0){
+        if ($(".Gst").val() > 0){
            
-            let gstValue = parseFloat($("#Gst").val());
+            let gstValue = parseFloat($(".Gst").val());
             oldPrice = (oldPrice * (gstValue / 100)) + oldPrice;
 
         }
 
         let newPrice = parseFloat((percentage / 100) * oldPrice);
         let rem = parseFloat(oldPrice - newPrice);
-        $("#DiscountAmount").val(newPrice.toFixed(2));
-        $("#NewPrice").val(rem.toFixed(2));
+        $(".DiscountAmount").val(newPrice.toFixed(2));
+        $(".NewPrice").val(rem.toFixed(2));
 
     
     }
 
-    $("#OldPrice").on("input", function () {
+    $(".OldPrice").on("input", function () {
         GetPrice();
     });
   
-    $("#Discount").on("input", function () {
+    $(".Discount").on("input", function () {
         GetPrice();
     });
  
-    $("#Gst").on("input", function (e) {
+    $(".Gst").on("input", function (e) {
         
         let gstVal = e.target.value;
         if (gstVal < 0 || !gstVal > 0) {
             GetPrice();
         }
 
-        if ($("#OldPrice").val() == "" || $("#OldPrice").val() == null) {
-            $("#OldPrice").focus();
+        if ($(".OldPrice").val() == "" || $(".OldPrice").val() == null) {
+            $(".OldPrice").focus();
             return;
         }
 
-        let finalPrice = parseFloat($("#OldPrice").val());
+        let finalPrice = parseFloat($(".OldPrice").val());
         let newPrice = 0;
 
-        let discount = parseFloat($("#Discount").val());
-        let afterDiscountPrice = parseFloat($("#NewPrice").val());
+        let discount = parseFloat($(".Discount").val());
+        let afterDiscountPrice = parseFloat($(".NewPrice").val());
 
         if (discount > 0) {
             newPrice = finalPrice - ((discount / 100) * finalPrice);
@@ -296,7 +571,7 @@
             newPrice = ((gstVal / 100) * finalPrice) + finalPrice;
         }
 
-        $("#NewPrice").val(newPrice.toFixed(2));
+        $(".NewPrice").val(newPrice.toFixed(2));
     })
 
 </script>
@@ -306,14 +581,14 @@
         $(document).on('click', '#btnCreate', function (e) {
             e.preventDefault();
 
-            var featureName = $('#Name').val();
-            let Amount = $('#OldPrice').val();
-            let newAmount = $('#NewPrice').val();
-            let discount = $('#Discount').val();
-            let gst = $('#Gst').val();
-            let discountAmount = $('#DiscountAmount').val();
-            let planType = $('#PlanType').val();
-            let description = $('#description').val();
+            var featureName = $('.Name').val();
+            let Amount = $('.OldPrice').val();
+            let newAmount = $('.NewPrice').val();
+            let discount = $('.Discount').val();
+            let gst = $('.Gst').val();
+            let discountAmount = $('.DiscountAmount').val();
+            let planType = $('.PlanType').val();
+            let description = $('.description').val();
             let Status = true;
             debugger
             $.ajax({
@@ -343,10 +618,76 @@
                             title: 'Success!',
                             text: 'Plan successfully created.',
                             icon: 'success',
-                            confirmButtonText: 'Ok'
-                        }).then(() => {
-                            window.location.href = "/Admin/Subscription";
+                            confirmButtonText: 'Ok',
+                            didClose:()=>{
+                           getAllSubscription();
+                            }
+                        })
+                    } else if (response.status === 400) {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: response.message,
+                            icon: 'error',
+                            confirmButtonText: 'Close'
                         });
+                    }
+                    else {
+                        console.error("Unexpected response status:", response.status);
+                        alert("An unexpected error occurred.");
+                    }
+                },
+                error: function (error) {
+                    console.error('Error');
+                }
+            });
+        }) 
+        $(document).on('click', '#btnUpdate', function (e) {
+            e.preventDefault();
+
+            var featureName = $('.Name').val();
+            let Amount = $('.OldPrice').val();
+            let newAmount = $('.NewPrice').val();
+            let discount = $('.Discount').val();
+            let gst = $('.Gst').val();
+            let discountAmount = $('.DiscountAmount').val();
+            let planType = $('.PlanType').val();
+            let description = $('.description').val();
+            let Status = true;
+            debugger
+            $.ajax({
+                url: BaseUrl +'api/Admin/UpdateSubscription',
+                type: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                    'Content-Type': 'application/json',
+
+                },
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    Name: featureName,
+                    OldPrice: Amount,
+                    NewPrice: newAmount,
+                    Discount: discount,
+                    Gst: gst,
+                    DiscountAmount: discountAmount,
+                    PlanType: planType,
+                    description: description,
+                    Status: Status
+                }),
+               
+                    success: function(response) {
+                    if (response.status === 200) {
+                        Swal.fire({
+                            title: 'Success!',
+                            text: 'Plan updated successfully',
+                            icon: 'success',
+                            confirmButtonText: 'Ok',
+                            didClose:()=>{
+                           getAllSubscription();
+        $("#staticBackdrop").modal("hide")
+
+                            }
+                        })
                     } else if (response.status === 400) {
                         Swal.fire({
                             title: 'Error!',
@@ -370,7 +711,7 @@
 
 
 <script>
-    $(document).ready(function () {
+    function getAllSubscription() {
 
         $.ajax({
             url: BaseUrl +'api/Admin/GetAllSubscription',
@@ -380,10 +721,10 @@
                 'Content-Type': 'application/json',
             },
             success: function (res) {
-      
+      $('#planTBody').empty()
                 $.each(res.data, function (index, item) {
                   
-                    $('tbody').append(`<tr>
+                    $('#planTBody').append(`<tr>
                                        <td>${index + 1}</td>
                                         <td class='name'>${item.name}</td>
                                         <td class='planType'>${item.planType}</td>
@@ -395,24 +736,22 @@
                                         <td class='description'>${item.description}</td>
                                         <td style='cursor:pointer;'>
                                            <a class="deletePlan" data-id="${item.subscriptionId}">
-                                               <i class="fa-solid fa-trash-can text-danger"></i>
+                                               <i role="button" class="fa-solid fs-5 fa-trash-can text-danger"></i>
                                            </a>
                                             <a class="editPlan" data-id="${item.subscriptionId} ">
-                                                <i class="fa-solid fa-pen-to-square text-success"></i>
+                                                <i role="button" class="fa-solid fs-5 fa-pen-to-square text-success"></i>
                                            </a>
                                         </td>
                                     </tr>`);
                 });
-                $('#DataTable').DataTable();
             },
             error: function (error) {
                 console.error('An error occurred', error);  // Log actual error for better debugging
             }
         });
-    });
+    }
+    getAllSubscription();
 </script>
-
-
 
 <script>
     $(document).ready(function () {
@@ -498,26 +837,589 @@
             var discountAmount = $(this).closest('tr').find('.discountAmount').text();
             var newAmount = $(this).closest('tr').find('.newPrice').text();
             var features = $(this).closest('tr').find('.features').text();
-            var description = $(this).closest('tr').find('.description').text();
-
+            var description = $(this).closest('tr').find('.description').text().trim();
+            debugger
         
-            $('#Name').val(name);
-            $('#Amount').val(amount);
-            $('#Discount').val(discount);
-            $('#PlanType').val(planType);
-            $('#Gst').val(gst);
-            $('#DiscountAmount').val(discountAmount);
-            $('#NewPrice').val(newAmount);
-            $('#description').val(description);
+            $('.Name').val(name);
+            $('.OldPrice').val(amount);
+            $('.Discount').val(discount);
+            $('.PlanType').val(planType);
+            $('.Gst').val(gst);
+            $('.DiscountAmount').val(discountAmount);
+            $('.NewPrice').val(newAmount);
+            $('.description').val(description);  
+            $("#staticBackdrop").modal("show")
+        });
+    });
+</script>
+<!----Dynamic Feature List Load--->
+<script>
+   
+  function getServicesData(){
+        Swal.fire({
+            title: "Processing Your Request",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
+          $.ajax({
+            url: BaseUrl +'api/Admin/GetAllSubscription',
+            type: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                'Content-Type': 'application/json',
+            },
+            success: function (res) {
+                $("#planSelect").empty()
+                 $("#planSelect").append(`<option value=''>--select plan--</option>`)
+                $.each(res.data, function (index, item) {
+                    $("#planSelect").append(`
+                        <option value='${item.subscriptionId}'>${item.name}</option>
+`)
+                });
+            },
+            error: function (error) {
+                console.error('An error occurred', error);  // Log actual error for better debugging
+            }
+        }).then(()=>{
+        $.ajax({
+            url: BaseUrl + 'api/Admin/GetAllFeatures',
+            type: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                'Content-Type': 'application/json',
+            },
+            success: function (res) {
+                $('#Features').empty();
+                Swal.close()
+                    var row = `<option value=''>--select features</option>`;
+                    $('#Features').append(row);
 
-            // Show or hide the appropriate buttons
-            if (Id) {
-                $('#btnUpdate').show();
-                $('#btnCreate').hide();  // Corrected selector from 'btnCreate' to '#btnCreate'
-            } else {
-                $('#btnUpdate').hide();
-                $('#btnCreate').show();  // Corrected selector from 'btnCreate' to '#btnCreate'
+                $.each(res.data, function (index, item) {
+                     row = `<option value='${item.id}'>${item.name}</option>`;
+
+                    $('#Features').append(row);
+                });
+            },
+            error: function (error) {
+                console.error('An error occurred while loading data list:', error);
             }
         });
     });
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        $("#serviceForm").submit(function (e) {
+            e.preventDefault()
+            Swal.fire({
+                title: "Processing Your Request",
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            })
+            if ($("#subBtn").val() != "update") {
+               
+
+                let formData = new FormData()
+                let arrData = $(this).serializeArray();
+                arrData.forEach(function (d) {
+                    formData.append(d.name, d.value)
+                })
+                debugger
+                $.ajax({
+                    url: BaseUrl + 'api/Admin/AddManageSubscriptionData',
+                    type: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem("Token")}`
+                    },
+                    processData: false,
+                    contentType: false,
+                    data: formData,
+                    success: function (res) {
+                        Swal.fire({
+                            title: "Success",
+                            text: res.message,
+                            icon: "success",
+                            didClose: () => {
+                                document.getElementById("serviceForm").reset();
+                                        getServicesData();
+                            }
+                        })
+                    },
+                    error: function (error) {
+                        Swal.fire({
+                            title: "error",
+                            text: "Some error occured",
+                            icon: "error"
+                           
+                        })
+                    }
+                });
+            }else{
+                let formData = new FormData()
+                let arrData = $(this).serializeArray();
+                arrData.forEach(function (d) {
+                    formData.append(d.name, d.value)
+                })
+                debugger
+                $.ajax({
+                    url: BaseUrl + 'api/Admin/UpdateManageSubscriptionData',
+                    type: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem("Token")}`
+                    },
+                    processData: false,
+                    contentType: false,
+                    data: formData,
+                    success: function (res) {
+                        Swal.fire({
+                            title: "Success",
+                            text: res.message,
+                            icon: "success",
+                            didClose: () => {
+                                $("#Features").val("").change()
+                                $("#subBtn").val("Add")
+                                      getAllservicesList();
+                                document.getElementById("serviceForm").reset();
+                            }
+                        })
+                    },
+                    error: function (error) {
+                        Swal.fire({
+                            title: "error",
+                            text: "Some error occured",
+                            icon: "error"
+                        })
+                    }
+                });
+            }
+        });
+    });
+
+     $(document).ready(function () {
+        $("#btnsubmit").on('click', function (e) { 
+            e.preventDefault();
+            Swal.fire({
+                title: "Processing Your Request",
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            })
+            var featureName = $("#Name").val(); 
+            var serviceUrl = $("#Url").val();
+            if (!featureName) {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Feature name cannot be empty.',
+                    icon: 'error',
+                    confirmButtonText: 'Close'
+                });
+                return;
+            }
+            $.ajax({
+                url: BaseUrl + 'api/Admin/AddFeature',
+                type: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                    'Content-Type': 'application/json', 
+
+                },
+                contentType: 'application/json',
+                data: JSON.stringify({ 
+                    Name: featureName,
+                    ServiceUrl: serviceUrl
+                }),
+                success: function (response) {
+                    if (response.status === 200) {
+                        Swal.fire({
+                            title: 'Success!',
+                            text: 'Feature successfully added.',
+                            icon: 'success',
+                            confirmButtonText: 'Ok',
+                            didClose:()=>{
+                                document.getElementById("featureForm").reset();
+                                getServicesData();
+                                getAllFeatures();
+
+                            }
+                        })
+                    } 
+                    else if (response.status === 400) {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: response.message,
+                            icon: 'error',
+                            confirmButtonText: 'Close'
+                        });
+                    } 
+                    else {
+                        console.error("Unexpected response status:", response.status);
+                        alert("An unexpected error occurred.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error:", xhr.responseText);
+                    alert("An error occurred while processing the request.");
+                }
+            });
+        });
+    });
+
+   function getAllservicesList() {
+            $.ajax({
+                url: BaseUrl + 'api/Admin/GetAllManageSubscriptionData',
+                type: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token")}`
+                },
+                success: function (res) {
+                    $("#serviceTBody").empty()
+                    if (res.status == 200) {
+                        if (res.data.length > 0) {
+                            res.data.forEach(function (d,i) {
+                                $("#serviceTBody").append(`
+                            <tr>
+                                <td>${i+1}</td>
+                                <td>${d.subscriptionName}</td>
+                                    <td>${d.featureName}</td>
+                                        <td>${d.serviceCount}</td>
+                                        <td>
+                                                 <a class="deleteservice" role='button' data-id="${d.id}">
+                                                   <i class="fa-solid fa-trash-can text-danger"></i>
+                                               </a>
+                                                    <a class="editService" role='button' data-edit='${JSON.stringify(d)}'>
+                                                    <i class="fa-solid fa-pen-to-square text-success"></i>
+                                               </a>
+                                        </td>
+                            </tr>
+                            `)
+                            })
+                        }
+                    }                  
+                },
+                error: function (error) {
+                    console.error('An error occurred', error);  // Log actual error for better debugging
+                }
+            });
+        }
+
+
+        $(document).on('click','.deleteservice', function () {
+            var planId = $(this).attr('data-id');
+            if (!planId) {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Invalid plan ID.',
+                    icon: 'error',
+                    confirmButtonText: 'Ok'
+                });
+                return;
+            }
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'This plan will be permanently deleted. Do you want to continue?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    $.ajax({
+                        url: BaseUrl + `api/Admin/DeleteManageSubscriptionData?Id=${planId}`,
+                        type: 'GET',
+                        headers: {
+                            'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                            'Content-Type': 'application/json',
+                        },
+
+                        success: function (response) {
+                            Swal.fire({
+                                title: 'Success!',
+                                text: 'Plan deleted successfully.',
+                                icon: 'success',
+                                confirmButtonText: 'Ok',
+                                didClose:()=>{
+                                     getServicesData();
+                                     getAllservicesList();
+                                }
+                            })
+                        },
+                        error: function (error) {
+                            console.error('An error occurred:', error);
+                            Swal.fire({
+                                title: 'Error',
+                                text: 'There was an error deleting the plan. Please try again.',
+                                icon: 'error',
+                                confirmButtonText: 'Ok'
+                            });
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Cancelled',
+                        text: 'The plan was not deleted.',
+                        icon: 'info',
+                        confirmButtonText: 'Ok'
+                    });
+                }
+            });
+
+        });
+
+        $(document).on("click", ".editService",function(){
+            var plan = JSON.parse($(this).attr('data-edit'));
+            console.log(plan)
+            $("#planSelect").val(plan.subscriptionId).change()
+            $(".serviceFeatures").val(plan.featureId).change()
+            $("#serviceCount").val(plan.serviceCount)
+            $("#featureId").val(plan.featuresId)
+            $("#subBtn").val("update")
+     $("#cancelServiceUpdate").removeClass("d-none")
+
+        })
+    
+</script>
+
+<script>
+ function getAllFeatures() {
+        $.ajax({
+            url: BaseUrl + 'api/Admin/GetAllFeatures',
+            type: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                'Content-Type': 'application/json',
+            },
+            success: function (res) {
+                $('#featureTBody').empty();
+                $.each(res.data, function (index, item) {
+;
+                    $('#featureTBody').append(`<tr>
+                                        <td>${index + 1}</td>
+                                        <td class='featureName'>${item.name}</td>
+                                        <td class='url'>${item.serviceUrl}</td>
+                                        <td style='cursor:pointer;'>
+                                            <a class="deletefeature" data-id="${item.id}">
+                                           <i class="fa-solid fa-trash-can text-danger"></i>
+                                       </a>
+                                            <a class="editfeature" data-id="${item.id} ">
+                                              <i class="fa-solid fa-pen-to-square text-success"></i>
+                                       </a>
+
+                                        </td>
+                                    </tr>`);
+                    
+                });
+
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        });
+    }
+</script>
+
+<script>
+    $(document).ready(function () {
+
+        $(document).on('click', '.deletefeature', function () {
+            var id = $(this).attr("data-id");
+         
+            if (!id) {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Feature ID is missing.',
+                    icon: 'error',
+                    confirmButtonText: 'Ok'
+                });
+                return;
+            }
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'Do you really want to delete?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No, cancel',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: "Processing Your Request",
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    })
+            $.ajax({
+                url: BaseUrl + 'api/Admin/DeleteFeature',
+                type: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                    'Content-Type': 'application/json',
+                },
+                data: { Id: id },
+                success: function (response) {
+                    Swal.fire({
+                        title: 'Success!',
+                        text: 'Feature deleted successfully.',
+                        icon: 'success',
+                        confirmButtonText: 'Ok',
+                        didClose:()=>{
+                             getServicesData();
+                                getAllFeatures()
+                        }
+                    })
+                },
+                error: function (error) {
+                    console.error(error);
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'There was an error deleting the feature. Please try again.',
+                        icon: 'error',
+                        confirmButtonText: 'Ok'
+                    });
+                }
+            });
+                }
+            })
+        });
+
+    });
+
+</script>
+
+<script>
+    $(document).ready(function () {
+        $(document).on('click', '.editfeature', function () {
+            var Id = $(this).attr('data-id');
+            var fieldValue = $(this).closest('tr').find('.featureName').text();
+            var urlValue = $(this).closest('tr').find('.url').text();
+
+            $('#Name').val(fieldValue);
+            $('#Url').val(urlValue);
+            $('#featureId').val(Id);
+            debugger
+            if (Id) {
+                $('#btnupdate').show();
+                $('#btnsubmit').hide();
+            } else {
+                $('#btnsubmit').show();
+                $('#btnupdate').hide();
+            }
+     $("#cancelFeatureUpdate").removeClass("d-none")
+
+        });
+    });
+
+</script>
+
+<script>
+    $(document).ready(function () {
+        $("#btnupdate").on('click', function (e) {
+            e.preventDefault();
+            Swal.fire({
+                title: "Processing Your Request",
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            })
+            const featureName = $("#Name").val();
+            const url = $("#Url").val();
+            const featureId = $("#featureId").val().trim();
+           debugger
+            if (!featureName) {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Feature name cannot be empty.',
+                    icon: 'error',
+                    confirmButtonText: 'Close'
+                });
+                return;
+            }
+            $.ajax({
+                url: BaseUrl + 'api/Admin/UpdateFeature',
+                type: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                    'Content-Type': 'application/json',
+
+                },
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    Id: featureId,
+                    Name: featureName,
+                    ServiceUrl: url
+                }),
+                success:function (response) {
+                
+                    if (response.status === 200) {
+                        Swal.fire({
+                            title: 'Success!',
+                            text: 'Feature updated successfully.',
+                            icon: 'success',
+                            confirmButtonText: 'Ok',
+                            didClose:()=>{
+                                 document.getElementById("featureForm").reset();
+                                 $("#btnsubmit").css({display:"inline"})
+                                 $("#btnupdate").css({display:"none"})
+                                getServicesData();
+                                getAllFeatures()
+                            }
+                        })
+                    } else if (response.status === 400) {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: response.message || 'Bad request.',
+                            icon: 'error',
+                            confirmButtonText: 'Close'
+                        });
+                    } else {
+                        // Handle unexpected response status
+                        console.error("Unexpected response status:", response.status);
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'An unexpected error occurred.',
+                            icon: 'error',
+                            confirmButtonText: 'Close'
+                        });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("AJAX Error:", error);
+                    console.error("Response Text:", xhr.responseText);
+
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'An error occurred while processing the request. Please try again.',
+                        icon: 'error',
+                        confirmButtonText: 'Close'
+                    });
+                }
+            });
+        });
+    });
+
+    $("#cancelFeatureUpdate").click(function(){
+         document.getElementById("featureForm").reset();
+         $("#btnsubmit").css({display:"inline"})
+         $("#btnupdate").css({display:"none"})
+         $("#cancelFeatureUpdate").addClass("d-none")
+    }) 
+    $("#cancelServiceUpdate").click(function(){
+     $("#Features").val("").change()
+     $("#subBtn").val("Add")
+     getAllservicesList();
+     document.getElementById("serviceForm").reset();
+     $("#cancelServiceUpdate").addClass("d-none")
+
+    })
 </script>

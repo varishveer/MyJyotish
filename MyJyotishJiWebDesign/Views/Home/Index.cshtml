@@ -574,7 +574,11 @@
 				},
 				error: function (jqXHR, textStatus, errorThrown) {
 
-					console.error("Error:", jqXHR.responseJSON.Message || textStatus);
+					Swal.fire({
+						text:"some error occured",
+						title:"error",
+						icon:"error"
+					})
 				}
 			});
 		}
@@ -675,8 +679,7 @@
 				}
 			},
 			error: function (xhr, status, error) {
-				console.error(error);
-				alert('An error occurred while fetching data.');
+				
 			}
 		});
 
