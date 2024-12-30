@@ -267,7 +267,7 @@
 					debugger
 					$('#Name').val(response.data.name);
 					$('#Gender').val(response.data.gender);
-					$('#DateOfBirth').val(response.data.dateOfBirth);
+					$('#DateOfBirth').val(response.data.dateOfBirth.split("T")[0]);
 					$('#TimeOfBirth').val(response.data.timeOfBirth != null || response.data.timeOfBirth != "" ? response.data.timeOfBirth.split(' ')[0] : "");
 					$('#PlaceOfBirth').val(response.data.placeOfBirth);
 
@@ -310,6 +310,9 @@
 					$('#astrologerList').html('<p>No astrologers found.</p>');
 				}
 				Swal.close()
+				$(".jyotishProfileImages").on('error', function () {
+					$(this).attr("src", '/user-not-found.png');
+				});
 			},
 			error: function () {
 
@@ -330,9 +333,9 @@
 						<div class="astrologer-card">
 								<a href="/Home/JyotishProfile?Id=${astrologer.id}" class="text-decoration-none">
 								<i class="decorative-icon fa fa-star"></i>
-									<img src=  "${ImgSrc}"  alt="${astrologer.name}">
+									<img src="${ImgSrc}" class='jyotishProfileImages'  alt="${astrologer.name}">
 														<div class="card-body p-0 pt-2">
-															<h6 class="card-title  text-center">${astrologer.name} - ${astrologer.city}</h6>
+																<h6 class="card-title  text-center">${astrologer.name} <i class="fa-solid text-primary fa-circle-check"></i> - ${astrologer.city}</h6>
 																<p class='text-center text-warning' >${generateFullStars()}</p>
 															<p class="card-text px-1 text-center" >
 																 ${astrologer.expertise} | ${astrologer.experience != null ? astrologer.experience : 0} Years
@@ -348,9 +351,9 @@
 					`;
 		});
 		$('#astrologerList').html(html);
+		
 	}
-
-	// Initialize the function to get astrologers on page load
+	
 	GetAstroListCallChat();
 
 	$('#DataSubmitBtn').on('click', function () {
@@ -494,10 +497,9 @@
 		}
 	});
 
-	let userId = localStorage.getItem("userId")
 
 	function establishedConnection() {
-		let socket = new WebSocket(`wss://api.myjyotishg.in/api/chat/connect?id=${userId}&sendBy=client`);
+		let socket = new WebSocket(`wss://api.myjyotishg.in/api/chat/connect?id=${UserId}&sendBy=client`);
 		return new Promise((res, rej) => {
 			if (socket) {
 
@@ -509,7 +511,7 @@
 	}
 
 	function establishedConnectionForSendRequest() {
-		let socket = new WebSocket(`wss://api.myjyotishg.in/api/chat/sendChatRequest?id=${userId}&sendBy=client`);
+		let socket = new WebSocket(`wss://api.myjyotishg.in/api/chat/sendChatRequest?id=${UserId}&sendBy=client`);
 		return new Promise((res, rej) => {
 			if (socket) {
 
@@ -651,4 +653,5 @@
 		})
 	}
 
+	
 </script>

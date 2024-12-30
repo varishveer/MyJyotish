@@ -651,9 +651,9 @@
 										 <div class="col-sm-2 col-md-2 col-lg-2 mb-2 p-2">
 											<div class="card astrologer-card shadow">
 												 <a class='text-secondary text-decoration-none' href= "/Home/JyotishProfile?Id=${astrologer.id}">
-													<img height="160" width="150" src="${src}" class="card-img-top p-2 px-5 rounded" alt="${astrologer.name}">
+														<img height="160" width="150" src="${src}" class="card-img-top jyotishProfileImages p-2 px-5 rounded" alt="${astrologer.name}">
 													<div class="card-body p-0 pt-2">
-																	<h6 class="card-title text-center">${astrologer.name != null ? astrologer.name : "N/A"} <i class="fa-solid fa-circle-check"></i> - ${astrologer.city}</h6 >
+																	<h6 class="card-title text-center">${astrologer.name != null ? astrologer.name : "N/A"} <i class="fa-solid text-primary fa-circle-check"></i> - ${astrologer.city}</h6 >
 																<p class='text-center text-warning' >${RatingStar(astrologer.rating)}</p>
 														<p class="card-text px-1 text-center" >
 																	 ${astrologer.expertise.split(",")[0] || "N/A"}${astrologer.expertise.split(",").length - 1 != 0 ? "+" + (astrologer.expertise.split(",").length - 1) + "more" : ""} | ${astrologer.experience != null ? astrologer.experience : 0} Years
@@ -667,6 +667,9 @@
 								`);
 					});
 					Swal.close()
+					$(".jyotishProfileImages").on('error', function () {
+						$(this).attr("src", '/user-not-found.png');
+					});
 				} else {
 					alert(response.Message);
 				}

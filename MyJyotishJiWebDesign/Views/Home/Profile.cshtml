@@ -381,7 +381,7 @@
                                         </div>
                                         <div class="col-8">
                                             <select id="city" required name="city" class="form-control form-control-sm" disabled>
-                                                <option selected disabled>Select City</option>
+                                                <option class="city" selected disabled>Select City</option>
                                             </select>
                                         </div>
                                     </div>
@@ -519,6 +519,7 @@
                             }
                         }, 1000)
                     }
+                    debugger
                     if (profile.city != null) {
                         setTimeout(() => {
                             $(".city").each(function (i, d) {
@@ -526,7 +527,9 @@
                                     d.setAttribute("selected", true)
                                 }
                             })
+                            $("#city").trigger("change")
                         }, 2000)
+
 
                     }
                     if (profile.countryId) {

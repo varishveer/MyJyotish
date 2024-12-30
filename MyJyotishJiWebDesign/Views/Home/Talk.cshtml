@@ -175,6 +175,9 @@
                     $('#astrologerList').html('<p>No astrologers found.</p>');
                 }
                 Swal.close();
+                $(".jyotishProfileImages").on('error', function () {
+                    $(this).attr("src", '/user-not-found.png');
+                });
             },
             error: function () {
                  
@@ -195,9 +198,9 @@
                     <div class="astrologer-card">
                            <a href="/Home/JyotishProfile?Id=${astrologer.id}" class="text-decoration-none">
                                 <i class="decorative-icon fa fa-star"></i>
-                                    <img src=  "${ImgSrc}"  alt="${astrologer.name}">
+                                        <img src=  "${ImgSrc}" class='jyotishProfileImages'  alt="${astrologer.name}">
                                                         <div class="card-body p-0 pt-2">
-                                                            <h6 class="card-title  text-center">${astrologer.name} - ${astrologer.city}</h6>
+                                                                <h6 class="card-title  text-center">${astrologer.name} <i class="fa-solid text-primary fa-circle-check"></i> - ${astrologer.city}</h6>
                                                                 <p class='text-center text-warning' >${generateFullStars()}</p>
                                                             <p class="card-text px-1 text-center" >
                                                                  ${astrologer.expertise || "N/A"} | ${astrologer.experience != null ? astrologer.experience : 0} Years

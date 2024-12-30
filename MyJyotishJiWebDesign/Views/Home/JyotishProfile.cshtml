@@ -1197,12 +1197,12 @@ Hi, Below are my Details : Name: ${Name} Gender:${Gender} DOB: ${DateOfBirth} DO
 					debugger
 					$('#Name').val(response.data.name);
 					$('#Gender').val(response.data.gender);
-					$('#DateOfBirth').val(response.data.dateOfBirth);
+					$('#DateOfBirth').val(response.data.dateOfBirth.split("T")[0]);
 					$('#TimeOfBirth').val(response.data.timeOfBirth != null || response.data.timeOfBirth != "" ? response.data.timeOfBirth.split(' ')[0]:"");
 					$('#PlaceOfBirth').val(response.data.placeOfBirth);
 
 				}
-			},
+			},	
 			error: function (xhr, status, error) {
 
 				console.log("Error:", error);
@@ -1248,10 +1248,9 @@ Hi, Below are my Details : Name: ${Name} Gender:${Gender} DOB: ${DateOfBirth} DO
 	});
 
 
-	let userId = localStorage.getItem("userId")
 
 	function establishedConnection() {
-		let socket = new WebSocket(`wss://api.myjyotishg.in/api/chat/connect?id=${userId}&sendBy=client`);
+		let socket = new WebSocket(`wss://api.myjyotishg.in/api/chat/connect?id=${UserId}&sendBy=client`);
 		return new Promise((res, rej) => {
 			if (socket) {
 
@@ -1263,7 +1262,7 @@ Hi, Below are my Details : Name: ${Name} Gender:${Gender} DOB: ${DateOfBirth} DO
 	}
 
 	function establishedConnectionForSendRequest() {
-		let socket = new WebSocket(`wss://api.myjyotishg.in/api/chat/sendChatRequest?id=${userId}&sendBy=client`);
+		let socket = new WebSocket(`wss://api.myjyotishg.in/api/chat/sendChatRequest?id=${UserId}&sendBy=client`);
 		return new Promise((res, rej) => {
 			if (socket) {
 
