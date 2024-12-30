@@ -658,12 +658,9 @@ namespace BusinessAccessLayer.Implementation
 
         public List<SubscrictionListJyotishViewModel> GetAllSubscription()
         {
-            // First, retrieve the list of subscription features that are active (Status == true)
             var activeFeatures = _context.SubscriptionFeatures
                                          .Where(x => x.Status == true)
-                                         .ToList();  // This can be done in memory because it's a small list.
-
-            // Now, fetch the subscriptions and join with ManageSubscriptionModels to get the Status of features
+                                         .ToList();  
             var records = _context.Subscriptions
                                   .Where(x => x.Status == true)
                                   .Select(subscription => new SubscrictionListJyotishViewModel

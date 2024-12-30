@@ -644,7 +644,13 @@ $("#addFeatures").click(function(){
         }) 
         $(document).on('click', '#btnUpdate', function (e) {
             e.preventDefault();
-
+             Swal.fire({
+            title: "Processing Your Request",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
             var featureName = $('.upName').val();
             let Amount = $('.upOldPrice').val();
             let newAmount = $('.upNewPrice').val();
@@ -699,14 +705,24 @@ $("#addFeatures").click(function(){
                             icon: 'error',
                             confirmButtonText: 'Close'
                         });
+                        Swal.close()
                     }
                     else {
                         console.error("Unexpected response status:", response.status);
-                        alert("An unexpected error occurred.");
+                        Swal.fire({
+                            text:"An unexpected error occurred.",
+                            title:"error",
+                            icon:"error"
+                        });
                     }
+                    
                 },
                 error: function (error) {
-                    console.error('Error');
+                  Swal.fire({
+                            text:"An unexpected error occurred.",
+                            title:"error",
+                            icon:"error"
+                        });
                 }
             });
         })
@@ -716,7 +732,13 @@ $("#addFeatures").click(function(){
 
 <script>
     function getAllSubscription() {
-
+        Swal.fire({
+            title: "Processing Your Request",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
         $.ajax({
             url: BaseUrl +'api/Admin/GetAllSubscription',
             type: 'GET',  
@@ -748,6 +770,7 @@ $("#addFeatures").click(function(){
                                         </td>
                                     </tr>`);
                 });
+                Swal.close();
             },
             error: function (error) {
                 console.error('An error occurred', error);  // Log actual error for better debugging

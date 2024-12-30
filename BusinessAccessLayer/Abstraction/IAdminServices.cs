@@ -131,8 +131,10 @@ namespace BusinessAccessLayer.Abstraction
         public List<SkipdateJyotishViewModel> SlotSkipList();
 
 		public bool CreateAPooja(PoojaRecordModel model);
+        public List<SubscrictionListJyotishViewModel> GetAllSubscriptionForAdmin();
 
-		public dynamic poojaByPoojaId(int id);
+
+        public dynamic poojaByPoojaId(int id);
 		public bool UpdatePooja(PoojaRecordModel model);
 		public bool removePooja(int Id);
 		public dynamic getAllPooja();
