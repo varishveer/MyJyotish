@@ -225,18 +225,19 @@ display:block;
       </div>
       <div class="modal-body">
         <form method="post" id="subscriptionForm">   
+            <input type="hidden" name="subscriptionId" id="subscriptionId"/>
                 <div class="form-row ">
                     <div class="form-group col-md-2">
                         <label for="username" class="form-label">Plan Name :</label>
                     </div> 
                     <div class="form-group col-md-4">
-                        <input type="text" class="form-control Name" name="Name" placeholder="Enter name">
+                        <input type="text" class="form-control upName" name="Name" placeholder="Enter name">
                     </div>
                      <div class="form-group col-md-2">
                         <label for="username" class="form-label">Plan Type :</label>
                     </div> 
                     <div class="form-group col-md-4">
-                        <select name="PlanType" class="form-select PlanType" required>
+                            <select name="PlanType" class="form-select upPlanType" required>
                           <option disabled>--Select Plan Type--</option>
                           <option value="Yearly">Yearly</option>
                           <option value="Monthly">Monthly</option>
@@ -249,13 +250,13 @@ display:block;
                         <label for="mobile" class="form-label">Amount :</label>
                     </div>
                     <div class="form-group col-md-4">
-                        <input type="number" class="form-control OldPrice" name="OldPrice" placeholder="Enter old price">
+                            <input type="number" class="form-control upOldPrice" name="OldPrice" placeholder="Enter old price">
                     </div>
                     <div class="form-group col-md-2">
                         <label for="email" class="form-label">Discount :</label>
                     </div>
                     <div class="form-group col-md-4">
-                        <input type="number" name="Discount"  class="form-control Discount" placeholder="Enter discount" value="" step="any" autocomplete="off">
+                            <input type="number" name="Discount" class="form-control upDiscount" placeholder="Enter discount" value="" step="any" autocomplete="off">
                     </div>
 
                 </div>
@@ -264,14 +265,14 @@ display:block;
                         <label for="problems" class="form-label">GST :</label>
                     </div>
                     <div class="form-group col-md-4">
-                        <input type="number" name="Gst" class="form-control Gst" placeholder="Enter GST">
+                            <input type="number" name="Gst" class="form-control upGst" placeholder="Enter GST">
                     </div>
                    
                     <div class="form-group col-md-2">
                         <label for="email" class="form-label">Discount Amount :</label>
                     </div>
                     <div class="form-group col-md-4">
-                        <input type="number" name="DiscountAmount"  class="form-control DiscountAmount" placeholder="Discount amount" value="" step="any" autocomplete="off" readonly>
+                            <input type="number" name="DiscountAmount" class="form-control upDiscountAmount" placeholder="Discount amount" value="" step="any" autocomplete="off" readonly>
                     </div>
 
                 </div>    
@@ -282,7 +283,7 @@ display:block;
                         <label for="date" class="form-label">New Amount :</label>
                     </div>
                     <div class="form-group col-md-4">
-                        <input type="number" name="NewPrice" class="form-control NewPrice" placeholder="New amount"  value="" autocomplete="off" readonly step="any">
+                            <input type="number" name="NewPrice" class="form-control upNewPrice" placeholder="New amount" value="" autocomplete="off" readonly step="any">
                     </div>
                       <div class="col-md-2">Services</div>
                       <div class="col-md-4">
@@ -295,14 +296,14 @@ display:block;
                         <label for="problems" class="form-label">Description :</label>
                     </div>
                     <div class="form-group col-md-10">
-                        <textarea  name="description" class="form-control description" placeholder="Enter Description" style="resize:none;"></textarea>
+                            <textarea name="description" class="form-control updescription" placeholder="Enter Description" style="resize:none;"></textarea>
                     </div>
 
                 </div>
 
                 <div class="form-row">
                     <div class="form-group col-md-12 text-center">
-                        <button role="button btnUpdate" id="btnUpdate" class="btn btn-success px-3" >Update</button>
+                            <button role="button" id="btnUpdate" class="btn btn-success px-3 btnUpdate">Update</button>
                       
                     </div>
 
@@ -644,14 +645,16 @@ $("#addFeatures").click(function(){
         $(document).on('click', '#btnUpdate', function (e) {
             e.preventDefault();
 
-            var featureName = $('.Name').val();
-            let Amount = $('.OldPrice').val();
-            let newAmount = $('.NewPrice').val();
-            let discount = $('.Discount').val();
-            let gst = $('.Gst').val();
-            let discountAmount = $('.DiscountAmount').val();
-            let planType = $('.PlanType').val();
-            let description = $('.description').val();
+            var featureName = $('.upName').val();
+            let Amount = $('.upOldPrice').val();
+            let newAmount = $('.upNewPrice').val();
+            let discount = $('.upDiscount').val();
+            let gst = $('.upGst').val();
+            let discountAmount = $('.upDiscountAmount').val();
+            let planType = $('.upPlanType').val();
+            let description = $('.updescription').val();
+            let subscriptionId=$("#subscriptionId").val()
+            debugger
             let Status = true;
             debugger
             $.ajax({
@@ -672,6 +675,7 @@ $("#addFeatures").click(function(){
                     DiscountAmount: discountAmount,
                     PlanType: planType,
                     description: description,
+                    SubscriptionId:Number(subscriptionId),
                     Status: Status
                 }),
                
@@ -840,14 +844,15 @@ $("#addFeatures").click(function(){
             var description = $(this).closest('tr').find('.description').text().trim();
             debugger
         
-            $('.Name').val(name);
-            $('.OldPrice').val(amount);
-            $('.Discount').val(discount);
-            $('.PlanType').val(planType);
-            $('.Gst').val(gst);
-            $('.DiscountAmount').val(discountAmount);
-            $('.NewPrice').val(newAmount);
-            $('.description').val(description);  
+            $('.upName').val(name);
+            $('.upOldPrice').val(amount);
+            $('.upDiscount').val(discount);
+            $('.upPlanType').val(planType);
+            $('.upGst').val(gst);
+            $('.upDiscountAmount').val(discountAmount);
+            $('.upNewPrice').val(newAmount);
+            $('.updescription').val(description);  
+            $("#subscriptionId").val(Id)
             $("#staticBackdrop").modal("show")
         });
     });
