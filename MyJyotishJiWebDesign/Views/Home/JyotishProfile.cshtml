@@ -103,8 +103,9 @@
 		border-radius: 10px;
 		background: skyblue;
 	}
-	.swal2-container{
-		z-index:100000;
+
+	.swal2-container {
+		z-index: 100000;
 	}
 </style>
 
@@ -136,7 +137,7 @@
 							Start Chat
 						</button>
 						<button class="btn btn-outline-success d-none" id="waitingBtn">Waiting...</button>
-						<button class="btn btn-success callBtn" data-bs-toggle="tooltip2" data-bs-placement="top"
+						<button class="btn btn-success callBtn call-button" data-bs-toggle="tooltip2" data-bs-placement="top"
 								data-bs-custom-class="custom-tooltip"
 								data-bs-title="" data-action="2">
 							Start Call
@@ -332,8 +333,51 @@
 	</div>
 </div>
 
-<script>
+<script src="https://media.twiliocdn.com/sdk/js/client/v1.13/twilio.min.js"></script>
 
+<script>
+	const callButton = document.querySelector('.call-button');
+	$.ajax({
+		url: `${BaseUrl}api/call/accessToken?identity=user1`,
+		type: "get",
+		success: function (data) {
+			debugger
+			Twilio.Device.setup(data.token);
+			Twilio.Device.on('incoming', function (call) {
+				console.log('Incoming call!');
+				call.accept();
+			});
+
+			// Handle connect (call established)
+			Twilio.Device.on('connect', function (conn) {
+				console.log('Call connected!');
+			});
+			Twilio.Device.on('ready', function () {
+				console.log("Twilio Device is ready!");
+			});
+
+			// Handle disconnect (call ended)
+			Twilio.Device.on('disconnect', function (conn) {
+				console.log('Call ended.');
+			});
+
+			// Click event to initiate a call
+			callButton.addEventListener('click', function () {
+				console.log('Attempting to call...');
+				Twilio.Device.connect();
+			});
+
+			// Error handling
+			Twilio.Device.on('error', function (error) {
+				console.error('Error with Twilio device: ', error);
+			});
+
+			
+		}
+	})
+
+</script>
+<script>
 	let stars = document.querySelectorAll('.user-rating-stars');
 	stars.forEach(function (d) {
 		d.classList.remove("text-warning");
@@ -554,32 +598,32 @@
 						const formattedDate = formatDate(review.dateTime);
 						// Rating card template
 						ratingCards += `
-										<div class="container d-flex float-start p-0 mb-4" style="background-color:#F7F7F7;">
-										<div class="profile p-3">
-												<h2 class="comment-profile">${profileInitial}</h2>
-										</div>
-										<div class="content p-3 w-100 rounded">
-											<div class="header d-flex">
-													<h6 class="c-name ">${review.userName}</h6>
-												<div class="verified text-primary text-italic">- Verified Client</div>
-												<div class="stars ml-20">
-													${stars}
+											<div class="container d-flex float-start p-0 mb-4" style="background-color:#F7F7F7;">
+											<div class="profile p-3">
+													<h2 class="comment-profile">${profileInitial}</h2>
+											</div>
+											<div class="content p-3 w-100 rounded">
+												<div class="header d-flex">
+														<h6 class="c-name ">${review.userName}</h6>
+													<div class="verified text-primary text-italic">- Verified Client</div>
+													<div class="stars ml-20">
+														${stars}
+													</div>
+												</div>
+												<div class="text my-2 text-justify">
+													${review.feedbackMessage}
+												</div>
+												<div class="d-flex text-center mt-2 align-items-center">
+													<span class="date-icon">
+														<svg height="15" width="15" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+															<path fill="#63E6BE" d="M0 464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V192H0v272zm320-196c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zM192 268c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zM64 268c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H76c-6.6 0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H76c-6.6 0-12-5.4-12-12v-40zM400 64h-48V16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v48H160V16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v48H48C21.5 64 0 85.5 0 112v48h448v-48c0-26.5-21.5-48-48-48z"></path>
+														</svg>
+													</span>
+														<small class="text-secondary">${formattedDate}</small>
 												</div>
 											</div>
-											<div class="text my-2 text-justify">
-												${review.feedbackMessage}
-											</div>
-											<div class="d-flex text-center mt-2 align-items-center">
-												<span class="date-icon">
-													<svg height="15" width="15" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-														<path fill="#63E6BE" d="M0 464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V192H0v272zm320-196c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zM192 268c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zM64 268c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H76c-6.6 0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H76c-6.6 0-12-5.4-12-12v-40zM400 64h-48V16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v48H160V16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v48H48C21.5 64 0 85.5 0 112v48h448v-48c0-26.5-21.5-48-48-48z"></path>
-													</svg>
-												</span>
-													<small class="text-secondary">${formattedDate}</small>
-											</div>
 										</div>
-									</div>
-								`;
+									`;
 					});
 
 					// Append the rating cards to the container
@@ -822,25 +866,25 @@
 						newArray[0].slotList.forEach(function (d) {
 							$("#appoinmentDetail").append(
 								`<label class='w-100'>
-												   <div class='d-flex  bg-light-sec border rounded text-secondary fw-semi-bold my-2 p-2 justify-content-between align-items-center'  ${d.status == 'Booked' ? `style="background:rgb(40, 41, 40, 0.7) !important"` : ''} >
-											   <div class='row w-100 position-relative'>
+													   <div class='d-flex  bg-light-sec border rounded text-secondary fw-semi-bold my-2 p-2 justify-content-between align-items-center'  ${d.status == 'Booked' ? `style="background:rgb(40, 41, 40, 0.7) !important"` : ''} >
+												   <div class='row w-100 position-relative'>
 
-								<div class='col-sm-1'>
-													   <input type='radio' data-amount='${d.amount}' onChange='selectSlots()' ${d.status == 'Booked' ? 'disabled' : ""} name='jyotishAppoinment' data-userId='${localStorage.getItem('userId')}' data-slotId='${d.id}' data-jyotishId='${d.jyotishId}'>
-											   </div>
+									<div class='col-sm-1'>
+														   <input type='radio' data-amount='${d.amount}' onChange='selectSlots()' ${d.status == 'Booked' ? 'disabled' : ""} name='jyotishAppoinment' data-userId='${localStorage.getItem('userId')}' data-slotId='${d.id}' data-jyotishId='${d.jyotishId}'>
+												   </div>
 
-													   <div class='col-sm-5'>
+														   <div class='col-sm-5'>
 
-										   <span> ${d.timeFrom
+											   <span> ${d.timeFrom
 								} - ${d.timeTo} </span>
-									   </div>
-														   <div class='col-sm-4'>
-									   <span class=''>Time :&nbsp;${d.timeDuration}min</span>
-									   </div>
-									   </div>
-									   </div>
-									   </label>
-									`
+										   </div>
+															   <div class='col-sm-4'>
+										   <span class=''>Time :&nbsp;${d.timeDuration}min</span>
+										   </div>
+										   </div>
+										   </div>
+										   </label>
+										`
 							)
 						})
 					} else {
@@ -1135,7 +1179,7 @@
 											startChat();
 											socket.close()
 											$(".messageInpBox").val(`
-Hi, Below are my Details : Name: ${Name} Gender:${Gender} DOB: ${DateOfBirth} DOT: ${TimeOfBirth} POB: ${PlaceOfBirth}`)
+	Hi, Below are my Details : Name: ${Name} Gender:${Gender} DOB: ${DateOfBirth} DOT: ${TimeOfBirth} POB: ${PlaceOfBirth}`)
 										}
 									};
 
@@ -1198,11 +1242,11 @@ Hi, Below are my Details : Name: ${Name} Gender:${Gender} DOB: ${DateOfBirth} DO
 					$('#Name').val(response.data.name);
 					$('#Gender').val(response.data.gender);
 					$('#DateOfBirth').val(response.data.dateOfBirth.split("T")[0]);
-					$('#TimeOfBirth').val(response.data.timeOfBirth != null || response.data.timeOfBirth != "" ? response.data.timeOfBirth.split(' ')[0]:"");
+					$('#TimeOfBirth').val(response.data.timeOfBirth != null || response.data.timeOfBirth != "" ? response.data.timeOfBirth.split(' ')[0] : "");
 					$('#PlaceOfBirth').val(response.data.placeOfBirth);
 
 				}
-			},	
+			},
 			error: function (xhr, status, error) {
 
 				console.log("Error:", error);
@@ -1288,9 +1332,9 @@ Hi, Below are my Details : Name: ${Name} Gender:${Gender} DOB: ${DateOfBirth} DO
 					const minutes = now.getMinutes();
 					const messagesDiv = document.querySelector('.chat-modal-body');
 					messagesDiv.innerHTML += ` <div class="message float-start received">
-																	<div class="message-content"> ${JSON.parse(event.data).mssg}</div>
-																	<small>${hours}:${minutes}<small>
-															</div>`
+																		<div class="message-content"> ${JSON.parse(event.data).mssg}</div>
+																		<small>${hours}:${minutes}<small>
+																</div>`
 
 
 					messagesDiv.scrollTop = messagesDiv.scrollHeight;
@@ -1328,10 +1372,10 @@ Hi, Below are my Details : Name: ${Name} Gender:${Gender} DOB: ${DateOfBirth} DO
 							const hours = now.getHours();
 							const minutes = now.getMinutes();
 							messagesDiv.innerHTML += `<div class="message float-end sent">
-																		<div class="message-content">${message}</div>
-																		<small>${hours}:${minutes}<small>
+																			<div class="message-content">${message}</div>
+																			<small>${hours}:${minutes}<small>
 
-																</div>`
+																	</div>`
 							socket.send(`${jyotishId}:${message}`);
 						}
 						$(".messageInpBox").val("");
@@ -1342,7 +1386,7 @@ Hi, Below are my Details : Name: ${Name} Gender:${Gender} DOB: ${DateOfBirth} DO
 				});
 			}
 
-			$("#exitFromChat").click(function(){
+			$("#exitFromChat").click(function () {
 				Swal.fire({
 					title: "warning",
 					text: "Do you really want to end chat",
@@ -1382,15 +1426,15 @@ Hi, Below are my Details : Name: ${Name} Gender:${Gender} DOB: ${DateOfBirth} DO
 						if (d.sendBy == "client") {
 
 							messagesDiv.innerHTML += `<div class="message float-end sent">
-													<div class="message-content">${d.message}</div>
-																<small>${d.mssDate}</small>
-										</div>`
-
-						} else {
-							messagesDiv.innerHTML += `<div class="message float-start received">
 														<div class="message-content">${d.message}</div>
 																	<small>${d.mssDate}</small>
 											</div>`
+
+						} else {
+							messagesDiv.innerHTML += `<div class="message float-start received">
+															<div class="message-content">${d.message}</div>
+																		<small>${d.mssDate}</small>
+												</div>`
 						}
 					})
 					setTimeout(() => {
@@ -1404,6 +1448,9 @@ Hi, Below are my Details : Name: ${Name} Gender:${Gender} DOB: ${DateOfBirth} DO
 	}
 
 </script>
+
+
+
 
 
 

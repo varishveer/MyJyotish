@@ -14,13 +14,7 @@
             border-right: 1px solid #ddd;
             text-align: center;
         }
-       /*  .left-section img {
-            max-width: 100%;
-            height: 250px;
-            width:250px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-        } */
+      
         .left-section img {
             width: 250px;
             height: 250px;
@@ -65,7 +59,7 @@
 
 <div class="container">
     <div class="left-section">
-        <img id="profileImage" height="120" width="120" class="rounded-circle" src="" alt="Profile Image" >
+        <img id="profileImage" height="80" width="80" class="rounded-circle" src="" alt="Profile Image" >
         <h3 id="profileName" class="fw-light"></h3>
       
         <button type="button" id="opendocumentModal" class="btn btn-primary" data-toggle="modal" data-target="#documentModal">
@@ -102,7 +96,7 @@
             success: function (response) {
                 if (response.status === 200) {
                     const data = response.data;
-
+                    console.log(data)
                     // Populate Left Section
                     $('#profileImage').attr('src', `${BaseUrl}${data.profileImageUrl}`);
                     $('#profileName').text(data.name);
@@ -199,13 +193,6 @@
                                     <p>${data.address}</p>
                                 </div>
                             </div>
-       
-                                 <div class="col-md-6">
-                                    <div class="profile-info">
-                                        <h6>Available Time:</h6>
-                                        <p>${data.timeFrom} - ${data.timeTo}</p>
-                                    </div>
-                                </div>
                             <div class="col-md-6">
                                 <div class="profile-info">
                                     <h6>Pooja:</h6>
@@ -245,7 +232,7 @@
                             <div class="col-md-6">
                                 <div class="profile-info">
                                     <h6>Awards and Achievements:</h6>
-                                    <p>${data.awordsAndAchievement}</p>
+                                    <p>${data.awordsAndAchievement || "N/A"}</p>
                                 </div>
                             </div>
                         </div>
@@ -437,11 +424,6 @@
 </div>
 
 
-
-
-
-
-
 <script>
 
     $(".rejected").click(function () {
@@ -484,7 +466,9 @@
                             updateDocumentStatus(response.data); // Call function to update document status
                         } else {
                             Swal.fire({
-                                "No Record Found"
+                                text:"No Record Found",
+                                title:"error",
+                                icon:"info"
                             });
                         }
                     },
@@ -627,13 +611,14 @@
 
                         if (response.status === 200) {
                             Swal.fire({
-                                title: "Status updated successfully!",
+                                title: "Document Rejected successfully!",
 
                                 icon: "success",
 
                                 showConfirmButton: true, 
                                 didClose:()=>{
-                                    location.reload(true)
+                                getJyotishDocs(id);
+                                $(".rejectDocuments").addClass("d-none")
 
                                 }
                             })            
@@ -722,12 +707,15 @@
                     success: function (response) {
                         if (response.status === 200) {
                             Swal.fire({
-                                title: "Status updated successfully!",
+                                title: "Document Approved successfully!",
                                 icon: "success",
-                                showConfirmButton: true, // Ensure the OK button is shown
+                                showConfirmButton: true, 
+                                didClose:()=>{
+                                getJyotishDocs(id);
+                                }
                             });
 
-                            location.reload(); // Reload the page after successful status update
+                           e
                         } else {
                         Swal.fire({
                             title: "Something Went Wrong Please Try Againg Later",
