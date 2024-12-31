@@ -337,6 +337,9 @@ namespace ModelAccessLayer.ViewModels
         public string Mobile { get; set; }
         [AllowNull]
 
+        public string AlternateMobile { get; set; }
+        [AllowNull]
+
         public string Name { get; set; }
         [AllowNull]
 
@@ -356,6 +359,9 @@ namespace ModelAccessLayer.ViewModels
         [AllowNull]
 
         public int City { get; set; }
+        public string countryName { get; set; }
+        public string stateName { get; set; }
+        public string cityName { get; set; }
         [AllowNull]
 
         public DateOnly DateOfBirth { get; set; }

@@ -187,7 +187,7 @@
         <!-- Left Sidebar -->
         <div class="col-md-4 rounded-start shadow-sm left-part">
             <div class="mb-3">
-                <img id="profileImage" src="~/Img/UserPlaceholder.png" alt="Profile Image" class="profile-photo" width="250" height="250">
+                <img id="profileImage" src="~/Img/UserPlaceholder.png" alt="Profile Image" class="profile-photo" width="170" height="170">
             </div>
             <h6 id="JyotishName"></h6>
             <div class="my-3 d-flex justify-content-center flex-wrap flex-row">
@@ -331,6 +331,7 @@
         var Id = localStorage.getItem('Id'); // Assuming Id is stored in localStorage
         let allAbout;
         let cropAbout;
+        debugger
         $.ajax({
             url: BaseUrl + `api/jyotish/GetProfile`,
             type: 'GET',
@@ -342,36 +343,36 @@
             success: function (response) {
                 if (response.status === 200) {
                     var profile = response.data;
-                     debugger
+                    console.log(profile)
                     // Fill in the data fields
                     $('#profileImage').attr('src', profile.profileImageUrl ?  BaseUrl+profile.profileImageUrl : 'default-image.jpg');
                     $('#JyotishName').html(profile.name + " <i class='fas text-primary fa-check-circle'></i>");
-                    $('#name').text(profile.name);
-                    $('#email').text(profile.email);
-                    $('#mobile').text(profile.mobile);
-                    $('#role').text(profile.role);
-                    $('#gender').text(profile.gender);
-                    $('#expertise').text(profile.expertise);
-                    $('#city').text(profile.city);
-                    $('#state').text(profile.state);
-                    $('#country').text(profile.country);
-                    $('#language').text(profile.language);
-                $('#experience').text(profile.experience);
-                    $('#specialization').text(profile.specialization);
+                    $('#name').text(profile.name || "NA");
+                    $('#email').text(profile.email || "NA");
+                $('#mobile').text(profile.mobile || "NA");
+                $('#role').text(profile.role || "NA");
+                $('#gender').text(profile.gender || "NA");
+                $('#expertise').text(profile.expertise || "NA");
+                $('#city').text(profile.cityName || "NA");
+                $('#state').text(profile.stateName || "NA");
+                $('#country').text(profile.countryName || "NA");
+                $('#language').text(profile.language || "NA");
+                $('#experience').text(profile.experience || "NA");
+                $('#specialization').text(profile.specialization || "NA");
                 $('#about').html(profile.about.slice(0, 200) + `...<span class='text-primary' onClick='SeemoreAbout()' role='button'>more</span>`);
                     $('#awardsAndAchievement').text(profile.awordsAndAchievement || 'N/A');
-                    $('#callCharges').text("₹"+profile.callCharges+"/min");
-                    $('#chatCharges').text("₹"+profile.chatCharges+"/min");
+                $('#callCharges').text("₹" + profile.callCharges + "/min" || "NA");
+                $('#chatCharges').text("₹" + profile.chatCharges + "/min" || "NA");
                    const dateOfBirth = profile.dateOfBirth.split('T')[0];
-                    $('#dateOfBirth').text(dateOfBirth);
+                $('#dateOfBirth').text(dateOfBirth || "NA");
 
                   
                 $('#pooja').text(profile.pooja || 'No');
-                    $('#appointmentCharges').text(profile.appointmentCharges);
-                    $('#address').text(profile.address);
-                    $('#timeTo').text(profile.timeTo);
-                   
-                    $('#timeFrom').text(profile.timeFrom);
+                $('#appointmentCharges').text(profile.appointmentCharges || "NA");
+                $('#address').text(profile.address || "NA");
+                $('#timeTo').text(profile.timeTo || "NA");
+
+                $('#timeFrom').text(profile.timeFrom || "NA");
                     allAbout = profile.about;
                     // Handle timeFrom and timeTo if necessary
                     } else {
@@ -410,6 +411,8 @@
       function SeelessAbout(){
             $("#about").html(cropAbout)
       }
-   
 
+    $("#profileImage").on('error', function () {
+        $(this).attr("src", '/user-not-found.png');
+    });
 </script>

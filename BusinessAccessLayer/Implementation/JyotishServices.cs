@@ -68,6 +68,7 @@ namespace BusinessAccessLayer.Implementation
             var CityName = _context.Cities.Where(x => x.Id == model.City).FirstOrDefault();
          
             existingRecord.Mobile = model.Mobile;
+            existingRecord.Mobile = model.AlternateMobile;
             existingRecord.Name = model.Name;
             existingRecord.Gender = model.Gender;
             existingRecord.Language = model.Language;
@@ -588,10 +589,15 @@ namespace BusinessAccessLayer.Implementation
             Data.Name = record.Name;
             Data.Gender = record.Gender;
             Data.Language = record.Language;
+            Data.Mobile = record.Mobile;
+            Data.AlternateMobile = record.AlternateMobile;
             Data.Expertise = record.Expertise;
-            Data.Country = _context.Countries.Where(y => y.Name == record.Country).Select(y => y.Id).FirstOrDefault();
-            Data.State = _context.States.Where(z => z.CountryId == Data.Country).Select(a => a.Id).FirstOrDefault();
-            Data.City = _context.Cities.Where(z => z.StateId == Data.State).Select(a => a.Id).FirstOrDefault();
+            Data.countryName = record.Country;
+            Data.stateName = record.State;
+            Data.cityName = record.City;
+            Data.Country = _context.Countries.Where(e=>e.Name==record.Country).Select(e=>e.Id).FirstOrDefault();
+            Data.State = _context.States.Where(e => e.Name == record.State).Select(e => e.Id).FirstOrDefault();
+            Data.City = _context.Cities.Where(e => e.Name == record.City).Select(e => e.Id).FirstOrDefault();
             Data.DateOfBirth = (DateOnly)record.DateOfBirth;
             Data.ProfileImage = record.ProfileImageUrl;
             Data.Experience = record.Experience!=null?(int)record.Experience:0;
@@ -621,7 +627,7 @@ namespace BusinessAccessLayer.Implementation
             Data.TimeFrom = (TimeOnly)record.TimeFrom;
 
             }
-            if (Data.TimeTo!=null)
+            if (record.TimeTo!=null)
             {
             Data.TimeTo = (TimeOnly)record.TimeTo;
 
