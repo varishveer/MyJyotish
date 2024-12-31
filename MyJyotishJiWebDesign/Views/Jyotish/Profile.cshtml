@@ -332,19 +332,20 @@
         let allAbout;
         let cropAbout;
         $.ajax({
-            url: BaseUrl + `api/Jyotish/GetProfile?Id=${encodeURIComponent(Id)}`,
+            url: BaseUrl + `api/jyotish/GetProfile`,
             type: 'GET',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
                 'Content-Type': 'application/json',
             },
+            data:{Id:Id},
             success: function (response) {
                 if (response.status === 200) {
                     var profile = response.data;
                      
                     // Fill in the data fields
                     $('#profileImage').attr('src', profile.profileImageUrl ?  BaseUrl+profile.profileImageUrl : 'default-image.jpg');
-                $('#JyotishName').html(profile.name + " <i class='fas text-primary fa-check-circle'></i>");
+                    $('#JyotishName').html(profile.name + " <i class='fas text-primary fa-check-circle'></i>");
                     $('#name').text(profile.name);
                     $('#email').text(profile.email);
                     $('#mobile').text(profile.mobile);

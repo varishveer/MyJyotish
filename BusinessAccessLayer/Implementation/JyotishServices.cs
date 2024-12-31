@@ -594,9 +594,9 @@ namespace BusinessAccessLayer.Implementation
             Data.City = _context.Cities.Where(z => z.StateId == Data.State).Select(a => a.Id).FirstOrDefault();
             Data.DateOfBirth = (DateOnly)record.DateOfBirth;
             Data.ProfileImage = record.ProfileImageUrl;
-            Data.Experience = (int)record.Experience;
-            Data.Pooja = (bool)record.Pooja;
-            Data.Call = (bool)record.Call;
+            Data.Experience = record.Experience!=null?(int)record.Experience:0;
+            Data.Pooja = record.Pooja!=null?(bool)record.Pooja:false;
+            Data.Call = record.Call!=null?(bool)record.Call:false;
             if(Data.Call)
             {
                 Data.CallCharges = record.CallCharges;
@@ -609,15 +609,23 @@ namespace BusinessAccessLayer.Implementation
             }
 
 
-            Data.Appointment = (bool)record.Appointment;
-            if (Data.Appointment)
+            Data.Appointment = record.Appointment!=null?(bool)record.Appointment:false;
+            if (record.Appointment!=null)
             {
                 Data.AppointmentCharges = record.AppointmentCharges;
             }
 
             Data.Address = record.Address;
-            Data.TimeTo = (TimeOnly)record.TimeTo;
+            if (record.TimeFrom!=null)
+            {
             Data.TimeFrom = (TimeOnly)record.TimeFrom;
+
+            }
+            if (Data.TimeTo!=null)
+            {
+            Data.TimeTo = (TimeOnly)record.TimeTo;
+
+            }
             Data.About = record.About;
             Data.AwordsAndAchievement = record.AwordsAndAchievement;
             Data.Specialization = record.Specialization;

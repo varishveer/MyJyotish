@@ -333,32 +333,78 @@ namespace ModelAccessLayer.ViewModels
     {
         
         public int Id { get; set; }
+        [AllowNull]
         public string Mobile { get; set; }
+        [AllowNull]
+
         public string Name { get; set; }
+        [AllowNull]
+
         public string Gender { get; set; }
+        [AllowNull]
+
         public string Language { get; set; }
+        [AllowNull]
+
         public string Expertise { get; set; }
+        [AllowNull]
 
         public int? Country { get; set; }
+        [AllowNull]
+
         public int State { get; set; }
+        [AllowNull]
+
         public int City { get; set; }
+        [AllowNull]
+
         public DateOnly DateOfBirth { get; set; }
+        [AllowNull]
+
         public IFormFile? ProfileImageUrl { get; set; }
+        [AllowNull]
+
         public string? ProfileImage { get; set; }
+        [AllowNull]
 
         public int Experience { get; set; }
+        [AllowNull]
+
         public bool Pooja { get; set; }
+        [AllowNull]
+
         public bool Call { get; set; }
+        [AllowNull]
+
         public int? CallCharges { get; set; }
+        [AllowNull]
+
         public bool Chat { get; set; }
+        [AllowNull]
+
         public int? ChatCharges { get; set; }
+        [AllowNull]
+
         public bool Appointment { get; set; }
+        [AllowNull]
+
         public int? AppointmentCharges { get; set; }
+        [AllowNull]
+
         public string Address { get; set; }
-        public TimeOnly TimeTo { get; set; }
-        public TimeOnly TimeFrom { get; set; }
+        [AllowNull]
+
+        public TimeOnly? TimeTo { get; set; } = null;
+        [AllowNull]
+
+        public TimeOnly? TimeFrom { get; set; } = null;
+        [AllowNull]
+
         public string About { get; set; }
+        [AllowNull]
+
         public string AwordsAndAchievement { get; set; }
+        [AllowNull]
         public string Specialization { get; set; }
     }
 }
