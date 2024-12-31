@@ -214,7 +214,6 @@ display:block;
   </div>
 </div>
 
-
 <!--Update Modal -->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl">
@@ -321,7 +320,7 @@ display:block;
 
 <!-- Service Modal -->
 <div class="modal fade" id="serviceModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="serviceModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+  <div class="modal-dialog serviceModal modal-lg modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="serviceModalLabel">Add Services</h1>
@@ -1210,6 +1209,7 @@ $("#addFeatures").click(function(){
             $("#featureId").val(plan.featuresId)
             $("#subBtn").val("update")
      $("#cancelServiceUpdate").removeClass("d-none")
+        document.querySelector("#serviceModal .modal-body").scrollTop = 0;
 
         })
     
@@ -1343,6 +1343,7 @@ $("#addFeatures").click(function(){
                 $('#btnupdate').hide();
             }
      $("#cancelFeatureUpdate").removeClass("d-none")
+            document.querySelector("#featuresModal .modal-body").scrollTop = 0;
 
         });
     });
