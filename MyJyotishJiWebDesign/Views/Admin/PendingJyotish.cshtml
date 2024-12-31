@@ -58,9 +58,7 @@
 
                 },
                 success: function (result) {
-                    if ($.fn.DataTable.isDataTable('#DataTable')) {
-                        $('#DataTable').DataTable().clear().destroy();
-                    }
+
 
                     let htmls = '<thead><tr><th class="text-center">Id</th><th class="text-center">Name</th><th class="text-center">Mobile</th><th class="text-center">Email</th><th class="text-center">Gender</th><th class="text-center">Address</th><th class="text-center">Status</th><th class="text-center">Action</th></tr></thead><tbody>';
                     var Id = 1;
@@ -84,8 +82,8 @@
 
                     htmls += '</tbody>';
                     $('#DataTable').html(htmls);
-                    $('#DataTable').DataTable(); // Reinitialize the DataTable
                     Swal.close();
+                    
                 }
                 ,
                 error: function (errormessage) {

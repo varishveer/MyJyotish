@@ -65,7 +65,7 @@
 
 <div class="container">
     <div class="left-section">
-        <img id="profileImage" src="" alt="Profile Image" >
+        <img id="profileImage" height="120" width="120" class="rounded-circle" src="" alt="Profile Image" >
         <h3 id="profileName" class="fw-light"></h3>
       
         <button type="button" id="opendocumentModal" class="btn btn-primary" data-toggle="modal" data-target="#documentModal">
@@ -260,6 +260,9 @@
                           confirmButtonText: 'OK'
                         });
                 }
+                    $("#profileImage").on('error', function () {
+           $(this).attr("src", '/user-not-found.png');
+       });
             },
             error: function () {
                 Swal.fire({
@@ -480,8 +483,9 @@
                         if (response.status === 200) {
                             updateDocumentStatus(response.data); // Call function to update document status
                         } else {
-                            alert("No Record Found");
-                            window.location.replace("/Admin/PendingJyotish");
+                            Swal.fire({
+                                "No Record Found"
+                            });
                         }
                     },
                     error: function () {

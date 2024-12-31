@@ -137,7 +137,7 @@
 
                     <div class="form-group mb-2 py-0 d-none" id="callChargesInputDiv">
                         <label for="callCharges">Call Charges:</label>
-                        <input type="number" id="callCharges" name="callCharges" class="form-control form-control-sm">
+                        <input type="number" id="callCharges" value="0" name="callCharges" class="form-control form-control-sm">
                     </div>
 
                     <div class="form-group py-0 ">
@@ -156,7 +156,7 @@
                     </div>
                     <div class="form-group mb-2  py-0 d-none" id="chatChargesInputDiv">
                         <label for="chatCharges">Chat Charges:</label>
-                        <input type="number" id="chatCharges" name="chatCharges" class="form-control form-control-sm" required>
+                        <input type="number" id="chatCharges" name="chatCharges" value="0" class="form-control form-control-sm" required>
                     </div>
 
                     <div class="form-group py-0">
@@ -175,7 +175,7 @@
                     </div>
                     <div class="form-group mb-2 py-0  d-none" id="appointmentChargesInputDiv">
                         <label for="appointmentCharges">Appointment Charges</label>
-                      <input type="text" id="appointmentCharge" name="appointmentCharge" class="form-control form-control-sm" required>
+                      <input type="text" id="appointmentCharge" value="0" name="appointmentCharge" class="form-control form-control-sm" required>
 
                     </div>
                 
@@ -272,7 +272,13 @@
                 alert('Missing authentication token or profile ID.');
                 return;
             }
-
+             Swal.fire({
+            title: "Processing Your Request",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
             $.ajax({
                 url: BaseUrl + 'Api/Jyotish/GetProfile',
                 type: 'GET',
@@ -320,8 +326,9 @@
                         $('#appointmentNo').attr("checked",true);
                         } 
                         // Set profile image preview or fallback image
-                        if (profile.profileImageUrl) {
-                            $('#profileImagePreview').attr('src', BaseUrl + profile.profileImageUrl).show();
+                        debugger
+                        if (profile.profileImage!=null) {
+                            $('#profileImagePreview').attr('src', BaseUrl + profile.profileImage).show();
                         } else {
                             $('#profileImagePreview').attr('src', '/user-not-found.png').show();
                         }
@@ -368,12 +375,25 @@
 
 
                     } else {
-                        alert('Error: Could not load profile data.');
+                        Swal({
+                        text:'Failed to load profile data. Please try again.',
+                        title:"error",
+                        icon:"error"
+                    });
                     }
+
+    $("#profileImage").on('error', function () {
+        $(this).attr("src", '/user-not-found.png');
+    });
+    Swal.close()
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    alert('Failed to load profile data. Please try again.');
-                    console.error('Error fetching profile data:', textStatus, errorThrown);
+                    Swal({
+                        text:'Failed to load profile data. Please try again.',
+                        title:"error",
+                        icon:"error"
+                    });
+                    console.error('Error fetching profile data:', jqXHR);
                 }
             });
         }
@@ -383,7 +403,13 @@
         // Handle form submission
         $('#profileUpdateForm').on('submit', function (e) {
             e.preventDefault();
-
+              Swal.fire({
+            title: "Processing Your Request",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
             var formData = new FormData();
 
             // Append basic form data
@@ -416,24 +442,26 @@
             formData.append('timeTo', document.getElementById('timeTo').value);
             formData.append('about', document.getElementById('about').value);
             formData.append('awordsAndAchievement', document.getElementById('awardsAndAchievement').value);
-            formData.append('call', $(".callradioBtn").val()=="yes"?true:false); 
-            formData.append('chat', $(".chatradioBtn").val()=="yes"?true:false); 
-            if( $(".chatradioBtn").val()=="yes"){
+            formData.append('call', $(".callradioBtn:checked").val()=="yes"?true:false); 
+            formData.append('chat', $(".chatradioBtn:checked").val()=="yes"?true:false); 
+            if( $(".chatradioBtn:checked").val()=="yes"){
             formData.append('chatCharges', document.getElementById('chatCharges').value);
 
             }else{
                 document.getElementById('chatCharges').removeAttribute("required")
 
             } 
-            if( $(".callradioBtn").val()=="yes"){
+            if( $(".callradioBtn:checked").val()=="yes"){
             formData.append('callCharges', document.getElementById('callCharges').value);
             }else{
                 document.getElementById('callCharges').removeAttribute("required")
 
             }
             formData.append('pooja', $(".poojaradioBtn").val()=="yes"?true:false); 
-            formData.append('appointment', $(".appointmentradioBtn").val()=="yes"?true:false); 
-            if($(".appointmentradioBtn").val()=="yes"){
+            formData.append('appointment', $(".appointmentradioBtn:checked").val()=="yes"?true:false); 
+            let app=$(".appointmentradioBtn").val()
+            if($(".appointmentradioBtn:checked").val()=="yes"){
+                debugger
             formData.append('appointmentCharges', document.getElementById('appointmentCharge').value);
 
             }else{
@@ -487,21 +515,20 @@
             });
        
 
+
+    });
+
         // Image preview functionality (optional)
         $('#profileImage').on('change', function (e) {
+            debugger
             var reader = new FileReader();
             reader.onload = function (e) {
                 $('#profileImagePreview').attr('src', e.target.result);
             }
             reader.readAsDataURL(this.files[0]);
         });
-
-        $("#profileImage").on('error', function () {
-            $(this).attr("src", '/user-not-found.png');
-        });
-    });
-
      async function loadLanguage() {
+         
             try {
                 const response = await fetch(BaseUrl+'Api/Account/Languages');
                 const data = await response.json();
@@ -535,6 +562,13 @@
                     console.error('Error fetching expertise:', textStatus, errorThrown);
                 }
             }).then(() => { 
+                 Swal.fire({
+                        title: "Processing Your Request",
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    })
             $.ajax({
                 url: BaseUrl + 'Api/Jyotish/Country',
                 type: 'GET',
@@ -547,8 +581,6 @@
                     response.data.forEach(country => {
                         countryDropdown.append(new Option(country.name, country.id));
                     });
-                        Swal.close()
-
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     console.error('Error fetching countries:', textStatus, errorThrown);
@@ -580,13 +612,7 @@
             
         // Load States
         function loadStates(countryId) {
-                    Swal.fire({
-                        title: "Processing Your Request",
-                        allowOutsideClick: false,
-                        didOpen: () => {
-                            Swal.showLoading();
-                        }
-                    })
+                   
             $.ajax({
                 url: BaseUrl + `Api/Jyotish/State`,
                 type: 'GET',
@@ -601,8 +627,6 @@
                         stateDropdown.append(new Option(state.name, state.id));
                     });
                     stateDropdown.prop('disabled', false);
-                            Swal.close()
-                   
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     console.error('Error fetching states:', textStatus, errorThrown);
@@ -612,13 +636,7 @@
 
         // Load Cities
         function loadCities(stateId) {
-                    Swal.fire({
-                        title: "Processing Your Request",
-                        allowOutsideClick: false,
-                        didOpen: () => {
-                            Swal.showLoading();
-                        }
-                    })
+                  
             $.ajax({
                 url: BaseUrl+`Api/Jyotish/City`,
                 type: 'GET',
@@ -628,7 +646,7 @@
                 data: { Id: stateId }, // Query string parameter
                 success: function (response) {
                     var cityDropdown = $('#city');
-                    cityDropdown.empty().append('<option value="">Select City</option>');
+                    cityDropdown.empty().append('<option value="">--Select City--</option>');
                     response.data.forEach(city => {
                         cityDropdown.append(new Option(city.name, city.id));
                     });

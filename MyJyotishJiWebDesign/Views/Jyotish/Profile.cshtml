@@ -226,99 +226,113 @@
                         <div class="detail-value" id="mobile"></div>
                     </div>
                     <div class="col-md-6">
-                        <div class="detail-label">Gender</div>
-                        <div class="detail-value" id="gender"></div>
+                        <div class="detail-label">Alternate Phone</div>
+                        <div class="detail-value" id="alternatemobile"></div>
                     </div>
+                   
                 </div>
 
                 <div class="row">
+                    <div class="col-md-6">
+                        <div class="detail-label">Gender</div>
+                        <div class="detail-value" id="gender"></div>
+                    </div>
                     <div class="col-md-6">
                         <div class="detail-label">Languages</div>
                         <div class="detail-value" id="language"></div>
                     </div>
+                   
+                </div>
+
+                <div class="row">
                     <div class="col-md-6">
                         <div class="detail-label">Appointment Time from</div>
                         <div class="detail-value" id="timeFrom"></div>
                     </div>
-                </div>
-
-                <div class="row">
                     <div class="col-md-6">
                         <div class="detail-label">Appointment Time To</div>
                         <div class="detail-value" id="timeTo"></div>
                     </div>
+                   
+                </div>
+
+                <div class="row">
                     <div class="col-md-6">
                         <div class="detail-label">Appointment Charges</div>
                         <div class="detail-value" id="appointmentCharges"></div>
                     </div>
-                </div>
-
-                <div class="row">
                     <div class="col-md-6">
                         <div class="detail-label">Professional Experience</div>
                         <div class="detail-value" id="experience"></div>
                     </div>
+                   
+                </div>
+
+                <div class="row">
                     <div class="col-md-6">
                         <div class="detail-label">Pooja</div>
                         <div class="detail-value" id="pooja"></div>
                     </div>
-                </div>
-
-                <div class="row">
                     <div class="col-md-6">
                         <div class="detail-label">Chat Price</div>
                         <div class="detail-value" id="chatCharges"></div>
                     </div>
+                  
+                </div>
+
+                <div class="row">
                     <div class="col-md-6">
                         <div class="detail-label">Call Price</div>
                         <div class="detail-value" id="callCharges"></div>
                     </div>
-                </div>
-
-                <div class="row">
                     <div class="col-md-6">
                         <div class="detail-label">Address</div>
                         <div class="detail-value" id="address"></div>
                     </div>
+                   
+                </div>
+
+                <div class="row">
                     <div class="col-md-6">
                         <div class="detail-label">Date Of Birth</div>
                         <div class="detail-value" id="dateOfBirth"></div>
                     </div>
-                </div>
-
-                <div class="row">
                     <div class="col-md-6">
                         <div class="detail-label">City</div>
                         <div class="detail-value" id="city"></div>
                     </div>
+                  
+                </div>
+
+                <div class="row">
                     <div class="col-md-6">
                         <div class="detail-label">State</div>
                         <div class="detail-value" id="state"></div>
                     </div>
-                </div>
-
-                <div class="row">
                     <div class="col-md-6">
                         <div class="detail-label">Country</div>
                         <div class="detail-value" id="country"></div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="detail-label">Expertise</div>
-                        <div class="detail-value" id="expertise"></div>
-                    </div>
+                  
                 </div>
 
                 <div class="row">
                     <div class="col-md-6">
+                        <div class="detail-label">Expertise</div>
+                        <div class="detail-value" id="expertise"></div>
+                    </div>
+                    <div class="col-md-6">
                         <div class="detail-label">Specialization</div>
                         <div class="detail-value" id="specialization"></div>
                     </div>
+                   
+                </div>
+                <div class="row">
                     <div class="col-md-6">
                         <div class="detail-label">Awards and Achievements</div>
                         <div class="detail-value" id="awardsAndAchievement"></div>
                     </div>
                 </div>
-
                
             </div>
         </div>
@@ -332,6 +346,13 @@
         let allAbout;
         let cropAbout;
         debugger
+         Swal.fire({
+            title: "Processing Your Request",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
         $.ajax({
             url: BaseUrl + `api/jyotish/GetProfile`,
             type: 'GET',
@@ -345,11 +366,12 @@
                     var profile = response.data;
                     console.log(profile)
                     // Fill in the data fields
-                    $('#profileImage').attr('src', profile.profileImageUrl ?  BaseUrl+profile.profileImageUrl : 'default-image.jpg');
+                    $('#profileImage').attr('src', profile.profileImage ?  BaseUrl+profile.profileImage : 'default-image.jpg');
                     $('#JyotishName').html(profile.name + " <i class='fas text-primary fa-check-circle'></i>");
                     $('#name').text(profile.name || "NA");
                     $('#email').text(profile.email || "NA");
                 $('#mobile').text(profile.mobile || "NA");
+                $('#alternatemobile').text(profile.alternateMobile || "NA");
                 $('#role').text(profile.role || "NA");
                 $('#gender').text(profile.gender || "NA");
                 $('#expertise').text(profile.expertise || "NA");
@@ -367,7 +389,7 @@
                 $('#dateOfBirth').text(dateOfBirth || "NA");
 
                   
-                $('#pooja').text(profile.pooja || 'No');
+                $('#pooja').text(profile.pooja?"Yes":"No" || 'No');
                 $('#appointmentCharges').text(profile.appointmentCharges || "NA");
                 $('#address').text(profile.address || "NA");
                 $('#timeTo').text(profile.timeTo || "NA");
@@ -386,6 +408,7 @@
                   
                     });
                 }
+                Swal.close();
             },
             error: function (xhr, status, error) {
                 console.error('Error:', error);
