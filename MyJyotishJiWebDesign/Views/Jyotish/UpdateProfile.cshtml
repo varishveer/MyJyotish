@@ -482,11 +482,7 @@
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
 
-                    console.error('Error updating profile:', textStatus, errorThrown);
-                },
-                complete: function () {
-                    // Re-enable the submit button after the request
-                    $('button[type="submit"]').prop('disabled', false);
+                    console.error('Error updating profile:', jqXHR);
                 }
             });
        

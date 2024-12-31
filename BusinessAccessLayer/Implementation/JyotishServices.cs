@@ -59,16 +59,11 @@ namespace BusinessAccessLayer.Implementation
                 existingRecord.ProfileImageUrl = "Images/Jyotish/" + ProfileGuid + model.ProfileImageUrl.FileName;
 
             }
-           
-
-
-
-          
             var StateName = _context.States.Where(x => x.Id == model.State).FirstOrDefault();
             var CityName = _context.Cities.Where(x => x.Id == model.City).FirstOrDefault();
          
             existingRecord.Mobile = model.Mobile;
-            existingRecord.Mobile = model.AlternateMobile;
+            existingRecord.AlternateMobile = model.AlternateMobile;
             existingRecord.Name = model.Name;
             existingRecord.Gender = model.Gender;
             existingRecord.Language = model.Language;
@@ -79,6 +74,7 @@ namespace BusinessAccessLayer.Implementation
             existingRecord.DateOfBirth = model.DateOfBirth;
             existingRecord.Experience = model.Experience;
             existingRecord.Call = model.Call;
+            existingRecord.Appointment = model.Appointment;
             if (model.Call)
             {
                 existingRecord.CallCharges = model.CallCharges;
@@ -587,6 +583,7 @@ namespace BusinessAccessLayer.Implementation
             JyotishProfileUpdateViewModal Data = new JyotishProfileUpdateViewModal();
             Data.Id = record.Id;
             Data.Name = record.Name;
+            Data.Email = record.Email;
             Data.Gender = record.Gender;
             Data.Language = record.Language;
             Data.Mobile = record.Mobile;
