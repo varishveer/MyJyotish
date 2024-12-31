@@ -1,0 +1,379 @@
+﻿
+
+<!-- Font Awesome for icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- Custom CSS for Styling -->
+
+
+<link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png" />
+<link rel="preconnect" href="https://fonts.gstatic.com" />
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet" />
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  color: hsl(233, 13%, 49%);
+  margin: 3.3rem 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.sub {
+  background: linear-gradient(
+    135deg,
+    rgba(163, 168, 240, 1) 0%,
+    rgba(105, 111, 221, 1) 100%
+  );
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  /* height: 25px;
+  width: 50px; */
+  height: 1.6rem;
+  width: 3.3rem;
+  border-radius: 1.6rem;
+  padding: 0.3rem;
+}
+.circle {
+  background-color: #fff;
+  height: 1.4rem;
+  width: 1.4rem;
+  border-radius: 50%;
+}
+
+.cards {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.card {
+  background: #fff;
+  color: hsl(233, 13%, 49%);
+  border-radius: 0.8rem;
+        transition: 0.3s;
+    }
+
+.card:hover.active {
+ 
+ 
+  transform: scale(1.1);
+  z-index: 1;
+  transition:0.3s;
+}
+
+    .details {
+  margin: 2.6rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  padding-left:0 !important;
+}
+
+        .details li {
+  list-style-type: none;
+  display: flex;
+  justify-content: start;
+  width: 100%;
+  padding: 1rem 0;
+}
+
+  .details li.price {
+  font-size: 3rem;
+  color: hsl(232, 13%, 33%);
+  padding-bottom: 2rem;
+}
+.shadow {
+  box-shadow: -5px 5px 15px 1px rgba(0, 0, 0, 0.1);
+}
+
+
+.btn-package {
+  margin-top: 1rem;
+  height: 2.6rem;
+  width: 13.3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  background: linear-gradient(
+    135deg,
+    rgba(163, 168, 240, 1) 0%,
+    rgba(105, 111, 221, 1) 100%
+  );
+  color: #fff;
+  outline: none;
+  border: 0;
+  font-weight: bold;
+}
+
+   .btn-package:hover.active-btn {
+  background: #fff;
+  color: hsl(237, 63%, 64%);
+            border: 1px solid hsl(237, 63%, 64%);
+}
+.bottom-bar {
+  border-bottom: 2px solid hsla(240, 8%, 85%, 0.582);
+}
+
+.card.active .bottom-bar {
+  border-bottom: 2px solid hsla(240, 8%, 85%, 0.253);
+}
+.pack {
+  font-size: 1.1rem;
+}
+
+    .old-price{
+        text-decoration:line-through;
+    }
+
+@@media (max-width: 280px) {
+        .details {
+    margin: 1rem;
+  }
+  h1 {
+    font-size: 1.2rem;
+  }
+
+        .toggle-package {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 80px;
+  }
+  .cards {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card {
+    transform: scale(0.8);
+    margin-bottom: 1rem;
+  }
+
+        .card:hover.active {
+    transform: scale(0.8);
+  }
+}
+
+@@media (min-width: 280px) and (max-width: 320px) {
+        .details {
+    margin: 20px;
+  }
+  .cards {
+    display: flex;
+    flex-direction: column;
+  }
+  .card {
+    margin-bottom: 1rem;
+  }
+
+        .card:hover.active {
+    transform: scale(1);
+  }
+}
+
+@@media (min-width: 320px) and (max-width: 414px) {
+  .cards {
+    display: flex;
+    flex-direction: column;
+  }
+  .card {
+    margin-bottom: 1rem;
+  }
+
+        .card:hover.active {
+    transform: scale(1);
+  }
+}
+@@media (min-width: 414px) and (max-width: 768px) {
+  .card {
+    margin-bottom: 1rem;
+    margin-right: 1rem;
+  }
+
+        .card:hover.active {
+    transform: scale(1);
+  }
+}
+@@media (min-width: 768px) and (max-width: 1046px) {
+  .cards {
+    display: flex;
+  }
+  .card {
+    margin-bottom: 1rem;
+    margin-right: 1rem;
+  }
+  .card:hover.active {
+    transform: scale(1);
+  }
+}
+
+    .right-0{
+        right:0;
+    }
+</style>
+
+    <header>
+        <h1>Our Pricing</h1>
+   
+    </header>
+    <div class="cards d-flex gap-3">
+ 
+    </div>
+    <div class="text-center">
+        <button class="btn btn-danger d-none rounded-0" role="button" id="purchaseBtn">Next</button>
+    </div>
+<div id="walletPaymentContainer"></div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Redeem Code</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="redeamForm">
+                <input type="hidden" name="planId" id="planIdModal"/>
+                <input type="hidden" name="price" id="priceModal"/>
+               <input type="text" name="redeamCode" id="redeamCode" placeholder="Enter Redeam Code" class="form-control mb-2" />
+               <div class="text-center my-4">
+               <input type="submit" value="Redeam" class="btn btn-success" />
+                    </div>
+               <p>don't have any redeam code <span class="text-primary" id="sendRequest" role="button">send request</span> or <span class="text-primary" role="button" onclick="purchaseWithWallet()">Purchase with Wallet</span></p>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    $("#exampleModal").on("hide.bs.modal", function () {
+        alert("fds")
+        $("#redeamCode").val("")
+    })
+
+    $(document).ready(function () {
+        // API URL
+        var apiUrl = BaseUrl + "Api/admin/GetAllSubscriptionForAdmin";
+        Swal.fire({
+            title: "Processing Your Request",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
+        // Make an AJAX request to get subscription plans
+        $.ajax({
+            url: apiUrl,
+            type: "GET",
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                'Content-Type': 'application/json'
+            },
+            success: function (response) {
+                console.log(response)
+                if (response.status === 200 && response.data.length > 0) {
+                    var container = $(".cards");
+                    container.empty();
+                    console.log(response)
+                    $.each(response.data, function (index, item) {
+                        var servicesHTML = "";
+                        let validFeature=[];
+                        let invalidFeature = [];
+                        $.each(item.features, function (index, feature) {
+                            
+                            if (feature.status == true) {
+                                validFeature.push({ feature:feature.name,count:feature.serviceCount })
+                               
+                            } else {
+                                invalidFeature.push({ feature: feature.name, count: feature.serviceCount })
+                                                               
+                            }
+                        });
+
+                        validFeature.forEach(function(d){
+                            servicesHTML += `
+                                                <li class="bottom-bar display-flex justify-content-between">
+
+                                                    <a href="#!">  <span class="me-1 text-success">
+                                                            <i class="fa-solid fa-check"></i>
+                                                    </span>${d.feature} </a>
+                                                    <span >${d.count}</span>
+                                            </li>
+                                        `;
+                        })
+                        invalidFeature.forEach(function(d){
+                            servicesHTML += `
+                                                    <li class="bottom-bar display-flex justify-content-between">
+
+                                                            <a href="#!" class="fs-6"><span class="me-1 text-danger">
+                                                           <i class="fa-solid fa-xmark"></i>
+                                                    </span>${d.feature}</a>
+                                                 
+
+                                            </li>
+                                        `;
+                        })
+
+                        // Generate the card HTML for each plan
+                        var cardHTML = `
+
+
+                                        <div class="card active shadow position-relative" onClick='purchasePlan(${item.newPrice},${item.subscriptionId})'>
+                                    <span class='position-absolute bg-success text-light p-2 rounded top-0 right-0'>${item.planType}</span>
+                <ul class="details overflow-auto">
+                                                            <li class="pack mb-4 p-4 text-light rounded mx-0 justify-content-center mb-2 fs-4 fw-bold" style='background:${item.name.toLowerCase() == 'gold' ? "linear-gradient(90deg, rgba(212, 190, 227, 1) 0%, rgba(255, 172, 172, 1) 42%, rgba(246, 182, 92, 1) 92%);" : item.name.toLowerCase() == 'platinum' ? "linear-gradient(90deg, rgba(145,146,241,1) 0%, rgba(72,72,226,1) 50%, rgba(213,146,198,1) 83%);" : item.name.toLowerCase() == 'silver' ? "linear-gradient(90deg, rgba(213,213,247,1) 0%, rgba(232,244,163,1) 0%, rgba(213,146,198,1) 83%);" : ""}
+                    }
+           '>${item.name}</li>
+                                <li id="${item.name}" class="price bottom-bar"> <span class="fs-3">${item.newPrice == 0 ? "Free" : "₹ " + item.newPrice}</span>&nbsp;&nbsp;${item.newPrice != 0 ? `
+
+                                                            <span class="text-danger old-price fs-6">₹${item.newPrice+item.discountAmount}</span>
+                                                  
+                                                ` : ""}
+                                               </li>
+                        ${servicesHTML}
+
+                </ul>
+            </div>
+
+           
+                            `;
+                             
+                        container.append(cardHTML);
+                        delete window.servicesHTML;
+                        delete window.container;
+                        delete window.cardHTML;
+                    });
+                  
+                    Swal.close()
+                } else {
+                    console.log("No subscription plans available or an error occurred.");
+                }
+            },
+            error: function (error) {
+                console.log("Error fetching subscription plans:", error);
+            }
+        });
+    });
+    
+
+</script>

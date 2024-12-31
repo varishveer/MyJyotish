@@ -214,7 +214,6 @@ display:block;
   </div>
 </div>
 
-
 <!--Update Modal -->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl">
@@ -321,7 +320,7 @@ display:block;
 
 <!-- Service Modal -->
 <div class="modal fade" id="serviceModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="serviceModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+  <div class="modal-dialog serviceModal modal-lg modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="serviceModalLabel">Add Services</h1>
@@ -644,7 +643,13 @@ $("#addFeatures").click(function(){
         }) 
         $(document).on('click', '#btnUpdate', function (e) {
             e.preventDefault();
-
+             Swal.fire({
+            title: "Processing Your Request",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
             var featureName = $('.upName').val();
             let Amount = $('.upOldPrice').val();
             let newAmount = $('.upNewPrice').val();
@@ -699,14 +704,24 @@ $("#addFeatures").click(function(){
                             icon: 'error',
                             confirmButtonText: 'Close'
                         });
+                        Swal.close()
                     }
                     else {
                         console.error("Unexpected response status:", response.status);
-                        alert("An unexpected error occurred.");
+                        Swal.fire({
+                            text:"An unexpected error occurred.",
+                            title:"error",
+                            icon:"error"
+                        });
                     }
+                    
                 },
                 error: function (error) {
-                    console.error('Error');
+                  Swal.fire({
+                            text:"An unexpected error occurred.",
+                            title:"error",
+                            icon:"error"
+                        });
                 }
             });
         })
@@ -716,7 +731,13 @@ $("#addFeatures").click(function(){
 
 <script>
     function getAllSubscription() {
-
+        Swal.fire({
+            title: "Processing Your Request",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
         $.ajax({
             url: BaseUrl +'api/Admin/GetAllSubscription',
             type: 'GET',  
@@ -748,6 +769,7 @@ $("#addFeatures").click(function(){
                                         </td>
                                     </tr>`);
                 });
+                Swal.close();
             },
             error: function (error) {
                 console.error('An error occurred', error);  // Log actual error for better debugging
@@ -1187,6 +1209,7 @@ $("#addFeatures").click(function(){
             $("#featureId").val(plan.featuresId)
             $("#subBtn").val("update")
      $("#cancelServiceUpdate").removeClass("d-none")
+        document.querySelector("#serviceModal .modal-body").scrollTop = 0;
 
         })
     
@@ -1320,6 +1343,7 @@ $("#addFeatures").click(function(){
                 $('#btnupdate').hide();
             }
      $("#cancelFeatureUpdate").removeClass("d-none")
+            document.querySelector("#featuresModal .modal-body").scrollTop = 0;
 
         });
     });

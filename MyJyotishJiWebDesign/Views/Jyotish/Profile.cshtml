@@ -342,7 +342,7 @@
             success: function (response) {
                 if (response.status === 200) {
                     var profile = response.data;
-                     
+                     debugger
                     // Fill in the data fields
                     $('#profileImage').attr('src', profile.profileImageUrl ?  BaseUrl+profile.profileImageUrl : 'default-image.jpg');
                     $('#JyotishName').html(profile.name + " <i class='fas text-primary fa-check-circle'></i>");

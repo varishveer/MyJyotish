@@ -1316,7 +1316,7 @@ namespace BusinessAccessLayer.Implementation
                 SubscriptionName = x.Subscription.Name,
                 FeatureName = (from feature in _context.SubscriptionFeatures where feature.FeatureId==x.FeatureId && feature.Status select feature.Name).FirstOrDefault(),
                 ServiceCount = x.ServiceCount
-            }).OrderByDescending(e=>e.Id).ToList();
+            }).OrderByDescending(e=>e.SubscriptionId).ToList();
 
             return Record;
         }
@@ -1337,7 +1337,58 @@ namespace BusinessAccessLayer.Implementation
             }
         }
 
+        public List<SubscrictionListJyotishViewModel> GetAllSubscriptionForAdmin()
+        {
+            var activeFeatures = _context.SubscriptionFeatures
+                                         .Where(x => x.Status == true)
+                                         .ToList();
+            var records = _context.Subscriptions
+                                  .Where(x => x.Status == true)
+                                  .Select(subscription => new SubscrictionListJyotishViewModel
+                                  {
+                                      SubscriptionId = subscription.SubscriptionId,
+                                      Name = subscription.Name,
+                                      OldPrice = subscription.OldPrice,
+                                      NewPrice = subscription.NewPrice,
+                                      Discount = subscription.Discount,
+                                      Gst = subscription.Gst,
+                                      DiscountAmount = subscription.DiscountAmount,
+                                      PlanType = subscription.PlanType,
+                                      description = subscription.description,
+                                      // Here, we map over the active features and use a join to check the status from ManageSubscriptionModels
+                                      Features = _context.SubscriptionFeatures
+                                         .Where(x => x.Status == true).Select(x => new FeatureList
+                                         {
+                                             FeatureId = x.FeatureId,
+                                             Name = x.Name,
+                                             ServiceCount = 0,
+                                             Status = false
+                                         }).ToArray()
+                                  }).OrderByDescending(e => e.SubscriptionId).ToList();
 
+            var ManageSubscriptionData = _context.ManageSubscriptionModels.Where(x => x.Status == true).ToList();
+
+            foreach (var data in records)
+            {
+                foreach (var feature in data.Features)
+                {
+                    // Get the matching record from ManageSubscriptionData
+                    var NewData = ManageSubscriptionData
+                                    .FirstOrDefault(x => x.SubscriptionId == data.SubscriptionId
+                                                      && x.FeatureId == feature.FeatureId
+                                                      && x.Status == true);
+
+                    // Check if a matching record is found
+                    if (NewData != null)
+                    {
+                        feature.Status = true;
+                        feature.ServiceCount = NewData.ServiceCount;
+                    }
+                }
+            }
+
+            return records;
+        }
 
         public List<JyotishPaymentRecordModel> JyotishPaymentrecords()
         {
