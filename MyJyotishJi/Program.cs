@@ -117,12 +117,12 @@ builder.Services.AddAuthorization(options =>
 });*/
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAnyOrigin", builder =>
+    options.AddPolicy("DynamicCorsPolicy", builder =>
     {
-        // Allow any origin, but don't allow credentials
-        builder.AllowAnyOrigin()
-               .AllowAnyMethod()
-               .AllowAnyHeader();
+        builder.SetIsOriginAllowed((host) => true)   // Allow any origin dynamically
+               .AllowAnyMethod()                    // Allow any HTTP method (GET, POST, etc.)
+               .AllowAnyHeader()                    // Allow any headers
+               .AllowCredentials();                 // Allow credentials (cookies, HTTP authentication, etc.)
     });
 });
 builder.Services.AddSignalR();
@@ -136,8 +136,9 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseDeveloperExceptionPage();
 }
-app.UseCors("AllowAnyOrigin");
+app.UseCors("DynamicCorsPolicy");
 app.UseStaticFiles();
 app.UseHttpsRedirection();
 app.UseAuthentication();
@@ -156,13 +157,7 @@ app.Use(async (context, next) =>
         await next();
     }
 });
-app.UseRouting();
-#pragma warning disable ASP0014 // Suggest using top level route registrations
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapHub<CallHub>("/callhub");
-});
-#pragma warning restore ASP0014 // Suggest using top level route registrations
+app.MapHub<CallHub>("/callhub");
 
 app.MapControllers();
 app.Run();
