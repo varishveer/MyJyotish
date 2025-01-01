@@ -372,7 +372,9 @@
 				console.error('Error with Twilio device: ', error);
 			});
 
-			
+			device.on('incoming', function(event){
+				console.log("Incomming Call...",event)
+			});
 		}
 	})
 
