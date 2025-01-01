@@ -117,12 +117,12 @@ builder.Services.AddAuthorization(options =>
 });*/
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("DynamicCorsPolicy", builder =>
+    options.AddPolicy("AllowAnyOrigin", builder =>
     {
-        builder.SetIsOriginAllowed((host) => true)  // Allow all origins dynamically
+        // Allow any origin, but don't allow credentials
+        builder.AllowAnyOrigin()
                .AllowAnyMethod()
-               .AllowAnyHeader()
-               .AllowCredentials();
+               .AllowAnyHeader();
     });
 });
 builder.Services.AddSignalR();
@@ -137,7 +137,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseCors("DynamicCorsPolicy");
+app.UseCors("AllowAnyOrigin");
 app.UseStaticFiles();
 app.UseHttpsRedirection();
 app.UseAuthentication();
