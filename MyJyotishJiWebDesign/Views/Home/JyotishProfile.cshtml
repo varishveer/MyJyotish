@@ -1450,10 +1450,9 @@
 
 <script>
 	function establishedConnectionForSendCallRequest() {
-		let socket = new WebSocket(`wss://api.myjyotishg.in/api/chat/sendCallRequest?id=${UserId}&sendBy=client`);
+		let socket = new WebSocket(`wss://localhost:7118/api/call/sendCallRequest?id=${UserId}&sendBy=client`);
 		return new Promise((res, rej) => {
 			if (socket) {
-
 				res(socket)
 			} else {
 				rej(false)
