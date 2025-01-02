@@ -1166,7 +1166,7 @@
 									socket.onopen = function (event) {
 										console.log('WebSocket connection established:', event);
 										if (jyotishId) {
-											socket.send(`${jyotishId}`);
+											socket.send(`${jyotishId}:"room1"`);
 											$(".callBtn").hide();
 											$("#waitingBtn").removeClass("d-none")
 										}
@@ -1176,8 +1176,7 @@
 										console.log(response)
 										if (response.data) {
 
-											startChat();
-											socket.close()
+											
 											$(".messageInpBox").val(`
 		Hi, Below are my Details : Name: ${Name} Gender:${Gender} DOB: ${DateOfBirth} DOT: ${TimeOfBirth} POB: ${PlaceOfBirth}`)
 										}
@@ -1446,11 +1445,9 @@
 		})
 	}
 
-</script>
-
-<script>
 	function establishedConnectionForSendCallRequest() {
-		let socket = new WebSocket(`wss://localhost:7118/api/call/sendCallRequest?id=${UserId}&sendBy=client`);
+		let socket = new WebSocket(`wss://api.myjyotishg.in/api/call/sendCallRequest?id=${UserId}&sendBy=client`);
+		debugger
 		return new Promise((res, rej) => {
 			if (socket) {
 				res(socket)

@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
 using System.Net.WebSockets;
+using System.Security.Policy;
 using System.Text;
 using Twilio;
 using Twilio.Jwt.AccessToken;
@@ -54,7 +55,7 @@ namespace MyJyotishGApi.Controllers
                         await recipientSocket.SendAsync(new ArraySegment<byte>(msgBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
                     }
                 }
-                await HandleChatRequest(webSocket, id, sendBy);
+                await HandleCallRequest(webSocket, id, sendBy);
             }
             else
             {
@@ -62,7 +63,7 @@ namespace MyJyotishGApi.Controllers
             }
         }
 
-        private async Task HandleChatRequest(WebSocket webSocket, string clientId, string sendBy)
+        private async Task HandleCallRequest(WebSocket webSocket, string clientId, string sendBy)
         {
             var buffer = new byte[1024 * 4];
             try
@@ -134,8 +135,8 @@ namespace MyJyotishGApi.Controllers
                             }
                             else
                             {
-
-                               userRequestRecord = _clientRequestMessage.ContainsKey(recipientId) ? _clientRequestMessage.Where(e => e.Key == recipientId).First().Value : null;
+                               
+                                userRequestRecord = _clientRequestMessage.ContainsKey(recipientId) ? _clientRequestMessage.Where(e => e.Key == recipientId).First().Value : null;
                             }
 
                             string jsonString = JsonConvert.SerializeObject(new { status = true, type = "call",roomId=roomId, data = userRequestRecord });
