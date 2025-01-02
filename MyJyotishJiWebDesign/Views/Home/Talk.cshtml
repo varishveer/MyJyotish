@@ -83,6 +83,10 @@
             transform: rotate(45deg);
             color: rgba(255, 193, 7, 0.3);
         }
+
+    #zego-container {
+        z-index: 10000000000000000 !important;
+    }
 </style>
 <div class="astrologer-list mt-3" id="astrologerList">
     <!-- Astrologer results will be injected here -->
@@ -149,6 +153,8 @@
     </div>
 </div>
 
+<script src="https://unpkg.com/@@zegocloud/zego-uikit-prebuilt/zego-uikit-prebuilt.js"></script>
+
 <script>
    
     // Function to fetch astrologers for the chat
@@ -211,6 +217,8 @@
      style="background-color: #4CAF50; border-color: #4CAF50;" data-bs-toggle="modal" data-bs-target="#exampleModal2">
                                     Start Call ₹${astrologer.callCharges}/min
                             </button>
+                        <button class="btn btn-outline-success d-none" id="waitingBtn">Waiting...</button>
+
                     </div>
                 `;
         });
@@ -220,7 +228,9 @@
     // Initialize the function to get astrologers on page load
     GetAstroListCallChat();
 
-
+    const roomID = 'user_'+localStorage.getItem("userId");
+        const clientId = Math.floor(Math.random() * 10000) + "";
+        let TOKEN
      $('#DataSubmitBtn').on('click', function () {
       
         var astrologerId = $('#JyotishId').val();
@@ -254,12 +264,56 @@
             contentType: "application/json", // Ensure content type is set to JSON
             success: function (response) {
                 if (response.status === 200) {
-                    // Success case: Show success message using SweetAlert
-                    Swal.fire({
-                        title: "Success!",
-                        text: "Successful",
-                        icon: "success"
-                    });
+                    establishedConnectionForSendRequest().then((socket) => {
+                                debugger
+                                if (socket) {
+                                    socket.onopen = function (event) {
+                                        console.log('WebSocket connection established:', event);
+                                        let call="call"
+                                        if (astrologerId) {
+                                            socket.send(`${astrologerId}:${roomID}:${call}`);
+                                            $("#exampleModal2").modal("hide")
+
+                                            $(".callBtn").hide();
+                                            $("#waitingBtn").removeClass("d-none")
+                                        }
+                                    };
+                                    socket.onmessage = function (event) {
+                                        let response = JSON.parse(event.data)
+                                        console.log(response)
+                                        if (response.data) {
+
+                                            socket.close()
+                                            debugger
+                                            if(response.type=="call"){
+                                            TOKEN=ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, clientId, Name);
+                                            localStorage.setItem("callTOKEN",TOKEN)
+                                            startCall()
+                                        }
+                                        }
+                                    };
+
+                                    socket.onerror = function (event) {
+                                        console.error('WebSocket error observed:', event);
+                                        Swal.fire({
+                                            text: "some error occured while making connection",
+                                            title: "error",
+                                            icon: "error"
+                                        });
+                                    };
+
+                                    socket.onclose = function (event) {
+                                        console.log('WebSocket connection closed:', event);
+                                        
+                                        $(".callBtn").show();
+                                        
+                                        $("#waitingBtn").addClass("d-none")
+
+                                    };
+
+
+                                }
+                            })
                 } else {
                     // Handle unexpected response status (if needed)
                     Swal.fire({
@@ -285,7 +339,17 @@
     {
         GetUserDataForService(UserId);
     }
+    function establishedConnectionForSendRequest() {
+        let socket = new WebSocket(`wss://api.myjyotishg.in/api/chat/sendChatRequest?id=${UserId}&sendBy=client`);
+        return new Promise((res, rej) => {
+            if (socket) {
 
+                res(socket)
+            } else {
+                rej(false)
+            }
+        });
+    }
      function GetUserDataForService(Id) {
 
 
@@ -297,10 +361,10 @@
             },
             success: function (response) {
                 if (response.status === 200) {
-
+                    debugger
                     $('#Name').val(response.data.name);
                     $('#Gender').val(response.data.gender);
-                    $('#DateOfBirth').val(response.data.dateOfBirth);
+                    $('#DateOfBirth').val(response.data.dateOfBirth.split('T')[0]);
                     $('#TimeOfBirth').val(response.data.timeOfBirth);
                     $('#PlaceOfBirth').val(response.data.placeOfBirth);
 
@@ -320,4 +384,61 @@
          $('#JyotishId').val(id);
     }
    
+    if(localStorage.getItem("callTOKEN")!=null){
+        startCall()
+    }
+
+    async function startCall() {
+
+
+        const zg = ZegoUIKitPrebuilt.create(localStorage.getItem("callTOKEN"));
+
+            try {
+
+                    debugger
+                zg.joinRoom({
+                    container: document.querySelector("#root"),
+                    turnOnCameraWhenJoining: false,
+                    showMyCameraToggleButton: false,
+                    showAudioVideoSettingsButton: false,
+                    showScreenSharingButton: false,
+                    showPreJoinView: false,
+                           lowerLeftNotification: {
+                        showUserJoinAndLeave: false,
+                        showTextChat: false,
+                    },
+                    showRoomTimer:true,
+                    showLeavingView:false,
+                    showTextChat:false,
+                    maxUsers: 2,
+                    showPreJoinView: false,
+                    scenario: {
+                        mode: ZegoUIKitPrebuilt.OneONoneCall,
+
+
+                    }, onJoinRoom: () => {
+                        turnOnMicrophoneWhenJoining:true;
+                    },
+                    onLeaveRoom: () => {
+                        turnOnMicrophoneWhenJoining: false;
+                        localStorage.removeItem("callTOKEN")
+                    },
+                    onUserJoin: (user) => {
+                        },
+                        onUserLeave: (user) => {
+                        }
+
+                });
+                zg.setCallInvitationConfig({
+                    onSetRoomConfigBeforeJoining: () => {
+                        const roomID = zg.getRoomID();
+                        sessionStorage.setItem('roomID', roomID);
+
+                    }
+                });
+            } catch (error) {
+                console.error('Error starting the call:', error);
+            }
+        }
+
 </script>

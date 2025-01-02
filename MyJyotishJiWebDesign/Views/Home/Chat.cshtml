@@ -405,15 +405,17 @@
 								socket.onopen = function (event) {
 									console.log('WebSocket connection established:', event);
 									if (astrologerId) {
-										socket.send(`${astrologerId}`);
+										socket.send(`${astrologerId}:0:"chat"`);
 										$("#chatBtn_" + astrologerId).hide();
 										$("#waitingBtn_" + astrologerId).removeClass("d-none")
 									}
 								};
 								socket.onmessage = function (event) {
+									debugger
 									let response = JSON.parse(event.data)
 									console.log(response)
 									if (response.data) {
+										localStorage.setItem("resumeChat",astrologerId)
 										startChat(astrologerId);
 										socket.close()
 										$(".messageInpBox").val(`
@@ -462,6 +464,12 @@
 		}
 	});
 
+	if(localStorage.getItem("resumeChat")!=null){
+		setTimeout(()=>{
+		startChat(localStorage.getItem("resumeChat")
+	);
+		},1000)
+	}
 	//time management for message
 
 	function getSomeJyotish(astrologerId) {
@@ -522,12 +530,14 @@
 		});
 	}
 
+
 	function startChat(astrologerId) {
 		getSomeJyotish(astrologerId)
 		getChatHistory(astrologerId);
 		establishedConnection().then((socket) => {
 			if (socket) {
 				socket.onopen = function (event) {
+					debugger
 					console.log('WebSocket connection established:', event);
 					$("#ChatModal").modal("show")
 				};
@@ -540,8 +550,6 @@
 																			<div class="message-content"> ${JSON.parse(event.data).mssg}</div>
 																			<small>${hours}:${minutes}<small>
 																	</div>`
-
-
 					messagesDiv.scrollTop = messagesDiv.scrollHeight;
 					const lastChild = messagesDiv.lastElementChild;
 					lastChild.scrollIntoView({ behavior: 'smooth', block: 'end' });
@@ -603,6 +611,7 @@
 				}).then((result) => {
 					if (result.isConfirmed) {
 						socket.close();
+						localStorage.removeItem("resumeChat")
 					}
 				})
 			})

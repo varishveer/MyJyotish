@@ -586,7 +586,7 @@
 													 class="avatar-img rounded userProfile" />
 											</div>
 											<div class="u-text">
-												<h4 class="userName">User</h4>
+												<h4 class="userName" id="userProfileName">User</h4>
 												<p class="text-muted userEmail">hello@example.com</p>
 												<a href="/Jyotish/Profile"
 												   class="btn btn-xs btn-secondary btn-sm">View Profile</a>
@@ -756,8 +756,8 @@
 
 
 			<script>
-				 var BaseUrl = "https://api.myjyotishg.in/"
-				// var BaseUrl = "https://localhost:7118/"
+				// var BaseUrl = "https://api.myjyotishg.in/"
+				 var BaseUrl = "https://localhost:7118/"
 			</script>
 
 			<div class="container">
@@ -865,6 +865,7 @@
 	<script src="~/assets/js/setting-demo.js"></script>
 	<script src="~/assets/js/demo.js"></script>
 	<script src="~/summernote/dist/summernote.min.js"></script>
+	<script src="https://unpkg.com/@@zegocloud/zego-uikit-prebuilt/zego-uikit-prebuilt.js"></script>
 
 	<!--Manage Feature -->
 
@@ -1084,8 +1085,6 @@
 																			<span class="time">${item.bookingDate} </span>
 																</div>
 															</a>
-
-
 							`;
 
 								// Append the notification item to the container
@@ -1171,6 +1170,11 @@
 					}
 
 					let userIdForchat=null;
+					const roomID = 'user_'+localStorage.getItem("userId");
+		const clientId = Math.floor(Math.random() * 10000) + "";
+		const appID = 865742206;
+		const serverSecret = "5a72180880214f43c9358d38af32eacc";
+		let TOKEN
 					establishedConnectionForSendRequest().then((socket) => {
 						debugger
 						if (socket) {
@@ -1240,27 +1244,88 @@
 
 							};
 
-							function startChatWithUser()
-							{
-								if (userIdForchat != null)
-								socket.send(`${userIdForchat},0,"chat"`)
-								startChat();
-							}
-
+							
 						$("#AcceptChatRequest").click(function(){
-							if(requestType=="call"){
-
-					socket.send(`${userIdForchat}:${roomId},"call"`)
+							if(rquestType=="call"){
+					socket.send(`${userIdForchat}:${roomId}:call`)
+					TOKEN=ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, clientId, $("#userProfileName").text());
+					localStorage.setItem("jcallTOKEN",TOKEN)
+					startCall()
 							}
 							else{
 
-							startChatWithUser();
+							if (userIdForchat != null)
+								socket.send(`${userIdForchat}:0:chat`)
+						localStorage.setItem("jresumeChat",userIdForchat)
+
+								startChat();
 							}
 							
 						})
 
 						}
 					})
+		if(localStorage.getItem("jcallTOKEN")!=null){
+				startCall()
+			}
+
+			if(localStorage.getItem("jresumeChat")!=null){
+				userIdForchat=localStorage.getItem("jresumeChat");
+				startChat();
+			}
+
+		async function startCall() {
+			const zg = ZegoUIKitPrebuilt.create(localStorage.getItem("jcallTOKEN"));
+
+				try {
+
+						debugger
+					zg.joinRoom({
+						container: document.querySelector("#root"),
+						turnOnCameraWhenJoining: false,
+						showMyCameraToggleButton: false,
+						showAudioVideoSettingsButton: false,
+						showScreenSharingButton: false,
+						showPreJoinView: false,
+							   lowerLeftNotification: {
+							showUserJoinAndLeave: false,
+							showTextChat: false,
+						},
+						showRoomTimer:true,
+						showLeavingView:false,
+						showTextChat:false,
+						maxUsers: 2,
+						showPreJoinView: false,
+						scenario: {
+							mode: ZegoUIKitPrebuilt.OneONoneCall,
+
+
+						}, onJoinRoom: () => {
+							turnOnMicrophoneWhenJoining:true;
+						},
+						onLeaveRoom: () => {
+							turnOnMicrophoneWhenJoining: false;
+					localStorage.removeItem("jcallTOKEN")
+
+						},
+						onUserJoin: (user) => {
+							},
+							onUserLeave: (user) => {
+							}
+
+					});
+					zg.setCallInvitationConfig({
+						onSetRoomConfigBeforeJoining: () => {
+							const roomID = zg.getRoomID();
+							sessionStorage.setItem('roomID', roomID);
+
+						}
+					});
+				} catch (error) {
+					console.error('Error starting the call:', error);
+				}
+			}
+
 
 				function getChatHistory() {
 					$.ajax({
@@ -1318,9 +1383,9 @@
 						}
 					})
 				}
-				function startChat() {
-					getSomeUser()
-					getChatHistory();
+				function startChat(userId) {
+					getSomeUser(userId)
+					getChatHistory(userId);
 					establishedConnection().then((socket) => {
 						if (socket) {
 					let roomId = null;
@@ -1408,6 +1473,7 @@
 							}).then((result) => {
 								if (result.isConfirmed) {
 									socket.close();
+									localStorage.removeItem("jresumeChat")
 								}
 							})
 						})

@@ -77,7 +77,7 @@ namespace BusinessAccessLayer.Implementation
 
         public List<ChatModel> GetChats(int sender, int receiver)
         {
-            var data = _context.Chat.Where(e => (e.senderId == sender && e.receiverId == receiver) || (e.senderId == receiver && e.receiverId == sender)).ToList();
+            var data = _context.Chat.Where(e => (e.senderId == sender && e.receiverId == receiver) || (e.senderId == receiver && e.receiverId == sender)).OrderByDescending(e=>e.Id).Take(150).Reverse().ToList();
             return data;
         } 
         public dynamic GetChatedUser(int id, string userType)
