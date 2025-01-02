@@ -1122,7 +1122,7 @@
 									socket.onopen = function (event) {
 										console.log('WebSocket connection established:', event);
 										if (jyotishId) {
-											socket.send(`${jyotishId}`);
+											socket.send(`${jyotishId}:0:"chat"`);
 											$(".chatBtn").hide();
 											$("#waitingBtn").removeClass("d-none")
 										}
@@ -1166,7 +1166,7 @@
 									socket.onopen = function (event) {
 										console.log('WebSocket connection established:', event);
 										if (jyotishId) {
-											socket.send(`${jyotishId}:"room1"`);
+											socket.send(`${jyotishId}:"room1":"call"`);
 											$(".callBtn").hide();
 											$("#waitingBtn").removeClass("d-none")
 										}

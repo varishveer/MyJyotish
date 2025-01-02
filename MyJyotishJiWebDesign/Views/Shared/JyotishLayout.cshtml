@@ -1206,6 +1206,12 @@
 									});
 									$("#requestMessage").text("Chat Request")
 									$("#AcceptChatRequest").attr("data-type","chat")
+						if (response.data) {
+							rquestType = response.type
+							roomId = response.roomId;
+						} else {
+							roomId = null
+						}
 								}else{
 									 const toastElList = document.querySelectorAll('.toast');
 
@@ -1237,15 +1243,20 @@
 							function startChatWithUser()
 							{
 								if (userIdForchat != null)
-								socket.send(`${userIdForchat}`)
+								socket.send(`${userIdForchat},0,"chat"`)
 								startChat();
 							}
 
 						$("#AcceptChatRequest").click(function(){
-							if($("#AcceptChatRequest").attr("data-type")=="chat"){
+							if(requestType=="call"){
+
+					socket.send(`${userIdForchat}:${roomId},"call"`)
+							}
+							else{
 
 							startChatWithUser();
 							}
+							
 						})
 
 						}
@@ -1312,6 +1323,8 @@
 					getChatHistory();
 					establishedConnection().then((socket) => {
 						if (socket) {
+					let roomId = null;
+					let rquestType;
 							socket.onopen = function (event) {
 								console.log('WebSocket connection established:', event);
 								$("#ChatModal").modal("show")
@@ -1406,95 +1419,7 @@
 					});
 				}
 
-
-						function establishedConnectionForSendCallRequest() {
-								let socket = new WebSocket(`wss://api.myjyotishg.in/api/call/sendCallRequest?id=${jyotishId}&sendBy=jyotish`);
-						debugger
-						return new Promise((res, rej) => {
-							if (socket) {
-								res(socket)
-							} else {
-								rej(false)
-							}
-						});
-					}
-							establishedConnectionForSendCallRequest().then((socket) => {
-												debugger
-												if (socket) {
-													let roomId=null;
-													socket.onopen = function (event) {
-														 console.log('WebSocket connection established:', event);
-													};
-													socket.onmessage = function (event) {
-														let response = JSON.parse(event.data)
-								let userDetail=JSON.parse(response.data)
-								if(response.room){
-
-								roomId=response.roomId;
-								}else{
-									roomId=null
-								}
-								console.log(userDetail)
-								debugger
-								if (userDetail != null && userDetail!=false) {
-								$("#userImage").attr("src",userDetail.Image)
-								$("#userNameForchat").text(userDetail.Name)
-								const toastElList = document.querySelectorAll('.toast');
-
-								const toastList = [...toastElList].map(toastEl => {
-									const toast = new bootstrap.Toast(toastEl, {
-										autohide: false
-									});
-
-									toast.show();
-								})
-									const now = new Date();
-									const hours = now.getHours();
-									const minutes = now.getMinutes();
-									$("#requestDateTime").text(`${hours}:${minutes}`);
-									const image = document.querySelector('#userImage');
-									userIdForchat = userDetail.Id
-									image.addEventListener('error', function () {
-										image.src = '/user-not-found.png';
-									});
-									$("#requestMessage").text("Call Request")
-									$("#AcceptChatRequest").attr("data-type","call")
-
-								}else{
-									 const toastElList = document.querySelectorAll('.toast');
-
-								const toastList = [...toastElList].map(toastEl => {
-									const toast = new bootstrap.Toast(toastEl, {
-										autohide: false
-									});
-
-									toast.hide();
-								})
-								}
-													};
-
-													socket.onerror = function (event) {
-														console.error('WebSocket error observed:', event);
-														Swal.fire({
-															text: "some error occured while making connection",
-															title: "error",
-															icon: "error"
-														});
-													};
-
-													socket.onclose = function (event) {
-														console.log('WebSocket connection closed:', event);
-														
-													};
-
-							$("#AcceptChatRequest").click(function(){
-							if($("#AcceptChatRequest").attr("data-type")=="call"){
-							if (userIdForchat != null && roomId!=null)
-								socket.send(`${userIdForchat}:${roomId}`)
-							}
-						})
-												}
-											})
+          
 	</script>
 
 </body>

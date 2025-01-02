@@ -158,13 +158,10 @@ namespace MyJyotishGApi.Controllers
                         var msgBuffer = System.Text.Encoding.UTF8.GetBytes(jsonString);
                         await recipientSocket.SendAsync(new ArraySegment<byte>(msgBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
                     }
-                    
-                   
                 }
             
                 await HandleChatRequest(webSocket, id, sendBy);
                 
-               
             }
             else
             {
