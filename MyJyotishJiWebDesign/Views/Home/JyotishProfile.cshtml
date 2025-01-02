@@ -333,52 +333,6 @@
 	</div>
 </div>
 
-<script src="https://media.twiliocdn.com/sdk/js/client/v1.13/twilio.min.js"></script>
-
-<script>
-	const callButton = document.querySelector('.call-button');
-	$.ajax({
-		url: `${BaseUrl}api/call/accessToken?identity=user1`,
-		type: "get",
-		success: function (data) {
-			debugger
-			Twilio.Device.setup(data.token);
-			Twilio.Device.on('incoming', function (call) {
-				console.log('Incoming call!');
-				call.accept();
-			});
-
-			// Handle connect (call established)
-			Twilio.Device.on('connect', function (conn) {
-				console.log('Call connected!');
-			});
-			Twilio.Device.on('ready', function () {
-				console.log("Twilio Device is ready!");
-			});
-
-			// Handle disconnect (call ended)
-			Twilio.Device.on('disconnect', function (conn) {
-				console.log('Call ended.');
-			});
-
-			// Click event to initiate a call
-			callButton.addEventListener('click', function () {
-				console.log('Attempting to call...');
-				Twilio.Device.connect();
-			});
-
-			// Error handling
-			Twilio.Device.on('error', function (error) {
-				console.error('Error with Twilio device: ', error);
-			});
-
-			device.on('incoming', function(event){
-				console.log("Incomming Call...",event)
-			});
-		}
-	})
-
-</script>
 <script>
 	let stars = document.querySelectorAll('.user-rating-stars');
 	stars.forEach(function (d) {
@@ -558,11 +512,11 @@
 							return stars;
 						} else {
 							// Default to 4 stars if rating is null
-							return '★★★★☆';
+							return '☆☆☆☆☆';
 						}
 					});
 
-					$('#totalReviews').text('(6587)');
+					$('#totalReviews').text('(0)');
 
 				} else {
 					Swal.fire({
@@ -1205,6 +1159,49 @@
 								}
 							})
 
+						}else{
+							establishedConnectionForSendCallRequest().then((socket) => {
+								debugger
+								if (socket) {
+									socket.onopen = function (event) {
+										console.log('WebSocket connection established:', event);
+										if (jyotishId) {
+											socket.send(`${jyotishId}`);
+											$(".callBtn").hide();
+											$("#waitingBtn").removeClass("d-none")
+										}
+									};
+									socket.onmessage = function (event) {
+										let response = JSON.parse(event.data)
+										console.log(response)
+										if (response.data) {
+
+											startChat();
+											socket.close()
+											$(".messageInpBox").val(`
+		Hi, Below are my Details : Name: ${Name} Gender:${Gender} DOB: ${DateOfBirth} DOT: ${TimeOfBirth} POB: ${PlaceOfBirth}`)
+										}
+									};
+
+									socket.onerror = function (event) {
+										console.error('WebSocket error observed:', event);
+										Swal.fire({
+											text: "some error occured while making connection",
+											title: "error",
+											icon: "error"
+										});
+									};
+
+									socket.onclose = function (event) {
+										console.log('WebSocket connection closed:', event);
+										$(".callBtn").show();
+										$("#waitingBtn").addClass("d-none")
+
+									};
+
+
+								}
+							})
 						}
 						$("#exampleModal2").modal("hide")
 
@@ -1449,6 +1446,20 @@
 		})
 	}
 
+</script>
+
+<script>
+	function establishedConnectionForSendCallRequest() {
+		let socket = new WebSocket(`wss://api.myjyotishg.in/api/chat/sendCallRequest?id=${UserId}&sendBy=client`);
+		return new Promise((res, rej) => {
+			if (socket) {
+
+				res(socket)
+			} else {
+				rej(false)
+			}
+		});
+	}
 </script>
 
 

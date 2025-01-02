@@ -253,7 +253,6 @@ namespace MyJyotishGApi.Controllers
 
         }
 
-
         [HttpGet("getchats")]
         public List<ChatModel> GetChats(int sender, int receiver)
         {
