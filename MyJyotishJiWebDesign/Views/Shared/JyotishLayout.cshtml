@@ -1208,8 +1208,7 @@
 									image.addEventListener('error', function () {
 										image.src = '/user-not-found.png';
 									});
-									$("#requestMessage").text("Chat Request")
-									$("#AcceptChatRequest").attr("data-type","chat")
+									$("#requestMessage").text(`${response.type} Request`)
 						if (response.data) {
 							rquestType = response.type
 							roomId = response.roomId;
