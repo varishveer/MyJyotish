@@ -238,10 +238,27 @@ namespace MyJyotishGApi.Controllers
                                 if (_RequestManager.ContainsKey(recipientId))
                                 {
                                     var dateDifference = _RequestManager.Where(e => e.Key == recipientId).First().Value - DateTime.Now;
-                                    if (dateDifference.TotalSeconds >= 5)
+                                    if (dateDifference.Duration() >= TimeSpan.FromSeconds(5))
                                     {
-                                        _clientRequestMessage.Remove(recipientId);
+                                        if (_clientRequestMessage.Count > 0)
+                                        {
+
+                                            _clientRequestMessage.Remove(recipientId);
+                                        }
+                                        if (_clientRoomId.Count > 0)
+                                        {
+
+                                        _clientRoomId.Remove(recipientId);
+                                        }
                                         _RequestManager.Remove(recipientId);
+                                        var clientChangeref = clientId + "A";
+                                        if (_clientRequest.TryGetValue(clientChangeref, out var ClientSocket))
+                                        {
+                                            string jsonStrings = JsonConvert.SerializeObject(new { status = true, data = false });
+                                            var msgBuffer = System.Text.Encoding.UTF8.GetBytes(jsonStrings);
+
+                                            await ClientSocket.SendAsync(new ArraySegment<byte>(msgBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
+                                        }
                                     }
                                 }
                             }
@@ -253,7 +270,7 @@ namespace MyJyotishGApi.Controllers
                                 {
                                     _clientRoomId.Add(recipientId, roomId);
                                 }
-                              
+                                _RequestManager.Add(recipientId, DateTime.Now);
                             }
                            
                         }
