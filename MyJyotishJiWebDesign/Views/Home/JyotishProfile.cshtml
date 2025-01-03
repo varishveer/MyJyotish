@@ -1169,6 +1169,8 @@
 											TOKEN=ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, clientId, Name);
 											localStorage.setItem("callTOKEN",TOKEN)
 											startCall()
+										socket.close()
+
 										}
 									} else {
 										socket.close()

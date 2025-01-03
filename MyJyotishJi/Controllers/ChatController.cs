@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using ModelAccessLayer.Models;
 using ModelAccessLayer.ViewModels;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Collections.Concurrent;
 using System.Net.WebSockets;
 using System.Text;
@@ -240,8 +241,10 @@ namespace MyJyotishGApi.Controllers
                                     var dateDifference = _RequestManager.Where(e => e.Key == recipientId).First().Value - DateTime.Now;
                                     if (dateDifference.Duration() >= TimeSpan.FromSeconds(60))
                                     {
+                                        string userJsonDetail = null;
                                         if (_clientRequestMessage.Count > 0)
                                         {
+                                         userJsonDetail = _clientRequestMessage.ContainsKey(recipientId)? _clientRequestMessage.Where(e => e.Key == recipientId).First().Value:null;
 
                                             _clientRequestMessage.Remove(recipientId);
                                         }
@@ -251,14 +254,19 @@ namespace MyJyotishGApi.Controllers
                                         _clientRoomId.Remove(recipientId);
                                         }
                                         _RequestManager.Remove(recipientId);
-                                        var clientChangeref = clientId + "A";
-                                        if (_clientRequest.TryGetValue(clientChangeref, out var ClientSocket))
+                                        if (!string.IsNullOrEmpty(userJsonDetail) && !userJsonDetail.Equals("Null") && !userJsonDetail.Equals("null"))
                                         {
-                                            string jsonStrings = JsonConvert.SerializeObject(new { status = true, data = false });
-                                            var msgBuffer = System.Text.Encoding.UTF8.GetBytes(jsonStrings);
+                                            JObject jsonObject = JObject.Parse(userJsonDetail);
+                                            var clientChangeref = jsonObject["Id"] + "A";
+                                            if (_clientRequest.TryGetValue(clientChangeref, out var ClientSocket))
+                                            {
+                                                string jsonStrings = JsonConvert.SerializeObject(new { status = true, data = false });
+                                                var msgBuffer = System.Text.Encoding.UTF8.GetBytes(jsonStrings);
 
-                                            await ClientSocket.SendAsync(new ArraySegment<byte>(msgBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
+                                                await ClientSocket.SendAsync(new ArraySegment<byte>(msgBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
+                                            }
                                         }
+                                       
                                     }
                                 }
                             }
