@@ -1153,6 +1153,7 @@
 										}
 									};
 									socket.onmessage = function (event) {
+										debugger
 										let response = JSON.parse(event.data)
 										console.log(response)
 										if (response.data) {

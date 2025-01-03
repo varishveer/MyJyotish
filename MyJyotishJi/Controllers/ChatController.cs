@@ -131,7 +131,8 @@ namespace MyJyotishGApi.Controllers
         private static readonly ConcurrentDictionary<string, WebSocket> _clientRequest = new();
         private static Dictionary<string, string> _clientRequestMessage = new();
         private static Dictionary<string, string> _clientRoomId = new();
-        DateTime sendTime;
+        private static Dictionary<string, DateTime> _RequestManager = new();
+     
         [HttpGet("sendChatRequest")]
         public async Task SendChatRequest(string id, string sendBy)
         {
@@ -231,6 +232,20 @@ namespace MyJyotishGApi.Controllers
                             var castId = Convert.ToInt32(clientId);
                             var userDetail = _services.LayoutData(castId);
                                 string userJson = JsonConvert.SerializeObject(userDetail);
+
+                            if (_RequestManager.Count > 0)
+                            {
+                                if (_RequestManager.ContainsKey(recipientId))
+                                {
+                                    var dateDifference = _RequestManager.Where(e => e.Key == recipientId).First().Value - DateTime.Now;
+                                    if (dateDifference.TotalSeconds >= 5)
+                                    {
+                                        _clientRequestMessage.Remove(recipientId);
+                                        _RequestManager.Remove(recipientId);
+                                    }
+                                }
+                            }
+
                             if (!_clientRequestMessage.ContainsKey(recipientId)&& !string.IsNullOrEmpty(recipientId))
                             {
                            _clientRequestMessage.Add(recipientId, userJson);
@@ -238,7 +253,7 @@ namespace MyJyotishGApi.Controllers
                                 {
                                     _clientRoomId.Add(recipientId, roomId);
                                 }
-                                sendTime = DateTime.Now;
+                              
                             }
                            
                         }
@@ -252,7 +267,7 @@ namespace MyJyotishGApi.Controllers
                             {
                             userRequestRecord = userRequestRecord = _clientRequestMessage.ContainsKey(recipientId) ? _clientRequestMessage.Where(e => e.Key == recipientId).First().Value : null;
                             }
-                            string jsonString = JsonConvert.SerializeObject(new {status=true,type= requestType == "call" && _clientRoomId.Count > 0?"call":"chat", roomId=requestType=="call"&&_clientRoomId.Count>0?_clientRoomId.Where(e=>e.Key==recipientId).First().Value:null,data= userRequestRecord });
+                            string jsonString = JsonConvert.SerializeObject(new {status=true,type= requestType == "call" && _clientRoomId.Count > 0?"call":"chat", roomId=requestType=="call"&&sendBy=="client"&&_clientRoomId.Count>0?_clientRoomId.Where(e=>e.Key==recipientId).First().Value: roomId = requestType == "call" && sendBy != "client" && _clientRoomId.Count > 0 ? _clientRoomId.Where(e => e.Key == clientId).First().Value:null, data= userRequestRecord });
                             var msgBuffer = System.Text.Encoding.UTF8.GetBytes(jsonString);
                             await recipientSocket.SendAsync(new ArraySegment<byte>(msgBuffer), result.MessageType, result.EndOfMessage, CancellationToken.None);
                            
