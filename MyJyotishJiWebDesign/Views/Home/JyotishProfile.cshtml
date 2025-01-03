@@ -1175,7 +1175,20 @@
 									} else if(!response.data && !response.anotherRequest){
 										socket.close()
 
-									};
+									} else if (Action == "1") {
+
+										$(".chatBtn").hide();
+										$("#waitingBtn").removeClass("d-none")
+										$(".callBtn").show();
+
+
+									} else {
+										$(".callBtn").hide();
+										$(".chatBtn").show();
+
+										$("#waitingBtn").removeClass("d-none")
+
+									}
 									};
 
 									socket.onerror = function (event) {

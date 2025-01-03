@@ -405,7 +405,7 @@
 								socket.onopen = function (event) {
 									console.log('WebSocket connection established:', event);
 									if (astrologerId) {
-										socket.send(`${astrologerId}:0:"chat"`);
+										socket.send(`${astrologerId}:0:chat`);
 										$("#chatBtn_" + astrologerId).hide();
 										$("#waitingBtn_" + astrologerId).removeClass("d-none")
 									}
@@ -420,9 +420,10 @@
 										socket.close()
 										$(".messageInpBox").val(`
 		Hi, Below are my Details : Name: ${Name} Gender:${Gender} DOB: ${DateOfBirth} DOT: ${TimeOfBirth} POB: ${PlaceOfBirth}`)
-									}else if(!response.data && !response.anotherRequest){
+									}else {
+										debugger
 										socket.close()
-									};
+									} 
 								}
 
 							socket.onerror = function (event) {
