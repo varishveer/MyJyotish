@@ -420,10 +420,13 @@
 										socket.close()
 										$(".messageInpBox").val(`
 		Hi, Below are my Details : Name: ${Name} Gender:${Gender} DOB: ${DateOfBirth} DOT: ${TimeOfBirth} POB: ${PlaceOfBirth}`)
-									}else {
+									}else if(!response.data && !response.anotherRequest) {
 										debugger
 										socket.close()
-									} 
+									}else{
+										$("#chatBtn_" + astrologerId).hide();
+								$("#waitingBtn_" + astrologerId).removeClass("d-none")
+									}
 								}
 
 							socket.onerror = function (event) {

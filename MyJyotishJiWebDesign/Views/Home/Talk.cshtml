@@ -217,7 +217,7 @@
 	 style="background-color: #4CAF50; border-color: #4CAF50;" data-bs-toggle="modal" data-bs-target="#exampleModal2">
 									Start Call ₹${astrologer.callCharges}/min
 							</button>
-						<button class="btn btn-outline-success d-none" id="waitingBtn">Waiting...</button>
+						<button class="btn btn-outline-success d-none" id="waitingBtn_${astrologer.id}">Waiting...</button>
 
 					</div>
 				`;
@@ -275,7 +275,7 @@
 											$("#exampleModal2").modal("hide")
 
 											$(".callBtn").hide();
-											$("#waitingBtn").removeClass("d-none")
+											$("#waitingBtn_"+astrologerId).removeClass("d-none")
 										}
 									};
 									socket.onmessage = function (event) {
@@ -294,7 +294,10 @@
 										}
 								} else if(!response.data && !response.anotherRequest){
 										socket.close()
-									};
+									}else{
+										$(".callBtn").hide();
+											$("#waitingBtn_"+astrologerId).removeClass("d-none")
+									}
 								};
 
 									socket.onerror = function (event) {
@@ -311,7 +314,7 @@
 
 										$(".callBtn").show();
 
-										$("#waitingBtn").addClass("d-none")
+										$("#waitingBtn_"+astrologerId).addClass("d-none")
 
 									};
 
