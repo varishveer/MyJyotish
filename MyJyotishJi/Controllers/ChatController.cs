@@ -239,7 +239,7 @@ namespace MyJyotishGApi.Controllers
                                 if (_RequestManager.ContainsKey(recipientId))
                                 {
                                     var dateDifference = _RequestManager.Where(e => e.Key == recipientId).First().Value - DateTime.Now;
-                                    if (dateDifference.Duration() >= TimeSpan.FromSeconds(60))
+                                    if (dateDifference.Duration() >= TimeSpan.FromSeconds(2))
                                     {
                                         string userJsonDetail = null;
                                         if (_clientRequestMessage.Count > 0)
@@ -260,14 +260,18 @@ namespace MyJyotishGApi.Controllers
                                             var clientChangeref = jsonObject["Id"] + "A";
                                             if (_clientRequest.TryGetValue(clientChangeref, out var ClientSocket))
                                             {
-                                                string jsonStrings = JsonConvert.SerializeObject(new { status = true, data = false });
+                                                string jsonStrings = JsonConvert.SerializeObject(new { status = true, data = false,anotherRequest=false });
+                                                if (clientId == jsonObject["Id"].ToString())
+                                                {
+                                                    jsonStrings = JsonConvert.SerializeObject(new { status = true, data = false, anotherRequest = true });
+                                                }
                                                 var msgBuffer = System.Text.Encoding.UTF8.GetBytes(jsonStrings);
 
                                                 await ClientSocket.SendAsync(new ArraySegment<byte>(msgBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
                                             }
                                         }
                                        
-                                    }
+                                        }
                                 }
                             }
 
