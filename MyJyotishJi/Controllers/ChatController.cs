@@ -231,7 +231,7 @@ namespace MyJyotishGApi.Controllers
                         {
                             var castId = Convert.ToInt32(clientId);
                             var userDetail = _services.LayoutData(castId);
-                                string userJson = JsonConvert.SerializeObject(userDetail);
+                            string userJson = JsonConvert.SerializeObject(userDetail);
 
                             if (_RequestManager.Count > 0)
                             {
