@@ -1172,7 +1172,7 @@
 										socket.close()
 
 										}
-									} else {
+									} else if(!response.data && !response.anotherRequest){
 										socket.close()
 
 									};

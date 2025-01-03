@@ -1,449 +1,448 @@
 ﻿
 <style>
-    /* Background and container styling */
-    body {
-        font-family: 'Poppins', sans-serif;
-        background: linear-gradient(135deg, #f0f4fd, #dae9f4);
-        margin: 0;
-        padding: 0;
-    }
+	/* Background and container styling */
+	body {
+		font-family: 'Poppins', sans-serif;
+		background: linear-gradient(135deg, #f0f4fd, #dae9f4);
+		margin: 0;
+		padding: 0;
+	}
 
-    .astrologer-list {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 30px;
-        padding: 50px 20px;
-        max-width: 1200px;
-        margin: 0 auto;
-    }
+	.astrologer-list {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+		gap: 30px;
+		padding: 50px 20px;
+		max-width: 1200px;
+		margin: 0 auto;
+	}
 
-    /* Card styling */
-    .astrologer-card {
-        position: relative;
-        background: white;
-        border-radius: 15px;
-        overflow: hidden;
-        text-align: center;
-        padding: 30px 20px;
-        transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    }
+	/* Card styling */
+	.astrologer-card {
+		position: relative;
+		background: white;
+		border-radius: 15px;
+		overflow: hidden;
+		text-align: center;
+		padding: 30px 20px;
+		transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+	}
 
-        .astrologer-card:hover {
-            transform: translateY(-20px) scale(1.05);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-        }
+		.astrologer-card:hover {
+			transform: translateY(-20px) scale(1.05);
+			box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+		}
 
-        /* Avatar with unique animation and effect */
-        .astrologer-card img {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 15px;
-            border: 5px solid #f0f4fd;
-            transition: border-color 0.4s ease-in-out;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
-        }
+		/* Avatar with unique animation and effect */
+		.astrologer-card img {
+			width: 120px;
+			height: 120px;
+			border-radius: 50%;
+			object-fit: cover;
+			margin-bottom: 15px;
+			border: 5px solid #f0f4fd;
+			transition: border-color 0.4s ease-in-out;
+			box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+		}
 
-        .astrologer-card:hover img {
-            border-color: #ffc107;
-            transform: rotate(360deg);
-        }
+		.astrologer-card:hover img {
+			border-color: #ffc107;
+			transform: rotate(360deg);
+		}
 
-        /* Card content styling */
-        .astrologer-card h4 {
-            font-size: 1.3em;
-            margin: 10px 0 5px;
-            color: #333;
-        }
+		/* Card content styling */
+		.astrologer-card h4 {
+			font-size: 1.3em;
+			margin: 10px 0 5px;
+			color: #333;
+		}
 
-        .astrologer-card p {
-            font-size: 0.95em;
-            color: #666;
-            margin: 8px 0;
-        }
+		.astrologer-card p {
+			font-size: 0.95em;
+			color: #666;
+			margin: 8px 0;
+		}
 
-            .astrologer-card p span {
-                color: #333;
-                font-weight: bold;
-            }
+			.astrologer-card p span {
+				color: #333;
+				font-weight: bold;
+			}
 
-        /* Add a decorative icon for creativity */
-        .astrologer-card .decorative-icon {
-            position: absolute;
-            top: -20px;
-            right: -20px;
-            font-size: 50px;
-            color: rgba(255, 193, 7, 0.1);
-            transition: transform 0.4s ease;
-        }
+		/* Add a decorative icon for creativity */
+		.astrologer-card .decorative-icon {
+			position: absolute;
+			top: -20px;
+			right: -20px;
+			font-size: 50px;
+			color: rgba(255, 193, 7, 0.1);
+			transition: transform 0.4s ease;
+		}
 
-        .astrologer-card:hover .decorative-icon {
-            transform: rotate(45deg);
-            color: rgba(255, 193, 7, 0.3);
-        }
+		.astrologer-card:hover .decorative-icon {
+			transform: rotate(45deg);
+			color: rgba(255, 193, 7, 0.3);
+		}
 
-    #zego-container {
-        z-index: 10000000000000000 !important;
-    }
+	#zego-container {
+		z-index: 10000000000000000 !important;
+	}
 </style>
 <div class="astrologer-list mt-3" id="astrologerList">
-    <!-- Astrologer results will be injected here -->
+	<!-- Astrologer results will be injected here -->
 </div>
 
 <!-- Modal call-->
 <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModal2Label" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModal2Label"> Please enter your details </h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
+	<div class="modal-dialog modal-lg modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5" id="exampleModal2Label"> Please enter your details </h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
 
-                <div class="row d-flex">
-                    <div class="col-md-4 mb-2">
-                        <label name="Name">Name</label>
-                        <input class="form-control" name="Name" id="Name" type="text" />
-                    </div>
+				<div class="row d-flex">
+					<div class="col-md-4 mb-2">
+						<label name="Name">Name</label>
+						<input class="form-control" name="Name" id="Name" type="text" />
+					</div>
 
-                    <div class="col-md-4  mb-2">
-                        <label name="Gender">Gender</label>
-                        <select id="Gender" name="Gender" class="form-select custom-field" required>
-                            <option value="Male" selected>Male</option>
-                            <option value="Female">Female</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
+					<div class="col-md-4  mb-2">
+						<label name="Gender">Gender</label>
+						<select id="Gender" name="Gender" class="form-select custom-field" required>
+							<option value="Male" selected>Male</option>
+							<option value="Female">Female</option>
+							<option value="Other">Other</option>
+						</select>
+					</div>
 
-                    <div class="col-md-4  mb-2">
-                        <label name="DateOfBirth">DateOfBirth</label>
-                        <input class="form-control" name="DateOfBirth" id="DateOfBirth" type="date" />
-                    </div>
-                </div>
+					<div class="col-md-4  mb-2">
+						<label name="DateOfBirth">DateOfBirth</label>
+						<input class="form-control" name="DateOfBirth" id="DateOfBirth" type="date" />
+					</div>
+				</div>
 
-                <div class="row d-flex">
-                    <div class="col-md-4 mb-2 ">
-                        <label name="TimeOfBirth">TimeOfBirth</label>
-                        <input class="form-control" name="TimeOfBirth" id="TimeOfBirth" type="time" />
-                    </div>
-                    <div class="col-md-4 mb-2 position-relative">
-                        <label name="PlaceOfBirth">PlaceOfBirth</label>
+				<div class="row d-flex">
+					<div class="col-md-4 mb-2 ">
+						<label name="TimeOfBirth">TimeOfBirth</label>
+						<input class="form-control" name="TimeOfBirth" id="TimeOfBirth" type="time" />
+					</div>
+					<div class="col-md-4 mb-2 position-relative">
+						<label name="PlaceOfBirth">PlaceOfBirth</label>
 
-                        <input list="PlaceOfBirthList" type="text" id="PlaceOfBirth" name="placeOfBirth" class="form-control custom-field"
-                               placeholder="Enter City" autocomplete="off" />
-                        <div class="position-absolute w-100 bg-light d-none" id="PlaceOfBirthList">
-                        </div>
-                    </div>
-                    <div class="col-md-4  mb-2">
-                        <input id="JyotishId" hidden />
-                        <input id="UserId" hidden />
-                        <input id="Action" value="2" hidden />
-                    </div>
-                </div>
+						<input list="PlaceOfBirthList" type="text" id="PlaceOfBirth" name="placeOfBirth" class="form-control custom-field"
+							   placeholder="Enter City" autocomplete="off" />
+						<div class="position-absolute w-100 bg-light d-none" id="PlaceOfBirthList">
+						</div>
+					</div>
+					<div class="col-md-4  mb-2">
+						<input id="JyotishId" hidden />
+						<input id="UserId" hidden />
+						<input id="Action" value="2" hidden />
+					</div>
+				</div>
 
-            </div>
-            <div class="modal-footer">
+			</div>
+			<div class="modal-footer">
 
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="DataSubmitBtn">Submit</button>
-            </div>
-        </div>
-    </div>
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary" id="DataSubmitBtn">Submit</button>
+			</div>
+		</div>
+	</div>
 </div>
 
 <script src="https://unpkg.com/@@zegocloud/zego-uikit-prebuilt/zego-uikit-prebuilt.js"></script>
 
 <script>
-   
-    // Function to fetch astrologers for the chat
-    function GetAstroListCallChat() {
-        Swal.fire({
-            title: "Processing Your Request",
-            allowOutsideClick: false,
-            didOpen: () => {
-                Swal.showLoading();
-            }
-        })
-        $.ajax({
-            url: BaseUrl + 'Api/User/GetAstroListCallChat?listName=Call',
-            type: 'GET',
-            success: function (response) {
-                if (response.status === 200) {
-                    var astrologers = response.data;
-                    if (astrologers.length > 0) {
-                        displayAstrologers(astrologers);
-                    } else {
-                        $('#astrologerList').html('<p>No astrologers found.</p>');
-                    }
-                } else {
-                    $('#astrologerList').html('<p>No astrologers found.</p>');
-                }
-                Swal.close();
-                $(".jyotishProfileImages").on('error', function () {
-                    $(this).attr("src", '/user-not-found.png');
-                });
-            },
-            error: function () {
-                 
-                $('#astrologerList').html('<p>An error occurred while searching for astrologers.</p>');
-            }
-        });
-    }
-    function generateFullStars() {
-        return '<i class="fa fa-star"></i>'.repeat(5); // Return 5 filled stars
-    }
-    // Function to display astrologers dynamically
-    function displayAstrologers(astrologers) {
 
-        var html = '';
-        astrologers.forEach(function (astrologer) {
-            var ImgSrc = BaseUrl + astrologer.profileImageUrl;
-            html += `
-                    <div class="astrologer-card">
-                           <a href="/Home/JyotishProfile?Id=${astrologer.id}" class="text-decoration-none">
-                                <i class="decorative-icon fa fa-star"></i>
-                                        <img src=  "${ImgSrc}" class='jyotishProfileImages'  alt="${astrologer.name}">
-                                                        <div class="card-body p-0 pt-2">
-                                                                <h6 class="card-title  text-center">${astrologer.name} <i class="fa-solid text-primary fa-circle-check"></i> - ${astrologer.city}</h6>
-                                                                <p class='text-center text-warning' >${generateFullStars()}</p>
-                                                            <p class="card-text px-1 text-center" >
-                                                                 ${astrologer.expertise || "N/A"} | ${astrologer.experience != null ? astrologer.experience : 0} Years
-                                                            </p>
-                                                        </div>
-                            </a><br>
-                                        <button class="btn btn-primary callBtn"   onclick="CallBtn(${astrologer.id})"
-     style="background-color: #4CAF50; border-color: #4CAF50;" data-bs-toggle="modal" data-bs-target="#exampleModal2">
-                                    Start Call ₹${astrologer.callCharges}/min
-                            </button>
-                        <button class="btn btn-outline-success d-none" id="waitingBtn">Waiting...</button>
+	// Function to fetch astrologers for the chat
+	function GetAstroListCallChat() {
+		Swal.fire({
+			title: "Processing Your Request",
+			allowOutsideClick: false,
+			didOpen: () => {
+				Swal.showLoading();
+			}
+		})
+		$.ajax({
+			url: BaseUrl + 'Api/User/GetAstroListCallChat?listName=Call',
+			type: 'GET',
+			success: function (response) {
+				if (response.status === 200) {
+					var astrologers = response.data;
+					if (astrologers.length > 0) {
+						displayAstrologers(astrologers);
+					} else {
+						$('#astrologerList').html('<p>No astrologers found.</p>');
+					}
+				} else {
+					$('#astrologerList').html('<p>No astrologers found.</p>');
+				}
+				Swal.close();
+				$(".jyotishProfileImages").on('error', function () {
+					$(this).attr("src", '/user-not-found.png');
+				});
+			},
+			error: function () {
 
-                    </div>
-                `;
-        });
-        $('#astrologerList').html(html);
-    }
+				$('#astrologerList').html('<p>An error occurred while searching for astrologers.</p>');
+			}
+		});
+	}
+	function generateFullStars() {
+		return '<i class="fa fa-star"></i>'.repeat(5); // Return 5 filled stars
+	}
+	// Function to display astrologers dynamically
+	function displayAstrologers(astrologers) {
 
-    // Initialize the function to get astrologers on page load
-    GetAstroListCallChat();
+		var html = '';
+		astrologers.forEach(function (astrologer) {
+			var ImgSrc = BaseUrl + astrologer.profileImageUrl;
+			html += `
+					<div class="astrologer-card">
+						   <a href="/Home/JyotishProfile?Id=${astrologer.id}" class="text-decoration-none">
+								<i class="decorative-icon fa fa-star"></i>
+										<img src=  "${ImgSrc}" class='jyotishProfileImages'  alt="${astrologer.name}">
+														<div class="card-body p-0 pt-2">
+																<h6 class="card-title  text-center">${astrologer.name} <i class="fa-solid text-primary fa-circle-check"></i> - ${astrologer.city}</h6>
+																<p class='text-center text-warning' >${generateFullStars()}</p>
+															<p class="card-text px-1 text-center" >
+																 ${astrologer.expertise || "N/A"} | ${astrologer.experience != null ? astrologer.experience : 0} Years
+															</p>
+														</div>
+							</a><br>
+										<button class="btn btn-primary callBtn"   onclick="CallBtn(${astrologer.id})"
+	 style="background-color: #4CAF50; border-color: #4CAF50;" data-bs-toggle="modal" data-bs-target="#exampleModal2">
+									Start Call ₹${astrologer.callCharges}/min
+							</button>
+						<button class="btn btn-outline-success d-none" id="waitingBtn">Waiting...</button>
 
-    const roomID = 'user_'+localStorage.getItem("userId");
-        const clientId = Math.floor(Math.random() * 10000) + "";
-        let TOKEN
-     $('#DataSubmitBtn').on('click', function () {
-      
-        var astrologerId = $('#JyotishId').val();
-        var Name = $("#Name").val();
-        var Gender = $("#Gender").val();
-        var DateOfBirth = $("#DateOfBirth").val();
-        var TimeOfBirth = $("#TimeOfBirth").val();
-        var PlaceOfBirth = $("#PlaceOfBirth").val();
+					</div>
+				`;
+		});
+		$('#astrologerList').html(html);
+	}
 
-        var UserId = localStorage.getItem('userId');
+	// Initialize the function to get astrologers on page load
+	GetAstroListCallChat();
 
+	const roomID = 'user_'+localStorage.getItem("userId");
+		const clientId = Math.floor(Math.random() * 10000) + "";
+		let TOKEN
+	 $('#DataSubmitBtn').on('click', function () {
 
-        var DataContainer = {
-            Name: Name,
-            Gender: Gender,
-            DateOfBirth: DateOfBirth,
-            TimeOfBirth: TimeOfBirth,
-            PlaceOfBirth: PlaceOfBirth,
-            JyotishId: astrologerId,
-            UserId: UserId,
-            Action: 2
-        }
+		var astrologerId = $('#JyotishId').val();
+		var Name = $("#Name").val();
+		var Gender = $("#Gender").val();
+		var DateOfBirth = $("#DateOfBirth").val();
+		var TimeOfBirth = $("#TimeOfBirth").val();
+		var PlaceOfBirth = $("#PlaceOfBirth").val();
 
-        $.ajax({
-            url: BaseUrl + "api/User/AddUserServiceRecord", // Ensure BaseUrl is properly defined
-            method: "POST",
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem("Token")}` // Retrieve token from localStorage
-            },
-            data: JSON.stringify(DataContainer), // Corrected JSON.stringify
-            contentType: "application/json", // Ensure content type is set to JSON
-            success: function (response) {
-                if (response.status === 200) {
-                    establishedConnectionForSendRequest().then((socket) => {
-                                debugger
-                                if (socket) {
-                                    socket.onopen = function (event) {
-                                        console.log('WebSocket connection established:', event);
-                                        let call="call"
-                                        if (astrologerId) {
-                                            socket.send(`${astrologerId}:${roomID}:${call}`);
-                                            $("#exampleModal2").modal("hide")
-
-                                            $(".callBtn").hide();
-                                            $("#waitingBtn").removeClass("d-none")
-                                        }
-                                    };
-                                    socket.onmessage = function (event) {
-                                        let response = JSON.parse(event.data)
-                                        console.log(response)
-                                        if (response.data) {
-
-                                            socket.close()
-                                            debugger
-                                            if(response.type=="call"){
-                                            TOKEN=ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, clientId, Name);
-                                            localStorage.setItem("callTOKEN",TOKEN)
-                                            startCall()
-                                        socket.close()
-
-                                        }
-                                } else {
-                                    socket.close()
-
-                                };
-                                    };
-
-                                    socket.onerror = function (event) {
-                                        console.error('WebSocket error observed:', event);
-                                        Swal.fire({
-                                            text: "some error occured while making connection",
-                                            title: "error",
-                                            icon: "error"
-                                        });
-                                    };
-
-                                    socket.onclose = function (event) {
-                                        console.log('WebSocket connection closed:', event);
-                                        
-                                        $(".callBtn").show();
-                                        
-                                        $("#waitingBtn").addClass("d-none")
-
-                                    };
+		var UserId = localStorage.getItem('userId');
 
 
-                                }
-                            })
-                } else {
-                    // Handle unexpected response status (if needed)
-                    Swal.fire({
-                        title: "Error!",
-                        text: "There was an issue with the response.",
-                        icon: "error"
-                    });
-                }
-            },
-            error: function (xhr, status, error) {
-                // Error case: Handle request errors
-                Swal.fire({
-                    title: "Error!",
-                    text: "Something went wrong. Please try again later.",
-                    icon: "error"
-                });
-            }
-        });
+		var DataContainer = {
+			Name: Name,
+			Gender: Gender,
+			DateOfBirth: DateOfBirth,
+			TimeOfBirth: TimeOfBirth,
+			PlaceOfBirth: PlaceOfBirth,
+			JyotishId: astrologerId,
+			UserId: UserId,
+			Action: 2
+		}
 
-    });
-    var UserId = localStorage.getItem('userId');
-    if(UserId != null && UserId != undefined)
-    {
-        GetUserDataForService(UserId);
-    }
-    function establishedConnectionForSendRequest() {
-        let socket = new WebSocket(`wss://api.myjyotishg.in/api/chat/sendChatRequest?id=${UserId}&sendBy=client`);
-        return new Promise((res, rej) => {
-            if (socket) {
+		$.ajax({
+			url: BaseUrl + "api/User/AddUserServiceRecord", // Ensure BaseUrl is properly defined
+			method: "POST",
+			headers: {
+				'Authorization': `Bearer ${localStorage.getItem("Token")}` // Retrieve token from localStorage
+			},
+			data: JSON.stringify(DataContainer), // Corrected JSON.stringify
+			contentType: "application/json", // Ensure content type is set to JSON
+			success: function (response) {
+				if (response.status === 200) {
+					establishedConnectionForSendRequest().then((socket) => {
+								debugger
+								if (socket) {
+									socket.onopen = function (event) {
+										console.log('WebSocket connection established:', event);
+										let call="call"
+										if (astrologerId) {
+											socket.send(`${astrologerId}:${roomID}:${call}`);
+											$("#exampleModal2").modal("hide")
 
-                res(socket)
-            } else {
-                rej(false)
-            }
-        });
-    }
-     function GetUserDataForService(Id) {
+											$(".callBtn").hide();
+											$("#waitingBtn").removeClass("d-none")
+										}
+									};
+									socket.onmessage = function (event) {
+										let response = JSON.parse(event.data)
+										console.log(response)
+										if (response.data) {
 
+											socket.close()
+											debugger
+											if(response.type=="call"){
+											TOKEN=ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, clientId, Name);
+											localStorage.setItem("callTOKEN",TOKEN)
+											startCall()
+										socket.close()
 
-        $.ajax({
-            url: `${BaseUrl}api/User/GetUserDataForService?Id=${Id}`,
-            method: "GET",
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem("Token")}`
-            },
-            success: function (response) {
-                if (response.status === 200) {
-                    debugger
-                    $('#Name').val(response.data.name);
-                    $('#Gender').val(response.data.gender);
-                    $('#DateOfBirth').val(response.data.dateOfBirth.split('T')[0]);
-                    $('#TimeOfBirth').val(response.data.timeOfBirth);
-                    $('#PlaceOfBirth').val(response.data.placeOfBirth);
+										}
+								} else if(!response.data && !response.anotherRequest){
+										socket.close()
+									};
+								};
 
-                }
-            },
-            error: function (xhr, status, error) {
+									socket.onerror = function (event) {
+										console.error('WebSocket error observed:', event);
+										Swal.fire({
+											text: "some error occured while making connection",
+											title: "error",
+											icon: "error"
+										});
+									};
 
-                console.log("Error:", error);
-                console.log("Status:", status);
-                console.log("XHR:", xhr);
-            }
-        });
-    }
-    
-    function CallBtn(id)
-    {
-         $('#JyotishId').val(id);
-    }
-   
-    if(localStorage.getItem("callTOKEN")!=null){
-        startCall()
-    }
+									socket.onclose = function (event) {
+										console.log('WebSocket connection closed:', event);
 
-    async function startCall() {
+										$(".callBtn").show();
+
+										$("#waitingBtn").addClass("d-none")
+
+									};
 
 
-        const zg = ZegoUIKitPrebuilt.create(localStorage.getItem("callTOKEN"));
+								}
+							})
+				} else {
+					// Handle unexpected response status (if needed)
+					Swal.fire({
+						title: "Error!",
+						text: "There was an issue with the response.",
+						icon: "error"
+					});
+				}
+			},
+			error: function (xhr, status, error) {
+				// Error case: Handle request errors
+				Swal.fire({
+					title: "Error!",
+					text: "Something went wrong. Please try again later.",
+					icon: "error"
+				});
+			}
+		});
 
-            try {
+	});
+	var UserId = localStorage.getItem('userId');
+	if(UserId != null && UserId != undefined)
+	{
+		GetUserDataForService(UserId);
+	}
+	function establishedConnectionForSendRequest() {
+		let socket = new WebSocket(`wss://api.myjyotishg.in/api/chat/sendChatRequest?id=${UserId}&sendBy=client`);
+		return new Promise((res, rej) => {
+			if (socket) {
 
-                    debugger
-                zg.joinRoom({
-                    container: document.querySelector("#root"),
-                    turnOnCameraWhenJoining: false,
-                    showMyCameraToggleButton: false,
-                    showAudioVideoSettingsButton: false,
-                    showScreenSharingButton: false,
-                    showPreJoinView: false,
-                           lowerLeftNotification: {
-                        showUserJoinAndLeave: false,
-                        showTextChat: false,
-                    },
-                    showRoomTimer:true,
-                    showLeavingView:false,
-                    showTextChat:false,
-                    maxUsers: 2,
-                    showPreJoinView: false,
-                    scenario: {
-                        mode: ZegoUIKitPrebuilt.OneONoneCall,
+				res(socket)
+			} else {
+				rej(false)
+			}
+		});
+	}
+	 function GetUserDataForService(Id) {
 
 
-                    }, onJoinRoom: () => {
-                        turnOnMicrophoneWhenJoining:true;
-                    },
-                    onLeaveRoom: () => {
-                        turnOnMicrophoneWhenJoining: false;
-                        localStorage.removeItem("callTOKEN")
-                    },
-                    onUserJoin: (user) => {
-                        },
-                        onUserLeave: (user) => {
-                        }
+		$.ajax({
+			url: `${BaseUrl}api/User/GetUserDataForService?Id=${Id}`,
+			method: "GET",
+			headers: {
+				'Authorization': `Bearer ${localStorage.getItem("Token")}`
+			},
+			success: function (response) {
+				if (response.status === 200) {
+					debugger
+					$('#Name').val(response.data.name);
+					$('#Gender').val(response.data.gender);
+					$('#DateOfBirth').val(response.data.dateOfBirth.split('T')[0]);
+					$('#TimeOfBirth').val(response.data.timeOfBirth);
+					$('#PlaceOfBirth').val(response.data.placeOfBirth);
 
-                });
-                zg.setCallInvitationConfig({
-                    onSetRoomConfigBeforeJoining: () => {
-                        const roomID = zg.getRoomID();
-                        sessionStorage.setItem('roomID', roomID);
+				}
+			},
+			error: function (xhr, status, error) {
 
-                    }
-                });
-            } catch (error) {
-                console.error('Error starting the call:', error);
-            }
-        }
+				console.log("Error:", error);
+				console.log("Status:", status);
+				console.log("XHR:", xhr);
+			}
+		});
+	}
+
+	function CallBtn(id)
+	{
+		 $('#JyotishId').val(id);
+	}
+
+	if(localStorage.getItem("callTOKEN")!=null){
+		startCall()
+	}
+
+	async function startCall() {
+
+
+		const zg = ZegoUIKitPrebuilt.create(localStorage.getItem("callTOKEN"));
+
+			try {
+
+					debugger
+				zg.joinRoom({
+					container: document.querySelector("#root"),
+					turnOnCameraWhenJoining: false,
+					showMyCameraToggleButton: false,
+					showAudioVideoSettingsButton: false,
+					showScreenSharingButton: false,
+					showPreJoinView: false,
+						   lowerLeftNotification: {
+						showUserJoinAndLeave: false,
+						showTextChat: false,
+					},
+					showRoomTimer:true,
+					showLeavingView:false,
+					showTextChat:false,
+					maxUsers: 2,
+					showPreJoinView: false,
+					scenario: {
+						mode: ZegoUIKitPrebuilt.OneONoneCall,
+
+
+					}, onJoinRoom: () => {
+						turnOnMicrophoneWhenJoining:true;
+					},
+					onLeaveRoom: () => {
+						turnOnMicrophoneWhenJoining: false;
+						localStorage.removeItem("callTOKEN")
+					},
+					onUserJoin: (user) => {
+						},
+						onUserLeave: (user) => {
+						}
+
+				});
+				zg.setCallInvitationConfig({
+					onSetRoomConfigBeforeJoining: () => {
+						const roomID = zg.getRoomID();
+						sessionStorage.setItem('roomID', roomID);
+
+					}
+				});
+			} catch (error) {
+				console.error('Error starting the call:', error);
+			}
+		}
 
 </script>
