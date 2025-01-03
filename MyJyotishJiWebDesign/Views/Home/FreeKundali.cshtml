@@ -46,13 +46,28 @@
     }
 
     .mainKundaliContainer {
-        max-height: 375px;
+        max-height: 600px;
     }
 
 
     .kundaliDetailCard:hover {
         background-color: lightyellow;
         cursor: pointer;
+    }
+
+    .paragraph-para1, .heading-1{
+        display:none;
+    }
+
+    .block-container{
+      
+        margin:0 !important;
+        padding:0 !important;
+    }
+
+    .divineCommonTitle{
+        margin:0 !important;
+        padding:0 !important;
     }
 </style>
 
@@ -72,66 +87,11 @@
     </p>
 
 
-    <div class="row justify-content-center">
+    <div class="row justify-content-center mt-5" id="kundaliReport">
         <!-- Boy's Details Section -->
-        <div class="col-md-6 mainKundaliContainer">
-            <div class="card p-4 shadow-sm">
-                <h5 class="card-title bg-warning rounded fw-normal w-100 p-2 text-black text-center mb-3">New Kundali</h5>
-
-                <div class="form-group my-1">
-                    <label for="name_boy">Name</label>
-                    <input type="text" name="name_boy" id="name_boy" class="form-control requiredInp" placeholder="Enter name" required>
-                </div>
-
-                <div class="form-group row my-1">
-                    <div class="col-md-4">
-                        <label for="day_boy">Day</label>
-                        <select name="day_boy" id="day_boy" class="form-control requiredInp" required>
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <label for="month_boy">Month</label>
-                        <select name="month_boy" id="month_boy" class="form-control requiredInp" required>
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <label for="year_boy">Year</label>
-                        <select name="year_boy" id="year_boy" class="form-control requiredInp" required>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-group row my-1">
-                    <div class="col-md-4">
-                        <label for="hour_boy">Hour</label>
-                        <select name="hour_boy" id="hour_boy" class="form-control requiredInp" required>
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <label for="min_boy">Minute</label>
-                        <select name="min_boy" id="min_boy" class="form-control requiredInp" required>
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <label for="sec_boy">Second</label>
-                        <select name="sec_boy" id="sec_boy" class="form-control requiredInp" required>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-group my-1 position-relative">
-                    <label for="place_boy">Birth Place</label>
-
-
-                    <input list="PlaceOfBirthList_boy" type="text" name="place_boy requiredInp" id="place_boy" class="form-control" placeholder="Enter birth place" autocomplete="off" required>
-
-
-                    <div class="position-absolute bg-light d-none w-100 rounded-bottom" id="PlaceOfBirthList_boy">
-                    </div>
-                </div>
-            </div>
+        <div class="col-sm-8" id="CreatedkundaliDetailsReport">
+            <div id="wb-widget-kundli-17359090752" class="open_setting" data-wb_setting="206"></div>
         </div>
-
       
         <div class="col-md-4 mainKundaliContainer">
 
@@ -166,16 +126,17 @@
             </div>
         </div>
     </div>
-
-    <div class="text-center mt-4">
-        <button type="button" id="matchHoroscope" class="btn btn-primary bg-warning text-black btn-lg"> Generate Kundali</button>
-    </div>
 </div>
-
+<script id="widget-kundli-17359090752-script" class="wb_widget_kundli" src="https://astroapi-6.divineapi.com/widget/kundli.js?17359090752&widget_token=711d7efc9024ff83cb45cf980d5792c8&widget_id=wb-widget-kundli-17359090752&setting=206"></script>
 
 <script>
     var SavedKundaliRecord = [];
-   
+    setTimeout(()=>{
+        $("button").click(function(){
+        alert("d")
+    })
+    },2000)
+    
     async function loadPlaceOfBirth_boy(city) {
         if (!city) return;
 
@@ -221,15 +182,17 @@
         let [year, month, day] = DateOfBirth.split("-");
         let [hour, minute, second] = TimeOfBirth.split(":");
 
-            $('#name_boy').val(Name);
-            $('#place_boy').val(PlaceOfBirth);
-            $('#day_boy').val(day);
-            $('#month_boy').val(month);
-            $('#year_boy').val(year);
-            $('#hour_boy').val(hour);
-            $('#min_boy').val(minute);
-            $('#sec_boy').val(second);
-      
+            $('#firstName').val(Name);
+            $('#lastName').val();
+            $('#dateOfBirth').val(DateOfBirth);
+            $('#birthTime').val(TimeOfBirth);
+            $(".wbgender").each(function(i,d){
+                debugger
+            if(Gender.toLowerCase()==d.value){
+                d.setAttribute("checked",true)
+            }
+            })
+           
     }
 
     function deleteKundaliRecord(Id) {
@@ -602,7 +565,6 @@
             cancelButtonText: 'Cancel',
             preConfirm: () => {
                 const languageType = document.getElementById('languageType').value;
-
                 if (!languageType) {
                     Swal.showValidationMessage('Language are required!');
                     return false;
