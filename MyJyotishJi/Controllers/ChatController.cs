@@ -131,7 +131,7 @@ namespace MyJyotishGApi.Controllers
         private static readonly ConcurrentDictionary<string, WebSocket> _clientRequest = new();
         private static Dictionary<string, string> _clientRequestMessage = new();
         private static Dictionary<string, string> _clientRoomId = new();
-
+        DateTime sendTime;
         [HttpGet("sendChatRequest")]
         public async Task SendChatRequest(string id, string sendBy)
         {
@@ -157,11 +157,7 @@ namespace MyJyotishGApi.Controllers
                         string jsonString = JsonConvert.SerializeObject(new { status = true, type = roomId==null?"chat":"call",roomId=roomId, data = userRequestRecord });
                         var msgBuffer = System.Text.Encoding.UTF8.GetBytes(jsonString);
                         await recipientSocket.SendAsync(new ArraySegment<byte>(msgBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
-                        if (_clientRoomId != null)
-                        {
-                        _clientRoomId.Clear();
-                        }
-                        _clientRequestMessage.Clear();
+
                     }
                 }
             
@@ -212,20 +208,16 @@ namespace MyJyotishGApi.Controllers
                                     var msgBuffer = System.Text.Encoding.UTF8.GetBytes(jsonStrings);
 
                                         await recipientSocket.SendAsync(new ArraySegment<byte>(msgBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
-                                    
                                 }
                             }
                         }
-
                         _clientRequest.TryRemove(changeIdPref, out _);
 
                         await webSocket.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, "Closing connection", CancellationToken.None);
 
                         break;
                     }
-
                     var message = System.Text.Encoding.UTF8.GetString(buffer, 0, result.Count);
-                  
                     if (message!=null)
                     {
                         var splitMessage = message.Split(':', 3);
@@ -239,15 +231,16 @@ namespace MyJyotishGApi.Controllers
                             var castId = Convert.ToInt32(clientId);
                             var userDetail = _services.LayoutData(castId);
                                 string userJson = JsonConvert.SerializeObject(userDetail);
-                            if (!_clientRequestMessage.ContainsKey(recipientId)&& !string.IsNullOrEmpty(recipientId) && !_clientRequest.ContainsKey(changeresPref))
+                            if (!_clientRequestMessage.ContainsKey(recipientId)&& !string.IsNullOrEmpty(recipientId))
                             {
                            _clientRequestMessage.Add(recipientId, userJson);
                                 if (!_clientRoomId.ContainsKey(recipientId) && !string.IsNullOrEmpty(recipientId) && requestType=="call")
                                 {
                                     _clientRoomId.Add(recipientId, roomId);
                                 }
+                                sendTime = DateTime.Now;
                             }
-                            ;
+                           
                         }
                         if (_clientRequest.TryGetValue(changeresPref, out var recipientSocket))
                         {
@@ -257,14 +250,14 @@ namespace MyJyotishGApi.Controllers
                             }
                             else
                             {
-
                             userRequestRecord = userRequestRecord = _clientRequestMessage.ContainsKey(recipientId) ? _clientRequestMessage.Where(e => e.Key == recipientId).First().Value : null;
                             }
-                         
-                            string jsonString = JsonConvert.SerializeObject(new {status=true,type=requestType,roomId=requestType=="call"?roomId:null,data= userRequestRecord });
+                            string jsonString = JsonConvert.SerializeObject(new {status=true,type= requestType == "call" && _clientRoomId.Count > 0?"call":"chat", roomId=requestType=="call"&&_clientRoomId.Count>0?_clientRoomId.Where(e=>e.Key==recipientId).First().Value:null,data= userRequestRecord });
                             var msgBuffer = System.Text.Encoding.UTF8.GetBytes(jsonString);
                             await recipientSocket.SendAsync(new ArraySegment<byte>(msgBuffer), result.MessageType, result.EndOfMessage, CancellationToken.None);
+                           
                         }
+                        
                     }
                 }
             }
