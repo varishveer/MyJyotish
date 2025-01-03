@@ -130,7 +130,7 @@ namespace MyJyotishGApi.Controllers
 
         private static readonly ConcurrentDictionary<string, WebSocket> _clientRequest = new();
         private static Dictionary<string, string> _clientRequestMessage = new();
-        private static Dictionary<string, string> _clientRoomId = new Dictionary<string, string>();
+        private static Dictionary<string, string> _clientRoomId = new();
 
         [HttpGet("sendChatRequest")]
         public async Task SendChatRequest(string id, string sendBy)
@@ -157,6 +157,11 @@ namespace MyJyotishGApi.Controllers
                         string jsonString = JsonConvert.SerializeObject(new { status = true, type = roomId==null?"chat":"call",roomId=roomId, data = userRequestRecord });
                         var msgBuffer = System.Text.Encoding.UTF8.GetBytes(jsonString);
                         await recipientSocket.SendAsync(new ArraySegment<byte>(msgBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
+                        if (_clientRoomId != null)
+                        {
+                        _clientRoomId.Clear();
+                        }
+                        _clientRequestMessage.Clear();
                     }
                 }
             
@@ -219,7 +224,6 @@ namespace MyJyotishGApi.Controllers
                         break;
                     }
 
-
                     var message = System.Text.Encoding.UTF8.GetString(buffer, 0, result.Count);
                   
                     if (message!=null)
@@ -235,7 +239,7 @@ namespace MyJyotishGApi.Controllers
                             var castId = Convert.ToInt32(clientId);
                             var userDetail = _services.LayoutData(castId);
                                 string userJson = JsonConvert.SerializeObject(userDetail);
-                            if (!_clientRequestMessage.ContainsKey(recipientId)&& !string.IsNullOrEmpty(recipientId))
+                            if (!_clientRequestMessage.ContainsKey(recipientId)&& !string.IsNullOrEmpty(recipientId) && !_clientRequest.ContainsKey(changeresPref))
                             {
                            _clientRequestMessage.Add(recipientId, userJson);
                                 if (!_clientRoomId.ContainsKey(recipientId) && !string.IsNullOrEmpty(recipientId) && requestType=="call")
