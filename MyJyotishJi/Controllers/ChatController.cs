@@ -238,7 +238,7 @@ namespace MyJyotishGApi.Controllers
                                 if (_RequestManager.ContainsKey(recipientId))
                                 {
                                     var dateDifference = _RequestManager.Where(e => e.Key == recipientId).First().Value - DateTime.Now;
-                                    if (dateDifference.Duration() >= TimeSpan.FromSeconds(5))
+                                    if (dateDifference.Duration() >= TimeSpan.FromSeconds(60))
                                     {
                                         if (_clientRequestMessage.Count > 0)
                                         {

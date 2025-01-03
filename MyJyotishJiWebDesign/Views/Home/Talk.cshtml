@@ -290,7 +290,10 @@
                                             localStorage.setItem("callTOKEN",TOKEN)
                                             startCall()
                                         }
-                                        }
+                                } else {
+                                    socket.close()
+
+                                };
                                     };
 
                                     socket.onerror = function (event) {
