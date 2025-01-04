@@ -1,583 +1,79 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-
+﻿
 <style>
-    /* Example Custom CSS */
-    .card {
-        border-radius: 8px;
-        background-color: #f9f9f9;
-    }
+	.horoscopeChartBoxImage img{
+		width:50% !important;
+		
+	}
 
-    .card-title {
-        font-size: 1.25rem;
-        font-weight: bold;
-        color: #4A90E2;
-    }
+	.horoscopeChartBoxImage{
+		text-align:center !important;
+	}
 
-    input[type="text"], select {
-        border-radius: 5px;
-    }
+	.horoscopeChartBoxTitle h6{
+		text-align:center !important;
+		margin:30px 0 !important;
+		font-weight:600 !important;
+	}
+	.connect-section {
+		background-color: #ffeb85; /* Light yellow background */
+		text-align: center;
+		padding: 20px;
+		border-radius: 8px;
+	}
 
-    #PlaceOfBirthList_girl {
-        position: absolute;
-        height: 250px;
-        padding: 10px;
-        overflow: auto;
-    }
+		.connect-section .btn {
+			margin: 5px;
+		}
 
-    #PlaceOfBirthList_boy {
-        position: absolute;
-        height: 250px;
-        padding: 10px;
-        overflow: auto;
-    }
+	.download-section {
+		background-color: #000; /* Black background */
+		color: #fff; /* White text */
+		text-align: center;
+		padding: 40px 20px;
+		border-radius: 8px;
+	}
 
-    .pOBPtag:hover {
-        background-color: skyblue;
-        color: white;
-    }
+		.download-section .btn {
+			background-color: #ffc107; /* Yellow button */
+			color: #000;
+			font-weight: bold;
+			padding: 10px 20px;
+			border: none;
+			border-radius: 5px;
+		}
 
-    .btnDelete {
-        bottom: 5px;
-        right: 5px;
-    }
+			.download-section .btn:hover {
+				background-color: #e0a800; /* Slightly darker yellow */
+			}
 
-    .mainKundaliContainer {
-        max-height: 600px;
-    }
+	.kundli-icon {
+		width: 80px;
+		margin-bottom: 20px;
+	}
 
-
-    .kundaliDetailCard:hover {
-        background-color: lightyellow;
-        cursor: pointer;
-    }
-
-    .paragraph-para1, .heading-1{
-        display:none;
-    }
-
-    .block-container{
-      
-        margin:0 !important;
-        padding:0 !important;
-    }
-
-    .divineCommonTitle{
-        margin:0 !important;
-        padding:0 !important;
-    }
+	.divineCommonTitle {
+		max-width: 100% !important;
+	}
 </style>
 
-<div class="container py-4">
+<div id="wb-widget-kundli-17359090752" class="open_setting" data-wb_setting="206"></div>
 
+<div class="container my-5">
+	<!-- Connect Section -->
+	<div class="connect-section">
+		<p class="mb-3">
+			Connect with an Astrologer on Call or Chat for more personalised detailed predictions.
+		</p>
+		<a class="btn btn-warning text-light fw-bold" href="/Home/talk" target="_blank">Talk to Astrologer</a>
+		<a class="btn btn-light border fw-bold" href="/Home/chat" target="_blank">Chat with Astrologer</a>
+	</div>
 
-    <h3 class="text-center mb-4">Free Kundli Online</h3>
-    <h5 class="text-center mb-4">Get instant & accurate, Janam Kundli</h5>
-    <hr />
-    <h5 class="text-start mb-4">Free Kundli Online - Get Your Detailed Birth Chart with Predictions</h5>
-
-    <p>
-        Looking for your free Kundli from expert astrologers? Then you have come to the right place. The online free kundali available on MyJyotishG is a 100% free and authentic free Kundli that has been prepared after consulting more than 50 expert astrologers on board. The free kundli is such that it can give you a glimpse into various aspects of your life such as your career, love life, marriage, business and much more. The online kundli prepared by the free Kundali software here is no less than any traditional Kundli and can also be used for purposes like matching making, kundali matching for marriage or simply making future predictions.
-    </p>
-    <p>
-        Talking about future predictions, the kundali catered by MyJyotishG to you is such that it considers the movement of all the planets in the native's life from the beginning of his or her life till as far as 100 years. Doing so helps you understand the reasons behind not only the ongoing circumstances but also what's to come for you in the future. So if in any way you are confused about life, the online kundli can be your saviour. Having said that, make sure you try the free online kundli, and let us know what you feel about it.
-    </p>
-
-
-    <div class="row justify-content-center mt-5" id="kundaliReport">
-        <!-- Boy's Details Section -->
-        <div class="col-sm-8" id="CreatedkundaliDetailsReport">
-            <div id="wb-widget-kundli-17359090752" class="open_setting" data-wb_setting="206"></div>
-        </div>
-      
-        <div class="col-md-4 mainKundaliContainer">
-
-
-            <div class="card h-100 w-100 p-2 pt-4 shadow-sm">
-
-                <h5 class="card-title bg-warning rounded fw-normal w-100 p-2 text-black text-center mb-3">Saved Matches</h5>
-                <div class="overflow-auto">
-
-                    <!-- Search Box -->
-                    <div>
-                        <form novalidate action="search_box">
-                            <div class="input-group mb-3">
-                                <label class="input-group-text" for="SearchKundaliRecord"><i class="fa fa-search "></i></label>
-
-                                <input type="search" name="search" id="SearchKundaliRecord" aria-label="Search" class="form-control input-group-text" placeholder="Search match by name">
-
-                            </div>
-                        </form>
-                    </div>
-
-                    <h6 class="fw-normal">Recently Opened</h6>
-
-
-                    <div>
-                        <div>
-                            <div id="previousData" class="overflow-auto"></div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
+	<!-- Download Section -->
+	<div class="download-section mt-4">
+		<img src="~/palm-Image.jpg" alt="Kundli Icon" class="kundli-icon rounded-circle">
+		<h3 class="mb-3">Download & share your kundli report</h3>
+		<button class="btn" id="downloadKundaliPdf">Download Kundli PDF</button>
+	</div>
 </div>
+
 <script id="widget-kundli-17359090752-script" class="wb_widget_kundli" src="https://astroapi-6.divineapi.com/widget/kundli.js?17359090752&widget_token=711d7efc9024ff83cb45cf980d5792c8&widget_id=wb-widget-kundli-17359090752&setting=206"></script>
-
-<script>
-    var SavedKundaliRecord = [];
-    setTimeout(()=>{
-        $("button").click(function(){
-        alert("d")
-    })
-    },2000)
-    
-    async function loadPlaceOfBirth_boy(city) {
-        if (!city) return;
-
-        try {
-            const response = await fetch(BaseUrl + `Api/Account/PlaceOfBirthList?City=${encodeURIComponent(city)}`);
-            const data = await response.json();
-            const $placeOfBirthDropdown = $('#PlaceOfBirthList_boy');
-
-            $('#PlaceOfBirthList_boy').removeClass('d-none');
-            $placeOfBirthDropdown.empty();
-            data.data.forEach(placeOfBirth => {
-                $placeOfBirthDropdown.append(`<p class="pOBPtag" onClick="setPlace_boy('${placeOfBirth.record}')"> ${placeOfBirth.record}</p>`);
-            });
-        } catch (error) {
-            console.error('Error fetching PlaceOfBirth:', error);
-        }
-    }
-
-    function setPlace_boy(svalue) {
-
-        $('#PlaceOfBirthList_boy').addClass('d-none');
-        $('#place_boy').val(svalue);
-    }
-    $('#place_boy').on('keyup', function () {
-
-        $('#PlaceOfBirthList_boy').show();
-        const city = $(this).val();
-        loadPlaceOfBirth_boy(city);
-        // Replace with your Google Maps API Key
-
-
-    });
-
-    $("#place_boy").on("blur", function () {
-        setTimeout(() => {
-
-            $('#PlaceOfBirthList_boy').hide();
-        }, 1000)
-
-    })
-
-    function kundaliDataFiller(Name, DateOfBirth, TimeOfBirth, PlaceOfBirth, Gender) {
-        let [year, month, day] = DateOfBirth.split("-");
-        let [hour, minute, second] = TimeOfBirth.split(":");
-
-            $('#firstName').val(Name);
-            $('#lastName').val();
-            $('#dateOfBirth').val(DateOfBirth);
-            $('#birthTime').val(TimeOfBirth);
-            $(".wbgender").each(function(i,d){
-                debugger
-            if(Gender.toLowerCase()==d.value){
-                d.setAttribute("checked",true)
-            }
-            })
-           
-    }
-
-    function deleteKundaliRecord(Id) {
-
-        Swal.fire({
-            title: 'Are you sure?',
-            text: 'Do you want to delete this item?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, delete it!',
-            cancelButtonText: 'No, cancel!',
-        }).then((result) => {
-            if (result.isConfirmed) {
-                var UserId = localStorage.getItem('userId');
-                var Token = localStorage.getItem('Token');
-                $.ajax({
-                    url: BaseUrl + `Api/User/DeleteKundaliRecord?Id=${Id}`,
-                    type: 'DELETE',
-                    headers: {
-                        'Authorization': `Bearer ${Token}`
-                    },
-
-                    success: function (response) {
-                        if (response.status == 200) {
-                            Swal.fire({
-                                title: 'Successful',
-                                text: 'Record Deleted Successfully',
-                                icon: 'success',
-                                didClose: () => {
-                                    LoadData();
-                                }
-                            });
-
-                        }
-                        else {
-                            Swal.fire({
-                                title: 'Error',
-                                text: 'Something went wrong',
-                                icon: 'error'
-                            });
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        Swal.fire({
-                            title: 'Error',
-                            text: 'Something went wrong',
-                            icon: 'error'
-                        });
-                    }
-
-                });
-
-
-
-            } else {
-
-                return
-            }
-        });
-
-    }
-
-    function LoadData() {
-
-        let currentDate = new Date();
-        let year = currentDate.getFullYear();
-        for (var i = 1; i <= 100; i++) {
-            if (i <= 31) {
-                if (i < 10) {
-                    $('#day_boy').append(` <option value="0${i}">0${i}</option>`);
-                }
-                else {
-                    $('#day_boy').append(` <option value="${i}">${i}</option>`);
-                }
-
-            }
-
-
-            if (i <= 12) {
-                if (i < 10) {
-                    $('#month_boy').append(` <option value="0${i}">0${i}</option>`);
-                }
-                else {
-                    $('#month_boy').append(` <option value="${i}">${i}</option>`);
-
-                }
-
-
-
-            }
-
-            $('#year_boy').append(` <option value="${year}">${year}</option>`);
-            year = year - 1;
-
-            if (i <= 60) {
-
-                if (i < 11) {
-                    $('#min_boy').append(` <option value="0${i - 1}">0${i - 1}</option>`);
-                    $('#sec_boy').append(` <option value="0${i - 1}">0${i - 1}</option>`);
-                }
-                else {
-                    $('#min_boy').append(` <option value="${i - 1}">${i - 1}</option>`);
-                    $('#sec_boy').append(` <option value="${i - 1}">${i - 1}</option>`);
-                }
-
-            }
-
-            if (i <= 24) {
-                if (i < 10) {
-                    $('#hour_boy').append(` <option value="0${i}">0${i}</option>`);
-                }
-                else {
-                    $('#hour_boy').append(` <option value="${i}">${i}</option>`);
-                }
-
-            }
-
-        }
-
-        var UserId = localStorage.getItem('userId');
-        var Token = localStorage.getItem('Token');
-
-        if (UserId == null || Token == null) {
-            location.href = "/Home/Login";
-        }
-        $.ajax({
-            url: BaseUrl + `Api/User/GetAllKundaliMatchingRecord?Id=${UserId}`,
-            type: 'GET',
-            headers: {
-                'Authorization': `Bearer ${Token}`
-            },
-            success: function (response) {
-                if (response.status == 200) {
-                    if (response.data.length > 0) {
-
-                        $('#previousData').empty();
-                        var Data = response.data;
-                        SavedKundaliRecord = Data;
-
-
-                    }
-
-                }
-            }
-        }).then(() => {
-            $('#SearchKundaliRecord').on('keyup', function () {
-
-                var filterData = [];
-                var SearchValue = $('#SearchKundaliRecord').val();
-                if (SearchValue == "" || SearchValue == undefined) {
-                    filterData = SavedKundaliRecord;
-                }
-                else {
-                    filterData = SavedKundaliRecord.filter(e => e.name.toLowerCase().includes(SearchValue.toLowerCase()));
-                }
-                $('#previousData').empty();
-                var container;
-                if (filterData.length > 0) {
-
-                    filterData.forEach(function (d) {
-
-                        let [year, month, day] = d.dateOfBirth.split("-");
-                        var DateOfBirth = `${day}-${month}-${year}`;
-                        container = ` <div class="card my-3 position-relative kundaliDetailCard" onClick="kundaliDataFiller('${d.name}', '${d.dateOfBirth}', '${d.timeOfBirth}', '${d.placeOfBirth}', '${d.gender}')"
-                                >
-                                                                          <div class="d-flex align-items-start ">
-                                                                          <div class="d-flex align-items-start col-sm-2 p-1">
-                                                                              <div class="profile_icon_name firstColor rounded-circle bg-primary text-white d-flex justify-content-center align-items-center" style="width: 35px; height: 35px;">${d.name.slice(0, 1).toUpperCase()}
-                                                                                </div>
-                                                                          </div>
-
-
-                                                                                <div class="ml-3 col-sm-8">
-                                                                              <div class="fs-6">${d.name} <span class="font-weight-light">, ${d.gender}</span></div>
-                                                                                  <div class="text-muted">${DateOfBirth} ${d.timeOfBirth.slice(0, 5)}</div>
-                                                                              <div class="text-muted">${d.placeOfBirth}</div>
-                                                                            </div>
-                                                                                <div class="col-sm-2">
-                                                                                     <i class="fa fa-trash position-absolute btnDelete text-danger" onClick="deleteKundaliRecord('${d.id}')"></i>
-                                                                            </div>
-
-                                                                          </div>
-                                                                        </div>
-                                                        `;
-                        $('#previousData').append(container);
-
-                        container = "";
-                    });
-                }
-                else {
-                    $('#previousData').html('No sufficient data available!');
-                }
-
-
-            });
-            $('#SearchKundaliRecord').trigger("keyup")
-        })
-    }
-    LoadData();
-
-    async function kundaliMatchingApi(language) {
-        let checkValidation=true
-        $(".requiredInp").each(function(i,d){
-            if (d.value == ""){
-                Swal.fire({
-                    title: "warning",
-                    text:"All Fields Are Required",
-                   icon:"warning"
-                   
-                });
-                checkValidation=false;
-            }
-        })
-        if (checkValidation) {
-        Swal.fire({
-            title: "Processing Your Request",
-            allowOutsideClick: false,
-            didOpen: () => {
-                Swal.showLoading();
-            }
-        });
-        function formatDate(year, month, day) {
-            return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-        }
-        debugger
-        var boyDoB = formatDate($('#year_boy').val(), $('#month_boy').val(), $('#day_boy').val());
-
-        function formatTime(hour, min, sec) {
-            return `${hour.padStart(2, '0')}:${min.padStart(2, '0')}:${sec.padStart(2, '0')}`;
-        }
-
-        var boyToB = formatTime($('#hour_boy').val(), $('#min_boy').val(), $('#sec_boy').val());
-
-
-        var boyName = $('#name_boy').val();
-
-        var boyPlace = $('#place_boy').val();
-
-        await GetGeoLocation(boyPlace, 'boy');
-
-        var blatitude = $('#place_boy').attr('data-blatitude');
-        var blongitude = $('#place_boy').attr('data-blongitude');
-
-        let [year, month, day] = boyDoB.split("-")
-        let [hour, min] = boyToB.split(":")
-
-        var btimezone = await getTimezone(boyPlace);
-        var UserId = localStorage.getItem('userId');
-        var DataContainer = 
-            {
-            "name": boyName,
-            "day":day,
-            "month": month,
-            "year":year,
-            "hour": hour,
-            "min":min,
-            "lat": parseFloat(blatitude),
-            "lon": parseFloat(blongitude),
-            "tzone": parseFloat(btimezone),
-            "place": boyPlace,
-            "language": language
-            }
-        deleteCookie("freeKundali")
-        setCookie("freeKundali", JSON.stringify(DataContainer), 6).then((data)=>{
-            if(data){
-                location.href="/home/freeKundaliReport"
-            }
-        })
-        }
-    }
-    function setCookie(name, value, hours) {
-        const now = new Date();
-        now.setTime(now.getTime() + hours * 60 * 60 * 1000); 
-        const expires = "expires=" + now.toUTCString();
-        document.cookie = name + "=" + encodeURIComponent(value) + ";" + expires + ";path=/";
-        return new Promise((res,rej)=>{
-            res(true)
-        })
-    }
-    function deleteCookie(name) {
-        document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    }
-    async function GetGeoLocation(place, type) {
-
-        const url = `https://nominatim.openstreetmap.org/search?q=${place}&format=json`;
-
-        await fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                if (data != null) {
-                    const latitude = data[0].lat;
-                    const longitude = data[0].lon;
-
-                    if (type == 'boy') {
-                        $('#place_boy').attr('data-blatitude', latitude);
-                        $('#place_boy').attr('data-blongitude', longitude);
-                    }
-                    if (type == 'girl') {
-                        $('#place_girl').attr('data-glatitude', latitude);
-                        $('#place_girl').attr('data-glongitude', longitude);
-                    }
-
-
-                } else {
-                    Swal.fire({
-                        title: 'error',
-                        text: 'Something went wrong',
-                        icon: 'error'
-                    })
-                }
-            })
-            .catch(error => {
-                console.error("Error:", error);
-                Swal.fire({
-                    title: 'error',
-                    text: 'Something went wrong',
-                    icon: 'error'
-                })
-            });
-    }
-
-    async function getTimezone(place) {
-
-
-        let parts = place.split(", ");
-        let country = parts[parts.length - 1];
-
-        var url = BaseUrl + `api/User/GetTimezone?Country=${country}`;
-        var timezone
-
-        await fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                if (data.status == 200) {
-                    timezone = data.data;
-                } else {
-                    Swal.fire({
-                        title: 'error',
-                        text: 'Something went wrong while fetching data',
-                        icon: 'error'
-                    })
-                }
-            })
-            .catch(error => {
-                console.error("Error:", error);
-                Swal.fire({
-                    title: 'error',
-                    text: 'Something went wrong',
-                    icon: 'error'
-                })
-            });
-        return timezone
-    }
-
-
-    $('#matchHoroscope').on('click', function () {
-
-        Swal.fire({
-            title: 'Select Language',
-            html: `
-                    
-                            <label class='d-block text-start' for="languageType">Language:</label>
-                        <select id="languageType" class="form-control">
-                             <option value="en">English</option>
-                <option value="hi">Hindi</option>
-                    </select>
-                `,
-            showCancelButton: true,
-            confirmButtonText: 'Next',
-            cancelButtonText: 'Cancel',
-            preConfirm: () => {
-                const languageType = document.getElementById('languageType').value;
-                if (!languageType) {
-                    Swal.showValidationMessage('Language are required!');
-                    return false;
-                }
-
-                return { languageType };
-            }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                const {languageType } = result.value;
-                kundaliMatchingApi(languageType);
-            }
-        })
-    })
-</script>
-

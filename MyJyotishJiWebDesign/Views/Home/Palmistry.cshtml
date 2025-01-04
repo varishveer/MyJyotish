@@ -7,7 +7,7 @@
     .section-title {
         font-size: 1.75rem;
         color: #f59b4c;
-        text-align: center;
+        text-align: start;
         margin-top: 2rem;
     }
 
@@ -33,6 +33,19 @@
         margin-top: 1.5rem;
     }
 
+    @@media (max-width: 768px) {
+        .servicecard {
+            max-width: 80%;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+        }
+
+        .card-text {
+            font-size: 1rem;
+        }
+    }
     .card-header {
         background-color: #0d6efd;
         color: white;
@@ -41,22 +54,39 @@
     .card-body {
         background-color: #f8f9fa;
     }
+
+    .compatibility-card {
+        border: 2px solid #FFA500 !important;
+    }
+
+    .text-primary {
+        color: #FFA500 !important;
+    }
 </style>
 <div class="container">
     <div class="row">
         <div class="col-sm-12 mt-4">
             <div class="row">
+                <!-- Left Column: Image Section -->
                 <div class="col-sm-4 text-center">
-                    <img src="https://api.myjyotishg.in/Images/Tabs/Palmistry.jpg"
-                         class="card-img-top w-75 h-100 rounded-circle servicecard"
-                         alt="Palmistry" />
+                    <div class="overflow-hidden">
+                        <img src="https://api.myjyotishg.in/Images/Tabs/Palmistry.jpg"
+                             class="img-fluid w-75 rounded-circle shadow-sm  h-75 servicecard"
+                             alt="Palmistry" />
+                    </div>
                 </div>
-                <div class="col-sm-8 d-flex align-items-center">
-                    <p>
-                        Palmistry, also known as Chiromancy, is an ancient practice that involves interpreting the lines, mounts, and shapes on the palms of the hands to gain insight into a person’s personality, characteristics, and future. Palmistry has been practiced for thousands of years across various cultures, including ancient India, China, Egypt, and Greece. Though it is not regarded as a science by the scientific community, palmistry remains a popular method for self-discovery, divination, and personal guidance.
 
-                        At its core, palmistry is based on the belief that the hands are a mirror of the individual. The hands, with their lines, mounts, and finger shapes, are thought to reveal important aspects of one's character and life experiences. Palmists—those who practice palmistry—believe that by reading the hands, one can uncover hidden strengths, weaknesses, desires, and even possible future events.
-                    </p>
+                <!-- Right Column: Text Section -->
+                <div class="col-sm-8 d-flex align-items-center">
+                    <div class="compatibility-card shadow-lg border-0 rounded-3 p-4 w-100">
+                        <h3 class="card-title text-primary mb-3">Understanding Palmistry</h3>
+                        <p class="card-text text-muted">
+                            Palmistry, also known as Chiromancy, is an ancient practice that involves interpreting the lines, mounts, and shapes on the palms of the hands to gain insight into a person’s personality, characteristics, and future. Palmistry has been practiced for thousands of years across various cultures, including ancient India, China, Egypt, and Greece. Though it is not regarded as a science by the scientific community, palmistry remains a popular method for self-discovery, divination, and personal guidance.
+                        </p>
+                        <p class="card-text text-muted">
+                            At its core, palmistry is based on the belief that the hands are a mirror of the individual. The hands, with their lines, mounts, and finger shapes, are thought to reveal important aspects of one's character and life experiences. Palmists—those who practice palmistry—believe that by reading the hands, one can uncover hidden strengths, weaknesses, desires, and even possible future events.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>

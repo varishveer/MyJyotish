@@ -8,7 +8,7 @@
     .section-title {
         font-size: 1.75rem;
         color: #f59b4c;
-        text-align: center;
+        text-align: start;
         margin-top: 2rem;
     }
     .list-group-item {
@@ -38,29 +38,60 @@
     .servicecard{
         max-height:400px;
     }
+
+    .compatibility-card {
+        border: 2px solid #FFA500 !important;
+    }
+
+    .text-primary {
+        color: #FFA500 !important;
+    }
+
+    @@media (max-width: 768px) {
+        .servicecard {
+            max-width: 80%;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+        }
+
+        .card-text {
+            font-size: 1rem;
+        }
+    }
 </style>
 
 <div class="container">
     <div class="row">
         <div class="col-sm-12 col-md-12 mt-4">
             <div class="row">
+                <!-- Left Column: Image Section -->
                 <div class="col-sm-4 col-md-4 text-center">
-                    <img src="https://api.myjyotishg.in/Images/Tabs/tarot.png"
-                         class="card-img-top h-100 w-75 rounded-circle servicecard"
-                         alt="Tarot" />
+                    <div class="overflow-hidden">
+                        <img src="https://api.myjyotishg.in/Images/Tabs/tarot.png"
+                             class="img-fluid w-75 rounded-circle shadow-sm h-75 servicecard"
+                             alt="Tarot" />
+                    </div>
                 </div>
-                <div class="col-sm-8 d-flex align-items-center">
-                    <p>
-                        Tarot is an ancient system of divination and self-reflection that has been used for centuries to gain insight into the past, present, and future. While its origins are somewhat unclear, it is widely believed to have emerged in the 15th century in Europe, initially as a card game. However, over time, Tarot was imbued with mystical and esoteric significance, becoming a popular tool for spiritual guidance and personal introspection.
 
-                        A Tarot deck typically consists of 78 cards, divided into two main sections: the Major Arcana (22 cards) and the Minor Arcana (56 cards). Each card in the deck carries symbolic imagery and meanings that reflect different aspects of life, from personal experiences and emotions to larger spiritual journeys and universal themes.
-                    </p>
+                <!-- Right Column: Text Section -->
+                <div class="col-sm-8 d-flex align-items-center">
+                    <div class="compatibility-card shadow-lg border-0 rounded-3 p-4 w-100">
+                        <h3 class="card-title text-primary mb-3">Understanding Tarot</h3>
+                        <p class="card-text text-muted">
+                            Tarot is an ancient system of divination and self-reflection that has been used for centuries to gain insight into the past, present, and future. While its origins are somewhat unclear, it is widely believed to have emerged in the 15th century in Europe, initially as a card game. However, over time, Tarot was imbued with mystical and esoteric significance, becoming a popular tool for spiritual guidance and personal introspection.
+                        </p>
+                        <p class="card-text text-muted">
+                            A Tarot deck typically consists of 78 cards, divided into two main sections: the Major Arcana (22 cards) and the Minor Arcana (56 cards). Each card in the deck carries symbolic imagery and meanings that reflect different aspects of life, from personal experiences and emotions to larger spiritual journeys and universal themes.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <!-- Major Arcana Section -->
-    <section>
+    <section class="mt-5">
         <h2 class="section-title"><i class="fas fa-crown"></i> Major Arcana</h2>
         <div class="section-content">
             <p>The Major Arcana consists of 22 cards that represent significant life lessons, spiritual journeys, and major events. These cards deal with the core themes of human experience. Here’s a brief overview of the Major Arcana cards:</p>

@@ -214,7 +214,7 @@
 														</div>
 							</a><br>
 										<button class="btn btn-primary callBtn"   onclick="CallBtn(${astrologer.id})"
-	 style="background-color: #4CAF50; border-color: #4CAF50;" data-bs-toggle="modal" data-bs-target="#exampleModal2">
+	 style="background-color: #4CAF50; border-color: #4CAF50;">
 									Start Call ₹${astrologer.callCharges}/min
 							</button>
 						<button class="btn btn-outline-success d-none" id="waitingBtn_${astrologer.id}">Waiting...</button>
@@ -358,8 +358,6 @@
 		});
 	}
 	 function GetUserDataForService(Id) {
-
-
 		$.ajax({
 			url: `${BaseUrl}api/User/GetUserDataForService?Id=${Id}`,
 			method: "GET",
@@ -388,7 +386,27 @@
 
 	function CallBtn(id)
 	{
+		if (localStorage.getItem("userId") == null || localStorage.getItem("Token") == null) {
+			$("#exampleModal").modal("hide")
+			Swal.fire({
+				title: "Authentication Required",
+				text: "Please login for make call with astrologers",
+				icon: "warning",
+				showCancelButton: true,
+				confirmButtonColor: "#3085d6",
+				cancelButtonColor: "#d33",
+				confirmButtonText: "Login"
+			}).then((result) => {
+				if (result.isConfirmed) {
+					location.href = "/home/login"
+				}
+			})
+
+
+		} else {
 		 $('#JyotishId').val(id);
+			$("#exampleModal2").modal("show")
+		}
 	}
 
 	if(localStorage.getItem("callTOKEN")!=null){

@@ -1,50 +1,123 @@
 ﻿
 <style>
-    /* Custom styling for orange theme */
-    .card {
-        cursor: pointer;
-        background-color: #FFA500; /* Orange color */
-        color: white;
+	/* Custom styling for orange theme */
+	.card {
+		cursor: pointer;
+		background-color: #FFA500; /* Orange color */
+		color: white;
+		border: none;
+		transition: all 0.3s ease;
+	}
+
+		.card:hover {
+			background-color: #FF8C00; /* Darker orange on hover */
+			box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);
+		}
+
+	.text-gradient {
+		background: linear-gradient(90deg, #ff6a88, #ffcc70);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+	}
+
+	.zodiac-info {
+		margin-top: 30px;
+		padding: 20px;
+		background-color: #FFF8E1; /* Light orange background */
+		border-radius: 10px;
+		display: none;
+		border: 1px solid #FFA500;
+	}
+
+	.card-title {
+		font-size: 1.25rem;
+		font-weight: bold;
+	}
+
+	.card-body i {
+		color: white;
+	}
+
+	.container {
+		margin-top: 50px;
+	}
+
+	.section-title {
+		text-align: center;
+		font-size: 2.5rem;
+		font-weight: bold;
+		color: #FF6347; /* Tomato red, complementary to orange */
+	}
+
+	.servicecard {
+		max-height: 350px;
+		max-width: 350px;
+	}
+	.compatibility-card {
+        background: linear-gradient(135deg, #f8f9fa, #e3f2fd);
         border: none;
-        transition: all 0.3s ease;
+        border-radius: 20px;
     }
 
-        .card:hover {
-            background-color: #FF8C00; /* Darker orange on hover */
-            box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);
+    /* Button Styling */
+    .btn-primary {
+		background: linear-gradient(90deg, #FFA500, #ffcc70);
+        border: none;
+        color: white;
+        box-shadow: 0 4px 10px rgba(255, 106, 136, 0.3);
+    }
+
+    .btn-primary:hover {
+			background: linear-gradient(90deg, #ff6a88,#FFA500 );
+        box-shadow: 0 6px 15px rgba(255, 106, 136, 0.5);
+    }
+
+    /* Form Select Styling */
+    .form-select {
+        border-radius: 10px;
+        border: 2px solid #e0e0e0;
+        transition: border-color 0.3s ease;
+    }
+
+    .form-select:focus {
+        border-color: #ff6a88;
+        box-shadow: 0 0 5px rgba(255, 106, 136, 0.5);
+    }
+
+    /* Smooth Appear Animation */
+    #compatibility-result {
+        animation: fadeInUp 0.5s ease-out;
+    }
+
+	.compatibility-card{
+		border: 2px solid #FFA500 !important;
+	}
+
+	.text-primary {
+		color: #FFA500 !important;
+	}
+    @@keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+	@@media (max-width: 768px) {
+        .servicecard {
+            max-width: 80%;
         }
 
-    .zodiac-info {
-        margin-top: 30px;
-        padding: 20px;
-        background-color: #FFF8E1; /* Light orange background */
-        border-radius: 10px;
-        display: none;
-        border: 1px solid #FFA500;
-    }
+        .card-title {
+            font-size: 1.5rem;
+        }
 
-    .card-title {
-        font-size: 1.25rem;
-        font-weight: bold;
-    }
-
-    .card-body i {
-        color: white;
-    }
-
-    .container {
-        margin-top: 50px;
-    }
-
-    .section-title {
-        text-align: center;
-        font-size: 2.5rem;
-        font-weight: bold;
-        color: #FF6347; /* Tomato red, complementary to orange */
-    }
-    .servicecard{
-        max-height:350px;
-        max-width:350px;
+        .card-text {
+            font-size: 1rem;
+        }
     }
 </style>
 
@@ -52,176 +125,458 @@
 	<div class="row">
 		<div class="col-sm-12">
 			<div class="row">
-				<div class="col-sm-12 mt-2">
+				<div class="col-sm-12 mt-1">
 					<div class="row">
+						<!-- Left Column: Image Section -->
 						<div class="col-sm-4 text-center">
-							<img src="https://api.myjyotishg.in/Images/Tabs/Horoscope.jpg"
-								 class="card-img-top rounded-circle servicecard"
-								 alt="Horoscope" />
+							<div class=" overflow-hidden">
+								<img src="https://api.myjyotishg.in/Images/Tabs/Horoscope.jpg"
+									 class="img-fluid rounded-circle shadow-sm servicecard"
+									 alt="Horoscope" />
+							</div>
 						</div>
-						<div class="col-sm-8 d-flex align-items-start">
-							<p class="mt-3">
-							Love compatibility is a fascinating concept that explores how two people with different personalities, values, and needs can come together in a harmonious relationship. While many factors influence compatibility, including shared interests, communication styles, and emotional connection, astrology offers a unique perspective on this subject. According to astrology, the positions and interactions of the planets at the time of a person’s birth can provide insights into their personality traits and the dynamics of their relationships.
 
-							In astrology, compatibility between two individuals is often evaluated based on their sun signs. The sun sign is determined by the position of the Sun at the time of one’s birth and represents a person's core personality, ego, and identity. Each of the twelve zodiac signs has distinct qualities that influence how they approach life, love, and relationships. These signs are categorized into four elements—Fire, Earth, Air, and Water—which play a key role in determining compatibility.
-							</p>
+						<!-- Right Column: Text Section -->
+						<div class="col-sm-8 d-flex align-items-start">
+							<div class="compatibility-card shadow-lg border-0 rounded-3 p-4 w-100">
+								<h3 class="card-title text-primary mb-3">Love Compatibility in Astrology</h3>
+								<p class="card-text text-muted">
+									Love compatibility is a fascinating concept that explores how two people with different personalities, values, and needs can come together in a harmonious relationship. While many factors influence compatibility, including shared interests, communication styles, and emotional connection, astrology offers a unique perspective on this subject. According to astrology, the positions and interactions of the planets at the time of a person’s birth can provide insights into their personality traits and the dynamics of their relationships.
+								</p>
+								<p class="card-text text-muted">
+									In astrology, compatibility between two individuals is often evaluated based on their sun signs. The sun sign is determined by the position of the Sun at the time of one’s birth and represents a person's core personality, ego, and identity. Each of the twelve zodiac signs has distinct qualities that influence how they approach life, love, and relationships. These signs are categorized into four elements—Fire, Earth, Air, and Water—which play a key role in determining compatibility.
+								</p>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 
+		<!-- Love Compatibility -->
+		<div class="container py-2">
+			<!-- Header Section -->
+			<div class="text-center mb-5">
+				<h5 class="display-4 fw-bold text-gradient">Astrology Love Compatibility</h5>
+				<p class="lead text-muted">Discover the cosmic connection between you and your partner based on your zodiac signs!</p>
+			</div>
 
-        <!-- Zodiac Sign Info Section (Displays Details) -->
-        <div class="zodiac-info mb-4" id="zodiac-info">
-            <h2 id="zodiac-title"></h2>
-            <p id="zodiac-description"></p>
-        </div>
-		<h1 class="text-center mb-4">Choose Signs</h1>
+			<!-- Zodiac Selection Form -->
+			<div class="row justify-content-center mb-5">
+				<div class="col-md-6 col-lg-6">
+					<div class="compatibility-card shadow-lg border-0 p-4">
+						<div class="card-body">
+							<h3 class="card-title text-center mb-4">Check Your Compatibility</h3>
+							<form id="compatibility-form">
+								<div class="mb-4">
+									<label for="zodiac1" class="form-label fw-bold">Your Zodiac Sign</label>
+									<select class="form-select form-select-lg" id="zodiac1" required>
+										<option value="" selected>Select your sign</option>
+										<option value="aries">Aries</option>
+										<option value="taurus">Taurus</option>
+										<option value="gemini">Gemini</option>
+										<option value="cancer">Cancer</option>
+										<option value="leo">Leo</option>
+										<option value="virgo">Virgo</option>
+										<option value="libra">Libra</option>
+										<option value="scorpio">Scorpio</option>
+										<option value="sagittarius">Sagittarius</option>
+										<option value="capricorn">Capricorn</option>
+										<option value="aquarius">Aquarius</option>
+										<option value="pisces">Pisces</option>
+									</select>
+								</div>
+								<div class="mb-4">
+									<label for="zodiac2" class="form-label fw-bold">Partner's Zodiac Sign</label>
+									<select class="form-select form-select-lg" id="zodiac2" required>
+										<option value="" selected>Select partner's sign</option>
+										<option value="aries">Aries</option>
+										<option value="taurus">Taurus</option>
+										<option value="gemini">Gemini</option>
+										<option value="cancer">Cancer</option>
+										<option value="leo">Leo</option>
+										<option value="virgo">Virgo</option>
+										<option value="libra">Libra</option>
+										<option value="scorpio">Scorpio</option>
+										<option value="sagittarius">Sagittarius</option>
+										<option value="capricorn">Capricorn</option>
+										<option value="aquarius">Aquarius</option>
+										<option value="pisces">Pisces</option>
+									</select>
+								</div>
+								<div class="text-center">
+									<button type="submit" class="btn btn-lg btn-primary px-5 shadow-lg">Check Compatibility</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div id="compatibility-result" class="col-md-6 col-lg-6 d-none">
+						<div class="card compatibility-card shadow-lg border-0 p-4">
+							<div class="card-body">
+								<div class="row">
+									<!-- Left Column: Compatibility Text -->
+									<div class="col-md-12">
+										<h2 class="card-title text-primary mb-3">Compatibility Result</h2>
+										<p id="compatibility-text" class="card-text fs-5 text-muted">Your compatibility result will appear here.</p>
+									</div>
 
-        <div class="row gy-3 mb-4">
-            <!-- Aries Card -->
-            <div class="col-md-3">
-                <div class="card" data-sign="Aries" data-title="Aries" data-description="Aries (March 21 - April 19): Aries is a fire sign ruled by Mars, the planet of energy and action. People born under this sign are passionate, dynamic, and enthusiastic. Aries individuals are natural-born leaders, known for their assertiveness and confidence. They are bold and never afraid to take risks. In relationships, Aries tends to be fiery and direct, seeking partners who can match their energy and adventurous spirit. While they can be impulsive and quick-tempered at times, their enthusiasm and drive make them exciting companions and friends.">
-                    <div class="card-body text-center">
-                        <i class="fas fa-fire fa-3x"></i>
-                        <h5 class="card-title">Aries</h5>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Taurus Card -->
-            <div class="col-md-3">
-                <div class="card" data-sign="Taurus" data-title="Taurus" data-description="Taurus (April 20 - May 20): Taurus is an earth sign ruled by Venus, the planet of love and beauty. Taureans are known for their practicality, reliability, and love for comfort. They are determined and hard-working individuals who take pride in creating stability in their lives. In relationships, they seek security and loyalty, and they enjoy the pleasures of life, including good food and beautiful surroundings. Although Taurus can be stubborn and resistant to change, they are also affectionate and deeply loyal partners.">
-                    <div class="card-body text-center">
-                        <i class="fas fa-cow fa-3x"></i>
-                        <h5 class="card-title">Taurus</h5>
-                    </div>
-                </div>
-            </div>
+								</div>
+							</div>
+						</div>
+				</div>
+			</div>
 
-            <!-- Gemini Card -->
-            <div class="col-md-3">
-                <div class="card" data-sign="Gemini" data-title="Gemini" data-description="Gemini (May 21 - June 20): Gemini is an air sign ruled by Mercury, the planet of communication and intellect. Geminis are curious, adaptable, and sociable individuals. They are known for their quick wit and versatility, and they can easily adjust to changing circumstances. In relationships, Geminis are lively and playful, seeking intellectual stimulation and variety. They may struggle with indecision at times but are always looking for new experiences. Geminis are great conversationalists and thrive on deep, meaningful exchanges.">
-                    <div class="card-body text-center">
-                        <i class="fas fa-comments fa-3x"></i>
-                        <h5 class="card-title">Gemini</h5>
-                    </div>
-                </div>
-            </div>
+			<!-- Compatibility Result -->
+			
+		</div>
 
-            <!-- Cancer Card -->
-            <div class="col-md-3">
-                <div class="card" data-sign="Cancer" data-title="Cancer" data-description="Cancer (June 21 - July 22): Cancer is a water sign ruled by the Moon. Cancers are sensitive, nurturing, and emotionally intuitive individuals. They have a deep connection to their home and family and are known for their protective and caring nature. In relationships, Cancers are loyal and loving, always seeking emotional security and deep emotional bonds with their partners. Although they can be moody and introverted at times, their empathy and strong intuition make them excellent listeners and companions.">
-                    <div class="card-body text-center">
-                        <i class="fas fa-moon fa-3x"></i>
-                        <h5 class="card-title">Cancer</h5>
-                    </div>
-                </div>
-            </div>
+					<!-- Zodiac Sign Info Section (Displays Details) -->
+					<div class="zodiac-info mb-4" id="zodiac-info">
+						<h2 id="zodiac-title"></h2>
+						<p id="zodiac-description"></p>
+					</div>
+					<h1 class="text-center mb-4">Choose Signs</h1>
 
-            <!-- Leo Card -->
-            <div class="col-md-3">
-                <div class="card" data-sign="Leo" data-title="Leo" data-description="Leo (July 23 - August 22): Leo is a fire sign ruled by the Sun, representing self-expression, creativity, and vitality. Leos are known for their confidence, leadership qualities, and warm-hearted nature. They love being the center of attention and enjoy having their talents recognized. In relationships, Leos are generous, loyal, and affectionate, seeking partners who admire their strength and creativity. Leos tend to be bold, adventurous, and sometimes dramatic, but their genuine warmth and generosity make them beloved companions.">
-                    <div class="card-body text-center">
-                        <i class="fas fa-sun fa-3x"></i>
-                        <h5 class="card-title">Leo</h5>
-                    </div>
-                </div>
-            </div>
+					<div class="row gy-3 mb-4">
+						<!-- Aries Card -->
+						<div class="col-md-3">
+							<div class="card" data-sign="Aries" data-title="Aries" data-description="Aries (March 21 - April 19): Aries is a fire sign ruled by Mars, the planet of energy and action. People born under this sign are passionate, dynamic, and enthusiastic. Aries individuals are natural-born leaders, known for their assertiveness and confidence. They are bold and never afraid to take risks. In relationships, Aries tends to be fiery and direct, seeking partners who can match their energy and adventurous spirit. While they can be impulsive and quick-tempered at times, their enthusiasm and drive make them exciting companions and friends.">
+								<div class="card-body text-center">
+									<i class="fas fa-fire fa-3x"></i>
+									<h5 class="card-title">Aries</h5>
+								</div>
+							</div>
+						</div>
 
-            <!-- Virgo Card -->
-            <div class="col-md-3">
-                <div class="card" data-sign="Virgo" data-title="Virgo" data-description="Virgo (August 23 - September 22): Virgo is an earth sign ruled by Mercury, the planet of communication. Virgos are practical, analytical, and detail-oriented individuals. They have a natural ability to organize and improve systems and are known for their methodical approach to life. In relationships, Virgos are dedicated and dependable, seeking partners who appreciate their thoughtful nature. While they can be perfectionists at times, Virgos' practicality and focus on self-improvement make them excellent partners and caregivers.">
-                    <div class="card-body text-center">
-                        <i class="fas fa-cogs fa-3x"></i>
-                        <h5 class="card-title">Virgo</h5>
-                    </div>
-                </div>
-            </div>
+						<!-- Taurus Card -->
+						<div class="col-md-3">
+							<div class="card" data-sign="Taurus" data-title="Taurus" data-description="Taurus (April 20 - May 20): Taurus is an earth sign ruled by Venus, the planet of love and beauty. Taureans are known for their practicality, reliability, and love for comfort. They are determined and hard-working individuals who take pride in creating stability in their lives. In relationships, they seek security and loyalty, and they enjoy the pleasures of life, including good food and beautiful surroundings. Although Taurus can be stubborn and resistant to change, they are also affectionate and deeply loyal partners.">
+								<div class="card-body text-center">
+									<i class="fas fa-cow fa-3x"></i>
+									<h5 class="card-title">Taurus</h5>
+								</div>
+							</div>
+						</div>
 
-            <!-- Libra Card -->
-            <div class="col-md-3">
-                <div class="card" data-sign="Libra" data-title="Libra" data-description="Libra (September 23 - October 22): Libra is an air sign ruled by Venus, the planet of beauty and harmony. Libras are known for their diplomatic nature, sense of fairness, and love for aesthetics. They have a keen sense of justice and are highly attuned to the needs of others. Libras thrive in environments where they can collaborate and create harmony. In relationships, they seek balance and emotional connection, always striving for mutual understanding and shared experiences. Libras can be indecisive but are known for their charm and social grace.">
-                    <div class="card-body text-center">
-                        <i class="fas fa-balance-scale fa-3x"></i>
-                        <h5 class="card-title">Libra</h5>
-                    </div>
-                </div>
-            </div>
+						<!-- Gemini Card -->
+						<div class="col-md-3">
+							<div class="card" data-sign="Gemini" data-title="Gemini" data-description="Gemini (May 21 - June 20): Gemini is an air sign ruled by Mercury, the planet of communication and intellect. Geminis are curious, adaptable, and sociable individuals. They are known for their quick wit and versatility, and they can easily adjust to changing circumstances. In relationships, Geminis are lively and playful, seeking intellectual stimulation and variety. They may struggle with indecision at times but are always looking for new experiences. Geminis are great conversationalists and thrive on deep, meaningful exchanges.">
+								<div class="card-body text-center">
+									<i class="fas fa-comments fa-3x"></i>
+									<h5 class="card-title">Gemini</h5>
+								</div>
+							</div>
+						</div>
 
-            <!-- Scorpio Card -->
-            <div class="col-md-3">
-                <div class="card" data-sign="Scorpio" data-title="Scorpio" data-description="Scorpio (October 23 - November 21): Scorpio is a water sign ruled by Pluto and Mars. Known for their intensity and passion, Scorpios are deeply emotional and perceptive individuals. They are fiercely loyal, but they also value their privacy and can be very guarded about their feelings. Scorpios are natural investigators and often have a magnetic presence. In relationships, Scorpios are intense and committed, looking for deep, transformative connections. Though they can be secretive and possessive, their loyalty and drive make them incredibly passionate partners.">
-                    <div class="card-body text-center">
-                        <i class="fas fa-skull fa-3x"></i>
-                        <h5 class="card-title">Scorpio</h5>
-                    </div>
-                </div>
-            </div>
+						<!-- Cancer Card -->
+						<div class="col-md-3">
+							<div class="card" data-sign="Cancer" data-title="Cancer" data-description="Cancer (June 21 - July 22): Cancer is a water sign ruled by the Moon. Cancers are sensitive, nurturing, and emotionally intuitive individuals. They have a deep connection to their home and family and are known for their protective and caring nature. In relationships, Cancers are loyal and loving, always seeking emotional security and deep emotional bonds with their partners. Although they can be moody and introverted at times, their empathy and strong intuition make them excellent listeners and companions.">
+								<div class="card-body text-center">
+									<i class="fas fa-moon fa-3x"></i>
+									<h5 class="card-title">Cancer</h5>
+								</div>
+							</div>
+						</div>
 
-            <!-- Sagittarius Card -->
-            <div class="col-md-3">
-                <div class="card" data-sign="Sagittarius" data-title="Sagittarius" data-description="Sagittarius (November 22 - December 21): Sagittarius is a fire sign ruled by Jupiter. Sagittarians are adventurous, optimistic, and enthusiastic individuals who love exploring new ideas and places. They have a love for freedom and can sometimes be unpredictable. Known for their honesty and blunt nature, Sagittarians can sometimes come off as tactless. In relationships, they seek independence and freedom but are also loyal and honest. Sagittarius is a sign of exploration, and their zest for life makes them exciting and fun companions.">
-                    <div class="card-body text-center">
-                        <i class="fas fa-arrow-right fa-3x"></i>
-                        <h5 class="card-title">Sagittarius</h5>
-                    </div>
-                </div>
-            </div>
+						<!-- Leo Card -->
+						<div class="col-md-3">
+							<div class="card" data-sign="Leo" data-title="Leo" data-description="Leo (July 23 - August 22): Leo is a fire sign ruled by the Sun, representing self-expression, creativity, and vitality. Leos are known for their confidence, leadership qualities, and warm-hearted nature. They love being the center of attention and enjoy having their talents recognized. In relationships, Leos are generous, loyal, and affectionate, seeking partners who admire their strength and creativity. Leos tend to be bold, adventurous, and sometimes dramatic, but their genuine warmth and generosity make them beloved companions.">
+								<div class="card-body text-center">
+									<i class="fas fa-sun fa-3x"></i>
+									<h5 class="card-title">Leo</h5>
+								</div>
+							</div>
+						</div>
 
-            <!-- Capricorn Card -->
-            <div class="col-md-3">
-                <div class="card" data-sign="Capricorn" data-title="Capricorn" data-description="Capricorn (December 22 - January 19): Capricorn is an earth sign ruled by Saturn. Capricorns are ambitious, disciplined, and hardworking individuals. They are highly focused on their goals and take a practical approach to life. Capricorns value tradition and stability, and they often work tirelessly to achieve success in both their personal and professional lives. In relationships, Capricorns are loyal and responsible, seeking long-term commitment. While they can sometimes be reserved or serious, their dedication and reliability make them dependable partners.">
-                    <div class="card-body text-center">
-                        <i class="fas fa-mountain fa-3x"></i>
-                        <h5 class="card-title">Capricorn</h5>
-                    </div>
-                </div>
-            </div>
+						<!-- Virgo Card -->
+						<div class="col-md-3">
+							<div class="card" data-sign="Virgo" data-title="Virgo" data-description="Virgo (August 23 - September 22): Virgo is an earth sign ruled by Mercury, the planet of communication. Virgos are practical, analytical, and detail-oriented individuals. They have a natural ability to organize and improve systems and are known for their methodical approach to life. In relationships, Virgos are dedicated and dependable, seeking partners who appreciate their thoughtful nature. While they can be perfectionists at times, Virgos' practicality and focus on self-improvement make them excellent partners and caregivers.">
+								<div class="card-body text-center">
+									<i class="fas fa-cogs fa-3x"></i>
+									<h5 class="card-title">Virgo</h5>
+								</div>
+							</div>
+						</div>
 
-            <!-- Aquarius Card -->
-            <div class="col-md-3">
-                <div class="card" data-sign="Aquarius" data-title="Aquarius" data-description="Aquarius (January 20 - February 18): Aquarius is an air sign ruled by Uranus and Saturn. Aquarians are independent, innovative, and forward-thinking individuals. They value intellectual stimulation and have a strong desire to make the world a better place. Aquarians are often eccentric, with unique ideas and views that can set them apart from others. In relationships, they seek individuality and freedom but are also compassionate and caring. Aquarians are attracted to people who challenge their ideas and share their vision for the future.">
-                    <div class="card-body text-center">
-                        <i class="fas fa-rocket fa-3x"></i>
-                        <h5 class="card-title">Aquarius</h5>
-                    </div>
-                </div>
-            </div>
+						<!-- Libra Card -->
+						<div class="col-md-3">
+							<div class="card" data-sign="Libra" data-title="Libra" data-description="Libra (September 23 - October 22): Libra is an air sign ruled by Venus, the planet of beauty and harmony. Libras are known for their diplomatic nature, sense of fairness, and love for aesthetics. They have a keen sense of justice and are highly attuned to the needs of others. Libras thrive in environments where they can collaborate and create harmony. In relationships, they seek balance and emotional connection, always striving for mutual understanding and shared experiences. Libras can be indecisive but are known for their charm and social grace.">
+								<div class="card-body text-center">
+									<i class="fas fa-balance-scale fa-3x"></i>
+									<h5 class="card-title">Libra</h5>
+								</div>
+							</div>
+						</div>
 
-            <!-- Pisces Card -->
-            <div class="col-md-3">
-                <div class="card" data-sign="Pisces" data-title="Pisces" data-description="Pisces (February 19 - March 20): Pisces is a water sign ruled by Neptune. Pisces individuals are imaginative, compassionate, and intuitive. They have a deep connection to their emotions and often have an artistic or spiritual nature. Pisces are highly empathetic and can easily absorb the feelings of those around them. In relationships, they are romantic and caring, often putting their partner’s needs before their own. While they can be overly idealistic or escapist at times, their kindness and sensitivity make them loving and nurturing companions.">
-                    <div class="card-body text-center">
-                        <i class="fas fa-fish fa-3x"></i>
-                        <h5 class="card-title">Pisces</h5>
-                    </div>
-                </div>
-            </div>
+						<!-- Scorpio Card -->
+						<div class="col-md-3">
+							<div class="card" data-sign="Scorpio" data-title="Scorpio" data-description="Scorpio (October 23 - November 21): Scorpio is a water sign ruled by Pluto and Mars. Known for their intensity and passion, Scorpios are deeply emotional and perceptive individuals. They are fiercely loyal, but they also value their privacy and can be very guarded about their feelings. Scorpios are natural investigators and often have a magnetic presence. In relationships, Scorpios are intense and committed, looking for deep, transformative connections. Though they can be secretive and possessive, their loyalty and drive make them incredibly passionate partners.">
+								<div class="card-body text-center">
+									<i class="fas fa-skull fa-3x"></i>
+									<h5 class="card-title">Scorpio</h5>
+								</div>
+							</div>
+						</div>
 
-        </div>
-	</div>
-</div>
+						<!-- Sagittarius Card -->
+						<div class="col-md-3">
+							<div class="card" data-sign="Sagittarius" data-title="Sagittarius" data-description="Sagittarius (November 22 - December 21): Sagittarius is a fire sign ruled by Jupiter. Sagittarians are adventurous, optimistic, and enthusiastic individuals who love exploring new ideas and places. They have a love for freedom and can sometimes be unpredictable. Known for their honesty and blunt nature, Sagittarians can sometimes come off as tactless. In relationships, they seek independence and freedom but are also loyal and honest. Sagittarius is a sign of exploration, and their zest for life makes them exciting and fun companions.">
+								<div class="card-body text-center">
+									<i class="fas fa-arrow-right fa-3x"></i>
+									<h5 class="card-title">Sagittarius</h5>
+								</div>
+							</div>
+						</div>
 
-<script>
-    // On card click, show the zodiac information
-    $(document).ready(function () {
-        $(".card").click(function () {
-            // Get the title and description from the data attributes
-            var title = $(this).data("title");
-            var description = $(this).data("description");
+						<!-- Capricorn Card -->
+						<div class="col-md-3">
+							<div class="card" data-sign="Capricorn" data-title="Capricorn" data-description="Capricorn (December 22 - January 19): Capricorn is an earth sign ruled by Saturn. Capricorns are ambitious, disciplined, and hardworking individuals. They are highly focused on their goals and take a practical approach to life. Capricorns value tradition and stability, and they often work tirelessly to achieve success in both their personal and professional lives. In relationships, Capricorns are loyal and responsible, seeking long-term commitment. While they can sometimes be reserved or serious, their dedication and reliability make them dependable partners.">
+								<div class="card-body text-center">
+									<i class="fas fa-mountain fa-3x"></i>
+									<h5 class="card-title">Capricorn</h5>
+								</div>
+							</div>
+						</div>
 
-            // Display the zodiac information at the top
-            $("#zodiac-title").text(title);
-            $("#zodiac-description").text(description);
+						<!-- Aquarius Card -->
+						<div class="col-md-3">
+							<div class="card" data-sign="Aquarius" data-title="Aquarius" data-description="Aquarius (January 20 - February 18): Aquarius is an air sign ruled by Uranus and Saturn. Aquarians are independent, innovative, and forward-thinking individuals. They value intellectual stimulation and have a strong desire to make the world a better place. Aquarians are often eccentric, with unique ideas and views that can set them apart from others. In relationships, they seek individuality and freedom but are also compassionate and caring. Aquarians are attracted to people who challenge their ideas and share their vision for the future.">
+								<div class="card-body text-center">
+									<i class="fas fa-rocket fa-3x"></i>
+									<h5 class="card-title">Aquarius</h5>
+								</div>
+							</div>
+						</div>
 
-            // Show the info section
-            $("#zodiac-info").show();
-        });
-    });
-</script>
-  
+						<!-- Pisces Card -->
+						<div class="col-md-3">
+							<div class="card" data-sign="Pisces" data-title="Pisces" data-description="Pisces (February 19 - March 20): Pisces is a water sign ruled by Neptune. Pisces individuals are imaginative, compassionate, and intuitive. They have a deep connection to their emotions and often have an artistic or spiritual nature. Pisces are highly empathetic and can easily absorb the feelings of those around them. In relationships, they are romantic and caring, often putting their partner’s needs before their own. While they can be overly idealistic or escapist at times, their kindness and sensitivity make them loving and nurturing companions.">
+								<div class="card-body text-center">
+									<i class="fas fa-fish fa-3x"></i>
+									<h5 class="card-title">Pisces</h5>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+
+
+
+
+			<script>
+				// On card click, show the zodiac information
+				$(document).ready(function () {
+					$(".card").click(function () {
+						// Get the title and description from the data attributes
+						var title = $(this).data("title");
+						var description = $(this).data("description");
+
+						// Display the zodiac information at the top
+						$("#zodiac-title").text(title);
+						$("#zodiac-description").text(description);
+
+						// Show the info section
+						$("#zodiac-info").show();
+					});
+
+
+					const compatibilityData = {
+						aries: {
+							taurus: "Aries and Taurus can find balance, with Aries bringing energy and Taurus offering stability.",
+							gemini: "Aries and Gemini share an adventurous and playful connection.",
+							cancer: "Aries and Cancer may struggle with differing emotional needs, but mutual respect can help.",
+							leo: "Aries and Leo are a fiery match, full of passion and excitement.",
+							virgo: "Aries and Virgo may clash due to their different approaches, but they can complement each other.",
+							libra: "Aries and Libra have strong chemistry and balance each other well.",
+							scorpio: "Aries and Scorpio share intense passion, but power struggles may arise.",
+							sagittarius: "Aries and Sagittarius are a dynamic duo, sharing adventure and optimism.",
+							capricorn: "Aries and Capricorn may face challenges due to differing priorities, but mutual goals can unite them.",
+							aquarius: "Aries and Aquarius are innovative and adventurous together, making a great team.",
+							pisces: "Aries and Pisces can learn from each other, blending Aries' energy with Pisces' sensitivity.",
+							default: "Aries pairs best with Leo, Sagittarius, and Gemini for fiery and dynamic relationships."
+						},
+						taurus: {
+							aries: "Taurus and Aries balance each other, with Taurus offering stability and Aries bringing energy.",
+							gemini: "Taurus and Gemini may struggle with differing priorities, but communication can bridge the gap.",
+							cancer: "Taurus and Cancer share a nurturing and harmonious bond.",
+							leo: "Taurus and Leo may face challenges due to their stubbornness, but mutual respect can help.",
+							virgo: "Taurus and Virgo form a stable and supportive partnership.",
+							libra: "Taurus and Libra share a love for beauty and harmony, creating a balanced relationship.",
+							scorpio: "Taurus and Scorpio share deep intensity, though they may need to navigate power struggles.",
+							sagittarius: "Taurus and Sagittarius may have different life approaches, but they can learn from each other.",
+							capricorn: "Taurus and Capricorn share practical goals and a strong foundation.",
+							aquarius: "Taurus and Aquarius may find challenges in aligning their values, but creativity can unite them.",
+							pisces: "Taurus and Pisces share a gentle and compassionate connection.",
+							default: "Taurus pairs best with Cancer, Virgo, and Capricorn for stable and nurturing relationships."
+						},
+						gemini: {
+							aries: "Gemini and Aries share an adventurous and playful connection.",
+							taurus: "Gemini and Taurus may have different paces, but compromise can strengthen their bond.",
+							cancer: "Gemini and Cancer may struggle with emotional differences, but communication can help.",
+							leo: "Gemini and Leo enjoy lively conversations and share a vibrant energy.",
+							virgo: "Gemini and Virgo can connect intellectually, though they may need to balance their differences.",
+							libra: "Gemini and Libra are a natural match, sharing curiosity and love for socializing.",
+							scorpio: "Gemini and Scorpio may face challenges in understanding each other’s depths, but trust can help.",
+							sagittarius: "Gemini and Sagittarius are a perfect match for adventure and intellectual exploration.",
+							capricorn: "Gemini and Capricorn may have different priorities, but mutual respect can unite them.",
+							aquarius: "Gemini and Aquarius share a love for innovation and exciting ideas.",
+							pisces: "Gemini and Pisces may struggle with differing emotional styles, but creativity can bridge the gap.",
+							default: "Gemini pairs best with Libra, Aquarius, and Sagittarius for dynamic and stimulating relationships."
+						},
+						cancer: {
+							aries: "Cancer and Aries may need to work on balancing emotional and energetic needs.",
+							taurus: "Cancer and Taurus share a nurturing and harmonious connection.",
+							gemini: "Cancer and Gemini may struggle with emotional differences, but communication can help.",
+							leo: "Cancer and Leo share loyalty and emotional depth.",
+							virgo: "Cancer and Virgo create a stable and supportive partnership.",
+							libra: "Cancer and Libra may need to work on aligning emotional and social needs.",
+							scorpio: "Cancer and Scorpio share deep emotional intensity and understanding.",
+							sagittarius: "Cancer and Sagittarius may have different priorities, but mutual respect can unite them.",
+							capricorn: "Cancer and Capricorn balance each other with emotional depth and practicality.",
+							aquarius: "Cancer and Aquarius may face challenges in connecting emotionally, but creativity can help.",
+							pisces: "Cancer and Pisces are a gentle and compassionate match, sharing emotional depth.",
+							default: "Cancer pairs best with Taurus, Scorpio, and Pisces for nurturing and deep connections."
+						},
+						leo: {
+							aries: "Leo and Aries are a fiery and passionate match.",
+							taurus: "Leo and Taurus may face challenges, but mutual respect can create harmony.",
+							gemini: "Leo and Gemini share a lively and vibrant connection.",
+							cancer: "Leo and Cancer share loyalty and emotional depth.",
+							virgo: "Leo and Virgo may have differing priorities, but they can complement each other.",
+							libra: "Leo and Libra share a love for beauty and socializing.",
+							scorpio: "Leo and Scorpio share intense passion, though they may need to navigate power dynamics.",
+							sagittarius: "Leo and Sagittarius are a dynamic duo, sharing adventure and enthusiasm.",
+							capricorn: "Leo and Capricorn may have differing priorities, but mutual goals can unite them.",
+							aquarius: "Leo and Aquarius share creativity and innovation, though they may need to align their values.",
+							pisces: "Leo and Pisces can learn from each other, blending Leo’s energy with Pisces’ sensitivity.",
+							default: "Leo pairs best with Aries, Sagittarius, and Libra for fiery and exciting relationships."
+						},
+						virgo: {
+							aries: "Virgo and Aries may clash due to differing approaches, but they can complement each other.",
+							taurus: "Virgo and Taurus form a stable and supportive partnership.",
+							gemini: "Virgo and Gemini can connect intellectually, though they may need to balance their differences.",
+							cancer: "Virgo and Cancer create a nurturing and harmonious connection.",
+							leo: "Virgo and Leo may have differing priorities, but mutual understanding can help.",
+							libra: "Virgo and Libra share intellectual curiosity, though emotional alignment may take effort.",
+							scorpio: "Virgo and Scorpio form a deep and loyal connection, grounded in trust.",
+							sagittarius: "Virgo and Sagittarius may have different life goals, but mutual respect can bridge the gap.",
+							capricorn: "Virgo and Capricorn share practical goals and a strong foundation.",
+							aquarius: "Virgo and Aquarius may have differing values, but creativity can unite them.",
+							pisces: "Virgo and Pisces balance each other, blending practicality with emotional depth.",
+							default: "Virgo pairs best with Taurus, Capricorn, and Cancer for supportive and stable relationships."
+						},
+						libra: {
+							aries: "Libra and Aries have strong chemistry and balance each other well.",
+							taurus: "Libra and Taurus share a love for beauty and harmony.",
+							gemini: "Libra and Gemini are a natural match, sharing curiosity and love for socializing.",
+							cancer: "Libra and Cancer may need to work on aligning emotional and social needs.",
+							leo: "Libra and Leo share a vibrant and creative energy.",
+							virgo: "Libra and Virgo share intellectual curiosity, though emotional alignment may take effort.",
+							scorpio: "Libra and Scorpio may face challenges due to differing depths, but passion can unite them.",
+							sagittarius: "Libra and Sagittarius share a love for adventure and new experiences.",
+							capricorn: "Libra and Capricorn may have differing priorities, but mutual goals can unite them.",
+							aquarius: "Libra and Aquarius share a love for creativity and intellectual connection.",
+							pisces: "Libra and Pisces share a gentle and romantic connection, though practicality may need work.",
+							default: "Libra pairs best with Gemini, Aquarius, and Leo for balanced and exciting relationships."
+						},
+						scorpio: {
+							aries: "Scorpio and Aries share intense passion, though power struggles may arise.",
+							taurus: "Scorpio and Taurus share deep intensity, though they may need to navigate power struggles.",
+							gemini: "Scorpio and Gemini may face challenges in understanding each other’s depths, but trust can help.",
+							cancer: "Scorpio and Cancer share deep emotional intensity and understanding.",
+							leo: "Scorpio and Leo share intense passion, though they may need to navigate power dynamics.",
+							virgo: "Scorpio and Virgo form a deep and loyal connection, grounded in trust.",
+							libra: "Scorpio and Libra may face challenges due to differing depths, but passion can unite them.",
+							sagittarius: "Scorpio and Sagittarius may have different approaches to life, but mutual respect can bridge the gap.",
+							capricorn: "Scorpio and Capricorn share a strong foundation and practical goals.",
+							aquarius: "Scorpio and Aquarius may have differing values, but mutual goals can unite them.",
+							pisces: "Scorpio and Pisces share emotional depth and a spiritual connection.",
+							default: "Scorpio pairs best with Cancer, Pisces, and Virgo for intense and meaningful relationships."
+						},
+						sagittarius: {
+							aries: "Sagittarius and Aries are a dynamic duo, sharing adventure and optimism.",
+							taurus: "Sagittarius and Taurus may have different life approaches, but they can learn from each other.",
+							gemini: "Sagittarius and Gemini are a perfect match for adventure and intellectual exploration.",
+							cancer: "Sagittarius and Cancer may have different priorities, but mutual respect can unite them.",
+							leo: "Sagittarius and Leo are a vibrant and adventurous pair.",
+							virgo: "Sagittarius and Virgo may have different life goals, but mutual respect can bridge the gap.",
+							libra: "Sagittarius and Libra share a love for adventure and new experiences.",
+							scorpio: "Sagittarius and Scorpio may have different approaches to life, but mutual respect can help.",
+							capricorn: "Sagittarius and Capricorn may need to work on aligning their values, but shared goals can help.",
+							aquarius: "Sagittarius and Aquarius share a love for freedom and intellectual exploration.",
+							pisces: "Sagittarius and Pisces may have different emotional needs, but creativity can unite them.",
+							default: "Sagittarius pairs best with Aries, Leo, and Aquarius for adventurous and exciting relationships."
+						},
+						capricorn: {
+							aries: "Capricorn and Aries may face challenges due to differing priorities, but mutual goals can unite them.",
+							taurus: "Capricorn and Taurus share practical goals and a strong foundation.",
+							gemini: "Capricorn and Gemini may have different priorities, but mutual respect can unite them.",
+							cancer: "Capricorn and Cancer balance each other with emotional depth and practicality.",
+							leo: "Capricorn and Leo may have differing priorities, but mutual goals can unite them.",
+							virgo: "Capricorn and Virgo share practical goals and a strong foundation.",
+							libra: "Capricorn and Libra may have differing priorities, but mutual goals can unite them.",
+							scorpio: "Capricorn and Scorpio share a strong foundation and practical goals.",
+							sagittarius: "Capricorn and Sagittarius may need to work on aligning their values, but shared goals can help.",
+							aquarius: "Capricorn and Aquarius may have differing values, but mutual goals can unite them.",
+							pisces: "Capricorn and Pisces balance each other with practicality and emotional depth.",
+							default: "Capricorn pairs best with Taurus, Virgo, and Cancer for stable and supportive relationships."
+						},
+						aquarius: {
+							aries: "Aquarius and Aries are innovative and adventurous together, making a great team.",
+							taurus: "Aquarius and Taurus may find challenges in aligning their values, but creativity can unite them.",
+							gemini: "Aquarius and Gemini share a love for innovation and exciting ideas.",
+							cancer: "Aquarius and Cancer may face challenges in connecting emotionally, but creativity can help.",
+							leo: "Aquarius and Leo share creativity and innovation, though they may need to align their values.",
+							virgo: "Aquarius and Virgo may have differing values, but creativity can unite them.",
+							libra: "Aquarius and Libra share a love for creativity and intellectual connection.",
+							scorpio: "Aquarius and Scorpio may have differing values, but mutual goals can unite them.",
+							sagittarius: "Aquarius and Sagittarius share a love for freedom and intellectual exploration.",
+							capricorn: "Aquarius and Capricorn may have differing values, but mutual goals can unite them.",
+							pisces: "Aquarius and Pisces may struggle with emotional alignment, but shared creativity can help.",
+							default: "Aquarius pairs best with Gemini, Libra, and Sagittarius for innovative and exciting relationships."
+						},
+						pisces: {
+							aries: "Pisces and Aries can learn from each other, blending Aries' energy with Pisces' sensitivity.",
+							taurus: "Pisces and Taurus share a gentle and compassionate connection.",
+							gemini: "Pisces and Gemini may struggle with differing emotional styles, but creativity can bridge the gap.",
+							cancer: "Pisces and Cancer are a gentle and compassionate match, sharing emotional depth.",
+							leo: "Pisces and Leo can learn from each other, blending Leo’s energy with Pisces’ sensitivity.",
+							virgo: "Pisces and Virgo balance each other, blending practicality with emotional depth.",
+							libra: "Pisces and Libra share a gentle and romantic connection, though practicality may need work.",
+							scorpio: "Pisces and Scorpio share emotional depth and a spiritual connection.",
+							sagittarius: "Pisces and Sagittarius may have different emotional needs, but creativity can unite them.",
+							capricorn: "Pisces and Capricorn balance each other with practicality and emotional depth.",
+							aquarius: "Pisces and Aquarius may struggle with emotional alignment, but shared creativity can help.",
+							default: "Pisces pairs best with Cancer, Scorpio, and Taurus for compassionate and harmonious relationships."
+						}
+					};
+
+
+					document.getElementById('compatibility-form').addEventListener('submit', function (e) {
+						e.preventDefault();
+						const zodiac1 = document.getElementById('zodiac1').value;
+						const zodiac2 = document.getElementById('zodiac2').value;
+
+						const resultDiv = document.getElementById('compatibility-result');
+						const resultText = document.getElementById('compatibility-text');
+
+						if (zodiac1 && zodiac2) {
+							const compatibility = compatibilityData[zodiac1]?.[zodiac2] || compatibilityData[zodiac1]?.default || "Compatibility data not available.";
+							resultText.textContent = compatibility;
+							resultDiv.classList.remove('d-none');
+						} else {
+							resultText.textContent = "Please select both zodiac signs.";
+							resultDiv.classList.remove('d-none');
+						}
+					});
+				});
+			</script>
+
 
 
 

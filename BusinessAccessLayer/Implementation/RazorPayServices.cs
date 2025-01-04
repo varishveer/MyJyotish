@@ -64,47 +64,7 @@ namespace BusinessAccessLayer.Implementation
            
         }
 
-        /*public bool CapturePayment(PaymentCreateOrderViewModel model)
-        {
-            var jyotish = _context.JyotishPaymentRecord.Where(x => x.OrderId == model.OrderId).FirstOrDefault();
-            var user = _context.UserPaymentRecord.Where(x => x.OrderId == model.OrderId).FirstOrDefault();
-            if (jyotish != null)
-            {
-
-                jyotish.Status = "Pending";
-                jyotish.OrderId = model.OrderId;
-                jyotish.PaymentId = model.PaymentId;
-                if (model.Signature != null) {
-                    jyotish.Signature = model.Signature;
-                }
-
-                _context.JyotishPaymentRecord.Update(jyotish);
-                if (_context.SaveChanges() > 0) { return true; }
-                else { return false; }
-
-            }
-            else if (user != null)
-            {
-
-                user.Status = "Pending";
-                user.OrderId = model.OrderId;
-                user.PaymentId = model.PaymentId;
-                if (model.Signature != null)
-                {
-                    user.Signature = model.Signature;
-                }
-
-                _context.UserPaymentRecord.Update(user);
-                if (_context.SaveChanges() > 0) { return true; }
-                else { return false; }
-            }
-            else
-            {
-                return false;
-            }
-
-        }*/
-
+        
         public bool LogPayment(PaymentCaptureModel model, string status)
         {
             // Find the payment record in Jyotish or User payment records

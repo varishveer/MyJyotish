@@ -227,6 +227,13 @@
                 .datepicker td.day.disabled {
                     color: #ced4da; /* Disabled dates color */
                 }
+                #searchInput{
+            background: #fad550 !important;
+            border: none !important;
+            font-weight: 600 !important;
+            outline: none !important;
+            box-shadow: none !important;
+                }
     </style>
 </head>
 <body>
@@ -307,13 +314,13 @@
             </div>
             <!-- Search Bar -->
 
-            <div id="searchForm" class="justify-content-center position-absolute align-items-center">
+            <div id="searchForm" class="justify-content-center shadow-lg position-absolute align-items-center">
                 <form id="userInputform" action="/Home/Search" method="post" class="w-100">
                     <input type="hidden" name="filterValue" id="filtervalue" />
                     <label for="searchInput" class="visually-hidden">Search</label>
                 <input id="searchInput" autocomplete="off" name="searchInput" class="form-control me-2 py-3" type="search" placeholder="Search" aria-label="Search" style="height:30px">
                 </form>
-                <button class='btn text-dark' id="SearchBoxIcon"><i class="far fa-times-circle"></i></button>
+                <button class='btn fw-bolder text-dark' id="SearchBoxIcon"><i class="far  fa-times-circle"></i></button>
 
                 <div class="position-absolute bottom-0 rounded-bottom d-none bg-light py-4 px-2" id="search-Detail">
                     <div class="card border-0" aria-hidden="true">
@@ -524,7 +531,7 @@
                                     if (!checkDuplicate.includes(d.expertise)) {
                                         checkDuplicate.push(d.expertise)
                                         const newElement = $(`
-                <p class='search-url'>Find a <a data-filtervalue='${d.expertise}' onclick='filterData(this)' class="fw-bold text-primary cursor-pointer">${d.expertise}</a> <small> Astrologers</small>
+                <p class='search-url'>Find a <a role="button" data-filtervalue='${d.expertise}' onclick='filterData(this)' class="fw-bold text-primary cursor-pointer">${d.expertise}</a> <small> Astrologers</small>
                               </p>
                                `)
                                         $("#search-Detail").prepend(newElement)
@@ -535,7 +542,7 @@
                                     if (!checkDuplicate.includes(d.specialization.toLowerCase())) {
                                         checkDuplicate.push(d.specialization.toLowerCase())
                                         const newElement = $(`
-                                <p class='search-url'>Find a <a data-filtervalue='${d.specialization}' onclick='filterData(this)' class="fw-bold text-primary cursor-pointer">${d.specialization}</a> <small> Astrologers</small>
+                                                <p class='search-url'>Find a <a role="button" data-filtervalue='${d.specialization}' onclick='filterData(this)' class="fw-bold text-primary cursor-pointer">${d.specialization}</a> <small> Astrologers</small>
                               </p>
                                `)
                                         $("#search-Detail").prepend(newElement)
@@ -546,7 +553,7 @@
                                     if (!checkDuplicate.includes(d.country)) {
                                         checkDuplicate.push(d.country)
                                         const newElement = $(`
-                                                                <p class='search-url' >Find a <a data-filtervalue='${d.country}' onclick='filterData(this)' class="fw-bold text-primary cursor-pointer"> Top Astrologers in ${d.country}</a> <small></small>
+                                                                                <p class='search-url' >Find a <a role="button" data-filtervalue='${d.country}' onclick='filterData(this)' class="fw-bold text-primary cursor-pointer"> Top Astrologers in ${d.country}</a> <small></small>
                                       </p>
                                        `)
                                         $("#search-Detail").prepend(newElement)
@@ -557,7 +564,7 @@
                                     if (!checkDuplicate.includes(d.state)) {
                                         checkDuplicate.push(d.state)
                                         const newElement = $(`
-                                                                                        <p class='search-url'>Find a <a data-filtervalue='${d.state}' onclick='filterData(this)' class="fw-bold text-primary cursor-pointer">Top Astrologers in ${d.state}</a> <small></small>
+                                                                                                <p class='search-url'>Find a <a role="button" data-filtervalue='${d.state}' onclick='filterData(this)' class="fw-bold text-primary cursor-pointer">Top Astrologers in ${d.state}</a> <small></small>
                                       </p>
                                        `)
                                         $("#search-Detail").prepend(newElement)
@@ -568,7 +575,7 @@
                                     if (!checkDuplicate.includes(d.city)) {
                                         checkDuplicate.push(d.city)
                                         const newElement = $(`
-                                                                                                        <p class='search-url'>Find a <a data-filtervalue='${d.city}' onclick='filterData(this)' class="fw-bold text-primary cursor-pointer">Top Astrologers in ${d.city}</a> <small></small>
+                                                                                                                <p class='search-url'>Find a <a role="button" data-filtervalue='${d.city}' onclick='filterData(this)' class="fw-bold text-primary cursor-pointer">Top Astrologers in ${d.city}</a> <small></small>
                                       </p>
                                        `)
                                         $("#search-Detail").prepend(newElement)
@@ -578,7 +585,7 @@
                                 if (!checkDuplicate.includes(d.name)) {
                                     checkDuplicate.push(d.name)
                                     const newElement = $(`
-                                                                                                                        <p class='search-url'> <a data-filtervalue='${d.name}' onclick='filterData(this)' class="fw-bold text-primary cursor-pointer">${d.name}</a> <small>- ${d.expertise}</small>
+                                                                                                                                <p class='search-url'> <a  role="button" data-filtervalue='${d.name}' onclick='filterData(this)' class="fw-bold text-primary cursor-pointer">${d.name}</a> <small>- ${d.expertise}</small>
                                       </p>
                                        `)
                                     $("#search-Detail").append(newElement)

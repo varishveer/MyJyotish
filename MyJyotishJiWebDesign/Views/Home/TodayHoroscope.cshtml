@@ -1,268 +1,32 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-
-
+﻿
 <style>
-    .outerDiv {
-        font-family: Arial, sans-serif;
-        background-color: #f5f5f5;
-        margin: 0;
-        padding: 0;
-        line-height: 1.6;
-    }
+	.kundli-icon {
+		width: 80px;
+		margin-bottom: 20px;
+	}
 
-    .container {
-        max-width: 1200px;
-        margin: auto;
-        padding: 20px;
-        background-color: #fff;
-    }
+	.connect-section {
+		background-color: #ffeb85; /* Light yellow background */
+		text-align: center;
+		padding: 20px;
+		border-radius: 8px;
+	}
 
-    .header {
-        text-align: center;
-        padding: 20px 0;
-    }
-
-        .header h1 {
-            margin: 0;
-            font-size: 2em;
-        }
-
-        .header p {
-            margin: 0;
-            font-size: 1.2em;
-            color: #666;
-        }
-
-    .intro, .understanding-horoscope, .also-check, .faqs {
-        padding: 20px;
-    }
-
-        .intro h2, .understanding-horoscope h2, .also-check h2, .faqs h2 {
-            margin-top: 0;
-        }
-
-    .horoscope-cards {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        padding: 20px;
-    }
-
-    .card {
-        flex: 1 1 30%;
-        background-color: #f9f9f9;
-        margin: 10px;
-        border-radius: 10px;
-        overflow: hidden;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        text-align: center;
-    }
-
-        .card img {
-            width: 100%;
-            height: auto;
-        }
-
-        .card h3 {
-            margin: 10px 0;
-        }
-
-        .card p {
-            padding: 0 10px;
-        }
-
-        .card a {
-            display: inline-block;
-            padding: 10px;
-            margin: 10px 0;
-            background-color: #007bff;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
-        }
-
-    .understanding-horoscope p, .faqs p {
-        margin: 10px 0;
-    }
-
-    .also-check {
-        background-color: #f5f5f5;
-        text-align: center;
-        padding: 20px;
-    }
-
-    .check-links {
-        display: flex;
-        justify-content: space-around;
-        flex-wrap: wrap;
-    }
-
-    .check-item {
-        margin: 10px;
-        text-align: center;
-    }
-
-        .check-item img {
-            width: 80px;
-            height: auto;
-        }
-
-        .check-item p {
-            margin: 10px 0 0;
-        }
-
-    .footer {
-        background-color: #333;
-        color: #fff;
-        text-align: center;
-        padding: 20px;
-    }
-
-        .footer p {
-            margin: 0;
-        }
-
-    .footer-nav {
-        margin-top: 10px;
-    }
-
-        .footer-nav a {
-            color: #fff;
-            margin: 0 10px;
-            text-decoration: none;
-        }
-
-            .footer-nav a:hover {
-                text-decoration: underline;
-            }
-
+		.connect-section .btn {
+			margin: 5px;
+		}
 </style>
-<div class="outerDiv">
-    <div class="container">
-        <header class="header">
-            <h1>Today's Horoscope</h1>
-            <p>Check your today's horoscope</p>
-        </header>
-        <section class="intro">
-            <h2>Today's horoscope for zodiac signs</h2>
-            <p>Reading your Today's horoscope is one of the best ways to predict your future. The foretelling of the future through the Daily horoscope is an ancient practice and finds relevance even today...</p>
-            <!-- More introductory text here -->
-        </section>
-        <section class="horoscope-cards">
-            <div class="card">
-                <img src="~/Img/Rashi.jpg" alt="Aries">
-                <h3>Aries Today's Horoscope</h3>
-                <p>Personal: Taken Aries signs, in addition to settling life issues, are also preparing for a significant life change. Single signs will have to wait for a while. Travel: Traveling is a way to learn new things about the world and about yourself...</p>
-                <a href="#">read more</a>
-            </div>
-            <div class="card">
-                <img src="~/Img/Rashi.jpg" alt="Taurus">
-                <h3>Taurus Today's Horoscope</h3>
-                <p>Personal: Single signs should just enjoy being single. The planet Pluto, especially Mars sparks your interest. Travel: You have a strong desire to travel to a foreign country for work...</p>
-                <a href="#">read more</a>
-            </div>
-            <!-- More horoscope cards for other signs here -->
-            <div class="card">
-                <img src="~/Img/Rashi.jpg" alt="Gemini">
-                <h3>Gemini Today's Horoscope</h3>
-                <p>Personal: As a taken Gemini, you might be tempted to flirt with other Air signs today. Be careful! Single signs should expect a message from an old acquaintance and after that, the options are endless...</p>
-                <a href="#">read more</a>
-            </div>
-            <div class="card">
-                <img src="~/Img/Rashi.jpg" alt="Cancer">
-                <h3>Cancer Today's Horoscope</h3>
-                <p>Personal: If you are in a long-term relationship, it would be great for the two of you to do something together today. Single Cancers will find delight in someone they know from a work situation...</p>
-                <a href="#">read more</a>
-            </div>
-            <div class="card">
-                <img src="~/Img/Rashi.jpg" alt="Leo">
-                <h3>Leo Today's Horoscope</h3>
-                <p>Personal: Sometimes lust can be confused for love. Love is about commitment and isn’t always exciting. Ensure you aren’t getting the two confused. Travel: Be prepared for a fun weekend in your own area...</p>
-                <a href="#">read more</a>
-            </div>
-            <div class="card">
-                <img src="~/Img/Rashi.jpg" alt="Virgo">
-                <h3>Virgo Today's Horoscope</h3>
-                <p>Personal: Single Virgos are focused on improving themselves. With Venus sending out weird vibes, it’s very likely that single Virgos won’t be feeling it at all today...</p>
-                <a href="#">read more</a>
-            </div>
-            <div class="card">
-                <img src="~/Img/Rashi.jpg" alt="Libra">
-                <h3>Libra Today's Horoscope</h3>
-                <p>Personal: Someone is being dishonest in your relationship. It’s high time that the two of you sit down and talk about all the problems that you have been having...</p>
-                <a href="#">read more</a>
-            </div>
-            <div class="card">
-                <img src="~/Img/Rashi.jpg" alt="Scorpio">
-                <h3>Scorpio Today's Horoscope</h3>
-                <p>Personal: If you have been single for a long time, today may be the day that your heart gets jolted. Married Scorpio signs should know that their loved one is going to make a very big decision...</p>
-                <a href="#">read more</a>
-            </div>
-            <div class="card">
-                <img src="~/Img/Rashi.jpg" alt="Sagittarius">
-                <h3>Sagittarius Today's Horoscope</h3>
-                <p>Personal: You need to control your feelings. Let your past relationship go, and let your friends and family help you. Someone you love can be more supportive than you think...</p>
-                <a href="#">read more</a>
-            </div>
-            <div class="card">
-                <img src="~/Img/Rashi.jpg" alt="Capricorn">
-                <h3>Capricorn Today's Horoscope</h3>
-                <p>Personal: Single signs will hit it off with lots of people today. It will be like a blind date for both married and single Capricorn signs...</p>
-                <a href="#">read more</a>
-            </div>
-            <div class="card">
-                <img src="~/Img/Rashi.jpg" alt="Aquarius">
-                <h3>Aquarius Today's Horoscope</h3>
-                <p>Personal: You wanted love! Lots of it! Luckily for you, that person is going to appear in your life soon. Just try to be a little more patient...</p>
-                <a href="#">read more</a>
-            </div>
-            <div class="card">
-                <img src="~/Img/Rashi.jpg" alt="Pisces">
-                <h3>Pisces Today's Horoscope</h3>
-                <p>Personal: A holiday coming up or perhaps less hectic work patterns mean more time for yourself, your loved one, and titillating chat. A light-hearted move or sudden new acquaintanceship leads to a pleasant evening conducive to love and affection...</p>
-                <a href="#">read more</a>
-            </div>
-        </section>
-        <section class="understanding-horoscope">
-            <h2>Understanding Today's Horoscope</h2>
-            <p>If you are a follower of astrology, you would know that each zodiac sign in astrology is ruled by a planet. For example, the Moon is the ruler of Cancer, and Mars is the ruler of both Aries and Scorpio zodiac signs...</p>
-            <!-- More explanatory text here -->
-        </section>
-        <section class="also-check">
-            <h2>Also Check</h2>
-            <div class="check-links">
-                <div class="check-item">
-                    <img src="~/Img/yesterday.jpg" alt="Yesterday's Horoscope">
-                    <p>Yesterday's Horoscope</p>
-                </div>
-                <div class="check-item">
-                    <img src="~/Img/yesterday.jpg" alt="Tomorrow's Horoscope">
-                    <p>Tomorrow's Horoscope</p>
-                </div>
-                <div class="check-item">
-                    <img src="~/Img/yesterday.jpg" alt="Weekly Horoscope">
-                    <p>Weekly Horoscope</p>
-                </div>
-                <div class="check-item">
-                    <img src="~/Img/yesterday.jpg" alt="Monthly Horoscope">
-                    <p>Monthly Horoscope</p>
-                </div>
-                <div class="check-item">
-                    <img src="~/Img/yesterday.jpg" alt="Horoscope 2023">
-                    <p>Horoscope 2023</p>
-                </div>
-            </div>
-        </section>
-        <section class="faqs">
-            <h2>FAQs Today's Horoscope</h2>
-            <p>Can today's horoscope predict life-changing events for a zodiac sign?</p>
-            <p>How much to plan the day around today's horoscope?</p>
-            <!-- More FAQs here -->
-        </section>
-       
-    </div>
+
+
+<div id="wb-widget-divine-horoscope-17359774652" class="open_setting" data-wb_setting="214"></div>
+<div class="container mb-3">
+	<!-- Connect Section -->
+	<div class="connect-section">
+		<p class="mb-3">
+			Connect with an Astrologer on Call or Chat for more personalised detailed predictions.
+		</p>
+		<a class="btn btn-warning text-light fw-bold" href="/Home/talk" target="_blank">Talk to Astrologer</a>
+		<a class="btn btn-light border fw-bold" href="/Home/chat" target="_blank">Chat with Astrologer</a>
+	</div>
 </div>
+<script id="widget-divine-horoscope-17359774652-script" class="wb_widget_divine_horoscope" src="https://astroapi-6.divineapi.com/widget/divine_horoscope.js?17359774652&widget_token=711d7efc9024ff83cb45cf980d5792c8&widget_id=wb-widget-divine-horoscope-17359774652&setting=214"></script>

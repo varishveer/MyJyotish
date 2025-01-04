@@ -28,29 +28,60 @@
         font-size: 2rem;
         color: #0056b3;
     }
+
+    .compatibility-card {
+        border: 2px solid #FFA500 !important;
+    }
+
+    .text-primary {
+        color: #FFA500 !important;
+    }
+
+    @@media (max-width: 768px) {
+        .servicecard {
+            max-width: 80%;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+        }
+
+        .card-text {
+            font-size: 1rem;
+        }
+    }
 </style>
 
-<div class="container"> 
+<div class="container">
     <div class="row">
         <div class="col-sm-12 mt-4">
             <div class="row">
+                <!-- Left Column: Image Section -->
                 <div class="col-sm-4 text-center">
-                    <img src="https://api.myjyotishg.in/Images/Tabs/vastu.jpg"
-                         class="card-img-top w-75 h-100 rounded-circle servicecard"
-                         alt="Vastu" />
+                    <div class=" overflow-hidden">
+                        <img src="https://api.myjyotishg.in/Images/Tabs/vastu.jpg"
+                             class="img-fluid rounded-circle shadow-sm w-75 h-75 servicecard"
+                             alt="Vastu" />
+                    </div>
                 </div>
-                <div class="col-sm-8 d-flex align-items-center">
-                    <p>
-                        Vastu Shastra is an ancient Indian science of architecture and design that aims to create a harmonious environment by aligning the physical space with the natural elements and energies of the universe. It is based on the belief that the arrangement, orientation, and design of a structure can influence the health, wealth, prosperity, and well-being of its inhabitants. Rooted in the Vedic traditions, Vastu Shastra is a system that combines art, science, astrology, and philosophy to ensure that buildings and spaces support the optimal flow of positive energy, known as "prana."
 
-                        The term Vastu translates to "building" or "dwelling" in Sanskrit, while Shastra means "science" or "doctrine." Together, the term refers to the science of constructing and arranging buildings in a way that fosters positive energy flow and brings balance to the environment. Vastu Shastra is often compared to feng shui, a Chinese system of harmonizing spaces, but Vastu Shastra is specifically rooted in the Indian tradition and incorporates spiritual, cosmic, and elemental principles.
-                    </p>
+                <!-- Right Column: Text Section -->
+                <div class="col-sm-8 d-flex align-items-center">
+                    <div class="compatibility-card shadow-lg border-0 rounded-3 p-4 w-100">
+                        <h3 class="card-title text-primary mb-3">Understanding Vastu Shastra</h3>
+                        <p class="card-text text-muted">
+                            Vastu Shastra is an ancient Indian science of architecture and design that aims to create a harmonious environment by aligning the physical space with the natural elements and energies of the universe. It is based on the belief that the arrangement, orientation, and design of a structure can influence the health, wealth, prosperity, and well-being of its inhabitants. Rooted in the Vedic traditions, Vastu Shastra is a system that combines art, science, astrology, and philosophy to ensure that buildings and spaces support the optimal flow of positive energy, known as "prana."
+                        </p>
+                        <p class="card-text text-muted">
+                            The term Vastu translates to "building" or "dwelling" in Sanskrit, while Shastra means "science" or "doctrine." Together, the term refers to the science of constructing and arranging buildings in a way that fosters positive energy flow and brings balance to the environment. Vastu Shastra is often compared to feng shui, a Chinese system of harmonizing spaces, but Vastu Shastra is specifically rooted in the Indian tradition and incorporates spiritual, cosmic, and elemental principles.
+                        </p>
+                    </div>
                 </div>
+            </div>
         </div>
-    </div> 
     </div>
     <!-- Key Principles Section -->
-    <section class="mt-4">
+    <section class="mt-5">
         <h2 class="section-title"><i class="fas fa-lightbulb"></i> Key Principles of Vastu Shastra</h2>
         <div class="section-content">
             <ul class="list-group">

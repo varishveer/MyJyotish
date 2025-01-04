@@ -53,6 +53,7 @@ namespace MyJyotishJiWebDesign.Controllers
         public IActionResult AppointmentForm() { return View(); }
         public IActionResult JyotishProfile() { return View(); }
         public IActionResult TodayHoroscope() { return View(); }
+        public IActionResult Panchang() { return View(); }
         public IActionResult FreeKundaliReport() { return View(); }
         public IActionResult IndianCalendarFestivals() { return View(); }
         public IActionResult BlogDetails() { return View(); }
@@ -60,7 +61,6 @@ namespace MyJyotishJiWebDesign.Controllers
         public IActionResult ResetPassword() { return View(); }
         public IActionResult Appointments() { return View(); }
         public IActionResult AppointmentHistory() { return View(); }
-
         public IActionResult ProblemSolution() { return View(); }
         public IActionResult ProblemSolutionDetails() { return View(); }
         public IActionResult KundaliMatching() { return View(); }

@@ -32,7 +32,7 @@
 
 	#ratingSection {
 		overflow: auto;
-		height: 100px;
+		height: 300px;
 	}
 
 	#PlaceOfBirthList {
@@ -184,10 +184,6 @@
 
 				</div>
 			</div>
-
-
-
-
 		</div>
 	</div>
 	<div class="mb-4 mt-4 galleryContainer d-none">
@@ -498,7 +494,7 @@
 						var galleryHtml = '';
 						$.each(data.gallery, function (index, item) {
 							galleryHtml += '<div class="col-6 col-md-3">';
-							galleryHtml += '<img src="' + BaseUrl + item.imageUrl + '" alt="Gallery Image" class="img-fluid rounded-4 img-thumbnail border-0" style="height:250px; width:250; border: 2px solid #ffffff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);">';
+							galleryHtml += '<img src="' + BaseUrl + item.imageUrl + '" alt="Gallery Image" class="img-fluid rounded-4 img-thumbnail galleryImages border-0" style="height:250px; width:250; border: 2px solid #ffffff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);">';
 							galleryHtml += '</div>';
 						});
 						$('#gallerySection').html(galleryHtml);
@@ -551,7 +547,12 @@
 			}
 		}).then(() => {
 			Swal.close()
-
+			$("#profilePicture").on('error', function () {
+				$(this).attr("src", '/user-not-found.png');
+			});
+			$(".galleryImages").on('error', function () {
+				$(this).attr("src", '/no-image.png');
+			});
 		})
 
 		$.ajax({
@@ -1035,10 +1036,28 @@
 <script>
 	//handle chat and call
 	$(".chatBtn").click(function () {
-		$("#exampleModal2").modal("show")
+		if (localStorage.getItem("userId") == null || localStorage.getItem("Token") == null) {
+				$("#exampleModal").modal("hide")
+				Swal.fire({
+					title: "Authentication Required",
+					text: "Please login for Chating with astrologers",
+					icon: "warning",
+					showCancelButton: true,
+					confirmButtonColor: "#3085d6",
+					cancelButtonColor: "#d33",
+					confirmButtonText: "Login"
+				}).then((result) => {
+					if (result.isConfirmed) {
+						location.href = "/home/login"
+					}
+				})
+			
 
-		var Action = $(this).attr('data-action');
-		$('#Action').val(Action);
+		} else {
+			$("#exampleModal2").modal("show")
+			var Action = $(this).attr('data-action');
+			$('#Action').val(Action);
+		}
 
 		const tooltipTriggerList = document.querySelector('[data-bs-toggle="tooltip1"]')
 		const tooltip = bootstrap.Tooltip.getOrCreateInstance(tooltipTriggerList)
@@ -1046,12 +1065,29 @@
 		const tooltip1 = bootstrap.Tooltip.getOrCreateInstance(tooltipTriggerList1)
 		tooltip.hide()
 		tooltip1.hide()
+
 	})
 	$(".callBtn").click(function () {
-		$("#exampleModal2").modal("show")
-		var Action = $(this).attr('data-action');
-		$('#Action').val(Action);
-
+		if (localStorage.getItem("userId") == null || localStorage.getItem("Token") == null) {
+			$("#exampleModal").modal("hide")
+			Swal.fire({
+				title: "Authentication Required",
+				text: "Please login for make call with astrologers",
+				icon: "warning",
+				showCancelButton: true,
+				confirmButtonColor: "#3085d6",
+				cancelButtonColor: "#d33",
+				confirmButtonText: "Login"
+			}).then((result) => {
+				if (result.isConfirmed) {
+					location.href = "/home/login"
+				}
+			})
+		} else {
+			$("#exampleModal2").modal("show")
+			var Action = $(this).attr('data-action');
+			$('#Action').val(Action);
+		}
 		const tooltipTriggerList = document.querySelector('[data-bs-toggle="tooltip1"]')
 		const tooltip = bootstrap.Tooltip.getOrCreateInstance(tooltipTriggerList)
 		const tooltipTriggerList1 = document.querySelector('[data-bs-toggle="tooltip2"]')

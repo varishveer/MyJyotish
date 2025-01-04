@@ -96,7 +96,7 @@
             color: rgba(255, 193, 7, 0.3);
         }
         .content-container{
-            max-height:80vh;
+            max-height:100vh;
            
         }
 
@@ -275,12 +275,13 @@
                  <div class="col-12 col-sm-12 col-md-12 col-lg-12 mb-2 p-1">
                                             <div class="card astrologer-card shadow">
                                                  <a class='text-secondary text-decoration-none' href= "/Home/JyotishProfile?Id=${astrologer.id}">
-                                                        <img src="${ImgSrc}" class="card-img-top rounded-circle" alt="${astrologer.name}">
+                                                        <img src="${ImgSrc}" class="jyotishProfileImages card-img-top rounded-circle" alt="${astrologer.name}">
                                                     <div class="card-body p-0 pt-2">
                                                         <h6 class="card-title text-center">${astrologer.name} - ${astrologer.city}</h6>
                                                             <p class='text-center text-warning' >${generateFullStars()}</p>
                                                         <p class="card-text px-1 text-center" >
-                                                             ${astrologer.expertise || 'NA'} | ${astrologer.experience != null ? astrologer.experience : 0} Years
+                                                                         ${astrologer.expertise.split(',')[0] || 'NA'}  ${astrologer.expertise != null ? astrologer.expertise.split(',').length > 1 ? "+" + astrologer.expertise.split(',').length +"more" : "":""
+            } | ${ astrologer.experience != null ? astrologer.experience : 0 } Years
                                                         </p>
                                                     </div>
                                                 </a>
@@ -289,10 +290,14 @@
 
                 `;
             });
+           
         }else{
             html='<p class="text-center text-secondary my-4">no record found</p>'
         }
         $('#astrologerList').html(html);
+        $(".jyotishProfileImages").on('error', function () {
+            $(this).attr("src", '/user-not-found.png');
+        });
     }
 </script>
 <script>
