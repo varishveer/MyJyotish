@@ -1123,7 +1123,9 @@
 		const roomID = 'user_'+localStorage.getItem("userId");
 		const clientId = Math.floor(Math.random() * 10000) + "";
 		let TOKEN 
+		let checkconnectionRequest=true;
 	$('#DataSubmitBtn').on('click', function () {
+			if(checkconnectionRequest){
 		const urlParams = new URLSearchParams(window.location.search);
 		var astrologerId = urlParams.get('Id');
 		var Name = $("#Name").val();
@@ -1172,11 +1174,11 @@
 				success: function (response) {
 					if (response.status === 200) {
 						Swal.close();
-					
 							establishedConnectionForSendRequest().then((socket) => {
 								debugger
 								if (socket) {
 									socket.onopen = function (event) {
+										checkconnectionRequest=false;
 										console.log('WebSocket connection established:', event);
 										if (jyotishId) {
 											socket.send(`${jyotishId}:${roomID}:${Action=="1"?"chat":"call"}`);
@@ -1208,26 +1210,25 @@
 										socket.close()
 
 										}
-									} else if(!response.data && !response.anotherRequest){
+									} else if(!response.data){
+										if(response.anotherRequest){
 										socket.close()
-
-									} else if (Action == "1") {
-
-										$(".chatBtn").hide();
-										$("#waitingBtn").removeClass("d-none")
-										$(".callBtn").show();
-
-
-									} else {
-										$(".callBtn").hide();
 										$(".chatBtn").show();
+										$(".callBtn").show();
+										$("#waitingBtn").addClass("d-none")
+										Swal.fire({
+											text: "Another Request are already in Progress	..",
+											title: "warning",
+											icon: "warning"
+										});
+										}
 
-										$("#waitingBtn").removeClass("d-none")
-
-									}
+									} 
 									};
 
 									socket.onerror = function (event) {
+										checkconnectionRequest=true
+
 										console.error('WebSocket error observed:', event);
 										Swal.fire({
 											text: "some error occured while making connection",
@@ -1237,6 +1238,7 @@
 									};
 
 									socket.onclose = function (event) {
+										checkconnectionRequest=true
 										console.log('WebSocket connection closed:', event);
 										if(Action=="1"){
 
@@ -1275,6 +1277,13 @@
 				}
 			});
 		}
+			}else{
+	Swal.fire({
+												text: "Another Request are already in Progress..",
+												title: "warning",
+												icon: "warning"
+											});
+			}
 	});
 
 	if(localStorage.getItem("callTOKEN")!=null){
