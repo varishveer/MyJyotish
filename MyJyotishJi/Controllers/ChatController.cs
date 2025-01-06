@@ -199,24 +199,17 @@ namespace MyJyotishGApi.Controllers
 
                                 if (_clientRequest.TryGetValue(changeresPref, out var recipientSocket))
                                 {
-                                    if (_clientRequestMessage.Count > 0)
+                                    _clientRequestMessage.Remove(clientKey);
+                                    string jsonStrings = JsonConvert.SerializeObject(new { status = true, type = "chat", data = false });
+                                    if (_clientRoomId.ContainsKey(clientKey))
                                     {
-                                        if (_clientRequestMessage.ContainsKey(clientKey))
-                                        {
+                                    _clientRoomId.Remove(clientKey);
+                                     jsonStrings = JsonConvert.SerializeObject(new { status = true, type = "call",roomId=false, data = false });
+                                    }
 
-                                        _clientRequestMessage.Remove(clientKey);
-                                        string jsonStrings = JsonConvert.SerializeObject(new { status = true, type = "chat", data = false });
-                                        if (_clientRoomId.ContainsKey(clientKey))
-                                        {
-                                            _clientRoomId.Remove(clientKey);
-                                            jsonStrings = JsonConvert.SerializeObject(new { status = true, type = "call", roomId = false, data = false });
-                                        }
-
-                                        var msgBuffer = System.Text.Encoding.UTF8.GetBytes(jsonStrings);
+                                    var msgBuffer = System.Text.Encoding.UTF8.GetBytes(jsonStrings);
 
                                         await recipientSocket.SendAsync(new ArraySegment<byte>(msgBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
-                                    }
-                                    }
                                 }
                             }
                         }
@@ -251,12 +244,12 @@ namespace MyJyotishGApi.Controllers
                                         string userJsonDetail = null;
                                         if (_clientRequestMessage.Count > 0)
                                         {
-                                            userJsonDetail = _clientRequestMessage.ContainsKey(recipientId) ? _clientRequestMessage.Where(e => e.Key == recipientId).First().Value : null;
-                                            _clientRequestMessage.Remove(recipientId);
+                                         userJsonDetail = _clientRequestMessage.ContainsKey(recipientId)? _clientRequestMessage.Where(e => e.Key == recipientId).First().Value:null;
+                             _clientRequestMessage.Remove(recipientId);
                                         }
                                         if (_clientRoomId.Count > 0)
                                         {
-                                            _clientRoomId.Remove(recipientId);
+                                        _clientRoomId.Remove(recipientId);
                                         }
                                         _RequestManager.Remove(recipientId);
                                         if (!string.IsNullOrEmpty(userJsonDetail) && !userJsonDetail.Equals("Null") && !userJsonDetail.Equals("null"))
@@ -265,7 +258,7 @@ namespace MyJyotishGApi.Controllers
                                             var clientChangeref = jsonObject["Id"] + "A";
                                             if (_clientRequest.TryGetValue(clientChangeref, out var ClientSocket))
                                             {
-                                                string jsonStrings = JsonConvert.SerializeObject(new { status = true, data = false, anotherRequest = false });
+                                                string jsonStrings = JsonConvert.SerializeObject(new { status = true, data = false,anotherRequest=false });
                                                 if (clientId == jsonObject["Id"].ToString())
                                                 {
                                                     jsonStrings = JsonConvert.SerializeObject(new { status = true, data = false, anotherRequest = true });
@@ -275,37 +268,11 @@ namespace MyJyotishGApi.Controllers
                                                 await ClientSocket.SendAsync(new ArraySegment<byte>(msgBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
                                             }
                                         }
-
-                                    }
+                                       
+                                        }
                                 }
                             }
-                            else
-                            {
-                                if (_clientRequestMessage.Count > 0)
-                                {
-                                    if (_clientRequestMessage.ContainsKey(clientId))
-                                    {
-                                        _clientRequestMessage.Remove(clientId);
-                                    }
-                                    if (_clientRoomId.ContainsKey(clientId))
-                                    {
-                                        _clientRoomId.Remove(clientId);
-                                    }
-                                    if (_RequestManager.ContainsKey(clientId))
-                                    {
-                                        _RequestManager.Remove(clientId);
-                                    }
-                                    var changeresPrefjy = clientId + "B";
 
-                                    if (_clientRequest.TryGetValue(changeresPrefjy, out var recipientSocketjy))
-                                    {
-                                        var jsonStrings = JsonConvert.SerializeObject(new { status = true, type = "call", roomId = false, data = false });
-                                        var msgBuffer = System.Text.Encoding.UTF8.GetBytes(jsonStrings);
-
-                                        await recipientSocketjy.SendAsync(new ArraySegment<byte>(msgBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
-                                    }
-                            }
-                            }
                             if (!_clientRequestMessage.ContainsKey(recipientId)&& !string.IsNullOrEmpty(recipientId))
                             {
                            _clientRequestMessage.Add(recipientId, userJson);
@@ -315,9 +282,36 @@ namespace MyJyotishGApi.Controllers
                                 }
                                 _RequestManager.Add(recipientId, DateTime.Now);
                             }
-                           
+
                         }
-                        if (_clientRequest.TryGetValue(changeresPref, out var recipientSocket))
+                        else
+                        {
+                            if (_clientRequestMessage.Count > 0)
+                            {
+                                if (_clientRequestMessage.ContainsKey(clientId))
+                                {
+                                    _clientRequestMessage.Remove(clientId);
+                                }
+                                if (_clientRoomId.ContainsKey(clientId))
+                                {
+                                    _clientRoomId.Remove(clientId);
+                                }
+                                if (_RequestManager.ContainsKey(clientId))
+                                {
+                                    _RequestManager.Remove(clientId);
+                                }
+                                var changeresPrefjy = clientId + "B";
+
+                                if (_clientRequest.TryGetValue(changeresPrefjy, out var recipientSocketjy))
+                                {
+                                    var jsonStrings = JsonConvert.SerializeObject(new { status = true, type = "call", roomId = false, data = false });
+                                    var msgBuffer = System.Text.Encoding.UTF8.GetBytes(jsonStrings);
+
+                                    await recipientSocketjy.SendAsync(new ArraySegment<byte>(msgBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
+                                }
+                            }
+                            }
+                            if (_clientRequest.TryGetValue(changeresPref, out var recipientSocket))
                         {
                             if (sendBy != "client")
                             {
