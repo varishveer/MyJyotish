@@ -1122,7 +1122,7 @@
 	
 		const roomID = 'user_'+localStorage.getItem("userId");
 		const clientId = Math.floor(Math.random() * 10000) + "";
-		let TOKEN 
+	let TOKEN;
 		let checkconnectionRequest=true;
 	$('#DataSubmitBtn').on('click', function () {
 			if(checkconnectionRequest){
@@ -1204,7 +1204,7 @@
 											$(".messageInpBox").val(`
 	Hi, Below are my Details : Name: ${Name} Gender:${Gender} DOB: ${DateOfBirth} DOT: ${TimeOfBirth} POB: ${PlaceOfBirth}`)
 										}else{
-											TOKEN=ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, clientId, Name);
+												TOKEN = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, clientId, Name);
 											localStorage.setItem("callTOKEN",TOKEN)
 											startCall()
 										socket.close()
@@ -1321,8 +1321,6 @@
 					showPreJoinView: false,
 					scenario: {
 						mode: ZegoUIKitPrebuilt.OneONoneCall,
-
-
 					}, onJoinRoom: () => {
 						turnOnMicrophoneWhenJoining:true;
 					},

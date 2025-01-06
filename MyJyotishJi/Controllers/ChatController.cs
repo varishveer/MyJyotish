@@ -17,6 +17,7 @@ namespace MyJyotishGApi.Controllers
     public class ChatController : ControllerBase
     {
         private static readonly ConcurrentDictionary<string, WebSocket> _clients = new();
+        private static Dictionary<string, DateTime> _chatTimeManager = new();
 
         private readonly IChat _chat;
         private readonly IUserServices _services;
@@ -50,7 +51,6 @@ namespace MyJyotishGApi.Controllers
          
             try
             {
-               
                 while (webSocket.State == WebSocketState.Open)
                 {
                     var result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
@@ -321,7 +321,7 @@ namespace MyJyotishGApi.Controllers
                             {
                             userRequestRecord = userRequestRecord = _clientRequestMessage.ContainsKey(recipientId) ? _clientRequestMessage.Where(e => e.Key == recipientId).First().Value : null;
                             }
-                            string jsonString = JsonConvert.SerializeObject(new {status=true,type= requestType == "call" && _clientRoomId.Count > 0?"call":"chat", roomId=requestType=="call"&&sendBy=="client"&&_clientRoomId.Count>0?_clientRoomId.Where(e=>e.Key==recipientId).First().Value: roomId = requestType == "call" && sendBy != "client" && _clientRoomId.Count > 0 ? _clientRoomId.Where(e => e.Key == clientId).First().Value:null, data= userRequestRecord });
+                            string jsonString = JsonConvert.SerializeObject(new {status=true,type= requestType == "call"&&sendBy=="client"? _clientRoomId.Count > 0?"call":"chat":requestType, roomId=requestType=="call"&&sendBy=="client"&&_clientRoomId.Count>0?_clientRoomId.Where(e=>e.Key==recipientId).First().Value: roomId = requestType == "call" && sendBy != "client" && _clientRoomId.Count > 0 ? _clientRoomId.Where(e => e.Key == clientId).First().Value:null, data= userRequestRecord });
                             var msgBuffer = System.Text.Encoding.UTF8.GetBytes(jsonString);
                             await recipientSocket.SendAsync(new ArraySegment<byte>(msgBuffer), result.MessageType, result.EndOfMessage, CancellationToken.None);
                            
