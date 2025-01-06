@@ -1212,16 +1212,14 @@
 										}
 									} else if(!response.data){
 										if(response.anotherRequest){
-										socket.close()
-										$(".chatBtn").show();
-										$(".callBtn").show();
-										$("#waitingBtn").addClass("d-none")
 										Swal.fire({
 											text: "Another Request are already in Progress	..",
 											title: "warning",
 											icon: "warning"
 										});
 										}
+											socket.close()
+
 
 									} 
 									};
@@ -1313,7 +1311,7 @@
 					showScreenSharingButton: false,
 					showPreJoinView: false,
 						   lowerLeftNotification: {
-						showUserJoinAndLeave: false,
+						showUserJoinAndLeave: true,
 						showTextChat: false,
 					},
 					showRoomTimer:true,
@@ -1342,7 +1340,9 @@
 					onSetRoomConfigBeforeJoining: () => {
 						const roomID = zg.getRoomID();
 						sessionStorage.setItem('roomID', roomID);
-
+					return {
+						autoLeaveRoomWhenOnlySelfInRoom: true,
+					}
 					}
 				});
 			} catch (error) {
