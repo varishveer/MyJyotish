@@ -683,6 +683,70 @@ namespace BusinessAccessLayer.Implementation
                 return Jyotish.WalletAmount;
             }
         }
+
+        public bool ApplyChargesFromUserWalletForService(int userId,int amount,string message,int jyotishId)
+        {
+            var transaction=_context.Database.BeginTransaction();
+            var res = _context.UserWallets.Where(e => e.userId == userId && e.status == 1).FirstOrDefault();
+            if (res != null)
+            {
+                res.WalletAmount = res.WalletAmount - amount;
+                _context.UserWallets.Update(res);
+                if (_context.SaveChanges() > 0)
+                {
+                    var jWallet = _context.JyotishWallets.Where(e => e.jyotishId == jyotishId && e.status == 1).FirstOrDefault();
+                    if (jWallet != null)
+                    {
+                        jWallet.WalletAmount += amount;
+                        _context.JyotishWallets.Update(jWallet);
+
+                    }
+                    else
+                    {
+                        jyotishWallet jw = new jyotishWallet
+                        {
+                            jyotishId = jyotishId,
+                            WalletAmount = amount,
+                            status = 1
+                        };
+                        _context.JyotishWallets.Add(jw);
+                    }
+                    if (_context.SaveChanges() > 0)
+                    {
+
+                        WalletHistoryViewmodel wh = new WalletHistoryViewmodel
+                        {
+                            JId = jyotishId,
+                            UId = userId,
+                            amount = amount,
+                            PaymentAction = "Credit",
+                            PaymentStatus = "success",
+                            PaymentFor = message,
+                        };
+                        AddWalletHistory(wh);
+                    }
+                    transaction.Commit();
+                return _context.SaveChanges() > 0;
+                }
+                return false;
+            }
+            else
+            {
+                transaction.Rollback();
+                return false;
+            }
+        }
+        
+        public dynamic getJyotishServicesCharges(int jyotishid)
+        {
+            var res = _context.JyotishRecords
+    .Where(e => e.Id == jyotishid && e.Status)
+    .Select(e => e.ChatCharges)
+    .FirstOrDefault();
+            return res;
+
+        }
+
         //wallet history
         public string AddWalletHistory(WalletHistoryViewmodel pr)
         {

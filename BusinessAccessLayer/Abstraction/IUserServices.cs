@@ -41,13 +41,15 @@ namespace BusinessAccessLayer.Abstraction
 
         public ProblemSolutionJyotishGetViewModel GetProblemSolution(int appointmentId);
         public dynamic GetAttachmentByAppointment(int appointmentId, int memberId);
+        public dynamic getJyotishServicesCharges(int jyotishid);
 
-        public long GetWallet(int JyotishId);
+        public long GetWallet(int UserId);
         public List<City> selecAllCity();
 
         public string AddWalletHistory(WalletHistoryViewmodel pr);
         public dynamic GetWalletHistory(int UserId);
         public LayoutDataViewModel LayoutData(int Id);
+        public bool ApplyChargesFromUserWalletForService(int userId, int amount, string message, int jyotishId);
 
         public string AddRating(JyotishRatingViewModel data);
         public List<JyotishRatingViewModel> JyotishRatingList(int Id);
