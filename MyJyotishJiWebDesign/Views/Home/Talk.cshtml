@@ -213,7 +213,7 @@
 															</p>
 														</div>
 							</a><br>
-										<button class="btn btn-primary callBtn"   onclick="CallBtn(${astrologer.id})"
+											<button class="btn btn-primary callBtn" id='callBtn_${astrologer.id}'   onclick="CallBtn(${astrologer.id})"
 	 style="background-color: #4CAF50; border-color: #4CAF50;">
 									Start Call ₹${astrologer.callCharges}/min
 							</button>
@@ -274,7 +274,7 @@
 											socket.send(`${astrologerId}:${roomID}:${call}`);
 											$("#exampleModal2").modal("hide")
 
-											$(".callBtn").hide();
+									$("#callBtn_" + astrologerId).hide();
 											$("#waitingBtn_"+astrologerId).removeClass("d-none")
 										}
 									};
@@ -292,11 +292,17 @@
 										socket.close()
 
 										}
-								} else if(!response.data && !response.anotherRequest){
+								} else if(!response.data){
+											if (response.anotherRequest) {
+												Swal.fire({
+													text: "Another Request are already in Progress..",
+													title: "warning",
+													icon: "warning"
+												});
+											}
 										socket.close()
-									}else{
-										$(".callBtn").hide();
-											$("#waitingBtn_"+astrologerId).removeClass("d-none")
+									$("#callBtn_" + astrologerId).show();
+									$("#waitingBtn_" + astrologerId).addClass("d-none")
 									}
 								};
 
@@ -312,7 +318,7 @@
 									socket.onclose = function (event) {
 										console.log('WebSocket connection closed:', event);
 
-										$(".callBtn").show();
+								$("#callBtn_" + astrologerId).show();
 
 										$("#waitingBtn_"+astrologerId).addClass("d-none")
 

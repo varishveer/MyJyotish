@@ -245,12 +245,10 @@ namespace MyJyotishGApi.Controllers
                                         if (_clientRequestMessage.Count > 0)
                                         {
                                          userJsonDetail = _clientRequestMessage.ContainsKey(recipientId)? _clientRequestMessage.Where(e => e.Key == recipientId).First().Value:null;
-
-                                            _clientRequestMessage.Remove(recipientId);
+                             _clientRequestMessage.Remove(recipientId);
                                         }
                                         if (_clientRoomId.Count > 0)
                                         {
-
                                         _clientRoomId.Remove(recipientId);
                                         }
                                         _RequestManager.Remove(recipientId);

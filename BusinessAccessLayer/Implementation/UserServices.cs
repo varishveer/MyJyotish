@@ -940,6 +940,7 @@ namespace BusinessAccessLayer.Implementation
                     if (it.Name == data.Name && it.Gender == data.Gender && it.DateOfBirth == data.DateOfBirth && it.TimeOfBirth == data.TimeOfBirth && it.PlaceOfBirth == data.PlaceOfBirth)
                     {
                         it.Count = it.Count + 1;
+                        it.date = DateTime.Now;
                         _context.UserServiceRecord.Update(it);
                         if (_context.SaveChanges() > 0)
                         { return true; }
@@ -962,6 +963,7 @@ namespace BusinessAccessLayer.Implementation
             newData.Action = data.Action;
             newData.Status = true;
             newData.Count = 1;
+            newData.date = DateTime.Now;
             _context.UserServiceRecord.Add(newData);
             if (_context.SaveChanges() > 0)
             {

@@ -434,13 +434,19 @@
 										socket.close()
 										$(".messageInpBox").val(`
 		Hi, Below are my Details : Name: ${Name} Gender:${Gender} DOB: ${DateOfBirth} DOT: ${TimeOfBirth} POB: ${PlaceOfBirth}`)
-									}else if(!response.data && !response.anotherRequest) {
-										debugger
+									} else if (!response.data) {
+										if (response.anotherRequest) {
+											Swal.fire({
+												text: "Another Request are already in Progress..",
+												title: "warning",
+												icon: "warning"
+											});
+										}
 										socket.close()
-									}else{
-										$("#chatBtn_" + astrologerId).hide();
-								$("#waitingBtn_" + astrologerId).removeClass("d-none")
+										$("#chatBtn_" + astrologerId).show();
+										$("#waitingBtn_" + astrologerId).addClass("d-none")
 									}
+								};
 								}
 
 							socket.onerror = function (event) {
