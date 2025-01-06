@@ -323,7 +323,10 @@
 				<div class="d-flex align-items-center">
 					<img id="jyotishdetailschatheader" height="50" width="50" class="rounded-circle border" src="~/user-not-found.png" alt="jyotish profile" />
 					<h1 class="modal-title fs-5 ms-2" id="ChatModalLabel"></h1>
-				</div>
+				</div> &nbsp;&nbsp;&nbsp;
+				<span id="chatTimer" class="border rounded px-3">
+
+				</span>
 				<button type="button" class="btn-close" id="exitFromChat"></button>
 			</div>
 			<div class="modal-body chat-modal-body">
@@ -993,7 +996,6 @@
 	}
 	function makeActionAfterWalletPayment() {
 		bookAppoinment()
-
 	}
 
 	function selectSlots() {
@@ -1413,7 +1415,7 @@
 
 
 	function establishedConnection() {
-		let socket = new WebSocket(`wss://api.myjyotishg.in/api/chat/connect?id=${UserId}&sendBy=client`);
+		let socket = new WebSocket(`wss://api.myjyotishg.in/api/chat/connect?id=${UserId}&receiverId=${jyotishId}&sendBy=client`);
 		return new Promise((res, rej) => {
 			if (socket) {
 
@@ -1448,19 +1450,35 @@
 					$("#ChatModal").modal("show")
 				};
 				socket.onmessage = function (event) {
+					//let receiveMessage = JSON.parse(event.data).mssg
+					let receiveMessage = JSON.parse(event.data)
+					console.log(receiveMessage)
+					if (receiveMessage.type=="chatPayment"){
+						let count=1
+						let minute=0;
+						setInterval(()=>{
+							count++;
+if(count>60){
+	minute++;
+	count=0;
+}
+						$("#chatTimer").text(`${minute}:${count}`)
+						},1000)
+					}else{
+
 					const now = new Date();
 					const hours = now.getHours();
 					const minutes = now.getMinutes();
 					const messagesDiv = document.querySelector('.chat-modal-body');
 					messagesDiv.innerHTML += ` <div class="message float-start received">
-																		<div class="message-content"> ${JSON.parse(event.data).mssg}</div>
+																			<div class="message-content">${receiveMessage.mssg}</div>
 																		<small>${hours}:${minutes}<small>
 																</div>`
-
 
 					messagesDiv.scrollTop = messagesDiv.scrollHeight;
 					const lastChild = messagesDiv.lastElementChild;
 					lastChild.scrollIntoView({ behavior: 'smooth', block: 'end' });
+					}
 				};
 
 				socket.onerror = function (event) {

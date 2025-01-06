@@ -760,7 +760,7 @@
 
 
 			<script>
-				 var BaseUrl = "https://api.myjyotishg.in/"
+				var BaseUrl = "https://api.myjyotishg.in/"
 				// var BaseUrl = "https://localhost:7118/"
 			</script>
 
@@ -874,620 +874,620 @@
 	<!--Manage Feature -->
 
 	<script>
-				let FeaturesArray = []
-				let planUrl = []
-				let planData = []
-				$.ajax({
-					url: BaseUrl + "api/jyotish/getPlan",
-					type: "get",
-					headers: {
-						'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
-					},
-					data: { Id: localStorage.getItem("Id") },
-					success: function (res) {
-						console.log(res)
-						let planDesc = "";
-						if (res.status == 200 ) {
-							planData = res.data
-							planUrl = res.data.map(e => e.url.toLowerCase())
-							if (res.data.length > 0) {
-								let pathArray = [];
-								res.data.forEach(function (d) {
-									pathArray.push(d.url.toLowerCase())
-								})
+		let FeaturesArray = []
+		let planUrl = []
+		let planData = []
+		$.ajax({
+			url: BaseUrl + "api/jyotish/getPlan",
+			type: "get",
+			headers: {
+				'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+			},
+			data: { Id: localStorage.getItem("Id") },
+			success: function (res) {
+				console.log(res)
+				let planDesc = "";
+				if (res.status == 200) {
+					planData = res.data
+					planUrl = res.data.map(e => e.url.toLowerCase())
+					if (res.data.length > 0) {
+						let pathArray = [];
+						res.data.forEach(function (d) {
+							pathArray.push(d.url.toLowerCase())
+						})
 
-								$(".featureValidation").each(function () {
-									let href = $(this)
-									if (href.attr("href") != null || href.attr("href") != "" || href.attr("href") != undefined) {
-										if (!pathArray.includes(href.attr("href").toLowerCase())) {
-											href.removeAttr("href", "")
-											href.addClass("disable_link");
-											href.attr("onclick", "showAlert(this)")
-
-
-										}
-									}
-								})
-
-							}
-							else {
-
-								$(".featureValidation").each(function () {
-									let href = $(this)
+						$(".featureValidation").each(function () {
+							let href = $(this)
+							if (href.attr("href") != null || href.attr("href") != "" || href.attr("href") != undefined) {
+								if (!pathArray.includes(href.attr("href").toLowerCase())) {
 									href.removeAttr("href", "")
 									href.addClass("disable_link");
 									href.attr("onclick", "showAlert(this)")
-								})
+
+
+								}
 							}
-							if(res.data.length>0){
-							$(".userPlan").html(res.data[0].planName == "Platinum" ? "Pro User"
-								: res.data[0].planName == "Silver" ? `
-								   Upgrade to &nbsp;
-											<a href='/jyotish/Subscription' class='Gold px-2 rounded'>Gold</a>` : res.data[0].planName.trim() == "Gold" ? `
-									 Upgrade to &nbsp;
-													<a href='/jyotish/Subscription' class='Platinum px-2 rounded'>Platinum</a>` : res.data[0].planName)
-							$(".userPlan").addClass(res.data[0].planName)
-							}
-						}
+						})
 
+					}
+					else {
 
-
-					},
-					error: function () {
-						Swal.fire({
-							title: "Error",
-							text: "Some issue found !",
-							icon: "error"
+						$(".featureValidation").each(function () {
+							let href = $(this)
+							href.removeAttr("href", "")
+							href.addClass("disable_link");
+							href.attr("onclick", "showAlert(this)")
 						})
 					}
-				}).then(()=>{
-				$.ajax({
-					url: BaseUrl + "api/jyotish/GetAllFeatures",
-					type: "get",
-					headers: {
-						'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
-					},
-					success: function (res) {
-						if (res.status == 200) {
-							FeaturesArray = res.data.map(d => d.serviceUrl.toLowerCase());
-						}
+					if (res.data.length > 0) {
+						$(".userPlan").html(res.data[0].planName == "Platinum" ? "Pro User"
+							: res.data[0].planName == "Silver" ? `
+										   Upgrade to &nbsp;
+													<a href='/jyotish/Subscription' class='Gold px-2 rounded'>Gold</a>` : res.data[0].planName.trim() == "Gold" ? `
+											 Upgrade to &nbsp;
+															<a href='/jyotish/Subscription' class='Platinum px-2 rounded'>Platinum</a>` : res.data[0].planName)
+						$(".userPlan").addClass(res.data[0].planName)
 					}
-				}).then(() => {
-
-
-					const pathname = window.location.pathname.toLowerCase();
-					if (FeaturesArray.includes(pathname)) {
-						if (!planUrl.includes(pathname)) {
-							location.href = "/jyotish/dashboard"
-						}
-					}
-				})
-				})
-
-				function getRedeemcode(){
-					 $.ajax({
-						url: BaseUrl + "api/jyotish/getRedeemCode",
-					type: "get",
-					headers: {
-						'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
-					},
-					data: { jyotishId: localStorage.getItem("Id") },
-					success: function (res) {
-						if (res.status == 200 ) {
-		if(res.data.length>0){
-			console.log(res.data,"redeem")
-			let messageCount = 0;
-			res.data.forEach(function(d){
-										messageCount++
-										$("#messageContainer").append(` <a href="#">
-																<div class="notif-img">
-																	<img src="/redeemcode.jpg"
-																		 alt="Img Profile" />
-																</div>
-																<div class="notif-content">
-																							<div class="redeemCodeByAdmin"><b>${d.redeemCode}</b> - (<span class='text-success'>${d.discountAmount} ${d.discount}%</span>)</div>
-																							<div>${d.planName} - ${d.planType}</div>
-																			<div class="EpiryDate">Expire : ${d.expiryDate}</div>
-
-																</div>
-															</a>`)
-			})
-									$(".showMessageCount").text(messageCount)
-		}else{
-									$("#messageContainer").append(`<p class='text-center text-secondary'>no record found</p>`)
-			$(".showMessageCount").hide();
-
-		}
-						}
-					}
-					 })
 				}
-				getRedeemcode()
+
+
+
+			},
+			error: function () {
+				Swal.fire({
+					title: "Error",
+					text: "Some issue found !",
+					icon: "error"
+				})
+			}
+		}).then(() => {
+			$.ajax({
+				url: BaseUrl + "api/jyotish/GetAllFeatures",
+				type: "get",
+				headers: {
+					'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+				},
+				success: function (res) {
+					if (res.status == 200) {
+						FeaturesArray = res.data.map(d => d.serviceUrl.toLowerCase());
+					}
+				}
+			}).then(() => {
+
+
+				const pathname = window.location.pathname.toLowerCase();
+				if (FeaturesArray.includes(pathname)) {
+					if (!planUrl.includes(pathname)) {
+						location.href = "/jyotish/dashboard"
+					}
+				}
+			})
+		})
+
+		function getRedeemcode() {
+			$.ajax({
+				url: BaseUrl + "api/jyotish/getRedeemCode",
+				type: "get",
+				headers: {
+					'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+				},
+				data: { jyotishId: localStorage.getItem("Id") },
+				success: function (res) {
+					if (res.status == 200) {
+						if (res.data.length > 0) {
+							console.log(res.data, "redeem")
+							let messageCount = 0;
+							res.data.forEach(function (d) {
+								messageCount++
+								$("#messageContainer").append(` <a href="#">
+																		<div class="notif-img">
+																			<img src="/redeemcode.jpg"
+																				 alt="Img Profile" />
+																		</div>
+																		<div class="notif-content">
+																									<div class="redeemCodeByAdmin"><b>${d.redeemCode}</b> - (<span class='text-success'>${d.discountAmount} ${d.discount}%</span>)</div>
+																									<div>${d.planName} - ${d.planType}</div>
+																					<div class="EpiryDate">Expire : ${d.expiryDate}</div>
+
+																		</div>
+																	</a>`)
+							})
+							$(".showMessageCount").text(messageCount)
+						} else {
+							$("#messageContainer").append(`<p class='text-center text-secondary'>no record found</p>`)
+							$(".showMessageCount").hide();
+
+						}
+					}
+				}
+			})
+		}
+		getRedeemcode()
 	</script>
 
 	<script>
 
 
 
-			  function showAlert(e) {
-						$(".alert-box").removeClass("d-none")
-						$(".alert-content").text(e.innerText + " : This Page is not accessible according to your plan")
+		function showAlert(e) {
+			$(".alert-box").removeClass("d-none")
+			$(".alert-content").text(e.innerText + " : This Page is not accessible according to your plan")
 
-						setTimeout(() => {
-							$(".alert-box").addClass("d-none")
-						}, 3000)
+			setTimeout(() => {
+				$(".alert-box").addClass("d-none")
+			}, 3000)
+		}
+
+		document.addEventListener('DOMContentLoaded', function () {
+
+			let userId = localStorage.getItem('Id')
+			//fetch current login user detail
+
+			var loginUserApiUrl = BaseUrl + `Api/Jyotish/LayoutData?id=${userId}`
+			var headers = {
+				'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+				'Content-Type': 'application/json',
+			};
+			// Make the API call using fetch()
+			fetch(loginUserApiUrl, { headers: headers })
+				.then(response => {
+					if (response.status == 400) {
+
+						throw new Error('Network response was not ok');
 					}
+					return response.json();  // Parse the JSON data from the response
+				})
+				.then(data => {
+					if (data.status == 200) {
+						let item = data.data;
+						$(".userName").text(item.name)
+						$(".userEmail").text(item.email)
+						if (item.image != null || item.image != "")
+							$(".userProfile").attr("src", BaseUrl + item.image)
 
-				document.addEventListener('DOMContentLoaded', function () {
+					}
+				})
 
-					let userId = localStorage.getItem('Id')
-					//fetch current login user detail
+			// Your API URL
+			var apiUrl = BaseUrl + `Api/Jyotish/NotificationData?Id=${userId}`;
+			var headers = {
+				'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+				'Content-Type': 'application/json',
+			};
+			// Make the API call using fetch()
+			fetch(apiUrl, { headers: headers })
+				.then(response => {
+					if (response.status == 400) {
 
-					var loginUserApiUrl = BaseUrl +`Api/Jyotish/LayoutData?id=${userId}`
-					var headers = {
-						'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
-						'Content-Type': 'application/json',
-					};
-					// Make the API call using fetch()
-					fetch(loginUserApiUrl, { headers: headers })
-						.then(response => {
-							if (response.status == 400) {
+						$('#NotificationNewText').hide();
+						throw new Error('Network response was not ok');
+					}
+					return response.json();  // Parse the JSON data from the response
+				})
+				.then(data => {
+					// Get the container where you want to insert the notification data
+					const notificationDataContainer = document.getElementById('notificationData');
 
-								throw new Error('Network response was not ok');
-							}
-							return response.json();  // Parse the JSON data from the response
-						})
-						.then(data => {
-						if(data.status==200){
-							let item = data.data;
-								$(".userName").text(item.name)
-								$(".userEmail").text(item.email)
-								if(item.image!=null || item.image!="")
-								$(".userProfile").attr("src",BaseUrl+item.image)
+					// Iterate over each notification data item
+					data.data.forEach(item => {
+						// Create the notification item <a> element
+						const notificationItem = document.createElement('a');
+						notificationItem.href = '#';
+						notificationItem.classList.add('dropdown-item');
 
-						}
-						})
-
-					// Your API URL
-					var apiUrl = BaseUrl + `Api/Jyotish/NotificationData?Id=${userId}`;
-					var headers = {
-						'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
-						'Content-Type': 'application/json',
-					};
-					// Make the API call using fetch()
-					fetch(apiUrl, { headers: headers })
-						.then(response => {
-							if (response.status == 400) {
-
-								$('#NotificationNewText').hide();
-								throw new Error('Network response was not ok');
-							}
-							return response.json();  // Parse the JSON data from the response
-						})
-						.then(data => {
-							// Get the container where you want to insert the notification data
-							const notificationDataContainer = document.getElementById('notificationData');
-
-							// Iterate over each notification data item
-							data.data.forEach(item => {
-								// Create the notification item <a> element
-								const notificationItem = document.createElement('a');
-								notificationItem.href = '#';
-								notificationItem.classList.add('dropdown-item');
-
-								const shortName = item.name.length > 15 ? item.name.substring(0, 15) + '...' : item.name;
-								notificationItem.innerHTML = `
+						const shortName = item.name.length > 15 ? item.name.substring(0, 15) + '...' : item.name;
+						notificationItem.innerHTML = `
 
 
 
-																  <a href="/Jyotish/UpcomingAppointment">
-																<div class="notif-icon notif-primary">
-																	<i class="fa fa-user-plus"></i>
-																</div>
-																<div class="notif-content">
-																			<span class="block"> ${shortName} - Book Appointment </span>
-																			<span class="time">${item.bookingDate} </span>
-																</div>
-															</a>
-							`;
+																		  <a href="/Jyotish/UpcomingAppointment">
+																		<div class="notif-icon notif-primary">
+																			<i class="fa fa-user-plus"></i>
+																		</div>
+																		<div class="notif-content">
+																					<span class="block"> ${shortName} - Book Appointment </span>
+																					<span class="time">${item.bookingDate} </span>
+																		</div>
+																	</a>
+									`;
 
-								// Append the notification item to the container
-								notificationDataContainer.appendChild(notificationItem);
-							});
-						})
-						.catch(error => {
-							// Handle any errors that occur during the fetch
-							console.error('There was a problem with the fetch operation:', error);
-							const container = document.getElementById('notificationData');
-							container.innerHTML = '<p>Error loading notifications. Please try again later.</p>';
-						});
+						// Append the notification item to the container
+						notificationDataContainer.appendChild(notificationItem);
+					});
+				})
+				.catch(error => {
+					// Handle any errors that occur during the fetch
+					console.error('There was a problem with the fetch operation:', error);
+					const container = document.getElementById('notificationData');
+					container.innerHTML = '<p>Error loading notifications. Please try again later.</p>';
 				});
-
-				$(document).ready(function(){
-		 $('.summernote').summernote({
-			 height: 300, // set the height of the editor
-			 toolbar: [
-			// Define your toolbar groups here. Exclude 'image' and 'video'
-			['style', ['bold', 'italic', 'underline', 'clear']],
-			['font', ['strikethrough', 'superscript', 'subscript']],
-			['para', ['ul', 'ol', 'paragraph']],
-			['view', ['fullscreen', 'codeview']] // remove image/video
-		  ]
 		});
-		 })
 
-					// Sidebar Toggler
-					let hide = true;
-					// Logout
-					$("#logout").click(function () {
+		$(document).ready(function () {
+			$('.summernote').summernote({
+				height: 300, // set the height of the editor
+				toolbar: [
+					// Define your toolbar groups here. Exclude 'image' and 'video'
+					['style', ['bold', 'italic', 'underline', 'clear']],
+					['font', ['strikethrough', 'superscript', 'subscript']],
+					['para', ['ul', 'ol', 'paragraph']],
+					['view', ['fullscreen', 'codeview']] // remove image/video
+				]
+			});
+		})
+
+		// Sidebar Toggler
+		let hide = true;
+		// Logout
+		$("#logout").click(function () {
 
 
-						Swal.fire({
-							title: "Are you sure you want to logout?",
-							icon: 'warning',
-							showConfirmButton: true,
-							showCancelButton: true,  // Adds the cancel button
-							confirmButtonText: 'Yes, logout',
-							cancelButtonText: 'Cancel'
-						}).then((result) => {
-							if (result.isConfirmed) {
-								localStorage.clear();
-								window.location.href="/Jyotish/Login";
-							}
-						});
-					});
-
-				$(".messageInpBoxs").on("input", function () {
-					let characterLength = $(this).val().length
-					if (characterLength > 0) {
-						$("#sendMessageBtn").attr("disabled", false);
-					} else {
-						$("#sendMessageBtn").attr("disabled", true);
-
-					}
-				});
-
-					//make connection for chat
-				function establishedConnection() {
-					let socket = new WebSocket(`wss://api.myjyotishg.in/api/chat/connect?id=${jyotishId}&sendBy=jyotish`);
-					return new Promise((res, rej) => {
-						if (socket) {
-
-							res(socket)
-						} else {
-							rej(false)
-						}
-					});
+			Swal.fire({
+				title: "Are you sure you want to logout?",
+				icon: 'warning',
+				showConfirmButton: true,
+				showCancelButton: true,  // Adds the cancel button
+				confirmButtonText: 'Yes, logout',
+				cancelButtonText: 'Cancel'
+			}).then((result) => {
+				if (result.isConfirmed) {
+					localStorage.clear();
+					window.location.href = "/Jyotish/Login";
 				}
-					//chat request management
-					let jyotishId=localStorage.getItem("Id")
-					function establishedConnectionForSendRequest() {
-						let socket = new WebSocket(`wss://api.myjyotishg.in/api/chat/sendChatRequest?id=${jyotishId}&sendBy=jyotish`);
-						return new Promise((res, rej) => {
-							if (socket) {
+			});
+		});
 
-								res(socket)
-							} else {
-								rej(false)
-							}
-						});
-					}
+		$(".messageInpBoxs").on("input", function () {
+			let characterLength = $(this).val().length
+			if (characterLength > 0) {
+				$("#sendMessageBtn").attr("disabled", false);
+			} else {
+				$("#sendMessageBtn").attr("disabled", true);
 
-					let userIdForchat=null;
-					const roomID = 'user_'+localStorage.getItem("userId");
+			}
+		});
+
+		//make connection for chat
+		function establishedConnection(userId) {
+			let socket = new WebSocket(`wss://api.myjyotishg.in/api/chat/connect?id=${jyotishId}&receiverId=${userId}&sendBy=jyotish`);
+			return new Promise((res, rej) => {
+				if (socket) {
+
+					res(socket)
+				} else {
+					rej(false)
+				}
+			});
+		}
+		//chat request management
+		let jyotishId = localStorage.getItem("Id")
+		function establishedConnectionForSendRequest() {
+			let socket = new WebSocket(`wss://api.myjyotishg.in/api/chat/sendChatRequest?id=${jyotishId}&sendBy=jyotish`);
+			return new Promise((res, rej) => {
+				if (socket) {
+
+					res(socket)
+				} else {
+					rej(false)
+				}
+			});
+		}
+
+		let userIdForchat = null;
+		const roomID = 'user_' + localStorage.getItem("userId");
 		const clientId = Math.floor(Math.random() * 10000) + "";
 		const appID = 865742206;
 		const serverSecret = "5a72180880214f43c9358d38af32eacc";
 		let TOKEN
-					establishedConnectionForSendRequest().then((socket) => {
-						debugger
-						if (socket) {
-							socket.onopen = function (event) {
-								console.log('WebSocket connection established:', event);
+		establishedConnectionForSendRequest().then((socket) => {
+			debugger
+			if (socket) {
+				socket.onopen = function (event) {
+					console.log('WebSocket connection established:', event);
 
-							};
-							socket.onmessage = function (event) {
-								let response = JSON.parse(event.data)
-								let userDetail=JSON.parse(response.data)
-								console.log(userDetail)
-								debugger
-								if (userDetail != null && userDetail!=false) {
-								$("#userImage").attr("src",userDetail.Image)
-								$("#userNameForchat").text(userDetail.Name)
-								const toastElList = document.querySelectorAll('.toast');
+				};
+				socket.onmessage = function (event) {
+					let response = JSON.parse(event.data)
+					let userDetail = JSON.parse(response.data)
+					console.log(userDetail)
+					debugger
+					if (userDetail != null && userDetail != false) {
+						$("#userImage").attr("src", userDetail.Image)
+						$("#userNameForchat").text(userDetail.Name)
+						const toastElList = document.querySelectorAll('.toast');
 
-								const toastList = [...toastElList].map(toastEl => {
-									const toast = new bootstrap.Toast(toastEl, {
-										autohide: false
-									});
+						const toastList = [...toastElList].map(toastEl => {
+							const toast = new bootstrap.Toast(toastEl, {
+								autohide: false
+							});
 
-									toast.show();
-								})
-									const now = new Date();
-									const hours = now.getHours();
-									const minutes = now.getMinutes();
-									$("#requestDateTime").text(`${hours}:${minutes}`);
-									const image = document.querySelector('#userImage');
-									userIdForchat = userDetail.Id
-									image.addEventListener('error', function () {
-										image.src = '/user-not-found.png';
-									});
-									$("#requestMessage").text(`${response.type} Request`)
+							toast.show();
+						})
+						const now = new Date();
+						const hours = now.getHours();
+						const minutes = now.getMinutes();
+						$("#requestDateTime").text(`${hours}:${minutes}`);
+						const image = document.querySelector('#userImage');
+						userIdForchat = userDetail.Id
+						image.addEventListener('error', function () {
+							image.src = '/user-not-found.png';
+						});
+						$("#requestMessage").text(`${response.type} Request`)
 						if (response.data) {
 							rquestType = response.type
 							roomId = response.roomId;
 						} else {
 							roomId = null
 						}
-								}else{
-									 const toastElList = document.querySelectorAll('.toast');
+					} else {
+						const toastElList = document.querySelectorAll('.toast');
 
-								const toastList = [...toastElList].map(toastEl => {
-									const toast = new bootstrap.Toast(toastEl, {
-										autohide: false
-									});
+						const toastList = [...toastElList].map(toastEl => {
+							const toast = new bootstrap.Toast(toastEl, {
+								autohide: false
+							});
 
-									toast.hide();
-								})
-								}
-							};
-
-							socket.onerror = function (event) {
-								console.error('WebSocket error observed:', event);
-								Swal.fire({
-									text: "some error occured while making connection",
-									title: "error",
-									icon: "error"
-								});
-							};
-
-							socket.onclose = function (event) {
-								console.log('WebSocket connection closed:', event);
-
-
-							};
-							
-						$("#AcceptChatRequest").click(function(){
-							if(rquestType=="call"){
-					socket.send(`${userIdForchat}:${roomId}:call`)
-					TOKEN=ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, clientId, $("#userProfileName").text());
-					localStorage.setItem("jcallTOKEN",TOKEN)
-					startCall()
-							}
-							else{
-
-							if (userIdForchat != null)
-								socket.send(`${userIdForchat}:0:chat`)
-						localStorage.setItem("jresumeChat",userIdForchat)
-
-								startChat();
-							}
-							
+							toast.hide();
 						})
+					}
+				};
 
-						}
-					})
-		if(localStorage.getItem("jcallTOKEN")!=null){
-				startCall()
-			}
+				socket.onerror = function (event) {
+					console.error('WebSocket error observed:', event);
+					Swal.fire({
+						text: "some error occured while making connection",
+						title: "error",
+						icon: "error"
+					});
+				};
 
-			if(localStorage.getItem("jresumeChat")!=null){
-				userIdForchat=localStorage.getItem("jresumeChat");
-				startChat();
+				socket.onclose = function (event) {
+					console.log('WebSocket connection closed:', event);
+
+
+				};
+
+				$("#AcceptChatRequest").click(function () {
+					if (rquestType == "call") {
+						socket.send(`${userIdForchat}:${roomId}:call`)
+						TOKEN = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, clientId, $("#userProfileName").text());
+						localStorage.setItem("jcallTOKEN", TOKEN)
+						startCall()
+					}
+					else {
+
+						if (userIdForchat != null)
+							socket.send(`${userIdForchat}:0:chat`)
+						localStorage.setItem("jresumeChat", userIdForchat)
+
+						startChat();
+					}
+
+				})
+
 			}
+		})
+		if (localStorage.getItem("jcallTOKEN") != null) {
+			startCall()
+		}
+
+		if (localStorage.getItem("jresumeChat") != null) {
+			userIdForchat = localStorage.getItem("jresumeChat");
+			startChat();
+		}
 
 		async function startCall() {
 			const zg = ZegoUIKitPrebuilt.create(localStorage.getItem("jcallTOKEN"));
 
-				try {
+			try {
 
-						debugger
-					zg.joinRoom({
-						container: document.querySelector("#root"),
-						turnOnCameraWhenJoining: false,
-						showMyCameraToggleButton: false,
-						showAudioVideoSettingsButton: false,
-						showScreenSharingButton: false,
-						showPreJoinView: false,
-							   lowerLeftNotification: {
-							showUserJoinAndLeave: false,
-							showTextChat: false,
-						},
-						showRoomTimer:true,
-						showLeavingView:false,
-						showTextChat:false,
-						maxUsers: 2,
-						showPreJoinView: false,
-						scenario: {
-							mode: ZegoUIKitPrebuilt.OneONoneCall,
+				debugger
+				zg.joinRoom({
+					container: document.querySelector("#root"),
+					turnOnCameraWhenJoining: false,
+					showMyCameraToggleButton: false,
+					showAudioVideoSettingsButton: false,
+					showScreenSharingButton: false,
+					showPreJoinView: false,
+					lowerLeftNotification: {
+						showUserJoinAndLeave: false,
+						showTextChat: false,
+					},
+					showRoomTimer: true,
+					showLeavingView: false,
+					showTextChat: false,
+					maxUsers: 2,
+					showPreJoinView: false,
+					scenario: {
+						mode: ZegoUIKitPrebuilt.OneONoneCall,
 
 
-						}, onJoinRoom: () => {
-							turnOnMicrophoneWhenJoining:true;
-						},
-						onLeaveRoom: () => {
-							turnOnMicrophoneWhenJoining: false;
-					localStorage.removeItem("jcallTOKEN")
+					}, onJoinRoom: () => {
+						turnOnMicrophoneWhenJoining: true;
+					},
+					onLeaveRoom: () => {
+						turnOnMicrophoneWhenJoining: false;
+						localStorage.removeItem("jcallTOKEN")
 
-						},
-						onUserJoin: (user) => {
-							},
-							onUserLeave: (user) => {
-							}
+					},
+					onUserJoin: (user) => {
+					},
+					onUserLeave: (user) => {
+					}
 
-					});
-					zg.setCallInvitationConfig({
-						onSetRoomConfigBeforeJoining: () => {
-							const roomID = zg.getRoomID();
-							sessionStorage.setItem('roomID', roomID);
+				});
+				zg.setCallInvitationConfig({
+					onSetRoomConfigBeforeJoining: () => {
+						const roomID = zg.getRoomID();
+						sessionStorage.setItem('roomID', roomID);
 
-						}
-					});
-				} catch (error) {
-					console.error('Error starting the call:', error);
-				}
+					}
+				});
+			} catch (error) {
+				console.error('Error starting the call:', error);
 			}
+		}
 
 
-				function getChatHistory() {
-					$.ajax({
-						url: `${BaseUrl}api/chat/getchats`,
-						method: "GET",
-						headers: {
-							'Authorization': `Bearer ${localStorage.getItem("Token")}`
-						},
-						data: { sender: jyotishId, receiver: userIdForchat },
-						success: function (res) {
-							console.log(res, "chatData")
-							if (res.length > 0) {
-								const messagesDiv = document.querySelector('.chat-modal-body');
-								res.forEach(function (d) {
-									if (d.sendBy == "client") {
+		function getChatHistory() {
+			$.ajax({
+				url: `${BaseUrl}api/chat/getchats`,
+				method: "GET",
+				headers: {
+					'Authorization': `Bearer ${localStorage.getItem("Token")}`
+				},
+				data: { sender: jyotishId, receiver: userIdForchat },
+				success: function (res) {
+					console.log(res, "chatData")
+					if (res.length > 0) {
+						const messagesDiv = document.querySelector('.chat-modal-body');
+						res.forEach(function (d) {
+							if (d.sendBy == "client") {
 
-										messagesDiv.innerHTML += `<div class="message float-start received ">
-																	<div class="message-content">${d.message}</div>
-																				<small>${d.mssDate}</small>
-														</div>`
+								messagesDiv.innerHTML += `<div class="message float-start received ">
+																			<div class="message-content">${d.message}</div>
+																						<small>${d.mssDate}</small>
+																</div>`
 
-									} else {
-										messagesDiv.innerHTML += `<div class="message float-end sent">
-																		<div class="message-content">${d.message}</div>
-																					<small>${d.mssDate}</small>
-															</div>`
-									}
-								})
-								setTimeout(() => {
-									messagesDiv.scrollTop = messagesDiv.scrollHeight;
-									const lastChild = messagesDiv.lastElementChild;
-									lastChild.scrollIntoView({ behavior: 'smooth', block: 'end' });
-								}, 1000)
+							} else {
+								messagesDiv.innerHTML += `<div class="message float-end sent">
+																				<div class="message-content">${d.message}</div>
+																							<small>${d.mssDate}</small>
+																	</div>`
 							}
-						}
-					})
+						})
+						setTimeout(() => {
+							messagesDiv.scrollTop = messagesDiv.scrollHeight;
+							const lastChild = messagesDiv.lastElementChild;
+							lastChild.scrollIntoView({ behavior: 'smooth', block: 'end' });
+						}, 1000)
+					}
 				}
+			})
+		}
 
-				function getSomeUser() {
-					$.ajax({
-						url: `${BaseUrl}api/user/LayoutData`,
-						method: "GET",
-						headers: {
-							'Authorization': `Bearer ${localStorage.getItem("Token")}`
-						},
-						data: { Id: userIdForchat },
-						success: function (res) {
-							if (res.status === 200) {
+		function getSomeUser() {
+			$.ajax({
+				url: `${BaseUrl}api/user/LayoutData`,
+				method: "GET",
+				headers: {
+					'Authorization': `Bearer ${localStorage.getItem("Token")}`
+				},
+				data: { Id: userIdForchat },
+				success: function (res) {
+					if (res.status === 200) {
 
-								if (res.data != null) {
-									$("#userhdetailschatheader").attr("src", res.data.image)
-									$("#ChatModalLabel").text(res.data.name)
-								}
-							}
+						if (res.data != null) {
+							$("#userhdetailschatheader").attr("src", res.data.image)
+							$("#ChatModalLabel").text(res.data.name)
 						}
-					})
+					}
 				}
-				function startChat(userId) {
-					getSomeUser(userId)
-					getChatHistory(userId);
-					establishedConnection().then((socket) => {
-						if (socket) {
+			})
+		}
+		function startChat(userId) {
+			getSomeUser(userId)
+			getChatHistory(userId);
+			establishedConnection(userId).then((socket) => {
+				if (socket) {
 					let roomId = null;
 					let rquestType;
-							socket.onopen = function (event) {
-								console.log('WebSocket connection established:', event);
-								$("#ChatModal").modal("show")
-								const toastElList = document.querySelectorAll('.toast');
+					socket.onopen = function (event) {
+						console.log('WebSocket connection established:', event);
+						$("#ChatModal").modal("show")
+						const toastElList = document.querySelectorAll('.toast');
 
-								const toastList = [...toastElList].map(toastEl => {
-									const toast = new bootstrap.Toast(toastEl, {
+						const toastList = [...toastElList].map(toastEl => {
+							const toast = new bootstrap.Toast(toastEl, {
 
-									});
+							});
 
-									toast.hide();
-								})
-							};
-							socket.onmessage = function (event) {
+							toast.hide();
+						})
+					};
+					socket.onmessage = function (event) {
+						const now = new Date();
+						const hours = now.getHours();
+						const minutes = now.getMinutes();
+						const messagesDiv = document.querySelector('.chat-modal-body');
+						messagesDiv.innerHTML += ` <div class="message float-start received">
+																							<div class="message-content"> ${JSON.parse(event.data).mssg}</div>
+																							<small>${hours}:${minutes}<small>
+																					</div>`
+
+						messagesDiv.scrollTop = messagesDiv.scrollHeight;
+						const lastChild = messagesDiv.lastElementChild;
+						lastChild.scrollIntoView({ behavior: 'smooth', block: 'end' });
+					};
+
+					socket.onerror = function (event) {
+						console.error('WebSocket error observed:', event);
+						Swal.fire({
+							text: "some error occured while making connection",
+							title: "error",
+							icon: "error"
+						});
+					};
+
+					socket.onclose = function (event) {
+						console.log('WebSocket connection closed:', event);
+						$("#ChatModal").modal("hide")
+
+					};
+
+
+					$("#messageForm").submit(function (e) {
+						e.preventDefault();
+						debugger
+						let message = $(".messageInpBoxs").val();
+						const messagesDiv = document.querySelector('.chat-modal-body');
+
+
+						if (socket && socket.readyState === WebSocket.OPEN) {
+
+							if (jyotishId && message) {
 								const now = new Date();
 								const hours = now.getHours();
 								const minutes = now.getMinutes();
-								const messagesDiv = document.querySelector('.chat-modal-body');
-								messagesDiv.innerHTML += ` <div class="message float-start received">
-																					<div class="message-content"> ${JSON.parse(event.data).mssg}</div>
-																					<small>${hours}:${minutes}<small>
-																			</div>`
+								messagesDiv.innerHTML += `<div class="message float-end sent">
+																								<div class="message-content">${message}</div>
+																								<small>${hours}:${minutes}<small>
 
-								messagesDiv.scrollTop = messagesDiv.scrollHeight;
-								const lastChild = messagesDiv.lastElementChild;
-								lastChild.scrollIntoView({ behavior: 'smooth', block: 'end' });
-							};
-
-							socket.onerror = function (event) {
-								console.error('WebSocket error observed:', event);
-								Swal.fire({
-									text: "some error occured while making connection",
-									title: "error",
-									icon: "error"
-								});
-							};
-
-							socket.onclose = function (event) {
-								console.log('WebSocket connection closed:', event);
-								$("#ChatModal").modal("hide")
-
-							};
-
-
-							$("#messageForm").submit(function (e) {
-								e.preventDefault();
-								debugger
-								let message = $(".messageInpBoxs").val();
-								const messagesDiv = document.querySelector('.chat-modal-body');
-
-
-								if (socket && socket.readyState === WebSocket.OPEN) {
-
-									if (jyotishId && message) {
-										const now = new Date();
-										const hours = now.getHours();
-										const minutes = now.getMinutes();
-										messagesDiv.innerHTML += `<div class="message float-end sent">
-																						<div class="message-content">${message}</div>
-																						<small>${hours}:${minutes}<small>
-
-																				</div>`
-										socket.send(`${userIdForchat}:${message}`);
-									}
-									$(".messageInpBoxs").val("");
-									messagesDiv.scrollTop = messagesDiv.scrollHeight;
-									const lastChild = messagesDiv.lastElementChild;
-									lastChild.scrollIntoView({ behavior: 'smooth', block: 'end' });
-								}
-							});
+																						</div>`
+								socket.send(`${userIdForchat}:${message}`);
+							}
+							$(".messageInpBoxs").val("");
+							messagesDiv.scrollTop = messagesDiv.scrollHeight;
+							const lastChild = messagesDiv.lastElementChild;
+							lastChild.scrollIntoView({ behavior: 'smooth', block: 'end' });
 						}
-						$("#exitFromChat").click(function () {
-							Swal.fire({
-								title: "warning",
-								text: "Do you really want to end chat",
-								icon: "warning",
-								showCancelButton: true,
-								confirmButtonColor: "#3085d6",
-								cancelButtonColor: "#d33",
-								confirmButtonText: "Leave"
-							}).then((result) => {
-								if (result.isConfirmed) {
-									socket.close();
-									localStorage.removeItem("jresumeChat")
-								}
-							})
-						})
-					});
-					const image = document.querySelector('#userhdetailschatheader');
-
-					image.addEventListener('error', function () {
-						image.src = '/user-not-found.png';
 					});
 				}
+				$("#exitFromChat").click(function () {
+					Swal.fire({
+						title: "warning",
+						text: "Do you really want to end chat",
+						icon: "warning",
+						showCancelButton: true,
+						confirmButtonColor: "#3085d6",
+						cancelButtonColor: "#d33",
+						confirmButtonText: "Leave"
+					}).then((result) => {
+						if (result.isConfirmed) {
+							socket.close();
+							localStorage.removeItem("jresumeChat")
+						}
+					})
+				})
+			});
+			const image = document.querySelector('#userhdetailschatheader');
 
-          
+			image.addEventListener('error', function () {
+				image.src = '/user-not-found.png';
+			});
+		}
+
+
 	</script>
 
 </body>

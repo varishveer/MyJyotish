@@ -534,7 +534,7 @@
 
 
 	function establishedConnection() {
-		let socket = new WebSocket(`wss://api.myjyotishg.in/api/chat/connect?id=${UserId}&sendBy=client`);
+		let socket = new WebSocket(`wss://api.myjyotishg.in/api/chat/connect?id=${UserId}&receiverId=${jyotishId}&sendBy=client`);
 		return new Promise((res, rej) => {
 			if (socket) {
 				res(socket)
