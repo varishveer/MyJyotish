@@ -747,8 +747,18 @@ namespace BusinessAccessLayer.Implementation
 
         }
 
-        //wallet history
-        public string AddWalletHistory(WalletHistoryViewmodel pr)
+		public dynamic getJyotishCallServicesCharges(int jyotishid)
+		{
+			var res = _context.JyotishRecords
+	.Where(e => e.Id == jyotishid && e.Status)
+	.Select(e => e.CallCharges)
+	.FirstOrDefault();
+			return res;
+
+		}
+
+		//wallet history
+		public string AddWalletHistory(WalletHistoryViewmodel pr)
         {
             var Jyotish = _context.Users.Where(x => x.Id == pr.UId).FirstOrDefault();
             if (Jyotish == null) { return null; }

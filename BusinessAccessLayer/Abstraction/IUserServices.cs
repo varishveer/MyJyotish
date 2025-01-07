@@ -42,8 +42,10 @@ namespace BusinessAccessLayer.Abstraction
         public ProblemSolutionJyotishGetViewModel GetProblemSolution(int appointmentId);
         public dynamic GetAttachmentByAppointment(int appointmentId, int memberId);
         public dynamic getJyotishServicesCharges(int jyotishid);
+        public dynamic getJyotishCallServicesCharges(int jyotishid);
 
-        public long GetWallet(int UserId);
+
+		public long GetWallet(int UserId);
         public List<City> selecAllCity();
 
         public string AddWalletHistory(WalletHistoryViewmodel pr);

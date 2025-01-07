@@ -222,6 +222,10 @@
 					<img id="jyotishdetailschatheader" height="50" width="50" class="rounded-circle border" src="~/user-not-found.png" alt="jyotish profile" />
 					<h1 class="modal-title fs-5 ms-2" id="ChatModalLabel"></h1>
 				</div>
+				&nbsp;&nbsp;&nbsp;
+				<span id="chatTimer" class="border rounded px-3">
+
+				</span>
 				<button type="button" class="btn-close" id="exitFromChat"></button>
 			</div>
 			<div class="modal-body chat-modal-body">
@@ -346,25 +350,25 @@
 		astrologers.forEach(function (astrologer) {
 			var ImgSrc = BaseUrl + astrologer.profileImageUrl;
 			html += `
-							<div class="astrologer-card">
-									<a href="/Home/JyotishProfile?Id=${astrologer.id}" class="text-decoration-none">
-									<i class="decorative-icon fa fa-star"></i>
-										<img src="${ImgSrc}" class='jyotishProfileImages'  alt="${astrologer.name}">
-															<div class="card-body p-0 pt-2">
-																	<h6 class="card-title  text-center">${astrologer.name} <i class="fa-solid text-primary fa-circle-check"></i> - ${astrologer.city}</h6>
-																	<p class='text-center text-warning' >${generateFullStars()}</p>
-																<p class="card-text px-1 text-center" >
-																	 ${astrologer.expertise} | ${astrologer.experience != null ? astrologer.experience : 0} Years
-																</p>
-															</div>
-								</a><br>
-											 <button class="btn btn-primary chatBtn me-2 mb-2 mb-md-0 " id='chatBtn_${astrologer.id}' onclick="ChatBtn(${astrologer.id})"   style="background-color: #4CAF50; border-color: #4CAF50;">
-												Start Chat ₹${astrologer.chatCharges}/min
-									</button>
-										<button class="btn btn-outline-success d-none" id="waitingBtn_${astrologer.id}">Waiting...</button>
+								<div class="astrologer-card">
+										<a href="/Home/JyotishProfile?Id=${astrologer.id}" class="text-decoration-none">
+										<i class="decorative-icon fa fa-star"></i>
+											<img src="${ImgSrc}" class='jyotishProfileImages'  alt="${astrologer.name}">
+																<div class="card-body p-0 pt-2">
+																		<h6 class="card-title  text-center">${astrologer.name} <i class="fa-solid text-primary fa-circle-check"></i> - ${astrologer.city}</h6>
+																		<p class='text-center text-warning' >${generateFullStars()}</p>
+																	<p class="card-text px-1 text-center" >
+																		 ${astrologer.expertise} | ${astrologer.experience != null ? astrologer.experience : 0} Years
+																	</p>
+																</div>
+									</a><br>
+												 <button class="btn btn-primary chatBtn me-2 mb-2 mb-md-0 " id='chatBtn_${astrologer.id}' onclick="ChatBtn(${astrologer.id})"   style="background-color: #4CAF50; border-color: #4CAF50;">
+													Start Chat ₹${astrologer.chatCharges}/min
+										</button>
+											<button class="btn btn-outline-success d-none" id="waitingBtn_${astrologer.id}">Waiting...</button>
 
-							</div>
-						`;
+								</div>
+							`;
 		});
 		$('#astrologerList').html(html);
 
@@ -433,7 +437,7 @@
 										startChat(astrologerId);
 										socket.close()
 										$(".messageInpBox").val(`
-		Hi, Below are my Details : Name: ${Name} Gender:${Gender} DOB: ${DateOfBirth} DOT: ${TimeOfBirth} POB: ${PlaceOfBirth}`)
+			Hi, Below are my Details : Name: ${Name} Gender:${Gender} DOB: ${DateOfBirth} DOT: ${TimeOfBirth} POB: ${PlaceOfBirth}`)
 									} else if (!response.data) {
 										if (response.anotherRequest) {
 											Swal.fire({
@@ -447,49 +451,49 @@
 										$("#waitingBtn_" + astrologerId).addClass("d-none")
 									}
 								};
-								
-
-							socket.onerror = function (event) {
-								console.error('WebSocket error observed:', event);
-								Swal.fire({
-									text: "some error occured while making connection",
-									title: "error",
-									icon: "error"
-								});
-							};
-
-							socket.onclose = function (event) {
-								console.log('WebSocket connection closed:', event);
-								$("#chatBtn_" + astrologerId).show();
-								$("#waitingBtn_" + astrologerId).addClass("d-none")
-
-							};
 
 
-						}
-					})
+								socket.onerror = function (event) {
+									console.error('WebSocket error observed:', event);
+									Swal.fire({
+										text: "some error occured while making connection",
+										title: "error",
+										icon: "error"
+									});
+								};
 
-			$("#exampleModal3").modal("hide")
-		} else {
-			// Handle unexpected response status (if needed)
-			Swal.fire({
-				title: "Error!",
-				text: "There was an issue with the response.",
-				icon: "error"
+								socket.onclose = function (event) {
+									console.log('WebSocket connection closed:', event);
+									$("#chatBtn_" + astrologerId).show();
+									$("#waitingBtn_" + astrologerId).addClass("d-none")
+
+								};
+
+
+							}
+						})
+
+						$("#exampleModal3").modal("hide")
+					} else {
+						// Handle unexpected response status (if needed)
+						Swal.fire({
+							title: "Error!",
+							text: "There was an issue with the response.",
+							icon: "error"
+						});
+					}
+				},
+				error: function (xhr, status, error) {
+					// Error case: Handle request errors
+					Swal.fire({
+						title: "Error!",
+						text: "Something went wrong. Please try again later.",
+						icon: "error"
+					});
+				}
 			});
 		}
-	},
-		error: function (xhr, status, error) {
-			// Error case: Handle request errors
-			Swal.fire({
-				title: "Error!",
-				text: "Something went wrong. Please try again later.",
-				icon: "error"
-			});
-		}
-				});
-			}
-		});
+	});
 
 	if (localStorage.getItem("resumeChat") != null) {
 		setTimeout(() => {
@@ -533,7 +537,7 @@
 	});
 
 
-	function establishedConnection() {
+	function establishedConnection(jyotishId) {
 		let socket = new WebSocket(`wss://api.myjyotishg.in/api/chat/connect?id=${UserId}&receiverId=${jyotishId}&sendBy=client`);
 		return new Promise((res, rej) => {
 			if (socket) {
@@ -556,11 +560,25 @@
 		});
 	}
 
-
+	function startCounting(totalTime, socket) {
+		let count = 1
+		let minute = 0;
+		setInterval(() => {
+			count++;
+			if (count > 60) {
+				minute++;
+				count = 0;
+			}
+			if (minute == totalTime) {
+				socket.close();
+			}
+			$("#chatTimer").text(`${minute}:${count}`)
+		}, 1000)
+	};
 	function startChat(astrologerId) {
 		getSomeJyotish(astrologerId)
 		getChatHistory(astrologerId);
-		establishedConnection().then((socket) => {
+		establishedConnection(astrologerId).then((socket) => {
 			if (socket) {
 				socket.onopen = function (event) {
 					debugger
@@ -568,17 +586,24 @@
 					$("#ChatModal").modal("show")
 				};
 				socket.onmessage = function (event) {
-					const now = new Date();
-					const hours = now.getHours();
-					const minutes = now.getMinutes();
-					const messagesDiv = document.querySelector('.chat-modal-body');
-					messagesDiv.innerHTML += ` <div class="message float-start received">
-																				<div class="message-content"> ${JSON.parse(event.data).mssg}</div>
-																				<small>${hours}:${minutes}<small>
-																		</div>`
-					messagesDiv.scrollTop = messagesDiv.scrollHeight;
-					const lastChild = messagesDiv.lastElementChild;
-					lastChild.scrollIntoView({ behavior: 'smooth', block: 'end' });
+					let receiveMessage = JSON.parse(event.data)
+					debugger
+					console.log(receiveMessage)
+					if (receiveMessage.type == "chatPayment") {
+						startCounting(receiveMessage.totalTime, socket);
+					} else {
+						const now = new Date();
+						const hours = now.getHours();
+						const minutes = now.getMinutes();
+						const messagesDiv = document.querySelector('.chat-modal-body');
+						messagesDiv.innerHTML += ` <div class="message float-start received">
+																					<div class="message-content"> ${JSON.parse(event.data).mssg}</div>
+																					<small>${hours}:${minutes}<small>
+																			</div>`
+						messagesDiv.scrollTop = messagesDiv.scrollHeight;
+						const lastChild = messagesDiv.lastElementChild;
+						lastChild.scrollIntoView({ behavior: 'smooth', block: 'end' });
+					}
 				};
 
 				socket.onerror = function (event) {
@@ -611,10 +636,10 @@
 							const hours = now.getHours();
 							const minutes = now.getMinutes();
 							messagesDiv.innerHTML += `<div class="message float-end sent">
-																					<div class="message-content">${message}</div>
-																					<small>${hours}:${minutes}<small>
+																						<div class="message-content">${message}</div>
+																						<small>${hours}:${minutes}<small>
 
-																			</div>`
+																				</div>`
 							socket.send(`${astrologerId}:${message}`);
 						}
 						$(".messageInpBox").val("");
@@ -667,15 +692,15 @@
 						if (d.sendBy == "client") {
 
 							messagesDiv.innerHTML += `<div class="message float-end sent">
-																<div class="message-content">${d.message}</div>
-																			<small>${d.mssDate}</small>
-													</div>`
-
-						} else {
-							messagesDiv.innerHTML += `<div class="message float-start received">
 																	<div class="message-content">${d.message}</div>
 																				<small>${d.mssDate}</small>
 														</div>`
+
+						} else {
+							messagesDiv.innerHTML += `<div class="message float-start received">
+																		<div class="message-content">${d.message}</div>
+																					<small>${d.mssDate}</small>
+															</div>`
 						}
 					})
 					setTimeout(() => {

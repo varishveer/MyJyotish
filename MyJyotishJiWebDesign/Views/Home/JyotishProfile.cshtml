@@ -933,8 +933,6 @@
 			})
 		}
 		else {
-
-
 			Swal.fire({
 				title: "Proccessing Please Wait!",
 				timerProgressBar: true,
@@ -943,12 +941,10 @@
 				}
 			})
 			let appointmentDetail = $("input[name='jyotishAppoinment']:checked");
-
 			let userId = appointmentDetail[0].getAttribute("data-userId")
 			let jyotishId = appointmentDetail[0].getAttribute("data-jyotishId")
 			let slotId = appointmentDetail[0].getAttribute("data-slotId")
 			let problem = $("#problem-desc").val()
-
 			$.ajax({
 				url: bookAppoinmentUrl,
 				method: 'POST',
@@ -1288,7 +1284,6 @@
 
 	if(localStorage.getItem("callTOKEN")!=null){
 		setTimeout(()=>{
-
 		startCall()
 		},1000)
 	}
@@ -1298,16 +1293,14 @@
 	}
 
 	async function startCall() {
-											
-
+			
 		const zg = ZegoUIKitPrebuilt.create(localStorage.getItem("callTOKEN"));
-
 			try {
-
 					debugger
 				zg.joinRoom({
 					container: document.querySelector("#root"),
 					turnOnCameraWhenJoining: false,
+				turnOnMicrophoneWhenJoining:true,
 					showMyCameraToggleButton: false,
 					showAudioVideoSettingsButton: false,
 					showScreenSharingButton: false,
@@ -1321,20 +1314,31 @@
 					showTextChat:false,
 					maxUsers: 2,
 					showPreJoinView: false,
+				showRoomDetailsButton:true,
+				branding: {
+					logoURL: "https://api.myjyotishg.in/Images/Logo.png"
+				},
 					scenario: {
-						mode: ZegoUIKitPrebuilt.OneONoneCall,
+					mode: ZegoUIKitPrebuilt.OneONoneCall,
+					
 					}, onJoinRoom: () => {
 						turnOnMicrophoneWhenJoining:true;
+						debugger
+						startCallTimerForDeductAmount(localStorage.getItem("userId"));
 					},
 					onLeaveRoom: () => {
 						turnOnMicrophoneWhenJoining: false;
 						localStorage.removeItem("callTOKEN")
+						
+
 					},
 					onUserJoin: (user) => {
+						
 						},
 						onUserLeave: (user) => {
-						}
+						console.log(user)
 
+						}
 				});
 				zg.setCallInvitationConfig({
 					onSetRoomConfigBeforeJoining: () => {
@@ -1350,6 +1354,27 @@
 			}
 		}
 
+		function startCallTimerForDeductAmount(Id) {
+		$.ajax({
+			url: `${BaseUrl}api/User/startCall?userId=${Id}`,
+			method: "GET",
+			headers: {
+				'Authorization': `Bearer ${localStorage.getItem("Token")}`
+			},
+			success: function (response) {
+				console.log(response)
+				if (response.status === 200) {
+
+				}
+			},
+			error: function (xhr, status, error) {
+
+				console.log("Error:", error);
+				console.log("Status:", status);
+				console.log("XHR:", xhr);
+			}
+		});
+	}
 
 	function GetUserDataForService(Id) {
 		$.ajax({

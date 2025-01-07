@@ -760,8 +760,8 @@
 
 
 			<script>
-				var BaseUrl = "https://api.myjyotishg.in/"
-				// var BaseUrl = "https://localhost:7118/"
+				//var BaseUrl = "https://api.myjyotishg.in/"
+				 var BaseUrl = "https://localhost:7118/"
 			</script>
 
 			<div class="container">
@@ -1250,7 +1250,7 @@
 				$("#AcceptChatRequest").click(function () {
 					if (rquestType == "call") {
 						socket.send(`${userIdForchat}:${roomId}:call`)
-						TOKEN = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, clientId, $("#userProfileName").text());
+						TOKEN = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomId, clientId, $("#userProfileName").text());
 						localStorage.setItem("jcallTOKEN", TOKEN)
 						startCall()
 					}
@@ -1298,6 +1298,9 @@
 					showTextChat: false,
 					maxUsers: 2,
 					showPreJoinView: false,
+					branding: {
+					logoURL: "https://api.myjyotishg.in/Images/Logo.png"
+				},
 					scenario: {
 						mode: ZegoUIKitPrebuilt.OneONoneCall,
 

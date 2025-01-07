@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Host.Mef;
 using ModelAccessLayer.Models;
 using ModelAccessLayer.ViewModels;
+using System.Collections.Generic;
 
 namespace MyJyotishGApi.Controllers
 {
@@ -878,5 +879,53 @@ namespace MyJyotishGApi.Controllers
             return Ok(new { status = 200, message = "data retrieve", data = res });
 
 		}
+
+        Dictionary<string, DateTime> _callTimeManager = new Dictionary<string, DateTime>();
+		[HttpGet("startCall")]
+
+		public IActionResult StartCall(int userId)
+        {
+            try
+            {
+                if (!_callTimeManager.ContainsKey(userId.ToString()))
+                {
+
+                    _callTimeManager.Add(userId.ToString(), DateTime.Now);
+                }
+
+                return Ok(new { status = 200, message = "call started" });
+            }catch(Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+		[HttpGet("applyChargesForCall")]
+
+		public IActionResult ChargesForCallService(int userId,int jyotishId)
+        {
+            try { 
+			var jyotishCallCharges = _services.getJyotishCallServicesCharges(jyotishId);
+			var dateDifference = _callTimeManager.Where(e => e.Key == userId.ToString()).First().Value - DateTime.Now;
+			var totalMinutes = Math.Ceiling(Math.Abs(dateDifference.TotalMinutes));
+			var totalAmount = jyotishCallCharges * totalMinutes;
+            var applyCharges = _services.ApplyChargesFromUserWalletForService(userId, totalAmount, "Call with astrologers", jyotishId);
+                _callTimeManager.Remove(userId.ToString());
+
+			if (applyCharges)
+            {
+				return Ok(new { status = 200, message = "Charges Apply Successfully" });
+
+            }
+            else
+            {
+				return Ok(new { status = 500, message = "something went wrong" });
+
+			}
+		}catch(Exception ex)
+            {
+                throw ex;
+            }
+}
     }
 }

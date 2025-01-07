@@ -164,7 +164,6 @@ namespace MyJyotishGApi.Controllers
                         cu.JyotishId = sendBy == "client" ? Convert.ToInt32(recipientId) : Convert.ToInt32(clientId);
                         cu.FirstMessageAt = DateTime.Now;
                         cu.LastMessageAt = DateTime.Now;
-
                         var cres = _chat.AddChatUser(cu);
                         var res = _chat.AddChat(md);
                         var changeresPref = sendBy == "client" ? recipientId + "B" : recipientId + "A";
