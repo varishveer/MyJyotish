@@ -1468,6 +1468,7 @@
 				socket.onmessage = function (event) {
 					//let receiveMessage = JSON.parse(event.data).mssg
 					let receiveMessage = JSON.parse(event.data)
+					debugger
 					console.log(receiveMessage)
 					if (receiveMessage.type=="chatPayment"){
 						startCounting(receiveMessage.totalTime, socket);

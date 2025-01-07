@@ -1149,6 +1149,7 @@
 
 		//make connection for chat
 		function establishedConnection(userId) {
+			debugger
 			let socket = new WebSocket(`wss://api.myjyotishg.in/api/chat/connect?id=${jyotishId}&receiverId=${userId}&sendBy=jyotish`);
 			return new Promise((res, rej) => {
 				if (socket) {
@@ -1174,7 +1175,6 @@
 		}
 
 		let userIdForchat = null;
-		const roomID = 'user_' + localStorage.getItem("userId");
 		const clientId = Math.floor(Math.random() * 10000) + "";
 		const appID = 865742206;
 		const serverSecret = "5a72180880214f43c9358d38af32eacc";
@@ -1260,7 +1260,7 @@
 							socket.send(`${userIdForchat}:0:chat`)
 						localStorage.setItem("jresumeChat", userIdForchat)
 
-						startChat();
+						startChat(userIdForchat);
 					}
 
 				})
@@ -1273,7 +1273,7 @@
 
 		if (localStorage.getItem("jresumeChat") != null) {
 			userIdForchat = localStorage.getItem("jresumeChat");
-			startChat();
+			startChat(userIdForchat);
 		}
 
 		async function startCall() {
