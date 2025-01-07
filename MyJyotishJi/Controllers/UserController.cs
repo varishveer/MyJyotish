@@ -880,47 +880,23 @@ namespace MyJyotishGApi.Controllers
 
 		}
 
-        Dictionary<string, DateTime> _callTimeManager = new Dictionary<string, DateTime>();
-		[HttpGet("startCall")]
-
-		public IActionResult StartCall(int userId)
-        {
-            try
-            {
-                if (!_callTimeManager.ContainsKey(userId.ToString()))
-                {
-
-                    _callTimeManager.Add(userId.ToString(), DateTime.Now);
-                }
-
-                return Ok(new { status = 200, message = "call started" });
-            }catch(Exception ex)
-            {
-                throw ex;
-            }
-
-        }
+        
 		[HttpGet("applyChargesForCall")]
-
-		public IActionResult ChargesForCallService(int userId,int jyotishId)
+		public IActionResult ChargesForCallService(int userId,int jyotishId,int totalSecond)
+        
         {
             try { 
 			var jyotishCallCharges = _services.getJyotishCallServicesCharges(jyotishId);
-			var dateDifference = _callTimeManager.Where(e => e.Key == userId.ToString()).First().Value - DateTime.Now;
-			var totalMinutes = Math.Ceiling(Math.Abs(dateDifference.TotalMinutes));
-			var totalAmount = jyotishCallCharges * totalMinutes;
-            var applyCharges = _services.ApplyChargesFromUserWalletForService(userId, totalAmount, "Call with astrologers", jyotishId);
-                _callTimeManager.Remove(userId.ToString());
-
+                var totalMinute = Math.Ceiling(Math.Abs((float)totalSecond / 60));
+			var totalAmount = jyotishCallCharges * totalMinute;
+            var applyCharges = _services.ApplyChargesFromUserWalletForService(userId, Convert.ToInt32(totalAmount), "Call with astrologers", jyotishId);
 			if (applyCharges)
             {
 				return Ok(new { status = 200, message = "Charges Apply Successfully" });
-
             }
             else
             {
 				return Ok(new { status = 500, message = "something went wrong" });
-
 			}
 		}catch(Exception ex)
             {

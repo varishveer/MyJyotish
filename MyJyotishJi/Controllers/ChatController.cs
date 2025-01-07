@@ -196,7 +196,7 @@ namespace MyJyotishGApi.Controllers
         private static Dictionary<string, DateTime> _RequestManager = new();
 
         [HttpGet("sendChatRequest")]
-        public async Task SendChatRequest(string id, string sendBy)
+        public async Task SendChatRequest(string id,string receiverId, string sendBy)
         {
             if (HttpContext.WebSockets.IsWebSocketRequest)
             {
@@ -224,7 +224,7 @@ namespace MyJyotishGApi.Controllers
                     }
                 }
 
-                await HandleChatRequest(webSocket, id, sendBy);
+                await HandleChatRequest(webSocket, id, receiverId, sendBy);
 
             }
             else
@@ -233,7 +233,7 @@ namespace MyJyotishGApi.Controllers
             }
         }
 
-        private async Task HandleChatRequest(WebSocket webSocket, string clientId, string sendBy)
+        private async Task HandleChatRequest(WebSocket webSocket, string clientId,string receiverId, string sendBy)
         {
             var buffer = new byte[1024 * 4];
 
@@ -250,21 +250,20 @@ namespace MyJyotishGApi.Controllers
                         if (sendBy == "client")
                         {
                             var castId = Convert.ToInt32(clientId);
-                            var userDetail = _services.LayoutData(castId);
-                            string jsonString = JsonConvert.SerializeObject(userDetail);
+                           
 
-                            var clientKey = _clientRequestMessage.FirstOrDefault(e => e.Value.Equals(jsonString)).Key;
+                            var clientKey = receiverId;
                             if (clientKey != null)
                             {
-                                var changeresPref = clientKey + "B";
+                                var changeresPref = receiverId + "B";
 
                                 if (_clientRequest.TryGetValue(changeresPref, out var recipientSocket))
                                 {
-                                    _clientRequestMessage.Remove(clientKey);
+                                    _clientRequestMessage.Remove(receiverId);
                                     string jsonStrings = JsonConvert.SerializeObject(new { status = true, type = "chat", data = false });
-                                    if (_clientRoomId.ContainsKey(clientKey))
+                                    if (_clientRoomId.ContainsKey(receiverId))
                                     {
-                                        _clientRoomId.Remove(clientKey);
+                                        _clientRoomId.Remove(receiverId);
                                         jsonStrings = JsonConvert.SerializeObject(new { status = true, type = "call", roomId = false, data = false });
                                     }
 
@@ -300,7 +299,7 @@ namespace MyJyotishGApi.Controllers
                                 if (_RequestManager.ContainsKey(recipientId))
                                 {
                                     var dateDifference = _RequestManager.Where(e => e.Key == recipientId).First().Value - DateTime.Now;
-                                    if (dateDifference.Duration() >= TimeSpan.FromSeconds(2))
+                                    if (dateDifference.Duration() >= TimeSpan.FromSeconds(120))
                                     {
                                         string userJsonDetail = null;
                                         if (_clientRequestMessage.Count > 0)

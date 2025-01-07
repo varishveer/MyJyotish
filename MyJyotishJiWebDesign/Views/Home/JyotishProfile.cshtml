@@ -1292,8 +1292,12 @@
 		startChat();
 	}
 
+			let jyotishConnected=false;
+			let totalSecond=0;
 	async function startCall() {
-			
+			let userId=localStorage.getItem("userId");
+			let countInterval;
+		let isAmountDeduct=false;
 		const zg = ZegoUIKitPrebuilt.create(localStorage.getItem("callTOKEN"));
 			try {
 					debugger
@@ -1324,44 +1328,65 @@
 					}, onJoinRoom: () => {
 						turnOnMicrophoneWhenJoining:true;
 						debugger
-						startCallTimerForDeductAmount(localStorage.getItem("userId"));
+						countInterval=setInterval(()=>{
+							totalSecond++;
+						},1000)
 					},
 					onLeaveRoom: () => {
 						turnOnMicrophoneWhenJoining: false;
 						localStorage.removeItem("callTOKEN")
-						
-
-					},
-					onUserJoin: (user) => {
-						
-						},
-						onUserLeave: (user) => {
-						console.log(user)
+						if(jyotishConnected){
+						applyCallCharges(userId,jyotishId,totalSecond)
+						jyotishConnected=false;
+						clearInterval(countInterval)
+						totalSecond=0
+							isAmountDeduct=true;
 
 						}
+					},
+					onUserJoin: (user) => {
+							jyotishConnected=true;
+						},
+						onUserLeave: () => {
+							jyotishConnected=false;
+							setTimeout(()=>{
+						if(!jyotishConnected){
+						applyCallCharges(userId,jyotishId,totalSecond)
+						clearInterval(countInterval)
+						totalSecond=0
+							isAmountDeduct=true;
+
+							}
+							},6000)
+						}
 				});
-				zg.setCallInvitationConfig({
-					onSetRoomConfigBeforeJoining: () => {
-						const roomID = zg.getRoomID();
-						sessionStorage.setItem('roomID', roomID);
-					return {
-						autoLeaveRoomWhenOnlySelfInRoom: true,
-					}
-					}
-				});
+					
+				
 			} catch (error) {
 				console.error('Error starting the call:', error);
 			}
 		}
+		window.addEventListener("beforeunload", function (event) {
+		event.preventDefault();
+		debugger
+		if(jyotishConnected){
+		applyCallCharges(localStorage.getItem("userId"),jyotishId,totalSecond)
+		}
 
-		function startCallTimerForDeductAmount(Id) {
+		event.returnValue = '';
+	});
+
+	
+	function applyCallCharges(userId,jyotishId,totalSecond) {
 		$.ajax({
-			url: `${BaseUrl}api/User/startCall?userId=${Id}`,
+			url: `${BaseUrl}api/User/applyChargesForCall`,
 			method: "GET",
 			headers: {
 				'Authorization': `Bearer ${localStorage.getItem("Token")}`
 			},
+			data:{userId:userId,jyotishId:jyotishId,totalSecond:totalSecond},
 			success: function (response) {
+				debugger
 				console.log(response)
 				if (response.status === 200) {
 
@@ -1452,7 +1477,7 @@
 	}
 
 	function establishedConnectionForSendRequest() {
-		let socket = new WebSocket(`wss://api.myjyotishg.in/api/chat/sendChatRequest?id=${UserId}&sendBy=client`);
+		let socket = new WebSocket(`wss://api.myjyotishg.in/api/chat/sendChatRequest?id=${UserId}&receiverId=${jyotishId}&sendBy=client`);
 		return new Promise((res, rej) => {
 			if (socket) {
 

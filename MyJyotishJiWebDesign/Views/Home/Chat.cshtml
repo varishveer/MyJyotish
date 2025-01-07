@@ -417,7 +417,7 @@
 				contentType: "application/json", // Ensure content type is set to JSON
 				success: function (response) {
 					if (response.status === 200) {
-						establishedConnectionForSendRequest().then((socket) => {
+						establishedConnectionForSendRequest(astrologerId).then((socket) => {
 							debugger
 							if (socket) {
 								socket.onopen = function (event) {
@@ -548,8 +548,8 @@
 		});
 	}
 
-	function establishedConnectionForSendRequest() {
-		let socket = new WebSocket(`wss://api.myjyotishg.in/api/chat/sendChatRequest?id=${UserId}&sendBy=client`);
+	function establishedConnectionForSendRequest(jyotishId) {
+		let socket = new WebSocket(`wss://api.myjyotishg.in/api/chat/sendChatRequest?id=${UserId}receiverId=${jyotishId}&sendBy=client`);
 		return new Promise((res, rej) => {
 			if (socket) {
 

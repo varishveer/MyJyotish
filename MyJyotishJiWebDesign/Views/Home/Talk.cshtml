@@ -264,7 +264,7 @@
 			contentType: "application/json", // Ensure content type is set to JSON
 			success: function (response) {
 				if (response.status === 200) {
-					establishedConnectionForSendRequest().then((socket) => {
+					establishedConnectionForSendRequest(astrologerId).then((socket) => {
 								debugger
 								if (socket) {
 									socket.onopen = function (event) {
@@ -288,6 +288,7 @@
 											if(response.type=="call"){
 											TOKEN=ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, clientId, Name);
 											localStorage.setItem("callTOKEN",TOKEN)
+											localStorage.setItem("JyotishIdForCall",astrologerId)
 											startCall()
 										socket.close()
 
@@ -352,8 +353,8 @@
 	{
 		GetUserDataForService(UserId);
 	}
-	function establishedConnectionForSendRequest() {
-		let socket = new WebSocket(`wss://api.myjyotishg.in/api/chat/sendChatRequest?id=${UserId}&sendBy=client`);
+	function establishedConnectionForSendRequest(jyotishId) {
+		let socket = new WebSocket(`wss://api.myjyotishg.in/api/chat/sendChatRequest?id=${UserId}&receiverId=${jyotishId}&sendBy=client`);
 		return new Promise((res, rej) => {
 			if (socket) {
 
@@ -419,13 +420,14 @@
 		startCall()
 	}
 
+			let totalSecond=0;
+			let jyotishConnected=false;
 	async function startCall() {
-
-
 		const zg = ZegoUIKitPrebuilt.create(localStorage.getItem("callTOKEN"));
-
+		let userId=localStorage.getItem("userId");
+		let isAmountDeduct=false;
+		let countInterval;
 			try {
-
 					debugger
 				zg.joinRoom({
 					container: document.querySelector("#root"),
@@ -449,27 +451,75 @@
 
 					}, onJoinRoom: () => {
 						turnOnMicrophoneWhenJoining:true;
+						countInterval=setInterval(()=>{
+							totalSecond++;
+						},1000)
 					},
 					onLeaveRoom: () => {
 						turnOnMicrophoneWhenJoining: false;
 						localStorage.removeItem("callTOKEN")
+						if(jyotishConnected ||  !isAmountDeduct){
+						applyCallCharges(userId,localStorage.getItem("JyotishIdForCall"),totalSecond)
+							localStorage.removeItem("JyotishIdForCall")
+							clearInterval(countInterval)
+						    totalSecond=0
+							isAmountDeduct=true;
+						}
 					},
 					onUserJoin: (user) => {
+							jyotishConnected=true;
 						},
-						onUserLeave: (user) => {
+						onUserLeave: () => {
+							jyotishConnected=false;
+							setTimeout(()=>{
+						if(!jyotishConnected &&!isAmountDeduct){
+						applyCallCharges(userId,localStorage.getItem("JyotishIdForCall"),totalSecond)
+							localStorage.removeItem("JyotishIdForCall")
+						clearInterval(countInterval)
+						totalSecond=0
+						isAmountDeduct=true;
+							}
+							},6000)
 						}
-
 				});
-				zg.setCallInvitationConfig({
-					onSetRoomConfigBeforeJoining: () => {
-						const roomID = zg.getRoomID();
-						sessionStorage.setItem('roomID', roomID);
-
-					}
-				});
+				
+				
 			} catch (error) {
 				console.error('Error starting the call:', error);
 			}
 		}
+		window.addEventListener("beforeunload", function (event) {
+		event.preventDefault();
+		debugger
+		if(jyotishConnected){
+		applyCallCharges(localStorage.getItem("userId"),localStorage.getItem("JyotishIdForCall"),totalSecond)
+		}
+
+		event.returnValue = '';
+	});
+
+		function applyCallCharges(userId,jyotishId,totalSecond) {
+		$.ajax({
+			url: `${BaseUrl}api/User/applyChargesForCall`,
+			method: "GET",
+			headers: {
+				'Authorization': `Bearer ${localStorage.getItem("Token")}`
+			},
+			data:{userId:userId,jyotishId:jyotishId,totalSecond:totalSecond},
+			success: function (response) {
+				debugger
+				console.log(response)
+				if (response.status === 200) {
+
+				}
+			},
+			error: function (xhr, status, error) {
+
+				console.log("Error:", error);
+				console.log("Status:", status);
+				console.log("XHR:", xhr);
+			}
+		});
+	}
 
 </script>

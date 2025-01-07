@@ -726,7 +726,7 @@ namespace BusinessAccessLayer.Implementation
                         AddWalletHistory(wh);
                     }
                     transaction.Commit();
-                return _context.SaveChanges() > 0;
+                return true;
                 }
                 return false;
             }
