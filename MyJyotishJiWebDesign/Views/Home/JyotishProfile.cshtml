@@ -1438,6 +1438,22 @@
 		});
 	}
 
+	function startCounting(totalTime,socket){
+		let count = 1
+		let minute = 0;
+		setInterval(() => {
+			count++;
+			if (count > 60) {
+				minute++;
+				count = 0;
+			}
+			if(minute==totalTime){
+				socket.close();
+			}
+			$("#chatTimer").text(`${minute}:${count}`)
+		}, 1000)
+	};
+
 	function startChat() {
 		debugger
 		getSomeJyotish()
@@ -1454,16 +1470,7 @@
 					let receiveMessage = JSON.parse(event.data)
 					console.log(receiveMessage)
 					if (receiveMessage.type=="chatPayment"){
-						let count=1
-						let minute=0;
-						setInterval(()=>{
-							count++;
-if(count>60){
-	minute++;
-	count=0;
-}
-						$("#chatTimer").text(`${minute}:${count}`)
-						},1000)
+						startCounting(receiveMessage.totalTime, socket);
 					}else{
 
 					const now = new Date();
