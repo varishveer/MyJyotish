@@ -340,7 +340,11 @@ namespace MyJyotishGApi.Controllers
                                 {
                                     _clientRoomId.Add(recipientId, roomId);
                                 }
+                                if (!_RequestManager.ContainsKey(recipientId))
+                                {
+
                                 _RequestManager.Add(recipientId, DateTime.Now);
+                                }
                             }
 
                         }

@@ -690,6 +690,11 @@ namespace BusinessAccessLayer.Implementation
             var res = _context.UserWallets.Where(e => e.userId == userId && e.status == 1).FirstOrDefault();
             if (res != null)
             {
+                if (res.WalletAmount < amount)
+                {
+                    return false;
+                }
+
                 res.WalletAmount = res.WalletAmount - amount;
                 _context.UserWallets.Update(res);
                 if (_context.SaveChanges() > 0)
