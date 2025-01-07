@@ -40,6 +40,7 @@ namespace MyJyotishJiWebDesign.Controllers
         public IActionResult CreatePoojaList() { return View(); }
 		public ActionResult CreatePooja() { return View(); }
 		public ActionResult PoojaList() { return View(); }
+		public ActionResult JyotishWalletManagement() { return View(); }
 
 	}
 }

@@ -1451,7 +1451,6 @@
 	}
 	GetUserDataForService(UserId);
 
-
 	$(".messageInpBox").on("input", function () {
 		let characterLength = $(this).val().length
 		if (characterLength > 0) {
@@ -1461,8 +1460,6 @@
 
 		}
 	});
-
-
 
 	function establishedConnection() {
 		let socket = new WebSocket(`wss://api.myjyotishg.in/api/chat/connect?id=${UserId}&receiverId=${jyotishId}&sendBy=client`);
@@ -1493,7 +1490,7 @@
 		let minute = 0;
 		setInterval(() => {
 			count++;
-			if (count > 60) {
+			if (count >= 60) {
 				minute++;
 				count = 0;
 			}
