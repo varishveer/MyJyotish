@@ -760,8 +760,8 @@
 
 
 			<script>
-				//var BaseUrl = "https://api.myjyotishg.in/"
-				 var BaseUrl = "https://localhost:7118/"
+				var BaseUrl = "https://api.myjyotishg.in/"
+				 //var BaseUrl = "https://localhost:7118/"
 			</script>
 
 			<div class="container">
@@ -1163,7 +1163,7 @@
 		//chat request management
 		let jyotishId = localStorage.getItem("Id")
 		function establishedConnectionForSendRequest() {
-			let socket = new WebSocket(`wss://api.myjyotishg.in/api/chat/sendChatRequest?id=${jyotishId}&sendBy=jyotish`);
+			let socket = new WebSocket(`wss://api.myjyotishg.in/api/chat/sendChatRequest?id=${jyotishId}&receiverId=0&sendBy=jyotish`);
 			return new Promise((res, rej) => {
 				if (socket) {
 
