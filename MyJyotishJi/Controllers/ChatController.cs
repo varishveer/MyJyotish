@@ -39,6 +39,7 @@ namespace MyJyotishGApi.Controllers
                 try
                 {
                     var changeIdPref = sendBy == "client" ? id + "A" : id + "B";
+                    var changeIdPrefReceiver = sendBy == "client" ? receiverId + "B" : receiverId + "A";
                     var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
                     _clients[changeIdPref] = webSocket;
 
@@ -58,16 +59,30 @@ namespace MyJyotishGApi.Controllers
                             }
                             _userWalletAmount.Add(id, totalWalletAmount);
                             string jsonString = JsonConvert.SerializeObject(new { status = true, type = "chatPayment", connection = true, totalTime = totaltimeforchat, totalAmount = totalWalletAmount });
-                            if (_chatTimeManager.ContainsKey(id))
-                            {
-                                _chatTimeManager.Remove(id);
-                            }
-                            _chatTimeManager.Add(id, DateTime.Now);
+                            
+                            
                             var msgBuffer = System.Text.Encoding.UTF8.GetBytes(jsonString);
                             await recipientSocket.SendAsync(new ArraySegment<byte>(msgBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
 
                         }
                     }
+                   
+                    if (_clients.ContainsKey(changeIdPrefReceiver) && !_chatTimeManager.ContainsKey(id))
+                    {
+                       
+                        _chatTimeManager.Add(id, DateTime.Now);
+                    }
+                    if (_clients.TryGetValue(changeIdPrefReceiver, out var recipientSocketForConnect))
+                        {
+                        ReceiveChat ms = new ReceiveChat
+                        {
+                            mssg = sendBy == "client" ? "Client are connected" : "Jyotish are connected",
+                            date = DateTime.Now.ToString("hh:mm tt")
+                        };
+                            var msgBuffer = System.Text.Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(ms));
+                            await recipientSocketForConnect.SendAsync(new ArraySegment<byte>(msgBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
+
+                        }
                     await HandleWebSocketCommunication(webSocket, id, receiverId, sendBy);
                 }catch(Exception ex)
                 {
@@ -95,6 +110,7 @@ namespace MyJyotishGApi.Controllers
                     {
 
                     var changeIdPref = sendBy == "client" ? receiverId + "B" : receiverId + "A";
+                    var RemoveRequest = sendBy == "client" ? clientId + "A" : clientId + "B";
                        
                         var userId = sendBy == "client" ? clientId : receiverId;
 
@@ -107,10 +123,7 @@ namespace MyJyotishGApi.Controllers
                             var totalMinutes = Math.Ceiling(Math.Abs(dateDifference.TotalMinutes));
                             var totalAmount = getJyotishchatCharges * totalMinutes;
                             _userWalletAmount.Remove(userId);
-                            if (_chatTimeManager.ContainsKey(userId))
-                            {
-                                _chatTimeManager.Remove(userId);
-                            }
+                            
                             string messages = "Chat with astrologers";
                             var res = _services.ApplyChargesFromUserWalletForService(int.Parse(userId),Convert.ToInt32(totalAmount), messages, int.Parse(jyotishId));
                         }
@@ -125,7 +138,7 @@ namespace MyJyotishGApi.Controllers
                             var msgBuffer = System.Text.Encoding.UTF8.GetBytes(jsonString);
                             await recipientSocket.SendAsync(new ArraySegment<byte>(msgBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
                         }
-                        _clients.TryRemove(changeIdPref, out _);
+                        _clients.TryRemove(RemoveRequest, out _);
                         await webSocket.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
                         break;
                     }
