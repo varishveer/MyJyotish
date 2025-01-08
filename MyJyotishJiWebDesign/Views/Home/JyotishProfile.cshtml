@@ -520,7 +520,6 @@
 					}
 					// Update Rating & Reviews Section
 					$('#rating').text(data.rating != null ? data.rating : 0.0 || '4.99');
-
 					$('#ratingStar').html(function () {
 
 						if (data.rating != null) {
@@ -618,7 +617,6 @@
 			}
 		});
 
-
 		function formatDate(dateTime) {
 			const date = new Date(dateTime);
 			const day = String(date.getDate()).padStart(2, '0');
@@ -632,7 +630,6 @@
 				userId: localStorage.getItem('userId'),
 				jyotishId: astrologerId
 			}
-
 			if (localStorage.getItem('userId') == null) {
 				$('#addRatingBtn').hide();
 			}
@@ -1345,6 +1342,28 @@
 		startChat();
 	}
 
+	async function getUserWallet(userId,jyotishId){
+		let walletAmount;
+		await $.ajax({
+			url: BaseUrl + "api/User/getservicePriceAndWalletAmount", // Ensure BaseUrl is properly defined
+			method: "GET",
+			headers: {
+				'Authorization': `Bearer ${localStorage.getItem("Token")}` // Retrieve token from localStorage
+			},
+			data: {
+				jyotishId: jyotishId, userId: userId, type: "call"
+			}, // Corrected JSON.stringify
+			contentType: "application/json", // Ensure content type is set to JSON
+			success: function (res) {
+				if (res.status === 200) {
+					walletAmount = res;
+				}	
+			}
+
+		})
+		return walletAmount;
+	}
+
 	let jyotishConnected = false;
 	let totalSecond = 0;
 	async function startCall() {
@@ -1378,11 +1397,30 @@
 				scenario: {
 					mode: ZegoUIKitPrebuilt.OneONoneCall,
 
-				}, onJoinRoom: () => {
+				}, onJoinRoom:async () => {
 					turnOnMicrophoneWhenJoining: true;
+					let walletAmount = await getUserWallet(userId, jyotishId)
+					let totalTime=Math.floor(walletAmount.userWallet/walletAmount.charges)
 					debugger
-					countInterval = setInterval(() => {
+					countInterval = setInterval(async () => {
 						totalSecond++;
+						if (Math.ceil(totalSecond / 60) >= 1){
+							await zg.destroy();
+							localStorage.removeItem("callTOKEN")
+							const container = document.getElementById("zego-container");
+							if (container) {
+								container.remove();
+							}
+							if (jyotishConnected) {
+								applyCallCharges(userId, jyotishId, totalSecond)
+								jyotishConnected = false;
+								clearInterval(countInterval)
+								totalSecond = 0
+								isAmountDeduct = true;
+
+							}
+							
+						}
 					}, 1000)
 				},
 				onLeaveRoom: () => {
@@ -1402,15 +1440,21 @@
 				},
 				onUserLeave: () => {
 					jyotishConnected = false;
-					setTimeout(() => {
+					setTimeout(async () => {
 						if (!jyotishConnected) {
 							applyCallCharges(userId, jyotishId, totalSecond)
 							clearInterval(countInterval)
 							totalSecond = 0
 							isAmountDeduct = true;
-
+							await zg.destroy();
+							localStorage.removeItem("callTOKEN")
+							const container = document.getElementById("zego-container");
+							if (container) {
+								container.remove();
+							}
 						}
 					}, 6000)
+					
 				}
 			});
 
@@ -1425,10 +1469,8 @@
 		if (jyotishConnected) {
 			applyCallCharges(localStorage.getItem("userId"), jyotishId, totalSecond)
 		}
-
 		event.returnValue = '';
 	});
-
 
 	function applyCallCharges(userId, jyotishId, totalSecond) {
 		$.ajax({

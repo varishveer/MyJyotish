@@ -121,7 +121,7 @@ namespace MyJyotishGApi.Controllers
                             var getJyotishchatCharges = _services.getJyotishServicesCharges(int.Parse(jyotishId));
                             var dateDifference = _chatTimeManager.Where(e => e.Key == userId).First().Value - DateTime.Now;
                             var totalMinutes = Math.Ceiling(Math.Abs(dateDifference.TotalMinutes));
-                            var totalAmount = getJyotishchatCharges * totalMinutes;
+                            var totalAmount = getJyotishchatCharges * totalMinutes; 
                             _userWalletAmount.Remove(userId);
                             
                             string messages = "Chat with astrologers";

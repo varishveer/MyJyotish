@@ -529,6 +529,12 @@
 						clearInterval(countInterval)
 						totalSecond=0
 						isAmountDeduct=true;
+							zg.destroy();
+							localStorage.removeItem("callTOKEN")
+							const container = document.getElementById("zego-container");
+							if (container) {
+								container.remove();
+							}
 							}
 							},6000)
 						}
