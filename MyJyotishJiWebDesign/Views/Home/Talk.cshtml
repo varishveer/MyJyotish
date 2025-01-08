@@ -231,7 +231,7 @@
 	const roomID = 'user_'+localStorage.getItem("userId");
 		const clientId = Math.floor(Math.random() * 10000) + "";
 		let TOKEN
-	 $('#DataSubmitBtn').on('click', function () {
+	 $('#DataSubmitBtn').on('click',async function () {
 
 		var astrologerId = $('#JyotishId').val();
 		var Name = $("#Name").val();
@@ -241,8 +241,50 @@
 		var PlaceOfBirth = $("#PlaceOfBirth").val();
 
 		var UserId = localStorage.getItem('userId');
+		let checkChatValidation=false;
+		await $.ajax({
+					url: BaseUrl + "api/User/getservicePriceAndWalletAmount", // Ensure BaseUrl is properly defined
+					method: "GET",
+					headers: {
+						'Authorization': `Bearer ${localStorage.getItem("Token")}` // Retrieve token from localStorage
+					},
+					data: {
+					jyotishId: astrologerId, userId: UserId, type:"call"
+					}, // Corrected JSON.stringify
+					contentType: "application/json", // Ensure content type is set to JSON
+					success: function (res) {
+						debugger
+						if (res.status === 200) {
+							if (res.userWallet > (res.charges * 5)) {
+								checkChatValidation=true
+							}else{
+								checkChatValidation = false;
+						$("#exampleModal3").modal("hide")
 
+								Swal.fire({
+									title: "<strong>Recharge Now</strong>",
+									icon: "info",
+									html: `
+								Currently you have <b class='text-danger'>₹${res.userWallet}</b > in your wallet minimum required <b class='text-success'>₹${res.charges * 5}<b/></br>
+			<a class='btn btn-success' target="_blank" href="/Home/Wallet" autofocus>Recharge Now</a>
+	  `,
+									showCloseButton: true,
+									showCancelButton: true,
+									focusConfirm: false,
+									confirmButtonText: `
+			Later!
+	  `,
+									confirmButtonAriaLabel: "Later!",
+									cancelButtonText: `
+		Close
+	  `,							cancelButtonAriaLabel: "Close"
+								});
+							}
+						}
+					}
 
+	})
+	if(checkChatValidation){
 		var DataContainer = {
 			Name: Name,
 			Gender: Gender,
@@ -253,7 +295,14 @@
 			UserId: UserId,
 			Action: 2
 		}
+		if (TimeOfBirth == "" || Name == "" || Gender == "" || DateOfBirth == "" || PlaceOfBirth == "" || JyotishId == "" || UserId=="" || Action=="") {
+					Swal.fire({
+						title: "warning",
+						text: "all fields are required",
+						icon: "warning"
+					})
 
+		} else {
 		$.ajax({
 			url: BaseUrl + "api/User/AddUserServiceRecord", // Ensure BaseUrl is properly defined
 			method: "POST",
@@ -346,8 +395,10 @@
 				});
 			}
 		});
-
+		}
+		}
 	});
+
 	var UserId = localStorage.getItem('userId');
 	if(UserId != null && UserId != undefined)
 	{

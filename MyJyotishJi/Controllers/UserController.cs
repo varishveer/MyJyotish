@@ -933,7 +933,7 @@ namespace MyJyotishGApi.Controllers
 			}
 		}
 		
-		[HttpGet("getChatPriceAndWalletAmount")]
+		[HttpGet("getservicePriceAndWalletAmount")]
 		public IActionResult GetJyotishChatCharges(int jyotishId,int userId,string type)
 		{
 			try

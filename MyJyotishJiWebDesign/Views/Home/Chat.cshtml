@@ -376,7 +376,7 @@
 
 	GetAstroListCallChat();
 
-	$('#DataSubmitBtn').on('click', function () {
+	$('#DataSubmitBtn').on('click',async function () {
 		var Name = $("#Name").val();
 		var Gender = $("#Gender").val();
 		var DateOfBirth = $("#DateOfBirth").val();
@@ -385,8 +385,50 @@
 		var astrologerId = $('#JyotishId').val();
 		debugger
 		var UserId = localStorage.getItem('userId');
+		let checkChatValidation=false;
+		await $.ajax({
+					url: BaseUrl + "api/User/getservicePriceAndWalletAmount", // Ensure BaseUrl is properly defined
+					method: "GET",
+					headers: {
+						'Authorization': `Bearer ${localStorage.getItem("Token")}` // Retrieve token from localStorage
+					},
+					data: {
+					jyotishId: astrologerId, userId: UserId, type:"chat"
+					}, // Corrected JSON.stringify
+					contentType: "application/json", // Ensure content type is set to JSON
+					success: function (res) {
+						debugger
+						if (res.status === 200) {
+							if (res.userWallet > (res.charges * 5)) {
+								checkChatValidation=true
+							}else{
+								checkChatValidation = false;
+						$("#exampleModal3").modal("hide")
 
+								Swal.fire({
+									title: "<strong>Recharge Now</strong>",
+									icon: "info",
+									html: `
+								Currently you have <b class='text-danger'>₹${res.userWallet}</b > in your wallet minimum required <b class='text-success'>₹${res.charges * 5}<b/></br>
+			<a class='btn btn-success' target="_blank" href="/Home/Wallet" autofocus>Recharge Now</a>
+	  `,
+									showCloseButton: true,
+									showCancelButton: true,
+									focusConfirm: false,
+									confirmButtonText: `
+			Later!
+	  `,
+									confirmButtonAriaLabel: "Later!",
+									cancelButtonText: `
+		Close
+	  `,							cancelButtonAriaLabel: "Close"
+								});
+							}
+						}
+					}
 
+	})
+	if(checkChatValidation){
 		var DataContainer = {
 			Name: Name,
 			Gender: Gender,
@@ -398,12 +440,12 @@
 			Action: 1
 		}
 
-		if (TimeOfBirth == "") {
-			Swal.fire({
-				title: "warning",
-				text: "Time of birth are Required",
-				icon: "warning"
-			})
+		if (TimeOfBirth == "" || Name == "" || Gender == "" || DateOfBirth == "" || PlaceOfBirth == "" || JyotishId == "" || UserId=="" || Action=="") {
+					Swal.fire({
+						title: "warning",
+						text: "all fields are required",
+						icon: "warning"
+					})
 
 		} else {
 
@@ -493,6 +535,7 @@
 				}
 			});
 		}
+		}
 	});
 
 	if (localStorage.getItem("resumeChat") != null) {
@@ -565,12 +608,20 @@
 		let minute = 0;
 		setInterval(() => {
 			count++;
-			if (count > 60) {
+			if (count >= 60) {
 				minute++;
 				count = 0;
 			}
-			if (minute == totalTime) {
+			if (minute >= totalTime) {
 				socket.close();
+				$("#ChatModal").modal("hide")
+				localStorage.removeItem("resumeChat")
+				Swal.fire({
+					title: "Insufficient Balance",
+				text:"you do not have sufficient Balance",
+				icon:"info"
+				})
+
 			}
 			$("#chatTimer").text(`${minute}:${count}`)
 		}, 1000)

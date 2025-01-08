@@ -415,7 +415,7 @@
 		});
 	}
 
-
+	let checkAppointmentStatus=false;
 	$(document).ready(function () {
 
 		const urlParams = new URLSearchParams(window.location.search);
@@ -449,7 +449,16 @@
 
 					$('#profileExperience').text('Experience: ' + data.experience + ' Years');
 					$('#bookAAppointment').attr('href', "/Home/JyotishProfile?Id=" + `${data.id}`);
-					
+					debugger
+					if(data.appointment){
+						$("#bookAppointmentModalBtn").show();
+						checkAppointmentStatus=true
+						bindAppointmentList();
+					}else{
+						$("#bookAppointmentModalBtn").hide();
+						checkAppointmentStatus=false;
+					}
+
 					// Update About Section
 					$('#aboutMe').text(data.about != null ? data.about : "About us not added yet!");
 					if (data.specialization != null) {
@@ -488,9 +497,7 @@
 							tooltipInstance.show();
 							return tooltipInstance;
 						})
-
 					}
-
 					// Update Gallery Section
 					if (data.gallery.length > 0) {
 						$(".galleryContainer").removeClass("d-none")
@@ -778,10 +785,11 @@
 
 			return reversedDate;
 		}
+		function bindAppointmentList(){
 		var appoinmentUrl = BaseUrl + `api/User/getAllAppointmentSlot?Id=${astrologerId}`;
 		let appoinmentArray;
 		if (localStorage.getItem("userId") != null & localStorage.getItem("Token") != null) {
-
+			if(checkAppointmentStatus){
 			$.ajax({
 				url: appoinmentUrl,
 				method: 'GET',
@@ -886,9 +894,9 @@
 
 
 			})
-
-		}
-
+			}
+			}
+	}
 	});
 	$("#next-btn").click(function () {
 		if ($(this).text() == "Book") {
@@ -1137,7 +1145,7 @@
 			let checkChatValidation = false;
 			let ActionType = Action == "1" ? "chat" : "call";
 			await $.ajax({
-					url: BaseUrl + "api/User/getChatPriceAndWalletAmount", // Ensure BaseUrl is properly defined
+					url: BaseUrl + "api/User/getservicePriceAndWalletAmount", // Ensure BaseUrl is properly defined
 					method: "GET",
 					headers: {
 						'Authorization': `Bearer ${localStorage.getItem("Token")}` // Retrieve token from localStorage
@@ -1169,8 +1177,7 @@
 									confirmButtonAriaLabel: "Later!",
 									cancelButtonText: `
 		Close
-	  `,
-									cancelButtonAriaLabel: "Close"
+	  `,							cancelButtonAriaLabel: "Close"
 								});
 							}
 						}
@@ -1545,8 +1552,8 @@
 				$("#ChatModal").modal("hide")
 				localStorage.removeItem("resumeChat")
 				Swal.fire({
-					title: "Insufficient Amount",
-				text:"you do not have sufficient amount",
+					title: "Insufficient Balance",
+				text:"you do not have sufficient Balance",
 				icon:"info"
 				})
 
