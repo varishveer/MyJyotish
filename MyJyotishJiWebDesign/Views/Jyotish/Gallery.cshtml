@@ -173,11 +173,19 @@
                 success: function (response) {
                      
                     if (response.status === 200) {
-                        location.reload(); // Reload the page or refresh the gallery
                         $('#AddModal').modal('hide'); // Close the modal
                         $('#AddForm')[0].reset(); // Reset the form
+                        Swal.fire({
+                            title:"success",
+                            text:response.message,
+                            icon:"success"
+                        });
                     } else {
-                        console.error("Failed to add image:", response.message);
+                       Swal.fire({
+                            title:"error",
+                            text:response.message,
+                            icon:"error"
+                        });
                     }
                 },
                 error: function (xhr) {

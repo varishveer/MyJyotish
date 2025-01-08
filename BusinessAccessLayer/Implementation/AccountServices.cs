@@ -23,14 +23,12 @@ namespace BusinessAccessLayer.Implementation
     public class AccountServices:IAccountServices
     {
         private readonly ApplicationContext _context;
-        public AccountServices(ApplicationContext context )
+        private readonly IJyotishServices _jservice;
+        public AccountServices(ApplicationContext context)
         {
             _context = context;
         }
         
-        
-
-
         #region JYotish
 
         //check Number Duplicacy
@@ -248,7 +246,6 @@ namespace BusinessAccessLayer.Implementation
 </html>
 ";
             string Subject = "Verification Code for My Jyotish G";
-
             var isMailSend =SendEmail(message,Email,Subject);
             if(isMailSend)
             {model.Otp = Otp;
@@ -262,7 +259,6 @@ namespace BusinessAccessLayer.Implementation
                 else { return "Data not saved"; }
             }
             else { return "Data not saved"; }
-
         }
         public string VerifyJOtp(string Email, int Otp)
         {
@@ -428,7 +424,8 @@ namespace BusinessAccessLayer.Implementation
             {
                 if (_Jyotish.Password == password)
                 {
-                   
+
+
                     return JsonConvert.SerializeObject(new JyotishModel
                     {
                        Id=  _Jyotish.Id,
@@ -436,7 +433,6 @@ namespace BusinessAccessLayer.Implementation
                        Email =  _Jyotish.Email,
                        Role = _Jyotish.Role,
                        NewStatus=_Jyotish.NewStatus,
-                      
 
                     });
                 }

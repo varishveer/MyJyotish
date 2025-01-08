@@ -61,6 +61,7 @@ namespace ModelAccessLayer.Models
         public int? countryCode { get; set; }
         public string? Message { get; set; }
         public bool Feedback { get; set; }
+        public bool ActiveStatus { get; set; }
         // public int? TempRecordId { get; set; }
 
         [JsonIgnore]
@@ -104,6 +105,7 @@ namespace ModelAccessLayer.Models
         public ICollection<JyotishPoojaModel> jyotishPooja { get; set; } = new List<JyotishPoojaModel>();
         public ICollection<BookedPoojaList> bookedPooja { get; set; } = new List<BookedPoojaList>();
         public ICollection<ClientMembers> clientMembers { get; set; } = new List<ClientMembers>();
+        public ICollection<jyotishSessions> jyotishSession { get; set; } = new List<jyotishSessions>();
 
     }
 

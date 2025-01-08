@@ -318,7 +318,7 @@ public IActionResult AddJyotishGallery(JyotishGalleryViewModel model)
 		var result = _jyotish.AddJyotishGallery(model);
 		if (result == "invalid data") return BadRequest(new { Status = 400, Message = result });
 		else if (result == "Successful") return Ok(new { Status = 200, Message = result });
-		else return StatusCode(500, new { Status = 500, Message = result });
+		else return Ok( new { Status = 500, Message = result });
 	}
 	catch (Exception ex)
 	{
@@ -1413,5 +1413,15 @@ public IActionResult getBookedPoojaList(int jyotishId)
 	}
 	catch { return StatusCode(500, new { Status = 500, Message = "Internal Server Error " }); }
 }
+		[HttpGet("changeJyotishActiveStatus")]
+		public IActionResult changeJyotishActiveStatus(int jyotishId,bool status)
+		{
+			try { 
+			var res = _jyotish.changeJyotishActiveStatus(jyotishId, status);
+			return Ok(new { status = 200, message = "successfull" });
+        }
+	catch { return StatusCode(500, new { status = 500, message = "Internal Server Error " }); }
+        }
+
 	}
 }

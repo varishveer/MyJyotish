@@ -97,6 +97,10 @@ namespace BusinessAccessLayer.Abstraction
 
         public bool UpdateJyotishPooja(JyotishPoojaViewModel model);
         public bool removeJyotishPooja(int PoojaId);
+        public string changeJyotishActiveStatus(int jyotishId, bool status);
 
-	}
+
+
+
+    }
 }

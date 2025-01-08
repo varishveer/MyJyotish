@@ -416,4 +416,8 @@ namespace ModelAccessLayer.ViewModels
         [AllowNull]
         public string Specialization { get; set; }
     }
+    public class SessionInfo
+    {
+        public int SessionId { get; set; }
+    }
 }

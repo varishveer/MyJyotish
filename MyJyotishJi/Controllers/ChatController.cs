@@ -24,11 +24,13 @@ namespace MyJyotishGApi.Controllers
 
         private readonly IChat _chat;
         private readonly IUserServices _services;
+        private readonly IJyotishServices _jyotish;
 
-        public ChatController(IChat chat, IUserServices services)
+        public ChatController(IChat chat, IUserServices services, IJyotishServices jyotish)
         {
             _chat = chat;
             _services = services;
+            _jyotish = jyotish;
         }
 
         [HttpGet("connect")]
@@ -209,6 +211,8 @@ namespace MyJyotishGApi.Controllers
                     dynamic userRequestRecord = null;
                     if (sendBy != "client")
                     {
+                        _jyotish.changeJyotishActiveStatus(int.Parse(id), true);
+
                         userRequestRecord = _clientRequestMessage.ContainsKey(id) ? _clientRequestMessage.Where(e => e.Key == id).First().Value : null;
 
                         string roomId = null;
@@ -216,16 +220,31 @@ namespace MyJyotishGApi.Controllers
                         {
                             roomId = _clientRoomId.ContainsKey(id) ? _clientRoomId.Where(e => e.Key == id).First().Value : null;
                         }
-
                         string jsonString = JsonConvert.SerializeObject(new { status = true, type = roomId == null ? "chat" : "call", roomId = roomId, data = userRequestRecord });
                         var msgBuffer = System.Text.Encoding.UTF8.GetBytes(jsonString);
                         await recipientSocket.SendAsync(new ArraySegment<byte>(msgBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
+                        await HandleChatRequest(webSocket, id, receiverId, sendBy);
+
+                    }
+                    else
+                    {
+                            var checkServiceStatus = _services.getUserserviceStatus(int.Parse(id));
+                            if (!checkServiceStatus)
+                            {
+                            _services.changeUserServiceStatus(int.Parse(id));
+                await HandleChatRequest(webSocket, id, receiverId, sendBy);
+                            }
+                            else
+                            {
+                            _clientRequest.TryRemove(changeIdPref, out _);
+                            string jsonString = JsonConvert.SerializeObject(new { status = true, data = false, anotherRequest = true });
+                              var msgBuffer = System.Text.Encoding.UTF8.GetBytes(jsonString);
+                              await recipientSocket.SendAsync(new ArraySegment<byte>(msgBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
+
+                        }
 
                     }
                 }
-
-                await HandleChatRequest(webSocket, id, receiverId, sendBy);
-
             }
             else
             {
@@ -245,7 +264,10 @@ namespace MyJyotishGApi.Controllers
                     var result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
                     var changeIdPref = sendBy == "client" ? clientId + "A" : clientId + "B";
 
-                    if (result.CloseStatus.HasValue)
+
+                  
+                   
+                        if (result.CloseStatus.HasValue)
                     {
                         if (sendBy == "client")
                         {
@@ -272,6 +294,15 @@ namespace MyJyotishGApi.Controllers
                                     await recipientSocket.SendAsync(new ArraySegment<byte>(msgBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
                                 }
                             }
+                            if (sendBy == "client")
+                            {
+                                _services.changeUserServiceStatus(castId);
+                            }
+                        }
+                        else
+                        {
+                            _jyotish.changeJyotishActiveStatus(int.Parse(clientId), false);
+
                         }
                         _clientRequest.TryRemove(changeIdPref, out _);
 

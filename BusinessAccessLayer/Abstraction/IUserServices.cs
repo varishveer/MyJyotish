@@ -38,14 +38,17 @@ namespace BusinessAccessLayer.Abstraction
         public List<JyotishModel> SearchAstrologer(string? searchInp);
         public List<JyotishUserAttachmentJyotishViewModel> GetAllUserAttachments(int Id);
         public dynamic GetProblemSolutionDetail(int appointmentId);
+        public bool changeUserServiceStatus(int userId);
 
         public ProblemSolutionJyotishGetViewModel GetProblemSolution(int appointmentId);
         public dynamic GetAttachmentByAppointment(int appointmentId, int memberId);
         public dynamic getJyotishServicesCharges(int jyotishid);
         public dynamic getJyotishCallServicesCharges(int jyotishid);
+        public bool getUserserviceStatus(int userId);
 
 
-		public long GetWallet(int UserId);
+
+        public long GetWallet(int UserId);
         public List<City> selecAllCity();
 
         public string AddWalletHistory(WalletHistoryViewmodel pr);

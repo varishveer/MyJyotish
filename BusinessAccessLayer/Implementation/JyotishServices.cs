@@ -181,6 +181,7 @@ namespace BusinessAccessLayer.Implementation
         }
         public string AddAppointment(AddAppointmentJyotishModel model)
         {
+
             var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
             var User = _context.Users.FirstOrDefault(x => x.Email == model.Email || x.Mobile == model.Mobile);
 
@@ -535,9 +536,20 @@ namespace BusinessAccessLayer.Implementation
 
         public string AddJyotishGallery(JyotishGalleryViewModel model)
         {
-            if (model == null) { return "invalid data"; }
-            JyotishGalleryModel data = new JyotishGalleryModel();
 
+            if (model == null) { return "invalid data"; }
+
+            var totalUsedServiceCount = _context.JyotishGallery.Count(e=>e.JyotishId==model.JyotishId);
+            var serviceCount = (from package in _context.PackageManager
+                                join managepk in _context.ManageSubscriptionModels on package.SubscriptionId equals managepk.SubscriptionId
+                                join feature in _context.SubscriptionFeatures on managepk.FeatureId equals feature.FeatureId
+                                where package.JyotishId == model.JyotishId && package.Status && feature.ServiceUrl == "/Jyotish/Gallery"
+                                select managepk.ServiceCount).FirstOrDefault();
+            if (totalUsedServiceCount > serviceCount)
+            {
+                return "Limit Exeeced";
+            }
+            JyotishGalleryModel data = new JyotishGalleryModel();
             if (model.ImageUrl != null)
             {
                 const long MaxFileSize = 5 * 1024 * 1024; // 5 MB
@@ -806,7 +818,6 @@ namespace BusinessAccessLayer.Implementation
         {
             if (DateTime.Compare(model.Date, DateTime.Now) < 0)
             { return "Invalid Date"; }
-
             var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
             var existingSlots = _context.AppointmentSlots
          .Where(x => x.JyotishId == model.JyotishId &&
@@ -2303,5 +2314,33 @@ namespace BusinessAccessLayer.Implementation
             }
             return _context.SaveChanges() > 0;
         }
+
+        public string changeJyotishActiveStatus(int jyotishId,bool status)
+        {
+            var res = _context.JyotishRecords.Where(e => e.Id == jyotishId && e.Status).FirstOrDefault();
+            if (res != null)
+            {
+                if (res.ActiveStatus && status)
+                {
+                    return "successfull";
+                }
+
+                res.ActiveStatus = status;
+                _context.JyotishRecords.Update(res);
+                if (_context.SaveChanges() > 0)
+                {
+                    return "successfull";
+                }
+                else{
+                    return "some error";
+
+                }
+            }
+            return "not found";
+        }
+
+      
+       
+
     }
 }

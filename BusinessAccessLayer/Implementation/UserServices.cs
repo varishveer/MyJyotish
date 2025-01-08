@@ -31,12 +31,12 @@ namespace BusinessAccessLayer.Implementation
         {
             if (ListName == "Chat")
             {
-                var record = _context.JyotishRecords.Where(x => x.Chat == true).ToList();
+                var record = _context.JyotishRecords.Where(x => x.Chat == true&&x.Status&&x.ActiveStatus&&!x.NewStatus).ToList();
                 return record;
             }
             else if (ListName == "Call")
             {
-                var record = _context.JyotishRecords.Where(x => x.Call == true).ToList();
+                var record = _context.JyotishRecords.Where(x => x.Call == true&&x.Status&&x.ActiveStatus&&!x.NewStatus).ToList();
                 return record;
             }
             else { return null; }
@@ -1300,6 +1300,28 @@ namespace BusinessAccessLayer.Implementation
             return res;
         }
 
-      
+      public bool changeUserServiceStatus(int userId)
+        {
+            var res = _context.Users.Where(e => e.Id == userId).FirstOrDefault();
+            if (res != null)
+            {
+                res.ServiceStatus = !res.ServiceStatus;
+                _context.Users.Update(res);
+                return _context.SaveChanges() > 0;
+            }
+            return false;
+        }
+
+        public bool getUserserviceStatus(int userId)
+        {
+            var res = _context.Users.Where(e => e.Id == userId).Select(e=>e.ServiceStatus).FirstOrDefault();
+            if (res != null)
+            {
+
+            return (bool)res;
+            }
+            return false;
+        }
+
     }
 }
