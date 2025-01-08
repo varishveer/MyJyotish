@@ -471,6 +471,28 @@
 		startCall()
 	}
 
+	async function getUserWallet(userId,jyotishId){
+		let walletAmount;
+		await $.ajax({
+			url: BaseUrl + "api/User/getservicePriceAndWalletAmount", // Ensure BaseUrl is properly defined
+			method: "GET",
+			headers: {
+				'Authorization': `Bearer ${localStorage.getItem("Token")}` // Retrieve token from localStorage
+			},
+			data: {
+				jyotishId: jyotishId, userId: userId, type: "call"
+			}, // Corrected JSON.stringify
+			contentType: "application/json", // Ensure content type is set to JSON
+			success: function (res) {
+				if (res.status === 200) {
+					walletAmount = res;
+				}	
+			}
+
+		})
+		return walletAmount;
+	}
+
 			let totalSecond=0;
 			let jyotishConnected=false;
 	async function startCall() {
@@ -500,10 +522,29 @@
 						mode: ZegoUIKitPrebuilt.OneONoneCall,
 
 
-					}, onJoinRoom: () => {
+					}, onJoinRoom:async () => {
 						turnOnMicrophoneWhenJoining:true;
-						countInterval=setInterval(()=>{
+						let walletAmount = await getUserWallet(userId, localStorage.getItem("JyotishIdForCall"))
+					let totalTime=Math.floor(walletAmount.userWallet/walletAmount.charges)
+						countInterval=setInterval(async ()=>{
 							totalSecond++;
+							if (Math.ceil(totalSecond / 60) >= totalTime){
+							await zg.destroy();
+							localStorage.removeItem("callTOKEN")
+							const container = document.getElementById("zego-container");
+							if (container) {
+								container.remove();
+							}
+							if (jyotishConnected) {
+								applyCallCharges(userId, localStorage.getItem("JyotishIdForCall"), totalSecond)
+								jyotishConnected = false;
+								clearInterval(countInterval)
+								totalSecond = 0
+								isAmountDeduct = true;
+
+							}
+							
+						}
 						},1000)
 					},
 					onLeaveRoom: () => {
@@ -520,16 +561,16 @@
 					onUserJoin: (user) => {
 							jyotishConnected=true;
 						},
-						onUserLeave: () => {
+						onUserLeave: async () => {
 							jyotishConnected=false;
-							setTimeout(()=>{
+							setTimeout( async ()=>{
 						if(!jyotishConnected &&!isAmountDeduct){
 						applyCallCharges(userId,localStorage.getItem("JyotishIdForCall"),totalSecond)
 							localStorage.removeItem("JyotishIdForCall")
 						clearInterval(countInterval)
 						totalSecond=0
 						isAmountDeduct=true;
-							zg.destroy();
+							await zg.destroy();
 							localStorage.removeItem("callTOKEN")
 							const container = document.getElementById("zego-container");
 							if (container) {

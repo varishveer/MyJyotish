@@ -32,6 +32,7 @@ namespace ModelAccessLayer.Models
         public string? ProfilePictureUrl { get; set; }
         public int? CountryCodeId { get; set; }
         public string? Status { get; set; }
+        public bool? ServiceStatus { get; set; }
         public CountryCode countryCoderecord { get; set; }
         public ICollection<CallingModel> CallingModelRecord { get; set; } = new List<CallingModel>();
         public ICollection<ChattingModel> ChattingModelRecord { get; set; } = new List<ChattingModel>();

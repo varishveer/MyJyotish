@@ -1404,7 +1404,7 @@
 					debugger
 					countInterval = setInterval(async () => {
 						totalSecond++;
-						if (Math.ceil(totalSecond / 60) >= 1){
+						if (Math.ceil(totalSecond / 60) >= totalTime) {
 							await zg.destroy();
 							localStorage.removeItem("callTOKEN")
 							const container = document.getElementById("zego-container");
