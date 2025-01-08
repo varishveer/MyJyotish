@@ -156,10 +156,7 @@ namespace BusinessAccessLayer.Implementation
                                       SerialNo = image.SerialNo
                                   }).OrderBy(order => order.SerialNo)
                                   .ToArray();
-            var achievementsArray = jyotishRecord.AwordsAndAchievement?.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-                                                  .Select(a => a.Trim())
-                                                  .ToArray();
-
+            
             var specializationArray = jyotishRecord.Specialization?.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
                                                  .Select(a => a.Trim())
                                                  .ToArray();
@@ -188,11 +185,12 @@ namespace BusinessAccessLayer.Implementation
                 Chat = jyotishRecord.Chat,
                 ChatCharges = jyotishRecord.ChatCharges,
                 AppointmentCharges = jyotishRecord.AppointmentCharges,
+                Appointment = jyotishRecord.Appointment,
                 Address = jyotishRecord.Address,
                 TimeTo = jyotishRecord.TimeTo,
                 TimeFrom = jyotishRecord.TimeFrom,
                 About = jyotishRecord.About,
-                AwordsAndAchievement = achievementsArray,
+                AwordsAndAchievement = jyotishRecord.AwordsAndAchievement,
                 Specialization = specializationArray,
                 Videos = videos,
                 Gallery = gallery,

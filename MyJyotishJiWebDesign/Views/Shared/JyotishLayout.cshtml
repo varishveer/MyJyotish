@@ -1343,6 +1343,7 @@
 				data: { sender: jyotishId, receiver: userIdForchat },
 				success: function (res) {
 					console.log(res, "chatData")
+					$('.chat-modal-body').empty()
 					if (res.length > 0) {
 						const messagesDiv = document.querySelector('.chat-modal-body');
 						res.forEach(function (d) {
