@@ -68,13 +68,14 @@ namespace MyJyotishGApi.Controllers
 
                         }
                             _services.changeUserServiceStatus(int.Parse(id), true);
+                        if (!_chatTimeManager.ContainsKey(id))
+                        {
+
+                            _chatTimeManager.Add(id, DateTime.Now);
+                        }
                     }
                    
-                    if (_clients.ContainsKey(changeIdPrefReceiver) && !_chatTimeManager.ContainsKey(id))
-                    {
-                       
-                        _chatTimeManager.Add(id, DateTime.Now);
-                    }
+                   
                     if (_clients.TryGetValue(changeIdPrefReceiver, out var recipientSocketForConnect))
                         {
                         ReceiveChat ms = new ReceiveChat
