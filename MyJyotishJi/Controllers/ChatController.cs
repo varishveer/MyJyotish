@@ -104,6 +104,11 @@ namespace MyJyotishGApi.Controllers
                             _chatTimeManager.Add(id, DateTime.Now);
                         }
                     }
+                    else
+                    {
+                        _jyotish.changeJyotishServiceStatus(int.Parse(id), true);
+
+					}
 
 
                     if (_clients.TryGetValue(changeIdPrefReceiver, out var recipientSocketForConnect))
@@ -158,7 +163,12 @@ namespace MyJyotishGApi.Controllers
                             _services.changeUserServiceStatus(int.Parse(clientId), false);
 
                         }
-                        if (_userWalletAmount.ContainsKey(userId))
+                        else
+                        {
+							_jyotish.changeJyotishServiceStatus(int.Parse(clientId), false);
+
+						}
+						if (_userWalletAmount.ContainsKey(userId))
                         {
 
                             var jyotishId = sendBy == "client" ? receiverId : clientId;
@@ -263,7 +273,8 @@ namespace MyJyotishGApi.Controllers
                     {
                         _jyotish.changeJyotishActiveStatus(int.Parse(id), true);
 
-                        userRequestRecord = _clientRequestMessage.ContainsKey(id) ? _clientRequestMessage.Where(e => e.Key == id).First().Value : null;
+
+						userRequestRecord = _clientRequestMessage.ContainsKey(id) ? _clientRequestMessage.Where(e => e.Key == id).First().Value : null;
 
                         string roomId = null;
                         if (_clientRoomId != null)
@@ -354,8 +365,9 @@ namespace MyJyotishGApi.Controllers
                         {
                             _jyotish.changeJyotishActiveStatus(int.Parse(clientId), false);
 
-                        }
-                        _clientRequest.TryRemove(changeIdPref, out _);
+
+						}
+						_clientRequest.TryRemove(changeIdPref, out _);
 
                         await webSocket.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, "Closing connection", CancellationToken.None);
 

@@ -371,11 +371,8 @@
 							`;
 		});
 		$('#astrologerList').html(html);
-
 	}
-
 	GetAstroListCallChat();
-
 	$('#DataSubmitBtn').on('click',async function () {
 		var Name = $("#Name").val();
 		var Gender = $("#Gender").val();
@@ -604,7 +601,7 @@
 	}
 
 	function startCounting(totalTime, socket) {
-		let count = 1
+		let count = 0
 		let minute = 0;
 		setInterval(() => {
 			count++;
@@ -618,14 +615,18 @@
 				localStorage.removeItem("resumeChat")
 				Swal.fire({
 					title: "Insufficient Balance",
-				text:"you do not have sufficient Balance",
-				icon:"info"
+					text: "you do not have sufficient Balance",
+					icon: "info"
 				})
 
 			}
-			$("#chatTimer").text(`${minute}:${count}`)
+			let formattedMinute = minute.toString().padStart(2, '0');
+			let formattedCount = count.toString().padStart(2, '0');
+
+			$("#chatTimer").text(`${formattedMinute}:${formattedCount}`);
 		}, 1000)
 	};
+
 	function startChat(astrologerId) {
 		getSomeJyotish(astrologerId)
 		getChatHistory(astrologerId);

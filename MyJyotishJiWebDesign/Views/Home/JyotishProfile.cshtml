@@ -1294,15 +1294,9 @@
 											$("#waitingBtn").addClass("d-none")
 
 										};
-
-
 									}
 								})
-
-
 								$("#exampleModal2").modal("hide")
-
-
 							} else {
 								// Handle unexpected response status (if needed)
 								Swal.fire({
@@ -1660,7 +1654,6 @@
 					if (receiveMessage.type == "chatPayment") {
 						startCounting(receiveMessage.totalTime, socket);
 					} else {
-
 						const now = new Date();
 						const hours = now.getHours();
 						const minutes = now.getMinutes();

@@ -99,8 +99,11 @@ namespace BusinessAccessLayer.Abstraction
         public bool removeJyotishPooja(int PoojaId);
         public string changeJyotishActiveStatus(int jyotishId, bool status);
 
+        public bool changeJyotishServiceStatus(int jyotishId, bool status);
+
+        public bool getJyotishserviceStatus(int jyotishId);
 
 
 
-    }
+	}
 }

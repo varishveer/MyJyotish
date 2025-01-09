@@ -62,6 +62,7 @@ namespace ModelAccessLayer.Models
         public string? Message { get; set; }
         public bool Feedback { get; set; }
         public bool ActiveStatus { get; set; }
+        public bool ServiceStatus { get; set; }
         // public int? TempRecordId { get; set; }
 
         [JsonIgnore]

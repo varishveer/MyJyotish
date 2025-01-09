@@ -2339,8 +2339,28 @@ namespace BusinessAccessLayer.Implementation
             return "not found";
         }
 
-      
-       
+		public bool changeJyotishServiceStatus(int jyotishId, bool status)
+		{
+			var res = _context.JyotishRecords.Where(e => e.Id == jyotishId&&e.Status).FirstOrDefault();
+			if (res != null)
+			{
+				res.ServiceStatus = status;
+				_context.JyotishRecords.Update(res);
+				return _context.SaveChanges() > 0;
+			}
+			return false;
+		}
 
-    }
+		public bool getJyotishserviceStatus(int jyotishId)
+		{
+			var res = _context.JyotishRecords.Where(e => e.Id == jyotishId&&e.Status).Select(e => e.ServiceStatus).FirstOrDefault();
+			if (res != null)
+			{
+				return (bool)res;
+			}
+			return false;
+		}
+
+
+	}
 }
