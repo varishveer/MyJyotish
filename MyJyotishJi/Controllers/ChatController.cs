@@ -52,6 +52,20 @@ namespace MyJyotishGApi.Controllers
                         {
                             var totalWalletAmount = _services.GetWallet(int.Parse(id));
                             var getJyotishchatCharges = _services.getJyotishServicesCharges(int.Parse(receiverId));
+                            if (totalWalletAmount < getJyotishchatCharges)
+                            {
+                               
+                                    ReceiveChat ms = new ReceiveChat
+                                    {
+                                        mssg = "Insufficient Balance",
+                                        date = DateTime.Now.ToString("hh:mm tt"),
+                                        connection = false
+                                    };
+                                    var msgBufferforsendClose = System.Text.Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(ms));
+                                    await recipientSocket.SendAsync(new ArraySegment<byte>(msgBufferforsendClose), WebSocketMessageType.Text, true, CancellationToken.None);
+
+                                return;
+                            }
                             var totaltimeforchat = getJyotishchatCharges > 0
                            ? (long)(totalWalletAmount / getJyotishchatCharges)
                            : 0;
@@ -61,34 +75,36 @@ namespace MyJyotishGApi.Controllers
                             }
                             _userWalletAmount.Add(id, totalWalletAmount);
                             string jsonString = JsonConvert.SerializeObject(new { status = true, type = "chatPayment", connection = true, totalTime = totaltimeforchat, totalAmount = totalWalletAmount });
-                            
-                            
+
+
                             var msgBuffer = System.Text.Encoding.UTF8.GetBytes(jsonString);
                             await recipientSocket.SendAsync(new ArraySegment<byte>(msgBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
 
                         }
-                            _services.changeUserServiceStatus(int.Parse(id), true);
+                        _services.changeUserServiceStatus(int.Parse(id), true);
                         if (!_chatTimeManager.ContainsKey(id))
                         {
 
                             _chatTimeManager.Add(id, DateTime.Now);
                         }
                     }
-                   
-                   
+
+
                     if (_clients.TryGetValue(changeIdPrefReceiver, out var recipientSocketForConnect))
-                        {
+                    {
                         ReceiveChat ms = new ReceiveChat
                         {
                             mssg = sendBy == "client" ? "Client are connected" : "Jyotish are connected",
-                            date = DateTime.Now.ToString("hh:mm tt")
+                            date = DateTime.Now.ToString("hh:mm tt"),
+                            connection = true
                         };
-                            var msgBuffer = System.Text.Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(ms));
-                            await recipientSocketForConnect.SendAsync(new ArraySegment<byte>(msgBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
+                        var msgBuffer = System.Text.Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(ms));
+                        await recipientSocketForConnect.SendAsync(new ArraySegment<byte>(msgBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
 
-                        }
+                    }
                     await HandleWebSocketCommunication(webSocket, id, receiverId, sendBy);
-                }catch(Exception ex)
+                }
+                catch (Exception ex)
                 {
                     throw ex;
                 }
@@ -113,9 +129,10 @@ namespace MyJyotishGApi.Controllers
                     if (result.CloseStatus.HasValue)
                     {
 
-                    var changeIdPref = sendBy == "client" ? receiverId + "B" : receiverId + "A";
-                    var RemoveRequest = sendBy == "client" ? clientId + "A" : clientId + "B";
-                       
+                        var changeIdPref = sendBy == "client" ? receiverId + "B" : receiverId + "A";
+                        var RemoveRequest = sendBy == "client" ? clientId + "A" : clientId + "B";
+                        var RemoveReceiverRequest = sendBy == "client" ? receiverId + "B" : receiverId + "A";
+
                         var userId = sendBy == "client" ? clientId : receiverId;
                         if (sendBy == "client")
                         {
@@ -129,16 +146,18 @@ namespace MyJyotishGApi.Controllers
                             var getJyotishchatCharges = _services.getJyotishServicesCharges(int.Parse(jyotishId));
                             var dateDifference = _chatTimeManager.Where(e => e.Key == userId).First().Value - DateTime.Now;
                             var totalMinutes = Math.Ceiling(Math.Abs(dateDifference.TotalMinutes));
-                            var totalAmount = getJyotishchatCharges * totalMinutes; 
+                            var totalAmount = getJyotishchatCharges * totalMinutes;
                             _userWalletAmount.Remove(userId);
-                            
+                            _chatTimeManager.Remove(userId);
+
                             string messages = "Chat with astrologers";
-                            var res = _services.ApplyChargesFromUserWalletForService(int.Parse(userId),Convert.ToInt32(totalAmount), messages, int.Parse(jyotishId));
+                            var res = _services.ApplyChargesFromUserWalletForService(int.Parse(userId), Convert.ToInt32(totalAmount), messages, int.Parse(jyotishId));
                         }
                         ReceiveChat ms = new ReceiveChat
                         {
                             mssg = sendBy == "client" ? "Client Are Disconnected" : "Jyotish Are Disconnected",
-                            date = DateTime.Now.ToString("hh:mm tt")
+                            date = DateTime.Now.ToString("hh:mm tt"),
+                            connection = false
                         };
                         if (_clients.TryGetValue(changeIdPref, out var recipientSocket))
                         {
@@ -147,6 +166,7 @@ namespace MyJyotishGApi.Controllers
                             await recipientSocket.SendAsync(new ArraySegment<byte>(msgBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
                         }
                         _clients.TryRemove(RemoveRequest, out _);
+                        
                         await webSocket.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
                         break;
                     }
@@ -172,18 +192,19 @@ namespace MyJyotishGApi.Controllers
                         cu.JyotishId = sendBy == "client" ? Convert.ToInt32(recipientId) : Convert.ToInt32(clientId);
                         cu.FirstMessageAt = DateTime.Now;
                         cu.LastMessageAt = DateTime.Now;
-                        var cres = _chat.AddChatUser(cu);
-                        var res = _chat.AddChat(md);
+
                         var changeresPref = sendBy == "client" ? recipientId + "B" : recipientId + "A";
 
                         if (_clients.TryGetValue(changeresPref, out var recipientSocket))
                         {
+                            var cres = _chat.AddChatUser(cu);
+                            var res = _chat.AddChat(md);
                             ReceiveChat ms = new ReceiveChat
                             {
                                 mssg = msgContent,
-                                date = DateTime.Now.ToString("hh:mm tt")
+                                date = DateTime.Now.ToString("hh:mm tt"),
+                                connection = true
                             };
-
                             string jsonString = JsonConvert.SerializeObject(ms);
                             var msgBuffer = System.Text.Encoding.UTF8.GetBytes(jsonString);
                             await recipientSocket.SendAsync(new ArraySegment<byte>(msgBuffer), result.MessageType, result.EndOfMessage, CancellationToken.None);
@@ -204,15 +225,19 @@ namespace MyJyotishGApi.Controllers
         private static Dictionary<string, DateTime> _RequestManager = new();
 
         [HttpGet("sendChatRequest")]
-        public async Task SendChatRequest(string id,string receiverId, string sendBy)
+        public async Task SendChatRequest(string id, string receiverId, string sendBy)
         {
             if (HttpContext.WebSockets.IsWebSocketRequest)
             {
                 var changeIdPref = sendBy == "client" ? id + "A" : id + "B";
                 var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
-                _clientRequest[changeIdPref] = webSocket;
+                if (sendBy != "client")
+                {
 
-                if (_clientRequest.TryGetValue(changeIdPref, out var recipientSocket))
+                    _clientRequest[changeIdPref] = webSocket;
+                }
+
+                if (_clientRequest.TryGetValue(changeIdPref, out var recipientSocket) && sendBy != "client")
                 {
                     dynamic userRequestRecord = null;
                     if (sendBy != "client")
@@ -232,24 +257,25 @@ namespace MyJyotishGApi.Controllers
                         await HandleChatRequest(webSocket, id, receiverId, sendBy);
 
                     }
+
+                }
+                else
+                {
+                    var checkServiceStatus = _services.getUserserviceStatus(int.Parse(id));
+                    if (!checkServiceStatus)
+                    {
+                        _clientRequest[changeIdPref] = webSocket;
+                        _services.changeUserServiceStatus(int.Parse(id), true);
+                        await HandleChatRequest(webSocket, id, receiverId, sendBy);
+                    }
                     else
                     {
-                            var checkServiceStatus = _services.getUserserviceStatus(int.Parse(id));
-                            if (!checkServiceStatus)
-                            {
-                            _services.changeUserServiceStatus(int.Parse(id),true);
-                await HandleChatRequest(webSocket, id, receiverId, sendBy);
-                            }
-                            else
-                            {
-                            _clientRequest.TryRemove(changeIdPref, out _);
-                            string jsonString = JsonConvert.SerializeObject(new { status = true, data = false, anotherRequest = true });
-                              var msgBuffer = System.Text.Encoding.UTF8.GetBytes(jsonString);
-                              await recipientSocket.SendAsync(new ArraySegment<byte>(msgBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
-
-                        }
+                        string jsonString = JsonConvert.SerializeObject(new { status = true, data = false, anotherRequest = true });
+                        var msgBuffer = System.Text.Encoding.UTF8.GetBytes(jsonString);
+                        await webSocket.SendAsync(new ArraySegment<byte>(msgBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
 
                     }
+
                 }
             }
             else
@@ -258,7 +284,7 @@ namespace MyJyotishGApi.Controllers
             }
         }
 
-        private async Task HandleChatRequest(WebSocket webSocket, string clientId,string receiverId, string sendBy)
+        private async Task HandleChatRequest(WebSocket webSocket, string clientId, string receiverId, string sendBy)
         {
             var buffer = new byte[1024 * 4];
 
@@ -271,14 +297,14 @@ namespace MyJyotishGApi.Controllers
                     var changeIdPref = sendBy == "client" ? clientId + "A" : clientId + "B";
 
 
-                  
-                   
-                        if (result.CloseStatus.HasValue)
+
+
+                    if (result.CloseStatus.HasValue)
                     {
                         if (sendBy == "client")
                         {
                             var castId = Convert.ToInt32(clientId);
-                           
+
 
                             var clientKey = receiverId;
                             if (clientKey != null)
@@ -302,7 +328,7 @@ namespace MyJyotishGApi.Controllers
                             }
                             if (sendBy == "client")
                             {
-                                _services.changeUserServiceStatus(castId,false);
+                                _services.changeUserServiceStatus(castId, false);
                             }
                         }
                         else
@@ -380,7 +406,7 @@ namespace MyJyotishGApi.Controllers
                                 if (!_RequestManager.ContainsKey(recipientId))
                                 {
 
-                                _RequestManager.Add(recipientId, DateTime.Now);
+                                    _RequestManager.Add(recipientId, DateTime.Now);
                                 }
                             }
 

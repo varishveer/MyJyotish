@@ -10,5 +10,6 @@ namespace ModelAccessLayer.ViewModels
     {
         public string mssg { get; set; }
         public string date { get; set; }
+        public bool connection { get; set; }
     }
 }
