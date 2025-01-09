@@ -760,8 +760,8 @@
 
 
 			<script>
-				   var BaseUrl = "https://api.myjyotishg.in/"
-				 //var BaseUrl = "https://localhost:7118/"
+				  // var BaseUrl = "https://api.myjyotishg.in/"
+				     var BaseUrl = "https://localhost:7118/"
 			</script>
 
 			<div class="container">
@@ -1262,11 +1262,10 @@
 
 						startChat(userIdForchat);
 					}
-
 				})
-
 			}
 		})
+
 		if (localStorage.getItem("jcallTOKEN") != null) {
 			startCall()
 		}
@@ -1274,6 +1273,26 @@
 		if (localStorage.getItem("jresumeChat") != null) {
 			userIdForchat = localStorage.getItem("jresumeChat");
 			startChat(userIdForchat);
+		}
+
+			async function changeJyotishServiceStatus(jyotishId,status){
+			let checkServiceStatus=false;
+		await $.ajax({
+				url: BaseUrl + "api/jyotish/changeJyotishServiceStatus", // Ensure BaseUrl is properly defined
+				method: "GET",
+				headers: {
+					'Authorization': `Bearer ${localStorage.getItem("Token2")}` // Retrieve token from localStorage
+				},
+				data: {
+					jyotishId: jyotishId,status:status
+				}, // Corrected JSON.stringify
+				success: function (res) {
+					if (res.status === 200) {
+						checkServiceStatus=true
+					}
+				}
+		})
+		return checkServiceStatus;
 		}
 
 		async function startCall() {
@@ -1302,15 +1321,14 @@
 				},
 					scenario: {
 						mode: ZegoUIKitPrebuilt.OneONoneCall,
-
-
-					}, onJoinRoom: () => {
+					}, onJoinRoom:async () => {
 						turnOnMicrophoneWhenJoining: true;
+						await changeJyotishServiceStatus(jyotishId,true);
 					},
-					onLeaveRoom: () => {
+					onLeaveRoom:async () => {
 						turnOnMicrophoneWhenJoining: false;
 						localStorage.removeItem("jcallTOKEN")
-
+						await changeJyotishServiceStatus(jyotishId,false);
 					},
 					onUserJoin: (user) => {
 					

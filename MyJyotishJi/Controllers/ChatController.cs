@@ -370,7 +370,6 @@ namespace MyJyotishGApi.Controllers
 						_clientRequest.TryRemove(changeIdPref, out _);
 
                         await webSocket.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, "Closing connection", CancellationToken.None);
-
                         break;
                     }
                     var message = System.Text.Encoding.UTF8.GetString(buffer, 0, result.Count);
@@ -429,15 +428,19 @@ namespace MyJyotishGApi.Controllers
 
                             if (!_clientRequestMessage.ContainsKey(recipientId) && !string.IsNullOrEmpty(recipientId))
                             {
-                                _clientRequestMessage.Add(recipientId, userJson);
-                                if (!_clientRoomId.ContainsKey(recipientId) && !string.IsNullOrEmpty(recipientId) && requestType == "call")
+                                var checkJyotishAvailability = _jyotish.getJyotishserviceStatus(int.Parse(recipientId));
+                                if (!checkJyotishAvailability)
                                 {
-                                    _clientRoomId.Add(recipientId, roomId);
-                                }
-                                if (!_RequestManager.ContainsKey(recipientId))
-                                {
+                                    _clientRequestMessage.Add(recipientId, userJson);
+                                    if (!_clientRoomId.ContainsKey(recipientId) && !string.IsNullOrEmpty(recipientId) && requestType == "call")
+                                    {
+                                        _clientRoomId.Add(recipientId, roomId);
+                                    }
+                                    if (!_RequestManager.ContainsKey(recipientId))
+                                    {
 
-                                    _RequestManager.Add(recipientId, DateTime.Now);
+                                        _RequestManager.Add(recipientId, DateTime.Now);
+                                    }
                                 }
                             }
 
