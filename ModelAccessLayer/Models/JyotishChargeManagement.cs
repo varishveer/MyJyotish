@@ -6,14 +6,12 @@ using System.Threading.Tasks;
 
 namespace ModelAccessLayer.Models
 {
-    public class jyotishSessions
+    public class JyotishChargeManagement
     {
-
-       public int Id { get; set; }
-       public int session_id { get; set; } 
-       public int jyotishId { get; set; }
-       public bool status { get; set; }
+        public int Id { get; set; }
+        public int JyotishId { get; set; }
+        public int Charge { get; set; }
+        public bool status { get; set; }
         public JyotishModel jyotish { get; set; }
-
     }
 }
