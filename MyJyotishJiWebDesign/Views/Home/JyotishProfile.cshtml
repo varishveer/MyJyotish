@@ -1364,6 +1364,27 @@
 		return walletAmount;
 	}
 
+	async function changeUserServiceStatus(userId,status){
+		let checkServiceStatus=false;
+	await $.ajax({
+			url: BaseUrl + "api/User/changeUserActiveStatus", // Ensure BaseUrl is properly defined
+			method: "GET",
+			headers: {
+				'Authorization': `Bearer ${localStorage.getItem("Token")}` // Retrieve token from localStorage
+			},
+			data: {
+				userId: userId,status:status
+			}, // Corrected JSON.stringify
+			success: function (res) {
+				if (res.status === 200) {
+					checkServiceStatus=true
+				}
+			}
+	})
+	return checkServiceStatus;
+	}
+
+
 	let jyotishConnected = false;
 	let totalSecond = 0;
 	async function startCall() {
@@ -1398,6 +1419,15 @@
 					mode: ZegoUIKitPrebuilt.OneONoneCall,
 
 				}, onJoinRoom:async () => {
+					let checkUserService=await changeUserServiceStatus(userId,true);
+						if(!checkUserService){
+							await zg.destroy();
+							localStorage.removeItem("callTOKEN")
+							const container = document.getElementById("zego-container");
+							if (container) {
+								container.remove();
+							}
+						}
 					turnOnMicrophoneWhenJoining: true;
 					let walletAmount = await getUserWallet(userId, jyotishId)
 					let totalTime=Math.floor(walletAmount.userWallet/walletAmount.charges)
@@ -1423,7 +1453,7 @@
 						}
 					}, 1000)
 				},
-				onLeaveRoom: () => {
+				onLeaveRoom: async () => {
 					turnOnMicrophoneWhenJoining: false;
 					localStorage.removeItem("callTOKEN")
 					if (jyotishConnected) {
@@ -1434,6 +1464,8 @@
 						isAmountDeduct = true;
 
 					}
+						await changeUserServiceStatus(userId,false);
+
 				},
 				onUserJoin: (user) => {
 					jyotishConnected = true;
@@ -1441,7 +1473,7 @@
 				onUserLeave: () => {
 					jyotishConnected = false;
 					setTimeout(async () => {
-						if (!jyotishConnected) {
+						if (!jyotishConnected || !isAmountDeduct) {
 							applyCallCharges(userId, jyotishId, totalSecond)
 							clearInterval(countInterval)
 							totalSecond = 0
@@ -1452,6 +1484,8 @@
 							if (container) {
 								container.remove();
 							}
+						await changeUserServiceStatus(userId,false);
+
 						}
 					}, 6000)
 					
@@ -1581,7 +1615,7 @@
 	}
 
 	function startCounting(totalTime, socket) {
-		let count = 1
+		let count = 0
 		let minute = 0;
 		setInterval(() => {
 			count++;
@@ -1600,7 +1634,10 @@
 				})
 
 			}
-			$("#chatTimer").text(`${minute}:${count}`)
+		 let formattedMinute = minute.toString().padStart(2, '0');
+		let formattedCount = count.toString().padStart(2, '0');
+
+		$("#chatTimer").text(`${formattedMinute}:${formattedCount}`);
 		}, 1000)
 	};
 

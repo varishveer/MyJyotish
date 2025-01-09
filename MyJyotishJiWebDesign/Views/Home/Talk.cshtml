@@ -493,6 +493,27 @@
 		return walletAmount;
 	}
 
+	async function changeUserServiceStatus(userId,status){
+		let checkServiceStatus=false;
+	await $.ajax({
+			url: BaseUrl + "api/User/changeUserActiveStatus", // Ensure BaseUrl is properly defined
+			method: "GET",
+			headers: {
+				'Authorization': `Bearer ${localStorage.getItem("Token")}` // Retrieve token from localStorage
+			},
+			data: {
+				userId: userId,status:status
+			}, // Corrected JSON.stringify
+			success: function (res) {
+				if (res.status === 200) {
+					checkServiceStatus=true
+				}
+			}
+	})
+	return checkServiceStatus;
+	}
+
+
 			let totalSecond=0;
 			let jyotishConnected=false;
 	async function startCall() {
@@ -501,7 +522,6 @@
 		let isAmountDeduct=false;
 		let countInterval;
 			try {
-					debugger
 				zg.joinRoom({
 					container: document.querySelector("#root"),
 					turnOnCameraWhenJoining: false,
@@ -509,9 +529,9 @@
 					showAudioVideoSettingsButton: false,
 					showScreenSharingButton: false,
 					showPreJoinView: false,
-						   lowerLeftNotification: {
-						showUserJoinAndLeave: false,
-						showTextChat: false,
+				    lowerLeftNotification: {
+					showUserJoinAndLeave: false,
+					showTextChat: false,
 					},
 					showRoomTimer:true,
 					showLeavingView:false,
@@ -523,8 +543,18 @@
 
 
 					}, onJoinRoom:async () => {
+						let checkUserService=await changeUserServiceStatus(userId,true);
+						if(!checkUserService){
+							await zg.destroy();
+							localStorage.removeItem("callTOKEN")
+							const container = document.getElementById("zego-container");
+							if (container) {
+								container.remove();
+							}
+						}
 						turnOnMicrophoneWhenJoining:true;
 						let walletAmount = await getUserWallet(userId, localStorage.getItem("JyotishIdForCall"))
+					
 					let totalTime=Math.floor(walletAmount.userWallet/walletAmount.charges)
 						countInterval=setInterval(async ()=>{
 							totalSecond++;
@@ -541,13 +571,12 @@
 								clearInterval(countInterval)
 								totalSecond = 0
 								isAmountDeduct = true;
-
 							}
 							
 						}
 						},1000)
 					},
-					onLeaveRoom: () => {
+					onLeaveRoom: async () => {
 						turnOnMicrophoneWhenJoining: false;
 						localStorage.removeItem("callTOKEN")
 						if(jyotishConnected ||  !isAmountDeduct){
@@ -557,6 +586,8 @@
 						    totalSecond=0
 							isAmountDeduct=true;
 						}
+						await changeUserServiceStatus(userId,false);
+
 					},
 					onUserJoin: (user) => {
 							jyotishConnected=true;
@@ -576,6 +607,8 @@
 							if (container) {
 								container.remove();
 							}
+						await changeUserServiceStatus(userId,false);
+
 							}
 							},6000)
 						}

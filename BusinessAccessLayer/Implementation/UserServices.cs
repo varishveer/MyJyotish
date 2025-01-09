@@ -1300,12 +1300,12 @@ namespace BusinessAccessLayer.Implementation
             return res;
         }
 
-      public bool changeUserServiceStatus(int userId)
+      public bool changeUserServiceStatus(int userId,bool status)
         {
             var res = _context.Users.Where(e => e.Id == userId).FirstOrDefault();
             if (res != null)
             {
-                res.ServiceStatus = !res.ServiceStatus;
+                res.ServiceStatus =status;
                 _context.Users.Update(res);
                 return _context.SaveChanges() > 0;
             }

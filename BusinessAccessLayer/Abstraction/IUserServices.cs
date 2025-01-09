@@ -38,7 +38,7 @@ namespace BusinessAccessLayer.Abstraction
         public List<JyotishModel> SearchAstrologer(string? searchInp);
         public List<JyotishUserAttachmentJyotishViewModel> GetAllUserAttachments(int Id);
         public dynamic GetProblemSolutionDetail(int appointmentId);
-        public bool changeUserServiceStatus(int userId);
+        public bool changeUserServiceStatus(int userId,bool status);
 
         public ProblemSolutionJyotishGetViewModel GetProblemSolution(int appointmentId);
         public dynamic GetAttachmentByAppointment(int appointmentId, int memberId);

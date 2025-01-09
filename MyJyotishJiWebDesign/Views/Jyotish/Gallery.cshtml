@@ -42,7 +42,7 @@
 <div class="container mt-4">
     <div class="d-flex justify-content-between">
         <h4 class="text-primary font-weight-bold">Gallery</h4>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AddModal">
+        <button type="button" class="btn btn-primary" id="AddImageBtn">
             Add
         </button>
     </div>
@@ -105,7 +105,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="AddModalLabel">Add Image</h5>
+                <h5 class="modal-title" id="AddModalLabel">Add Images</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
             </div>
@@ -140,6 +140,11 @@
 
 <script>
     $(document).ready(function () {
+
+        $("#AddImageBtn").click(function(){
+            $("#AddModal").modal("show")
+        })
+
         // Handle form submission for the modal
         $('#AddForm').on('submit', function (e) {
             e.preventDefault(); // Prevent default form submission
@@ -171,7 +176,6 @@
                     'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
                 },
                 success: function (response) {
-                     
                     if (response.status === 200) {
                         $('#AddModal').modal('hide'); // Close the modal
                         $('#AddForm')[0].reset(); // Reset the form
@@ -180,12 +184,16 @@
                             text:response.message,
                             icon:"success"
                         });
+            $("#AddModal").modal("hide")
+
                     } else {
                        Swal.fire({
                             title:"error",
                             text:response.message,
                             icon:"error"
                         });
+            $("#AddModal").modal("hide")
+
                     }
                 },
                 error: function (xhr) {

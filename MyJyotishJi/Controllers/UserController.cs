@@ -905,6 +905,30 @@ namespace MyJyotishGApi.Controllers
 				throw ex;
 			}
 		}
+		[HttpGet("changeUserActiveStatus")]
+		public IActionResult changeUserServiceStatus(int userId, bool status)
+
+		{
+			try
+			{
+				var jyotishCallCharges = _services.changeUserServiceStatus(userId, status);
+				
+				if (jyotishCallCharges)
+				{
+					return Ok(new { status = 200, message = "changes made successfully Successfully" });
+				}
+				else
+				{
+					return Ok(new { status = 500, message = "something went wrong" });
+				}
+			}
+			catch (Exception ex)
+			{
+				throw ex;
+			}
+		}
+
+
 
 		[HttpGet("jyotishChatCharges")]
 		public IActionResult GetJyotishChatCharges(int jyotishId)

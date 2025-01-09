@@ -67,6 +67,7 @@ namespace MyJyotishGApi.Controllers
                             await recipientSocket.SendAsync(new ArraySegment<byte>(msgBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
 
                         }
+                            _services.changeUserServiceStatus(int.Parse(id), true);
                     }
                    
                     if (_clients.ContainsKey(changeIdPrefReceiver) && !_chatTimeManager.ContainsKey(id))
@@ -115,7 +116,11 @@ namespace MyJyotishGApi.Controllers
                     var RemoveRequest = sendBy == "client" ? clientId + "A" : clientId + "B";
                        
                         var userId = sendBy == "client" ? clientId : receiverId;
+                        if (sendBy == "client")
+                        {
+                            _services.changeUserServiceStatus(int.Parse(clientId), false);
 
+                        }
                         if (_userWalletAmount.ContainsKey(userId))
                         {
 
@@ -231,7 +236,7 @@ namespace MyJyotishGApi.Controllers
                             var checkServiceStatus = _services.getUserserviceStatus(int.Parse(id));
                             if (!checkServiceStatus)
                             {
-                            _services.changeUserServiceStatus(int.Parse(id));
+                            _services.changeUserServiceStatus(int.Parse(id),true);
                 await HandleChatRequest(webSocket, id, receiverId, sendBy);
                             }
                             else
@@ -296,7 +301,7 @@ namespace MyJyotishGApi.Controllers
                             }
                             if (sendBy == "client")
                             {
-                                _services.changeUserServiceStatus(castId);
+                                _services.changeUserServiceStatus(castId,false);
                             }
                         }
                         else
