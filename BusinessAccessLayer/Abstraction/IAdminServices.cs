@@ -138,6 +138,8 @@ namespace BusinessAccessLayer.Abstraction
 		public bool UpdatePooja(PoojaRecordModel model);
 		public bool removePooja(int Id);
 		public dynamic getAllPooja();
+        public bool AddJyotishCharges(int charges, int jyotishId);
 
-	}
+
+    }
 }
