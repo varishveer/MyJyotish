@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections.Concurrent;
 using System.Linq.Expressions;
+using System.Net.Sockets;
 using System.Net.WebSockets;
 using System.Text;
 
@@ -61,8 +62,23 @@ namespace MyJyotishGApi.Controllers
                                         date = DateTime.Now.ToString("hh:mm tt"),
                                         connection = false
                                     };
+                                if (webSocket.State == WebSocketState.Open)
+                                {
                                     var msgBufferforsendClose = System.Text.Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(ms));
                                     await recipientSocket.SendAsync(new ArraySegment<byte>(msgBufferforsendClose), WebSocketMessageType.Text, true, CancellationToken.None);
+                                if (_clients.TryGetValue(changeIdPrefReceiver, out var recipientSocketForConnectDisconnect))
+                                {
+                                     ms = new ReceiveChat
+                                    {
+                                        mssg = sendBy == "client" ? "Client are connected" : "Jyotish are connected",
+                                        date = DateTime.Now.ToString("hh:mm tt"),
+                                        connection = false
+                                    };
+                                     msgBufferforsendClose = System.Text.Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(ms));
+                                    await recipientSocketForConnectDisconnect.SendAsync(new ArraySegment<byte>(msgBufferforsendClose), WebSocketMessageType.Text, true, CancellationToken.None);
+
+                                }
+                                }
 
                                 return;
                             }
@@ -98,8 +114,11 @@ namespace MyJyotishGApi.Controllers
                             date = DateTime.Now.ToString("hh:mm tt"),
                             connection = true
                         };
-                        var msgBuffer = System.Text.Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(ms));
-                        await recipientSocketForConnect.SendAsync(new ArraySegment<byte>(msgBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
+                        if (webSocket.State == WebSocketState.Open)
+                        {
+                            var msgBuffer = System.Text.Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(ms));
+                            await recipientSocketForConnect.SendAsync(new ArraySegment<byte>(msgBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
+                        }
 
                     }
                     await HandleWebSocketCommunication(webSocket, id, receiverId, sendBy);
