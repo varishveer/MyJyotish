@@ -2729,5 +2729,27 @@ Expiry : <span>{res.startDate}-{res.endDate}</span>
 			var res = _context.PoojaRecord.Where(e => e.Id == id && e.status).FirstOrDefault();
 			return res;
 		}
+
+        public bool AddJyotishCharges(int charges,int jyotishId)
+        {
+            string jId = jyotishId == 0 ? null : jyotishId.ToString();
+
+            var preData = _context.JyotishChargeManagement.Where(e => e.JyotishId.ToString() == jId && e.status).FirstOrDefault();
+
+            if (preData != null)
+            {
+                preData.Charge = charges;
+                _context.JyotishChargeManagement.Update(preData);
+               return _context.SaveChanges() > 0;
+            }
+
+            JyotishChargeManagement mng = new JyotishChargeManagement
+            {
+                Charge = charges,
+                JyotishId = jId != null ? int.Parse(jId) : null
+            };
+            _context.JyotishChargeManagement.Add(mng);
+            return _context.SaveChanges() > 0;
+        }
 	}
 }

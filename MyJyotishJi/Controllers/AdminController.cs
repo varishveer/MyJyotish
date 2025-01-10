@@ -2043,5 +2043,22 @@ namespace MyJyotishJiApi.Controllers
 
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
         }
+
+        [HttpGet("AddJyotishCharges")]
+        public IActionResult AddJyotishCharges(int charges,int jyotishId)
+        {
+            try
+            {
+                var Result = _admin.AddJyotishCharges(charges, jyotishId);
+                if (Result)
+                { return Ok(new { Status = 200, Data = Result, Message = "Charges Apply Successfully" }); }
+                else
+                { return Ok(new { Status = 500,  Message = "something went wrong" }); }
+
+
+            }
+
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+        }
     }
 }

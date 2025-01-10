@@ -106,7 +106,7 @@ namespace ModelAccessLayer.Models
         public ICollection<JyotishPoojaModel> jyotishPooja { get; set; } = new List<JyotishPoojaModel>();
         public ICollection<BookedPoojaList> bookedPooja { get; set; } = new List<BookedPoojaList>();
         public ICollection<ClientMembers> clientMembers { get; set; } = new List<ClientMembers>();
-        public ICollection<jyotishSessions> jyotishSession { get; set; } = new List<jyotishSessions>();
+        public ICollection<JyotishChargeManagement> jyotishCharges { get; set; } = new List<JyotishChargeManagement>();
 
     }
 
