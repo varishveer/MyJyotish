@@ -409,10 +409,26 @@
 	});
 
 	// Make AJAX call to the WalletPaymentLayout action
-	function makePaymentWithWallet(amount, JId, message) {
-		$.get('/home/WalletPaymentLayout', { amount: amount, jyotishId: JId, message: message, paymentby: "user" }, function (data) {
+	function makePaymentWithWallet(JId, message) {
+		$.ajax({
+			url:BaseUrl+"api/user/getAppointmentCharges",
+			type:"get",
+			headers: {
+					'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+				},
+			success:function(res){
+				if(res.status==200){
+					$.get('/home/WalletPaymentLayout', {amount:res.charges.charges, jyotishId: JId, message: message, paymentby: "user" }, function (data) {
 			$('#walletPaymentContainer').html(data);
 		});
+				}
+			},
+			error:function(xhr){
+
+			}
+		})
+
+		
 	}
 
 	let checkAppointmentStatus=false;
@@ -841,6 +857,7 @@
 							Swal.showLoading();
 						}
 					})
+					if(appoinmentArray){
 					newArray = appoinmentArray.filter((e) => {
 						return e.date.split("T")[0] == appdata;
 					})
@@ -874,6 +891,10 @@
 					} else {
 						$("#appoinmentDetail").append(`<p class='mt-4 text-center text-secondary'>No record found</p>`)
 					}
+					}else{
+						$("#appoinmentDetail").append(`<p class='mt-4 text-center text-secondary'>No record found</p>`)
+
+					}
 					Swal.close()
 				}
 				function convertDateFormat(date) {
@@ -904,11 +925,10 @@
 					icon: "warning"
 				})
 			} else {
-				let amount = $("input[name='jyotishAppoinment']:checked").attr("data-amount")
 				let JId = $("input[name='jyotishAppoinment']:checked").attr("data-jyotishId")
-				if (amount && JId) {
+				if ( JId) {
 
-					makePaymentWithWallet(amount, JId, "Book Appointment")
+					makePaymentWithWallet( JId, "Book Appointment")
 				}
 			}
 		} else {

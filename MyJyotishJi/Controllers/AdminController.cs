@@ -2059,6 +2059,70 @@ namespace MyJyotishJiApi.Controllers
             }
 
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+        }  
+        [HttpGet("appointmentManagement")]
+        public IActionResult AppointmentManagement(int charges)
+        {
+            try
+            {
+                var Result = _admin.appointmentManagement(charges);
+                if (Result)
+                { return Ok(new { Status = 200, Data = Result, Message = "Charges Apply Successfully" }); }
+                else
+                { return Ok(new { Status = 500,  Message = "something went wrong" }); }
+
+
+            }
+
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+        }  
+        [HttpGet("getAllJyotishCharges")]
+        public IActionResult getAllJyotishCharges()
+        {
+            try
+            {
+                var Result = _admin.getAllJyotishCharges();
+                if (Result!=null)
+                { return Ok(new { status = 200, Message = "data retrieved",data=Result }); }
+                else
+                { return Ok(new { Status = 500,  Message = "something went wrong" }); }
+
+
+            }
+
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+        }
+        [HttpGet("getAppointmentCharges")]
+        public IActionResult getAppointmentCharges()
+        {
+            try
+            {
+                var Result = _admin.getAppointmentCharges();
+                if (Result!=null)
+                { return Ok(new { Status = 200, Message = "data retrieved",data=Result }); }
+                else
+                { return Ok(new { Status = 500,  Message = "something went wrong" }); }
+
+
+            }
+
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+        } 
+        [HttpGet("getAllParticularJyotishCharges")]
+        public IActionResult getAllParticularJyotishCharges()
+        {
+            try
+            {
+                var Result = _admin.getAllParticularJyotishCharges();
+                if (Result!=null)
+                { return Ok(new { Status = 200, Message = "data retrieved",data=Result }); }
+                else
+                { return Ok(new { Status = 500,  Message = "something went wrong" }); }
+
+
+            }
+
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
         }
     }
 }

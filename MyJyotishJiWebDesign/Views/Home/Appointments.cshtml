@@ -23,7 +23,7 @@
 </style>
 
 <div class="container appointment-cont py-4 pb-5 shadow rounded">
-    <h5 class="text-secondary border-bottom pb-2 text-center my-4 appoinmentHeader">Upcoming Appointments</h5>
+    <h5 class="text-secondary border-bottom pb-2 text-center my-4 appoinmentHeader">Upcomming Appointments</h5>
     <div class="row">
         <div class="col-sm-12">
             <div class="my-3 px-5 fw-bold ">
@@ -71,7 +71,7 @@
                                     <div class="row fw-semi-bold">
                                         <div class="col-sm-6">
                                             Name : ${d.userName}<br />
-                                            Fees : ${d.amount != null ? d.amount + " paid" : "0"}<br />
+                                            Fees : ${d.amount != null ? d.amount  : "0"}<br />
                                             Problem : ${d.problem}<br />
                                         </div>
                                         <div class="col-sm-6">

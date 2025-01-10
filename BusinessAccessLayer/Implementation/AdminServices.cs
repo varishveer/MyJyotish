@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Identity.Client.Kerberos;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Model;
 using Razorpay.Api;
+using System.Data;
 
 
 namespace BusinessAccessLayer.Implementation
@@ -1656,6 +1657,7 @@ namespace BusinessAccessLayer.Implementation
                        join plan in _context.PackageManager on jyotish.Id equals plan.JyotishId
                        join subs in _context.Subscriptions on plan.SubscriptionId equals subs.SubscriptionId where jyotish.Email==email && plan.Status && jyotish.Status select new
                        {
+                           id=jyotish.Id,
                            name=jyotish.Name,
                            mobno=jyotish.Mobile,
                            country=jyotish.Country,
@@ -2746,10 +2748,71 @@ Expiry : <span>{res.startDate}-{res.endDate}</span>
             JyotishChargeManagement mng = new JyotishChargeManagement
             {
                 Charge = charges,
-                JyotishId = jId != null ? int.Parse(jId) : null
+                JyotishId = jId != null ? int.Parse(jId) : null,
+                status=true
             };
             _context.JyotishChargeManagement.Add(mng);
             return _context.SaveChanges() > 0;
         }
+
+        //appointment management
+        public bool appointmentManagement(int charges)
+        {
+            var res = _context.AppointmentChargesManagement.Where(e=>e.status).FirstOrDefault();
+            if (res != null)
+            {
+                res.charges = charges;
+                _context.AppointmentChargesManagement.Update(res);
+                return _context.SaveChanges() > 0;
+            }
+            AppointmentChargesManagement mng = new AppointmentChargesManagement
+            {
+                charges = charges,
+                status = true
+            };
+            _context.AppointmentChargesManagement.Add(mng);
+            return _context.SaveChanges() > 0;
+        }
+
+        public dynamic getAllJyotishCharges()
+        {
+            var res = _context.JyotishChargeManagement.Where(e => e.status&&e.JyotishId==null).FirstOrDefault();
+            return res;
+        } 
+        public dynamic getAllParticularJyotishCharges()
+        {
+            var res = _context.JyotishChargeManagement.Where(e => e.status && e.JyotishId != null).Include(e=>e.jyotish).Select(
+                e=>new
+                {
+                    id=e.jyotish!=null?e.jyotish.Id:0,
+                   name= e.jyotish!=null? e.jyotish.Name:null,
+                   mobno= e.jyotish != null?e.jyotish.Mobile:null,
+                   address= e.jyotish != null?$"{e.jyotish.City},{e.jyotish.State},${e.jyotish.Country}":null,
+                   charges=e.Charge,
+                   email= e.jyotish != null?e.jyotish.Email:null
+                }).ToList();
+            return res;
+        }
+        public dynamic getAppointmentCharges()
+        {
+            var res = _context.AppointmentChargesManagement.Where(e => e.status).FirstOrDefault();
+            return res;
+        }
+
+        public dynamic getJyotishChargesById(int jyotishId)
+        {
+            dynamic res;
+            if (jyotishId == 0)
+            {
+                res = _context.JyotishChargeManagement.Where(e => e.status && e.JyotishId == null).FirstOrDefault();
+            }
+            else
+            {
+
+            res = _context.JyotishChargeManagement.Where(e => e.JyotishId == jyotishId && e.status).FirstOrDefault();
+            }
+            return res;
+        }
+
 	}
 }

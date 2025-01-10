@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 
 namespace ModelAccessLayer.Models
 {
-    public class JyotishChargeManagement
+    public class AppointmentChargesManagement
     {
         public int Id { get; set; }
-        public int? JyotishId { get; set; }
-        public int Charge { get; set; }
+        public int charges { get; set; }
         public bool status { get; set; }
-        public JyotishModel? jyotish { get; set; }
     }
 }

@@ -4,31 +4,515 @@
 @{
 }
 
-<form class="border rounded w-50 mx-auto  shadow p-3" id="chargesForm">
-    <h4 class="w-100 text-primary">Jyotish Charges</h4>
-    <div class="d-flex gap-2">
-<input type="text" id="charges" placeholder="Enter charges in percentage" class="form-control" />
-<input type="submit" value="Submit" class="btn btn-success" />
-    </div>
-</form>
+<style>
+	.custom-swal-popup {
+		width: 600px !important; /* Set the width of the popup */
+		max-width: 100% !important; /* Ensure it doesn't overflow */
+		height: auto !important; /* Adjust height as needed */
+		padding: 20px !important; /* Add padding inside the modal */
+	}
+
+	.swal2-html-container {
+		width:100% !important;
+		padding:0 !important;
+		margin:0 !important;
+	}
+	*{
+		box-sizing:border-box !important;
+	}
+</style>
+
+<div class="border rounded text-center w-50 mx-auto  shadow p-3">
+	<h4 class="text-primary my-4">Charges Management</h4>
+	<button class="btn btn-success" id="addJyotishCharges" type="button" role="button"><i class="fas fs-5 fa-plus-circle"></i> Add Jyotish Charges</button>
+	<button class="btn btn-success" id="particularJyotish" type="button" role="button"><i class="fas fs-5 fa-user-plus"></i> Particular Jyotish</button>
+	<button class="btn btn-success" id="appointmentCharges" type="button" role="button"><i class="fas fs-5 fa-plus-circle"></i> Appointment Charges</button>
+</div>
+
+<div class="container border-top border-4 mt-5 table-responsive">
+	<div class="row">
+	<div class="col-sm-6">
+	<h4 class="text-primary border-bottom border-3">All Jyotish Charges</h4>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Sr</th>
+				<th>Charges</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody id="alljyotishCharges">
+		</tbody>
+	</table>
+	</div>
+		<div class="col-sm-6">
+			<h4 class="text-primary border-bottom border-3">Appointment Charges</h4>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Sr</th>
+						<th>Charges</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody id="appointmentChargescontainer">
+				</tbody>
+			</table>
+	</div>
+	<div class="col-sm-12 mt-4 border-top border-4">
+		<h4 class="text-primary border-bottom border-3">Particular Jyotish Charges</h4>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Sr</th>
+					<th>Name</th>
+					<th>Email</th>
+					<th>Phone</th>
+					<th>Address</th>
+					<th>Charges</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody id="particularJyotishContainer">
+			</tbody>
+		</table>
+	</div>
+	</div>
+</div>
 
 <script>
-    $("#chargesForm").submit(function(e){
-        e.preventDefault();
-        let charges = $("#charges").val();
-        $.ajax({
-            url: BaseUrl + "admin/AddJyotishCharges",
-            type:"get",
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem("Token")}`
-            },
-            data: { charges: charges, jyotishId: 0 },
-            success:function(res){
-                console.log(res)
-            },error:function(xhr){
 
-            }
-        })
+	function getallJyotishCharges(){
+		
+	$.ajax({
+				  url: BaseUrl + "api/admin/getAllJyotishCharges",
+				  type:"get",
+				  headers: {
+					  'Authorization': `Bearer ${localStorage.getItem("Token")}`
+				  },
+				  success:function(res){
+					if(res.status==200){
+						if(res.data!=null){
+				$("#alljyotishCharges").html(`
+				<tr>
+				<td>1</td>
+				<td>${res.data.charge}%</td>
+				<td class='text-center'><i onclick='updateJyotishCharges(${res.data.charge})' role='button' class="fas fs-4 text-warning fa-edit"></i></td>
+				</tr>
+				`)
+						}
+					
+					}else{
+					Swal.fire('error', 'some error occured!', 'error');
 
-    })
+					}
+				  },error:function(xhr){
+					  console.log(xhr)
+					Swal.fire('error', 'something went wrong', 'error');
+
+				  }
+			  })
+	}
+	getallJyotishCharges();
+	function getAppointmentCharges(){
+	$.ajax({
+				  url: BaseUrl + "api/admin/getAppointmentCharges",
+				  type:"get",
+				  headers: {
+					  'Authorization': `Bearer ${localStorage.getItem("Token")}`
+				  },
+				  success:function(res){
+					if(res.status==200){
+						if(res.data!=null){
+				$("#appointmentChargescontainer").html(`
+				<tr>
+				<td>1</td>
+				<td>₹${res.data.charges}</td>
+				<td class='text-center'><i onclick='updateAppointmentCharges(${res.data.charges})' role='button' class="fas fs-4 text-warning fa-edit"></i></td>
+				</tr>
+				`)
+						}
+					}else{
+					Swal.fire('error', 'some error occured!', 'error');
+
+					}
+				  },error:function(xhr){
+					  console.log(xhr)
+					Swal.fire('error', 'something went wrong', 'error');
+
+				  }
+			  })
+	}
+
+	getAppointmentCharges();
+	
+	function getAllParticularCharges(){
+		Swal.fire({
+				title: "Proccessing Please Wait!",
+				timerProgressBar: true,
+				didOpen: () => {
+					Swal.showLoading();
+				}
+			})
+	$.ajax({
+				  url: BaseUrl + "api/admin/getAllParticularJyotishCharges",
+				  type:"get",
+				  headers: {
+					  'Authorization': `Bearer ${localStorage.getItem("Token")}`
+				  },
+				  success:function(res){
+					  console.log(res)
+					if(res.status==200){
+					if(res.data.length>0){
+						res.data.forEach(function(d,i){
+				$("#particularJyotishContainer").html(`
+				<tr>
+				<td>${i+1}</td>
+				<td>${d.name}</td>
+				<td>${d.email}</td>
+				<td>${d.mobno}</td>
+				<td>${d.address}</td>
+				<td>${d.charges}%</td>
+				<td class='text-center'><i onclick='updateParticularJyotish(${d.id},"${d.email}",${d.charges})' role='button' class="fas fs-4 text-warning fa-edit"></i></td>
+				</tr>
+				`)
+						})
+					}
+					Swal.close();
+					}else{
+					Swal.fire('error', 'some error occured!', 'error');
+
+					}
+				  },error:function(xhr){
+					  console.log(xhr)
+					Swal.fire('error', 'something went wrong', 'error');
+
+				  }
+			  })
+	}
+	getAllParticularCharges();
+
+	async function addjyotishCharges(charges,jyotishId){
+		await  $.ajax({
+			   url: BaseUrl + "api/admin/AddJyotishCharges",
+			   type:"get",
+			   headers: {
+				   'Authorization': `Bearer ${localStorage.getItem("Token")}`
+			   },
+			   data: { charges: charges, jyotishId:jyotishId },
+			   success:function(res){
+				 if(res.status==200){
+				 Swal.fire('Success', res.message, 'success');
+				 if(jyotishId==0){
+
+				 getallJyotishCharges();
+				 }else{
+			     getAllParticularCharges();
+				 }
+				 }else{
+				 Swal.fire('error', 'some error occured!', 'error');
+
+				 }
+			   },error:function(xhr){
+				 Swal.fire('error', 'something went wrong', 'error');
+
+			   }
+		   })
+	}
+
+	 $("#addJyotishCharges").click(function(){
+	  Swal.fire({
+	   title: "Enter Jyotish Charges",
+	   input: "number",
+	  inputAttributes: {
+	   min: 0,
+	   max: 100,
+	   step: 1,
+	   placeholder: '0-100%'
+	 },
+	   inputLabel: "Charges in percentage",
+	   showCancelButton: true,
+		allowOutsideClick: false,
+	   allowEscapeKey: false,
+	   inputValidator: (value) => {
+		 if (value=="") {
+		   return "you need to input charges in percentage!";
+		 }if (value>100) {
+		   return "Please enter percentage between 0-100";
+		 }
+	   }
+	 }).then((result)=>{
+		 if(result.isConfirmed){
+		 addjyotishCharges(result.value,0)
+		 }
+	 })
+	 })
+	$("#particularJyotish").click(function(){
+		 Swal.fire({
+	   title: '<h5 class="fw-bold mb-4">Enter Jyotish Email</h5>',
+	   html: `
+		<div id="resultContainer" style="margin-top: 20px; display:none;">
+		   <span id="resultText"></span>
+		   <input id="percentage" class="form-control" style="margin-top: 10px; " placeholder="Enter Percentage">
+		 </div>
+		 <input id="emailId" class="form-control" placeholder="Enter Jyotish Email">
+		 <button id="findButton" class="swal2-confirm swal2-styled" style="margin-top: 10px; width: 100%;">Get Data</button>
+		
+	   `,
+	   showCancelButton: true,
+	   showConfirmButton: false,
+	   allowOutsideClick: false,
+	   allowEscapeKey: false,
+		 customClass: {
+	  popup: 'custom-swal-popup', // Custom class for the popup container
+	 
+	},
+	   didOpen: () => {
+		 // Handle button click to perform AJAX request
+		  
+    const ajaxButton = document.getElementById("findButton");
+		 ajaxButton.addEventListener('click', function() {
+		   const emailId = document.getElementById("emailId").value;
+
+			if (emailId === "") {
+			 Swal.showValidationMessage('Please enter a valid Email');
+			 return;
+		   }
+		   // Start AJAX request (replace with your actual AJAX call)
+				Swal.showLoading();
+			fetchData(emailId).then(response => {
+				 
+				  Swal.hideLoading();
+				  Swal.update({
+		  title: `${document.getElementById("emailId").value}`
+		});
+			 let jData=response.data
+				 debugger
+			 // Display the result
+			   document.getElementById("resultText").innerHTML = `
+			  <div class='row text-start'>
+			  <div class='col-sm-2'>Name</div>
+			  <div class='col-sm-4'>: ${jData.name}</div>
+			  <div class='col-sm-2'>Mobile</div>
+			  <div class='col-sm-4'>: ${jData.mobno}</div>
+			  <div class='col-sm-2 my-2'>Gender</div>
+			  <div class='col-sm-4 my-2'>: ${jData.gender}</div>
+			  <div class='col-sm-2 my-2'>Address</div>
+			  <div class='col-sm-4 my-2'>: ${jData.city},${jData.state},${jData.country}</div> 
+			  <div class='col-sm-2'>Subscription</div>
+			  <div class='col-sm-4'>: ${jData.planName} - ${jData.planType}</div>
+			  <div class='col-sm-2'>Date</div>
+			  <div class='col-sm-4'>: ${jData.planPurchaseDate.split('T')[0]} to ${jData.planExpiryDate.split('T')[0]}</div>
+			  </div>
+			  `;
+
+	   
+			 // Show the percentage input field
+			document.getElementById("resultContainer").style.display = "block";
+			document.getElementById("emailId").style.display = "none";
+			document.getElementById("findButton").innerText = "Submit Percentage";
+			
+			 // Enable the percentage input field after showing the data
+			 // Handle percentage submission
+			document.getElementById("findButton").addEventListener('click', function() {
+				Swal.showLoading();
+			   const percentage =document.getElementById("percentage").value;
+
+			   if (percentage === "" || isNaN(percentage) || percentage < 0) {
+				 Swal.showValidationMessage('Please enter a valid percentage');
+				  Swal.hideLoading();
+
+				 return;
+			   }
+
+			   // Submit the percentage (use AJAX here)
+			   addjyotishCharges(percentage,jData.id)
+				  Swal.hideLoading();
+			  
+			 });
+	
+		   }).catch(error => {
+			   console.log(error)
+			 Swal.fire('Error', 'There was an error fetching the data.', 'error');
+		   });
+			
+		 });
+	   }
+	 });
+	 });
+
+
+	 async function addAppointmentCharges(charges){
+		await  $.ajax({
+			   url: BaseUrl + "api/admin/appointmentManagement",
+			   type:"get",
+			   headers: {
+				   'Authorization': `Bearer ${localStorage.getItem("Token")}`
+			   },
+			   data: { charges: charges },
+			   success:function(res){
+				 if(res.status==200){
+				 Swal.fire('Success', res.message, 'success');
+				 getAppointmentCharges();
+				 }else{
+				 Swal.fire('error', 'some error occured!', 'error');
+
+				 }
+			   },error:function(xhr){
+				 Swal.fire('error', 'something went wrong', 'error');
+
+			   }
+		   })
+	}
+
+	 $("#appointmentCharges").click(function(){
+	  Swal.fire({
+	   title: "Enter Appointment Charges",
+	   input: "number",
+	  inputAttributes: {
+	 
+	   step: 1,
+	   placeholder: '₹50'
+	 },
+	   inputLabel: "Charges in rupees",
+	   showCancelButton: true,
+		allowOutsideClick: false,
+	   allowEscapeKey: false,
+	   inputValidator: (value) => {
+		 if (value=="") {
+		   return "you need to input charges in rupees!";
+		 }
+	   }
+	 }).then((result)=>{
+		 if(result.isConfirmed){
+				Swal.showLoading();
+		 addAppointmentCharges(result.value)
+				  Swal.hideLoading();
+		 }
+	 })
+	 })
+
+	async function fetchData(emailId) {
+		let jyotishDetail=null;
+		let execsuccess=false;
+		  await $.ajax({
+			   url: BaseUrl + "api/admin/getJyotishByEmail",
+			   type:"get",
+			   headers: {
+				   'Authorization': `Bearer ${localStorage.getItem("Token")}`
+			   },
+			   data: {email: emailId},
+			   success:function(res){
+				   console.log(res)
+				   if(res.status==200){
+						jyotishDetail=res.data
+						 execsuccess=true;
+				   }else{
+						execsuccess=false;
+				   }
+			   },error:function(xhr){
+				   execsuccess=false;
+			   }
+		   })
+	   return new Promise((resolve, reject) => {
+		 setTimeout(() => {
+			if (execsuccess) {
+			  resolve({ data: jyotishDetail });
+		   } else {
+			 reject("Jyotish not found");
+		   }
+		 }, 1000);
+	   });
+	 }
+
+	function updateJyotishCharges(charges){
+			 Swal.fire({
+	   title: "Update Jyotish Charges",
+	   input: "number",
+	  inputAttributes: {
+	   min: 0,
+	   max: 100,
+	   step: 1,
+	   placeholder: '0-100%'
+	 },
+	   inputLabel: "Charges in percentage",
+	   inputValue:charges,
+	   showCancelButton: true,
+		allowOutsideClick: false,
+	   allowEscapeKey: false,
+	   inputValidator: (value) => {
+		 if (value=="") {
+		   return "you need to input charges in percentage!";
+		 }if (value>100) {
+		   return "Please enter percentage between 0-100";
+		 }
+	   }
+	 }).then((result)=>{
+		 if(result.isConfirmed){
+		 addjyotishCharges(result.value,0)
+		 }
+	 })
+	 }
+
+	 function updateAppointmentCharges(charges){
+	  Swal.fire({
+	   title: "Update Appointment Charges",
+	   input: "number",
+	  inputAttributes: {
+
+	   step: 1,
+	   placeholder: '₹50'
+	 },
+	   inputLabel: "Charges in rupees",
+	   inputValue:charges,
+	   showCancelButton: true,
+		allowOutsideClick: false,
+	   allowEscapeKey: false,
+	   inputValidator: (value) => {
+		 if (value=="") {
+		   return "you need to input charges in rupees!";
+		 }
+	   }
+	 }).then((result)=>{
+		 if(result.isConfirmed){
+				Swal.showLoading();
+		 addAppointmentCharges(result.value)
+				  Swal.hideLoading();
+		 }
+	 })
+	 }
+	
+	 function updateParticularJyotish(id,email,charges){
+		 debugger
+	   Swal.fire({
+	   title: "Update Jyotish Charges",
+	   html:`<p class='text-center'>${email}</p>`,
+	   input: "number",
+	  inputAttributes: {
+	   min: 0,
+	   max: 100,
+	   step: 1,
+	   placeholder: '0-100%'
+	 },
+	   inputLabel: "Charges in percentage",
+	   inputValue:charges,
+	   showCancelButton: true,
+		allowOutsideClick: false,
+	   allowEscapeKey: false,
+	   inputValidator: (value) => {
+		 if (value=="") {
+		   return "you need to input charges in percentage!";
+		 }if (value>100) {
+		   return "Please enter percentage between 0-100";
+		 }
+	   }
+	 }).then((result)=>{
+		 if(result.isConfirmed){
+				Swal.showLoading();
+					   addjyotishCharges(result.value,id)
+				  Swal.hideLoading();
+		 }
+	 })
+	 }
+
 </script>

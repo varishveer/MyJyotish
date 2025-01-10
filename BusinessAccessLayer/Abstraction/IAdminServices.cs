@@ -139,7 +139,12 @@ namespace BusinessAccessLayer.Abstraction
 		public bool removePooja(int Id);
 		public dynamic getAllPooja();
         public bool AddJyotishCharges(int charges, int jyotishId);
+        public bool appointmentManagement(int charges);
+        public dynamic getAllJyotishCharges();
+        public dynamic getAppointmentCharges();
+        public dynamic getJyotishChargesById(int jyotishId);
 
+        public dynamic getAllParticularJyotishCharges();
 
     }
 }

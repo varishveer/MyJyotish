@@ -417,7 +417,7 @@ namespace MyJyotishGApi.Controllers
 					WalletHistoryViewmodel js = new WalletHistoryViewmodel
 					{
 						UId = (int)uv.userId,
-						JId = (int)uv.jyotishId,
+						JId =null,
 						amount = (long)uv.WalletAmount,
 						PaymentAction = "Debit",
 						PaymentStatus = "success",
@@ -981,6 +981,13 @@ namespace MyJyotishGApi.Controllers
 			}
 		}
 
+		[HttpGet("getAppointmentCharges")]
+		public IActionResult getAppointemntCharges()
+		{
+			var res = _services.getAppointmentCharges();
+			return Ok(new { status = 200, message = "data retrieved", charges = res });
+
+        }
 
 	}
 }

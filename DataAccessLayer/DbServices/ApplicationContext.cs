@@ -74,6 +74,7 @@ namespace DataAccessLayer.DbServices
         public DbSet<TimezoneModal> Timezone { get; set; }
         public DbSet<JyotishPoojaModel> JyotishPooja { get; set; }
         public DbSet<JyotishChargeManagement> JyotishChargeManagement { get; set; }
+        public DbSet<AppointmentChargesManagement> AppointmentChargesManagement { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         { 

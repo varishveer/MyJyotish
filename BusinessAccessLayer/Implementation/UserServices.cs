@@ -22,21 +22,23 @@ namespace BusinessAccessLayer.Implementation
     public class UserServices : IUserServices
     {
         private readonly ApplicationContext _context;
-        public UserServices(ApplicationContext context)
+        private readonly IAdminServices _admin;
+        public UserServices(ApplicationContext context, IAdminServices admin)
         {
             _context = context;
+            _admin = admin;
         }
 
         public List<JyotishModel> GetAstroListCallChat(string ListName)
         {
             if (ListName == "Chat")
             {
-                var record = _context.JyotishRecords.Where(x => x.Chat == true&&x.Status&&x.ActiveStatus&&!x.NewStatus).ToList();
+                var record = _context.JyotishRecords.Where(x => x.Chat == true && x.Status && x.ActiveStatus && !x.NewStatus).ToList();
                 return record;
             }
             else if (ListName == "Call")
             {
-                var record = _context.JyotishRecords.Where(x => x.Call == true&&x.Status&&x.ActiveStatus&&!x.NewStatus).ToList();
+                var record = _context.JyotishRecords.Where(x => x.Call == true && x.Status && x.ActiveStatus && !x.NewStatus).ToList();
                 return record;
             }
             else { return null; }
@@ -156,7 +158,7 @@ namespace BusinessAccessLayer.Implementation
                                       SerialNo = image.SerialNo
                                   }).OrderBy(order => order.SerialNo)
                                   .ToArray();
-            
+
             var specializationArray = jyotishRecord.Specialization?.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
                                                  .Select(a => a.Trim())
                                                  .ToArray();
@@ -173,7 +175,7 @@ namespace BusinessAccessLayer.Implementation
                 Country = jyotishRecord.Country,
                 State = jyotishRecord.State,
                 City = jyotishRecord.City,
-
+                ActiveStatus=jyotishRecord.ActiveStatus,
                 DateOfBirth = jyotishRecord.DateOfBirth,
                 ProfileImageUrl = jyotishRecord.ProfileImageUrl,
                 Status = jyotishRecord.ApprovedStatus,
@@ -310,7 +312,7 @@ namespace BusinessAccessLayer.Implementation
             Data.Email = user.Email;
             Data.Mobile = user.Mobile;
             Data.Gender = user.Gender;
-            Data.DateOfBirth = user.DoB!=null?Convert.ToDateTime(user.DoB).ToString("dd/MM/yyy"):null;
+            Data.DateOfBirth = user.DoB != null ? Convert.ToDateTime(user.DoB).ToString("dd/MM/yyy") : null;
             Data.PlaceOfBirth = user.PlaceOfBirth;
             Data.TimeOfBirth = user.TimeOfBirth;
             Data.CurrentAddress = user.CurrentAddress;
@@ -682,9 +684,9 @@ namespace BusinessAccessLayer.Implementation
             }
         }
 
-        public bool ApplyChargesFromUserWalletForService(int userId,int amount,string message,int jyotishId)
+        public bool ApplyChargesFromUserWalletForService(int userId, int amount, string message, int jyotishId)
         {
-            var transaction=_context.Database.BeginTransaction();
+            var transaction = _context.Database.BeginTransaction();
             var res = _context.UserWallets.Where(e => e.userId == userId && e.status == 1).FirstOrDefault();
             if (res != null)
             {
@@ -700,7 +702,13 @@ namespace BusinessAccessLayer.Implementation
                     var jWallet = _context.JyotishWallets.Where(e => e.jyotishId == jyotishId && e.status == 1).FirstOrDefault();
                     if (jWallet != null)
                     {
-                        jWallet.WalletAmount += amount;
+                        var jyotishCharges = _admin.getJyotishChargesById(jyotishId);
+                        if (jyotishCharges == null)
+                        {
+                            jyotishCharges = _admin.getJyotishChargesById(0);
+                        }
+                        var amountAfterPercentage = amount * (jyotishCharges / 100);
+                        jWallet.WalletAmount += amountAfterPercentage;
                         _context.JyotishWallets.Update(jWallet);
 
                     }
@@ -729,7 +737,7 @@ namespace BusinessAccessLayer.Implementation
                         AddWalletHistory(wh);
                     }
                     transaction.Commit();
-                return true;
+                    return true;
                 }
                 return false;
             }
@@ -739,7 +747,7 @@ namespace BusinessAccessLayer.Implementation
                 return false;
             }
         }
-        
+
         public dynamic getJyotishServicesCharges(int jyotishid)
         {
             var res = _context.JyotishRecords
@@ -750,18 +758,18 @@ namespace BusinessAccessLayer.Implementation
 
         }
 
-		public dynamic getJyotishCallServicesCharges(int jyotishid)
-		{
-			var res = _context.JyotishRecords
-	.Where(e => e.Id == jyotishid && e.Status)
-	.Select(e => e.CallCharges)
-	.FirstOrDefault();
-			return res;
+        public dynamic getJyotishCallServicesCharges(int jyotishid)
+        {
+            var res = _context.JyotishRecords
+    .Where(e => e.Id == jyotishid && e.Status)
+    .Select(e => e.CallCharges)
+    .FirstOrDefault();
+            return res;
 
-		}
+        }
 
-		//wallet history
-		public string AddWalletHistory(WalletHistoryViewmodel pr)
+        //wallet history
+        public string AddWalletHistory(WalletHistoryViewmodel pr)
         {
             var Jyotish = _context.Users.Where(x => x.Id == pr.UId).FirstOrDefault();
             if (Jyotish == null) { return null; }
@@ -849,7 +857,7 @@ namespace BusinessAccessLayer.Implementation
             var result = record.Where(x => x.Date > yesterdayDateOnly).ToList();
             return result;
         }
-       
+
 
         public dynamic getAllmembers(int userId)
         {
@@ -869,14 +877,14 @@ namespace BusinessAccessLayer.Implementation
             return res;
         }
 
-       
-        public dynamic getAllAppointmentBymemebersanduser(int memberId, int userId,int jyotishId)
+
+        public dynamic getAllAppointmentBymemebersanduser(int memberId, int userId, int jyotishId)
         {
             string memberFromatedId = memberId == 0 ? null : memberId.ToString();
             var res = (from problem in _context.ProblemSolution
                        join appointment in _context.AppointmentRecords on problem.AppointmentId equals appointment.Id
                        orderby appointment.Id descending
-                       where (problem.memberId.ToString() == memberFromatedId && appointment.UserId == userId && appointment.JyotishId==jyotishId) && (problem.Member.status == 1 || problem.Member == null)
+                       where (problem.memberId.ToString() == memberFromatedId && appointment.UserId == userId && appointment.JyotishId == jyotishId) && (problem.Member.status == 1 || problem.Member == null)
                        select new
                        {
                            appointmentId = appointment.Id,
@@ -887,15 +895,15 @@ namespace BusinessAccessLayer.Implementation
                        }).ToList();
             return res;
         }
-        public dynamic getjyotishByuserAppointment(int userId,int memberId)
+        public dynamic getjyotishByuserAppointment(int userId, int memberId)
         {
             var res = (from appointment in _context.AppointmentRecords
                        join user in _context.Users on appointment.UserId equals user.Id
                        join jyotish in _context.JyotishRecords on appointment.JyotishId equals jyotish.Id
                        join client in _context.ClientMembers on jyotish.Id equals client.JId
-					   join ps in _context.ProblemSolution on appointment.Id equals ps.AppointmentId into psJoin
-					   from ps in psJoin.DefaultIfEmpty()
-					   where appointment.UserId == userId && (client.Id == memberId || memberId == 0)
+                       join ps in _context.ProblemSolution on appointment.Id equals ps.AppointmentId into psJoin
+                       from ps in psJoin.DefaultIfEmpty()
+                       where appointment.UserId == userId && (client.Id == memberId || memberId == 0)
                        orderby ps.Id
                        select new
                        {
@@ -1300,12 +1308,12 @@ namespace BusinessAccessLayer.Implementation
             return res;
         }
 
-      public bool changeUserServiceStatus(int userId,bool status)
+        public bool changeUserServiceStatus(int userId, bool status)
         {
             var res = _context.Users.Where(e => e.Id == userId).FirstOrDefault();
             if (res != null)
             {
-                res.ServiceStatus =status;
+                res.ServiceStatus = status;
                 _context.Users.Update(res);
                 return _context.SaveChanges() > 0;
             }
@@ -1314,14 +1322,19 @@ namespace BusinessAccessLayer.Implementation
 
         public bool getUserserviceStatus(int userId)
         {
-            var res = _context.Users.Where(e => e.Id == userId).Select(e=>e.ServiceStatus).FirstOrDefault();
+            var res = _context.Users.Where(e => e.Id == userId).Select(e => e.ServiceStatus).FirstOrDefault();
             if (res != null)
             {
 
-            return (bool)res;
+                return (bool)res;
             }
             return false;
         }
+        public dynamic getAppointmentCharges()
+        {
+            var res = _context.AppointmentChargesManagement.Where(e => e.status).FirstOrDefault();
 
+            return res;
+        }
     }
 }

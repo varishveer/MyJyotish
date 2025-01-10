@@ -265,6 +265,17 @@ namespace MyJyotishGApi.Controllers
 
                     _clientRequest[changeIdPref] = webSocket;
                 }
+                else
+                {
+                    var checkJyotishAvailability = _jyotish.getJyotishserviceStatus(int.Parse(receiverId));
+                    if (checkJyotishAvailability)
+                    {
+                        string jsonString = JsonConvert.SerializeObject(new { status = true, data=false,anotherRequest=false,notAvailable=true });
+                        var msgBuffer = System.Text.Encoding.UTF8.GetBytes(jsonString);
+                        await webSocket.SendAsync(new ArraySegment<byte>(msgBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
+                        return;
+                    }
+                }
 
                 if (_clientRequest.TryGetValue(changeIdPref, out var recipientSocket) && sendBy != "client")
                 {
