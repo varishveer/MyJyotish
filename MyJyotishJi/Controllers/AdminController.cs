@@ -2043,6 +2043,7 @@ namespace MyJyotishJiApi.Controllers
 
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
         }
+
         [HttpGet("AddJyotishCharges")]
         public IActionResult AddJyotishCharges(int charges,int jyotishId)
         {

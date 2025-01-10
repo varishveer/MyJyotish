@@ -5,9 +5,9 @@
 }
 
 <form class="border rounded w-50 mx-auto  shadow p-3" id="chargesForm">
-    <h4 class="w-100">Jyotish Charges</h4>
+    <h4 class="w-100 text-primary">Jyotish Charges</h4>
     <div class="d-flex gap-2">
-<input type="text" placeholder="Enter charges in percentage" class="form-control" />
+<input type="text" id="charges" placeholder="Enter charges in percentage" class="form-control" />
 <input type="submit" value="Submit" class="btn btn-success" />
     </div>
 </form>
@@ -15,5 +15,20 @@
 <script>
     $("#chargesForm").submit(function(e){
         e.preventDefault();
+        let charges = $("#charges").val();
+        $.ajax({
+            url: BaseUrl + "admin/AddJyotishCharges",
+            type:"get",
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token")}`
+            },
+            data: { charges: charges, jyotishId: 0 },
+            success:function(res){
+                console.log(res)
+            },error:function(xhr){
+
+            }
+        })
+
     })
 </script>
