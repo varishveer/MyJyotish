@@ -2052,7 +2052,6 @@ namespace MyJyotishJiApi.Controllers
                 var Result = _admin.AddJyotishCharges(charges, jyotishId);
                 if (Result)
                 { return Ok(new { Status = 200, Data = Result, Message = "Charges Apply Successfully" }); }
-
                 else
                 { return Ok(new { Status = 500,  Message = "something went wrong" }); }
 
