@@ -329,6 +329,7 @@ namespace MyJyotishGApi.Controllers
 
 
 
+                    
                     if (result.CloseStatus.HasValue)
                     {
                         if (sendBy == "client")
