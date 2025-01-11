@@ -19,10 +19,12 @@ namespace MyJyotishGApi.Controllers
 
 		private readonly IUserServices _services;
 		private readonly IWebHostEnvironment _environment;
-		public UserController(IUserServices services, IWebHostEnvironment environment)
+		private readonly IAdminServices _admin;
+		public UserController(IUserServices services, IWebHostEnvironment environment,IAdminServices admin)
 		{
 			_services = services;
 			_environment = environment;
+			_admin = admin;
 		}
 
 		[AllowAnonymous]
@@ -411,7 +413,21 @@ namespace MyJyotishGApi.Controllers
 		{
 			try
 			{
-				var Result = _services.PurchaseWithUserWallets(uv);
+				var checkUserServiceStatus = _services.getUserserviceStatus(uv.userId);
+				if (checkUserServiceStatus)
+				{
+                    return Ok(new { Status = 404, Message = "You already use another service please try after some time" });
+
+                }
+
+                var checkAmountValidation = _admin.getAppointmentCharges();
+				if (checkAmountValidation.charges != uv.WalletAmount)
+				{
+                    return Ok(new { Status = 404, Message = "Some error occured" });
+
+                }
+
+                var Result = _services.PurchaseWithUserWallets(uv);
 				if (Result == "Successful")
 				{
 					WalletHistoryViewmodel js = new WalletHistoryViewmodel
