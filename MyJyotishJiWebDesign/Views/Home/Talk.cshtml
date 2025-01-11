@@ -343,7 +343,7 @@
 
 										}
 								} else if(!response.data){
-											if (response.anotherRequest) {
+											if (response.anotherRequest && !response.notAvailable) {
 												Swal.fire({
 													text: "Another Request are already in Progress..",
 													title: "warning",
@@ -353,7 +353,13 @@
 										socket.close()
 									$("#callBtn_" + astrologerId).show();
 									$("#waitingBtn_" + astrologerId).addClass("d-none")
-									}
+										} else {
+											Swal.fire({
+												text: "Currently jyotish are busy	..",
+												title: "warning",
+												icon: "warning"
+											});
+										}
 								};
 
 									socket.onerror = function (event) {

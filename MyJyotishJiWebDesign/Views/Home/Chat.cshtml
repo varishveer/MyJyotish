@@ -478,7 +478,7 @@
 										$(".messageInpBox").val(`
 			Hi, Below are my Details : Name: ${Name} Gender:${Gender} DOB: ${DateOfBirth} DOT: ${TimeOfBirth} POB: ${PlaceOfBirth}`)
 									} else if (!response.data) {
-										if (response.anotherRequest) {
+											if (response.anotherRequest && !response.notAvailable) {
 											Swal.fire({
 												text: "Another Request are already in Progress..",
 												title: "warning",
@@ -488,7 +488,13 @@
 										socket.close()
 										$("#chatBtn_" + astrologerId).show();
 										$("#waitingBtn_" + astrologerId).addClass("d-none")
-									}
+										} else {
+											Swal.fire({
+												text: "Currently jyotish are busy	..",
+												title: "warning",
+												icon: "warning"
+											});
+										}
 								};
 
 
