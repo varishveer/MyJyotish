@@ -51,7 +51,10 @@ namespace MyJyotishGApi.Controllers
 
                         if (_clients.TryGetValue(changeIdPref, out var recipientSocket))
                         {
-                            var totalWalletAmount = _services.GetWallet(int.Parse(id));
+                            long totalWalletAmount=0;
+                            Task.Run(()=> {
+                                 totalWalletAmount = _services.GetWallet(int.Parse(id));
+                                }).Wait();
                             var getJyotishchatCharges = _services.getJyotishServicesCharges(int.Parse(receiverId));
                             if (totalWalletAmount < getJyotishchatCharges)
                             {
