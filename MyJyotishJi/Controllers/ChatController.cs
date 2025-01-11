@@ -311,7 +311,7 @@ namespace MyJyotishGApi.Controllers
                     }
                     else
                     {
-                        string jsonString = JsonConvert.SerializeObject(new { status = true, data = false, anotherRequest = true });
+                        string jsonString = JsonConvert.SerializeObject(new { status = true, data = false, anotherRequest = true, notAvailable = false });
                         var msgBuffer = System.Text.Encoding.UTF8.GetBytes(jsonString);
                         await webSocket.SendAsync(new ArraySegment<byte>(msgBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
 
@@ -346,8 +346,6 @@ namespace MyJyotishGApi.Controllers
                         if (sendBy == "client")
                         {
                             var castId = Convert.ToInt32(clientId);
-
-
                             var clientKey = receiverId;
                             if (clientKey != null)
                             {
@@ -423,10 +421,10 @@ namespace MyJyotishGApi.Controllers
                                             var clientChangeref = jsonObject["Id"] + "A";
                                             if (_clientRequest.TryGetValue(clientChangeref, out var ClientSocket))
                                             {
-                                                string jsonStrings = JsonConvert.SerializeObject(new { status = true, data = false, anotherRequest = false });
+                                                string jsonStrings = JsonConvert.SerializeObject(new { status = true, data = false, anotherRequest = false, notAvailable = false });
                                                 if (clientId == jsonObject["Id"].ToString())
                                                 {
-                                                    jsonStrings = JsonConvert.SerializeObject(new { status = true, data = false, anotherRequest = true });
+                                                    jsonStrings = JsonConvert.SerializeObject(new { status = true, data = false, anotherRequest = true, notAvailable = false });
                                                 }
                                                 var msgBuffer = System.Text.Encoding.UTF8.GetBytes(jsonStrings);
 
