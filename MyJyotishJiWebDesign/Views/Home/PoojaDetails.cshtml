@@ -133,6 +133,11 @@
 	.border-black{
 		border-color:black;
 	}
+
+	.jyotishProfileImageList{
+		height:100px;
+		width:100% !important;
+	}
 </style>
 
 
@@ -400,7 +405,7 @@
 												<input type="radio" hidden class="card-input jyotishRadio" value='${d.jyotishId}'>
 												<div class="row g-0 p-1 mt-3 border rounded jyotishCards">
 													<div class="col-sm-3">
-																<img src="${d.jyotishProfile != null ? BaseUrl + d.jyotishProfile : "/user-not-found.png"}" class="rounded - circle w - 100 h - 75" />
+																<img src="${d.jyotishProfile != null ? BaseUrl + d.jyotishProfile : "/user-not-found.png"}" class="jyotishProfileImageList rounded - circle w - 100 " />
 													</div>
 													<div class="col-sm-9 px-1">
 																<p class="p-0 m-0 fw-bold text-align-start">${d.jyotishName} - ${d.experience}Years</p>

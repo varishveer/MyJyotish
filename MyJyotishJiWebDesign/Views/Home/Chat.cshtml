@@ -484,17 +484,17 @@
 												title: "warning",
 												icon: "warning"
 											});
-										}
-										socket.close()
-										$("#chatBtn_" + astrologerId).show();
-										$("#waitingBtn_" + astrologerId).addClass("d-none")
-										} else {
+										}else {
 											Swal.fire({
 												text: "Currently jyotish are busy	..",
 												title: "warning",
 												icon: "warning"
 											});
 										}
+										socket.close()
+										$("#chatBtn_" + astrologerId).show();
+										$("#waitingBtn_" + astrologerId).addClass("d-none")
+										} 
 								};
 
 
