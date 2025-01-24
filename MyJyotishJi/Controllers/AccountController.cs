@@ -512,5 +512,94 @@ namespace MyJyotishJiApi.Controllers
             }
 
         }
+
+        [AllowAnonymous]
+        [HttpGet("sendOtp")]
+        public IActionResult sendOtp(string email,string sendBy)
+        {
+            try
+            {
+                var res = _account.sendOtp(email, sendBy);
+                if (res)
+                {
+                    return Ok(new { status = 200, message = "Otp send successfully" });
+
+                }
+                else
+                {
+                    return Ok(new { status = 500, message = "something went wrong while sending opt" });
+
+                }
+            }catch(Exception ex)
+            {
+                throw ex;
+            }
+        } 
+        [AllowAnonymous]
+        [HttpGet("verifyOtp")]
+        public IActionResult verifyOtp(string email,int otp,string sendBy)
+        {
+            try
+            {
+                var res = _account.verifyOtps(email,otp, sendBy);
+                if (res)
+                {
+                    return Ok(new { status = 200, message = "Otp Verified successfully" });
+
+                }
+                else
+                {
+                    return Ok(new { status = 500, message = "Otp not matched" });
+
+                }
+            }catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+        [AllowAnonymous]
+        [HttpGet("changePasswordByEmail")]
+        public IActionResult changePasswordByOtp(string email,string sendBy,string password)
+        {
+            try
+            {
+                var res = _account.changePassword(email,password, sendBy);
+                if (res)
+                {
+                    return Ok(new { status = 200, message = "Otp Verified successfully" });
+
+                }
+                else
+                {
+                    return Ok(new { status = 500, message = "Otp not matched" });
+
+                }
+            }catch(Exception ex)
+            {
+                throw ex;
+            }
+        } 
+        [AllowAnonymous]
+        [HttpGet("changePasswordByOldPassword")]
+        public IActionResult changePasswordByOldPassword(int userId,string oldpassword,string sendBy,string password)
+        {
+            try
+            {
+                var res = _account.changePasswordByOldPassword( userId, password,oldpassword, sendBy);
+                if (res)
+                {
+                    return Ok(new { status = 200, message = "Otp Verified successfully" });
+
+                }
+                else
+                {
+                    return Ok(new { status = 500, message = "Old Password are not matched" });
+
+                }
+            }catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

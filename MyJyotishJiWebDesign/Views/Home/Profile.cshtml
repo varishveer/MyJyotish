@@ -109,7 +109,7 @@
                     <div class="mb-3 col-sm-12 justify-content-center d-flex ">
                         <div class="d-flex gap-2">
                             <button class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#exampleModal">Edit Profile</button>
-                            <button class="btn btn-outline-info">Change Password</button>
+                            <button class="btn btn-outline-info" id="changePasswordBtn">Change Password</button>
                         </div>
                     </div>
                 </div>
@@ -764,3 +764,98 @@
    
    
 </script>
+
+            <script>
+      $("#changePasswordBtn").click(function() {
+        Swal.fire({
+            title: 'Change Your Password',
+            html: `
+                <div class="form-group text-start">
+                    <label for="oldPassword">Old Password</label>
+                    <input id="oldPassword" class="form-control" type="password" placeholder="Old Password" autocomplete="off" required>
+                </div>
+                <div class="form-group text-start">
+                    <label for="newPassword">New Password</label>
+                    <input id="newPassword" class="form-control" type="password" placeholder="New Password" autocomplete="off" required>
+                </div>
+                <div class="form-group text-start">
+                    <label for="confirmPassword">Confirm New Password</label>
+                    <input id="confirmPassword" class="form-control" type="password" placeholder="Confirm New Password" autocomplete="off" required>
+                </div>
+            `,
+            showCancelButton: true,
+            confirmButtonText: 'Submit',
+            cancelButtonText: 'Cancel',
+            focusConfirm: false, // Keep focus on the input fields rather than the confirm button
+            preConfirm: () => {
+                const oldPassword = $('#oldPassword').val();
+                const newPassword = $('#newPassword').val();
+                const confirmPassword = $('#confirmPassword').val();
+
+                // Validate if all fields are filled
+                if (!oldPassword || !newPassword || !confirmPassword) {
+                    Swal.showValidationMessage('Please fill out all fields');
+                    return false;
+                }
+
+                // Validate if new password matches confirm password
+                if (newPassword !== confirmPassword) {
+                    Swal.showValidationMessage('New password and confirm password do not match');
+                    return false;
+                }
+
+                // Optional: Add additional password strength validation here (e.g. length, special chars, etc.)
+
+                return { oldPassword, newPassword };
+            },
+            customClass: {
+                popup: 'custom-swal-popup',
+                input: 'custom-swal-input',
+                confirmButton: 'btn btn-primary custom-swal-confirm',
+                cancelButton: 'btn btn-secondary custom-swal-cancel',
+            },
+            padding: '20px'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const { oldPassword, newPassword } = result.value;
+
+                Swal.fire({
+                    title: "Processing Your Request",
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                // Make AJAX request to change password
+                $.ajax({
+                    url: BaseUrl + 'api/account/changePasswordByOldPassword', // Replace with your server endpoint
+                    type: 'get', // Changed to POST for better security
+                    data: {
+                        oldpassword: oldPassword,
+                        Password: newPassword,
+                        userId: localStorage.getItem("userId"),
+                        sendBy: "client"
+                    },
+                    success: function(response) {
+                        if (response.status === 200) {
+                            Swal.fire('Success', 'Your password has been changed successfully!', 'success');
+                        } else {
+                            Swal.fire('Error', response.message || 'Something went wrong. Please try again later.', 'error').then(()=>{
+                                 $("#changePasswordBtn").click();
+                            });
+                             
+                        }
+                    },
+                    error: function() {
+                        Swal.fire('Error', 'Something went wrong while changing your password. Please try again.', 'error').then(()=>{
+                                 $("#changePasswordBtn").click();
+
+                        });
+                    }
+                });
+            }
+        });
+    });
+
+            </script>

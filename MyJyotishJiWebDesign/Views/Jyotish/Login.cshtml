@@ -91,7 +91,8 @@
 
                     <div class="d-flex justify-content-start">
                         <button type="submit" class="btn btn-info">Sign In</button>
-                        <a href="/Jyotish/ForgotPasswordRequest">&nbsp;&nbsp; Forgot Password</a>
+                        <a class="text-primary" role="button" id="forgetPasswordBtn">&nbsp;&nbsp; Forgot Password</a>
+
                     </div>
                 </div>
 
@@ -272,3 +273,214 @@
 </script>
 
 
+<script>
+    $(document).ready(function() {
+
+       // Function to take email input and send OTP
+    function takeEmail() {
+        return new Promise((resolve, reject) => {
+            Swal.fire({
+                title: 'Enter your email address',
+                input: 'email',
+                inputLabel: 'Your email address',
+                inputPlaceholder: 'Enter your email',
+                showCancelButton: true,
+                confirmButtonText: 'Submit',
+                cancelButtonText: 'Cancel',
+                preConfirm: (email) => {
+                    if (!email) {
+                        Swal.showValidationMessage('Please enter a valid email address');
+                        return false;
+                    }
+                    return email;
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: "Processing Your Request",
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+
+                    // AJAX request to send OTP
+                    $.ajax({
+                        url: BaseUrl + 'api/account/sendOtp', // Replace with your server-side logic to send OTP
+                        type: 'GET',
+                        data: { email: result.value, sendBy: "jyotish" },
+                        success: async function(response) {
+                            debugger
+                            if (response.status === 200) {
+                                resolve({ status: true, email: result.value });
+                await takeOtp(result.value);
+
+                            } else {
+                                Swal.close();
+                                Swal.fire({
+                                    text: response.message,
+                                    title: "Error",
+                                    icon: "error",
+
+                                }).then(()=>{
+             takeEmail(); // Retry
+
+                                });
+
+                                reject({ status: false });
+                            }
+                        },
+                        error: function() {
+                            Swal.close();
+                            Swal.fire({
+                                text: "Something went wrong. Please try again.",
+                                title: "Error",
+                                icon: "error"
+
+                            }).then(()=>{
+             takeEmail(); // Retry
+
+                                });
+
+                            reject({ status: false });
+                        }
+                    });
+                } else {
+                    reject({ status: false });
+                }
+            });
+        });
+    }
+
+    // Function to take OTP input and verify
+    function takeOtp(email) {
+        return new Promise((resolve, reject) => {
+            Swal.fire({
+                title: 'Enter OTP sent to your email',
+                input: 'number',
+                inputLabel: 'OTP',
+                inputPlaceholder: 'Enter OTP',
+                showCancelButton: true,
+                confirmButtonText: 'Verify OTP',
+                cancelButtonText: 'Cancel',
+                preConfirm: (otp) => {
+                    if (!otp) {
+                        Swal.showValidationMessage('Please enter OTP');
+                        return false;
+                    }
+                    return otp;
+                }
+            }).then((otpResult) => {
+                if (otpResult.isConfirmed) {
+                    Swal.fire({
+                        title: "Processing Your Request",
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+
+                    // AJAX request to verify OTP
+                    $.ajax({
+                        url: BaseUrl + 'api/account/verifyOtp', // Replace with your server-side logic to verify OTP
+                        type: 'GET',
+                        data: { email: email, otp: otpResult.value, sendBy: "jyotish" },
+                        success: function(verifyResponse) {
+
+                            if (verifyResponse.status === 200) {
+                                resolve({ status: true });
+                    // Step 3: Take new password input
+                    Swal.fire({
+                        title: 'Enter your new password',
+                        html: `
+                            <input id="newPassword" class="swal2-input" type="password" placeholder="New password">
+                            <input id="confirmPassword" class="swal2-input" type="password" placeholder="Confirm new password">
+                        `,
+                        showCancelButton: true,
+                        confirmButtonText: 'Change Password',
+                        cancelButtonText: 'Cancel',
+                        preConfirm: () => {
+                            const newPassword = $('#newPassword').val();
+                            const confirmPassword = $('#confirmPassword').val();
+
+                            // Validation
+                            if (!newPassword || !confirmPassword) {
+                                Swal.showValidationMessage('Please enter both passwords');
+                                return false;
+                            }
+                            if (newPassword !== confirmPassword) {
+                                Swal.showValidationMessage('Passwords do not match');
+                                return false;
+                            }
+                            return { newPassword };
+                        }
+                    }).then((passwordResult) => {
+                        if (passwordResult.isConfirmed) {
+                            const { newPassword } = passwordResult.value;
+                             Swal.fire({
+                        title: "Processing Your Request",
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+                            // Step 4: Submit new password via AJAX
+                            $.ajax({
+                                url: BaseUrl + 'api/account/changePasswordByEmail', // Replace with your server-side logic to change password
+                                type: 'GET',
+                                data: { email:email, Password: newPassword, sendBy: "jyotish" },
+                                success: function(changePasswordResponse) {
+                                    if (changePasswordResponse.status === 200) {
+                                        Swal.fire('Success', 'Password changed successfully!', 'success');
+                                    } else {
+                                        Swal.fire('Error', 'Password change failed. Try again.', 'error');
+                                    }
+                                },
+                                error: function() {
+                                    Swal.fire('Error', 'Something went wrong. Please try again.', 'error');
+                                }
+                            });
+                        }
+                    });
+                            } else {
+                                Swal.fire({
+                                    text: verifyResponse.message,
+                                    title: "Error",
+                                    icon: "error"
+
+                                }).then(()=>{
+                                    takeOtp(email)
+                                });
+
+                                reject({ status: false });
+                            }
+                        },
+                        error: function() {
+                            Swal.close();
+                            Swal.fire({
+                                text: "Something went wrong. Please try again.",
+                                title: "Error",
+                                icon: "error",
+                            }).then(()=>{
+                                    takeOtp(email)
+
+                            })
+
+                            reject({ status: false });
+                        }
+                    });
+                } else {
+                    reject({ status: false });
+                }
+            });
+        });
+    }
+
+    // Function to handle password change after OTP verification
+    $("#forgetPasswordBtn").click(async function() {
+              takeEmail();
+    });
+
+    });
+
+</script>

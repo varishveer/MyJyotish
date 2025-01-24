@@ -1,6 +1,6 @@
 ﻿@{
-    Layout = "Extra";
-  
+	Layout = "Extra";
+
 }
 
 <!-- Google Web Fonts -->
@@ -24,88 +24,88 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
 <style>
-    .main-container {
-        overflow: hidden;
-        padding: 20px;
-        border-radius: 0px 10px 10px 0px;
-        box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.3);
-    }
+	.main-container {
+		overflow: hidden;
+		padding: 20px;
+		border-radius: 0px 10px 10px 0px;
+		box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.3);
+	}
 
-    .left-part img {
-        max-width: 100%;
-        height: auto;
-        border-radius: 10px;
-        border-radius: 10px 0px 0px 10px;
-    }
+	.left-part img {
+		max-width: 100%;
+		height: auto;
+		border-radius: 10px;
+		border-radius: 10px 0px 0px 10px;
+	}
 
-    .right-part form input, .right-part form button {
-        font-size: 13px;
-    }
+	.right-part form input, .right-part form button {
+		font-size: 13px;
+	}
 
-    .right-part button {
-        background-color: #138496;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
+	.right-part button {
+		background-color: #138496;
+		color: white;
+		border: none;
+		border-radius: 5px;
+		cursor: pointer;
+	}
 
-        .right-part button:hover {
-            background-color: #138496;
-            color: white;
-        }
+		.right-part button:hover {
+			background-color: #138496;
+			color: white;
+		}
 </style>
 
 <div class="container d-flex justify-content-center align-items-center min-vh-100">
-    <div class="main-container row w-75 rounded-3">
-        <!-- Left part for image -->
-        <div class="col-md-6 left-part d-flex justify-content-center align-items-center">
-            <img src="/Img/mobile-login.jpg" alt="Sign Up Image" class="responsive-image">
-        </div>
+	<div class="main-container row w-75 rounded-3">
+		<!-- Left part for image -->
+		<div class="col-md-6 left-part d-flex justify-content-center align-items-center">
+			<img src="/Img/mobile-login.jpg" alt="Sign Up Image" class="responsive-image">
+		</div>
 
-        <!-- Right part for the signup form -->
-        <div class="col-lg-6 col-md-12 p-4 bg-white right-part ">
-            <div class="d-flex align-items-center justify-content-center mb-2">
-                <a href="/Admin/Login" class="">
-                    <img src="~/Img/Logo.png" width="150" height="125" />
-                </a>
+		<!-- Right part for the signup form -->
+		<div class="col-lg-6 col-md-12 p-4 bg-white right-part ">
+			<div class="d-flex align-items-center justify-content-center mb-2">
+				<a href="/Admin/Login" class="">
+					<img src="~/Img/Logo.png" width="150" height="125" />
+				</a>
 
-            </div>
-            <form id="loginForm">
-                <div class="form-row">
-                    <div class="form-group col-md-12 mb-3">
-                        <label for="name" class="form-label">Email:</label>
-                        <input type="email" id="email" name="name" placeholder="Enter your email" class="form-control" required>
-                    </div>
+			</div>
+			<form id="loginForm">
+				<div class="form-row">
+					<div class="form-group col-md-12 mb-3">
+						<label for="name" class="form-label">Email:</label>
+						<input type="email" id="email" name="name" placeholder="Enter your email" class="form-control" required>
+					</div>
 
-                </div>
+				</div>
 
-                <div class="form-row">
-                    <div class="form-group col-md-12 mb-3">
-                        <label for="name" class="form-label">Password:</label>
-                        <input type="password" id="password" name="password" placeholder="Enter your password" class="form-control" required>
-                    </div>
+				<div class="form-row">
+					<div class="form-group col-md-12 mb-3">
+						<label for="name" class="form-label">Password:</label>
+						<input type="password" id="password" name="password" placeholder="Enter your password" class="form-control" required>
+					</div>
 
-                </div>
-                <div class="form-row">
+				</div>
+				<div class="form-row">
 
-                    <div class="d-flex justify-content-start">
-                        <button type="submit" class="btn btn-info">Sign In</button>
-                        <a href="/Home/ResetPassword">&nbsp;&nbsp; Forgot Password</a>
-                    </div>
-                </div>
+					<div class="d-flex justify-content-start">
+						<button type="submit" class="btn btn-info">Sign In</button>
+						<a class="text-primary" role="button" id="forgetPasswordBtn">&nbsp;&nbsp; Forgot Password</a>
+					</div>
+				</div>
 
 
-                <div class="form-row mt-3">
+				<div class="form-row mt-3">
 
-                    <div class="d-flex justify-content-start">
-                        <p class="mb-0">Don't have an account ?</p>
-                        <a href="/Home/SignUp" class="ms-1">Sign Up</a>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
+					<div class="d-flex justify-content-start">
+						<p class="mb-0">Don't have an account ?</p>
+						<a href="/Home/SignUp" class="ms-1">Sign Up</a>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
 </div>
 
 <!-- JavaScript Libraries -->
@@ -125,114 +125,321 @@
 
 
 <script>
-    $(document).ready(function () {
-        $('#loginForm').submit(function (e) {
-            e.preventDefault(); // Prevent the form from submitting normally
+	$(document).ready(function () {
+		$('#loginForm').submit(function (e) {
+			e.preventDefault(); // Prevent the form from submitting normally
 
-            var email = $('#email').val();
-            var password = $('#password').val();
+			var email = $('#email').val();
+			var password = $('#password').val();
 
-            // Prepare the data to be sent
-            var data = {
-                email: email,
-                password: password
-            };
-            Swal.fire({
-                title: "Processing Your Request",
-                allowOutsideClick: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                }
-            })
-                // Perform the AJAX request
-                $.ajax({
-                    url: BaseUrl + "api/Account/LoginUser",
-                    type: 'POST',
-                    contentType: 'application/json', // Specify that the content type is JSON
-                    data: JSON.stringify(data),
-                    success: function (response) {
+			// Prepare the data to be sent
+			var data = {
+				email: email,
+				password: password
+			};
+			Swal.fire({
+				title: "Processing Your Request",
+				allowOutsideClick: false,
+				didOpen: () => {
+					Swal.showLoading();
+				}
+			})
+				// Perform the AJAX request
+				$.ajax({
+					url: BaseUrl + "api/Account/LoginUser",
+					type: 'POST',
+					contentType: 'application/json', // Specify that the content type is JSON
+					data: JSON.stringify(data),
+					success: function (response) {
 
-                    if (response.status === 200) {
-
-
-
-                        Swal.fire({
-                            title: "Login Successful!",
-                            text: "Redirecting to dashboard...",
-                            icon: "success",
-
-                            showConfirmButton: true, // Ensure the OK button is shown
-                        }).then(() => {
-
-                            localStorage.setItem("Token", response.token);
-                            localStorage.setItem('userEmail', response.userEmail);
-                            localStorage.setItem("userName", response.userName);
-                            localStorage.setItem('userMobile', response.userMobile);
-                            localStorage.setItem('userId', response.userId);
-
-                            // Redirect to the dashboard
-                            window.location.href = "/Home/Index";
-
-                        });
+					if (response.status === 200) {
 
 
 
-                        // Store the token and user email in local storage
+						Swal.fire({
+							title: "Login Successful!",
+							text: "Redirecting to dashboard...",
+							icon: "success",
+
+							showConfirmButton: true, // Ensure the OK button is shown
+						}).then(() => {
+
+							localStorage.setItem("Token", response.token);
+							localStorage.setItem('userEmail', response.userEmail);
+							localStorage.setItem("userName", response.userName);
+							localStorage.setItem('userMobile', response.userMobile);
+							localStorage.setItem('userId', response.userId);
+
+							// Redirect to the dashboard
+							window.location.href = "/Home/Index";
+
+						});
 
 
-                    } else if (response.status === 409) {
-                        // Handle invalid email or incorrect password scenarios
-                        Swal.fire({
-                            title: response.message,
 
-                            icon: "warning",
-
-                            showConfirmButton: true, // Ensure the OK button is shown
-                        })
-                    } else {
-                        // Handle unexpected success responses
-                        console.error("Unexpected response status:", response.status);
-
-                        Swal.fire({
-                            title: "An unexpected error occurred.",
-
-                            icon: "warning",
-
-                            showConfirmButton: true, // Ensure the OK button is shown
-                        }).then(() => {
-                            window.location.reload();
-                        });
-
-                    }
-                },
-                error: function (xhr, status, error) {
-                   
-                    if (xhr.status === 401) {
-                        Swal.fire({
-                            title: "Warning",
-
-                            icon: "warning",
-                            text: "Unauthorized access. Please check your credentials.",
-                            showConfirmButton: true,
-                        })
+						// Store the token and user email in local storage
 
 
-                    } else {
-                        console.error("Error:", xhr.responseText);
-                        Swal.fire({
-                            title: "Error",
+					} else if (response.status === 409) {
+						// Handle invalid email or incorrect password scenarios
+						Swal.fire({
+							title: response.message,
+							icon: "warning",
+							showConfirmButton: true // Ensure the OK button is shown
+						})
+					} else {
+						// Handle unexpected success responses
+						console.error("Unexpected response status:", response.status);
 
-                            icon: "error",
-                            text: "An error occurred. Please try again.",
-                            showConfirmButton: true,
-                        })
+						Swal.fire({
+							title: "An unexpected error occurred.",
+							icon: "warning",
+							showConfirmButton: true, // Ensure the OK button is shown
+						}).then(() => {
+							window.location.reload();
+						});
+
+					}
+				},
+				error: function (xhr, status, error) {
+
+					if (xhr.status === 401) {
+						Swal.fire({
+							title: "Warning",
+
+							icon: "warning",
+							text: "Unauthorized access. Please check your credentials.",
+							showConfirmButton: true,
+						})
 
 
-                    }
-                }
-            });
-        });
-    });
+					} else {
+						console.error("Error:", xhr.responseText);
+						Swal.fire({
+							title: "Error",
+
+							icon: "error",
+							text: "An error occurred. Please try again.",
+							showConfirmButton: true,
+						})
+
+
+					}
+				}
+			});
+		});
+	});
 </script>
 
 
+<script>
+	$(document).ready(function() {
+
+       // Function to take email input and send OTP
+    function takeEmail() {
+        return new Promise((resolve, reject) => {
+            Swal.fire({
+                title: 'Enter your email address',
+                input: 'email',
+                inputLabel: 'Your email address',
+                inputPlaceholder: 'Enter your email',
+                showCancelButton: true,
+                confirmButtonText: 'Submit',
+                cancelButtonText: 'Cancel',
+                preConfirm: (email) => {
+                    if (!email) {
+                        Swal.showValidationMessage('Please enter a valid email address');
+                        return false;
+                    }
+                    return email;
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: "Processing Your Request",
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+
+                    // AJAX request to send OTP
+                    $.ajax({
+                        url: BaseUrl + 'api/account/sendOtp', // Replace with your server-side logic to send OTP
+                        type: 'GET',
+                        data: { email: result.value, sendBy: "client" },
+                        success: async function(response) {
+                            debugger
+                            if (response.status === 200) {
+                                resolve({ status: true, email: result.value });
+                await takeOtp(result.value);
+                
+                            } else {
+                                Swal.close();
+                                Swal.fire({
+                                    text: response.message,
+                                    title: "Error",
+                                    icon: "error",
+                                    
+                                }).then(()=>{
+             takeEmail(); // Retry
+
+                                });
+                               
+                                reject({ status: false });
+                            }
+                        },
+                        error: function() {
+                            Swal.close();
+                            Swal.fire({
+                                text: "Something went wrong. Please try again.",
+                                title: "Error",
+                                icon: "error"
+                                
+                            }).then(()=>{
+             takeEmail(); // Retry
+
+                                });
+                                     
+                            reject({ status: false });
+                        }
+                    });
+                } else {
+                    reject({ status: false });
+                }
+            });
+        });
+    }
+
+    // Function to take OTP input and verify
+    function takeOtp(email) {
+        return new Promise((resolve, reject) => {
+            Swal.fire({
+                title: 'Enter OTP sent to your email',
+                input: 'number',
+                inputLabel: 'OTP',
+                inputPlaceholder: 'Enter OTP',
+                showCancelButton: true,
+                confirmButtonText: 'Verify OTP',
+                cancelButtonText: 'Cancel',
+                preConfirm: (otp) => {
+                    if (!otp) {
+                        Swal.showValidationMessage('Please enter OTP');
+                        return false;
+                    }
+                    return otp;
+                }
+            }).then((otpResult) => {
+                if (otpResult.isConfirmed) {
+                    Swal.fire({
+                        title: "Processing Your Request",
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+
+                    // AJAX request to verify OTP
+                    $.ajax({
+                        url: BaseUrl + 'api/account/verifyOtp', // Replace with your server-side logic to verify OTP
+                        type: 'GET',
+                        data: { email: email, otp: otpResult.value, sendBy: "client" },
+                        success: function(verifyResponse) {
+                           
+                            if (verifyResponse.status === 200) {
+                                resolve({ status: true });
+                    // Step 3: Take new password input
+                    Swal.fire({
+                        title: 'Enter your new password',
+                        html: `
+                            <input id="newPassword" class="swal2-input" type="password" placeholder="New password">
+                            <input id="confirmPassword" class="swal2-input" type="password" placeholder="Confirm new password">
+                        `,
+                        showCancelButton: true,
+                        confirmButtonText: 'Change Password',
+                        cancelButtonText: 'Cancel',
+                        preConfirm: () => {
+                            const newPassword = $('#newPassword').val();
+                            const confirmPassword = $('#confirmPassword').val();
+
+                            // Validation
+                            if (!newPassword || !confirmPassword) {
+                                Swal.showValidationMessage('Please enter both passwords');
+                                return false;
+                            }
+                            if (newPassword !== confirmPassword) {
+                                Swal.showValidationMessage('Passwords do not match');
+                                return false;
+                            }
+                            return { newPassword };
+                        }
+                    }).then((passwordResult) => {
+                        if (passwordResult.isConfirmed) {
+                            const { newPassword } = passwordResult.value;
+                             Swal.fire({
+                        title: "Processing Your Request",
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+                            // Step 4: Submit new password via AJAX
+                            $.ajax({
+                                url: BaseUrl + 'api/account/changePasswordByEmail', // Replace with your server-side logic to change password
+                                type: 'GET',
+                                data: { email:email, Password: newPassword, sendBy: "client" },
+                                success: function(changePasswordResponse) {
+                                    if (changePasswordResponse.status === 200) {
+                                        Swal.fire('Success', 'Password changed successfully!', 'success');
+                                    } else {
+                                        Swal.fire('Error', 'Password change failed. Try again.', 'error');
+                                    }
+                                },
+                                error: function() {
+                                    Swal.fire('Error', 'Something went wrong. Please try again.', 'error');
+                                }
+                            });
+                        }
+                    });
+                            } else {
+                                Swal.fire({
+                                    text: verifyResponse.message,
+                                    title: "Error",
+                                    icon: "error"
+                                    
+                                }).then(()=>{
+                                    takeOtp(email)
+                                });
+                          
+                                reject({ status: false });
+                            }
+                        },
+                        error: function() {
+                            Swal.close();
+                            Swal.fire({
+                                text: "Something went wrong. Please try again.",
+                                title: "Error",
+                                icon: "error",
+                            }).then(()=>{
+                                    takeOtp(email)
+
+                            })
+                               
+                            reject({ status: false });
+                        }
+                    });
+                } else {
+                    reject({ status: false });
+                }
+            });
+        });
+    }
+
+    // Function to handle password change after OTP verification
+    $("#forgetPasswordBtn").click(async function() {
+              takeEmail();
+    });
+
+    });
+
+</script>

@@ -38,118 +38,111 @@ namespace MyJyotishGApi.Controllers
         [HttpGet("connect")]
         public async Task Connect(string id, string receiverId, string sendBy)
         {
-            if (HttpContext.WebSockets.IsWebSocketRequest)
-            {
-                try
-                {
-                    var changeIdPref = sendBy == "client" ? id + "A" : id + "B";
-                    var changeIdPrefReceiver = sendBy == "client" ? receiverId + "B" : receiverId + "A";
-                    var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
-                    _clients[changeIdPref] = webSocket;
-
-                    if (sendBy == "client")
-                    {
-
-                        if (_clients.TryGetValue(changeIdPref, out var recipientSocket))
-                        {
-                            long totalWalletAmount=0;
-                            int getJyotishchatCharges = 0;
-                            Task.Run(()=> {
-                                 totalWalletAmount = _services.GetWallet(int.Parse(id));
-                                getJyotishchatCharges = _services.getJyotishServicesCharges(int.Parse(receiverId));
-                            }).Wait();
-                            if (totalWalletAmount < getJyotishchatCharges)
-                            {
-                               
-                                    ReceiveChat ms = new ReceiveChat
-                                    {
-                                        mssg = "Insufficient Balance",
-                                        date = DateTime.Now.ToString("hh:mm tt"),
-                                        connection = false
-                                    };
-                                if (webSocket.State == WebSocketState.Open)
-                                {
-                                    var msgBufferforsendClose = System.Text.Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(ms));
-                                    await recipientSocket.SendAsync(new ArraySegment<byte>(msgBufferforsendClose), WebSocketMessageType.Text, true, CancellationToken.None);
-                                if (_clients.TryGetValue(changeIdPrefReceiver, out var recipientSocketForConnectDisconnect))
-                                {
-                                     ms = new ReceiveChat
-                                    {
-                                        mssg = sendBy == "client" ? "Client are connected" : "Jyotish are connected",
-                                        date = DateTime.Now.ToString("hh:mm tt"),
-                                        connection = false
-                                    };
-                                     msgBufferforsendClose = System.Text.Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(ms));
-                                    await recipientSocketForConnectDisconnect.SendAsync(new ArraySegment<byte>(msgBufferforsendClose), WebSocketMessageType.Text, true, CancellationToken.None);
-
-                                }
-                                }
-
-                                return;
-                            }
-                            var totaltimeforchat = getJyotishchatCharges > 0
-                           ? (long)(totalWalletAmount / getJyotishchatCharges)
-                           : 0;
-                            if (_userWalletAmount.ContainsKey(id))
-                            {
-                                _userWalletAmount.Remove(id);
-                            }
-                            _userWalletAmount.Add(id, totalWalletAmount);
-                            string jsonString = JsonConvert.SerializeObject(new { status = true, type = "chatPayment", connection = true, totalTime = totaltimeforchat, totalAmount = totalWalletAmount });
-
-
-                            var msgBuffer = System.Text.Encoding.UTF8.GetBytes(jsonString);
-                            await recipientSocket.SendAsync(new ArraySegment<byte>(msgBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
-
-                        }
-                        Task.Run(() =>
-                        {
-                            _services.changeUserServiceStatus(int.Parse(id), true);
-                        }).Wait();
-                        if (!_chatTimeManager.ContainsKey(id))
-                        {
-
-                            _chatTimeManager.Add(id, DateTime.Now);
-                        }
-                    }
-                    else
-                    {
-                        Task.Run(() =>
-                        {
-                            _jyotish.changeJyotishServiceStatus(int.Parse(id), true);
-                        }).Wait();
-
-					}
-
-
-                    if (_clients.TryGetValue(changeIdPrefReceiver, out var recipientSocketForConnect))
-                    {
-                        ReceiveChat ms = new ReceiveChat
-                        {
-                            mssg = sendBy == "client" ? "Client are connected" : "Jyotish are connected",
-                            date = DateTime.Now.ToString("hh:mm tt"),
-                            connection = true
-                        };
-                        if (webSocket.State == WebSocketState.Open)
-                        {
-                            var msgBuffer = System.Text.Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(ms));
-                            await recipientSocketForConnect.SendAsync(new ArraySegment<byte>(msgBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
-                        }
-
-                    }
-                    await HandleWebSocketCommunication(webSocket, id, receiverId, sendBy);
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-
-            }
-            else
+            if (!HttpContext.WebSockets.IsWebSocketRequest)
             {
                 HttpContext.Response.StatusCode = 400; // Bad Request
+                return;
+            }
+
+                // Create connection ids based on sender and receiver
+                var changeIdPref = sendBy == "client" ? id + "A" : id + "B";
+                var changeIdPrefReceiver = sendBy == "client" ? receiverId + "B" : receiverId + "A";
+            try
+            {
+
+                // Accept WebSocket connection
+                var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
+                _clients[changeIdPref] = webSocket;
+
+                if (sendBy == "client")
+                {
+                    // Get wallet and charges asynchronously and wait for the result
+
+                   
+
+                    var totalWalletAmount = _services.GetWallet(int.Parse(id));
+                    var getJyotishchatCharges = _services.getJyotishServicesCharges(int.Parse(receiverId));
+
+                    if (totalWalletAmount < getJyotishchatCharges)
+                    {
+                        // Send insufficient balance message
+                        await SendMessageToClient(changeIdPref, "Insufficient Balance", false);
+                        await SendMessageToClient(changeIdPrefReceiver, sendBy == "client" ? "Client is disconnected" : "Jyotish is disconnected", false);
+                        return;
+                    }
+
+                    // Calculate total chat time based on wallet amount and charges
+                    var totaltimeforchat = getJyotishchatCharges > 0 ? totalWalletAmount / getJyotishchatCharges : 0;
+
+                    // Update wallet amount for the user
+                    _userWalletAmount[id] = totalWalletAmount;
+
+                    // Send chat payment details to the sender (client)
+                    var chatPaymentMessage = JsonConvert.SerializeObject(new
+                    {
+                        status = true,
+                        type = "chatPayment",
+                        connection = true,
+                        totalTime = totaltimeforchat,
+                        totalAmount = totalWalletAmount
+                    });
+
+                    await SendMessageToClient(changeIdPref, chatPaymentMessage, true);
+
+                    // Mark user as online and track chat time
+                     _services.changeUserServiceStatus(int.Parse(id), true);
+                    if (!_chatTimeManager.ContainsKey(id))
+                    {
+                        _chatTimeManager.Add(id, DateTime.Now);
+                    }
+                }
+                else
+                {
+                    // Mark Jyotish as online
+                     _jyotish.changeJyotishServiceStatus(int.Parse(id), true);
+                }
+
+                // Send connection status to the receiver
+                await SendMessageToClient(changeIdPrefReceiver, sendBy == "client" ? "Client is connected" : "Jyotish is connected", true);
+
+                // Handle WebSocket communication
+                await HandleWebSocketCommunication(webSocket, id, receiverId, sendBy);
+            }
+            catch (Exception)
+            {
+                // If an error occurs, mark the service as offline
+                if (sendBy == "client")
+                {
+                     _services.changeUserServiceStatus(int.Parse(id), false);
+                    if (_chatTimeManager.ContainsKey(id))
+                    {
+                        _chatTimeManager.Remove(id);
+                    }
+                }
+                else
+                {
+                     _jyotish.changeJyotishServiceStatus(int.Parse(id), false);
+                }
+                await SendMessageToClient(changeIdPrefReceiver, sendBy == "client" ? "Client is disconnected" : "Jyotish is disconnected", false);
+                throw; // Rethrow the exception
             }
         }
+
+        private async Task SendMessageToClient(string connectionId, string message, bool connection)
+        {
+            if (_clients.TryGetValue(connectionId, out var clientSocket) && clientSocket.State == WebSocketState.Open)
+            {
+                var messageObject = new ReceiveChat
+                {
+                    mssg = message,
+                    date = DateTime.Now.ToString("hh:mm tt"),
+                    connection = connection
+                };
+                var msgBuffer = System.Text.Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(messageObject));
+                await clientSocket.SendAsync(new ArraySegment<byte>(msgBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
+            }
+        }
+
 
         private async Task HandleWebSocketCommunication(WebSocket webSocket, string clientId, string receiverId, string sendBy)
         {
@@ -184,17 +177,17 @@ namespace MyJyotishGApi.Controllers
                                 _jyotish.changeJyotishServiceStatus(int.Parse(clientId), false);
                             }).Wait();
 
-						}
-						if (_userWalletAmount.ContainsKey(userId))
+                        }
+                        if (_userWalletAmount.ContainsKey(userId))
                         {
 
                             var jyotishId = sendBy == "client" ? receiverId : clientId;
                             int getJyotishchatCharges = 0;
                             Task.Run(() =>
                             {
-                                 getJyotishchatCharges = _services.getJyotishServicesCharges(int.Parse(jyotishId));
+                                getJyotishchatCharges = _services.getJyotishServicesCharges(int.Parse(jyotishId));
                             }).Wait();
-                            var dateDifference =_chatTimeManager.Where(e => e.Key == userId).First().Value - DateTime.Now;
+                            var dateDifference = _chatTimeManager.Where(e => e.Key == userId).First().Value - DateTime.Now;
                             var totalMinutes = Math.Ceiling(Math.Abs(dateDifference.TotalMinutes));
                             var totalAmount = getJyotishchatCharges * totalMinutes;
                             _userWalletAmount.Remove(userId);
@@ -219,7 +212,7 @@ namespace MyJyotishGApi.Controllers
                             await recipientSocket.SendAsync(new ArraySegment<byte>(msgBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
                         }
                         _clients.TryRemove(RemoveRequest, out _);
-                        
+
                         await webSocket.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
                         break;
                     }
@@ -270,6 +263,23 @@ namespace MyJyotishGApi.Controllers
             }
             catch (Exception ex)
             {
+                if (sendBy == "client")
+                {
+                    Task.Run(() =>
+                    {
+                        _services.changeUserServiceStatus(int.Parse(clientId), false);
+                    }).Wait();
+
+                }
+                else
+                {
+                    Task.Run(() =>
+                    {
+                        _jyotish.changeJyotishServiceStatus(int.Parse(clientId), false);
+                    }).Wait();
+
+                }
+
                 Console.WriteLine($"Error: {ex.Message}");
             }
 
@@ -283,87 +293,110 @@ namespace MyJyotishGApi.Controllers
         [HttpGet("sendChatRequest")]
         public async Task SendChatRequest(string id, string receiverId, string sendBy)
         {
-            if (HttpContext.WebSockets.IsWebSocketRequest)
+            try
             {
-                var changeIdPref = sendBy == "client" ? id + "A" : id + "B";
-                var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
-                if (sendBy != "client")
+                if (HttpContext.WebSockets.IsWebSocketRequest)
                 {
-
-                    _clientRequest[changeIdPref] = webSocket;
-                }
-                else
-                {
-                    bool checkJyotishAvailability = false;
-                    Task.Run(() =>
-                    {
-                         checkJyotishAvailability = _jyotish.getJyotishserviceStatus(int.Parse(receiverId));
-                    }).Wait();
-                    if (checkJyotishAvailability)
-                    {
-                        string jsonString = JsonConvert.SerializeObject(new { status = true, data=false,anotherRequest=false,notAvailable=true });
-                        var msgBuffer = System.Text.Encoding.UTF8.GetBytes(jsonString);
-                        await webSocket.SendAsync(new ArraySegment<byte>(msgBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
-                        return;
-                    }
-                }
-
-                if (_clientRequest.TryGetValue(changeIdPref, out var recipientSocket) && sendBy != "client")
-                {
-                    dynamic userRequestRecord = null;
+                    var changeIdPref = sendBy == "client" ? id + "A" : id + "B";
+                    var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
                     if (sendBy != "client")
                     {
-                        Task.Run(() =>
-                        {
-                            _jyotish.changeJyotishActiveStatus(int.Parse(id), true);
-                        }).Wait();
 
-						userRequestRecord = _clientRequestMessage.ContainsKey(id) ? _clientRequestMessage.Where(e => e.Key == id).First().Value : null;
-
-                        string roomId = null;
-                        if (_clientRoomId != null)
-                        {
-                            roomId = _clientRoomId.ContainsKey(id) ? _clientRoomId.Where(e => e.Key == id).First().Value : null;
-                        }
-                        string jsonString = JsonConvert.SerializeObject(new { status = true, type = roomId == null ? "chat" : "call", roomId = roomId, data = userRequestRecord });
-                        var msgBuffer = System.Text.Encoding.UTF8.GetBytes(jsonString);
-                        await recipientSocket.SendAsync(new ArraySegment<byte>(msgBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
-                        await HandleChatRequest(webSocket, id, receiverId, sendBy);
-
-                    }
-
-                }
-                else
-                {
-                    bool checkServiceStatus = false;
-                    Task.Run(() =>
-                    {
-                         checkServiceStatus = _services.getUserserviceStatus(int.Parse(id));
-                    }).Wait();
-                    if (!checkServiceStatus)
-                    {
                         _clientRequest[changeIdPref] = webSocket;
-                        Task.Run(() =>
-                        {
-                            _services.changeUserServiceStatus(int.Parse(id), true);
-                        }).Wait();
-                        await HandleChatRequest(webSocket, id, receiverId, sendBy);
                     }
                     else
                     {
-                        string jsonString = JsonConvert.SerializeObject(new { status = true, data = false, anotherRequest = true, notAvailable = false });
-                        var msgBuffer = System.Text.Encoding.UTF8.GetBytes(jsonString);
-                        await webSocket.SendAsync(new ArraySegment<byte>(msgBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
-
+                        bool checkJyotishAvailability = false;
+                        Task.Run(() =>
+                        {
+                            checkJyotishAvailability = _jyotish.getJyotishserviceStatus(int.Parse(receiverId));
+                        }).Wait();
+                        if (checkJyotishAvailability)
+                        {
+                            string jsonString = JsonConvert.SerializeObject(new { status = true, data = false, anotherRequest = false, notAvailable = true });
+                            var msgBuffer = System.Text.Encoding.UTF8.GetBytes(jsonString);
+                            await webSocket.SendAsync(new ArraySegment<byte>(msgBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
+                            return;
+                        }
                     }
 
+                    if (_clientRequest.TryGetValue(changeIdPref, out var recipientSocket) && sendBy != "client")
+                    {
+                        dynamic userRequestRecord = null;
+                        if (sendBy != "client")
+                        {
+                            Task.Run(() =>
+                            {
+                                _jyotish.changeJyotishActiveStatus(int.Parse(id), true);
+                            }).Wait();
+
+                            userRequestRecord = _clientRequestMessage.ContainsKey(id) ? _clientRequestMessage.Where(e => e.Key == id).First().Value : null;
+
+                            string roomId = null;
+                            if (_clientRoomId != null)
+                            {
+                                roomId = _clientRoomId.ContainsKey(id) ? _clientRoomId.Where(e => e.Key == id).First().Value : null;
+                            }
+                            string jsonString = JsonConvert.SerializeObject(new { status = true, type = roomId == null ? "chat" : "call", roomId = roomId, data = userRequestRecord });
+                            var msgBuffer = System.Text.Encoding.UTF8.GetBytes(jsonString);
+                            await recipientSocket.SendAsync(new ArraySegment<byte>(msgBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
+                            await HandleChatRequest(webSocket, id, receiverId, sendBy);
+
+                        }
+
+                    }
+                    else
+                    {
+                        bool checkServiceStatus = false;
+                        Task.Run(() =>
+                        {
+                            checkServiceStatus = _services.getUserserviceStatus(int.Parse(id));
+                        }).Wait();
+                        if (!checkServiceStatus)
+                        {
+                            _clientRequest[changeIdPref] = webSocket;
+                            Task.Run(() =>
+                            {
+                                _services.changeUserServiceStatus(int.Parse(id), true);
+                            }).Wait();
+                            await HandleChatRequest(webSocket, id, receiverId, sendBy);
+                        }
+                        else
+                        {
+                            string jsonString = JsonConvert.SerializeObject(new { status = true, data = false, anotherRequest = true, notAvailable = false });
+                            var msgBuffer = System.Text.Encoding.UTF8.GetBytes(jsonString);
+                            await webSocket.SendAsync(new ArraySegment<byte>(msgBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
+
+                        }
+
+                    }
+                }
+                else
+                {
+                    HttpContext.Response.StatusCode = 400; // Bad Request
                 }
             }
-            else
+            catch (Exception ex)
             {
-                HttpContext.Response.StatusCode = 400; // Bad Request
+                if (sendBy != "client")
+                {
+                    Task.Run(() =>
+                    {
+                        _jyotish.changeJyotishActiveStatus(int.Parse(id), false);
+                    }).Wait();
+                }
+                else
+                {
+                    Task.Run(() =>
+                    {
+                        _services.changeUserServiceStatus(int.Parse(id), false);
+                    }).Wait();
+                }
+                Console.WriteLine($"Error: {ex.Message}");
+                throw ex;
             }
         }
+
 
         private async Task HandleChatRequest(WebSocket webSocket, string clientId, string receiverId, string sendBy)
         {
@@ -417,8 +450,8 @@ namespace MyJyotishGApi.Controllers
                                 _jyotish.changeJyotishActiveStatus(int.Parse(clientId), false);
                             }).Wait();
 
-						}
-						_clientRequest.TryRemove(changeIdPref, out _);
+                        }
+                        _clientRequest.TryRemove(changeIdPref, out _);
 
                         await webSocket.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, "Closing connection", CancellationToken.None);
                         break;
@@ -435,10 +468,10 @@ namespace MyJyotishGApi.Controllers
                         if (sendBy == "client")
                         {
                             var castId = Convert.ToInt32(clientId);
-                            dynamic userDetail = new {};
+                            dynamic userDetail = new { };
                             Task.Run(() =>
                             {
-                                 userDetail = _services.LayoutData(castId);
+                                userDetail = _services.LayoutData(castId);
                             }).Wait();
                             string userJson = JsonConvert.SerializeObject(userDetail);
 
@@ -486,7 +519,7 @@ namespace MyJyotishGApi.Controllers
                                 bool checkJyotishAvailability = false;
                                 Task.Run(() =>
                                 {
-                                     checkJyotishAvailability = _jyotish.getJyotishserviceStatus(int.Parse(recipientId));
+                                    checkJyotishAvailability = _jyotish.getJyotishserviceStatus(int.Parse(recipientId));
                                 }).Wait();
                                 if (!checkJyotishAvailability)
                                 {
@@ -551,6 +584,20 @@ namespace MyJyotishGApi.Controllers
             }
             catch (Exception ex)
             {
+                if (sendBy != "client")
+                {
+                    Task.Run(() =>
+                    {
+                        _jyotish.changeJyotishActiveStatus(int.Parse(clientId), false);
+                    }).Wait();
+                }
+                else
+                {
+                    Task.Run(() =>
+                    {
+                        _services.changeUserServiceStatus(int.Parse(clientId), false);
+                    }).Wait();
+                }
                 Console.WriteLine($"Error: {ex.Message}");
             }
 

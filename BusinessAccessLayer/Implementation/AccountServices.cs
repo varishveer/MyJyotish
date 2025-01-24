@@ -17,6 +17,7 @@ using Newtonsoft.Json;
 using Azure;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Newtonsoft.Json.Linq;
+using static System.Net.WebRequestMethods;
 
 namespace BusinessAccessLayer.Implementation
 {
@@ -968,6 +969,275 @@ namespace BusinessAccessLayer.Implementation
             return Languages;
         }
 
+        public bool sendOtp(string email,string sendBy)
+        {
+            dynamic res = null;
+            if (sendBy == "client")
+            {
+                res = _context.Users.Where(e => e.Email == email).FirstOrDefault<UserModel>();
+
+            }
+            else
+            {
+
+              res = _context.JyotishRecords.Where(e => e.Email == email).FirstOrDefault<JyotishModel>();
+            }
+            if (res == null)
+            {
+                return false;
+            }
+            int Otp = new Random().Next(100000, 1000000);
+            string message = $@"
+           <!DOCTYPE html>
+            <html lang=""en"">
+            <head>
+    <meta charset=""UTF-8"">
+    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+    <title>My Jyotish G Email</title>
+    <style>
+        body {{
+            font-family: Arial, sans-serif;
+        }}
+        .container {{
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }}
+        .header {{
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }}
+        .content {{
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }}
+        .otp {{
+            font-size: 20px;
+            font-weight: bold;
+            color: #000;
+        }}
+        .logo {{
+            margin: 20px 0;
+            text-align: center;
+        }}
+        .logo img {{
+            max-width: 150px;
+        }}
+        .footer {{
+            font-size: 14px;
+            color: #555;
+            margin-top: 20px;
+        }}
+        .footer a {{
+            color: #000;
+            text-decoration: none;
+        }}
+    </style>
+</head>
+<body>
+    <div class=""container"">
+       
+         <div class=""logo"">
+            <img src=""https://api.myjyotishg.in/Images/Logo.png"" alt=""My Jyotish G Logo"">
+        </div>
+        <div class=""content"">
+          
+            Thank you for using myjyotishg! To Change your password, please verify your email address using the code below:<br><br>
+
+            Verification Code: <span class=""otp"">{Otp}</span><br><br>
+
+            If you have any questions, feel free to reach out!
+        </div>
+
+       
+            <div class=""header"" style=""color:orange"">My Jyotish G</div>
+            <h4>www.myjyotishg.in</h4>
+            <h4>myjyotishg@gmail.com</h4>
+            <h4>7985738804</h4>
+            
+        
+    </div>
+</body>
+</html>
+";
+            string Subject = "Verification Code for My Jyotish G";
+            var isMailSend = SendEmail(message, email, Subject);
+            if (isMailSend)
+            {
+                res.Otp = Otp;
+                var gres = sendBy == "client" ? _context.Users.Update(res) : _context.JyotishRecords.Update(res);
+
+                var result = _context.SaveChanges();
+                if (result > 0)
+                { return true;
+                }
+                else { return false; }
+            }
+            else { return false; }
+        }
+       
+        public bool verifyOtps(string email,int otp,string sendBy)
+        {
+            dynamic res = null;
+            if (sendBy == "client")
+            {
+                res = _context.Users.Where(e => e.Email == email && e.Otp == otp).FirstOrDefault();
+
+            }
+            else
+            {
+
+                res = _context.JyotishRecords.Where(e => e.Email == email && e.Otp==otp).FirstOrDefault();
+            }
+            if (res == null)
+            {
+                return false;
+            }
+            else
+            {
+               return true;
+            }
+        }
+
+        public bool changePassword(string email,string password,string sendBy)
+        {
+            dynamic res = null;
+            if (sendBy == "client")
+            {
+                res = _context.Users.Where(e => e.Email == email ).FirstOrDefault();
+
+            }
+            else
+            {
+
+                res = _context.JyotishRecords.Where(e => e.Email == email ).FirstOrDefault();
+            }
+            if (res == null)
+            {
+                return false;
+            }
+            else
+            {
+                res.Password = password;
+                var gres=sendBy == "client" ? _context.Users.Update(res) : _context.JyotishRecords.Update(res);
+                sendChangePasswordMail(email, password);
+                return _context.SaveChanges() > 0;
+            }
+        }
+         public bool changePasswordByOldPassword(int userId,string password,string oldPassword,string sendBy)
+        {
+            dynamic res = null;
+            if (sendBy == "client")
+            {
+                res = _context.Users.Where(e => e.Id==userId && e.Password == oldPassword).FirstOrDefault();
+
+            }
+            else
+            {
+
+                res = _context.JyotishRecords.Where(e => e.Id==userId && e.Password == oldPassword).FirstOrDefault();
+            }
+            if (res == null)
+            {
+                return false;
+            }
+            else
+            {
+                res.Password = password;
+                var gres=sendBy == "client" ? _context.Users.Update(res) : _context.JyotishRecords.Update(res);
+                sendChangePasswordMail(res.Email, password);
+                return _context.SaveChanges() > 0;
+            }
+        }
+
+        public bool sendChangePasswordMail(string email, string password)
+        {
+            string message = $@"
+           <!DOCTYPE html>
+            <html lang=""en"">
+            <head>
+    <meta charset=""UTF-8"">
+    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+    <title>My Jyotish G Email</title>
+    <style>
+        body {{
+            font-family: Arial, sans-serif;
+        }}
+        .container {{
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }}
+        .header {{
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }}
+        .content {{
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }}
+        .otp {{
+            font-size: 20px;
+            font-weight: bold;
+            color: #000;
+        }}
+        .logo {{
+            margin: 20px 0;
+            text-align: center;
+        }}
+        .logo img {{
+            max-width: 150px;
+        }}
+        .footer {{
+            font-size: 14px;
+            color: #555;
+            margin-top: 20px;
+        }}
+        .footer a {{
+            color: #000;
+            text-decoration: none;
+        }}
+    </style>
+</head>
+<body>
+    <div class=""container"">
+       
+         <div class=""logo"">
+            <img src=""https://api.myjyotishg.in/Images/Logo.png"" alt=""My Jyotish G Logo"">
+        </div>
+        <div class=""content"">
+           Dear Jyotish ,<br/>
+            Your Password has been successfully Updated , <br/>
+            Email: {email}<br/>
+            Password: {password}<br/>
+            If you have any questions, feel free to reach out!<br/>
+        </div>
+
+       
+            <div class=""header"" style=""color:orange"">My Jyotish G</div>
+            <h4>www.myjyotishg.in</h4>
+            <h4>myjyotishg@gmail.com</h4>
+            <h4>7985738804</h4>
+            
+        
+    </div>
+</body>
+</html>
+";
+            string Subject = "Password Change Successfully";
+            var isMailSend = SendEmail(message, email, Subject);
+            return isMailSend;
+        }
 
     }
 }

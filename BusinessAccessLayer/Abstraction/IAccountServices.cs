@@ -40,7 +40,11 @@ namespace BusinessAccessLayer.Abstraction
         #endregion
         public dynamic PlaceOfBirthList(string CityName);
         public List<string> LanguageList();
+        public bool sendOtp(string email, string sendBy);
+        public bool verifyOtps(string email, int otp, string sendBy);
+        public bool changePassword(string email, string password, string sendBy);
 
+        public bool changePasswordByOldPassword(int userId, string password, string oldPassword, string sendBy);
 
     }
 }
