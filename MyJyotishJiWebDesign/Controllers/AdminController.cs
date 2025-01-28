@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 
 namespace MyJyotishJiWebDesign.Controllers
@@ -41,6 +42,21 @@ namespace MyJyotishJiWebDesign.Controllers
 		public ActionResult CreatePooja() { return View(); }
 		public ActionResult PoojaList() { return View(); }
 		public ActionResult JyotishWalletManagement() { return View(); }
+
+        public async Task<ActionResult> PrivacyPolicy()
+        {
+            HttpClient client = new HttpClient();
+            HttpResponseMessage message = await client.GetAsync("https://api.myjyotishg.in/api/admin/getPrivacyPolicy");
+            dynamic res = null;
+
+            if (message.IsSuccessStatusCode)
+            {
+                res = await message.Content.ReadAsStringAsync();
+                res = JsonConvert.DeserializeObject<dynamic>(res);
+            }
+
+            return View(res);
+        }
 
 	}
 }

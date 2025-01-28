@@ -5,6 +5,52 @@
     Layout = "JyotishLayout";
 }
 
+<style>
+    .card-body > .row{ 
+        min-height:100px !important;
+     }
+
+    .container {
+        width: 100%;
+        padding: 40px 0px 40px 0px;
+    }
+
+    .wallet {
+        margin-left: auto;
+        border-radius: 5px;
+        background-color: #FFFFFF;
+    }
+
+    .left-wallet {
+        background-color: #f2f2f2;
+        border-radius: 5px;
+    }
+
+    .right-trans {
+        background-color: #FFFFFF;
+        height: initial;
+        border-radius: 5px;
+    }
+
+    .phistory {
+        height: 70px !important;
+    }
+
+    .right-trans::-webkit-scrollbar {
+        height: 5px;
+        width: 5px;
+    }
+
+    .right-trans::-webkit-scrollbar-thumb {
+        background: #c95812;
+        border-radius: 10px;
+    }
+
+    .detail-container {
+        max-height: 85vh;
+    }
+</style>
+
         <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
             <div>
                 <h3 class="fw-bold mb-3">Dashboard</h3>
@@ -26,8 +72,8 @@
                             </div>
                             <div class="col col-stats ms-3 ms-sm-0">
                                 <div class="numbers">
-                                    <p class="card-category">Visitors</p>
-                                    <h4 class="card-title">1,294</h4>
+                                    <p class="card-category">Total Appointment</p>
+                                    <h4 class="card-title totalAppointment">0</h4>
                                 </div>
                             </div>
                         </div>
@@ -45,8 +91,8 @@
                             </div>
                             <div class="col col-stats ms-3 ms-sm-0">
                                 <div class="numbers">
-                                    <p class="card-category">Subscribers</p>
-                                    <h4 class="card-title">1303</h4>
+                                    <p class="card-category">Pending Appointment</p>
+                                    <h4 class="card-title pendingAppointment">0</h4>
                                 </div>
                             </div>
                         </div>
@@ -64,8 +110,8 @@
                             </div>
                             <div class="col col-stats ms-3 ms-sm-0">
                                 <div class="numbers">
-                                    <p class="card-category">Sales</p>
-                                    <h4 class="card-title">$ 1,345</h4>
+                                    <p class="card-category">Today Appointment</p>
+                                    <h4 class="card-title todayAppointment">0</h4>
                                 </div>
                             </div>
                         </div>
@@ -83,8 +129,8 @@
                             </div>
                             <div class="col col-stats ms-3 ms-sm-0">
                                 <div class="numbers">
-                                    <p class="card-category">Order</p>
-                                    <h4 class="card-title">576</h4>
+                                    <p class="card-category">Total Call</p>
+                                    <h4 class="card-title totalCall">0</h4>
                                 </div>
                             </div>
                         </div>
@@ -103,8 +149,8 @@
                             </div>
                             <div class="col col-stats ms-3 ms-sm-0">
                                 <div class="numbers">
-                                    <p class="card-category">Visitors</p>
-                                    <h4 class="card-title">1,294</h4>
+                                    <p class="card-category">Total Chat</p>
+                                    <h4 class="card-title totalChat">0</h4>
                                 </div>
                             </div>
                         </div>
@@ -122,8 +168,8 @@
                             </div>
                             <div class="col col-stats ms-3 ms-sm-0">
                                 <div class="numbers">
-                                    <p class="card-category">Subscribers</p>
-                                    <h4 class="card-title">1303</h4>
+                                    <p class="card-category">Total Pooja Request</p>
+                                    <h4 class="card-title totalPooja">0</h4>
                                 </div>
                             </div>
                         </div>
@@ -141,8 +187,8 @@
                             </div>
                             <div class="col col-stats ms-3 ms-sm-0">
                                 <div class="numbers">
-                                    <p class="card-category">Sales</p>
-                                    <h4 class="card-title">$ 1,345</h4>
+                                    <p class="card-category">Total Video</p>
+                                    <h4 class="card-title totalVideo">0</h4>
                                 </div>
                             </div>
                         </div>
@@ -160,8 +206,8 @@
                             </div>
                             <div class="col col-stats ms-3 ms-sm-0">
                                 <div class="numbers">
-                                    <p class="card-category">Order</p>
-                                    <h4 class="card-title">576</h4>
+                                    <p class="card-category">Total Gallery</p>
+                                    <h4 class="card-title totalGallery">0</h4>
                                 </div>
                             </div>
                         </div>
@@ -170,211 +216,28 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-12">
                 <div class="card card-round">
                     <div class="card-header">
                         <div class="card-head-row">
-                            <div class="card-title">User Statistics</div>
-                            <div class="card-tools">
-                                <a href="#"
-                                   class="btn btn-label-success btn-round btn-sm me-2">
-                                    <span class="btn-label">
-                                        <i class="fa fa-pencil"></i>
-                                    </span>
-                                    Export
-                                </a>
-                                <a href="#" class="btn btn-label-info btn-round btn-sm">
-                                    <span class="btn-label">
-                                        <i class="fa fa-print"></i>
-                                    </span>
-                                    Print
-                                </a>
-                            </div>
+                            <div class="card-title">Call And Chat Statistics</div>
+                          
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="chart-container" style="min-height: 375px">
-                            <canvas id="statisticsChart"></canvas>
+                            <canvas id="statisticsCharts"></canvas>
                         </div>
-                        <div id="myChartLegend"></div>
+                        <div id="myChartLegends"></div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card card-primary card-round">
-                    <div class="card-header">
-                        <div class="card-head-row">
-                            <div class="card-title">Daily Sales</div>
-                            <div class="card-tools">
-                                <div class="dropdown">
-                                    <button class="btn btn-sm btn-label-light dropdown-toggle"
-                                            type="button"
-                                            id="dropdownMenuButton"
-                                            data-bs-toggle="dropdown"
-                                            aria-haspopup="true"
-                                            aria-expanded="false">
-                                        Export
-                                    </button>
-                                    <div class="dropdown-menu"
-                                         aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="#">Action</a>
-                                        <a class="dropdown-item" href="#">Another action</a>
-                                        <a class="dropdown-item" href="#">Something else here</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-category">March 25 - April 02</div>
-                    </div>
-                    <div class="card-body pb-0">
-                        <div class="mb-4 mt-2">
-                            <h1>$4,578.58</h1>
-                        </div>
-                        <div class="pull-in">
-                            <canvas id="dailySalesChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-                <div class="card card-round">
-                    <div class="card-body pb-0">
-                        <div class="h1 fw-bold float-end text-primary">+5%</div>
-                        <h2 class="mb-2">17</h2>
-                        <p class="text-muted">Users online</p>
-                        <div class="pull-in sparkline-fix">
-                            <div id="lineChart"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+          
         </div>
       
         <div class="row">
-            <div class="col-md-4">
-                <div class="card card-round">
-                    <div class="card-body">
-                        <div class="card-head-row card-tools-still-right">
-                            <div class="card-title">New Customers</div>
-                            <div class="card-tools">
-                                <div class="dropdown">
-                                    <button class="btn btn-icon btn-clean me-0"
-                                            type="button"
-                                            id="dropdownMenuButton"
-                                            data-bs-toggle="dropdown"
-                                            aria-haspopup="true"
-                                            aria-expanded="false">
-                                        <i class="fas fa-ellipsis-h"></i>
-                                    </button>
-                                    <div class="dropdown-menu"
-                                         aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="#">Action</a>
-                                        <a class="dropdown-item" href="#">Another action</a>
-                                        <a class="dropdown-item" href="#">Something else here</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-list py-4">
-                            <div class="item-list">
-                                <div class="avatar">
-                                    <img src="~/assets/img/jm_denis.jpg"
-                                         alt="..."
-                                         class="avatar-img rounded-circle" />
-                                </div>
-                                <div class="info-user ms-3">
-                                    <div class="username">Jimmy Denis</div>
-                                    <div class="status">Graphic Designer</div>
-                                </div>
-                                <button class="btn btn-icon btn-link op-8 me-1">
-                                    <i class="far fa-envelope"></i>
-                                </button>
-                                <button class="btn btn-icon btn-link btn-danger op-8">
-                                    <i class="fas fa-ban"></i>
-                                </button>
-                            </div>
-                            <div class="item-list">
-                                <div class="avatar">
-                                    <span class="avatar-title rounded-circle border border-white">CF</span>
-                                </div>
-                                <div class="info-user ms-3">
-                                    <div class="username">Chandra Felix</div>
-                                    <div class="status">Sales Promotion</div>
-                                </div>
-                                <button class="btn btn-icon btn-link op-8 me-1">
-                                    <i class="far fa-envelope"></i>
-                                </button>
-                                <button class="btn btn-icon btn-link btn-danger op-8">
-                                    <i class="fas fa-ban"></i>
-                                </button>
-                            </div>
-                            <div class="item-list">
-                                <div class="avatar">
-                                    <img src="~/assets/img/talha.jpg"
-                                         alt="..."
-                                         class="avatar-img rounded-circle" />
-                                </div>
-                                <div class="info-user ms-3">
-                                    <div class="username">Talha</div>
-                                    <div class="status">Front End Designer</div>
-                                </div>
-                                <button class="btn btn-icon btn-link op-8 me-1">
-                                    <i class="far fa-envelope"></i>
-                                </button>
-                                <button class="btn btn-icon btn-link btn-danger op-8">
-                                    <i class="fas fa-ban"></i>
-                                </button>
-                            </div>
-                            <div class="item-list">
-                                <div class="avatar">
-                                    <img src="~/assets/img/chadengle.jpg"
-                                         alt="..."
-                                         class="avatar-img rounded-circle" />
-                                </div>
-                                <div class="info-user ms-3">
-                                    <div class="username">Chad</div>
-                                    <div class="status">CEO Zeleaf</div>
-                                </div>
-                                <button class="btn btn-icon btn-link op-8 me-1">
-                                    <i class="far fa-envelope"></i>
-                                </button>
-                                <button class="btn btn-icon btn-link btn-danger op-8">
-                                    <i class="fas fa-ban"></i>
-                                </button>
-                            </div>
-                            <div class="item-list">
-                                <div class="avatar">
-                                    <span class="avatar-title rounded-circle border border-white bg-primary">H</span>
-                                </div>
-                                <div class="info-user ms-3">
-                                    <div class="username">Hizrian</div>
-                                    <div class="status">Web Designer</div>
-                                </div>
-                                <button class="btn btn-icon btn-link op-8 me-1">
-                                    <i class="far fa-envelope"></i>
-                                </button>
-                                <button class="btn btn-icon btn-link btn-danger op-8">
-                                    <i class="fas fa-ban"></i>
-                                </button>
-                            </div>
-                            <div class="item-list">
-                                <div class="avatar">
-                                    <span class="avatar-title rounded-circle border border-white bg-secondary">F</span>
-                                </div>
-                                <div class="info-user ms-3">
-                                    <div class="username">Farrah</div>
-                                    <div class="status">Marketing</div>
-                                </div>
-                                <button class="btn btn-icon btn-link op-8 me-1">
-                                    <i class="far fa-envelope"></i>
-                                </button>
-                                <button class="btn btn-icon btn-link btn-danger op-8">
-                                    <i class="fas fa-ban"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-8">
+          
+            <div class="col-md-12">
                 <div class="card card-round">
                     <div class="card-header">
                         <div class="card-head-row card-tools-still-right">
@@ -391,9 +254,7 @@
                                     </button>
                                     <div class="dropdown-menu"
                                          aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="#">Action</a>
-                                        <a class="dropdown-item" href="#">Another action</a>
-                                        <a class="dropdown-item" href="#">Something else here</a>
+                                        <a class="dropdown-item" href="/jyotish/wallets">My Balance</a>
                                     </div>
                                 </div>
                             </div>
@@ -402,109 +263,8 @@
                     <div class="card-body p-0">
                         <div class="table-responsive">
                             <!-- Projects table -->
-                            <table class="table align-items-center mb-0">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th scope="col">Payment Number</th>
-                                        <th scope="col" class="text-end">Date & Time</th>
-                                        <th scope="col" class="text-end">Amount</th>
-                                        <th scope="col" class="text-end">Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">
-                                            <button class="btn btn-icon btn-round btn-success btn-sm me-2">
-                                                <i class="fa fa-check"></i>
-                                            </button>
-                                            Payment from #10231
-                                        </th>
-                                        <td class="text-end">Mar 19, 2020, 2.45pm</td>
-                                        <td class="text-end">$250.00</td>
-                                        <td class="text-end">
-                                            <span class="badge badge-success">Completed</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            <button class="btn btn-icon btn-round btn-success btn-sm me-2">
-                                                <i class="fa fa-check"></i>
-                                            </button>
-                                            Payment from #10231
-                                        </th>
-                                        <td class="text-end">Mar 19, 2020, 2.45pm</td>
-                                        <td class="text-end">$250.00</td>
-                                        <td class="text-end">
-                                            <span class="badge badge-success">Completed</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            <button class="btn btn-icon btn-round btn-success btn-sm me-2">
-                                                <i class="fa fa-check"></i>
-                                            </button>
-                                            Payment from #10231
-                                        </th>
-                                        <td class="text-end">Mar 19, 2020, 2.45pm</td>
-                                        <td class="text-end">$250.00</td>
-                                        <td class="text-end">
-                                            <span class="badge badge-success">Completed</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            <button class="btn btn-icon btn-round btn-success btn-sm me-2">
-                                                <i class="fa fa-check"></i>
-                                            </button>
-                                            Payment from #10231
-                                        </th>
-                                        <td class="text-end">Mar 19, 2020, 2.45pm</td>
-                                        <td class="text-end">$250.00</td>
-                                        <td class="text-end">
-                                            <span class="badge badge-success">Completed</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            <button class="btn btn-icon btn-round btn-success btn-sm me-2">
-                                                <i class="fa fa-check"></i>
-                                            </button>
-                                            Payment from #10231
-                                        </th>
-                                        <td class="text-end">Mar 19, 2020, 2.45pm</td>
-                                        <td class="text-end">$250.00</td>
-                                        <td class="text-end">
-                                            <span class="badge badge-success">Completed</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            <button class="btn btn-icon btn-round btn-success btn-sm me-2">
-                                                <i class="fa fa-check"></i>
-                                            </button>
-                                            Payment from #10231
-                                        </th>
-                                        <td class="text-end">Mar 19, 2020, 2.45pm</td>
-                                        <td class="text-end">$250.00</td>
-                                        <td class="text-end">
-                                            <span class="badge badge-success">Completed</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            <button class="btn btn-icon btn-round btn-success btn-sm me-2">
-                                                <i class="fa fa-check"></i>
-                                            </button>
-                                            Payment from #10231
-                                        </th>
-                                        <td class="text-end">Mar 19, 2020, 2.45pm</td>
-                                        <td class="text-end">$250.00</td>
-                                        <td class="text-end">
-                                            <span class="badge badge-success">Completed</span>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                    <div class=" list-wallet">
+                    </div>
                         </div>
                     </div>
                 </div>
@@ -512,33 +272,231 @@
         </div>
   
 <script>
-    $("#lineChart").sparkline([102, 109, 120, 99, 110, 105, 115], {
-        type: "line",
-        height: "70",
-        width: "100%",
-        lineWidth: "2",
-        lineColor: "#177dff",
-        fillColor: "rgba(23, 125, 255, 0.14)",
+
+
+    $(document).ready(function(){
+      let callArray=[0,0,0,0,0,0,0,0,0,0,0,0]
+   let chatArray=[0,0,0,0,0,0,0,0,0,0,0,0]
+    function getDashboardData(){
+        $.ajax({
+            url:BaseUrl+"api/jyotish/getJyotishDashboardRecord",
+            type:"get",
+            data:{jyotishId:localStorage.getItem("Id")},
+              headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token2")}`
+
+            },
+            success:function(res){
+            if(res!=null){
+                let data=res.data;
+                console.log(data)
+                $(".totalAppointment").text(data.totalAppointment)
+                $(".pendingAppointment").text(data.pendingAppointment)
+                $(".todayAppointment").text(data.todayAppointment)
+                $(".totalCall").text(data.totalCall)
+                $(".totalChat").text(data.totalChat)
+                $(".totalPooja").text(data.totalPooja)
+                $(".totalVideo").text(data.totalVideo)
+                $(".totalGallery").text(data.totalGallery)
+                   data.callStatics.forEach(function(d){
+                       callArray[d.month-1]=d.total
+                   })
+                   data.chatStatics.forEach(function(d){
+                       chatArray[d.month-1]=d.total
+                   })
+            }
+               getChartStatic()
+            },error:function(xhr){
+            Swal.fire({
+                title:"error",
+                text:"something went wrong",
+                icon:"error"
+            })
+            }
+        })
+    }
+    getDashboardData();
+
+        function getChartStatic(){
+ var ctx = document.getElementById('statisticsCharts').getContext('2d');
+    var statisticsChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+            datasets: [ {
+                label: "Call",
+                borderColor: '#f3545d',
+                pointBackgroundColor: 'rgba(243, 84, 93, 0.6)',
+                pointRadius: 0,
+                backgroundColor: 'rgba(243, 84, 93, 0.4)',
+                legendColor: '#f3545d',
+                fill: true,
+                borderWidth: 2,
+                   data: callArray
+            }, {
+                label: "Chat",
+                borderColor: '#fdaf4b',
+                pointBackgroundColor: 'rgba(253, 175, 75, 0.6)',
+                pointRadius: 0,
+                backgroundColor: 'rgba(253, 175, 75, 0.4)',
+                legendColor: '#fdaf4b',
+                fill: true,
+                borderWidth: 2,
+                   data: chatArray
+            }]
+        },
+        options : {
+            responsive: true,
+            maintainAspectRatio: false,
+            legend: {
+                display: false
+            },
+            tooltips: {
+                bodySpacing: 4,
+                mode:"nearest",
+                intersect: 0,
+                position:"nearest",
+                xPadding:10,
+                yPadding:10,
+                caretPadding:10
+            },
+            layout:{
+                padding:{left:5,right:5,top:15,bottom:15}
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        fontStyle: "500",
+                        beginAtZero: false,
+                        maxTicksLimit: 5,
+                        padding: 10
+                    },
+                    gridLines: {
+                        drawTicks: false,
+                        display: false
+                    }
+                }],
+                xAxes: [{
+                    gridLines: {
+                        zeroLineColor: "transparent"
+                    },
+                    ticks: {
+                        padding: 10,
+                        fontStyle: "500"
+                    }
+                }]
+            },
+            legendCallback: function(chart) {
+                var text = [];
+                text.push('<ul class="' + chart.id + '-legend html-legend">');
+                for (var i = 0; i < chart.data.datasets.length; i++) {
+                    text.push('<li><span style="background-color:' + chart.data.datasets[i].legendColor + '"></span>');
+                    if (chart.data.datasets[i].label) {
+                        text.push(chart.data.datasets[i].label);
+                    }
+                    text.push('</li>');
+                }
+                text.push('</ul>');
+                return text.join('');
+            }
+        }
     });
+       var myLegendContainers = document.getElementById("myChartLegends");
 
-    $("#lineChart2").sparkline([99, 125, 122, 105, 110, 124, 115], {
-        type: "line",
-        height: "70",
-        width: "100%",
-        lineWidth: "2",
-        lineColor: "#f3545d",
-        fillColor: "rgba(243, 84, 93, .14)",
-    });
+       // generate HTML legend
+       myLegendContainers.innerHTML = statisticsChart.generateLegend();
 
-    $("#lineChart3").sparkline([105, 103, 123, 100, 95, 105, 115], {
-        type: "line",
-        height: "70",
-        width: "100%",
-        lineWidth: "2",
-        lineColor: "#ffa534",
-        fillColor: "rgba(255, 165, 52, .14)",
-    });
+       // bind onClick event to all LI-tags of the legend
+       var legendItems = myLegendContainers.getElementsByTagName('li');
+       for (var i = 0; i < legendItems.length; i += 1) {
+           legendItems[i].addEventListener("click", legendClickCallback, false);
+       }
+       }
+    })
 
-   
+          function getUserWalletHistory() {
+                   Swal.fire({
+                       title: "Processing Your Request",
+                       allowOutsideClick: false,
+                       didOpen: () => {
+                           Swal.showLoading();
+                       }
+                   })
+                   $.ajax({
+                       url: BaseUrl + "api/jyotish/GetTopTenWalletHistory",
+                       type: "get",
+                       headers: {
+                           'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+                           'Content-Type': 'application/json'
+                       },
+                       data: {
 
+                           "jyotishId": localStorage.getItem("Id")
+
+                       },
+                       success: function (res) {
+                           console.log(res)
+                           if (res.status == 200) {
+                               $(".list-wallet").empty()
+                               res.data.forEach(function (d) {
+                                   if (d.userName != null & d.profile != null) {
+                                       let historycard = $(
+                                           `
+                                                                    <div class="col-sm-12 border rounded p-2 my-2 phistory"  id="receipt_${d.id}" >
+                                           <div class="row h-100">
+                                               <div class="col-sm-2 text-center ">
+                                                      <img class=" rounded-circle"  height='40' width='40' src="${BaseUrl}${d.profile}" />
+                                               </div>
+                                               <div class="col-sm-6">
+                                                   ${d.userName}<br />
+                                                                                                           ${d.paymentStatus.toLowerCase() == 'success' ? d.paymentDate.split(" ")[0] : d.paymentStatus.toLowerCase() == 'failed' ? `<small class='text-danger'><i class="fas fa-exclamation-circle"></i>Failed</small>` : `<small class='text-danger'><i class="fas fa-exclamation-circle"></i>Failed</small>`}
+                                               </div>
+                                               <div class="col-sm-3 d-flex h-100 justify-content-end align-items-center">
+                                                                                                            ${d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" ? `<span class='text-success'>+ ${d.amount}</span>` : d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "debit" & d.paymentBy.toLowerCase() == "user" ? `<span class='text-success'>+${d.amount}</span>` : d.paymentStatus == 'failed' ? `<span class='text-secondary'>${d.amount}</span>`: `<span class='text-danger'>-${d.amount}</span>`}
+                                               </div>
+                                           </div>
+                                       </div>
+                                       `)
+                                       $(".list-wallet").append(
+                                           historycard
+                                       )
+                                   }else{
+                                       let historycard = $(
+                                           `
+                                          <div class="col-sm-12 border rounded p-2 my-2 phistory" >
+                                       <div class="row h-100">
+                                           <div class="col-sm-2 text-center ">
+                                                   <img class="h-100 rounded-circle" height='40' width='40' src="https://api.myjyotishg.in/Images/Logo.png" />
+                                           </div>
+                                           <div class="col-sm-6">
+                                               MyJyotishg<br />
+                                                                                                   ${d.paymentStatus.toLowerCase() == 'success' ? d.paymentDate.split(" ")[0] : d.paymentStatus == 'failed' ? `<small class='text-danger'><i class="fas fa-exclamation-circle"></i>Failed</small>` : `<small class='text-danger'><i class="fas fa-exclamation-circle"></i>Failed</small>`}
+                                           </div>
+                                           <div class="col-sm-3 d-flex  justify-content-end align-items-center">
+                                                                                                ${d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" ? `<span class='text-success'>+ ${d.amount}</span>` : d.paymentStatus == 'failed' ? `<span class='text-secondary'>${d.amount}</span>` : `<span class='text-danger'>-${d.amount}</span>`}
+                                           </div>
+                                       </div>
+                                   </div>
+                                       `)
+                                       $(".list-wallet").append(
+                                           historycard
+                                       )
+                                   }
+
+
+
+                               })
+                           }
+                           Swal.close()
+                              $("img").on('error', function () {
+                           $(this).attr("src", '/user-not-found.png');
+                       });
+                       },
+                       error: function (err) {
+                           Swal.fire({ icon: "error", title: "Server Error", text: "Server down, please try later." });
+
+                       }
+                   });
+               }
+               getUserWalletHistory()
 </script>

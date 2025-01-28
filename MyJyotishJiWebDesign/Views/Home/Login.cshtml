@@ -154,8 +154,6 @@
 
 					if (response.status === 200) {
 
-
-
 						Swal.fire({
 							title: "Login Successful!",
 							text: "Redirecting to dashboard...",
@@ -169,16 +167,12 @@
 							localStorage.setItem("userName", response.userName);
 							localStorage.setItem('userMobile', response.userMobile);
 							localStorage.setItem('userId', response.userId);
-
 							// Redirect to the dashboard
 							window.location.href = "/Home/Index";
 
 						});
 
-
-
 						// Store the token and user email in local storage
-
 
 					} else if (response.status === 409) {
 						// Handle invalid email or incorrect password scenarios
@@ -198,7 +192,6 @@
 						}).then(() => {
 							window.location.reload();
 						});
-
 					}
 				},
 				error: function (xhr, status, error) {
@@ -211,8 +204,6 @@
 							text: "Unauthorized access. Please check your credentials.",
 							showConfirmButton: true,
 						})
-
-
 					} else {
 						console.error("Error:", xhr.responseText);
 						Swal.fire({
@@ -222,7 +213,6 @@
 							text: "An error occurred. Please try again.",
 							showConfirmButton: true,
 						})
-
 
 					}
 				}

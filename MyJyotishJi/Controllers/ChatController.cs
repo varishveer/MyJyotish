@@ -67,7 +67,8 @@ namespace MyJyotishGApi.Controllers
                     {
                         // Send insufficient balance message
                         await SendMessageToClient(changeIdPref, "Insufficient Balance", false);
-                        await SendMessageToClient(changeIdPrefReceiver, sendBy == "client" ? "Client is disconnected" : "Jyotish is disconnected", false);
+                        await SendMessageToClient(changeIdPrefReceiver, sendBy == "client" ? "Client is Disconnected" : "Jyotish is disconnected", true);
+
                         return;
                     }
 
@@ -87,10 +88,11 @@ namespace MyJyotishGApi.Controllers
                         totalAmount = totalWalletAmount
                     });
 
-                    await SendMessageToClient(changeIdPref, chatPaymentMessage, true);
+                    var msgBuffer = System.Text.Encoding.UTF8.GetBytes(chatPaymentMessage);
+                    await webSocket.SendAsync(new ArraySegment<byte>(msgBuffer), WebSocketMessageType.Text, true, CancellationToken.None);
 
                     // Mark user as online and track chat time
-                     _services.changeUserServiceStatus(int.Parse(id), true);
+                    _services.changeUserServiceStatus(int.Parse(id), true);
                     if (!_chatTimeManager.ContainsKey(id))
                     {
                         _chatTimeManager.Add(id, DateTime.Now);
@@ -168,7 +170,6 @@ namespace MyJyotishGApi.Controllers
                             {
                                 _services.changeUserServiceStatus(int.Parse(clientId), false);
                             }).Wait();
-
                         }
                         else
                         {
@@ -180,6 +181,18 @@ namespace MyJyotishGApi.Controllers
                         }
                         if (_userWalletAmount.ContainsKey(userId))
                         {
+                            if (sendBy != "client")
+                            {
+                                _clients.TryRemove(RemoveRequest, out _);
+
+                                await webSocket.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
+
+                               await Task.Delay(5000);
+                                if (_clients.ContainsKey(RemoveRequest))
+                                {
+                                    return;
+                                }
+                            }
 
                             var jyotishId = sendBy == "client" ? receiverId : clientId;
                             int getJyotishchatCharges = 0;

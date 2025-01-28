@@ -2123,6 +2123,51 @@ namespace MyJyotishJiApi.Controllers
             }
 
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+        } 
+        [HttpGet("getAdminDashboard")]
+        public IActionResult getAdminDashboard()
+        {
+            try
+            {
+                var Result = _admin.getAdminDashboard();
+                if (Result!=null)
+                { return Ok(new { Status = 200, Message = "data retrieved",data=Result }); }
+                else
+                { return Ok(new { Status = 500,  Message = "something went wrong" }); }
+
+
+            }
+
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+        }
+        [HttpPost("AddPrivacyPolicy")]
+        public IActionResult AddPrivacyPolicy(PrivacyPolicyService pp)
+        {
+            try
+            {
+                var Result = _admin.AddPrivacyPolicy(pp);
+                if (Result)
+                { return Ok(new { Status = 200, Message = "Record Added Successfully" }); }
+                else
+                { return Ok(new { Status = 500,  Message = "something went wrong" }); }
+
+
+            }
+
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+        }
+        [AllowAnonymous]
+        [HttpGet("getPrivacyPolicy")]
+        public IActionResult getPrivacyPolicy()
+        {
+            try
+            {
+                var Result = _admin.getPrivacyPolicy();
+                return Ok(new { Status = 200, Message = "data retrieved",data=Result }); 
+                
+            }
+
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
         }
     }
 }

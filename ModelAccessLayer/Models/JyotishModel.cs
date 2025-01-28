@@ -55,6 +55,7 @@ namespace ModelAccessLayer.Models
         public string? About { get; set; }
         public string? AwordsAndAchievement { get; set; }
         public string? Specialization { get; set; }
+        public DateTime Date { get; set; }
       
         public string? SuccessRate { get; set; }
         public int? Pincode { get; set; }

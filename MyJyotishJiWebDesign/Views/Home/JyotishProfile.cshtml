@@ -428,7 +428,7 @@
 			}
 		})
 
-		
+
 	}
 
 	let checkAppointmentStatus=false;
@@ -1203,9 +1203,9 @@
 							}
 						}
 					}
-				
+
 	})
-	
+
 
 			if (checkChatValidation) {
 				var DataContainer = {
@@ -1418,30 +1418,28 @@
 		try {
 			debugger
 			zg.joinRoom({
-				container: document.querySelector("#root"),
-				turnOnCameraWhenJoining: false,
-				turnOnMicrophoneWhenJoining: true,
-				showMyCameraToggleButton: false,
-				showAudioVideoSettingsButton: false,
-				showScreenSharingButton: false,
-				showPreJoinView: false,
-				lowerLeftNotification: {
-					showUserJoinAndLeave: true,
-					showTextChat: false,
-				},
-				showRoomTimer: true,
-				showLeavingView: false,
+			 container: document.querySelector("#root"),
+			turnOnCameraWhenJoining: false, // Make sure camera is off
+			turnOnMicrophoneWhenJoining: true, // Make sure microphone is on
+			showMyCameraToggleButton: false, // Hide camera toggle
+			showAudioVideoSettingsButton: false, // Hide audio/video settings button
+			showScreenSharingButton: false, // Hide screen sharing button
+			showPreJoinView: false, // No pre-join view
+			lowerLeftNotification: {
+				showUserJoinAndLeave: true,
 				showTextChat: false,
-				maxUsers: 2,
-				showPreJoinView: false,
-				showRoomDetailsButton: true,
-				branding: {
-					logoURL: "https://api.myjyotishg.in/Images/Logo.png"
-				},
-				scenario: {
-					mode: ZegoUIKitPrebuilt.OneONoneCall,
-
-				}, onJoinRoom:async () => {
+			},
+			showRoomTimer: true,
+			showLeavingView: false,
+			showTextChat: false,
+			maxUsers: 2, // Only allow 2 users in the call (1-to-1)
+			showRoomDetailsButton: true,
+			branding: {
+				logoURL: "https://api.myjyotishg.in/Images/Logo.png"
+			},
+			scenario: {
+				mode: ZegoUIKitPrebuilt.OneONoneCall, // 1-to-1 call mode
+			}, onJoinRoom:async () => {
 					let checkUserService=await changeUserServiceStatus(userId,true);
 						if(!checkUserService){
 							await zg.destroy();
@@ -1470,9 +1468,7 @@
 								clearInterval(countInterval)
 								totalSecond = 0
 								isAmountDeduct = true;
-
 							}
-							
 						}
 					}, 1000)
 				},
@@ -1483,12 +1479,10 @@
 						applyCallCharges(userId, jyotishId, totalSecond)
 						jyotishConnected = false;
 						clearInterval(countInterval)
-						totalSecond = 0
+						totalSecond = 0;
 						isAmountDeduct = true;
-
 					}
 						await changeUserServiceStatus(userId,false);
-
 				},
 				onUserJoin: (user) => {
 					jyotishConnected = true;
@@ -1508,14 +1502,10 @@
 								container.remove();
 							}
 						await changeUserServiceStatus(userId,false);
-
 						}
 					}, 6000)
-					
 				}
 			});
-
-
 		} catch (error) {
 			console.error('Error starting the call:', error);
 		}
@@ -1572,7 +1562,6 @@
 				}
 			},
 			error: function (xhr, status, error) {
-
 				console.log("Error:", error);
 				console.log("Status:", status);
 				console.log("XHR:", xhr);

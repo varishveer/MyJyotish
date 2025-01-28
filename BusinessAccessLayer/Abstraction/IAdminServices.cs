@@ -145,6 +145,10 @@ namespace BusinessAccessLayer.Abstraction
         public dynamic getJyotishChargesById(int jyotishId);
 
         public dynamic getAllParticularJyotishCharges();
+        public dynamic getAdminDashboard();
+        public bool AddPrivacyPolicy(PrivacyPolicyService pp);
+        public dynamic getPrivacyPolicy();
+
 
     }
 }

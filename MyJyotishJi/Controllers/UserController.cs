@@ -236,7 +236,7 @@ namespace MyJyotishGApi.Controllers
 				var record = _services.GetAstroListCallChat(ListName);
 				if (record.Count == 0)
 				{
-					return StatusCode(500, new { Status = 400, Message = "List is empty" });
+					return Ok(new { Status = 400, Message = "List is empty" });
 				}
 				else { return Ok(new { Status = 200, message = "Succussfull", data = record }); }
 			}

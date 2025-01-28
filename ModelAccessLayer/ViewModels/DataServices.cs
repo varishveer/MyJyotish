@@ -416,5 +416,16 @@ namespace ModelAccessLayer.ViewModels
         [AllowNull]
         public string Specialization { get; set; }
     }
-   
+    public class PrivacyPolicyService
+    {
+        public int Id { get; set; }
+        public string? Address { get; set; }
+        public long? Mobile { get; set; }
+        public string? Email { get; set; }
+        public string? WebsiteUrl { get; set; }
+        public string? Policy { get; set; }
+        public string? AboutUs { get; set; }
+        public string? type { get; set; }
+        public bool Status { get; set; }
+    }
 }

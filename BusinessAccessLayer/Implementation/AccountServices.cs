@@ -319,6 +319,7 @@ namespace BusinessAccessLayer.Implementation
             Jyotish.Language = jyotishView.Language;
             Jyotish.Expertise = jyotishView.Expertise;
             Jyotish.Country = CountryName.Name;
+            Jyotish.Date = DateTime.Now;
             Jyotish.State = StateName.Name;
             Jyotish.City = CityName.Name;
             Jyotish.NewStatus =true;

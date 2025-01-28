@@ -19,6 +19,7 @@ using Microsoft.Identity.Client.Kerberos;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Model;
 using Razorpay.Api;
 using System.Data;
+using Microsoft.EntityFrameworkCore.Storage;
 
 
 namespace BusinessAccessLayer.Implementation
@@ -2811,6 +2812,124 @@ Expiry : <span>{res.startDate}-{res.endDate}</span>
 
             res = _context.JyotishChargeManagement.Where(e => e.JyotishId == jyotishId && e.status).FirstOrDefault();
             }
+            return res;
+        }
+
+        public dynamic getAdminDashboard()
+        {
+            var totalJyotish = _context.JyotishRecords.Count(e => e.Status);
+            var pendingJyotish = _context.JyotishRecords.Count(e => e.Status && e.Role == "Pending");
+            var approvedJyotish = _context.JyotishRecords.Count(e => e.Status && e.Role == "Jyotish");
+            var PendingRating = _context.JyotishRating.Count(e=>!e.Status);
+            var totalEmployee = _context.Employees.Count(e=>e.status);
+            var pendingInterView = _context.SlotBooking.Count(e=>e.status&&!e.Incomplete);
+            var todayInterview = _context.Slots.Count(e => e.Status == "Booked" && e.Date == DateOnly.FromDateTime(DateTime.Now.Date));
+            var totalUser = _context.Users.Count(e=>e.Status=="Verified");
+
+            var jyotishStatics = _context.JyotishRecords.Where(e => e.Status && e.Role == "Jyotish" && e.Date.Year==DateTime.Now.Year).GroupBy(e => e.Date.Month).Select(e => new
+            {
+                month = e.Key,
+                total = e.Count()
+            });
+
+            return new
+            {
+                totalJyotish= totalJyotish,
+                pendingJyotish= pendingJyotish,
+                approvedJyotish= approvedJyotish,
+                PendingRating= PendingRating,
+                totalEmployee= totalEmployee,
+                pendingInterView= pendingInterView,
+                todayInterview= todayInterview,
+                totalUser= totalUser,
+                jyotishStatics= jyotishStatics
+            };
+        }
+
+        public bool AddPrivacyPolicy(PrivacyPolicyService pp )
+        {
+            if (pp.type == "contact")
+            {
+                var res = _context.PrivacyPolicy.Where(e => e.Mobile != null || e.Email!=null || e.WebsiteUrl !=null || e.Address!=null || e.AboutUs!=null || e.Policy!=null && e.Status).FirstOrDefault();
+                if (res == null)
+                {
+                    PrivacyPolicy p = new PrivacyPolicy
+                    {
+                        Mobile = pp.Mobile,
+                        Email = pp.Email,
+                        WebsiteUrl = pp.WebsiteUrl,
+                        Address = pp.Address,
+                        Status = true
+                    };
+                    _context.PrivacyPolicy.Add(p);
+                    return _context.SaveChanges() > 0;
+
+                }
+                else
+                {
+
+                    res.Mobile = pp.Mobile;
+                    res.Email = pp.Email;
+                    res.WebsiteUrl = pp.WebsiteUrl;
+                    res.Address = pp.Address;
+
+                    _context.PrivacyPolicy.Update(res);
+                    return _context.SaveChanges() > 0;
+
+                }
+
+            }
+            else if (pp.type == "about")
+            {
+                var res = _context.PrivacyPolicy.Where(e => e.Mobile != null || e.Email != null || e.WebsiteUrl != null || e.Address != null || e.AboutUs != null || e.Policy != null && e.Status).FirstOrDefault();
+                if (res == null)
+                {
+                   
+                    PrivacyPolicy p = new PrivacyPolicy
+                    {
+                     AboutUs=pp.AboutUs  ,
+                     Status=true
+                    };
+                    _context.PrivacyPolicy.Add(p);
+                    return _context.SaveChanges() > 0;
+
+                }
+                else
+                {
+                    res.AboutUs = pp.AboutUs;
+                    _context.PrivacyPolicy.Update(res);
+                    return _context.SaveChanges() > 0;
+
+                }
+            } else 
+            {
+                var res = _context.PrivacyPolicy.Where(e => e.Mobile != null || e.Email != null || e.WebsiteUrl != null || e.Address != null || e.AboutUs != null || e.Policy != null && e.Status).FirstOrDefault();
+                if (res == null)
+                {
+                   
+                    PrivacyPolicy p = new PrivacyPolicy
+                    {
+                       Policy=pp.Policy,
+                       Status=true
+                    };
+                    _context.PrivacyPolicy.Add(p);
+                    return _context.SaveChanges() > 0;
+
+                }
+                else
+                {
+                    res.Policy = pp.Policy;
+                    _context.PrivacyPolicy.Update(res);
+                    return _context.SaveChanges() > 0;
+
+                }
+            }
+            
+        }
+
+        public dynamic getPrivacyPolicy()
+        {
+            var res = _context.PrivacyPolicy.Where(e => e.Status).FirstOrDefault();
             return res;
         }
 

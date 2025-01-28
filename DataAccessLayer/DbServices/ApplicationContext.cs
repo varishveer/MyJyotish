@@ -75,6 +75,7 @@ namespace DataAccessLayer.DbServices
         public DbSet<JyotishPoojaModel> JyotishPooja { get; set; }
         public DbSet<JyotishChargeManagement> JyotishChargeManagement { get; set; }
         public DbSet<AppointmentChargesManagement> AppointmentChargesManagement { get; set; }
+        public DbSet<PrivacyPolicy> PrivacyPolicy { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         { 

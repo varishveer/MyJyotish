@@ -707,7 +707,7 @@ namespace BusinessAccessLayer.Implementation
                         {
                             jyotishCharges = _admin.getJyotishChargesById(0);
                         }
-                        var amountAfterPercentage = amount * (jyotishCharges / 100);
+                        var amountAfterPercentage = amount * (jyotishCharges.Charge / 100);
                         jWallet.WalletAmount += amountAfterPercentage;
                         _context.JyotishWallets.Update(jWallet);
 

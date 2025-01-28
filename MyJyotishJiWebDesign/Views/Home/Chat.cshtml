@@ -324,10 +324,10 @@
 					if (astrologers.length > 0) {
 						displayAstrologers(astrologers);
 					} else {
-						$('#astrologerList').html('<p>No astrologers found.</p>');
+						$('#astrologerList').html('<p class="text-center">No astrologers found.</p>');
 					}
 				} else {
-					$('#astrologerList').html('<p>No astrologers found.</p>');
+					$('#astrologerList').html('<p class="text-center">No astrologers found.</p>');
 				}
 				Swal.close()
 				$(".jyotishProfileImages").on('error', function () {
@@ -336,7 +336,7 @@
 			},
 			error: function () {
 
-				$('#astrologerList').html('<p>An error occurred while searching for astrologers.</p>');
+				$('#astrologerList').html('<p class="text-center">An error occurred while searching for astrologers.</p>');
 			}
 		});
 	}

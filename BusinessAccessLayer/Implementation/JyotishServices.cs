@@ -2361,7 +2361,77 @@ namespace BusinessAccessLayer.Implementation
 			return false;
 		}
 
-        
+        public dynamic getJyotishDashboardRecord(int jyotishId)
+        {
+            var totalAppointment = _context.AppointmentRecords.Count(e=>e.JyotishId==jyotishId);
+            var pendingAppointment = _context.AppointmentRecords.Count(e=>e.ArrivedStatus==0 && e.JyotishId==jyotishId);
+            var todayAppointment = _context.AppointmentSlots.Count(e=>e.Date.Date==DateTime.Now.Date&&e.Status.ToLower()=="booked"&&e.JyotishId==jyotishId);
+            var totalPooja = _context.BookedPoojaList.Count(e=>e.jyotishId==jyotishId &&e.status);
+            var totalcall = _context.UserServiceRecord.Where(e=>e.JyotishId==jyotishId && e.Action==2).Sum(e=>e.Count);
+            var totalChat = _context.UserServiceRecord.Where(e=>e.JyotishId==jyotishId && e.Action==1).Sum(e=>e.Count);
+            var totalVideo = _context.JyotishVideos.Count(e => e.JyotishId == jyotishId);
+            var totalGallery = _context.JyotishGallery.Count(e => e.JyotishId == jyotishId);
 
-	}
+
+            var currentYear = DateTime.Now.Year;
+                var totalAmountForCurrentYearByMonth = _context.UserServiceRecord
+                    .Where(e => e.date.Year == currentYear && e.Action==2)
+                    .GroupBy(e => e.date.Month)  // Group by month
+                    .Select(g => new
+                    {
+                        Month = g.Key,
+                        total = g.Sum(e => e.Count)  // Sum of Amount for each month
+                    })
+                    .ToList();
+                var totalAmountForsYearByMonthForChat = _context.UserServiceRecord
+        .Where(e => e.date.Year == currentYear && e.Action==1)
+        .GroupBy(e => e.date.Month)  // Group by month
+        .Select(g => new
+        {
+            Month = g.Key,
+            total = g.Sum(e => e.Count)  // Sum of Amount for each month
+        })
+        .ToList();
+           
+            return new
+            {
+                totalAppointment = totalAppointment,
+                pendingAppointment = pendingAppointment,
+                todayAppointment = todayAppointment,
+                totalPooja = totalPooja,
+                totalCall=totalcall,
+                callStatics= totalAmountForCurrentYearByMonth,
+                chatStatics= totalAmountForsYearByMonthForChat,
+                totalChat =totalChat,
+                totalVideo=totalVideo,
+                totalGallery=totalGallery
+            };
+        }
+
+        public dynamic GetTopTenWalletHistory(int JyotishId)
+        {
+            var Jyotish = (from wallet in _context.WalletHistroy
+                           join user in _context.Users on wallet.UId equals user.Id into userGroup
+                           from user in userGroup.DefaultIfEmpty()
+                           where wallet.JId == JyotishId
+                           orderby wallet.Id descending
+                           select new
+                           {
+                               UserName = wallet.UId != null ? user.Name : null,
+                               paymentDate = wallet.date,
+                               amount = wallet.amount,
+                               paymentId = wallet.PaymentId,
+                               paymentBy = wallet.PaymentBy,
+                               paymentAction = wallet.PaymentAction,
+                               profile = wallet.UId != null ? user.ProfilePictureUrl : null,
+                               paymentFor = wallet.PaymentFor,
+                               paymentStatus = wallet.PaymentStatus,
+                               Id = wallet.Id
+                           }
+
+                          ).Take(10);
+
+            return Jyotish;
+        }
+    }
 }

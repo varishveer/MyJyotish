@@ -1431,6 +1431,25 @@ public IActionResult getBookedPoojaList(int jyotishId)
         }
 	catch { return StatusCode(500, new { status = 500, message = "Internal Server Error " }); }
         }
+		
+		[HttpGet("getJyotishDashboardRecord")]
+		public IActionResult getJyotishDashboardRecord(int jyotishId)
+		{
+			try { 
+			var res = _jyotish.getJyotishDashboardRecord(jyotishId);
+			return Ok(new { status = 200, message = "data retrieved",data=res });
+        }
+	catch { return StatusCode(500, new { status = 500, message = "Internal Server Error " }); }
+        }
+		[HttpGet("GetTopTenWalletHistory")]
+		public IActionResult GetTopTenWalletHistory(int jyotishId)
+		{
+			try { 
+			var res = _jyotish.GetTopTenWalletHistory(jyotishId);
+			return Ok(new { status = 200, message = "data retrieved",data=res });
+        }
+	catch { return StatusCode(500, new { status = 500, message = "Internal Server Error " }); }
+        }
 
 
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MyJyotishGWeb.Models;
 
 namespace MyJyotishJiWebDesign.Controllers
 {
@@ -11,7 +12,10 @@ namespace MyJyotishJiWebDesign.Controllers
         public ActionResult Register() { return View(); }
         public ActionResult Profile() { return View(); }
         public ActionResult UpdateProfile() { return View(); }
-        public ActionResult Dashboard() { return View(); }
+        public ActionResult Dashboard() 
+        {
+            return View(); 
+        }
         public ActionResult CustomerSupport() { return View(); }
         public ActionResult UpcomingAppointment() { return View(); }
         public ActionResult AppointmentHistory() { return View(); }
