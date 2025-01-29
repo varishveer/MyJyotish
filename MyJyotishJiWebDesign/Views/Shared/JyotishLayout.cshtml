@@ -760,8 +760,8 @@
 
 
 			<script>
-				   var BaseUrl = "https://api.myjyotishg.in/"
-				  // var BaseUrl = "https://localhost:7118/"
+				   //var BaseUrl = "https://api.myjyotishg.in/"
+				   var BaseUrl = "https://localhost:7118/"
 			</script>
 
 			<div class="container">
@@ -1028,14 +1028,14 @@
 				'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
 				'Content-Type': 'application/json',
 			};
-			// Make the API call using fetch()
+			//Make the API call using fetch()
 			fetch(loginUserApiUrl, { headers: headers })
 				.then(response => {
 					if (response.status == 400) {
 
 						throw new Error('Network response was not ok');
 					}
-					return response.json();  // Parse the JSON data from the response
+					return response.json();  //Parse the JSON data from the response
 				})
 				.then(data => {
 					if (data.status == 200) {
@@ -1044,7 +1044,6 @@
 						$(".userEmail").text(item.email)
 						if (item.image != null || item.image != "")
 							$(".userProfile").attr("src", BaseUrl + item.image)
-
 					}
 				})
 
@@ -1058,7 +1057,6 @@
 			fetch(apiUrl, { headers: headers })
 				.then(response => {
 					if (response.status == 400) {
-
 						$('#NotificationNewText').hide();
 						throw new Error('Network response was not ok');
 					}
@@ -1077,10 +1075,7 @@
 
 						const shortName = item.name.length > 15 ? item.name.substring(0, 15) + '...' : item.name;
 						notificationItem.innerHTML = `
-
-
-
-																		  <a href="/Jyotish/UpcomingAppointment">
+								    		  <a href="/Jyotish/UpcomingAppointment">
 																		<div class="notif-icon notif-primary">
 																			<i class="fa fa-user-plus"></i>
 																		</div>
@@ -1178,7 +1173,8 @@
 		const clientId = Math.floor(Math.random() * 10000) + "";
 		const appID = 865742206;
 		const serverSecret = "5a72180880214f43c9358d38af32eacc";
-		let TOKEN
+		let TOKEN;
+		setTimeout(()=>{
 		establishedConnectionForSendRequest().then((socket) => {
 			debugger
 			if (socket) {
@@ -1265,6 +1261,7 @@
 				})
 			}
 		})
+		},10000)
 
 		if (localStorage.getItem("jcallTOKEN") != null) {
 			startCall()

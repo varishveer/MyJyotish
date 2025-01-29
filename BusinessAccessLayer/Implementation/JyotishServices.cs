@@ -48,7 +48,6 @@ namespace BusinessAccessLayer.Implementation
 
             if (model.ProfileImageUrl != null)
             {
-
                 var ProfileGuid = Guid.NewGuid().ToString();
                 var SqlPath = "wwwroot/Images/Jyotish/" + ProfileGuid + model.ProfileImageUrl.FileName;
                 var ProfilePath = Path.Combine(_uploadDirectory, SqlPath);
@@ -57,7 +56,6 @@ namespace BusinessAccessLayer.Implementation
                     model.ProfileImageUrl.CopyTo(stream);
                 }
                 existingRecord.ProfileImageUrl = "Images/Jyotish/" + ProfileGuid + model.ProfileImageUrl.FileName;
-
             }
             var StateName = _context.States.Where(x => x.Id == model.State).FirstOrDefault();
             var CityName = _context.Cities.Where(x => x.Id == model.City).FirstOrDefault();
@@ -575,7 +573,6 @@ namespace BusinessAccessLayer.Implementation
             else { return "internal server Error"; }
         }
 
-
         public List<JyotishVideosModel> JyotishVideos(int Id)
         {
             var records = _context.JyotishVideos.Where(x => x.JyotishId == Id).OrderBy(x => x.SerialNo).ToList();
@@ -748,17 +745,17 @@ namespace BusinessAccessLayer.Implementation
 
             var purchaseDate = DateTime.Now;
             dynamic expiryDate = 0;
-            if (plan == "Yearly")
+            if (plan.ToLower() == "yearly")
             {
 
                 expiryDate = purchaseDate.AddYears(1);
             }
-            else if (plan == "Monthly")
+            else if (plan.ToLower() == "monthly")
             {
                 expiryDate = purchaseDate.AddMonths(1);
 
             }
-            else if (plan == "Weekly")
+            else if (plan.ToLower() == "weekly")
             {
                 expiryDate = purchaseDate.AddDays(7);
 
@@ -2341,7 +2338,7 @@ namespace BusinessAccessLayer.Implementation
 
 		public bool changeJyotishServiceStatus(int jyotishId, bool status)
 		{
-			var res = _context.JyotishRecords.Where(e => e.Id == jyotishId&&e.Status).FirstOrDefault();
+			var res = _context.JyotishRecords.Where(e => e.Id == jyotishId && e.Status).FirstOrDefault();
 			if (res != null)
 			{
 				res.ServiceStatus = status;

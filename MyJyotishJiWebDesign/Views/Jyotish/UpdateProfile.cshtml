@@ -10,17 +10,15 @@
 
 </style>
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <div class="container mt-2">
 	<h3 style="font-weight:300;" class="mb-4">Update Profile Information</h3>
-	<form id="profileUpdateForm" enctype="multipart/form-data">
+	<form id="jyotishprofileUpdateForm" enctype="multipart/form-data">
 		<div class="row">
 			<!-- Personal Information Section -->
 			<div class="col-md-12 col-lg-6">
 				<div class="profile-card bg-light rounded p-3 mb-4">
-
-
 
 					<div class="form-group m-0 p-0 text-center">
 						<img id="profileImagePreview" class="rounded-circle" width="150" height="150" /><br /><br />
@@ -51,7 +49,6 @@
 							<input type="text" class="rounded-start countryCode" value="+91" disabled style="width:40px;" />
 							<input type="tel" id="mobile" name="mobile" class="form-control form-control-sm" required>
 						</div>
-
 					</div>
 					<div class="form-group mb-2">
 						<label for="mobile">Alternate Mobile:</label>
@@ -59,10 +56,9 @@
 							<input type="text" class="rounded-start countryCode" value="+91" disabled style="width:40px;" />
 							<input type="tel" id="alternatemobile" name="alternatemobile" class="form-control form-control-sm">
 						</div>
-
 					</div>
 					<div class="form-group mb-2">
-						<label for="expertise">Expertise:</label>
+						<label for="expertise">Expertise : </label>
 						<select id="expertise" name="expertise" class="form-control   form-control-sm" multiple>
 							<option value="">Select Expertise</option>
 						</select>
@@ -401,7 +397,7 @@
 		// Load data on page load
 
 		// Handle form submission
-		$('#profileUpdateForm').on('submit', function (e) {
+		$('#jyotishprofileUpdateForm').on('submit', function (e) {
 			e.preventDefault();
 			  Swal.fire({
 			title: "Processing Your Request",
@@ -409,7 +405,7 @@
 			didOpen: () => {
 				Swal.showLoading();
 			}
-		})
+		      })
 			var formData = new FormData();
 
 			// Append basic form data
@@ -421,17 +417,14 @@
 			formData.append('alternatemobile', document.getElementById('alternatemobile').value);
 			formData.append('email', localStorage.getItem('userEmail')); // Hardcoded for example
 			formData.append('role', 'Jyotish'); // Hardcoded for example
-
 			// Concatenate expertise options as comma-separated values
 			var expertiseOptions = Array.from(document.getElementById('expertise').selectedOptions).map(option => option.value);
 			var expertiseString = expertiseOptions.join(',');
 			formData.append('expertise', expertiseString);
-
 			// Concatenate language options as comma-separated values
 			var languageOptions = Array.from(document.getElementById('language').selectedOptions).map(option => option.value);
 			var languageString = languageOptions.join(',');
 			formData.append('language', languageString);
-
 			formData.append('specialization', document.getElementById('specialization').value);
 			formData.append('experience', document.getElementById('experience').value);
 			formData.append('country', document.getElementById('country').value);
@@ -497,9 +490,8 @@
 					} else {
 						Swal.fire({
 							title: 'Error: ' + response.message,
-
 							icon: "warning",
-
+							text:"something went wrong",
 							showConfirmButton: true, // Ensure the OK button is shown
 
 						});
@@ -510,9 +502,6 @@
 					console.error('Error updating profile:', jqXHR);
 				}
 			});
-
-
-
 	});
 
 		// Image preview functionality (optional)

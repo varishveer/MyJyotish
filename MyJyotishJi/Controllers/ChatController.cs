@@ -341,6 +341,8 @@ namespace MyJyotishGApi.Controllers
                             Task.Run(() =>
                             {
                                 _jyotish.changeJyotishActiveStatus(int.Parse(id), true);
+                                _jyotish.changeJyotishServiceStatus(int.Parse(id), false);
+
                             }).Wait();
 
                             userRequestRecord = _clientRequestMessage.ContainsKey(id) ? _clientRequestMessage.Where(e => e.Key == id).First().Value : null;

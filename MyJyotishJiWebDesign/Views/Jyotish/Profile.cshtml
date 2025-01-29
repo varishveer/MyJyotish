@@ -387,8 +387,6 @@
                 $('#chatCharges').text("₹" + profile.chatCharges + "/min" || "NA");
                    const dateOfBirth = profile.dateOfBirth.split('T')[0];
                 $('#dateOfBirth').text(dateOfBirth || "NA");
-
-                  
                 $('#pooja').text(profile.pooja?"Yes":"No" || 'No');
                 $('#appointmentCharges').text(profile.appointmentCharges || "NA");
                 $('#address').text(profile.address || "NA");
@@ -401,9 +399,8 @@
                    
                     Swal.fire({
                         title: 'Error: Could not load profile.',
-
                         icon: "warning",
-
+                        text:"some error occured",
                         showConfirmButton: true, 
                   
                     });
@@ -412,12 +409,10 @@
             },
             error: function (xhr, status, error) {
                 console.error('Error:', error);
-               
                 Swal.fire({
                     title: 'There was an error fetching the profile data.',
-
                     icon: "warning",
-
+                    text:"some error occured",
                     showConfirmButton: true, 
 
                 });
