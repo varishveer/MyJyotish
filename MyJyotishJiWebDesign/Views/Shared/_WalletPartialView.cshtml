@@ -330,6 +330,7 @@
             </div>
         </div>
     </div>
+    </div>
 
     <script>
         $(document).ready(function(){
@@ -398,7 +399,7 @@
                 }
             })
             $.ajax({
-                url: BaseUrl + "api/User/GetWalletHistroy",
+                    url: BaseUrl + "api/User/GettopTenWalletHistory",
                 type: "get",
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("Token")}`,
@@ -413,7 +414,7 @@
                     console.log(res)
                     if (res.status == 200) {
                         $(".trans-list-wallet").empty()
-                        res.data.forEach(function (d) {
+                        res.charges.forEach(function (d) {
                             if (d.userName != null & d.profile != null) {
                                 let historycard = $(
                                     `

@@ -39,7 +39,7 @@
 </style>
 
 <div class="container d-flex justify-content-center align-items-center min-vh-90 mt-4">
-	<div class="main-container row w-75 rounded-3">
+	<div class="main-container row w-100 rounded-3">
 		<!-- Left part for image -->
 		<div class="col-md-4 left-part d-flex justify-content-center align-items-center">
 			<img src="~/gif/3885914.jpg" alt="Sign Up Image" class="responsive-image" />
@@ -84,7 +84,7 @@
 					<!-- Date Picker for selecting the appointment date -->
 					<div class="form-group col-md-12">
 						<label for="datePicker" class="form-label">Select Date</label>
-						<input type="date" id="datePicker" class="form-control">
+						<input type="date" min="@DateTime.Now.Date" value="@DateTime.Now.Date" id="datePicker" class="form-control">
 					</div>
 
 					<!-- Dropdown for selecting the time slot -->
@@ -103,7 +103,7 @@
 
 				<div class="form-row">
 					<div class="form-group col-md-6">
-						<button type="submit" class="btn btn-info px-3 ">Submit</button>
+						<button type="submit" class="btn fw-bold btn-info">Submit</button>
 					</div>
 				</div>
 

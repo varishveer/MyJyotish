@@ -162,6 +162,12 @@ namespace BusinessAccessLayer.Implementation
             var specializationArray = jyotishRecord.Specialization?.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
                                                  .Select(a => a.Trim())
                                                  .ToArray();
+            var totalAmountForCurrentYearByMonth = _context.UserServiceRecord
+                .Where(e => e.Action == 2 && e.JyotishId == Id).Sum(e => e.Count);
+
+            var totalAmountForsYearByMonthForChat = _context.UserServiceRecord
+    .Where(e => e.Action == 1 && e.JyotishId == Id).Sum(e => e.Count);
+    
             var profileViewModel = new JyotishProfileViewModel
             {
                 Id = jyotishRecord.Id,
@@ -197,7 +203,9 @@ namespace BusinessAccessLayer.Implementation
                 Videos = videos,
                 Gallery = gallery,
                 Rating = Rating,
-                TotalReview = RatingList.Count()
+                TotalReview = RatingList.Count(),
+                totalCall = totalAmountForCurrentYearByMonth,
+                totalChat = totalAmountForsYearByMonthForChat
             };
 
             return profileViewModel;
@@ -1017,24 +1025,14 @@ namespace BusinessAccessLayer.Implementation
             {
                 return false;
             }
-            var OldData = _context.UserServiceRecord.Where(x => x.UserId == data.UserId && x.JyotishId == data.JyotishId && x.Status).ToList();
-            if (OldData.Count > 0)
+            var OldData = _context.UserServiceRecord.Where(x => x.UserId == data.UserId && x.JyotishId == data.JyotishId && x.Status && x.Name == data.Name && x.Gender == data.Gender && x.DateOfBirth == data.DateOfBirth && x.TimeOfBirth == data.TimeOfBirth && x.PlaceOfBirth == data.PlaceOfBirth && x.Action==data.Action && x.date.Year==DateTime.Now.Date.Year).FirstOrDefault();
+
+            if (OldData != null)
             {
-                foreach (var it in OldData)
-                {
-                    if (it.Name == data.Name && it.Gender == data.Gender && it.DateOfBirth == data.DateOfBirth && it.TimeOfBirth == data.TimeOfBirth && it.PlaceOfBirth == data.PlaceOfBirth)
-                    {
-                        it.Count = it.Count + 1;
-                        it.date = DateTime.Now;
-                        _context.UserServiceRecord.Update(it);
-                        if (_context.SaveChanges() > 0)
-                        { return true; }
-                        else { return false; }
-                    }
-
-
-                }
-
+                OldData.Count += 1;
+                OldData.date = DateTime.Now;
+                _context.UserServiceRecord.Update(OldData);
+                return _context.SaveChanges() > 0;
             }
 
             UserServiceRecordModel newData = new UserServiceRecordModel();
@@ -1335,6 +1333,32 @@ namespace BusinessAccessLayer.Implementation
             var res = _context.AppointmentChargesManagement.Where(e => e.status).FirstOrDefault();
 
             return res;
+        }
+
+        public dynamic GettopTenWalletHistory(int UserId)
+        {
+            var Jyotish = (from wallet in _context.WalletHistroy
+                           join jyotish in _context.JyotishRecords on wallet.JId equals jyotish.Id into jyotishGroup
+                           from jyotish in jyotishGroup.DefaultIfEmpty()
+                           where wallet.UId == UserId
+                           orderby wallet.Id descending
+                           select new
+                           {
+                               UserName = wallet.JId != null ? jyotish.Name : null,
+                               paymentDate = wallet.date,
+                               amount = wallet.amount,
+                               paymentId = wallet.PaymentId,
+                               paymentBy = wallet.PaymentBy,
+                               paymentAction = wallet.PaymentAction,
+                               profile = wallet.JId != null ? jyotish.ProfileImageUrl : null,
+                               paymentFor = wallet.PaymentFor,
+                               paymentStatus = wallet.PaymentStatus,
+                               Id = wallet.Id
+                           }
+
+                          ).Take(10).ToList();
+
+            return Jyotish;
         }
     }
 }

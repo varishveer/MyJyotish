@@ -132,9 +132,13 @@
 
 		.chat-modal-body {
 			height: 60vh;
-			max-height: 600px; /* Set a max height for the chat area */
-			overflow-y: auto; /* Enable scrolling */
-			background-color: #f8f9fa; /* Light background for the chat area */
+			max-height: 650px;
+			overflow-y: auto;
+			background: url(/chatbg.jpg), #716c6c61;
+			background-size: contain;
+			background-position: center;
+			background-attachment: fixed;
+			background-blend-mode: darken;
 		}
 
 		.chat-history {
@@ -198,6 +202,10 @@
 
 		#zego-container {
 			z-index: 10000000000000000 !important;
+		}
+
+		.chatFooter {
+			background: #e3ded5;
 		}
 	</style>
 </head>
@@ -601,7 +609,7 @@
 										<div class="dropdown-divider"></div>
 										<a class="dropdown-item" href="/Jyotish/Profile">My Profile</a>
 										<a class="dropdown-item" href="/Jyotish/wallets">My Balance</a>
-										<a class="dropdown-item" href="#">Inbox</a>
+										<a class="dropdown-item" href="/jyotish/GetServiceRevord">Service Records</a>
 										<div class="dropdown-divider"></div>
 										<a class="dropdown-item" id="logout">Logout</a>
 									</li>
@@ -803,9 +811,9 @@
 		<!-- Content End -->
 	</div>
 	<div class="modal fade" id="ChatModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="ChatModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
+		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
-				<div class="modal-header">
+				<div class="modal-header bg-success">
 					<div class="d-flex align-items-center">
 						<img id="userhdetailschatheader" height="50" width="50" class="rounded-circle border" src="~/user-not-found.png" alt="user profile" />
 						<h1 class="modal-title fs-5 ms-2" id="ChatModalLabel"></h1>
@@ -816,7 +824,7 @@
 					<div class="chat-history">
 					</div>
 				</div>
-				<div class="modal-footer">
+				<div class="modal-footer chatFooter">
 					<form class="w-100" id="messageForm">
 						<div class="input-group mt-3">
 							<input type="text" class="form-control rounded-start messageInpBoxs" placeholder="Type your message..." aria-label="User 's message">

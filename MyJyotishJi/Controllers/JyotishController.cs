@@ -1450,6 +1450,16 @@ public IActionResult getBookedPoojaList(int jyotishId)
         }
 	catch { return StatusCode(500, new { status = 500, message = "Internal Server Error " }); }
         }
+		
+		[HttpGet("getUserServiceRevordForJyotish")]
+		public IActionResult getUserServiceRevordForJyotish(int jyotishId)
+		{
+			try { 
+			var res = _jyotish.getUserServiceRevordForJyotish(jyotishId);
+			return Ok(new { status = 200, message = "data retrieved",data=res });
+        }
+	catch { return StatusCode(500, new { status = 500, message = "Internal Server Error " }); }
+        }
 
 
 

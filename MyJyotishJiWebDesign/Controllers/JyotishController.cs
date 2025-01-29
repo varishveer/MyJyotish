@@ -27,7 +27,6 @@ namespace MyJyotishJiWebDesign.Controllers
         public ActionResult EditProfile() { return View(); }
         public ActionResult EditUpcomingAppointment() { return View(); }
         public ActionResult Login() { return View(); }
-
         public ActionResult Payment() { return View(); }
         public ActionResult Subscription() { return View(); }
         public ActionResult Gallery() { return View(); }
@@ -40,6 +39,7 @@ namespace MyJyotishJiWebDesign.Controllers
         public ActionResult Wallets() { return View(); }
         public ActionResult Pooja() { return View(); }
         public ActionResult BookedPooja() { return View(); }
+        public ActionResult GetServiceRevord() { return View();}
       
         public IActionResult WalletPaymentLayout(int amount, string message,string paymentby) { return PartialView("_WalletPaymentJyotish", new { amount = amount, message = message,paymentby=paymentby }); }
 

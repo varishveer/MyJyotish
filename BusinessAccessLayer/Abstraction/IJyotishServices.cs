@@ -107,6 +107,8 @@ namespace BusinessAccessLayer.Abstraction
 
         public dynamic GetTopTenWalletHistory(int JyotishId);
 
+        public dynamic getUserServiceRevordForJyotish(int jyotishId);
+
 
     }
 }

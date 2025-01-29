@@ -44,9 +44,13 @@
 
 	.chat-modal-body {
 		height: 60vh;
-		max-height: 600px; /* Set a max height for the chat area */
-		overflow-y: auto; /* Enable scrolling */
-		background-color: #f8f9fa; /* Light background for the chat area */
+		max-height: 650px;
+		overflow-y: auto;
+		background: url(/chatbg.jpg), #716c6c61;
+		background-size: contain;
+		background-position: center;
+		background-attachment: fixed;
+		background-blend-mode: darken;
 	}
 
 	.chat-history {
@@ -119,6 +123,9 @@
 	#zego-container {
 		z-index: 10000000000000000 !important;
 	}
+	.chatFooter{
+		background: #e3ded5;
+	}
 </style>
 
 <div class="container my-3" style="margin-top:100px; background-color: #f7f7f7; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
@@ -138,6 +145,8 @@
 					<p id="profileLanguage" class="text-muted mb-1" style="font-size: 14px;"></p>
 					<p class="mb-1 text-muted">Available :<small id="time"></small></p>
 					<p id="profileExperience" class="text-muted mb-1" style="font-size: 14px;"></p>
+					<p class="text-muted mb-1" style="font-size: 14px;">Appointment Charge : <small id="appointmentCharge"></small></p>
+					<p class="text-muted mb-1">Total Orders : <span><i class="fas text-primary fa-phone-volume"></i>&nbsp;&nbsp;<small id="totalCall"></small></span> &nbsp;&nbsp;<span><i class="fas text-success fa-comments"></i>&nbsp;&nbsp;<small id="totalChat"></small></span> </p>
 				</div>
 				<div class="col-md-8">
 					<div class="mt-2 border-bottom py-2">
@@ -154,7 +163,7 @@
 								data-bs-title="" data-action="2">
 							Start Call
 						</button>
-						<button class="btn btn-success" id="bookAppointmentModalBtn" data-bs-toggle="modal" data-bs-target="#exampleModal">Book Appointmnet</button>
+						<button class="btn btn-success"  id="bookAppointmentModalBtn" data-bs-toggle="modal" data-bs-target="#exampleModal">Book Appointmnet</button>
 					</div>
 					<div class="mb-4 mt-4">
 						<div class="btn-group mb-3 border-top border-start border-end rounded-0 rounded-top" role="group" aria-label="Basic example">
@@ -316,9 +325,9 @@
 </div>
 
 <div class="modal fade" id="ChatModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="ChatModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
+	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
-			<div class="modal-header">
+			<div class="modal-header bg-success text-light">
 				<div class="d-flex align-items-center">
 					<img id="jyotishdetailschatheader" height="50" width="50" class="rounded-circle border" src="~/user-not-found.png" alt="jyotish profile" />
 					<h1 class="modal-title fs-5 ms-2" id="ChatModalLabel"></h1>
@@ -332,9 +341,9 @@
 				<div class="chat-history">
 				</div>
 			</div>
-			<div class="modal-footer">
+			<div class="modal-footer chatFooter">
 				<form class="w-100" id="messageForm">
-					<div class="input-group mt-3">
+					<div class="input-group mt-1">
 						<input type="text" class="form-control rounded-start messageInpBox" placeholder="Type your message..." aria-label="User 's message">
 						<button disabled class="btn btn-primary rounded-end" id="sendMessageBtn" type="submit"><i class="fas fs-5 fa-location-arrow"></i></button>
 					</div>
@@ -470,8 +479,11 @@
 						$("#bookAppointmentModalBtn").show();
 						checkAppointmentStatus=true
 						bindAppointmentList();
+						$("#appointmentCharge").text("₹"+data.appointmentCharges)
 					}else{
 						$("#bookAppointmentModalBtn").hide();
+						$("#appointmentCharge").parent().hide()
+
 						checkAppointmentStatus=false;
 					}
 
@@ -490,6 +502,15 @@
 					$('#achievement').text(data.awordsAndAchievement != null ? data.awordsAndAchievement : "Achievement not added yet!");
 					$('#specialization').hide();
 					$('#achievement').hide();
+
+					$("#totalCall").text(data.totalCall)
+					$("#totalChat").text(data.totalChat)
+
+					if(!data.activeStatus){
+						$(".callBtn").attr("disabled",true)
+						$(".chatBtn").attr("disabled",true)
+					}
+
 					if (!data.call) {
 						$(".callBtn").hide()
 					} else {
@@ -504,7 +525,7 @@
 
 					}
 					if (!data.chat) {
-						$(".callBtn").hide()
+						$(".chatBtn").hide()
 					} else {
 						$(".chatBtn").attr("data-bs-title", `₹${data.chatCharges != null ? data.chatCharges : 0} /min`)
 						const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip1"]')
@@ -586,7 +607,7 @@
 			success: function (response) {
 				if (response.status == 200) {
 					let ratingCards = '';
-
+					if(response.data.length>0){
 					response.data.forEach(review => {
 						const userName = review.userName || 'Anonymous'; // Use 'Anonymous' if review.name is undefined
 						const profileInitial = userName.charAt(0); // Safely get the first letter of the name
@@ -629,6 +650,10 @@
 
 					// Append the rating cards to the container
 					$('#ratingSection').append(ratingCards);
+					}else{
+					$('#ratingSection').html("<p class='fw-bold text-center text-secondary'>not rated yet</p>");
+
+					}
 				}
 			}
 		});

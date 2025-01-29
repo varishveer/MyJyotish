@@ -57,6 +57,8 @@ namespace ModelAccessLayer.ViewModels
         public double? Rating { get; set; }
         public int? TotalReview { get; set; }
         public bool? ActiveStatus { get; set; }
+        public int totalCall { get; set; }
+        public int totalChat { get; set; }
 
         public JyotishVideosUserViewModel[] Videos { get; set; }
         public JyotishGalleryUserViewModel[] Gallery { get; set; }

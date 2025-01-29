@@ -27,6 +27,7 @@
 		padding: 30px 20px;
 		transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
 		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+		max-width: 300px !important;
 	}
 
 		.astrologer-card:hover {
@@ -86,9 +87,17 @@
 
 	.chat-modal-body {
 		height: 60vh;
-		max-height: 600px; /* Set a max height for the chat area */
-		overflow-y: auto; /* Enable scrolling */
-		background-color: #f8f9fa; /* Light background for the chat area */
+		max-height: 650px;
+		overflow-y: auto;
+		background: url(/chatbg.jpg), #716c6c61;
+		background-size: contain;
+		background-position: center;
+		background-attachment: fixed;
+		background-blend-mode: darken;
+	}
+
+	.chatFooter {
+		background: #e3ded5;
 	}
 
 	.chat-history {
@@ -215,9 +224,9 @@
 </div>
 
 <div class="modal fade" id="ChatModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="ChatModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
+	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
-			<div class="modal-header">
+			<div class="modal-header bg-success text-light">
 				<div class="d-flex align-items-center">
 					<img id="jyotishdetailschatheader" height="50" width="50" class="rounded-circle border" src="~/user-not-found.png" alt="jyotish profile" />
 					<h1 class="modal-title fs-5 ms-2" id="ChatModalLabel"></h1>
@@ -232,7 +241,7 @@
 				<div class="chat-history">
 				</div>
 			</div>
-			<div class="modal-footer">
+			<div class="modal-footer chatFooter">
 				<form class="w-100" id="messageForm">
 					<div class="input-group mt-3">
 						<input type="text" class="form-control rounded-start messageInpBox" placeholder="Type your message..." aria-label="User 's message">

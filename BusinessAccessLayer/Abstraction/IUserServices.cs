@@ -77,6 +77,7 @@ namespace BusinessAccessLayer.Abstraction
         public dynamic getAllAppointmentBymemebersanduser(int memberId, int userId, int jyotishId);
         public dynamic getjyotishByuserAppointment(int userId,int memberId);
 
+        public dynamic GettopTenWalletHistory(int UserId);
 
 
 

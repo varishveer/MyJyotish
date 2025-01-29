@@ -1,0 +1,100 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+	Layout = "JyotishLayout";
+}
+
+<style>
+	.h-35{
+		height:100px;
+		line-height:100px;
+	}
+	.fs-10{
+		font-size:60px;
+	}
+</style>
+
+<div class="col-sm-12">
+	<div class="row justify-content-center gap-4">
+		<div class="col-sm-4 h-35 border rounded shadow">
+			<div class="d-flex justify-content-evenly align-items-center "><i class="fas text-primary fs-10 fa-phone-volume "></i><big id="totalCall" class="fw-bold fs-2"></big></div>
+		</div>
+		<div class="col-sm-4 h-35 border rounded shadow">
+		<div class="d-flex justify-content-evenly align-items-center "><i class="fas text-success fs-10 fa-comments "></i><big id="totalChat" class="fw-bold fs-2"></big></div>
+	</div>
+</div>
+</div>
+
+<div class="table-responsive mt-5">
+	<table id="DataTable" class="table table-bordered">
+		<thead>
+			<tr>
+				<th>Sr</th>
+				<th>Name</th>
+				<th>Gender</th>
+				<th>Date Of Birth</th>
+				<th>Time Of Birth</th>
+				<th>Place Of Birth</th>
+				<th>Total Service Count</th>
+				<th>Last Date</th>
+			</tr>
+		</thead>
+		<tbody id="serviceData">
+			
+		</tbody>
+	</table>
+</div>
+
+		<script>
+		async function getServiceRecord(){
+				// Retrieve the token from localStorage
+	let token = localStorage.getItem("Token2");
+
+	// Set up headers with the token
+	let headers = {
+		"Authorization": `Bearer ${token}`,
+		"Content-Type": "application/json"
+	};
+	let url=`${BaseUrl}api/jyotish/getUserServiceRevordForJyotish?jyotishId=${encodeURIComponent(localStorage.getItem("Id"))}`;
+	// Make the fetch request
+	let response = await fetch(url, {
+		method: "GET", // or "POST" depending on the endpoint
+		headers: headers
+	});
+
+	// Check if the response is OK (status 200-299)
+	if (response.ok) {
+		// Parse the response as JSON
+		let data = await response.json();
+		debugger
+		if(data!=null){
+			let item=data.data
+			$("#totalChat").text(item.totalChat)
+			$("#totalCall").text(item.totalCall)
+			item.serviceRecord.forEach(function(d,i){
+				$("#serviceData").append(`
+				<tr>
+				<td>${i+1}</td>
+				<td>${d.name}</td>
+				<td>${d.gender}</td>
+				<td>${d.dateOfBirth!=null?d.dateOfBirth.split('T')[0]:"N/A"}</td>
+				<td>${d.timeOfBirth}</td>
+				<td>${d.placeOfBirth}</td>
+				<td>${d.count}</td>
+				<td>${d.date!=null? d.date.split('T')[0] +" "+ d.date.split('T')[1]:"N/A"}</td>
+				
+				</tr>
+				`)
+			})
+				$('#DataTable').DataTable();
+
+		}
+		console.log(data);  // Log or handle the data here
+	} else {
+		console.error("Error fetching data:", response.status, response.statusText);
+	}
+
+		}
+		getServiceRecord();
+		</script>

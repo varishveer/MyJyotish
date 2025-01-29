@@ -317,6 +317,7 @@ namespace MyJyotishGApi.Controllers
 					TimeOfBirth = httpRequest.Form["timeOfBirth"],
 					CurrentAddress = httpRequest.Form["currentAddress"],
 					State = Convert.ToInt32(httpRequest.Form["state"]),
+					City = Convert.ToInt32(httpRequest.Form["city"]),
 					Pincode = Convert.ToInt32(httpRequest.Form["pincode"]),
 					ProfilePictureUrl = httpRequest.Form.Files["profilePictureUrl"],
 
@@ -1001,6 +1002,13 @@ namespace MyJyotishGApi.Controllers
 		public IActionResult getAppointemntCharges()
 		{
 			var res = _services.getAppointmentCharges();
+			return Ok(new { status = 200, message = "data retrieved", charges = res });
+
+        }
+		[HttpGet("GettopTenWalletHistory")]
+		public IActionResult GettopTenWalletHistory(int userId)
+		{
+			var res = _services.GettopTenWalletHistory(userId);
 			return Ok(new { status = 200, message = "data retrieved", charges = res });
 
         }

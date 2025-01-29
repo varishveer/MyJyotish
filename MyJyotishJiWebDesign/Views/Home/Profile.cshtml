@@ -619,14 +619,14 @@
             })
 
             function convertDateFormatdesc(dateString) {
-                const dateParts = dateString.split('/');
+                const dateParts = dateString.split('-');
 
                 if (dateParts.length === 3) {
                     const day = dateParts[0];
                     const month = dateParts[1];
                     const year = dateParts[2];
 
-                    return `${year}-${month}-${day}`;
+                    return `${year}/${month}/${day}`;
                 } else {
                     return 'Invalid date format';
                 }
@@ -636,12 +636,11 @@
             debugger
             formarray.forEach(function (e) {
                 if (e.name == "BootstrapdoB"){
-                    formdata.append("doB", convertDateFormatdesc(e.value));
+                    formdata.append("DoB", convertDateFormatdesc(e.value));
                 }
                 else{
                     formdata.append(e.name, e.value);
                 }
-                
 
             })
             if ($("#pImage").val() != null && $("#pImage").val() != "") {
