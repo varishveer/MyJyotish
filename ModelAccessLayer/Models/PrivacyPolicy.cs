@@ -15,6 +15,7 @@ namespace ModelAccessLayer.Models
         public string? WebsiteUrl { get; set; }
         public string? Policy { get; set; }
         public string? AboutUs { get; set; }
+        public string? Termcondition { get; set; }
         public bool Status { get; set; }
     }
 }

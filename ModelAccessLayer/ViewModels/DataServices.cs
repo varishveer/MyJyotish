@@ -426,6 +426,25 @@ namespace ModelAccessLayer.ViewModels
         public string? Policy { get; set; }
         public string? AboutUs { get; set; }
         public string? type { get; set; }
+        public string? Termcondition { get; set; }
         public bool Status { get; set; }
+    }
+
+    public class AdvertisementPackageService
+    {
+        public int? Id { get; set; }
+        public string Plantype { get; set; }
+        public int Duration { get; set; }
+        public int Price { get; set; }
+        public float Discount { get; set; }
+        public float GST { get; set; }
+        public float DiscountAmount { get; set; }
+        public float FinalPrice { get; set; }
+        public int MaxCountry { get; set; }
+        public int MaxState { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public int MaxCity { get; set; }
+        public bool Status { get; set; }
+
     }
 }

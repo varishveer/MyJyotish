@@ -63,17 +63,14 @@
                                 <th>Name</th>
                                 <th>Gender</th>
                                 <th>Birth Date</th>
-                                    <th>Birth Place</th>
-                                    <th>OTP</th>
-                                <th>Password</th>
-                                <th>Birth Date</th>
-                                    <th>Current Address</th>
+                                <th>Birth Time</th>
+                                <th>Birth Place</th>
+                               <th>Current Address</th>
                                 <th>Country</th>
                                 <th>State</th>
                                 <th>City</th>
                                 <th>Pincode</th>
                                 <th>Profile Picture</th>
-                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>`;
@@ -81,29 +78,25 @@
                         // Loop through the result and append each row of data
                         $.each(result.data, function (key, item) {
                             htmls += '<tr>';
-                                htmls += `<td class="text-center">${item.id}</td>`;
-                                htmls += `<td class="text-center">${item.email || ''}</td>`;
-                                htmls += `<td class="text-center">${item.mobile || ''}</td>`;
-                                htmls += `<td class="text-center">${item.name || ''}</td>`;
-                                htmls += `<td class="text-center">${item.gender || ''}</td>`;
-                                htmls += `<td class="text-center">${item.doB || ''}</td>`;
-                                htmls += `<td class="text-center">${item.placeOfBirth || ''}</td>`;
-                                htmls += `<td class="text-center">${item.otp || ''}</td>`;
-                                htmls += `<td class="text-center">${item.password || ''}</td>`;
-                                htmls += `<td class="text-center">${item.timeOfBirth || ''}</td>`;
-                                htmls += `<td class="text-center">${item.currentAddress || ''}</td>`;
-                                htmls += `<td class="text-center">${item.country || ''}</td>`;
-                                htmls += `<td class="text-center">${item.state || ''}</td>`;
-                                htmls += `<td class="text-center">${item.city || ''}</td>`;
-                                htmls += `<td class="text-center">${item.pincode || ''}</td>`;
-                                htmls += `<td class="text-center">${item.profilePictureUrl ? '<img src="' + item.profilePictureUrl + '" alt="Profile Picture" width="50" height="50">' : ''}</td>`;
-                                htmls += `<td class="text-center">${item.status || ''}</td>`;
+                                htmls += `<td class="text-center">${key+1}</td>`;
+                                htmls += `<td class="text-center">${item.user.email || 'N/A'}</td>`;
+                                htmls += `<td class="text-center">${item.user.mobile || 'N/A'}</td>`;
+                                htmls += `<td class="text-center">${item.user.name || 'N/A'}</td>`;
+                                htmls += `<td class="text-center">${item.user.gender || 'N/A'}</td>`;
+                                htmls += `<td class="text-center">${item.user.doB!=null?item.user.doB.split('T')[0]:"N/A" || 'N/A'}</td>`;
+                                htmls += `<td class="text-center">${item.user.timeOfBirth || 'N/A'}</td>`;
+                                htmls += `<td class="text-center">${item.user.placeOfBirth || 'N/A'}</td>`;
+                                htmls += `<td class="text-center">${item.user.currentAddress || 'N/A'}</td>`;
+                                htmls += `<td class="text-center">${item.country!=null?item.country.name:"N/A" || 'N/A'}</td>`;
+                                htmls += `<td class="text-center">${item.state!=null?item.state.name:"N/A" || 'N/A'}</td>`;
+                                htmls += `<td class="text-center">${item.city!=null?item.city.name:"N/A" || 'N/A'}</td>`;
+                                htmls += `<td class="text-center">${item.user.pincode || 'N/A'}</td>`;
+                                htmls += `<td class="text-center">${item.user.profilePictureUrl ? `<img src="${BaseUrl + item.user.profilePictureUrl}" alt="Profile Picture" width="50" height="50">` : ''}</td>`;
                                 htmls += '</tr>';
                             });
 
                             htmls += '</tbody>';
                             $('#DataTable').html(htmls); // Inject HTML into table
-                            $('#DataTable').DataTable(); // Initialize DataTable
                         },
                         error: function (errormessage) {
                             console.error('Error fetching data:', errormessage.responseText);

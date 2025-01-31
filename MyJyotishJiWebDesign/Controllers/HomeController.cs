@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 
 
@@ -14,9 +15,18 @@ namespace MyJyotishJiWebDesign.Controllers
         }
 
        
-        public IActionResult Privacy()
+        public async Task<IActionResult> Privacy()
         {
-            return View();
+            HttpClient client = new HttpClient();
+            HttpResponseMessage message = await client.GetAsync("https://api.myjyotishg.in/api/admin/getPrivacyPolicy");
+            dynamic res = null;
+
+            if (message.IsSuccessStatusCode)
+            {
+                res = await message.Content.ReadAsStringAsync();
+                res = JsonConvert.DeserializeObject<dynamic>(res);
+            }
+            return View(res);
         }
         public IActionResult SignUpUser() {return View(); }
         public IActionResult OtpVerification() { return View(); }
@@ -75,6 +85,18 @@ namespace MyJyotishJiWebDesign.Controllers
         public IActionResult Tarot() { return View(); }
         public IActionResult Vastu() { return View(); }
         public IActionResult Compatibility() { return View(); }
+        public async Task<IActionResult> TermCondition() {
+            HttpClient client = new HttpClient();
+            HttpResponseMessage message = await client.GetAsync("https://api.myjyotishg.in/api/admin/getPrivacyPolicy");
+            dynamic res = null;
+
+            if (message.IsSuccessStatusCode)
+            {
+                res = await message.Content.ReadAsStringAsync();
+                res = JsonConvert.DeserializeObject<dynamic>(res);
+            }
+            return View(res); 
+        }
         public IActionResult WalletPaymentLayout(int amount,int jyotishId,string message,string paymentby) {
             return PartialView("_WalletPartialView", new { amount = amount,jyotishId=jyotishId,message=message, paymentby = paymentby });
         }

@@ -10,9 +10,9 @@ namespace BusinessAccessLayer.Abstraction
 {
     public interface IAdminServices
     {
-        public List<JyotishModel> GetAllJyotish();
+        public dynamic GetAllJyotish();
         public List<JyotishModel> GetAllPendingJyotish();
-        public List<UserModel> GetAllUser();
+        public dynamic GetAllUser();
         public List<TeamMemberModel> GetAllTeamMember();
         public string AddAppointmentSlot(AppointmentSlotViewModel model);
         public List<AppointmentListAdminViewModel> GetAllAppointment();
@@ -88,6 +88,9 @@ namespace BusinessAccessLayer.Abstraction
         public bool AddDepartments(DepartmentViewModel model);
 
         public bool AddLevels(LevelsViewModel model);
+        public dynamic getEmployeesList();
+        public dynamic getEmployeesDocsList(int employeeId);
+        public bool deleteAdvertisementPAckage(int id);
 
          public ProblemSolutionAdminViewModel GetProblemSolution(int Id);
 
@@ -133,6 +136,7 @@ namespace BusinessAccessLayer.Abstraction
 		public bool CreateAPooja(PoojaRecordModel model);
         public List<SubscrictionListJyotishViewModel> GetAllSubscriptionForAdmin();
 
+        public dynamic getAdvertisementPackage();
 
         public dynamic poojaByPoojaId(int id);
 		public bool UpdatePooja(PoojaRecordModel model);
@@ -148,6 +152,7 @@ namespace BusinessAccessLayer.Abstraction
         public dynamic getAdminDashboard();
         public bool AddPrivacyPolicy(PrivacyPolicyService pp);
         public dynamic getPrivacyPolicy();
+        public bool createAdvertisementPackage(AdvertisementPackageService aps);
 
 
     }

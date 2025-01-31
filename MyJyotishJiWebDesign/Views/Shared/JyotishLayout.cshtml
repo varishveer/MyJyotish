@@ -207,6 +207,10 @@
 		.chatFooter {
 			background: #e3ded5;
 		}
+
+		.text-rebec, .gg-more-vertical-alt, .gg-menu-right {
+			color: rebeccapurple !important;
+		}
 	</style>
 </head>
 
@@ -222,10 +226,10 @@
 
 		<!-- Sidebar -->
 
-		<div class="sidebar" data-background-color="dark">
+		<div class="sidebar" data-background-color="light">
 			<div class="sidebar-logo">
 				<!-- Logo Header -->
-				<div class="logo-header" data-background-color="dark">
+				<div class="logo-header" data-background-color="light">
 					<a href="/jyotish/dashboard" class="logo">
 						<img src="https://api.myjyotishg.in/Images/Logo.png"
 							 alt="navbar brand"
@@ -265,18 +269,6 @@
 											<span class="sub-item">Dashboard</span>
 										</a>
 									</li>
-								</ul>
-							</div>
-						</li>
-
-						<li class="nav-item">
-							<a data-bs-toggle="collapse" href="#base">
-								<i class="fas fa-layer-group"></i>
-								<p>Master</p>
-								<span class="caret"></span>
-							</a>
-							<div class="collapse" id="base">
-								<ul class="nav nav-collapse">
 								</ul>
 							</div>
 						</li>
@@ -505,74 +497,7 @@
 									</li>
 								</ul>
 							</li>
-							<li class="nav-item topbar-icon dropdown hidden-caret">
-								<a class="nav-link"
-								   data-bs-toggle="dropdown"
-								   href="#"
-								   aria-expanded="false">
-									<i class="fas fa-layer-group"></i>
-								</a>
-								<div class="dropdown-menu quick-actions animated fadeIn">
-									<div class="quick-actions-header">
-										<span class="title mb-1">Quick Actions</span>
-										<span class="subtitle op-7">Shortcuts</span>
-									</div>
-									<div class="quick-actions-scroll scrollbar-outer">
-										<div class="quick-actions-items">
-											<div class="row m-0">
-												<a class="col-6 col-md-4 p-0" href="#">
-													<div class="quick-actions-item">
-														<div class="avatar-item bg-danger rounded-circle">
-															<i class="far fa-calendar-alt"></i>
-														</div>
-														<span class="text">Calendar</span>
-													</div>
-												</a>
-												<a class="col-6 col-md-4 p-0" href="#">
-													<div class="quick-actions-item">
-														<div class="avatar-item bg-warning rounded-circle">
-															<i class="fas fa-map"></i>
-														</div>
-														<span class="text">Maps</span>
-													</div>
-												</a>
-												<a class="col-6 col-md-4 p-0" href="#">
-													<div class="quick-actions-item">
-														<div class="avatar-item bg-info rounded-circle">
-															<i class="fas fa-file-excel"></i>
-														</div>
-														<span class="text">Reports</span>
-													</div>
-												</a>
-												<a class="col-6 col-md-4 p-0" href="#">
-													<div class="quick-actions-item">
-														<div class="avatar-item bg-success rounded-circle">
-															<i class="fas fa-envelope"></i>
-														</div>
-														<span class="text">Emails</span>
-													</div>
-												</a>
-												<a class="col-6 col-md-4 p-0" href="#">
-													<div class="quick-actions-item">
-														<div class="avatar-item bg-primary rounded-circle">
-															<i class="fas fa-file-invoice-dollar"></i>
-														</div>
-														<span class="text">Invoice</span>
-													</div>
-												</a>
-												<a class="col-6 col-md-4 p-0" href="#">
-													<div class="quick-actions-item">
-														<div class="avatar-item bg-secondary rounded-circle">
-															<i class="fas fa-credit-card"></i>
-														</div>
-														<span class="text">Payments</span>
-													</div>
-												</a>
-											</div>
-										</div>
-									</div>
-								</div>
-							</li>
+							
 							<li class="nav-item topbar-user dropdown hidden-caret">
 								<a class="dropdown-toggle profile-pic"
 								   data-bs-toggle="dropdown"
@@ -585,7 +510,7 @@
 									</div>
 									<span class="profile-username">
 										<span class="op-7">Hi,</span>
-										<span class="fw-bold userName">User</span>
+										<span class="fw-bold userName"></span>
 									</span>
 								</a>
 								<ul class="dropdown-menu dropdown-user animated fadeIn">
@@ -622,133 +547,7 @@
 				</nav>
 				<!-- End Navbar -->
 			</div>
-			<!-- Custom template | don't include it in your project! -->
-			<div class="custom-template">
-				<div class="custom-content">
-					<div class="switcher">
-						<div class="switch-block">
-							<h4>Logo Header</h4>
-							<div class="btnSwitch">
-								<button type="button"
-										class="selected changeLogoHeaderColor"
-										data-color="dark"></button>
-								<button type="button"
-										class="changeLogoHeaderColor"
-										data-color="blue"></button>
-								<button type="button"
-										class="changeLogoHeaderColor"
-										data-color="purple"></button>
-								<button type="button"
-										class="changeLogoHeaderColor"
-										data-color="light-blue"></button>
-								<button type="button"
-										class="changeLogoHeaderColor"
-										data-color="green"></button>
-								<button type="button"
-										class="changeLogoHeaderColor"
-										data-color="orange"></button>
-								<button type="button"
-										class="changeLogoHeaderColor"
-										data-color="red"></button>
-								<button type="button"
-										class="changeLogoHeaderColor"
-										data-color="white"></button>
-								<br />
-								<button type="button"
-										class="changeLogoHeaderColor"
-										data-color="dark2"></button>
-								<button type="button"
-										class="changeLogoHeaderColor"
-										data-color="blue2"></button>
-								<button type="button"
-										class="changeLogoHeaderColor"
-										data-color="purple2"></button>
-								<button type="button"
-										class="changeLogoHeaderColor"
-										data-color="light-blue2"></button>
-								<button type="button"
-										class="changeLogoHeaderColor"
-										data-color="green2"></button>
-								<button type="button"
-										class="changeLogoHeaderColor"
-										data-color="orange2"></button>
-								<button type="button"
-										class="changeLogoHeaderColor"
-										data-color="red2"></button>
-							</div>
-						</div>
-						<div class="switch-block">
-							<h4>Navbar Header</h4>
-							<div class="btnSwitch">
-								<button type="button"
-										class="changeTopBarColor"
-										data-color="dark"></button>
-								<button type="button"
-										class="changeTopBarColor"
-										data-color="blue"></button>
-								<button type="button"
-										class="changeTopBarColor"
-										data-color="purple"></button>
-								<button type="button"
-										class="changeTopBarColor"
-										data-color="light-blue"></button>
-								<button type="button"
-										class="changeTopBarColor"
-										data-color="green"></button>
-								<button type="button"
-										class="changeTopBarColor"
-										data-color="orange"></button>
-								<button type="button"
-										class="changeTopBarColor"
-										data-color="red"></button>
-								<button type="button"
-										class="selected changeTopBarColor"
-										data-color="white"></button>
-								<br />
-								<button type="button"
-										class="changeTopBarColor"
-										data-color="dark2"></button>
-								<button type="button"
-										class="changeTopBarColor"
-										data-color="blue2"></button>
-								<button type="button"
-										class="changeTopBarColor"
-										data-color="purple2"></button>
-								<button type="button"
-										class="changeTopBarColor"
-										data-color="light-blue2"></button>
-								<button type="button"
-										class="changeTopBarColor"
-										data-color="green2"></button>
-								<button type="button"
-										class="changeTopBarColor"
-										data-color="orange2"></button>
-								<button type="button"
-										class="changeTopBarColor"
-										data-color="red2"></button>
-							</div>
-						</div>
-						<div class="switch-block">
-							<h4>Sidebar</h4>
-							<div class="btnSwitch">
-								<button type="button"
-										class="changeSideBarColor"
-										data-color="white"></button>
-								<button type="button"
-										class="selected changeSideBarColor"
-										data-color="dark"></button>
-								<button type="button"
-										class="changeSideBarColor"
-										data-color="dark2"></button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="custom-toggle">
-					<i class="fas fa-cog"></i>
-				</div>
-			</div>
-			<!-- End Custom template -->
+			
 			<!--show user request for chat-->
 			<div class="toast-container position-fixed  end-0 p-3">
 				<div class="toast" role="alert" aria-live="assertive" aria-atomic="true">

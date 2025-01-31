@@ -2156,6 +2156,7 @@ namespace MyJyotishJiApi.Controllers
 
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
         }
+
         [AllowAnonymous]
         [HttpGet("getPrivacyPolicy")]
         public IActionResult getPrivacyPolicy()
@@ -2165,6 +2166,77 @@ namespace MyJyotishJiApi.Controllers
                 var Result = _admin.getPrivacyPolicy();
                 return Ok(new { Status = 200, Message = "data retrieved",data=Result }); 
                 
+            }
+
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+        }
+        
+        [HttpGet("getEmployeesList")]
+        public IActionResult getEmployeesList()
+        {
+            try
+            {
+                var Result = _admin.getEmployeesList();
+                return Ok(new { Status = 200, Message = "data retrieved",data=Result }); 
+                
+            }
+
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+        } 
+        [HttpGet("getEmployeesDocsList")]
+        public IActionResult getEmployeesDocsList(int employeeId)
+        {
+            try
+            {
+                var Result = _admin.getEmployeesDocsList(employeeId);
+                return Ok(new { Status = 200, Message = "data retrieved",data=Result }); 
+                
+            }
+
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+        }
+        [HttpPost("createAdvertisementPackage")]
+        public IActionResult createAdvertisementPackage(AdvertisementPackageService aps)
+        {
+            try
+            {
+                var Result = _admin.createAdvertisementPackage(aps);
+                if (Result)
+                {
+
+                return Ok(new { Status = 200, Message = "Package Added Successfully" });
+                }
+                else{
+                    return Ok(new { Status = 200, Message = "some error occured" });
+
+                }
+
+            }
+
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+        }
+        [HttpGet("getAdvertisementPackage")]
+        public IActionResult getAdvertisementPackage()
+        {
+            try
+            {
+                var Result = _admin.getAdvertisementPackage();
+               
+                return Ok(new { Status = 200, Message = "data retrived",data=Result });
+              
+            }
+
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+        }
+        [HttpGet("deleteAdvertisementPackage")]
+        public IActionResult deleteAdvertisementPAckage(int id)
+        {
+            try
+            {
+                var Result = _admin.deleteAdvertisementPAckage(id);
+               
+                return Ok(new { Status = 200, Message = "data retrived",data=Result });
+              
             }
 
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }

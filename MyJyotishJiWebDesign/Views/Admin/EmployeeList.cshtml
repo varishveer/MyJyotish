@@ -1,0 +1,199 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+
+<style>
+	/* Custom SweetAlert2 Popup Styling */
+	.swal2-popup {
+		width: 80% !important; /* Increase popup width */
+		max-width: 900px !important; /* Set a max width */
+		padding: 20px !important;
+		background-color: #fff; /* White background */
+		border-radius: 15px; /* Rounded corners */
+	}
+
+	.swal2-title {
+		font-size: 24px; /* Bigger title */
+		font-weight: bold;
+		color: #333;
+	}
+
+	.swal2-html-container {
+		font-size: 16px; /* Set text size */
+		color: #555;
+		padding-bottom: 15px; /* Space between content and buttons */
+	}
+
+	.swal2-confirm {
+		background-color: #007bff !important; /* Blue button color */
+		color: #fff !important; /* White text */
+		font-size: 16px;
+		border-radius: 5px;
+		padding: 10px 20px;
+	}
+
+		.swal2-confirm:hover {
+			background-color: #0056b3 !important; /* Darker blue on hover */
+		}
+
+	.swal2-close {
+		color: #aaa !important; /* Custom close button color */
+		font-size: 20px;
+	}
+
+	/* Flexbox container to show 3 docs per row */
+	.document-row {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		gap: 15px; /* Space between each document */
+	}
+
+	/* Styling for each document */
+	.document-card {
+		flex: 1 1 30%; /* Take up 30% of the row (3 per row) */
+		box-sizing: border-box;
+		background-color: #f9f9f9;
+		padding: 15px;
+		border-radius: 10px;
+		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+		text-align: center;
+	}
+
+	/* Image Styling */
+	.document-image {
+		max-width: 100%;
+		height: auto;
+		border-radius: 10px;
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	}
+
+	/* Document Name Styling */
+	.document-name {
+		font-size: 16px;
+		font-weight: bold;
+		color: #333;
+		margin-top: 10px;
+	}
+</style>
+
+<div class="container mt-5">
+	<h2>Employee Data</h2>
+	<!-- Table for displaying data -->
+	<table id="employeeTable" class="table table-bordered">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Name</th>
+				<th>Email</th>
+				<th>Mobile</th>
+				<th>Date of Birth</th>
+				<th>Department</th>
+				<th>Level</th>
+				<th>Docs</th>
+			</tr>
+		</thead>
+		<tbody>
+			<!-- Data will be injected here -->
+		</tbody>
+	</table>
+
+</div>
+
+<script>
+	$(document).ready(function() {
+		// When the Load Data button is clicked
+
+			$.ajax({
+					url: BaseUrl+'api/admin/getEmployeesList', // Replace with your actual API endpoint
+				method: 'GET',
+					headers: {
+						'Authorization': `Bearer ${localStorage.getItem("Token")}`
+					},
+				success: function(response) {
+					if(response.status === 200) {
+						// Empty the table body before adding new rows
+						$('#employeeTable tbody').empty();
+						// Loop through the data and create table rows dynamically
+						response.data.forEach(function(employee,i) {
+							var row = `
+	<tr>
+		<td>${i+1}</td>
+		<td>${employee.name}</td>
+		<td>${employee.email}</td>
+		<td>${employee.mobile}</td>
+		<td>${employee.dateOfBirth}</td>
+		<td>${employee.department}</td>
+		<td>${employee.level}</td>
+		<td class='text-center ' ><i role='button' class="fa-solid fs-4 text-primary fa-file showEmployeeDocs" data-id='${employee.id}'></i></td>
+	</tr>
+							`;
+							// Append the row to the table body
+							$('#employeeTable tbody').append(row);
+						});
+					} else {
+					Swal.fire('Error', 'Failed to retrieve employee data', 'error');
+					}
+				},
+				error: function() {
+								Swal.fire('Error', 'An error occurred while fetching data', 'error');
+				}
+			});
+		});
+
+			$(document).on("click",".showEmployeeDocs",function(){
+				let id=$(this).attr("data-id");
+					 $.ajax({
+						url: BaseUrl+'api/admin/getEmployeesDocsList', // Replace with your actual API endpoint
+					method: 'GET',
+					data:{employeeId:id},
+						headers: {
+							'Authorization': `Bearer ${localStorage.getItem("Token")}`
+						},
+					success: function(response) {
+						if (response.status === 200) {
+					showEmployeeDocs(response.data);
+				} else {
+					Swal.fire('Error', 'Failed to retrieve employee document data', 'error');
+				}
+			},
+			error: function() {
+				Swal.fire('Error', 'An error occurred while fetching data', 'error');
+			}
+					 })
+			})
+
+			 function showEmployeeDocs(data) {
+		// Constructing the employee document display
+		 let content = '<div class="document-row">';
+
+		// Loop through each document and create a card for it
+		data.forEach(function(item) {
+			content += `
+				<div class="document-card">
+					<a target="_blank" href='${BaseUrl + item.docUrl}'><img src="${BaseUrl + item.docUrl}" alt="${item.docsName}" class="document-image"></a>
+					<div class="document-name">${item.docsName}</div>
+				</div>
+			`;
+		});
+
+		// Closing the row container
+		content += '</div>';
+
+		// Display the data in a SweetAlert
+		Swal.fire({
+			title: 'Employee Documents',
+			html: content,  // Add the generated content here
+			showCloseButton: true,
+			showCancelButton: false,
+			confirmButtonText: 'Close',
+	customClass: {
+					popup: 'swal2-popup', // Custom class for the popup
+					confirmButton: 'swal2-confirm' // Custom class for the confirm button
+				}
+		});
+	}
+</script>

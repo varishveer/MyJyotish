@@ -1,0 +1,343 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title"> Add Advertisement Plan</div>
+            </div>
+            <div class="card-body">
+                <form class="row forms-sample" id="addForm">
+                    <input type="hidden" id="subId" name="Id" />
+                    <div class="col-lg-6 mb-3">
+                        <label for="subtitle" class="form-label">Plan Type</label>
+                        <select class="form-select sn-required" id="PlanType" name="Plantype">
+                           
+                            <option>Days</option>
+                            <option>Week</option>
+                            <option>Month</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-6 mb-3">
+                        <label for="subtitle" class="form-label">Duration</label>
+                        <input type="number" class="form-control form-control-sm" placeholder="Enter Plan Duration..." name="Duration" id="Duration" autocomplete="off" required value="" />
+
+                    </div>
+
+                    <div class="col-lg-6 mb-3">
+                        <label for="title" class="form-label">Package Price</label>
+                        <input class="form-control" id="PackagePrice" name="Price" type="number" placeholder="Enter price " value="" required>
+                    </div>
+
+                    <div class="col-lg-6 mb-3">
+                        <label for="title" class="form-label">Discount In Percentage</label>
+                        <input class="form-control" id="Discount" name="Discount" type="number" placeholder="Enter Discount Percentage" value="" required>
+                    </div>
+                    <div class="col-lg-6 mb-3">
+                        <label for="title" class="form-label">GST :</label>
+                        <input class="form-control" id="gst" name="GST" type="number" placeholder="Enter GST " value="" required>
+                    </div>
+                    <div class="col-lg-6 mb-3">
+                        <label for="title" class="form-label">Discount Amount</label>
+                        <input class="form-control" id="DiscountAmount" name="DiscountAmount" type="number" placeholder="Enter Discount Amount " readonly value="" required>
+                    </div>
+                    <div class="col-lg-6 mb-3">
+                        <label for="title" class="form-label">Final Price</label>
+                        <input class="form-control" id="FinalPrice" name="FinalPrice" type="number" placeholder="Enter Final Price" readonly value="" required>
+                    </div>
+                    <div class="col-lg-6 mb-3">
+                        <label for="title" class="form-label">Maximum Country</label>
+                        <input class="form-control datepicker" id="maxCountry" name="MaxCountry" type="number" value="1" required>
+                    </div>
+                    <div class="col-lg-6 mb-3">
+                        <label for="title" class="form-label">Maximum State</label>
+                        <input class="form-control datepicker" id="maxState" name="MaxState" type="number" placeholder="Enter maximum state" value="" required>
+                    </div>
+                    <div class="col-lg-6 mb-3">
+                        <label for="title" class="form-label">Maximum City</label>
+                        <input class="form-control datepicker" id="maxCity" name="MaxCity" type="number" placeholder="Enter maximum city" value="" required>
+                    </div>
+
+                    <div class="text-start col-lg-4 mt-2">
+
+                        <button type="reset" class="btn btn-danger"><i class="link-icon" data-feather="x-circle"></i>Reset</button>
+
+                       
+                       
+                            <button type="submit" class="btn btn-primary"><i class="link-icon" data-feather="plus"></i> Add Plan</button>
+                        
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="example" class="table">
+                        <thead>
+                            <tr>
+                                <th class="text-center">S.No</th>
+                                <th class="text-center">Plan Type</th>
+                                <th class="text-center">Duration</th>
+                                <th class="text-center">Price</th>
+                                <th class="text-center">Discount Percentage</th>
+                                <th class="text-center">Discount Amount</th>
+                                <th class="text-center">GST</th>
+                                <th class="text-center">Final Price</th>
+                                <th class="text-center">Max Country</th>
+                                <th class="text-center">Max State</th>
+                                <th class="text-center">Max City</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="package-container">
+                           
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#addForm').on('submit', function (event) {
+            event.preventDefault();
+            $.ajaxSetup({
+                beforeSend: function () {
+                    $(".processing").show();
+                },
+                complete: function () {
+                    $(".processing").hide();
+                }
+            });
+            var formData ={};
+let arrDate=$(this).serializeArray();
+arrDate.forEach(function(d){
+    formData[d.name]=d.value
+})
+      Swal.fire({
+                    title: "Processing Your Request",
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                })
+            $.ajax({
+                url: BaseUrl+'api/Admin/createAdvertisementPackage',
+                type: 'POST',
+                headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token")}`
+            },
+            contentType:"application/json",
+            data: JSON.stringify(formData),
+            success: function (response) {
+                    if (response.status==200) {
+                        Swal.fire({
+                            title: 'Success!',
+                            text: response.message,
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            window.location.reload();
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: response.message,
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                },
+
+                error: function (xhr, status, error) {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'An error occurred: ' + xhr.responseText,
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            });
+        });
+
+        // Clear fields when the modal is hidden
+        $('#addslider').on('hidden.bs.modal', function () {
+            $(this).find('input[type="text"], input[type="email"], input[type="number"], textarea, select').val(''); // Clear relevant input fields
+        });
+    });
+
+
+
+            $(document).on("click",".deletePackage",function () {
+       
+       let id=$(this).attr("data-id");
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "This action will permanently delete the subscription!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+               
+                $.ajax({
+                    type: "GET",
+                        url: BaseUrl+"api/Admin/deleteAdvertisementPackage",
+                    data: {Id:id},
+                    success: function (response) {
+                        if (response.status==200) {
+
+                            Swal.fire('Deleted!', response.message, 'success').then(() => {
+                                window.location.reload();
+                            });
+                        } else {
+
+                            Swal.fire('Error', response.message, 'error');
+                        }
+                    },
+                    error: function () {
+                        Swal.fire('Error', 'An unexpected error occurred. Please try again.', 'error');
+                    }
+                });
+            }
+        });
+    });
+</script>
+
+
+<script>
+    function GetPrice() {
+        const pkgPriceInput = $("#PackagePrice");
+        const disInput = $("#Discount");
+        const gstInput = $("#gst");
+
+        if (!pkgPriceInput.val()) {
+            pkgPriceInput.focus();
+            return;
+        }
+
+        if (!disInput.val()) {
+            disInput.focus();
+            return;
+        }
+
+        if (!gstInput.val()) {
+            gstInput.focus();
+            return;
+        }
+
+        let percentage = parseFloat(disInput.val());
+        let pkgPrice = parseFloat(pkgPriceInput.val());
+        let gstPercentage = parseFloat(gstInput.val());
+
+        if (gstPercentage > 0) {
+            pkgPrice += (gstPercentage / 100) * pkgPrice;
+        }
+
+        let discountAmount = (percentage / 100) * pkgPrice;
+
+        let remainingPrice = pkgPrice - discountAmount;
+
+        $("#DiscountAmount").val(discountAmount.toFixed(2));
+        $("#FinalPrice").val(remainingPrice.toFixed(2));
+    }
+
+    $("#Discount").on("blur", function () {
+        GetPrice();
+    });
+
+    $("#PackagePrice").on("blur", function () {
+        if ($("#Discount").val()) {
+            GetPrice();
+        } else {
+            $("#Discount").focus();
+        }
+    });
+
+    $("#gst").on("input", function () {
+        if (!$(this).val()) {
+            $(this).focus();
+            return;
+        }
+        GetPrice();
+    });
+
+
+    function getAdvertisementPackage(){
+         $.ajax({
+                    type: "get",
+                    url: BaseUrl+"api/Admin/getAdvertisementPackage",
+                    headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token")}`
+            },
+                    success: function (response) {
+                        if (response.status==200) {
+
+                          if(response.data!=null){
+                              if(response.data.length>0){
+                                  $("#package-container").empty();
+                                  response.data.forEach(function(d,i){
+                                      $("#package-container").append(`
+                                       <tr>
+                                        <td " class="text-center">${i+1}</td>
+                                        <td id="pt_${d.id}" class="text-center">${d.plantype}</td>
+                                        <td id="duration_${d.id}" class="text-center">${d.duration}</td>
+                                        <td id="price_${d.id}" class="text-center">${d.price}</td>
+                                        <td id="discount_${d.id}" class="text-center">${d.discount}</td>
+                                        <td id="gst_${d.id}" class="text-center">${d.gst}</td>
+                                        <td id="da_${d.id}" class="text-center">${d.discountAmount}</td>
+                                        <td id="fp_${d.id}" class="text-center">${d.finalPrice}</td>
+                                        <td id="mc_${d.id}" class="text-center">${d.maxCountry}</td>
+                                        <td id="ms_${d.id}" class="text-center">${d.maxState}</td>
+                                        <td id="mxc_${d.id}" class="text-center">${d.maxCity}</td>
+                                        <td class="text-center">
+                                            <ul class="d-flex list-unstyled mb-0 justify-content-center">
+                                                <li class="me-2">
+                                                    <a href="#">
+                                                        <i class="fas fa-edit editPackage text-warning" data-id='${d.id}' data-feather="edit"></i>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <i class="fa fa-trash sn-delete text-danger deletePackage red-icon"  data-id='${d.id}' title="Delete" style="cursor: pointer;"></i>
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                      `)
+                                  })
+                              }
+                          }
+
+                        } else {
+
+                            Swal.fire('Error', response.message, 'error');
+                        }
+                    },
+                    error: function () {
+                        Swal.fire('Error', 'An unexpected error occurred. Please try again.', 'error');
+                    }
+                });
+    }
+    getAdvertisementPackage();
+
+    $(document).on("click",".editPackage",function(){
+        let id=$(this).attr("data-id")
+        $("#subId").val(id)
+    })
+</script>

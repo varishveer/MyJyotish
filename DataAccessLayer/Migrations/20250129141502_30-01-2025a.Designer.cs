@@ -4,6 +4,7 @@ using DataAccessLayer.DbServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20250129141502_30-01-2025a")]
+    partial class _30012025a
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,56 +52,6 @@ namespace DataAccessLayer.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AdminRecords");
-                });
-
-            modelBuilder.Entity("ModelAccessLayer.Models.AdvertisementPackage", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<float>("Discount")
-                        .HasColumnType("real");
-
-                    b.Property<float>("DiscountAmount")
-                        .HasColumnType("real");
-
-                    b.Property<int>("Duration")
-                        .HasColumnType("int");
-
-                    b.Property<float>("FinalPrice")
-                        .HasColumnType("real");
-
-                    b.Property<float>("GST")
-                        .HasColumnType("real");
-
-                    b.Property<int>("MaxCity")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MaxCountry")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MaxState")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Plantype")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Price")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("Status")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AdvertisementPackage");
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.AppointmentBookmarkModal", b =>

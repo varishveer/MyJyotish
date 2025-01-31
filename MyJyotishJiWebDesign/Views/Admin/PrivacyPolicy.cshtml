@@ -18,6 +18,9 @@
         </button>     
         <button id="privacypolicy" data-bs-toggle="modal" data-bs-target="#exampleModal2" class="btn w-auto btn-success">
             Privacy Policy
+        </button> 
+        <button id="termCondition" data-bs-toggle="modal" data-bs-target="#exampleModal3" class="btn w-auto btn-success">
+            Term and Condition
         </button>
     </div>
 </div>
@@ -35,6 +38,7 @@
                 <th>Website Url</th>
                 <th>AboutUs</th>
                 <th>Policy</th>
+                <th>Term And Condition</th>
                 </tr>
             </thead>
             <tbody>
@@ -54,6 +58,11 @@
                             </td>
                             <td>
                                 <button id="privacypolicy" data-bs-toggle="modal" data-bs-target="#exampleModal2" class="btn btn-sm w-auto btn-success">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </td>
+                            <td>
+                                <button id="term" data-bs-toggle="modal" data-bs-target="#exampleModal3" class="btn btn-sm w-auto btn-success">
                                     <i class="fas fa-eye"></i>
                                 </button>
                             </td>
@@ -149,6 +158,33 @@
                        <div class="col-sm-12">
                       Privacy Policy
                                 <textarea name="Policy" class="form-control summernote">@Model.data.policy</textarea>
+                       </div>
+                   </div>  
+                   <div class="text-center mt-2"><input type="submit" value="Submit" class="btn btn-success" /></div>
+                   </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Term & Condition-->
+<div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModal3Label" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModal3Label">Term And Condition</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="termConditionForm w-100">
+               <div class="col-sm-12">
+                   <div class="row">
+                       <div class="col-sm-12">
+                     Term And Condition
+                                <textarea name="Termcondition" class="form-control summernote">@Model.data.termcondition</textarea>
                        </div>
                    </div>  
                    <div class="text-center mt-2"><input type="submit" value="Submit" class="btn btn-success" /></div>
@@ -276,7 +312,59 @@
                     Swal.showLoading();
                 }
             })
-        let formData={type:"policy"};
+        let formData={type:"privacy"};
+        let arrData=$(this).serializeArray();
+        arrData.forEach(function(d){
+            formData[d.name]=d.value;
+        })
+
+        $.ajax({
+            url:BaseUrl+"api/admin/AddPrivacyPolicy",
+            type:"post",
+             headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token")}`
+            },
+            contentType:'application/json',
+            data:JSON.stringify(formData),
+            success:function(res){
+                if(res.status==200){
+    Swal.fire({
+                      title:"success",
+                      text:res.message,
+                      icon:"success",
+                      didClose:()=>{
+                          location.reload();
+                      }
+                  })
+                }else{
+                      Swal.fire({
+                    title:"error",
+                    text:res.message,
+                    icon:"error"
+                   
+                })
+                }
+              
+            },error:function(xhr){
+               Swal.fire({
+                    title:"error",
+                    text:xhr.responseText || xhr.statusText,
+                    icon:"error"
+               })
+            }
+        })
+
+    })
+    $(".termConditionForm").submit(function(e){
+        e.preventDefault()
+        Swal.fire({
+                title: "Processing Your Request",
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            })
+        let formData={type:"termCondition"};
         let arrData=$(this).serializeArray();
         arrData.forEach(function(d){
             formData[d.name]=d.value;

@@ -201,8 +201,10 @@
                     'Content-Type': 'application/json',
                 },
                 success: function (result) {
+                    if(result!=null){
+                        if(result.data.length>0){
                     let htmls = '<thead><tr>' +
-                        '<th>Id</th>' +
+                        '<th>Sr</th>' +
                         '<th>Name</th>' +
                         '<th>Mobile</th>' +
                         '<th>Email</th>' +
@@ -216,15 +218,15 @@
 
                     $.each(result.data, function (key, item) {
                         htmls += '<tr>';
-                        htmls += `<td class="text-center">${item.id}</td>`;
-                        htmls += `<td class="text-center">${item.name ?? ''}</td>`;
-                        htmls += `<td class="text-center">${item.mobile ?? ''}</td>`;
-                        htmls += `<td class="text-center">${item.email ?? ''}</td>`;
-                        htmls += `<td class="text-center">${item.language ?? ''}</td>`;
-                        htmls += `<td class="text-center">${item.gender ?? ''}</td>`;
-                        htmls += `<td class="text-center">${item.country ?? ''}</td>`;
-                        htmls += `<td class="text-center">${item.state ?? ''}</td>`;
-                        htmls += `<td class="text-center">${item.city ?? ''}</td>`;
+                        htmls += `<td class="text-center">${key+1}</td>`;
+                        htmls += `<td class="text-center">${item.name ?? 'N/A'}</td>`;
+                        htmls += `<td class="text-center">${item.mobile ?? 'N/A'}</td>`;
+                        htmls += `<td class="text-center">${item.email ?? 'N/A'}</td>`;
+                        htmls += `<td class="text-center">${item.language ?? 'N/A'}</td>`;
+                        htmls += `<td class="text-center">${item.gender ?? 'N/A'}</td>`;
+                        htmls += `<td class="text-center">${item.country ?? 'N/A'}</td>`;
+                        htmls += `<td class="text-center">${item.state ?? 'N/A'}</td>`;
+                        htmls += `<td class="text-center">${item.city ?? 'N/A'}</td>`;
                        
                         htmls += `<td class="text-center">
      <i class="fas fa-user-tag" onClick='getuserDetail(${item.id})'></i>
@@ -234,7 +236,8 @@
 
                     htmls += '</tbody>';
                     $('#DataTable').html(htmls);
-                    $('#DataTable').DataTable();
+                    }
+                    }
                     Swal.close()
                 }
             });
@@ -268,8 +271,9 @@
             success: function (response) {
                 if (response.status === 200) {
                     getJyotishPlan(id)
-
+                    
                     const data = response.data;
+                    console.log(data)
 
                     // Populate Left Section
                     $('#profileImage').attr('src', `${BaseUrl}${data.profileImageUrl}`);
@@ -368,6 +372,18 @@
                                         <div class="profile-info">
                                             <h6>Pooja:</h6>
                                                 <p>${data.pooja === false ? "no" : "yes"}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="profile-info">
+                                            <h6>Appointment:</h6>
+                                                <p>${data.appointment?"Yes":"No"}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="profile-info">
+                                            <h6>Appointment Charges:</h6>
+                                                <p>${data.appointment?data.appointmentCharges:0}</p>
                                         </div>
                                     </div>
                                     <div class="col-md-6">

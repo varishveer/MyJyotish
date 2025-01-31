@@ -24,7 +24,6 @@ namespace MyJyotishJiWebDesign.Controllers
         public IActionResult JyotishProfile() { return View(); }
         public IActionResult InterviewList() { return View(); }
         public IActionResult Specialization() { return View(); }
-        public IActionResult CreateCountryCode() { return View(); }
         public IActionResult RedeamCode() { return View(); }
         public IActionResult Department() { return View(); }
         public IActionResult Levels() { return View(); }
@@ -42,6 +41,8 @@ namespace MyJyotishJiWebDesign.Controllers
 		public ActionResult CreatePooja() { return View(); }
 		public ActionResult PoojaList() { return View(); }
 		public ActionResult JyotishWalletManagement() { return View(); }
+		public ActionResult EmployeeList() { return View(); }
+		public ActionResult Advertisement() { return View(); }
 
         public async Task<ActionResult> PrivacyPolicy()
         {

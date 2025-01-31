@@ -40,7 +40,7 @@ namespace BusinessAccessLayer.Implementation
             }
         }
 
-        public List<JyotishModel> GetAllJyotish()
+        public dynamic GetAllJyotish()
         {
             var Records = _context.JyotishRecords
                              .Where(record => record.Role == "jyotish")
@@ -55,9 +55,25 @@ namespace BusinessAccessLayer.Implementation
                              .ToList();
             return Records;
         }
-        public List<ModelAccessLayer.Models.UserModel> GetAllUser()
+        public dynamic GetAllUser()
         {
-            var Records = _context.Users.ToList();
+            var Records = (from user in _context.Users
+                           join country in _context.Countries on user.Country equals country.Id into countryJoin
+                           from country in countryJoin.DefaultIfEmpty()
+                           join state in _context.States on user.State equals state.Id into stateJoin
+                           from state in stateJoin.DefaultIfEmpty()
+                           join city in _context.Cities on user.City equals city.Id into cityJoin
+                           from city in cityJoin.DefaultIfEmpty()
+                           where user.Status == "Active" || user.Status == "Verified"
+                           orderby user.Id descending
+                           select new
+                           {
+                               user = user,
+                               country = country,
+                               state = state,
+                               city = city
+                           }).ToList();
+
             return Records;
         }
         public List<TeamMemberModel> GetAllTeamMember()
@@ -2236,6 +2252,26 @@ Expiry : <span>{res.startDate}-{res.endDate}</span>
             return _context.SaveChanges() > 0;
         }
 
+        public dynamic getEmployeesList()
+        {
+            var res = _context.Employees.Where(e => e.status).Include(e => e.departmentRelation).Include(e => e.LevelsRelation).Select(e => new
+            {
+                id = e.Id,
+                name=e.Name,
+                email=e.Email,
+                mobile=e.Mobile,
+                dateOfBirth=e.DateOfBirth,
+                department=e.departmentRelation.DepartmentName,
+                level=e.LevelsRelation.levelsName
+            });
+            return res;
+        } 
+        public dynamic getEmployeesDocsList(int employeeId)
+        {
+            var res = _context.EmployeeDocs.Where(e => e.status && e.employees==employeeId).ToList();
+            return res;
+        }
+
         public bool AddAccessPages(EmployeesAccessPagesViewModel model)
         {
             EmployeesAccessPages pages = new EmployeesAccessPages
@@ -2850,7 +2886,7 @@ Expiry : <span>{res.startDate}-{res.endDate}</span>
         {
             if (pp.type == "contact")
             {
-                var res = _context.PrivacyPolicy.Where(e => e.Mobile != null || e.Email!=null || e.WebsiteUrl !=null || e.Address!=null || e.AboutUs!=null || e.Policy!=null && e.Status).FirstOrDefault();
+                var res = _context.PrivacyPolicy.Where(e => e.Mobile != null || e.Email!=null || e.WebsiteUrl !=null || e.Address!=null || e.AboutUs!=null || e.Policy!=null || e.Termcondition == null && e.Status ).FirstOrDefault();
                 if (res == null)
                 {
                     PrivacyPolicy p = new PrivacyPolicy
@@ -2881,7 +2917,7 @@ Expiry : <span>{res.startDate}-{res.endDate}</span>
             }
             else if (pp.type == "about")
             {
-                var res = _context.PrivacyPolicy.Where(e => e.Mobile != null || e.Email != null || e.WebsiteUrl != null || e.Address != null || e.AboutUs != null || e.Policy != null && e.Status).FirstOrDefault();
+                var res = _context.PrivacyPolicy.Where(e => e.Mobile != null || e.Email != null || e.WebsiteUrl != null || e.Address != null || e.AboutUs != null || e.Policy != null || e.Termcondition == null && e.Status ).FirstOrDefault();
                 if (res == null)
                 {
                    
@@ -2901,9 +2937,9 @@ Expiry : <span>{res.startDate}-{res.endDate}</span>
                     return _context.SaveChanges() > 0;
 
                 }
-            } else 
+            } else if(pp.type=="privacy")
             {
-                var res = _context.PrivacyPolicy.Where(e => e.Mobile != null || e.Email != null || e.WebsiteUrl != null || e.Address != null || e.AboutUs != null || e.Policy != null && e.Status).FirstOrDefault();
+                var res = _context.PrivacyPolicy.Where(e => e.Mobile != null || e.Email != null || e.WebsiteUrl != null || e.Address != null || e.AboutUs != null || e.Policy != null || e.Termcondition == null && e.Status).FirstOrDefault();
                 if (res == null)
                 {
                    
@@ -2924,12 +2960,81 @@ Expiry : <span>{res.startDate}-{res.endDate}</span>
 
                 }
             }
+            else
+            {
+                var res = _context.PrivacyPolicy.Where(e => e.Mobile != null || e.Email != null || e.WebsiteUrl != null || e.Address != null || e.AboutUs != null || e.Policy != null || e.Termcondition == null && e.Status).FirstOrDefault();
+                if (res == null)
+                {
+
+                    PrivacyPolicy p = new PrivacyPolicy
+                    {
+                        Termcondition = pp.Termcondition,
+                        Status = true
+                    };
+                    _context.PrivacyPolicy.Add(p);
+                    return _context.SaveChanges() > 0;
+
+                }
+                else
+                {
+                    res.Termcondition = pp.Termcondition;
+                    _context.PrivacyPolicy.Update(res);
+                    return _context.SaveChanges() > 0;
+
+                }
+            }
             
         }
 
         public dynamic getPrivacyPolicy()
         {
             var res = _context.PrivacyPolicy.Where(e => e.Status).FirstOrDefault();
+            return res;
+        }
+
+        public bool createAdvertisementPackage(AdvertisementPackageService aps)
+        {
+
+            AdvertisementPackage ap = new AdvertisementPackage
+            {
+                Plantype=aps.Plantype,
+                Duration=aps.Duration,
+                Price=aps.Price,
+                Discount=aps.Discount,
+                GST=aps.GST,
+                DiscountAmount=aps.DiscountAmount,
+                FinalPrice=aps.FinalPrice,
+                MaxCountry=aps.MaxCountry,
+                MaxCity=aps.MaxCity,
+                MaxState=aps.MaxState,
+                CreatedDate=DateTime.Now,
+                Status=true
+
+            };
+
+            _context.AdvertisementPackage.Add(ap);
+
+            return _context.SaveChanges()>0;
+
+        }
+        public bool deleteAdvertisementPAckage(int id)
+        {
+            var res = _context.AdvertisementPackage.Where(e => e.Status).FirstOrDefault();
+            if (res == null)
+            {
+                return false;
+            }
+            else
+            {
+                res.Status = false;
+                _context.AdvertisementPackage.Update(res);
+                return _context.SaveChanges() > 0;
+            }
+        }
+
+        public dynamic getAdvertisementPackage()
+        {
+           var res = _context.AdvertisementPackage.Where(e => e.Status).ToList();
             return res;
         }
 

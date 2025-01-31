@@ -2,501 +2,502 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-    Layout = "JyotishLayout";
+	Layout = "JyotishLayout";
 }
 
 <style>
-    .card-body > .row{ 
-        min-height:100px !important;
-     }
+	.card-body > .row {
+		min-height: 100px !important;
+	}
 
-    .container {
-        width: 100%;
-        padding: 40px 0px 40px 0px;
-    }
+	.container {
+		width: 100%;
+		padding: 40px 0px 40px 0px;
+	}
 
-    .wallet {
-        margin-left: auto;
-        border-radius: 5px;
-        background-color: #FFFFFF;
-    }
+	.wallet {
+		margin-left: auto;
+		border-radius: 5px;
+		background-color: #FFFFFF;
+	}
 
-    .left-wallet {
-        background-color: #f2f2f2;
-        border-radius: 5px;
-    }
+	.left-wallet {
+		background-color: #f2f2f2;
+		border-radius: 5px;
+	}
 
-    .right-trans {
-        background-color: #FFFFFF;
-        height: initial;
-        border-radius: 5px;
-    }
+	.right-trans {
+		background-color: #FFFFFF;
+		height: initial;
+		border-radius: 5px;
+	}
 
-    .phistory {
-        height: 70px !important;
-    }
+	.phistory {
+		height: 70px !important;
+	}
 
-    .right-trans::-webkit-scrollbar {
-        height: 5px;
-        width: 5px;
-    }
+	.right-trans::-webkit-scrollbar {
+		height: 5px;
+		width: 5px;
+	}
 
-    .right-trans::-webkit-scrollbar-thumb {
-        background: #c95812;
-        border-radius: 10px;
-    }
+	.right-trans::-webkit-scrollbar-thumb {
+		background: #c95812;
+		border-radius: 10px;
+	}
 
-    .detail-container {
-        max-height: 85vh;
-    }
+	.detail-container {
+		max-height: 85vh;
+	}
 </style>
 
-        <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
-            <div>
-                <h3 class="fw-bold mb-3">Dashboard</h3>
-            </div>
-            <div class="ms-md-auto py-2 py-md-0">
-        <a href="/Jyotish/UpcomingAppointment" class="btn btn-label-info btn-round me-2">Upcomming Appointment</a>
-        <a href="/Jyotish/AddAppointment" class="btn btn-primary btn-round">Add Appointment</a>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-6 col-md-3">
-                <div class="card card-stats card-round">
-                    <div class="card-body">
-                        <div class="row align-items-center">
-                            <div class="col-icon">
-                                <div class="icon-big text-center icon-primary bubble-shadow-small">
-                                    <i class="fas fa-users"></i>
-                                </div>
-                            </div>
-                            <div class="col col-stats ms-3 ms-sm-0">
-                                <div class="numbers">
-                                    <p class="card-category">Total Appointment</p>
-                                    <h4 class="card-title totalAppointment">0</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-md-3">
-                <div class="card card-stats card-round">
-                    <div class="card-body">
-                        <div class="row align-items-center">
-                            <div class="col-icon">
-                                <div class="icon-big text-center icon-info bubble-shadow-small">
-                                    <i class="fas fa-user-check"></i>
-                                </div>
-                            </div>
-                            <div class="col col-stats ms-3 ms-sm-0">
-                                <div class="numbers">
-                                    <p class="card-category">Pending Appointment</p>
-                                    <h4 class="card-title pendingAppointment">0</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-md-3">
-                <div class="card card-stats card-round">
-                    <div class="card-body">
-                        <div class="row align-items-center">
-                            <div class="col-icon">
-                                <div class="icon-big text-center icon-success bubble-shadow-small">
-                                    <i class="fas fa-luggage-cart"></i>
-                                </div>
-                            </div>
-                            <div class="col col-stats ms-3 ms-sm-0">
-                                <div class="numbers">
-                                    <p class="card-category">Today Appointment</p>
-                                    <h4 class="card-title todayAppointment">0</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-md-3">
-                <div class="card card-stats card-round">
-                    <div class="card-body">
-                        <div class="row align-items-center">
-                            <div class="col-icon">
-                                <div class="icon-big text-center icon-secondary bubble-shadow-small">
-                                    <i class="far fa-check-circle"></i>
-                                </div>
-                            </div>
-                            <div class="col col-stats ms-3 ms-sm-0">
-                                <div class="numbers">
-                                    <p class="card-category">Total Call</p>
-                                    <h4 class="card-title totalCall">0</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> <div class="row">
-            <div class="col-sm-6 col-md-3">
-                <div class="card card-stats card-round">
-                    <div class="card-body">
-                        <div class="row align-items-center">
-                            <div class="col-icon">
-                                <div class="icon-big text-center icon-primary bubble-shadow-small">
-                                    <i class="fas fa-users"></i>
-                                </div>
-                            </div>
-                            <div class="col col-stats ms-3 ms-sm-0">
-                                <div class="numbers">
-                                    <p class="card-category">Total Chat</p>
-                                    <h4 class="card-title totalChat">0</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-md-3">
-                <div class="card card-stats card-round">
-                    <div class="card-body">
-                        <div class="row align-items-center">
-                            <div class="col-icon">
-                                <div class="icon-big text-center icon-info bubble-shadow-small">
-                                    <i class="fas fa-user-check"></i>
-                                </div>
-                            </div>
-                            <div class="col col-stats ms-3 ms-sm-0">
-                                <div class="numbers">
-                                    <p class="card-category">Total Pooja Request</p>
-                                    <h4 class="card-title totalPooja">0</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-md-3">
-                <div class="card card-stats card-round">
-                    <div class="card-body">
-                        <div class="row align-items-center">
-                            <div class="col-icon">
-                                <div class="icon-big text-center icon-success bubble-shadow-small">
-                                    <i class="fas fa-luggage-cart"></i>
-                                </div>
-                            </div>
-                            <div class="col col-stats ms-3 ms-sm-0">
-                                <div class="numbers">
-                                    <p class="card-category">Total Video</p>
-                                    <h4 class="card-title totalVideo">0</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-md-3">
-                <div class="card card-stats card-round">
-                    <div class="card-body">
-                        <div class="row align-items-center">
-                            <div class="col-icon">
-                                <div class="icon-big text-center icon-secondary bubble-shadow-small">
-                                    <i class="far fa-check-circle"></i>
-                                </div>
-                            </div>
-                            <div class="col col-stats ms-3 ms-sm-0">
-                                <div class="numbers">
-                                    <p class="card-category">Total Gallery</p>
-                                    <h4 class="card-title totalGallery">0</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card card-round">
-                    <div class="card-header">
-                        <div class="card-head-row">
-                            <div class="card-title">Call And Chat Statistics</div>
-                          
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="chart-container" style="min-height: 375px">
-                            <canvas id="statisticsCharts"></canvas>
-                        </div>
-                        <div id="myChartLegends"></div>
-                    </div>
-                </div>
-            </div>
-          
-        </div>
-      
-        <div class="row">
-          
-            <div class="col-md-12">
-                <div class="card card-round">
-                    <div class="card-header">
-                        <div class="card-head-row card-tools-still-right">
-                            <div class="card-title">Transaction History</div>
-                            <div class="card-tools">
-                                <div class="dropdown">
-                                    <button class="btn btn-icon btn-clean me-0"
-                                            type="button"
-                                            id="dropdownMenuButton"
-                                            data-bs-toggle="dropdown"
-                                            aria-haspopup="true"
-                                            aria-expanded="false">
-                                        <i class="fas fa-ellipsis-h"></i>
-                                    </button>
-                                    <div class="dropdown-menu"
-                                         aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="/jyotish/wallets">My Balance</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body p-0">
-                        <div class="table-responsive">
-                            <!-- Projects table -->
-                    <div class=" list-wallet">
-                    </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-  
+<div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
+	<div>
+		<h3 class="fw-bold mb-3">Dashboard</h3>
+	</div>
+	<div class="ms-md-auto py-2 py-md-0">
+		<a href="/Jyotish/UpcomingAppointment" class="btn btn-label-info btn-round me-2">Upcomming Appointment</a>
+		<a href="/Jyotish/AddAppointment" class="btn btn-primary btn-round">Add Appointment</a>
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-6 col-md-3">
+		<div class="card card-stats card-round">
+			<div class="card-body">
+				<div class="row align-items-center">
+					<div class="col-icon">
+						<div class="icon-big text-center icon-primary bubble-shadow-small">
+							<i class="fas fa-users"></i>
+						</div>
+					</div>
+					<div class="col col-stats ms-3 ms-sm-0">
+						<div class="numbers">
+							<p class="card-category">Total Appointment</p>
+							<h4 class="card-title totalAppointment">0</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-6 col-md-3">
+		<div class="card card-stats card-round">
+			<div class="card-body">
+				<div class="row align-items-center">
+					<div class="col-icon">
+						<div class="icon-big text-center icon-info bubble-shadow-small">
+							<i class="fas fa-user-clock"></i>
+						</div>
+					</div>
+					<div class="col col-stats ms-3 ms-sm-0">
+						<div class="numbers">
+							<p class="card-category">Pending Appointment</p>
+							<h4 class="card-title pendingAppointment">0</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-6 col-md-3">
+		<div class="card card-stats card-round">
+			<div class="card-body">
+				<div class="row align-items-center">
+					<div class="col-icon">
+						<div class="icon-big text-center icon-success bubble-shadow-small">
+							<i class="fas fa-user-cog"></i>
+						</div>
+					</div>
+					<div class="col col-stats ms-3 ms-sm-0">
+						<div class="numbers">
+							<p class="card-category">Today Appointment</p>
+							<h4 class="card-title todayAppointment">0</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-6 col-md-3">
+		<div class="card card-stats card-round">
+			<div class="card-body">
+				<div class="row align-items-center">
+					<div class="col-icon">
+						<div class="icon-big text-center icon-secondary bubble-shadow-small">
+							<i class="fas fa-phone-volume"></i>
+						</div>
+					</div>
+					<div class="col col-stats ms-3 ms-sm-0">
+						<div class="numbers">
+							<p class="card-category">Total Call</p>
+							<h4 class="card-title totalCall">0</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-6 col-md-3">
+		<div class="card card-stats card-round">
+			<div class="card-body">
+				<div class="row align-items-center">
+					<div class="col-icon">
+						<div class="icon-big text-center icon-primary bubble-shadow-small">
+							<i class="fas fa-comment-alt"></i>
+						</div>
+					</div>
+					<div class="col col-stats ms-3 ms-sm-0">
+						<div class="numbers">
+							<p class="card-category">Total Chat</p>
+							<h4 class="card-title totalChat">0</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-6 col-md-3">
+		<div class="card card-stats card-round">
+			<div class="card-body">
+				<div class="row align-items-center">
+					<div class="col-icon">
+						<div class="icon-big text-center icon-info bubble-shadow-small">
+							<i class="fas fa-bible"></i>
+						</div>
+					</div>
+					<div class="col col-stats ms-3 ms-sm-0">
+						<div class="numbers">
+							<p class="card-category">Total Pooja Request</p>
+							<h4 class="card-title totalPooja">0</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-6 col-md-3">
+		<div class="card card-stats card-round">
+			<div class="card-body">
+				<div class="row align-items-center">
+					<div class="col-icon">
+						<div class="icon-big text-center icon-success bubble-shadow-small">
+							<i class="fas fa-video"></i>
+						</div>
+					</div>
+					<div class="col col-stats ms-3 ms-sm-0">
+						<div class="numbers">
+							<p class="card-category">Total Video</p>
+							<h4 class="card-title totalVideo">0</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-6 col-md-3">
+		<div class="card card-stats card-round">
+			<div class="card-body">
+				<div class="row align-items-center">
+					<div class="col-icon">
+						<div class="icon-big text-center icon-secondary bubble-shadow-small">
+							<i class="fas fa-camera"></i>
+						</div>
+					</div>
+					<div class="col col-stats ms-3 ms-sm-0">
+						<div class="numbers">
+							<p class="card-category">Total Gallery</p>
+							<h4 class="card-title totalGallery">0</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<div class="card card-round">
+			<div class="card-header">
+				<div class="card-head-row">
+					<div class="card-title">Call And Chat Statistics</div>
+
+				</div>
+			</div>
+			<div class="card-body">
+				<div class="chart-container" style="min-height: 375px">
+					<canvas id="statisticsCharts"></canvas>
+				</div>
+				<div id="myChartLegends"></div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<div class="row">
+
+	<div class="col-md-12">
+		<div class="card card-round">
+			<div class="card-header">
+				<div class="card-head-row card-tools-still-right">
+					<div class="card-title">Transaction History</div>
+					<div class="card-tools">
+						<div class="dropdown">
+							<button class="btn btn-icon btn-clean me-0"
+									type="button"
+									id="dropdownMenuButton"
+									data-bs-toggle="dropdown"
+									aria-haspopup="true"
+									aria-expanded="false">
+								<i class="fas fa-ellipsis-h"></i>
+							</button>
+							<div class="dropdown-menu"
+								 aria-labelledby="dropdownMenuButton">
+								<a class="dropdown-item" href="/jyotish/wallets">My Balance</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card-body p-0">
+				<div class="table-responsive">
+					<!-- Projects table -->
+					<div class=" list-wallet">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
 <script>
 
 
-    $(document).ready(function(){
-      let callArray=[0,0,0,0,0,0,0,0,0,0,0,0]
-   let chatArray=[0,0,0,0,0,0,0,0,0,0,0,0]
-    function getDashboardData(){
-        $.ajax({
-            url:BaseUrl+"api/jyotish/getJyotishDashboardRecord",
-            type:"get",
-            data:{jyotishId:localStorage.getItem("Id")},
-              headers: {
-                'Authorization': `Bearer ${localStorage.getItem("Token2")}`
+	   $(document).ready(function(){
+		 let callArray=[0,0,0,0,0,0,0,0,0,0,0,0]
+	  let chatArray=[0,0,0,0,0,0,0,0,0,0,0,0]
+	   function getDashboardData(){
+		   $.ajax({
+			   url:BaseUrl+"api/jyotish/getJyotishDashboardRecord",
+			   type:"get",
+			   data:{jyotishId:localStorage.getItem("Id")},
+				 headers: {
+				   'Authorization': `Bearer ${localStorage.getItem("Token2")}`
 
-            },
-            success:function(res){
-            if(res!=null){
-                let data=res.data;
-                console.log(data)
-                $(".totalAppointment").text(data.totalAppointment)
-                $(".pendingAppointment").text(data.pendingAppointment)
-                $(".todayAppointment").text(data.todayAppointment)
-                $(".totalCall").text(data.totalCall)
-                $(".totalChat").text(data.totalChat)
-                $(".totalPooja").text(data.totalPooja)
-                $(".totalVideo").text(data.totalVideo)
-                $(".totalGallery").text(data.totalGallery)
-                   data.callStatics.forEach(function(d){
-                       callArray[d.month-1]=d.total
-                   })
-                   data.chatStatics.forEach(function(d){
-                       chatArray[d.month-1]=d.total
-                   })
-            }
-               getChartStatic()
-            },error:function(xhr){
-            Swal.fire({
-                title:"error",
-                text:"something went wrong",
-                icon:"error"
-            })
-            }
-        })
-    }
-    getDashboardData();
+			   },
+			   success:function(res){
+			   if(res!=null){
+				   let data=res.data;
+				   console.log(data)
+				   $(".totalAppointment").text(data.totalAppointment)
+				   $(".pendingAppointment").text(data.pendingAppointment)
+				   $(".todayAppointment").text(data.todayAppointment)
+				   $(".totalCall").text(data.totalCall)
+				   $(".totalChat").text(data.totalChat)
+				   $(".totalPooja").text(data.totalPooja)
+				   $(".totalVideo").text(data.totalVideo)
+				   $(".totalGallery").text(data.totalGallery)
+					  data.callStatics.forEach(function(d){
+						  callArray[d.month-1]=d.total
+					  })
+					  data.chatStatics.forEach(function(d){
+						  chatArray[d.month-1]=d.total
+					  })
+			   }
+				  getChartStatic()
+			   },error:function(xhr){
+			   Swal.fire({
+				   title:"error",
+				   text:"something went wrong",
+				   icon:"error"
+			   })
+			   }
+		   })
+	   }
+	   getDashboardData();
 
-        function getChartStatic(){
- var ctx = document.getElementById('statisticsCharts').getContext('2d');
-    var statisticsChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-            datasets: [ {
-                label: "Call",
-                borderColor: '#f3545d',
-                pointBackgroundColor: 'rgba(243, 84, 93, 0.6)',
-                pointRadius: 0,
-                backgroundColor: 'rgba(243, 84, 93, 0.4)',
-                legendColor: '#f3545d',
-                fill: true,
-                borderWidth: 2,
-                   data: callArray
-            }, {
-                label: "Chat",
-                borderColor: '#fdaf4b',
-                pointBackgroundColor: 'rgba(253, 175, 75, 0.6)',
-                pointRadius: 0,
-                backgroundColor: 'rgba(253, 175, 75, 0.4)',
-                legendColor: '#fdaf4b',
-                fill: true,
-                borderWidth: 2,
-                   data: chatArray
-            }]
-        },
-        options : {
-            responsive: true,
-            maintainAspectRatio: false,
-            legend: {
-                display: false
-            },
-            tooltips: {
-                bodySpacing: 4,
-                mode:"nearest",
-                intersect: 0,
-                position:"nearest",
-                xPadding:10,
-                yPadding:10,
-                caretPadding:10
-            },
-            layout:{
-                padding:{left:5,right:5,top:15,bottom:15}
-            },
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        fontStyle: "500",
-                        beginAtZero: false,
-                        maxTicksLimit: 5,
-                        padding: 10
-                    },
-                    gridLines: {
-                        drawTicks: false,
-                        display: false
-                    }
-                }],
-                xAxes: [{
-                    gridLines: {
-                        zeroLineColor: "transparent"
-                    },
-                    ticks: {
-                        padding: 10,
-                        fontStyle: "500"
-                    }
-                }]
-            },
-            legendCallback: function(chart) {
-                var text = [];
-                text.push('<ul class="' + chart.id + '-legend html-legend">');
-                for (var i = 0; i < chart.data.datasets.length; i++) {
-                    text.push('<li><span style="background-color:' + chart.data.datasets[i].legendColor + '"></span>');
-                    if (chart.data.datasets[i].label) {
-                        text.push(chart.data.datasets[i].label);
-                    }
-                    text.push('</li>');
-                }
-                text.push('</ul>');
-                return text.join('');
-            }
-        }
-    });
-       var myLegendContainers = document.getElementById("myChartLegends");
+		   function getChartStatic(){
+	var ctx = document.getElementById('statisticsCharts').getContext('2d');
+	   var statisticsChart = new Chart(ctx, {
+		   type: 'line',
+		   data: {
+			   labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+			   datasets: [ {
+				   label: "Call",
+				   borderColor: '#f3545d',
+				   pointBackgroundColor: 'rgba(243, 84, 93, 0.6)',
+				   pointRadius: 0,
+				   backgroundColor: 'rgba(243, 84, 93, 0.4)',
+				   legendColor: '#f3545d',
+				   fill: true,
+				   borderWidth: 2,
+					  data: callArray
+			   }, {
+				   label: "Chat",
+				   borderColor: '#fdaf4b',
+				   pointBackgroundColor: 'rgba(253, 175, 75, 0.6)',
+				   pointRadius: 0,
+				   backgroundColor: 'rgba(253, 175, 75, 0.4)',
+				   legendColor: '#fdaf4b',
+				   fill: true,
+				   borderWidth: 2,
+					  data: chatArray
+			   }]
+		   },
+		   options : {
+			   responsive: true,
+			   maintainAspectRatio: false,
+			   legend: {
+				   display: false
+			   },
+			   tooltips: {
+				   bodySpacing: 4,
+				   mode:"nearest",
+				   intersect: 0,
+				   position:"nearest",
+				   xPadding:10,
+				   yPadding:10,
+				   caretPadding:10
+			   },
+			   layout:{
+				   padding:{left:5,right:5,top:15,bottom:15}
+			   },
+			   scales: {
+				   yAxes: [{
+					   ticks: {
+						   fontStyle: "500",
+						   beginAtZero: false,
+						   maxTicksLimit: 5,
+						   padding: 10
+					   },
+					   gridLines: {
+						   drawTicks: false,
+						   display: false
+					   }
+				   }],
+				   xAxes: [{
+					   gridLines: {
+						   zeroLineColor: "transparent"
+					   },
+					   ticks: {
+						   padding: 10,
+						   fontStyle: "500"
+					   }
+				   }]
+			   },
+			   legendCallback: function(chart) {
+				   var text = [];
+				   text.push('<ul class="' + chart.id + '-legend html-legend">');
+				   for (var i = 0; i < chart.data.datasets.length; i++) {
+					   text.push('<li><span style="background-color:' + chart.data.datasets[i].legendColor + '"></span>');
+					   if (chart.data.datasets[i].label) {
+						   text.push(chart.data.datasets[i].label);
+					   }
+					   text.push('</li>');
+				   }
+				   text.push('</ul>');
+				   return text.join('');
+			   }
+		   }
+	   });
+		  var myLegendContainers = document.getElementById("myChartLegends");
 
-       // generate HTML legend
-       myLegendContainers.innerHTML = statisticsChart.generateLegend();
+		  // generate HTML legend
+		  myLegendContainers.innerHTML = statisticsChart.generateLegend();
 
-       // bind onClick event to all LI-tags of the legend
-       var legendItems = myLegendContainers.getElementsByTagName('li');
-       for (var i = 0; i < legendItems.length; i += 1) {
-           legendItems[i].addEventListener("click", legendClickCallback, false);
-       }
-       }
-    })
+		  // bind onClick event to all LI-tags of the legend
+		  var legendItems = myLegendContainers.getElementsByTagName('li');
+		  for (var i = 0; i < legendItems.length; i += 1) {
+			  legendItems[i].addEventListener("click", legendClickCallback, false);
+		  }
+		  }
+	   })
 
-          function getUserWalletHistory() {
-                   Swal.fire({
-                       title: "Processing Your Request",
-                       allowOutsideClick: false,
-                       didOpen: () => {
-                           Swal.showLoading();
-                       }
-                   })
-                   $.ajax({
-                       url: BaseUrl + "api/jyotish/GetTopTenWalletHistory",
-                       type: "get",
-                       headers: {
-                           'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
-                           'Content-Type': 'application/json'
-                       },
-                       data: {
+			 function getUserWalletHistory() {
+					  Swal.fire({
+						  title: "Processing Your Request",
+						  allowOutsideClick: false,
+						  didOpen: () => {
+							  Swal.showLoading();
+						  }
+					  })
+					  $.ajax({
+						  url: BaseUrl + "api/jyotish/GetTopTenWalletHistory",
+						  type: "get",
+						  headers: {
+							  'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+							  'Content-Type': 'application/json'
+						  },
+						  data: {
 
-                           "jyotishId": localStorage.getItem("Id")
+							  "jyotishId": localStorage.getItem("Id")
 
-                       },
-                       success: function (res) {
-                           console.log(res)
-                           if (res.status == 200) {
-                               $(".list-wallet").empty()
-                               res.data.forEach(function (d) {
-                                   if (d.userName != null & d.profile != null) {
-                                       let historycard = $(
-                                           `
-                                                                    <div class="col-sm-12 border rounded p-2 my-2 phistory"  id="receipt_${d.id}" >
-                                           <div class="row h-100">
-                                               <div class="col-sm-2 text-center ">
-                                                      <img class=" rounded-circle"  height='40' width='40' src="${BaseUrl}${d.profile}" />
-                                               </div>
-                                               <div class="col-sm-6">
-                                                   ${d.userName}<br />
-                                                                                                           ${d.paymentStatus.toLowerCase() == 'success' ? d.paymentDate.split(" ")[0] : d.paymentStatus.toLowerCase() == 'failed' ? `<small class='text-danger'><i class="fas fa-exclamation-circle"></i>Failed</small>` : `<small class='text-danger'><i class="fas fa-exclamation-circle"></i>Failed</small>`}
-                                               </div>
-                                               <div class="col-sm-3 d-flex h-100 justify-content-end align-items-center">
-                                                                                                            ${d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" ? `<span class='text-success'>+ ${d.amount}</span>` : d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "debit" & d.paymentBy.toLowerCase() == "user" ? `<span class='text-success'>+${d.amount}</span>` : d.paymentStatus == 'failed' ? `<span class='text-secondary'>${d.amount}</span>`: `<span class='text-danger'>-${d.amount}</span>`}
-                                               </div>
-                                           </div>
-                                       </div>
-                                       `)
-                                       $(".list-wallet").append(
-                                           historycard
-                                       )
-                                   }else{
-                                       let historycard = $(
-                                           `
-                                          <div class="col-sm-12 border rounded p-2 my-2 phistory" >
-                                       <div class="row h-100">
-                                           <div class="col-sm-2 text-center ">
-                                                   <img class="h-100 rounded-circle" height='40' width='40' src="https://api.myjyotishg.in/Images/Logo.png" />
-                                           </div>
-                                           <div class="col-sm-6">
-                                               MyJyotishg<br />
-                                                                                                   ${d.paymentStatus.toLowerCase() == 'success' ? d.paymentDate.split(" ")[0] : d.paymentStatus == 'failed' ? `<small class='text-danger'><i class="fas fa-exclamation-circle"></i>Failed</small>` : `<small class='text-danger'><i class="fas fa-exclamation-circle"></i>Failed</small>`}
-                                           </div>
-                                           <div class="col-sm-3 d-flex  justify-content-end align-items-center">
-                                                                                                ${d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" ? `<span class='text-success'>+ ${d.amount}</span>` : d.paymentStatus == 'failed' ? `<span class='text-secondary'>${d.amount}</span>` : `<span class='text-danger'>-${d.amount}</span>`}
-                                           </div>
-                                       </div>
-                                   </div>
-                                       `)
-                                       $(".list-wallet").append(
-                                           historycard
-                                       )
-                                   }
+						  },
+						  success: function (res) {
+							  console.log(res)
+							  if (res.status == 200) {
+								  $(".list-wallet").empty()
+								  res.data.forEach(function (d) {
+									  if (d.userName != null & d.profile != null) {
+										  let historycard = $(
+											  `
+										 <div class="col-sm-12 border rounded p-2 my-2 phistory"  id="receipt_${d.id}">
+											  <div class="row h-100">
+												  <div class="col-sm-2 text-center">
+														 <img class="rounded-circle"  height='40' width='40' src="${BaseUrl}${d.profile}" />
+												  </div>
+												  <div class="col-sm-4">
+													  ${d.userName}<br />
+												  </div>
+												  <div class="col-sm-3">#${d.paymentId} </div>
+												  <div class="col-sm-3 d-flex h-100 justify-content-end align-items-center">
+									   ${d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" ? `<span class='text-success'>+ ${d.amount}</span>` : d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "debit" & d.paymentBy.toLowerCase() == "user" ? `<span class='text-success'>+${d.amount}</span>` : d.paymentStatus == 'failed' ? `<span class='text-secondary'>${d.amount}</span>`: `<span class='text-danger'>-${d.amount}</span>`}
+												  </div>
+											  </div>
+										  </div>
+										  `)
+										  $(".list-wallet").append(
+											  historycard
+										  )
+									  }else{
+										  let historycard = $(
+											  `
+											 <div class="col-sm-12 border rounded p-2 my-2 phistory" >
+										  <div class="row h-100">
+											  <div class="col-sm-2 text-center ">
+													  <img class="h-100 rounded-circle" height='40' width='40' src="https://api.myjyotishg.in/Images/Logo.png" />
+											  </div>
+											  <div class="col-sm-6">
+												  MyJyotishg<br />
+																									  ${d.paymentStatus.toLowerCase() == 'success' ? d.paymentDate.split(" ")[0] : d.paymentStatus == 'failed' ? `<small class='text-danger'><i class="fas fa-exclamation-circle"></i>Failed</small>` : `<small class='text-danger'><i class="fas fa-exclamation-circle"></i>Failed</small>`}
+											  </div>
+											  <div class="col-sm-3 d-flex  justify-content-end align-items-center">
+																								   ${d.paymentStatus.toLowerCase() == 'success' & d.paymentAction.toLowerCase() == "credit" ? `<span class='text-success'>+ ${d.amount}</span>` : d.paymentStatus == 'failed' ? `<span class='text-secondary'>${d.amount}</span>` : `<span class='text-danger'>-${d.amount}</span>`}
+											  </div>
+										  </div>
+									  </div>
+										  `)
+										  $(".list-wallet").append(
+											  historycard
+										  )
+									  }
 
 
 
-                               })
-                           }
-                           Swal.close()
-                              $("img").on('error', function () {
-                           $(this).attr("src", '/user-not-found.png');
-                       });
-                       },
-                       error: function (err) {
-                           Swal.fire({ icon: "error", title: "Server Error", text: "Server down, please try later." });
+								  })
+							  }
+							  Swal.close()
+								 $("img").on('error', function () {
+							  $(this).attr("src", '/user-not-found.png');
+						  });
+						  },
+						  error: function (err) {
+							  Swal.fire({ icon: "error", title: "Server Error", text: "Server down, please try later." });
 
-                       }
-                   });
-               }
-               getUserWalletHistory()
+						  }
+					  });
+				  }
+				  getUserWalletHistory()
 </script>

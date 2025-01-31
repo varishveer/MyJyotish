@@ -358,6 +358,8 @@ namespace BusinessAccessLayer.Implementation
 
         public bool CreateAPooja(PoojaRecordModel model)
         {
+          
+
             var isPoojaValid = _context.PoojaRecord.Where(x => x.PoojaType == model.PoojaType && x.status).FirstOrDefault();
             if (isPoojaValid != null)
             { return false; }
@@ -408,6 +410,7 @@ namespace BusinessAccessLayer.Implementation
             var res = (from pooja in _context.PoojaRecord
                        join poojaType in _context.PoojaList on pooja.PoojaType equals poojaType.Id
                        where pooja.status && poojaType.Status
+                       orderby pooja.Id descending
                        select new
                        {
                            id = pooja.Id,
@@ -2256,6 +2259,18 @@ namespace BusinessAccessLayer.Implementation
         }
         public bool AddJyotishPooja(JyotishPoojaViewModel model)
         {
+            var jdata = _context.JyotishRecords.Where(e => e.Id == model.JyotishId && e.Status).FirstOrDefault();
+            if (jdata == null)
+            {
+                return false;
+            }
+            else
+            {
+                if (!(bool)jdata.Pooja)
+                {
+                    jdata.Pooja = true;
+                }
+            }
             var res = _context.JyotishPooja.Where(e => e.poojaType == model.poojaType && e.JyotishId == model.JyotishId && e.status).FirstOrDefault();
 
             if (res != null)
@@ -2292,6 +2307,7 @@ namespace BusinessAccessLayer.Implementation
             var res = (from pooja in _context.JyotishPooja
                        join list in _context.PoojaList on pooja.poojaType equals list.Id
                        where pooja.status && list.Status && pooja.JyotishId == Id
+                       orderby pooja.Id descending
                        select new
                        {
                            Id = pooja.Id,
