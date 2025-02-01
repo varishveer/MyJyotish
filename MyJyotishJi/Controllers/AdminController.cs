@@ -2203,11 +2203,12 @@ namespace MyJyotishJiApi.Controllers
                 var Result = _admin.createAdvertisementPackage(aps);
                 if (Result)
                 {
+                    return Ok(new { Status = 200, Message = $"Package {(aps.Id.HasValue && aps.Id!=0 ? "Updated" : "Added")} Successfully" });
 
-                return Ok(new { Status = 200, Message = "Package Added Successfully" });
                 }
-                else{
-                    return Ok(new { Status = 200, Message = "some error occured" });
+                else
+                {
+                    return Ok(new { Status = 500, Message = "some error occured" });
 
                 }
 
@@ -2235,7 +2236,7 @@ namespace MyJyotishJiApi.Controllers
             {
                 var Result = _admin.deleteAdvertisementPAckage(id);
                
-                return Ok(new { Status = 200, Message = "data retrived",data=Result });
+                return Ok(new { Status = 200, Message = "Package deleted successfully",data=Result });
               
             }
 

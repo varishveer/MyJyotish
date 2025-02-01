@@ -1,0 +1,629 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+	Layout = "JyotishLayout";
+
+}
+<style>
+	/* Card Styles */
+	.plan-card {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		background: white;
+		padding: 20px;
+		margin-bottom: 15px;
+		border-radius: 15px;
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+		border: 1px solid #e7e7e7;
+		transition: all 0.3s ease;
+	}
+
+		.plan-card:hover {
+			transform: translateY(-5px);
+			box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+		}
+
+		.plan-card.highlight {
+			background-color: #71c8c8;
+		}
+
+	.plan-details {
+		display: flex;
+		justify-content: space-between;
+		width: 100%;
+		flex-wrap: nowrap;
+	}
+
+	.plan-heading {
+		font-weight: bold;
+		color: #495057;
+		font-size: 14px;
+		margin-bottom: 5px;
+	}
+
+	.plan-details > div {
+		flex: 1 1 200px;
+		margin-right: 10px;
+		text-align: center;
+	}
+
+		.plan-details > div:last-child {
+			margin-right: 0;
+		}
+
+	.btn {
+		margin-top: 10px;
+		padding: 10px 20px;
+		font-size: 1.1rem;
+		background-color: #029e9d;
+		color: #fff;
+		border: none;
+		border-radius: 8px;
+		cursor: pointer;
+		transition: background-color 0.3s;
+		text-align: center;
+	}
+
+		.btn:hover {
+			background-color: gold;
+		}
+
+		.btn:focus {
+			outline: none;
+		}
+
+	.price-container {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		font-size: 14px;
+		color: #212529;
+	}
+
+		.price-container .total-price {
+			text-decoration: line-through;
+			color: #ff5733;
+			font-size: 11px;
+			margin-right: 5px;
+		}
+
+		.price-container .final-price {
+			font-size: 15px;
+			font-weight: bold;
+			color: #029e9d;
+		}
+
+		.price-container .discount {
+			font-size: 11px;
+			color: #58ae39;
+			font-weight: bold;
+		}
+
+	/* Responsive Styles */
+	@@media (max-width: 768px) {
+		.plan-card {
+			flex-direction: column;
+			align-items: flex-start;
+			padding: 15px;
+		}
+
+		.plan-details {
+			flex-direction: column;
+			gap: 15px;
+		}
+
+			.plan-details > div {
+				flex: 1 1 auto;
+				text-align: left;
+				margin-right: 0;
+			}
+
+		.btn {
+			width: 100%;
+			font-size: 1rem;
+			padding: 12px;
+		}
+	}
+
+	@@media (max-width: 480px) {
+		.plan-card {
+			padding: 10px;
+		}
+
+		.plan-details {
+			gap: 10px;
+		}
+
+		.btn {
+			padding: 10px;
+			font-size: 0.9rem;
+		}
+	}
+
+	@@media (max-width: 450px) {
+		.price-container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: space-between;
+			font-size: 14px;
+			color: #212529;
+		}
+	}
+	/* Icon Styles */
+	.plan-icon {
+		font-size: 15px;
+		margin-bottom: 5px;
+		color: #007bff;
+	}
+
+		.plan-icon img {
+			height: 25px;
+			width: 25px;
+		}
+
+	.modal-header {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		overflow: hidden;
+	}
+
+	.main-container {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+	}
+
+	.modal-content {
+		overflow: hidden;
+	}
+
+	.modal-body {
+		padding-top: 20px;
+		padding-left: 20px;
+		padding-right: 20px;
+	}
+
+	.select2-container .select2-dropdown{
+		z-index:1000000;
+	}
+</style>
+
+<div class="container cardContainer mt-4">
+</div>
+
+
+
+<!-- Bootstrap Modal -->
+<div class="modal fade" id="purchaseModal" tabindex="-1" aria-labelledby="purchaseModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="purchaseModalLabel"></h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form method="post" id="advertiseForm" class="row form">
+					<div class="col-sm-6">
+						<div class="form-group  p-0">
+							<label for="selectArea" class="form-label">Select Area</label>
+							<select class="form-select form-select-sm" id="selectArea" name="advertiseArea" required>
+								<option selected>--Select Area--</option>
+								<option value="Country">Country</option>
+								<option value="State">State</option>
+								<option value="City">City</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group p-0">
+							<label class="form-label">
+								Select <span id="selectLabel">Country</span>
+							</label>
+							<select class="form-select form-select-sm adsArea" id="advertiseArea" multiple name="areaId" required style="width: 100%">
+							</select>
+						</div>
+
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group  p-0">
+							<label for="startDate" class="form-label">Start Date</label>
+							<input type="date" min="2024-12-21" id="startDate" class="form-control form-control-sm" name="startDate" required>
+						</div>
+					</div>
+					<div class="col-sm-6 mb-3">
+						<div class="form-group  p-0">
+							<label for="advertiseBanner" class="form-label">Upload Banner</label>
+							<input type="file" id="advertiseBanner" class="form-control form-control-sm" name="advertiseBanner" accept="image/*" required>
+						</div>
+					</div>
+					<div class="col-12 modal-footer text-end">
+						<button hidden id="data-bs-totalCountry"></button>
+						<button hidden id="data-bs-totalState"></button>
+						<button hidden id="data-bs-totalCity"></button>
+						<button hidden id="data-bs-packageName"></button>
+						<button hidden id="data-bs-planId"></button>
+						<button hidden id="data-planPrice"></button>
+
+						<button class="btn btn-outline-success btn-sm" type="submit" id="chooseAdvPlan">
+							Pay ₹<span id="payablePrice"></span>
+						</button>
+					</div>
+				</form>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+<script>
+	$(document).ready(function () {
+
+		$.ajax({
+		   url: BaseUrl+"api/jyotish/getAdvertisementPackage",
+			type: "GET",
+			headers: {
+				'Authorization': `Bearer ${localStorage.getItem("Token2")}`
+			},
+			success: function (response) {
+				console.log(response)
+				if(response.status==200){
+				$(".cardContainer").empty();  //Clear the existing content once
+				$.each(response.data, function (index, item) {
+					var row = `
+					  <div class="plan-card">
+			<div class="plan-details">
+				<div>
+					<span class="plan-icon">
+						<img src="/gifs/strategy.gif" alt="Plan Type Icon" />
+					</span>
+					<span class="plan-heading">Plan Type</span>
+					<div>${item.plantype}</div>
+				</div>
+				<div>
+					<span class="plan-icon">
+						<img src="/gifs/session.gif" alt="Duration Icon" />
+					</span>
+					<span class="plan-heading">Duration</span>
+					 <div>${item.duration}</div>
+				</div>
+				<div>
+					<span class="plan-icon">
+						<img src="/gifs/travel.gif" alt="Country Icon" />
+					</span>
+					<span class="plan-heading">Country</span>
+					<div>${item.maxCountry}</div>
+				</div>
+				<div>
+					<span class="plan-icon">
+						<img src="/gifs/wired-flat-1713-downtown-hover-pinch.gif" alt="State Icon" />
+					</span>
+					<span class="plan-heading">State</span>
+				   <div>${item.maxState}</div>
+				</div>
+				<div>
+					<span class="plan-icon">
+						<img src="/gifs/city.gif" alt="City Icon" />
+					</span>
+					<span class="plan-heading">City</span>
+				   <div>${item.maxCity}</div>
+				</div>
+				<div>
+					<span class="plan-icon">
+						<img src="/gifs/label.gif" alt="Price Icon" />
+					</span>
+					<span class="plan-heading">Price:</span>
+					 <div class="price-container">
+												  <div class="total-price">&#8377;${item.price}</div>&nbsp;
+												  <div class="final-price">&#8377;${item.finalPrice.toFixed(2)}</div>&nbsp;
+												  <div class="discount">${item.discount.toFixed(2)}%OFF</div>
+											  </div>
+				</div>
+				<div>
+					<a href="#" class="btn purchase-btn" data-bs-toggle="modal" data-bs-target="#purchaseModal" data-bs-planId="${item.Id}" data-planPrice="${item.finalPrice.toFixed(2)}" data-price="${item.finalPrice.toFixed(2)}" data-bs-totalCountry="${item.maxCountry}" data-bs-totalState="${item.maxState}" data-bs-totalCity="${item.maxCity}" data-bs-packageName="${item.plantype}" onclick="updatePrice(this)">Purchase</a>
+				</div>
+			</div>
+		</div>
+
+				   `;
+
+					$(".cardContainer").append(row);
+				});
+				}
+			},
+			error: function (error) {
+				console.error("An error occurred", error);
+			}
+		});
+
+	})
+
+</script>
+
+<script>
+	jQuery.noConflict();
+	
+</script>
+
+<script>
+	function updatePrice(button) {
+		var finalPrice = button.getAttribute('data-price');
+		let maxCountry = button.getAttribute('data-bs-totalCountry');
+		let maxState = button.getAttribute('data-bs-totalState');
+		let maxCity = button.getAttribute('data-bs-totalCity');
+		let packageName = button.getAttribute('data-bs-packageName');
+		let planId = button.getAttribute('data-bs-planId');
+		let packagePrice = button.getAttribute('data-planPrice');
+		debugger
+		document.getElementById('data-bs-planId').textContent = planId;
+		document.getElementById('payablePrice').textContent = finalPrice;
+		document.getElementById('data-bs-totalCountry').textContent = maxCountry;
+		document.getElementById('data-bs-totalState').textContent = maxState;
+		document.getElementById('data-bs-totalCity').textContent = maxCity;
+		document.getElementById('data-bs-packageName').textContent = packageName;
+		document.getElementById('data-planPrice').textContent = packagePrice;
+	}
+
+</script>
+
+<script>
+	let totalCity;
+	let totalState;
+	let totalCountry;
+	let itemPrice;
+	let planId;
+
+	const purchaseModal = document.getElementById('purchaseModal');
+	if (purchaseModal) {
+		purchaseModal.addEventListener('show.bs.modal', event => {
+			
+			const button = event.relatedTarget;
+			totalState = button.getAttribute('data-bs-totalState');
+			totalCity = button.getAttribute('data-bs-totalCity');
+			totalCountry = button.getAttribute('data-bs-totalCountry');
+			itemPrice = button.getAttribute("payablePrice");
+			let title = button.getAttribute('data-bs-packageName');
+			debugger
+			$("#payablePrice").text(itemPrice);
+			$("#chooseAdvPlan").attr("data-planPrice", itemPrice);
+			planId = button.getAttribute("data-bs-planId");
+
+			const modalTitle = purchaseModal.querySelector('.modal-title');
+			modalTitle.textContent = `Selected Package ${title}`;
+
+			title = button.getAttribute("data-modal-header");
+			$(".modal-header").removeClass().addClass("modal-header " + title);
+
+				
+		});
+	}
+
+	jQuery.noConflict();
+	jQuery(document).ready(function ($) {
+		
+		$('#advertiseArea').select2({
+	  closeOnSelect: false, // Keeps the dropdown open after selecting options
+	  width: '100%', // Ensures the select2 fits 100% of its parent container's width
+	  placeholder: '-- Select an Option --', // Placeholder text
+	  allowClear: true, // Allows the user to clear the selection (adds a clear button)
+	  minimumResultsForSearch: 10, // Hides the search box if there are fewer than 10 items
+	  theme: 'classic', // A simple classic theme, can be replaced with 'bootstrap' or 'material' themes
+	  dropdownAutoWidth: true
+	});
+	$('#advertiseArea').on('select2:select', function () {
+			let data = $(this).val();
+			let areaVal = $("#selectArea").val();
+			let count;
+			debugger
+			switch (areaVal) {
+				case 'State':
+					count = totalState;
+					break;
+				case 'City':
+					count = totalCity;
+					break;
+				case 'Country':
+					count = totalCountry;
+					break;
+			}
+
+			if (data.length > count) {
+				let oldPrice = parseFloat($("#payablePrice").text());
+				let newPrice = parseFloat($("#data-planPrice").text());
+				$("#payablePrice").text((newPrice + oldPrice).toFixed(2));
+			}
+		});
+
+		$('#advertiseArea').on('select2:unselect', function () {
+			let data = $(this).val();
+			let areaVal = $("#selectArea").val();
+			let count = 0;
+			debugger
+			switch (areaVal) {
+				case 'State':
+					count = totalState;
+					break;
+				case 'City':
+					count = totalCity;
+					break;
+				case 'Country':
+					count = totalCountry;
+					break;
+			}
+
+			if (data.length >= count) {
+				let newPrice = parseFloat($("#payablePrice").text());
+				let oldPrice = parseFloat($("#chooseAdvPlan").attr("data-planPrice"));
+				$("#payablePrice").text((newPrice - oldPrice).toFixed(2));
+			}
+		});
+	});
+
+	jQuery("#advertiseForm").submit(function(e){
+		e.preventDefault();
+
+		let FormData=new FormData(this);
+	   if($("#advertiseBanner").get(0).files.length>0){
+		   formData.append("advertiseBanner",$("#advertiseBanner").get(0).files[0])
+	   }else{
+		   Swal.fire({
+			   title:"required",
+			   text:"Banner is required",
+			   icon:"info"
+		   })
+		   return
+	   }
+		   Swal.fire({
+	  title: 'Processing...',
+	  text: 'Please wait while we process your request.',
+	  allowOutsideClick: false,  // Prevent click outside to close
+	  didOpen: () => {
+		Swal.showLoading();  // Display loading spinner
+	  }
+	});
+
+	  $.ajax({
+		  url:BaseUrl+"/jyotish/purchaseAdvertisement",
+		  type:"post",
+		  data:formData,
+		  processData:false,
+		  contentType:false,
+		  success:function(res){
+				  Swal.fire({
+	  title: 'Success!',
+	  text: 'Your purchase was successful.',
+	  icon: 'success',
+	  background: '#f4f9fc', // Light background for a clean look
+	  color: '#4BB543', // Green text to signify success
+	  confirmButtonColor: '#3085d6', // Stylish blue button
+	  confirmButtonText: 'Great!',
+	  timer: 3000,  // Auto close after 3 seconds
+	  timerProgressBar: true, // Show a progress bar while the timer runs
+	  showClass: {
+		popup: 'animate__animated animate__fadeInUp'
+	  },
+	  hideClass: {
+		popup: 'animate__animated animate__fadeOutDown'
+	  },
+	  didOpen: () => {
+		Swal.showLoading(); // Show loading spinner while the success message appears
+		setTimeout(() => {
+		  Swal.close(); // Close the loading spinner and show success
+
+		}, 3000); // Delay the close to let the user see the message
+	  }
+	});
+
+		  },error:function(xhr){
+			  Swal.fire({
+				  text:"something went wrong",
+				  title:"error",
+				  icon:"error"
+			  })
+		  }
+	  })
+	})
+
+	 function loadCountries() {
+				$.ajax({
+					url:BaseUrl + 'Api/Jyotish/Country',
+					type: 'GET',
+					success: function (response) {
+							$("#advertiseArea").empty()
+						response.data.forEach(d => {
+						  $("#advertiseArea").append(`
+						  <option value='${d.id}'>${d.name}</option>
+						  `)
+						});
+					},
+					error: function (jqXHR, textStatus, errorThrown) {
+						console.error('Error fetching countries:', textStatus, errorThrown);
+					}
+				});
+			}
+	 function loadState() {
+				$.ajax({
+					url:BaseUrl + 'Api/Jyotish/getAllState',
+					type: 'GET',
+					success: function (response) {
+							$("#advertiseArea").empty()
+						response.data.forEach(d => {
+						  $("#advertiseArea").append(`
+						  <option value='${d.id}'>${d.name}</option>
+						  `)
+						});
+					},
+					error: function (jqXHR, textStatus, errorThrown) {
+						console.error('Error fetching countries:', textStatus, errorThrown);
+					}
+				});
+			}
+			function loadCity(page) {
+				$.ajax({
+					url:BaseUrl + 'Api/Jyotish/getAllCity',
+					type: 'GET',
+					data:{data:page},
+					success: function (response) {
+							$("#advertiseArea").empty()
+						response.data.forEach(d => {
+						  $("#advertiseArea").append(`
+						  <option value='${d.id}'>${d.name}</option>
+						  `)
+						});
+					},
+					error: function (jqXHR, textStatus, errorThrown) {
+						console.error('Error fetching countries:', textStatus, errorThrown);
+					}
+				});
+			}
+
+		   jQuery("#selectArea").on("change",function(){
+			   debugger
+			   let area=$(this).val();
+			   if(area=="Country"){
+				   loadCountries();
+			   }else if(area=="State"){
+				   loadState();
+			   }else if(area=="City"){
+					   // Listen for the dropdown open event and monitor scroll
+			var nextPage =0;
+	$('#advertiseArea').on('select2:open', function (e) {
+	  var dropdown = $(this).data('select2').dropdown.$dropdown;  // Get the dropdown DOM element
+	  var isLoading = false;  // Flag to prevent multiple requests
+
+	  // Monitor the scroll event on the dropdown
+	  dropdown.on('scroll', function () {
+		// Check if we're at the bottom of the dropdown
+		if (dropdown.scrollTop() + dropdown.innerHeight() >= dropdown[0].scrollHeight) {
+		  if (!isLoading) {
+			isLoading = true; // Set flag to prevent multiple simultaneous requests
+
+			// Trigger the AJAX call for more results
+			var currentParams = $('#advertiseArea').select2('data')[0].element; // Get current data
+			nextPage = currentParams.page + 1;
+			$('#advertiseArea').select2('open');
+			$('#advertiseArea').select2('trigger', 'query', { page: nextPage }); // Query next page
+
+			isLoading = false;  // Reset loading flag after the request
+
+			if(isLoading){
+			}
+
+		  }
+		}
+
+	  });
+			loadCity(nextPage);
+	});
+
+			   }
+		   })
+
+</script>
+
+

@@ -432,6 +432,7 @@ namespace ModelAccessLayer.ViewModels
 
     public class AdvertisementPackageService
     {
+        [AllowNull]
         public int? Id { get; set; }
         public string Plantype { get; set; }
         public int Duration { get; set; }
@@ -446,5 +447,20 @@ namespace ModelAccessLayer.ViewModels
         public int MaxCity { get; set; }
         public bool Status { get; set; }
 
+    }
+
+    public class PurchaseAdvertisementService
+    {
+        public int Id { get; set; }
+        public string AdvertisementArea { get; set; }
+        public int adId { get; set; }
+        public int jyotishId { get; set; }
+        public string AreaId { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public string BannerUrl { get; set; }
+        public bool activeStatus { get; set; }
+        public bool status { get; set; }
+        public AdvertisementPackage advertisement { get; set; }
     }
 }

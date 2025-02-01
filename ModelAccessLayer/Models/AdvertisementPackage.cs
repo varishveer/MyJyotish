@@ -22,6 +22,7 @@ namespace ModelAccessLayer.Models
         public int MaxCity { get; set; }
         public DateTime CreatedDate { get; set; }
         public bool Status { get; set; }
-     
+        public ICollection<PurchaseAdvertisement> purchaseAdvertisement { get; set; } = new List<PurchaseAdvertisement>();
+
     }
 }

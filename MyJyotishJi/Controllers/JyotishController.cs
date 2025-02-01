@@ -9,6 +9,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using ModelAccessLayer.Models;
 using ModelAccessLayer.ViewModels;
 using System.Net;
+using System.Reflection;
 
 namespace MyJyotishGApi.Controllers
 {
@@ -18,12 +19,15 @@ namespace MyJyotishGApi.Controllers
 	public class JyotishController : ControllerBase
 	{
 		private readonly IJyotishServices _jyotish;
+		private readonly IAdminServices _admin;
 		private readonly IWebHostEnvironment _environment;
-		public JyotishController(IJyotishServices jyotish, IWebHostEnvironment environment)
+		public JyotishController(IJyotishServices jyotish, IAdminServices admin, IWebHostEnvironment environment)
 		{
 			_jyotish = jyotish;
 			_environment = environment;
-		}
+			_admin = admin;
+
+        }
 		[HttpGet("GetAllAppointment")]
 		public IActionResult GetAllAppointment(int Id)
 		{
@@ -1461,7 +1465,80 @@ public IActionResult getBookedPoojaList(int jyotishId)
 	catch { return StatusCode(500, new { status = 500, message = "Internal Server Error " }); }
         }
 
+        [HttpGet("getAdvertisementPackage")]
+        public IActionResult getAdvertisementPackage()
+        {
+            try
+            {
+                var Result = _admin.getAdvertisementPackage();
+
+                return Ok(new { Status = 200, Message = "data retrived", data = Result });
+
+            }
+
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+        } 
+		[HttpPost("purchaseAdvertisement")]
+        public IActionResult purchaseAdvertisement()
+        {
+            try
+            {
+				var httpRequest = HttpContext.Request;
+				PurchaseAdvertisementService ps = new PurchaseAdvertisementService
+                {
+					AdvertisementArea= httpRequest.Form["advertiseArea"],
+					adId = Convert.ToInt16(httpRequest.Form["adId"]),
+					AreaId = httpRequest.Form["areaId"],
+					jyotishId = Convert.ToInt32(httpRequest.Form["jyotishId"]),
+					StartDate = Convert.ToDateTime(httpRequest.Form["startDate"])
+                };
+
+				var banner = httpRequest.Form.Files["advertiseBanner"];
+				if (banner == null && banner.Length==0)
+				{
+                    return BadRequest("Banner required");
+
+                }
+				string _uploadDirectory = Directory.GetCurrentDirectory();
+				string filePath = "/Images/Advertisement";
+
+                var fileName = Guid.NewGuid().ToString() + Path.GetFileName(banner.FileName);
+				ps.BannerUrl = Path.Combine(filePath, fileName);
+                var Result = _jyotish.purchaseAdvertisement(ps);
+				if (Result)
+				{
+                    using (var stream = new FileStream(Path.Combine(_uploadDirectory, filePath), FileMode.Create))
+                    {
+                        banner.CopyToAsync(stream);
+                    }
+                return Ok(new { Status = 200, Message = "Advertisement Purchased successfully" });
+				}
+				else
+				{
+                    return Ok(new { Status = 500, Message = "Something went wrong or may be already purchased" });
+
+                }
 
 
-	}
+            }
+
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+        }
+
+		[AllowAnonymous]
+		[HttpGet("getAllState")]
+		public IActionResult getallState()
+		{
+			var res = _jyotish.getAllState();
+			return Ok(new { status = 200, message = "data retrieved", data = res });
+		}
+
+        [AllowAnonymous]
+        [HttpGet("getAllCity")]
+		public IActionResult getallCity(int page)
+		{
+			var res = _jyotish.getAllCity(page);
+			return Ok(new { status = 200, message = "data retrieved", data = res });
+		}
+    }
 }

@@ -91,6 +91,7 @@ namespace BusinessAccessLayer.Abstraction
 
         public dynamic GetUpcommingAppointmentById(int appointmentId);
 
+        public bool purchaseAdvertisement(PurchaseAdvertisementService ps);
 
         public bool AddJyotishPooja(JyotishPoojaViewModel model);
         public dynamic getJyotishPoojaList(int Id);
@@ -108,7 +109,8 @@ namespace BusinessAccessLayer.Abstraction
         public dynamic GetTopTenWalletHistory(int JyotishId);
 
         public dynamic getUserServiceRevordForJyotish(int jyotishId);
-
+        public dynamic getAllCity(int page);
+        public dynamic getAllState();
 
     }
 }

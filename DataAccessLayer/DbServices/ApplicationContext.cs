@@ -77,6 +77,7 @@ namespace DataAccessLayer.DbServices
         public DbSet<AppointmentChargesManagement> AppointmentChargesManagement { get; set; }
         public DbSet<PrivacyPolicy> PrivacyPolicy { get; set; }
         public DbSet<AdvertisementPackage> AdvertisementPackage { get; set; }
+        public DbSet<PurchaseAdvertisement> PurchaseAdvertisement { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         { 
@@ -346,7 +347,15 @@ namespace DataAccessLayer.DbServices
             modelBuilder.Entity<JyotishChargeManagement>()
 		.HasOne(c => c.jyotish)
 		.WithMany(j => j.jyotishCharges)
-		.HasForeignKey(c => c.JyotishId);
+		.HasForeignKey(c => c.JyotishId); 
+            modelBuilder.Entity<PurchaseAdvertisement>()
+		.HasOne(c => c.advertisement)
+		.WithMany(j => j.purchaseAdvertisement)
+		.HasForeignKey(c => c.adId);
+            modelBuilder.Entity<PurchaseAdvertisement>()
+		.HasOne(c => c.jyotish)
+		.WithMany(j => j.purchaseAdvertisement)
+		.HasForeignKey(c => c.jyotishId);
 
 		}
 

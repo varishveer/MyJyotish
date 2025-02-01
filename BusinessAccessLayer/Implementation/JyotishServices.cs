@@ -1,4 +1,5 @@
-﻿using BusinessAccessLayer.Abstraction;
+﻿using Azure;
+using BusinessAccessLayer.Abstraction;
 using DataAccessLayer.DbServices;
 using DataAccessLayer.Migrations;
 using Microsoft.AspNetCore.Http;
@@ -237,26 +238,16 @@ namespace BusinessAccessLayer.Implementation
             var slot = _context.AppointmentSlots.Where(x => x.Id == model.SlotId).FirstOrDefault();
             if (User == null || Jyotish == null || appointment == null || slot == null) { return "invalid Data"; }
 
-
-
-
-
-
             appointment.JyotishId = Jyotish.Id;
             appointment.UserId = User.Id;
             appointment.Problem = model.Problem;
             appointment.Amount = Jyotish.AppointmentCharges;
             if (appointment.SlotId == model.SlotId)
             {
-
                 appointment.Date = slot.Date;
             }
-
-
             appointment.SlotId = model.SlotId;
             appointment.Date = slot.Date;
-
-
             appointment.Status = "Upcomming";
             appointment.ArrivedStatus = 0;
             _context.AppointmentRecords.Update(appointment);
@@ -2466,5 +2457,120 @@ namespace BusinessAccessLayer.Implementation
                 serviceRecord = res
             };
         }
-    }
-}
+
+        public bool purchaseAdvertisement(PurchaseAdvertisementService ps)
+        {
+            using (var transaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    // Checking if the JyotishWallet exists with the correct status
+                    var res = _context.JyotishWallets
+                                    .Where(e => e.jyotishId == ps.jyotishId && e.status == 1)
+                                    .FirstOrDefault();
+
+                    if (res == null)
+                    {
+                        return false;
+                    }
+
+                    // Getting the package price
+                    var packagePrice = _context.AdvertisementPackage
+                                               .Where(e => e.Id == ps.adId && e.Status)
+                                               .Select(e => e.FinalPrice)
+                                               .FirstOrDefault();
+
+                    if (packagePrice < 0)
+                    {
+                        return false;
+                    }
+
+                    // Check if the wallet has sufficient balance
+                    if (res.WalletAmount < packagePrice)
+                    {
+                        return false;
+                    }
+
+                    // Deduct the package price from the wallet
+                    res.WalletAmount -= (long)Math.Abs(Math.Ceiling(packagePrice));
+
+                    // Update wallet in the database
+                    _context.JyotishWallets.Update(res);
+
+                    // Save changes to the wallet
+                    if (_context.SaveChanges() > 0)
+                    {
+                        // Creating a new PurchaseAdvertisement record
+                        PurchaseAdvertisement pa = new PurchaseAdvertisement
+                        {
+                            AdvertisementArea = ps.AdvertisementArea,
+                            adId = ps.adId,
+                            jyotishId = ps.jyotishId,
+                            StartDate = ps.StartDate,
+                            BannerUrl = ps.BannerUrl,
+                            CreatedDate = DateTime.Now,
+                            AreaId = ps.AreaId,
+                            activeStatus = false,
+                            status = true
+                        };
+
+                        // Adding the advertisement package purchase
+                        _context.PurchaseAdvertisement.Add(pa);
+
+                        // Save changes for the advertisement purchase
+                        if (_context.SaveChanges() > 0)
+                        {
+                            // Adding wallet history
+                            WalletHistoryViewmodel wh = new WalletHistoryViewmodel
+                            {
+                                JId = ps.jyotishId,
+                                amount = (long)Math.Abs(Math.Ceiling(packagePrice)),
+                                PaymentFor = "Purchase Advertisement Package",
+                                UId = null,
+                                status = 1,
+                                PaymentAction = "Debit",
+                                PaymentStatus = "success"
+                            };
+
+                            var walletresponse = AddWalletHistory(wh);
+                            if (walletresponse == "Successful")
+                            {
+                                // Commit transaction if everything is successful
+                                transaction.Commit();
+                                return true;
+                            }
+                            else
+                            {
+                                // If wallet history fails, rollback transaction
+                                transaction.Rollback();
+                                return false;
+                            }
+                        }
+                    }
+                    // If saving wallet changes failed, rollback transaction
+                    transaction.Rollback();
+                    return false;
+                }
+                catch (Exception)
+                {
+                    // In case of any exception, rollback the transaction
+                    transaction.Rollback();
+                    return false;
+                }
+            }
+
+        }
+
+        public dynamic getAllState()
+        {
+            var res = _context.States.ToList();
+            return res;
+        }
+        public dynamic getAllCity(int page)
+        {
+            var res = _context.Cities.Skip(page*20).Take(20).ToList();
+            return res;
+        }
+
+        }
+        }

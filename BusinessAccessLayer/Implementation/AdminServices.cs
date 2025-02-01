@@ -2994,6 +2994,27 @@ Expiry : <span>{res.startDate}-{res.endDate}</span>
 
         public bool createAdvertisementPackage(AdvertisementPackageService aps)
         {
+            if (aps.Id.HasValue && aps.Id!=0)
+            {
+                var res = _context.AdvertisementPackage.Where(e => e.Status && e.Id == aps.Id).FirstOrDefault();
+                if (res == null)
+                {
+                    return false;
+                }
+                res.Plantype = aps.Plantype;
+                res.Duration = aps.Duration;
+                res.Price = aps.Price;
+                res.Discount = aps.Discount;
+                res.GST = aps.GST;
+                res.DiscountAmount = aps.DiscountAmount;
+                res.FinalPrice = aps.FinalPrice;
+                res.MaxCountry = aps.MaxCountry;
+                res.MaxState = aps.MaxState;
+                res.MaxCity = aps.MaxCity;
+                _context.AdvertisementPackage.Update(res);
+                return _context.SaveChanges() > 0;
+
+            }
 
             AdvertisementPackage ap = new AdvertisementPackage
             {

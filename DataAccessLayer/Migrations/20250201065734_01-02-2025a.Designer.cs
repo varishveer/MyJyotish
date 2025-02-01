@@ -4,6 +4,7 @@ using DataAccessLayer.DbServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20250201065734_01-02-2025a")]
+    partial class _01022025a
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1637,17 +1640,12 @@ namespace DataAccessLayer.Migrations
                     b.Property<int>("adId")
                         .HasColumnType("int");
 
-                    b.Property<int>("jyotishId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("status")
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
 
                     b.HasIndex("adId");
-
-                    b.HasIndex("jyotishId");
 
                     b.ToTable("PurchaseAdvertisement");
                 });
@@ -2855,15 +2853,7 @@ namespace DataAccessLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ModelAccessLayer.Models.JyotishModel", "jyotish")
-                        .WithMany("purchaseAdvertisement")
-                        .HasForeignKey("jyotishId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("advertisement");
-
-                    b.Navigation("jyotish");
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.RedeemCodeDiscountValidation", b =>
@@ -3181,8 +3171,6 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("jyotishPaymentRecords");
 
                     b.Navigation("jyotishPooja");
-
-                    b.Navigation("purchaseAdvertisement");
 
                     b.Navigation("redeamCode");
 
