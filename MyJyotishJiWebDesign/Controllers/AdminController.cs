@@ -43,6 +43,7 @@ namespace MyJyotishJiWebDesign.Controllers
 		public ActionResult JyotishWalletManagement() { return View(); }
 		public ActionResult EmployeeList() { return View(); }
 		public ActionResult Advertisement() { return View(); }
+		public ActionResult AdvertisementRequest() { return View(); }
 
         public async Task<ActionResult> PrivacyPolicy()
         {

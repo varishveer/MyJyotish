@@ -1493,24 +1493,17 @@ public IActionResult getBookedPoojaList(int jyotishId)
 					StartDate = Convert.ToDateTime(httpRequest.Form["startDate"])
                 };
 
-				var banner = httpRequest.Form.Files["advertiseBanner"];
-				if (banner == null && banner.Length==0)
+				ps.Banner = httpRequest.Form.Files["advertiseBanner"];
+				if (ps.Banner == null && ps.Banner.Length==0)
 				{
                     return BadRequest("Banner required");
 
                 }
-				string _uploadDirectory = Directory.GetCurrentDirectory();
-				string filePath = "/Images/Advertisement";
-
-                var fileName = Guid.NewGuid().ToString() + Path.GetFileName(banner.FileName);
-				ps.BannerUrl = Path.Combine(filePath, fileName);
+				
                 var Result = _jyotish.purchaseAdvertisement(ps);
 				if (Result)
 				{
-                    using (var stream = new FileStream(Path.Combine(_uploadDirectory, filePath), FileMode.Create))
-                    {
-                        banner.CopyToAsync(stream);
-                    }
+                   
                 return Ok(new { Status = 200, Message = "Advertisement Purchased successfully" });
 				}
 				else
@@ -1525,20 +1518,14 @@ public IActionResult getBookedPoojaList(int jyotishId)
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
         }
 
-		[AllowAnonymous]
-		[HttpGet("getAllState")]
-		public IActionResult getallState()
+		[HttpGet("getPurchasedAdvertisement")]
+		public IActionResult getPurchasedAdvertisement(int jyotishId)
 		{
-			var res = _jyotish.getAllState();
+			var res = _jyotish.getPurchasedAdvertisement(jyotishId);
 			return Ok(new { status = 200, message = "data retrieved", data = res });
-		}
 
-        [AllowAnonymous]
-        [HttpGet("getAllCity")]
-		public IActionResult getallCity(int page)
-		{
-			var res = _jyotish.getAllCity(page);
-			return Ok(new { status = 200, message = "data retrieved", data = res });
-		}
+        }
+
+
     }
 }

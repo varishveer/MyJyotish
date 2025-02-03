@@ -13,11 +13,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Reflection.Metadata;
 using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using static System.Net.Mime.MediaTypeNames;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace BusinessAccessLayer.Implementation
@@ -2464,6 +2466,25 @@ namespace BusinessAccessLayer.Implementation
             {
                 try
                 {
+                    var preAdv = _context.PurchaseAdvertisement.Where(e => e.adId == ps.adId && e.jyotishId == ps.jyotishId && e.status).FirstOrDefault();
+                    if (preAdv != null)
+                    {
+                        return false;
+                    }
+
+                 string _uploadDirectory = Directory.GetCurrentDirectory();
+                  
+                    var fileName = Guid.NewGuid().ToString() + Path.GetFileName(ps.Banner.FileName);
+                    string filePath = "wwwroot/Images/Advertisement";
+                    string sqlPath ="Images/Advertisement/"+fileName;
+                    string finalPath = Path.Combine(_uploadDirectory, filePath);
+                    ps.BannerUrl = sqlPath;
+
+                    if (!Directory.Exists(finalPath))
+                    {
+                        Directory.CreateDirectory(finalPath);
+                    }
+
                     // Checking if the JyotishWallet exists with the correct status
                     var res = _context.JyotishWallets
                                     .Where(e => e.jyotishId == ps.jyotishId && e.status == 1)
@@ -2477,22 +2498,59 @@ namespace BusinessAccessLayer.Implementation
                     // Getting the package price
                     var packagePrice = _context.AdvertisementPackage
                                                .Where(e => e.Id == ps.adId && e.Status)
-                                               .Select(e => e.FinalPrice)
                                                .FirstOrDefault();
 
-                    if (packagePrice < 0)
+                    if (packagePrice == null)
                     {
                         return false;
                     }
+                    float packageFinalPrice = (float)packagePrice.FinalPrice;
+                    if (ps.AreaId?.Split(',').Length >packagePrice.MaxCountry && ps.AdvertisementArea.ToLower()=="country")
+                    {
+                        var count = 1;
+                        foreach(var item in ps.AreaId.Split(','))
+                        {
+                            if (count > packagePrice.MaxCountry)
+                            {
+                                packageFinalPrice += packagePrice.FinalPrice;
+                            }
+                            count++;
+                        }
 
-                    // Check if the wallet has sufficient balance
-                    if (res.WalletAmount < packagePrice)
+                    }else if (ps.AreaId?.Split(',').Length > packagePrice.MaxState && ps.AdvertisementArea.ToLower() == "state")
+                    {
+                        var count = 1;
+                        foreach (var item in ps.AreaId.Split(','))
+                        {
+                            if (count > packagePrice.MaxState)
+                            {
+                                packageFinalPrice += packagePrice.FinalPrice;
+                            }
+                            count++;
+                        }
+
+                    }
+                    else if (ps.AreaId?.Split(',').Length > packagePrice.MaxCity && ps.AdvertisementArea.ToLower() == "city")
+                    {
+                        var count = 1;
+                        foreach (var item in ps.AreaId.Split(','))
+                        {
+                            if (count > packagePrice.MaxCity)
+                            {
+                                packageFinalPrice += packagePrice.FinalPrice;
+                            }
+                            count++;
+
+                        }
+                    }
+                        // Check if the wallet has sufficient balance
+                    if (res.WalletAmount < packageFinalPrice)
                     {
                         return false;
                     }
 
                     // Deduct the package price from the wallet
-                    res.WalletAmount -= (long)Math.Abs(Math.Ceiling(packagePrice));
+                    res.WalletAmount -= (long)Math.Abs(Math.Ceiling(packageFinalPrice));
 
                     // Update wallet in the database
                     _context.JyotishWallets.Update(res);
@@ -2500,6 +2558,8 @@ namespace BusinessAccessLayer.Implementation
                     // Save changes to the wallet
                     if (_context.SaveChanges() > 0)
                     {
+                       
+                       
                         // Creating a new PurchaseAdvertisement record
                         PurchaseAdvertisement pa = new PurchaseAdvertisement
                         {
@@ -2524,7 +2584,7 @@ namespace BusinessAccessLayer.Implementation
                             WalletHistoryViewmodel wh = new WalletHistoryViewmodel
                             {
                                 JId = ps.jyotishId,
-                                amount = (long)Math.Abs(Math.Ceiling(packagePrice)),
+                                amount = (long)Math.Abs(Math.Ceiling(packageFinalPrice)),
                                 PaymentFor = "Purchase Advertisement Package",
                                 UId = null,
                                 status = 1,
@@ -2535,6 +2595,10 @@ namespace BusinessAccessLayer.Implementation
                             var walletresponse = AddWalletHistory(wh);
                             if (walletresponse == "Successful")
                             {
+                                using (var stream = new FileStream(Path.Combine(_uploadDirectory, filePath+"/"+fileName), FileMode.Create))
+                                {
+                                    ps.Banner.CopyToAsync(stream);
+                                }
                                 // Commit transaction if everything is successful
                                 transaction.Commit();
                                 return true;
@@ -2551,7 +2615,7 @@ namespace BusinessAccessLayer.Implementation
                     transaction.Rollback();
                     return false;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     // In case of any exception, rollback the transaction
                     transaction.Rollback();
@@ -2561,16 +2625,17 @@ namespace BusinessAccessLayer.Implementation
 
         }
 
-        public dynamic getAllState()
+        public dynamic getPurchasedAdvertisement(int jyotishId)
         {
-            var res = _context.States.ToList();
-            return res;
-        }
-        public dynamic getAllCity(int page)
-        {
-            var res = _context.Cities.Skip(page*20).Take(20).ToList();
+            var res = _context.Database
+                .SqlQueryRaw<DataService.Advertisementservice>(
+                    "EXEC dbo.sp_AdvertisementManager @jyotishId = {0}, @action = {1}",
+                    jyotishId, 1
+                )
+                .ToList();
             return res;
         }
 
-        }
-        }
+
+    }
+}

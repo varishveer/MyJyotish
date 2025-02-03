@@ -102,6 +102,7 @@
 			font-weight: bold;
 		}
 
+	
 	/* Responsive Styles */
 	@@media (max-width: 768px) {
 		.plan-card {
@@ -192,6 +193,8 @@
 	.select2-container .select2-dropdown{
 		z-index:1000000;
 	}
+
+	
 </style>
 
 <div class="container cardContainer mt-4">
@@ -220,12 +223,36 @@
 							</select>
 						</div>
 					</div>
-					<div class="col-sm-6">
+					<div class="col-sm-6 d-none" id="countryDrop">
 						<div class="form-group p-0">
 							<label class="form-label">
 								Select <span id="selectLabel">Country</span>
 							</label>
-							<select class="form-select form-select-sm adsArea" id="advertiseArea" multiple name="areaId" required style="width: 100%">
+							<select class="form-select form-select-sm select2 adsArea" id="countryadvertiseArea"  style="width: 100%">
+							</select>
+						</div>
+
+					</div>
+					<div class="col-sm-6 d-none" id="stateDrop">
+						<div class="form-group p-0">
+							<label class="form-label">
+								Select <span id="selectLabel">
+									State
+								</span>
+							</label>
+							<select class="form-select form-select-sm select2 adsArea" id="stateadvertiseArea" multiple style="width: 100%">
+							</select>
+						</div>
+
+					</div>
+					<div class="col-sm-6 d-none" id="cityDrop">
+						<div class="form-group p-0">
+							<label class="form-label">
+								Select <span id="selectLabel">
+									City
+								</span>
+							</label>
+							<select class="form-select form-select-sm select2 adsArea" id="cityadvertiseArea" multiple style="width: 100%">
 							</select>
 						</div>
 
@@ -325,7 +352,7 @@
 											  </div>
 				</div>
 				<div>
-					<a href="#" class="btn purchase-btn" data-bs-toggle="modal" data-bs-target="#purchaseModal" data-bs-planId="${item.Id}" data-planPrice="${item.finalPrice.toFixed(2)}" data-price="${item.finalPrice.toFixed(2)}" data-bs-totalCountry="${item.maxCountry}" data-bs-totalState="${item.maxState}" data-bs-totalCity="${item.maxCity}" data-bs-packageName="${item.plantype}" onclick="updatePrice(this)">Purchase</a>
+					<a href="#" class="btn purchase-btn" data-bs-toggle="modal" data-bs-target="#purchaseModal" data-bs-planId="${item.id}" data-planPrice="${item.finalPrice.toFixed(2)}" data-price="${item.finalPrice.toFixed(2)}" data-bs-totalCountry="${item.maxCountry}" data-bs-totalState="${item.maxState}" data-bs-totalCity="${item.maxCity}" data-bs-packageName="${item.plantype}" onclick="updatePrice(this)">Purchase</a>
 				</div>
 			</div>
 		</div>
@@ -347,7 +374,7 @@
 
 <script>
 	jQuery.noConflict();
-	
+
 </script>
 
 <script>
@@ -381,7 +408,7 @@
 	const purchaseModal = document.getElementById('purchaseModal');
 	if (purchaseModal) {
 		purchaseModal.addEventListener('show.bs.modal', event => {
-			
+			document.getElementById("advertiseForm").reset()
 			const button = event.relatedTarget;
 			totalState = button.getAttribute('data-bs-totalState');
 			totalCity = button.getAttribute('data-bs-totalCity');
@@ -398,76 +425,20 @@
 
 			title = button.getAttribute("data-modal-header");
 			$(".modal-header").removeClass().addClass("modal-header " + title);
+		  toggleDropdowns(false, false, false); 
 
-				
+
 		});
 	}
 
 	jQuery.noConflict();
 	jQuery(document).ready(function ($) {
-		
-		$('#advertiseArea').select2({
-	  closeOnSelect: false, // Keeps the dropdown open after selecting options
-	  width: '100%', // Ensures the select2 fits 100% of its parent container's width
-	  placeholder: '-- Select an Option --', // Placeholder text
-	  allowClear: true, // Allows the user to clear the selection (adds a clear button)
-	  minimumResultsForSearch: 10, // Hides the search box if there are fewer than 10 items
-	  theme: 'classic', // A simple classic theme, can be replaced with 'bootstrap' or 'material' themes
-	  dropdownAutoWidth: true
-	});
-	$('#advertiseArea').on('select2:select', function () {
-			let data = $(this).val();
-			let areaVal = $("#selectArea").val();
-			let count;
-			debugger
-			switch (areaVal) {
-				case 'State':
-					count = totalState;
-					break;
-				case 'City':
-					count = totalCity;
-					break;
-				case 'Country':
-					count = totalCountry;
-					break;
-			}
-
-			if (data.length > count) {
-				let oldPrice = parseFloat($("#payablePrice").text());
-				let newPrice = parseFloat($("#data-planPrice").text());
-				$("#payablePrice").text((newPrice + oldPrice).toFixed(2));
-			}
-		});
-
-		$('#advertiseArea').on('select2:unselect', function () {
-			let data = $(this).val();
-			let areaVal = $("#selectArea").val();
-			let count = 0;
-			debugger
-			switch (areaVal) {
-				case 'State':
-					count = totalState;
-					break;
-				case 'City':
-					count = totalCity;
-					break;
-				case 'Country':
-					count = totalCountry;
-					break;
-			}
-
-			if (data.length >= count) {
-				let newPrice = parseFloat($("#payablePrice").text());
-				let oldPrice = parseFloat($("#chooseAdvPlan").attr("data-planPrice"));
-				$("#payablePrice").text((newPrice - oldPrice).toFixed(2));
-			}
-		});
-	});
-
 	jQuery("#advertiseForm").submit(function(e){
 		e.preventDefault();
 
-		let FormData=new FormData(this);
+		let formData=new FormData(this);
+		formData.append("jyotishId",localStorage.getItem("Id"))
+		formData.append("adId",planId)
 	   if($("#advertiseBanner").get(0).files.length>0){
 		   formData.append("advertiseBanner",$("#advertiseBanner").get(0).files[0])
 	   }else{
@@ -486,14 +457,17 @@
 		Swal.showLoading();  // Display loading spinner
 	  }
 	});
-
 	  $.ajax({
-		  url:BaseUrl+"/jyotish/purchaseAdvertisement",
+		  url:BaseUrl+"api/jyotish/purchaseAdvertisement",
 		  type:"post",
+		   headers: {
+				'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+			},
 		  data:formData,
 		  processData:false,
 		  contentType:false,
 		  success:function(res){
+			  if(res.status==200){
 				  Swal.fire({
 	  title: 'Success!',
 	  text: 'Your purchase was successful.',
@@ -511,14 +485,21 @@
 		popup: 'animate__animated animate__fadeOutDown'
 	  },
 	  didOpen: () => {
-		Swal.showLoading(); // Show loading spinner while the success message appears
 		setTimeout(() => {
 		  Swal.close(); // Close the loading spinner and show success
 
 		}, 3000); // Delay the close to let the user see the message
+	  },didClose:()=>{
+		  location.reload();
 	  }
 	});
-
+	}else{
+		 Swal.fire({
+				  text:res.message,
+				  title:"error",
+				  icon:"error"
+			  })
+	}
 		  },error:function(xhr){
 			  Swal.fire({
 				  text:"something went wrong",
@@ -528,17 +509,18 @@
 		  }
 	  })
 	})
+	})
+		var token = localStorage.getItem('Token2');
 
 	 function loadCountries() {
 				$.ajax({
-					url:BaseUrl + 'Api/Jyotish/Country',
+					url: BaseUrl + 'Api/Jyotish/Country',
 					type: 'GET',
 					success: function (response) {
-							$("#advertiseArea").empty()
-						response.data.forEach(d => {
-						  $("#advertiseArea").append(`
-						  <option value='${d.id}'>${d.name}</option>
-						  `)
+						var countryDropdown = $('#countryadvertiseArea');
+						countryDropdown.empty()
+						response.data.forEach(country => {
+							countryDropdown.append(`<option class='country' value="${country.id}">${country.name}</option>`);
 						});
 					},
 					error: function (jqXHR, textStatus, errorThrown) {
@@ -546,83 +528,198 @@
 					}
 				});
 			}
-	 function loadState() {
-				$.ajax({
-					url:BaseUrl + 'Api/Jyotish/getAllState',
-					type: 'GET',
-					success: function (response) {
-							$("#advertiseArea").empty()
-						response.data.forEach(d => {
-						  $("#advertiseArea").append(`
-						  <option value='${d.id}'>${d.name}</option>
-						  `)
-						});
-					},
-					error: function (jqXHR, textStatus, errorThrown) {
-						console.error('Error fetching countries:', textStatus, errorThrown);
-					}
-				});
-			}
-			function loadCity(page) {
-				$.ajax({
-					url:BaseUrl + 'Api/Jyotish/getAllCity',
-					type: 'GET',
-					data:{data:page},
-					success: function (response) {
-							$("#advertiseArea").empty()
-						response.data.forEach(d => {
-						  $("#advertiseArea").append(`
-						  <option value='${d.id}'>${d.name}</option>
-						  `)
-						});
-					},
-					error: function (jqXHR, textStatus, errorThrown) {
-						console.error('Error fetching countries:', textStatus, errorThrown);
-					}
-				});
-			}
+			// Load States
+		function loadStates(countryId) {
+			if(countryId){
+					Swal.fire({
+						title: "Processing Your Request",
+						allowOutsideClick: false,
+						didOpen: () => {
+							Swal.showLoading();
+						}
+					})
+			$.ajax({
+				url: BaseUrl + `Api/Jyotish/State`,
+				type: 'GET',
+				headers: {
+					'Authorization': `Bearer ${token}`
+				},
+				data: { Id: countryId }, // Query string parameter
+				success: function (response) {
+					var stateDropdown = $('#stateadvertiseArea');
+					stateDropdown.empty()
+					response.data.forEach(state => {
+						stateDropdown.append(new Option(state.name, state.id));
+					});
+					stateDropdown.prop('disabled', false);
+							Swal.close()
 
-		   jQuery("#selectArea").on("change",function(){
-			   debugger
-			   let area=$(this).val();
-			   if(area=="Country"){
-				   loadCountries();
-			   }else if(area=="State"){
-				   loadState();
-			   }else if(area=="City"){
-					   // Listen for the dropdown open event and monitor scroll
-			var nextPage =0;
-	$('#advertiseArea').on('select2:open', function (e) {
-	  var dropdown = $(this).data('select2').dropdown.$dropdown;  // Get the dropdown DOM element
-	  var isLoading = false;  // Flag to prevent multiple requests
-
-	  // Monitor the scroll event on the dropdown
-	  dropdown.on('scroll', function () {
-		// Check if we're at the bottom of the dropdown
-		if (dropdown.scrollTop() + dropdown.innerHeight() >= dropdown[0].scrollHeight) {
-		  if (!isLoading) {
-			isLoading = true; // Set flag to prevent multiple simultaneous requests
-
-			// Trigger the AJAX call for more results
-			var currentParams = $('#advertiseArea').select2('data')[0].element; // Get current data
-			nextPage = currentParams.page + 1;
-			$('#advertiseArea').select2('open');
-			$('#advertiseArea').select2('trigger', 'query', { page: nextPage }); // Query next page
-
-			isLoading = false;  // Reset loading flag after the request
-
-			if(isLoading){
-			}
-
-		  }
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					console.error('Error fetching states:', textStatus, errorThrown);
+				}
+			});
+		}
 		}
 
+		// Load Cities
+		function loadCities(stateId) {
+			if(stateId){
+					Swal.fire({
+						title: "Processing Your Request",
+						allowOutsideClick: false,
+						didOpen: () => {
+							Swal.showLoading();
+						}
+					})
+			$.ajax({
+				url:BaseUrl+`Api/Jyotish/City`,
+				type: 'GET',
+				headers: {
+					'Authorization': `Bearer ${token}`
+				},
+				data: { Id: stateId }, // Query string parameter
+				success: function (response) {
+					var cityDropdown = $('#cityadvertiseArea');
+					cityDropdown.empty()
+					response.data.forEach(city => {
+						cityDropdown.append(new Option(city.name, city.id));
+					});
+					cityDropdown.prop('disabled', false);
+							Swal.close()
+
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					console.error('Error fetching cities:', textStatus, errorThrown);
+				}
+			});
+		}
+		}
+
+		function toggleDropdowns(country, state, city) {
+		  jQuery("#countryDrop").toggleClass("d-none", !country);
+		  jQuery("#stateDrop").toggleClass("d-none", !state);
+		  jQuery("#cityDrop").toggleClass("d-none", !city);
+		}
+	jQuery(document).ready(function() {
+	  jQuery("#selectArea").on("change", function() {
+		let area = $(this).val();
+		// Function to show/hide dropdowns
+		let selectElement;
+		// Handle the area change
+		if (area === "Country") {
+		  loadCountries(); // Assuming this is defined elsewhere
+		  // Enable multiple selection for Country
+		  jQuery('#countryadvertiseArea').prop("multiple", true);
+		  toggleDropdowns(true, false, false); // Show country dropdown only
+			$("#countryadvertiseArea").attr("name","areaId")
+		  $("#stateadvertiseArea").removeAttr("name")
+		  $("#cityadvertiseArea").removeAttr("name")
+		  selectElement=$("#countryadvertiseArea")
+		} else if (area === "State") {
+		  loadCountries();
+
+		  $("#countryadvertiseArea").prop("multiple", false);
+		  toggleDropdowns(true, true, false); // Show country and state dropdowns
+		$("#countryadvertiseArea").removeAttr("name")
+		  $("#stateadvertiseArea").attr("name","areaId")
+		  $("#cityadvertiseArea").removeAttr("name")
+		
+
+		  $("#countryadvertiseArea").change(function(){
+			  let id=$(this).val()
+			  loadStates(id)
+
+		  })
+
+		} else if (area === "City") {
+		  loadCountries();
+			$("#countryadvertiseArea").removeAttr("name")
+		  $("#stateadvertiseArea").removeAttr("name")
+		  $("#cityadvertiseArea").attr("name","areaId")
+		  $("#countryadvertiseArea").change(function(){
+			  let id=$(this).val()
+			  loadStates(id)
+		  })
+		  jQuery('#stateadvertiseArea').prop("multiple", true);
+
+		  $("#stateadvertiseArea").change(function(){
+			  let id=$(this).val()
+			  loadCities(id)
+		  })
+		  jQuery('#stateadvertiseArea').prop("multiple", false);
+		  $("#countryadvertiseArea").prop("multiple", false);
+		  toggleDropdowns(true, true, true); // Show all dropdowns
+		}else{
+		  toggleDropdowns(false, false, false); // Show all dropdowns
+
+		}
+		$('.select2').select2({
+	  width: '100%', // Ensures the select2 fits 100% of its parent container's width
+	  placeholder: '-- Select an Option --', // Placeholder text
+	  allowClear: true, // Allows the user to clear the selection (adds a clear button)
+	  minimumResultsForSearch: 10, // Hides the search box if there are fewer than 10 items
+	  theme: 'classic', // A simple classic theme, can be replaced with 'bootstrap' or 'material' themes
+	  dropdownAutoWidth: true
+	});
 	  });
-			loadCity(nextPage);
+
+
+	  $(".select2").on('select2:select', function () {
+			let data = $(this).val();
+			let areaVal = $("#selectArea").val();
+			let count=0;
+			debugger
+			if($(this).prop('multiple')){
+			switch (areaVal) {
+				case 'State':
+					count = totalState;
+					break;
+				case 'City':
+					count = totalCity;
+					break;
+				case 'Country':
+					count = totalCountry;
+					break;
+			}
+
+			if (data.length > count) {
+				let oldPrice = parseFloat($("#payablePrice").text());
+				let newPrice = parseFloat($("#data-planPrice").text());
+				$("#payablePrice").text((newPrice + oldPrice).toFixed(2));
+			}
+			}
+		});
+
+		 $(".select2").on('select2:unselect', function () {
+			let data = $(this).val();
+			let areaVal = $("#selectArea").val();
+			let count = 0;
+			debugger
+			if($(this).prop('multiple'))
+			{
+			switch (areaVal) {
+				case 'State':
+					count = totalState;
+					break;
+				case 'City':
+					count = totalCity;
+					break;
+				case 'Country':
+					count = totalCountry;
+					break;
+			}
+
+			if (data.length >= count) {
+				let oldPrice = parseFloat($("#payablePrice").text());
+				let newPrice = parseFloat($("#data-planPrice").text());
+				$("#payablePrice").text((oldPrice-newPrice).toFixed(2));
+			}
+			}
+		});
+		
 	});
 
-			   }
-		   })
 
 </script>
 
