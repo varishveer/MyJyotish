@@ -19,8 +19,10 @@
                 <th>Duration</th>
                 <th>Purchase Date</th>
                 <th>Start Date</th>
+                <th>End Date</th>
                 <th>Banner</th>
                 <th>Active Status</th>
+                <th>Approve Status</th>
             </tr>
         </thead>
         <tbody>
@@ -47,7 +49,7 @@
 
           // Clear any previous rows
           tableBody.empty();
-
+          console.log(response)
           // Loop through the data and add rows to the table
           data.forEach((item,i) => {
             const row = `<tr>
@@ -58,8 +60,10 @@
               <td>${item.duration}</td>
               <td>${item.createdDate.split('T')[0]}</td>
               <td>${item.startDate.split('T')[0]}</td>
+              <td>${item.endDate.split('T')[0]}</td>
               <td><a target="_blank" href="${BaseUrl+item.bannerUrl}"><img src="${BaseUrl+item.bannerUrl}" alt="Banner" height=50 width="100"></a></td>
               <td><span class="badge badge-${item.activeStatus ? 'success' : 'danger'}">${item.activeStatus ? 'Active' : 'Inactive'}</span></td>
+              <td><span class="badge badge-${item.appStatus && item.status ? 'success' : !item.appStatus && item.status?  'warning': 'danger'}">${item.appStatus && item.status ? 'Approved' : !item.appStatus && item.status ? 'Pending' :  !item.appStatus && !item.status ? 'Rejected':'Expired'}</span></td>
             </tr>`;
 
             tableBody.append(row); // Append the row to the table body

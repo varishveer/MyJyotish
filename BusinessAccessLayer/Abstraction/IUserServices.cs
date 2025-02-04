@@ -46,7 +46,7 @@ namespace BusinessAccessLayer.Abstraction
         public dynamic getJyotishCallServicesCharges(int jyotishid);
         public bool getUserserviceStatus(int userId);
 
-
+        public Task<List<Advertisementservice>> AdvertisementBanner();
 
         public long GetWallet(int UserId);
         public List<City> selecAllCity();

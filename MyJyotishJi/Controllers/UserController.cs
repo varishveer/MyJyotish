@@ -1012,6 +1012,14 @@ namespace MyJyotishGApi.Controllers
 			return Ok(new { status = 200, message = "data retrieved", charges = res });
 
         }
+		[AllowAnonymous]
+		[HttpGet("AdvertisementBanner")]
+		public IActionResult AdvertisementBanner()
+		{
+			var res = _services.AdvertisementBanner();
+			return Ok(new { status = 200, message = "data retrieved", data = res });
+
+        }
 
 	}
 }

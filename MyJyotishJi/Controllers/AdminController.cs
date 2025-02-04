@@ -2241,6 +2241,53 @@ namespace MyJyotishJiApi.Controllers
             }
 
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+        } 
+        [HttpGet("getPurchasedAdvertisement")]
+        public IActionResult getPurchasedAdvertisement()
+        {
+            try
+            {
+                var Result = _admin.getPurchasedAdvertisement();
+               
+                return Ok(new { Status = 200, Message = "data retrieved",data=Result });
+              
+            }
+
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+        } 
+        [HttpGet("changeApproveStatusOfAdvertisement")]
+        public IActionResult changeApproveStatusOfAdvertisement(int id, bool appstatus)
+        {
+            try
+            {
+                var res = _admin.changeApproveStatusOfAdvertisement(id,appstatus);
+                if (res)
+                {
+                    return Ok(new { Status = 200, Message = "Changes Apply Successfully" });
+
+                }
+                return Ok(new { Status = 500, Message = "something went wrong" });
+              
+            }
+
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+        }
+        [HttpGet("changeActiveStatusOfAdvertisement")]
+        public IActionResult changeActiveStatusOfAdvertisement(int id)
+        {
+            try
+            {
+                var res = _admin.changeActiveStatusOfAdvertisement(id);
+
+                 if (res)
+                {
+                    return Ok(new { Status = 200, Message = "Changes Apply Successfully" });
+
+                }
+                return Ok(new { Status = 500, Message = "something went wrong" });
+
+            }
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
         }
     }
 }

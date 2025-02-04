@@ -153,7 +153,10 @@ namespace BusinessAccessLayer.Abstraction
         public bool AddPrivacyPolicy(PrivacyPolicyService pp);
         public dynamic getPrivacyPolicy();
         public bool createAdvertisementPackage(AdvertisementPackageService aps);
+        public dynamic getPurchasedAdvertisement();
+        public bool changeApproveStatusOfAdvertisement(int id, bool appstatus);
 
+        public bool changeActiveStatusOfAdvertisement(int id);
 
     }
 }

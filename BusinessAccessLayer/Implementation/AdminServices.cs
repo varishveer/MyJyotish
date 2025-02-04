@@ -20,6 +20,7 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Model;
 using Razorpay.Api;
 using System.Data;
 using Microsoft.EntityFrameworkCore.Storage;
+using static System.Net.WebRequestMethods;
 
 
 namespace BusinessAccessLayer.Implementation
@@ -3058,6 +3059,122 @@ Expiry : <span>{res.startDate}-{res.endDate}</span>
            var res = _context.AdvertisementPackage.Where(e => e.Status).ToList();
             return res;
         }
+        public dynamic getPurchasedAdvertisement()
+        {
+            var res = _context.Database
+                .SqlQueryRaw<DataService.Advertisementservice>(
+                    "EXEC dbo.sp_AdvertisementManager @action = {0}",
+                   2
+                )
+                .ToList();
+            return res;
+        }
 
-	}
+        public bool changeApproveStatusOfAdvertisement(int id,bool appstatus)
+        {
+            var res = _context.PurchaseAdvertisement.Where(e => e.Id == id).FirstOrDefault();
+            if (res == null)
+            {
+                return false;
+            }
+
+            res.appStatus = appstatus;
+            _context.PurchaseAdvertisement.Update(res);
+           if( _context.SaveChanges() > 0)
+            {
+
+                var jyotishRecord = _context.JyotishRecords.Where(e => e.Id == res.jyotishId).FirstOrDefault();
+               
+                    string message = $@"
+           <!DOCTYPE html>
+            <html lang=""en"">
+            <head>
+    <meta charset=""UTF-8"">
+    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+    <title>MyJyotishG</title>
+    <style>
+        body {{
+            font-family: Arial, sans-serif;
+        }}
+        .container {{
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }}
+        .header {{
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }}
+        .content {{
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }}
+        .otp {{
+            font-size: 20px;
+            font-weight: bold;
+            color: #000;
+        }}
+        .logo {{
+            margin: 20px 0;
+            text-align: center;
+        }}
+        .logo img {{
+            max-width: 150px;
+        }}
+        .footer {{
+            font-size: 14px;
+            color: #555;
+            margin-top: 20px;
+        }}
+        .footer a {{
+            color: #000;
+            text-decoration: none;
+        }}
+    </style>
+</head>
+<body>
+    <div class=""container"">
+       
+         <div class=""logo"">
+            <img src=""https://api.myjyotishg.in/Images/Logo.png"" alt=""My Jyotish G Logo"">
+        </div>
+        <div class=""content"">
+          {(appstatus? " Thank you for submitting your advertisement banner for review. After careful consideration, we regret to inform you that the banner does not meet the necessary standards and guidelines for approval. Specifically, the content in the banner includes elements that are deemed controversial or not aligned with our platform's content policy.<br>\r\n\r\nWe encourage you to revise the banner, ensuring that it adheres to the following guidelines:<br>\r\n\r\nEnsure that the imagery and messaging are appropriate and respectful to all audiences.<br>\r\nAvoid any content that could be interpreted as offensive, misleading, or inappropriate.<br>\r\nComply with the legal and regulatory requirements for advertising in your region:<br><br>":$"Thanks for using MyJyotishG, we are here to inform you that your banner was approved and your advertisement will be start on {res.StartDate.ToString("dd-MM-yyyy")}")}
+            <br><br>
+            If you have any questions, feel free to reach out!
+        </div>
+            <div class=""header"" style=""color:orange"">My Jyotish G</div>
+            <h4>www.myjyotishg.in</h4>
+    </div>
+</body>
+</html>
+";
+                string Subject = "Rejection of Advertisement Banner";
+               SendEmail(message,jyotishRecord.Email, Subject);
+                return true;
+
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public bool changeActiveStatusOfAdvertisement(int id)
+        {
+            var res = _context.PurchaseAdvertisement.Where(e => e.Id == id).FirstOrDefault();
+            if (res == null)
+            {
+                return false;
+            }
+
+            res.activeStatus = !res.activeStatus;
+            _context.PurchaseAdvertisement.Update(res);
+            return _context.SaveChanges() > 0;
+        }
+    }
 }

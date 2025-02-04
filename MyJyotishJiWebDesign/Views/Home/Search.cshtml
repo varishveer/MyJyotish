@@ -3,8 +3,9 @@
 
 
 @{
-    string BaseUrl = "https://api.myjyotishg.in/";
-  
+   // string BaseUrl = "https://api.myjyotishg.in/";
+    var BaseUrl = "https://localhost:7118/";
+
 }                
                 
 
@@ -109,6 +110,10 @@
             background: #fad550;
             border-radius:10px;
     }
+
+    .advertisementBanner{
+       
+    }
 </style>
 
 <h4 class="border-bottom py-3 fw-bold text-secondary text-center">Astrologers</h4>
@@ -168,7 +173,8 @@
                     </div>
                 </div>
                 </div>
-            <div class="astrologer-list col-sm-9 overflow-auto content-container" id="astrologerList">
+            <div class="astrologer-list col-sm-9  overflow-auto content-container" >
+                <div class="row" id="astrologerList"></div>
     <!-- Astrologer results will be injected here -->
 </div>
         </div>
@@ -259,7 +265,21 @@
     }
 
 
-  
+  async function getAdvertisementBanners(){
+      let data=null;
+         await $.ajax({
+                url: BaseUrl + "api/user/AdvertisementBanner",
+              type: "get",
+
+              success: function (res) {
+                    data=res;
+                 
+              }, error: function () {
+                  $('#astrologerList').html('<p>An error occurred while searching for astrologers.</p>');
+              }
+          })
+      return data
+  }
 
 
     //function for create stars
@@ -267,13 +287,17 @@
         return '<i class="fa fa-star"></i>'.repeat(5); // Return 5 filled stars
     }
     // Function to display astrologers
-    function displayAstrologers(astrologers) {
+   async function displayAstrologers(astrologers) {
         var html = '';
+        let adCount=0;
+        let showAdvCount=0;
+        let data= await getAdvertisementBanners();
+        console.log(data)
         if (astrologers.length > 0) {
             astrologers.forEach(function (astrologer) {
                 var ImgSrc = "@BaseUrl" + `${astrologer.profileImageUrl}`;
                 html += `
-                 <div class="col-12 col-sm-12 col-md-12 col-lg-12 mb-2 p-1">
+                 <div class="col-3 col-sm-3 col-md-3 col-lg-3 mb-2 p-1">
                                             <div class="card astrologer-card shadow">
                                                  <a class='text-secondary text-decoration-none' href= "/Home/JyotishProfile?Id=${astrologer.id}">
                                                         <img src="${ImgSrc}" class="jyotishProfileImages card-img-top rounded-circle" alt="${astrologer.name}">
@@ -288,12 +312,44 @@
                                                 </a>
                                             </div>
                                         </div>
+                
+                `
+                adCount++
+                if(adCount==8 &&data!=null){
+                    if(data.data.result.length>0){
 
-                `;
+                    html+=`
+      <div class="col-12 col-sm-12 col-md-12 rounded border-0 col-lg-12 mb-2 p-1">
+                                                <div class="card w-100 h-100 ">
+                                                      <img height="200" class="w-100 rounded" src="${BaseUrl+data.data.result[showAdvCount].bannerUrl}">
+                                                </div>
+                                            </div>`
+                                                    if(data.data.result.length-1==showAdvCount){
+                                                          showAdvCount=0;
+                                                    }else{
+                                                showAdvCount++;
+                                                    }
+                    }
+                adCount=0;
+                  }
             });
+               if(astrologers.length<8){
+                     html+=`
+        <div class="col-12 col-sm-12 col-md-12 rounded border-0 col-lg-12 mb-2 p-1">
+                                                  <div class="card w-100 h-100 ">
+                                                        <img height="200" class="w-100 rounded" src="${BaseUrl+data.data.result[showAdvCount].bannerUrl}">
+                                                  </div>
+                                              </div>`
+                    }
            
         }else{
             html='<p class="text-center text-secondary my-4">no record found</p>'
+              html+=`
+        <div class="col-12 col-sm-12 col-md-12 rounded border-0 col-lg-12 mb-2 p-1">
+                                                  <div class="card w-100 h-75 ">
+                                                        <img height="200" class="w-100 rounded" src="${BaseUrl+data.data.result[showAdvCount].bannerUrl}">
+                                                  </div>
+                                              </div>`
         }
         $('#astrologerList').html(html);
         $(".jyotishProfileImages").on('error', function () {

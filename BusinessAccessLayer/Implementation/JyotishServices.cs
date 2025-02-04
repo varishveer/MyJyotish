@@ -2571,6 +2571,7 @@ namespace BusinessAccessLayer.Implementation
                             CreatedDate = DateTime.Now,
                             AreaId = ps.AreaId,
                             activeStatus = false,
+                            appStatus = false,
                             status = true
                         };
 

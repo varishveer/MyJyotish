@@ -762,12 +762,16 @@
 
 
 			},
-			error: function () {
+			error: function (xhr) {
 				Swal.fire({
 					title: "Error",
 					text: "Some issue found !",
 					icon: "error"
 				})
+				if (xhr.status==401){
+						location.href="/jyotish/login"
+					}
+				console.log(xhr)
 			}
 		}).then(() => {
 			$.ajax({

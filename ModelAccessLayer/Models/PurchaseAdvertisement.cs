@@ -18,6 +18,7 @@ namespace ModelAccessLayer.Models
         public DateTime CreatedDate { get; set; }
         public string BannerUrl { get; set; }
         public bool activeStatus { get; set; }
+        public bool appStatus { get; set; }
         public bool status { get; set; }
         public AdvertisementPackage advertisement { get; set; }
         public JyotishModel jyotish { get; set; }

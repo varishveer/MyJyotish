@@ -1360,5 +1360,47 @@ namespace BusinessAccessLayer.Implementation
 
             return Jyotish;
         }
+
+
+        public async Task<List<Advertisementservice>> AdvertisementBanner()
+        {
+            try
+            {
+                // Initialize HttpClient
+                HttpClient client = new HttpClient();
+
+                // Get the response from ipinfo.io API
+                HttpResponseMessage response = await client.GetAsync("https://ipinfo.io/?token=9a8523cd141797");
+                string jsonResponse = await response.Content.ReadAsStringAsync();
+
+                // Parse the JSON response into JObject
+                var apiData = Newtonsoft.Json.Linq.JObject.Parse(jsonResponse);
+
+                // Initialize the result list
+                List<Advertisementservice> res = new List<Advertisementservice>();
+
+                if (apiData != null)
+                {
+                    // Execute the stored procedure with parameters
+                    res = _context.Database.SqlQueryRaw<Advertisementservice>(
+                        "EXEC dbo.sp_AdvertisementManager @country = {0}, @state = {1}, @city = {2}, @action = {3}",
+                        apiData["country"]?.ToString() ?? (object)DBNull.Value,  // Safely extract country, or DBNull if missing
+                        apiData["region"]?.ToString() ?? (object)DBNull.Value,  // Safely extract region (state), or DBNull if missing
+                        apiData["city"]?.ToString() ?? (object)DBNull.Value,    // Safely extract city, or DBNull if missing
+                        3  // Hardcoded action parameter (could be dynamic if needed)
+                    ).ToList();
+                }
+                res = res.OrderBy(e => Guid.NewGuid()).ToList();
+                return res;
+            }
+            catch (Exception ex)
+            {
+                // Log the exception and rethrow or return an empty list
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                return new List<Advertisementservice>(); // Return an empty list in case of error
+            }
+        }
+
+
     }
 }

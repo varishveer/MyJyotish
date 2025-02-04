@@ -89,7 +89,8 @@ max-width:300px !important;
 		z-index: 10000000000000000 !important;
 	}
 </style>
-<div class="astrologer-list mt-3" id="astrologerList">
+<div class="astrologer-list mt-3" >
+	<div class="row" id="astrologerList"></div>
 	<!-- Astrologer results will be injected here -->
 </div>
 
@@ -157,6 +158,7 @@ max-width:300px !important;
 <script src="https://unpkg.com/@@zegocloud/zego-uikit-prebuilt/zego-uikit-prebuilt.js"></script>
 
 <script>
+	
 
 	// Function to fetch astrologers for the chat
 	function GetAstroListCallChat() {
@@ -195,14 +197,31 @@ max-width:300px !important;
 	function generateFullStars() {
 		return '<i class="fa fa-star"></i>'.repeat(5); // Return 5 filled stars
 	}
-	// Function to display astrologers dynamically
-	function displayAstrologers(astrologers) {
+		async function getAdvertisementBanners(){
+		let data=null;
+		   await $.ajax({
+				  url: BaseUrl + "api/user/AdvertisementBanner",
+				type: "get",
 
+				success: function (res) {
+					  data=res;
+
+				}, error: function () {
+					$('#astrologerList').html('<p>An error occurred while searching for astrologers.</p>');
+				}
+			})
+		return data
+	}
+	// Function to display astrologers dynamically
+	async function displayAstrologers(astrologers) {
+		  let adCount=0;
+		let showAdvCount=0;
+		let data= await getAdvertisementBanners();
 		var html = '';
 		astrologers.forEach(function (astrologer) {
 			var ImgSrc = BaseUrl + astrologer.profileImageUrl;
 			html += `
-					<div class="astrologer-card">
+					<div class="astrologer-card col-sm-3">
 						   <a href="/Home/JyotishProfile?Id=${astrologer.id}" class="text-decoration-none">
 								<i class="decorative-icon fa fa-star"></i>
 										<img src=  "${ImgSrc}" class='jyotishProfileImages'  alt="${astrologer.name}">
@@ -221,9 +240,39 @@ max-width:300px !important;
 						<button class="btn btn-outline-success d-none" id="waitingBtn_${astrologer.id}">Waiting...</button>
 
 					</div>
-				`;
-		});
+				`
+				;
+	 adCount++
+				if(adCount==8 &&data!=null){
+					if(data.data.result.length>0){
+
+					html+=`
+	  <div class="col-12 col-sm-12 col-md-12 rounded border-0 col-lg-12 mb-2 mt-4 p-1">
+												<div class="card w-100 h-100 ">
+													  <img height="200" class="w-100 rounded" src="${BaseUrl+data.data.result[showAdvCount].bannerUrl}">
+												</div>
+											</div>`
+													if(data.data.result.length-1==showAdvCount){
+														  showAdvCount=0;
+													}else{
+												showAdvCount++;
+													}
+					}
+				adCount=0;
+				  }
+			});
+			   if(astrologers.length<8){
+					 html+=`
+		<div class="col-12 col-sm-12 col-md-12 rounded border-0 col-lg-12 mt-4 mb-2 p-1">
+												  <div class="card w-100 h-100 ">
+														<img height="200" class="w-100 rounded" src="${BaseUrl+data.data.result[showAdvCount].bannerUrl}">
+												  </div>
+											  </div>`
+					}
 		$('#astrologerList').html(html);
+		$(".jyotishProfileImages").on('error', function () {
+					$(this).attr("src", '/user-not-found.png');
+				});
 	}
 
 	// Initialize the function to get astrologers on page load

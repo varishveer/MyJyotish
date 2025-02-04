@@ -285,6 +285,13 @@ arrDate.forEach(function(d){
 
 
     function getAdvertisementPackage(){
+         Swal.fire({
+                    title: "Processing Your Request",
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                })
          $.ajax({
                     type: "get",
                     url: BaseUrl+"api/Admin/getAdvertisementPackage",
@@ -328,11 +335,13 @@ arrDate.forEach(function(d){
                                   })
                               }
                           }
+                          Swal.close();
 
                         } else {
 
                             Swal.fire('Error', response.message, 'error');
                         }
+                        
                     },
                     error: function () {
                         Swal.fire('Error', 'An unexpected error occurred. Please try again.', 'error');
