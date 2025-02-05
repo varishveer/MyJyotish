@@ -78,6 +78,7 @@ namespace DataAccessLayer.DbServices
         public DbSet<PrivacyPolicy> PrivacyPolicy { get; set; }
         public DbSet<AdvertisementPackage> AdvertisementPackage { get; set; }
         public DbSet<PurchaseAdvertisement> PurchaseAdvertisement { get; set; }
+        public DbSet<PoojaBookMark> PoojaBookMark { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         { 
@@ -352,10 +353,16 @@ namespace DataAccessLayer.DbServices
 		.HasOne(c => c.advertisement)
 		.WithMany(j => j.purchaseAdvertisement)
 		.HasForeignKey(c => c.adId);
+
             modelBuilder.Entity<PurchaseAdvertisement>()
 		.HasOne(c => c.jyotish)
 		.WithMany(j => j.purchaseAdvertisement)
 		.HasForeignKey(c => c.jyotishId);
+            
+            modelBuilder.Entity<PoojaBookMark>()
+		.HasOne(c => c.Pooja)
+		.WithMany(j => j.PoojaBookMark)
+		.HasForeignKey(c => c.poojaId);
 
 		}
 

@@ -249,6 +249,7 @@ namespace ModelAccessLayer.ViewModels
         public string Procedure { get; set; }
         public string Benefits { get; set; }
         public string AboutGod { get; set; }
+
         public string ImageUrl { get; set; }
         public IFormFile Image { get; set; }
         public bool status { get; set; }
@@ -481,5 +482,13 @@ namespace ModelAccessLayer.ViewModels
         public string? AreaName { get; set; }  // Name of the area associated with the advertisement (nullable string)
     }
 
+    public class PoojaBookMarkService
+    {
+        public int Id { get; set; }
+        public int poojaId { get; set; }
+        public string BookMark { get; set; }
+        public DateTime EndDate { get; set; }
 
+        public bool status { get; set; }
+    }
 }

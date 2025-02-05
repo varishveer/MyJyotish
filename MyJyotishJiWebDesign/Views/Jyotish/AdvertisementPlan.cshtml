@@ -260,7 +260,7 @@
 					<div class="col-sm-6">
 						<div class="form-group  p-0">
 							<label for="startDate" class="form-label">Start Date</label>
-							<input type="date" min="2024-12-21" id="startDate" class="form-control form-control-sm" name="startDate" required>
+							<input type="date" min="@DateTime.Now.Date.AddDays(1).ToString("yyyy/MM/dd")" id="startDate" class="form-control form-control-sm" name="startDate" required>
 						</div>
 					</div>
 					<div class="col-sm-6 mb-3">

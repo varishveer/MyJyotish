@@ -352,6 +352,11 @@
 											<span class="sub-item">Pooja Requests</span>
 										</a>
 									</li>
+									<li>
+										<a href="/Jyotish/BookedPoojaHistory">
+											<span class="sub-item">Pooja History</span>
+										</a>
+									</li>
 
 								</ul>
 							</div>
@@ -368,7 +373,8 @@
 										<a href="/Jyotish/AdvertisementPlan">
 											<span class="sub-item">Advertisement Plans</span>
 										</a>
-									</li><li>
+									</li>
+									<li>
 										<a href="/Jyotish/AdvertisementStatus">
 											<span class="sub-item">Advertisement Status</span>
 										</a>
@@ -520,7 +526,7 @@
 									</li>
 								</ul>
 							</li>
-							
+
 							<li class="nav-item topbar-user dropdown hidden-caret">
 								<a class="dropdown-toggle profile-pic"
 								   data-bs-toggle="dropdown"
@@ -570,9 +576,9 @@
 				</nav>
 				<!-- End Navbar -->
 			</div>
-			
+
 			<!--show user request for chat-->
-			<div class="toast-container position-fixed  end-0 p-3">
+			<div class="toast-container d-none position-fixed  end-0 p-3">
 				<div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
 					<div class="toast-header">
 						<img src="..." id="userImage" height="50" width="50" class="rounded me-2" alt="...">
@@ -590,8 +596,8 @@
 
 
 			<script>
-				   //var BaseUrl = "https://api.myjyotishg.in/"
-				   var BaseUrl = "https://localhost:7118/"
+				//var BaseUrl = "https://api.myjyotishg.in/"
+				var BaseUrl = "https://localhost:7118/"
 			</script>
 
 			<div class="container">
@@ -639,6 +645,9 @@
 					<div class="d-flex align-items-center">
 						<img id="userhdetailschatheader" height="50" width="50" class="rounded-circle border" src="~/user-not-found.png" alt="user profile" />
 						<h1 class="modal-title fs-5 ms-2" id="ChatModalLabel"></h1>
+						&nbsp;&nbsp;&nbsp;
+						<span id="chatTimer" class="border rounded px-3">
+						</span>
 					</div>
 					<button type="button" class="btn-close" id="exitFromChat"></button>
 				</div>
@@ -659,8 +668,6 @@
 	</div>
 	<script src="~/assets/js/core/jquery-3.7.1.min.js"></script>
 	<!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>-->
-
-
 	<!-- Include DataTables JS -->
 	<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 
@@ -908,7 +915,7 @@
 
 						const shortName = item.name.length > 15 ? item.name.substring(0, 15) + '...' : item.name;
 						notificationItem.innerHTML = `
-								    		  <a href="/Jyotish/UpcomingAppointment">
+											  <a href="/Jyotish/UpcomingAppointment">
 																		<div class="notif-icon notif-primary">
 																			<i class="fa fa-user-plus"></i>
 																		</div>
@@ -948,7 +955,6 @@
 		let hide = true;
 		// Logout
 		$("#logout").click(function () {
-
 
 			Swal.fire({
 				title: "Are you sure you want to logout?",
@@ -1048,6 +1054,7 @@
 						} else {
 							roomId = null
 						}
+						$(".toast-container").removeClass("d-none")
 					} else {
 						const toastElList = document.querySelectorAll('.toast');
 
@@ -1058,6 +1065,8 @@
 
 							toast.hide();
 						})
+						$(".toast-container").addClass("d-none")
+
 					}
 				};
 
@@ -1161,10 +1170,10 @@
 						await changeJyotishServiceStatus(jyotishId,false);
 					},
 					onUserJoin: (user) => {
-					
+
 					},
 					onUserLeave: (user) => {
-						
+
 					}
 
 				});
@@ -1238,6 +1247,28 @@
 				}
 			})
 		}
+
+		function startCounting(status) {
+			let count = 0
+			let minute = 0;
+			let interval;
+			if(status){
+			interval=setInterval(() => {
+				count++;
+				if (count >= 60) {
+					minute++;
+					count = 0;
+				}
+			 let formattedMinute = minute.toString().padStart(2, '0');
+			let formattedCount = count.toString().padStart(2, '0');
+
+			$("#chatTimer").text(`${formattedMinute}:${formattedCount}`);
+			}, 1000)
+			}else{
+				clearInterval(interval);
+			}
+		};
+
 		function startChat(userId) {
 			getSomeUser(userId)
 			getChatHistory(userId);
@@ -1248,6 +1279,7 @@
 					socket.onopen = function (event) {
 						console.log('WebSocket connection established:', event);
 						$("#ChatModal").modal("show")
+						startCounting(true);
 						const toastElList = document.querySelectorAll('.toast');
 
 						const toastList = [...toastElList].map(toastEl => {
@@ -1280,11 +1312,14 @@
 							title: "error",
 							icon: "error"
 						});
+						startCounting(false);
+
 					};
 
 					socket.onclose = function (event) {
 						console.log('WebSocket connection closed:', event);
 						$("#ChatModal").modal("hide")
+						startCounting(false);
 
 					};
 

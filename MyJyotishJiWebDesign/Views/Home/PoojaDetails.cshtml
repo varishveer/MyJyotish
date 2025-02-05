@@ -627,7 +627,7 @@
 				success: function (response) {
 					if (response.status == 200) {
 						let ratingCards = '';
-
+						$('#ratingSection').empty();
 						response.data.forEach(review => {
 							const userName = review.userName || 'Anonymous'; // Use 'Anonymous' if review.name is undefined
 							const profileInitial = userName.charAt(0); // Safely get the first letter of the name

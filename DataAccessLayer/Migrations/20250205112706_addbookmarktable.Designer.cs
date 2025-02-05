@@ -4,6 +4,7 @@ using DataAccessLayer.DbServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20250205112706_addbookmarktable")]
+    partial class addbookmarktable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -254,9 +257,6 @@ namespace DataAccessLayer.Migrations
 
                     b.Property<int>("PoojaId")
                         .HasColumnType("int");
-
-                    b.Property<bool>("completeStatus")
-                        .HasColumnType("bit");
 
                     b.Property<int>("jyotishId")
                         .HasColumnType("int");
@@ -2855,7 +2855,7 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("ModelAccessLayer.Models.PoojaBookMark", b =>
                 {
-                    b.HasOne("ModelAccessLayer.Models.BookedPoojaList", "Pooja")
+                    b.HasOne("ModelAccessLayer.Models.PoojaRecordModel", "Pooja")
                         .WithMany("PoojaBookMark")
                         .HasForeignKey("poojaId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -3126,11 +3126,6 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("AppointmentData");
                 });
 
-            modelBuilder.Entity("ModelAccessLayer.Models.BookedPoojaList", b =>
-                {
-                    b.Navigation("PoojaBookMark");
-                });
-
             modelBuilder.Entity("ModelAccessLayer.Models.ClientMembers", b =>
                 {
                     b.Navigation("Attachment");
@@ -3251,6 +3246,8 @@ namespace DataAccessLayer.Migrations
             modelBuilder.Entity("ModelAccessLayer.Models.PoojaRecordModel", b =>
                 {
                     b.Navigation("BookedPooja");
+
+                    b.Navigation("PoojaBookMark");
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.SlotBookingModel", b =>

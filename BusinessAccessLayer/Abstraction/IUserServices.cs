@@ -78,6 +78,7 @@ namespace BusinessAccessLayer.Abstraction
         public dynamic getjyotishByuserAppointment(int userId,int memberId);
 
         public dynamic GettopTenWalletHistory(int UserId);
+        public  Task<List<Advertisementservice>> GetTopOneAdvertisementBanner();
 
 
 

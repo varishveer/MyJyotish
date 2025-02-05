@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using ModelAccessLayer.Models;
 using MyJyotishGApi.RazorPay;
 using System.Collections.Generic;
 using System.Net;
@@ -35,7 +36,6 @@ builder.Services.AddScoped<IRazorPayServices,RazorPayServices>();
 builder.Services.AddScoped<ICallServices, CallServices>();
 builder.Services.AddScoped<IChat, ChatServices>();
 builder.Services.AddSignalR();
-
 
 
 builder.Services.AddAuthentication(options =>
@@ -125,7 +125,8 @@ builder.Services.AddCors(options =>
                .AllowCredentials();                 // Allow credentials (cookies, HTTP authentication, etc.)
     });
 });
-builder.Services.AddSignalR();
+// Register the background service as scoped (not singleton)
+builder.Services.AddHostedService<DatabaseBackgroundService>();
 var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
@@ -162,3 +163,97 @@ app.MapHub<CallHub>("/callhub");
 app.MapControllers();
 app.Run();
 
+
+// Background Service to update the database
+public class DatabaseBackgroundService : BackgroundService
+{
+    private readonly IServiceScopeFactory _scopeFactory;
+
+    public DatabaseBackgroundService(IServiceScopeFactory scopeFactory)
+    {
+        _scopeFactory = scopeFactory;
+    }
+
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    {
+        while (!stoppingToken.IsCancellationRequested)
+        {
+            try
+            {
+                // Get current date and time
+                DateTime currentDate = DateTime.Now;
+
+                // Calculate the time for the next day at midnight (or any time you want)
+                DateTime nextRunTime = currentDate.Date.AddDays(1);  // This sets the next run to be at midnight
+                TimeSpan timeToNextRun = nextRunTime - currentDate;
+
+                // Wait until it's time for the next run (next day)
+                await Task.Delay(timeToNextRun, stoppingToken);
+                using (var scope = _scopeFactory.CreateScope())
+                {
+                    // Resolve the scoped service (MyDbContext) within the scope
+                    var _dbContext = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
+
+                    var res = _dbContext.PurchaseAdvertisement
+      .Where(e => e.status)
+      .Include(e => e.advertisement)
+      .ToList();
+
+                List<PurchaseAdvertisement> pa = new List<PurchaseAdvertisement>();
+
+                if (res.Count > 0)
+                {
+                    foreach (var item in res)
+                    {
+                        // Calculate the endDate based on Plantype
+                        var endDate = item.advertisement.Plantype.ToLower() switch
+                        {
+                            "week" => item.StartDate.AddDays(item.advertisement.Duration * 7), // Adding weeks
+                            "month" => item.StartDate.AddMonths(item.advertisement.Duration), // Adding months
+                            _ => item.StartDate.AddDays(item.advertisement.Duration) // Default to adding days
+                        };
+
+                        // Compare StartDate and endDate to current date
+                        if (item.StartDate.Date == DateTime.Now.Date)
+                        {
+                            item.activeStatus = true;
+                            pa.Add(item);
+                        }
+                        else if (endDate.Date < DateTime.Now.Date)
+                        {
+                            item.status = false;
+                            pa.Add(item);
+                        }
+                    }
+                }
+
+                if (pa.Count > 0)
+                {
+                    // Only update if there are items to update
+                    _dbContext.PurchaseAdvertisement.UpdateRange(pa);
+                    await _dbContext.SaveChangesAsync(); // Don't forget to save the changes
+                }
+
+                    var planData = _dbContext.PackageManager.Where(e => e.Status && e.ExpiryDate<DateTime.Now.Date).ToList();
+                    if (planData.Count > 0)
+                    {
+                        foreach(var item in planData)
+                        {
+                            item.Status = false;
+                        }
+                        _dbContext.PackageManager.UpdateRange(planData);
+                        await _dbContext.SaveChangesAsync();
+                    }
+                    
+            }
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                Console.WriteLine($"Error occurred: {ex.Message}");
+            }
+
+           
+        }
+    }
+}

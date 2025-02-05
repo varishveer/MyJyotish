@@ -429,10 +429,11 @@ namespace BusinessAccessLayer.Implementation
                 join country in _context.Countries on user.Country equals country.Id
                 join state in _context.States on user.State equals state.Id
                 join city in _context.Cities on user.City equals city.Id
-                where bookpooja.jyotishId == jyotishId && bookpooja.status
+                where bookpooja.jyotishId == jyotishId && bookpooja.status  && !bookpooja.completeStatus
                 orderby bookpooja.Id descending
                 select new
                 {
+                    id=bookpooja.Id,
                     userId = user.Id,
                     poojaId = pooja.Id,
                     userName = user.Name,
@@ -444,6 +445,101 @@ namespace BusinessAccessLayer.Implementation
                 }
                 ).ToList();
             return res;
+        } 
+        public dynamic getBookedPoojaListWhichIsCompleted(int jyotishId)
+        {
+            var res = (
+                from bookpooja in _context.BookedPoojaList
+                join bookmark in _context.PoojaBookMark on bookpooja.Id equals bookmark.poojaId into leftbookmark from bookmark in leftbookmark.DefaultIfEmpty()
+                join user in _context.Users on bookpooja.userId equals user.Id
+                join pooja in _context.PoojaRecord on bookpooja.PoojaId equals pooja.Id
+                join poojaType in _context.PoojaList on pooja.PoojaType equals poojaType.Id
+                join country in _context.Countries on user.Country equals country.Id
+                join state in _context.States on user.State equals state.Id
+                join city in _context.Cities on user.City equals city.Id
+                where bookpooja.jyotishId == jyotishId && bookpooja.status  && bookpooja.completeStatus
+                orderby bookpooja.Id descending
+                select new
+                {
+                    id=bookpooja.Id,
+                    userId = user.Id,
+                    poojaId = pooja.Id,
+                    userName = user.Name,
+                    mobile = user.Mobile,
+                    poojaName = poojaType.Name,
+                    bookingDate = bookpooja.BookingDate.ToString("dd-MM-yyyy hh:mm"),
+                    poojaDate = bookpooja.PoojaDate.ToString("dd-MM-yyyy"),
+                    address = city.Name + "," + state.Name + "," + country.Name,
+                    bookmarkId=bookmark!=null?bookmark.Id:0
+                }
+                ).ToList();
+            return res;
+        }
+
+        public dynamic getPoojaBookmark(int id)
+        {
+            var res = _context.PoojaBookMark.Where(e => e.Id == id && e.status).FirstOrDefault();
+            return res;
+        }
+
+        public bool removePoojaBookmark(int id)
+        {
+            var res = _context.PoojaBookMark.Where(e => e.Id == id && e.status).FirstOrDefault();
+            if (res == null)
+            {
+                return false;
+            }
+            res.status = false;
+            _context.PoojaBookMark.Update(res);
+            return _context.SaveChanges() > 0;
+        }
+
+        public bool AddPoojaBookMark(PoojaBookMarkService pms)
+        {
+            var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                PoojaBookMark pm = new PoojaBookMark
+                {
+                    poojaId = pms.poojaId,
+                    BookMark = pms.BookMark,
+                    EndDate = pms.EndDate,
+                    status = true
+                };
+                _context.PoojaBookMark.Add(pm);
+                if (_context.SaveChanges() > 0)
+                {
+                    var res = _context.BookedPoojaList.Where(e => e.Id == pms.poojaId && e.status).FirstOrDefault();
+                    if (res == null)
+                    {
+                        transaction.Rollback();
+                        return false;
+                    }
+                    res.completeStatus = true;
+                    _context.BookedPoojaList.Update(res);
+                    transaction.Commit();
+                    return _context.SaveChanges() > 0;
+                };
+                return false;
+            }catch(Exception ex)
+            {
+                transaction.Rollback();
+                return false;
+            }
+        }
+
+        
+
+        public bool CompletePoojaContact(int id)
+        {
+            var res = _context.BookedPoojaList.Where(e => e.Id == id && e.status).FirstOrDefault();
+            if (res == null)
+            {
+                return false;
+            }
+            res.completeStatus = true;
+            _context.BookedPoojaList.Update(res);
+            return _context.SaveChanges() > 0;
         }
 
         public dynamic poojaByPoojaId(int id)
@@ -1625,7 +1721,6 @@ namespace BusinessAccessLayer.Implementation
 
             return record;
         }
-
 
 
         public string UpdateProblemSolution(ProblemSolutionViewModel model)

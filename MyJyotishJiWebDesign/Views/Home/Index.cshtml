@@ -149,7 +149,10 @@
 	<!-- Small Banner -->
 	<div class="container-fluid my-3">
 		<div class="row">
-			<img src="https://api.myjyotishg.in/Images/HomeBanner12.jpg" class="img-fluid" alt="Small Banner">
+			@if(Model!=null){
+
+				<img src="@("https://api.myjyotishg.in/"+Model[0]?.bannerUrl)" class="img-fluid" alt="Small Banner">
+			}
 		</div>
 	</div>
 

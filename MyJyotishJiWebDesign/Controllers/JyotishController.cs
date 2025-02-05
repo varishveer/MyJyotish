@@ -6,7 +6,6 @@ namespace MyJyotishJiWebDesign.Controllers
 {
     public class JyotishController : Controller
     {
-        
         public ActionResult SignUp() { return View();}
         public ActionResult OtpVerification() { return View(); }
         public ActionResult Register() { return View(); }
@@ -31,7 +30,6 @@ namespace MyJyotishJiWebDesign.Controllers
         public ActionResult Subscription() { return View(); }
         public ActionResult Gallery() { return View(); }
         public ActionResult Video() { return View(); }
-
         public ActionResult AppointmentSlot() { return View(); }
         public ActionResult JyotishSolution() { return View(); }
         public ActionResult ProblemSolution() { return View(); }
@@ -39,6 +37,8 @@ namespace MyJyotishJiWebDesign.Controllers
         public ActionResult Wallets() { return View(); }
         public ActionResult Pooja() { return View(); }
         public ActionResult BookedPooja() { return View(); }
+        public ActionResult BookedPoojaHistory() { return View(); }
+
         public ActionResult GetServiceRevord() { return View();}
         public ActionResult AdvertisementPlan() { return View();}
         public ActionResult AdvertisementStatus() { return View();}

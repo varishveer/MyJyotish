@@ -110,6 +110,11 @@ namespace BusinessAccessLayer.Abstraction
 
         public dynamic getUserServiceRevordForJyotish(int jyotishId);
         public dynamic getPurchasedAdvertisement(int jyotishId);
+        public bool AddPoojaBookMark(PoojaBookMarkService pms);
+        public bool CompletePoojaContact(int id);
+        public dynamic getBookedPoojaListWhichIsCompleted(int jyotishId);
+        public dynamic getPoojaBookmark(int id);
+        public bool removePoojaBookmark(int id);
 
     }
 }

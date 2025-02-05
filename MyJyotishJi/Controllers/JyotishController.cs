@@ -1417,6 +1417,53 @@ public IActionResult getBookedPoojaList(int jyotishId)
 	}
 	catch { return StatusCode(500, new { Status = 500, Message = "Internal Server Error " }); }
 }
+		[HttpGet("getBookedPoojaListWhichIsCompleted")]
+public IActionResult getBookedPoojaListWhichIsCompleted(int jyotishId)
+{
+	try
+	{
+		var res = _jyotish.getBookedPoojaListWhichIsCompleted(jyotishId);
+		
+			return Ok(new { status = 200, message = "data retirieved",data=res });
+
+		
+	}
+	catch { return StatusCode(500, new { Status = 500, Message = "Internal Server Error " }); }
+}
+		[HttpGet("getPoojaBookmark")]
+public IActionResult getPoojaBookmark(int id)
+{
+	try
+	{
+		var res = _jyotish.getPoojaBookmark(id);
+		
+			return Ok(new { status = 200, message = "data retirieved",data=res });
+
+		
+	}
+	catch { return StatusCode(500, new { Status = 500, Message = "Internal Server Error " }); }
+}
+		[HttpGet("removePoojaBookmark")]
+public IActionResult removePoojaBookmark(int id)
+{
+	try
+	{
+		var res = _jyotish.removePoojaBookmark(id);
+				if (res)
+				{
+
+			return Ok(new { status = 200, message = "Bookmark removed successfully" });
+				}
+				else
+				{
+                    return Ok(new { status = 500, message = "Some error occured" });
+
+                }
+
+
+            }
+	catch { return StatusCode(500, new { Status = 500, Message = "Internal Server Error " }); }
+}
 		[HttpGet("changeJyotishActiveStatus")]
 		public IActionResult changeJyotishActiveStatus(int jyotishId,bool status)
 		{
@@ -1523,6 +1570,30 @@ public IActionResult getBookedPoojaList(int jyotishId)
 		{
 			var res = _jyotish.getPurchasedAdvertisement(jyotishId);
 			return Ok(new { status = 200, message = "data retrieved", data = res });
+
+        }
+		[HttpPost("AddPoojaBookMark")]
+		public IActionResult AddPoojaBookMark(PoojaBookMarkService pm)
+		{
+			var res = _jyotish.AddPoojaBookMark(pm);
+			if (res)
+			{
+                return Ok(new { status = 200, message = "BookMark added successfully" });
+
+            }
+            return Ok(new { status = 500, message = "some error occured" });
+
+        }
+		[HttpGet("CompletePoojaContact")]
+		public IActionResult CompletePoojaContact(int id)
+		{
+			var res = _jyotish.CompletePoojaContact(id);
+			if (res)
+			{
+                return Ok(new { status = 200, message = "Changes apply successfully" });
+
+            }
+            return Ok(new { status = 500, message = "some error occured" });
 
         }
 

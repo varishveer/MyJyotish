@@ -15,9 +15,11 @@ namespace ModelAccessLayer.Models
         public DateTime BookingDate { get; set; }
         public DateTime PoojaDate { get; set; }
         public bool status { get; set; }
+        public bool completeStatus { get; set; }
 
         public UserModel User { get; set; }
         public JyotishModel Jyotish { get; set; }
         public PoojaRecordModel Pooja { get; set; }
+        public ICollection<PoojaBookMark> PoojaBookMark { get; set; } = new List<PoojaBookMark>();
     }
 }

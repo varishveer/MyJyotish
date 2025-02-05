@@ -2,78 +2,205 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-    Layout = "JyotishLayout";
+	Layout = "JyotishLayout";
 }
 
 
 <div class="card-body">
-    <h3 class="mb-5 text-primary">Pooja Requests List</h3>
-    <div class="table-responsive">
-        <table id="DataTable" class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>Sr</th>
-                    <th>UserName</th>
-                    <th>Mobile Number</th>
-                    <th>poojaType</th>
-                    <th>Booking Date</th>
-                    <th>Pooja Date</th>
-                    <th>Address</th>
-                </tr>
-            </thead>
-            <tbody id="bookedpoojaList">
-            </tbody>
-        </table>
-    </div>
+	<h3 class="mb-5 text-primary">Pooja Requests List</h3>
+	<div class="table-responsive">
+		<table id="DataTable" class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th>Sr</th>
+					<th>UserName</th>
+					<th>Mobile Number</th>
+					<th>poojaType</th>
+					<th>Booking Date</th>
+					<th>Pooja Date</th>
+					<th>Address</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody id="bookedpoojaList">
+			</tbody>
+		</table>
+	</div>
 </div>
 
 <script>
-    function getBookedPoojaList(){
-        Swal.fire({
-            title: "Processing Your Request",
-            allowOutsideClick: false,
-            didOpen: () => {
-                Swal.showLoading();
-            }
-        })
-        let jyotishId=localStorage.getItem("Id")
-        $.ajax({
-            url: BaseUrl + 'api/Jyotish/getBookedPoojaList',
-            type: 'get',
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem("Token2")}`
-            },
-            data: { jyotishId: jyotishId },
-            success: function (res) {
-                Swal.close()
-                console.log(res)
-                if(res.status==200){
-                    if (res.data.length > 0) {
-                        res.data.forEach(function(d,i){
-                        $("#bookedpoojaList").append(`
-                    <tr>
-                    <td>${i+1}</td>
-                    <td>${d.userName}</td>
-                    <td>${d.mobile}</td>
-                    <td>${d.poojaName}</td>
-                    <td>${d.bookingDate}</td>
-                    <td>${d.poojaDate}</td>
-                    <td>${d.address}</td>
-                    </tr>
-                    `)
-                        })
-                    }
-                }
-                
-        $('#DataTable').DataTable();
-            },error:function(){
-                Swal.fire({
-                    title:"error",
-                    text:"some error occured",
-                    icon:"error"
-                })
-            }
-        })
-    }
-    getBookedPoojaList();
+	function getBookedPoojaList(){
+		Swal.fire({
+			title: "Processing Your Request",
+			allowOutsideClick: false,
+			didOpen: () => {
+				Swal.showLoading();
+			}
+		})
+		let jyotishId=localStorage.getItem("Id")
+		$.ajax({
+			url: BaseUrl + 'api/Jyotish/getBookedPoojaList',
+			type: 'get',
+			headers: {
+				'Authorization': `Bearer ${localStorage.getItem("Token2")}`
+			},
+			data: { jyotishId: jyotishId },
+			success: function (res) {
+				Swal.close()
+				console.log(res)
+				if(res.status==200){
+					if (res.data.length > 0) {
+						res.data.forEach(function(d,i){
+						$("#bookedpoojaList").append(`
+					<tr>
+					<td>${i+1}</td>
+					<td>${d.userName}</td>
+					<td>${d.mobile}</td>
+					<td>${d.poojaName}</td>
+					<td>${d.bookingDate}</td>
+					<td>${d.poojaDate}</td>
+					<td>${d.address}</td>
+					<td>
+					<i title="click if you want to remove this request to this list" role="button" data-id="${d.id}" class="fas completeContact fs-5 text-success fa-check-double"></i> &nbsp;&nbsp;
+					<i title="Bookmark" data-id="${d.id}" role="button" class="far fs-5 createBookmark fa-bookmark"></i>
+					</td>
+					</tr>
+					`)
+						})
+					}
+				}
+
+
+				$(document).on("click",".completeContact",function(){
+					let id=$(this).attr("data-id");
+						Swal.fire({
+	  title: "Confirm your action?",
+	  text:"Do you really want to make changes?",
+	  icon:"question",
+	  showDenyButton: true,
+	  showCancelButton: true,
+	  confirmButtonText: "Ok",
+	}).then((result) => {
+	  /* Read more about isConfirmed, isDenied below */
+	  if (result.isConfirmed) {
+		   Swal.fire({
+			title: "Processing Your Request",
+			allowOutsideClick: false,
+			didOpen: () => {
+				Swal.showLoading();
+			}
+		})
+					$.ajax({
+						url:BaseUrl+"api/jyotish/CompletePoojaContact",
+						type:"get",
+						 headers: {
+				'Authorization': `Bearer ${localStorage.getItem("Token2")}`
+			},
+						data:{id:id},
+						success:function(res){
+							if(res.status==200){
+								 Swal.fire({
+					title:"success",
+					text:res.message,
+					icon:"success",
+				   didClose:()=>{
+					   location.reload()
+				   }
+				})
+							}else{
+								 Swal.fire({
+					title:"error",
+					text:"some error occured",
+					icon:"error"
+				})
+							}
+						},error:function(xhr){
+						 Swal.fire({
+					title:"error",
+					text:"some error occured",
+					icon:"error"
+				})
+						}
+					})
+					}
+					})
+				})
+
+
+				$(document).on("click",".createBookmark",function(){
+					let id=$(this).attr("data-id");
+					Swal.fire({
+		title: 'Enter Bookmark Detail',
+		html: `
+			<label for="textarea" class="text-start d-block">Your Text:</label>
+			<textarea id="textarea" class="form-control my-2" rows="4" ></textarea>
+			<label for="date" class="text-start d-block">Select End Date:</label>
+			<input type="date" id="date" class="form-control">
+		`,
+		showCancelButton: true,
+		confirmButtonText: 'Add',
+		cancelButtonText: 'Cancel',
+		preConfirm: () => {
+			// Get values from the inputs
+			const text = document.getElementById('textarea').value;
+			const date = document.getElementById('date').value;
+
+			// Check if inputs are not empty
+			if (!text || !date) {
+				Swal.showValidationMessage('Please fill in both fields!');
+				return false;
+			}
+
+			// Prepare data to send via AJAX
+			const data = {
+				BookMark: text,
+				endDate: date,
+				poojaId:id
+			};
+			  Swal.fire({
+			title: "Processing Your Request",
+			allowOutsideClick: false,
+			didOpen: () => {
+				Swal.showLoading();
+			}
+		})
+			// AJAX request
+			$.ajax({
+				url: BaseUrl+'api/jyotish/AddPoojaBookMark',  // Replace with your actual API endpoint
+				method: 'POST',
+				 headers: {
+				'Authorization': `Bearer ${localStorage.getItem("Token2")}`
+			},
+				contentType: 'application/json',
+				data: JSON.stringify(data),  // Convert the data to JSON format
+				success: function(response) {
+					if(response.status==200){
+					Swal.fire('Success!', 'Data submitted successfully.', 'success').then(()=>{
+						location.reload();
+					});
+					}else{
+					Swal.fire('Error!', 'There was an issue submitting the data.', 'error');
+
+					}
+				},
+				error: function(xhr, status, error) {
+					Swal.fire('Error!', 'There was an issue submitting the data.', 'error');
+					console.log(xhr)
+				}
+			});
+		}
+	});
+				})
+
+		$('#DataTable').DataTable();
+			},error:function(){
+				Swal.fire({
+					title:"error",
+					text:"some error occured",
+					icon:"error"
+				})
+			}
+		})
+	}
+	getBookedPoojaList();
 </script>

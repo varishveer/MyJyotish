@@ -172,16 +172,28 @@ max-width:300px !important;
 		$.ajax({
 			url: BaseUrl + 'Api/User/GetAstroListCallChat?listName=Call',
 			type: 'GET',
-			success: function (response) {
+			success:async function (response) {
 				if (response.status === 200) {
 					var astrologers = response.data;
 					if (astrologers.length > 0) {
 						displayAstrologers(astrologers);
 					} else {
-						$('#astrologerList').html('<p class="text-center">No astrologers found.</p>');
+						let data= await getAdvertisementBanners();
+						$('#astrologerList').html(`<p class="text-center">No astrologers found.</p>
+				${data.data.result.length>0?`<div class="col-12 col-sm-12 col-md-12 rounded border-0 col-lg-12 mt-4  p-1">
+														  <div class="card w-100 h-100 ">
+																<img height="200" class="w-100 rounded" src="${BaseUrl+data.data.result[0].bannerUrl}">
+														  </div>
+													  </div>`:""}`);
 					}
 				} else {
-					$('#astrologerList').html('<p class="text-center">No astrologers found.</p>');
+					let data= await getAdvertisementBanners();
+						$('#astrologerList').html(`<p class="text-center">No astrologers found.</p>
+				${data.data.result.length>0?`<div class="col-12 col-sm-12 col-md-12 rounded border-0 col-lg-12 mt-4  p-1">
+														  <div class="card w-100 h-100 ">
+																<img height="200" class="w-100 rounded" src="${BaseUrl+data.data.result[0].bannerUrl}">
+														  </div>
+													  </div>`:""}`);
 				}
 				Swal.close();
 				$(".jyotishProfileImages").on('error', function () {
@@ -202,10 +214,8 @@ max-width:300px !important;
 		   await $.ajax({
 				  url: BaseUrl + "api/user/AdvertisementBanner",
 				type: "get",
-
 				success: function (res) {
 					  data=res;
-
 				}, error: function () {
 					$('#astrologerList').html('<p>An error occurred while searching for astrologers.</p>');
 				}

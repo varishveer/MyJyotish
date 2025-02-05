@@ -1,0 +1,156 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+	Layout = "JyotishLayout";
+
+}
+
+
+<div class="card-body">
+	<h3 class="mb-5 text-primary">Pooja Requests List</h3>
+	<div class="table-responsive">
+		<table id="DataTable" class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th>Sr</th>
+					<th>UserName</th>
+					<th>Mobile Number</th>
+					<th>poojaType</th>
+					<th>Booking Date</th>
+					<th>Pooja Date</th>
+					<th>Address</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody id="bookedpoojaList">
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<script>
+	function getBookedPoojaList(){
+		Swal.fire({
+			title: "Processing Your Request",
+			allowOutsideClick: false,
+			didOpen: () => {
+				Swal.showLoading();
+			}
+		})
+		let jyotishId=localStorage.getItem("Id")
+		$.ajax({
+			url: BaseUrl + 'api/Jyotish/getBookedPoojaListWhichIsCompleted',
+			type: 'get',
+			headers: {
+				'Authorization': `Bearer ${localStorage.getItem("Token2")}`
+			},
+			data: { jyotishId: jyotishId },
+			success: function (res) {
+				Swal.close()
+				console.log(res)
+				if(res.status==200){
+					if (res.data.length > 0) {
+						res.data.forEach(function(d,i){
+						$("#bookedpoojaList").append(`
+					<tr>
+					<td>${i+1}</td>
+					<td>${d.userName}</td>
+					<td>${d.mobile}</td>
+					<td>${d.poojaName}</td>
+					<td>${d.bookingDate}</td>
+					<td>${d.poojaDate}</td>
+					<td>${d.address}</td>
+					<td>
+					${d.bookmarkId?`<i title="Bookmark" data-id="${d.bookmarkId}" role="button" class="fas fs-5 showBookmark fa-bookmark"></i>`:""}
+					</td>
+					</tr>
+					`)
+						})
+					}
+				}
+
+				$(document).on("click",".showBookmark",async function(){
+					let id=$(this).attr("data-id")
+					let bookMarkDetail=await getBookmark(id)
+			console.log(bookMarkDetail);
+			let [year,month,day] = bookMarkDetail.data.endDate != null ? bookMarkDetail.data.endDate.split("T")[0].split("-") : "";
+			Swal.fire({
+				title:bookMarkDetail.data.bookMark,
+				text:  bookMarkDetail.data.endDate!=null?`End Date : ${day}-${month}-${year}`:"",
+				showCancelButton: true,
+				confirmButtonText: 'Remove',
+				cancelButtonText: 'close',
+				showConfirmButton: true,
+				reverseButtons: true
+			}).then((result) => {
+				if (result.isConfirmed) {
+					$.ajax({
+						url: BaseUrl + `api/Jyotish/removePoojaBookmark?Id=${id}`,
+						type: 'get',
+						headers: {
+							'Authorization': `Bearer ${localStorage.getItem("Token2")}`
+
+						},
+						success: function (response) {
+							if (response.status == 200) {
+								fetchData()
+								Swal.fire({
+									title: "Successful",
+									text: "Bookmark Removed Successfully",
+									icon: "success",
+									didClose: () => {
+										location.reload()
+										}
+
+								});
+
+							}else{
+								Swal.fire({
+								title: "error",
+								text: "some error occured",
+								icon: "error",
+
+							});
+							}
+						},
+						error: function () {
+							Swal.fire({
+								title: "error",
+								text: "some error occured",
+								icon: "error",
+
+							});
+						}
+					});
+
+				}
+
+			});
+				})
+				function getBookmark(id) {
+		return $.ajax({
+			url: BaseUrl + `api/Jyotish/getPoojaBookmark?Id=${id}`,
+			type: 'get',
+			headers: {
+				'Authorization': `Bearer ${localStorage.getItem("Token2")}`
+
+			},
+			data: { Id: id },
+			success: function (res) {
+				console.log(res)
+			}
+		})
+	}
+		$('#DataTable').DataTable();
+			},error:function(){
+				Swal.fire({
+					title:"error",
+					text:"some error occured",
+					icon:"error"
+				})
+			}
+		})
+	}
+	getBookedPoojaList();
+</script>

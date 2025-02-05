@@ -159,8 +159,10 @@
 		z-index: 100000;
 	}
 </style>
-<div class="astrologer-list mt-3" id="astrologerList">
+<div class="astrologer-list mt-3">
 	<!-- Astrologer results will be injected here -->
+	<div class="row" id="astrologerList"></div>
+
 </div>
 
 <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModal3Label" aria-hidden="true">
@@ -326,17 +328,29 @@
 		$.ajax({
 			url: BaseUrl + 'Api/User/GetAstroListCallChat?listName=Chat',
 			type: 'GET',
-			success: function (response) {
+			success:async function (response) {
 
 				if (response.status === 200) {
 					var astrologers = response.data;
 					if (astrologers.length > 0) {
 						displayAstrologers(astrologers);
 					} else {
-						$('#astrologerList').html('<p class="text-center">No astrologers found.</p>');
+	let data= await getAdvertisementBanners();
+						$('#astrologerList').html(`<p class="text-center">No astrologers found.</p>
+				${data.data.result.length>0?`<div class="col-12 col-sm-12 col-md-12 rounded border-0 col-lg-12 mt-4  p-1">
+														  <div class="card w-100 h-100 ">
+																<img height="200" class="w-100 rounded" src="${BaseUrl+data.data.result[0].bannerUrl}">
+														  </div>
+													  </div>`:""}`);
 					}
 				} else {
-					$('#astrologerList').html('<p class="text-center">No astrologers found.</p>');
+		let data= await getAdvertisementBanners();
+					$('#astrologerList').html(`<p class="text-center">No astrologers found.</p>
+			${data.data.result.length>0?`<div class="col-12 col-sm-12 col-md-12 rounded border-0 col-lg-12 mt-4 p-1">
+													  <div class="card w-100 h-100 ">
+															<img height="200" class="w-100 rounded" src="${BaseUrl+data.data.result[0].bannerUrl}">
+													  </div>
+												  </div>`:""}`);
 				}
 				Swal.close()
 				$(".jyotishProfileImages").on('error', function () {
@@ -352,14 +366,33 @@
 	function generateFullStars() {
 		return '<i class="fa fa-star"></i>'.repeat(5); // Return 5 filled stars
 	}
+
+	async function getAdvertisementBanners(){
+		let data=null;
+		   await $.ajax({
+				  url: BaseUrl + "api/user/AdvertisementBanner",
+				type: "get",
+
+				success: function (res) {
+					  data=res;
+
+				}, error: function () {
+					$('#astrologerList').html('<p>An error occurred while searching for astrologers.</p>');
+				}
+			})
+		return data
+	}
 	// Function to display astrologers dynamically
-	function displayAstrologers(astrologers) {
+	async function displayAstrologers(astrologers) {
 		console.log(astrologers)
+		  let adCount=0;
+		let showAdvCount=0;
+		let data= await getAdvertisementBanners();
 		var html = '';
 		astrologers.forEach(function (astrologer) {
 			var ImgSrc = BaseUrl + astrologer.profileImageUrl;
 			html += `
-								<div class="astrologer-card">
+								<div class="astrologer-card col-sm-3 ">
 										<a href="/Home/JyotishProfile?Id=${astrologer.id}" class="text-decoration-none">
 										<i class="decorative-icon fa fa-star"></i>
 											<img src="${ImgSrc}" class='jyotishProfileImages'  alt="${astrologer.name}">
@@ -378,8 +411,40 @@
 
 								</div>
 							`;
-		});
+							 adCount++
+				if(adCount==8 &&data!=null){
+					if(data.data.result.length>0){
+
+					html+=`
+	  <div class="col-12 col-sm-12 col-md-12 rounded border-0 col-lg-12 mb-2 mt-4 p-1">
+												<div class="card w-100 h-100 ">
+													  <img height="200" class="w-100 rounded" src="${BaseUrl+data.data.result[showAdvCount].bannerUrl}">
+												</div>
+											</div>`
+													if(data.data.result.length-1==showAdvCount){
+														  showAdvCount=0;
+													}else{
+												showAdvCount++;
+													}
+					}
+				adCount=0;
+				  }
+			});
+			   if(astrologers.length<8){
+					if(data.data.result.length>0){
+
+					 html+=`
+		<div class="col-12 col-sm-12 col-md-12 rounded border-0 col-lg-12 mt-4 mb-2 p-1">
+												  <div class="card w-100 h-100 ">
+														<img height="200" class="w-100 rounded" src="${BaseUrl+data.data.result[showAdvCount].bannerUrl}">
+												  </div>
+											  </div>`
+					}
+					}
 		$('#astrologerList').html(html);
+		$(".jyotishProfileImages").on('error', function () {
+					$(this).attr("src", '/user-not-found.png');
+				});
 	}
 	GetAstroListCallChat();
 	$('#DataSubmitBtn').on('click',async function () {
@@ -485,7 +550,7 @@
 										startChat(astrologerId);
 										socket.close()
 										$(".messageInpBox").val(`
-			Hi, Below are my Details : Name: ${Name} Gender:${Gender} DOB: ${DateOfBirth} DOT: ${TimeOfBirth} POB: ${PlaceOfBirth}`)
+			Hi, Below are my Details :<br> <p>Name: ${Name}</p> <p>Gender:${Gender} </p> <p>DOB: ${DateOfBirth} </p> <p> DOT: ${TimeOfBirth} </p> <p> POB: ${PlaceOfBirth} </p>`)
 									} else if (!response.data) {
 											if (response.anotherRequest && !response.notAvailable) {
 											Swal.fire({
@@ -520,10 +585,7 @@
 									console.log('WebSocket connection closed:', event);
 									$("#chatBtn_" + astrologerId).show();
 									$("#waitingBtn_" + astrologerId).addClass("d-none")
-
 								};
-
-
 							}
 						})
 
@@ -650,6 +712,11 @@
 				socket.onopen = function (event) {
 					debugger
 					console.log('WebSocket connection established:', event);
+					if($(".messageInpBox").val().length>0 && $(".messageInpBox").val()!=" " ){
+					let message = $(".messageInpBox").val();
+			socket.send(`${astrologerId}:${message}`);
+			$(".messageInpBox").val("")
+				}
 					$("#ChatModal").modal("show")
 				};
 				socket.onmessage = function (event) {
@@ -687,17 +754,14 @@
 					$("#ChatModal").modal("hide")
 
 				};
-
+				
 
 				$("#messageForm").submit(function (e) {
 					e.preventDefault();
-
 					let message = $(".messageInpBox").val();
 					const messagesDiv = document.querySelector('.chat-modal-body');
 
-
 					if (socket && socket.readyState === WebSocket.OPEN) {
-
 						if (astrologerId && message) {
 							const now = new Date();
 							const hours = now.getHours();
@@ -710,6 +774,8 @@
 							socket.send(`${astrologerId}:${message}`);
 						}
 						$(".messageInpBox").val("");
+			$("#sendMessageBtn").attr("disabled", true);
+
 						messagesDiv.scrollTop = messagesDiv.scrollHeight;
 						const lastChild = messagesDiv.lastElementChild;
 						lastChild.scrollIntoView({ behavior: 'smooth', block: 'end' });

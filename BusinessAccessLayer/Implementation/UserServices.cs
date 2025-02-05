@@ -1256,7 +1256,7 @@ namespace BusinessAccessLayer.Implementation
 
         public bool BookPooja(BookedPoojaViewModel model)
         {
-            var res = _context.BookedPoojaList.Where(e => e.status && e.PoojaId == model.PoojaId && model.userId == e.userId).FirstOrDefault();
+            var res = _context.BookedPoojaList.Where(e => e.status && e.PoojaId == model.PoojaId && model.userId == e.userId && !e.completeStatus).FirstOrDefault();
             if (res != null)
             {
                 return false;
@@ -1269,7 +1269,8 @@ namespace BusinessAccessLayer.Implementation
                 jyotishId = model.jyotishId,
                 BookingDate = DateTime.Now,
                 PoojaDate = model.PoojaDate,
-                status = true
+                status = true,
+                completeStatus=false
 
             };
 
@@ -1401,6 +1402,43 @@ namespace BusinessAccessLayer.Implementation
             }
         }
 
+        public async Task<List<Advertisementservice>> GetTopOneAdvertisementBanner()
+        {
+            try
+            {
+                // Initialize HttpClient
+                HttpClient client = new HttpClient();
+
+                // Get the response from ipinfo.io API
+                HttpResponseMessage response = await client.GetAsync("https://ipinfo.io/?token=9a8523cd141797");
+                string jsonResponse = await response.Content.ReadAsStringAsync();
+
+                // Parse the JSON response into JObject
+                var apiData = Newtonsoft.Json.Linq.JObject.Parse(jsonResponse);
+
+                // Initialize the result list
+                List<Advertisementservice> res = new List<Advertisementservice>();
+
+                if (apiData != null)
+                {
+                    // Execute the stored procedure with parameters
+                    res = _context.Database.SqlQueryRaw<Advertisementservice>(
+                        "EXEC dbo.sp_AdvertisementManager @country = {0}, @state = {1}, @city = {2}, @action = {3}",
+                        apiData["country"]?.ToString() ?? (object)DBNull.Value,  // Safely extract country, or DBNull if missing
+                        apiData["region"]?.ToString() ?? (object)DBNull.Value,  // Safely extract region (state), or DBNull if missing
+                        apiData["city"]?.ToString() ?? (object)DBNull.Value,    // Safely extract city, or DBNull if missing
+                        4  // Hardcoded action parameter (could be dynamic if needed)
+                    ).ToList();
+                }
+                return res;
+            }
+            catch (Exception ex)
+            {
+                // Log the exception and rethrow or return an empty list
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                return new List<Advertisementservice>(); // Return an empty list in case of error
+            }
+        }
 
     }
 }

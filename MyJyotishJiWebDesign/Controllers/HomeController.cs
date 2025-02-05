@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 
 
@@ -31,9 +32,21 @@ namespace MyJyotishJiWebDesign.Controllers
         public IActionResult SignUpUser() {return View(); }
         public IActionResult OtpVerification() { return View(); }
         public IActionResult Login() { return View();}
-        public IActionResult Index() { 
-            
-            return View();
+        public async Task<IActionResult> Index() {
+            HttpClient client = new HttpClient();
+            HttpResponseMessage response =await client.GetAsync("https://localhost:7118/api/user/GetTopOneAdvertisementBanner");
+            dynamic res = null;
+            if (response.IsSuccessStatusCode)
+            {
+                res = await response.Content.ReadAsStringAsync();
+                res = JObject.Parse(res);
+                res = res.data.result;
+                if (res.Count == 0)
+                {
+                    res = null;
+                }
+            }
+            return View(res);
         }
         [HttpPost]
         public IActionResult Search(string? filterValue,string? searchInput) {

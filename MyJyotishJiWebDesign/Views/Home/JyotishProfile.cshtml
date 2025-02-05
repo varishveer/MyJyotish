@@ -333,7 +333,6 @@
 					<h1 class="modal-title fs-5 ms-2" id="ChatModalLabel"></h1>
 				</div> &nbsp;&nbsp;&nbsp;
 				<span id="chatTimer" class="border rounded px-3">
-
 				</span>
 				<button type="button" class="btn-close" id="exitFromChat"></button>
 			</div>
@@ -1299,7 +1298,7 @@
 													localStorage.setItem("resumeChat", "resumeChat")
 													startChat();
 													$(".messageInpBox").val(`
-			Hi, Below are my Details : Name: ${Name} Gender:${Gender} DOB: ${DateOfBirth} DOT: ${TimeOfBirth} POB: ${PlaceOfBirth}`)
+			Hi, Below are my Details :<br> <p>Name: ${Name}</p> <p>Gender:${Gender} </p> <p>DOB: ${DateOfBirth} </p> <p> DOT: ${TimeOfBirth} </p> <p> POB: ${PlaceOfBirth} </p>`)
 												} else {
 													TOKEN = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, clientId, Name);
 													localStorage.setItem("callTOKEN", TOKEN)
@@ -1687,6 +1686,11 @@
 				debugger
 				socket.onopen = function (event) {
 					console.log('WebSocket connection established:', event);
+					if($(".messageInpBox").val().length>0 && $(".messageInpBox").val()!=" " ){
+					let message = $(".messageInpBox").val();
+			socket.send(`${jyotishId}:${message}`);
+			$(".messageInpBox").val("")
+				}
 					$("#ChatModal").modal("show")
 				};
 				socket.onmessage = function (event) {
