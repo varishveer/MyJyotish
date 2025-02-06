@@ -83,7 +83,13 @@
 <script>
 
 	function getallJyotishCharges(){
-		
+		Swal.fire({
+				title: "Proccessing Please Wait!",
+				timerProgressBar: true,
+				didOpen: () => {
+					Swal.showLoading();
+				}
+			})
 	$.ajax({
 				  url: BaseUrl + "api/admin/getAllJyotishCharges",
 				  type:"get",
@@ -101,7 +107,7 @@
 				</tr>
 				`)
 						}
-					
+					Swal.close();
 					}else{
 					Swal.fire('error', 'some error occured!', 'error');
 

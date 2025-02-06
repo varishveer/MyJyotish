@@ -21,7 +21,6 @@ namespace BusinessAccessLayer.Abstraction
         public bool RemoveJyotish(IdViewModel JyotishId);
         /*    public bool AddPoojaCategory(PoojaCategoryViewModel _pooja);*/
         /*   public bool AddNewPoojaList(PoojaListViewModel model);*/
-
         public bool AddPoojaList(PoojaCategoryViewModel _pooja);
 
         public List<SpecializationListModel> GetSpecializationList();
@@ -157,6 +156,12 @@ namespace BusinessAccessLayer.Abstraction
         public bool changeApproveStatusOfAdvertisement(int id, bool appstatus);
 
         public bool changeActiveStatusOfAdvertisement(int id);
+        public bool AddActiveMail(string email, string password);
+        public bool ChangeActiveMail(int id);
+        public dynamic GetActivemail();
+        public dynamic GetAllActivemail();
+
+        public bool DeleteActiveMail(int id);
 
     }
 }

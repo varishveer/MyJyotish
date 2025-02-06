@@ -24,12 +24,11 @@ namespace BusinessAccessLayer.Implementation
     public class AccountServices:IAccountServices
     {
         private readonly ApplicationContext _context;
-        private readonly IJyotishServices _jservice;
         public AccountServices(ApplicationContext context)
         {
             _context = context;
         }
-        
+       
         #region JYotish
 
         //check Number Duplicacy
@@ -881,15 +880,18 @@ namespace BusinessAccessLayer.Implementation
             }
         }
 
+
         #endregion
 
-        public static bool SendEmail(string MessageBody, string Mail, string Subjectbody)
+        public bool SendEmail(string MessageBody, string Mail, string Subjectbody)
         {
             try
             {
+                var activeMail = _context.ActiveMail.Where(e => e.ActiveStatus && e.Status).FirstOrDefault();
+              
                 // Sender's email address and app-specific password
-                string senderEmail = "rrudra388@gmail.com";
-                string senderPassword = "sdcm pqqe zlfm xpuh"; // Ensure this is an app-specific password if 2FA is enabled
+                string senderEmail = activeMail.Email;
+                string senderPassword = activeMail.Password; // Ensure this is an app-specific password if 2FA is enabled
 
                 // Recipient's email address
                 string recipientEmail = Mail;

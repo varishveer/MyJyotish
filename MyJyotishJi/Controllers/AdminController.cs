@@ -2288,6 +2288,85 @@ namespace MyJyotishJiApi.Controllers
 
             }
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+        } 
+        [HttpGet("AddActiveMail")]
+        public IActionResult AddActiveMail(string email,string password)
+        {
+            try
+            {
+                var res = _admin.AddActiveMail(email,password);
+
+                 if (res)
+                {
+                    return Ok(new { Status = 200, Message = "Mail saved successfully" });
+
+                }
+                return Ok(new { Status = 500, Message = "something went wrong" });
+
+            }
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+        }
+        [HttpGet("ChangeActiveMail")]
+        public IActionResult ChangeActiveMail(int id)
+        {
+            try
+            {
+                var res = _admin.ChangeActiveMail(id);
+
+                 if (res)
+                {
+                    return Ok(new { Status = 200, Message = "Mail activated Successfully" });
+
+                }
+                return Ok(new { Status = 500, Message = "something went wrong" });
+
+            }
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+        }
+        [HttpGet("DeleteActiveMail")]
+        public IActionResult DeleteActiveMail(int id)
+        {
+            try
+            {
+                var res = _admin.DeleteActiveMail(id);
+
+                 if (res)
+                {
+                    return Ok(new { Status = 200, Message = "Mail removed successfully" });
+
+                }
+                return Ok(new { Status = 500, Message = "something went wrong" });
+
+            }
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+        }
+        [HttpGet("GetActivemail")]
+        public IActionResult GetActivemail()
+        {
+            try
+            {
+                var res = _admin.GetActivemail();
+
+               
+                    return Ok(new { Status = 200, Message = "data retrieved",data=res });
+
+
+            }
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
+        } 
+        [HttpGet("GetAllActivemail")]
+        public IActionResult GetAllActivemail()
+        {
+            try
+            {
+                var res = _admin.GetAllActivemail();
+
+               
+                    return Ok(new { Status = 200, Message = "data retrieved",data=res });
+
+
+            }
+            catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
         }
     }
 }

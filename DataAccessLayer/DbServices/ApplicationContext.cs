@@ -79,6 +79,7 @@ namespace DataAccessLayer.DbServices
         public DbSet<AdvertisementPackage> AdvertisementPackage { get; set; }
         public DbSet<PurchaseAdvertisement> PurchaseAdvertisement { get; set; }
         public DbSet<PoojaBookMark> PoojaBookMark { get; set; }
+        public DbSet<ActiveMail> ActiveMail { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         { 

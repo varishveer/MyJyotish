@@ -45,6 +45,7 @@ namespace BusinessAccessLayer.Abstraction
         public bool changePassword(string email, string password, string sendBy);
 
         public bool changePasswordByOldPassword(int userId, string password, string oldPassword, string sendBy);
+        public bool SendEmail(string MessageBody, string Mail, string Subjectbody);
 
     }
 }

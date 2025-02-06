@@ -1,0 +1,230 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+    <form class="shadow border-1 rounded p-3 w-75 mx-auto my-3" id="activeEmailForm">
+        <h3 class="text-center my-3 text-primary">Add Active Email</h3>
+<div class="col-sm-12">
+    <div class="row">
+        <div class="col-sm-6">
+                <input type="email" required placeholder="Enter Email Address" id="activeEmail" class="form-control my-2" />
+            </div>
+        <div class="col-sm-6">
+        <input type="text" required placeholder="Enter Password" id="activePassword" class="form-control my-2"/>
+            </div>
+</div>
+    </div>
+    <div class="text-center my-3"><input type="submit" value="Add" id="addBtnForActiveMail" class="btn btn-success" />
+    <input type="reset" value="Cancel" class="btn btn-danger d-none" id="cancelUpdateBtn" />    
+    </div>
+    </form>
+
+
+    <div class="comtainer my-4 p-5">
+        <div class="card">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="ActiveMailTable">
+                    <thead>
+                        <tr>
+                        <th>Sr</th>
+                        <th>Email</th>
+                        <th>Password</th>
+                        <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="activeMailTableContainer"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    $('#activeEmailForm').on("submit",function(e){
+        e.preventDefault();
+        Swal.fire({
+                title: "Proccessing Please Wait!",
+                timerProgressBar: true,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            })
+        $.ajax({
+            url:BaseUrl+"api/admin/AddActiveMail",
+            type:"get",
+            headers:{
+                'Authorization': `Bearer ${localStorage.getItem("Token")}`
+            },
+            data:{email:$("#activeEmail").val(),password:$("#activePassword").val()},
+            success:function(res){
+                if(res.status==200){
+                    Swal.fire({
+                        text:res.message,
+                        title:"success",
+                        icon:"success",
+                        didClose:()=>{
+                           getMailList();
+                           document.getElementById("activeEmailForm").reset();
+                        }
+                    })
+                }else{
+                    Swal.fire('error', 'something went wrong', 'error');
+                }
+            },error:function(xhr){
+                    Swal.fire('error', 'something went wrong', 'error');
+
+            }
+        })
+
+    })
+
+    function getMailList(){
+          Swal.fire({
+                title: "Proccessing Please Wait!",
+                timerProgressBar: true,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            })
+                $.ajax({ 
+                url:BaseUrl+"api/admin/GetAllActivemail",
+                type:"get",
+                headers:{
+                    'Authorization': `Bearer ${localStorage.getItem("Token")}`
+                },
+                success:function(res){
+                       $("#activeMailTableContainer").empty()
+                    if(res.status==200){
+                        if(res.data.length>0){
+                            res.data.forEach(function(d,i){
+                        $("#activeMailTableContainer").append(`
+                        <tr>
+                        <td>${i+1}</td>
+                        <td id="email_${d.id}">${d.email}</td>
+                        <td id="password_${d.id}">${d.password}</td>
+                        <td class="text-center">
+                        <i role="button" data-id="${d.id}" class="fas fa-power-off changeActiveStatus ${d.activeStatus ? "text-success":"text-danger"} fs-5 "></i>
+                        &nbsp;&nbsp;
+                        <i role="button" data-id="${d.id}" class="fas editActiveMail fa-pen-square fs-5 text-warning"></i>
+                        &nbsp;&nbsp;
+                        <i role="button" data-id="${d.id}" class="fas fa-trash-alt deleteActiveMail fs-5 text-danger"></i>
+                        </td>
+                        </tr>
+                        `)
+                        })
+                        }
+                    }
+                    Swal.close()
+                },error:function(xhr){
+                        Swal.fire('error', 'something went wrong', 'error');
+
+                }
+            })
+    }
+    getMailList();
+
+    $(document).on("click",".changeActiveStatus",function(){
+        let id =$(this).attr("data-id");
+         Swal.fire({
+                title: "Proccessing Please Wait!",
+                timerProgressBar: true,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            })
+        $.ajax({
+            url:BaseUrl+"api/admin/ChangeActiveMail",
+            type:"get",
+            headers:{
+                'Authorization': `Bearer ${localStorage.getItem("Token")}`
+            },
+            data:{id:id},
+            success:function(res){
+                if(res.status==200){
+                    Swal.fire({
+                        text:res.message,
+                        title:"success",
+                        icon:"success",
+                        didClose:()=>{
+                           getMailList();
+                           document.getElementById("activeEmailForm").reset();
+                        }
+                    })
+                }else{
+                    Swal.fire('error', 'something went wrong', 'error');
+                }
+            },error:function(xhr){
+                    Swal.fire('error', 'something went wrong', 'error');
+
+            }
+        })
+    })
+
+    $(document).on("click",".editActiveMail",function(){
+        let id=$(this).attr("data-id");
+        let email=$("#email_"+id).text()
+        let password=$("#password_"+id).text()
+        debugger
+        $("#activeEmail").val(email);
+        $("#activePassword").val(password);
+        $("#addBtnForActiveMail").val("Update")
+        $("#cancelUpdateBtn").removeClass("d-none")
+        location.href="#"
+    })
+
+    $("#activeEmailForm").on("reset",function(){
+        $("#cancelUpdateBtn").addClass("d-none")
+        $("#addBtnForActiveMail").val("Add")
+
+    })
+
+     $(document).on("click",".deleteActiveMail",function(){
+        let id =$(this).attr("data-id");
+
+        Swal.fire({
+      title: "Do you really want to delete?",
+      text: "after delete you are not able to revert this",
+      icon:"question",
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Delete",
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+       Swal.fire({
+                title: "Proccessing Please Wait!",
+                timerProgressBar: true,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            })
+        $.ajax({
+            url:BaseUrl+"api/admin/DeleteActiveMail",
+            type:"get",
+            headers:{
+                'Authorization': `Bearer ${localStorage.getItem("Token")}`
+            },
+            data:{id:id},
+            success:function(res){
+                if(res.status==200){
+                    Swal.fire({
+                        text:res.message,
+                        title:"success",
+                        icon:"success",
+                        didClose:()=>{
+                           getMailList();
+                        }
+                    })
+                }else{
+                    Swal.fire('error', 'something went wrong', 'error');
+                }
+            },error:function(xhr){
+                    Swal.fire('error', 'something went wrong', 'error');
+
+            }
+        })
+      }
+    });
+    })
+    </script>

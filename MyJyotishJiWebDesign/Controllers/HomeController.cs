@@ -98,6 +98,7 @@ namespace MyJyotishJiWebDesign.Controllers
         public IActionResult Tarot() { return View(); }
         public IActionResult Vastu() { return View(); }
         public IActionResult Compatibility() { return View(); }
+        public IActionResult ServiceRecord() { return View(); }
         public async Task<IActionResult> TermCondition() {
             HttpClient client = new HttpClient();
             HttpResponseMessage message = await client.GetAsync("https://api.myjyotishg.in/api/admin/getPrivacyPolicy");

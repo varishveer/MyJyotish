@@ -44,6 +44,7 @@ namespace MyJyotishJiWebDesign.Controllers
 		public ActionResult EmployeeList() { return View(); }
 		public ActionResult Advertisement() { return View(); }
 		public ActionResult AdvertisementRequest() { return View(); }
+		public ActionResult MailService() { return View(); }
 
         public async Task<ActionResult> PrivacyPolicy()
         {

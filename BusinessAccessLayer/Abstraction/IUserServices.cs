@@ -80,6 +80,7 @@ namespace BusinessAccessLayer.Abstraction
         public dynamic GettopTenWalletHistory(int UserId);
         public  Task<List<Advertisementservice>> GetTopOneAdvertisementBanner();
 
+        public dynamic getUserServiceRevordForUser(int userId);
 
 
     }

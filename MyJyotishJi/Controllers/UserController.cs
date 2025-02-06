@@ -1019,11 +1019,20 @@ namespace MyJyotishGApi.Controllers
 			var res = _services.AdvertisementBanner();
 			return Ok(new { status = 200, message = "data retrieved", data = res });
 
-        }[AllowAnonymous]
+        }
+		[AllowAnonymous]
 		[HttpGet("GetTopOneAdvertisementBanner")]
 		public IActionResult GetTopOneAdvertisementBanner()
 		{
 			var res = _services.GetTopOneAdvertisementBanner();
+			return Ok(new { status = 200, message = "data retrieved", data = res });
+
+        }
+		
+		[HttpGet("getUserServiceRevordForUser")]
+		public IActionResult getUserServiceRevordForUser(int userId)
+		{
+			var res = _services.getUserServiceRevordForUser(userId);
 			return Ok(new { status = 200, message = "data retrieved", data = res });
 
         }

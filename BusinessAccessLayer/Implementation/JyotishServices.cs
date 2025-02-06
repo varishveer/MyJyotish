@@ -28,7 +28,8 @@ namespace BusinessAccessLayer.Implementation
     {
         private readonly ApplicationContext _context;
         private readonly string _uploadDirectory;
-        public JyotishServices(ApplicationContext context)
+        private readonly IAccountServices _account;
+        public JyotishServices(ApplicationContext context, IAccountServices account)
         {
             _context = context;
             _uploadDirectory = Directory.GetCurrentDirectory();
@@ -38,6 +39,8 @@ namespace BusinessAccessLayer.Implementation
             {
                 Directory.CreateDirectory(_uploadDirectory);
             }
+
+            _account = account;
         }
 
         public string UpdateProfile(JyotishProfileUpdateViewModal model)
@@ -214,7 +217,7 @@ namespace BusinessAccessLayer.Implementation
                 if (_context.SaveChanges() > 0)
                 { appointment.UserId = userModel.Id; }
 
-                AccountServices.SendEmail("Password" + userModel.Password, model.Email, "MyJyotishG Password");
+                _account.SendEmail("Password" + userModel.Password, model.Email, "MyJyotishG Password");
             }
             else { appointment.UserId = User.Id; }
             appointment.Problem = model.Problem;
@@ -335,7 +338,7 @@ namespace BusinessAccessLayer.Implementation
             var result = _context.SaveChanges();
             if (result > 0)
             {
-                AccountServices.SendEmail(newPassword, teamMember.Email, "Password");
+                _account.SendEmail(newPassword, teamMember.Email, "Password");
                 return "Record Saved Successfully";
             }
             else
@@ -457,7 +460,7 @@ namespace BusinessAccessLayer.Implementation
                 join country in _context.Countries on user.Country equals country.Id
                 join state in _context.States on user.State equals state.Id
                 join city in _context.Cities on user.City equals city.Id
-                where bookpooja.jyotishId == jyotishId && bookpooja.status  && bookpooja.completeStatus
+                where bookpooja.jyotishId == jyotishId && bookpooja.status  && bookpooja.completeStatus 
                 orderby bookpooja.Id descending
                 select new
                 {
@@ -470,7 +473,8 @@ namespace BusinessAccessLayer.Implementation
                     bookingDate = bookpooja.BookingDate.ToString("dd-MM-yyyy hh:mm"),
                     poojaDate = bookpooja.PoojaDate.ToString("dd-MM-yyyy"),
                     address = city.Name + "," + state.Name + "," + country.Name,
-                    bookmarkId=bookmark!=null?bookmark.Id:0
+                    bookmarkId=bookmark!=null?bookmark.Id:0,
+                    bookMarkStatus=bookmark!=null?bookmark.status:false
                 }
                 ).ToList();
             return res;
@@ -2540,7 +2544,7 @@ namespace BusinessAccessLayer.Implementation
 
         public dynamic getUserServiceRevordForJyotish(int jyotishId)
         {
-            var res = _context.UserServiceRecord.Where(e => e.JyotishId == jyotishId && e.Status).OrderByDescending(e=>e.date).ToList();
+            var res = _context.UserServiceRecord.Where(e => e.JyotishId == jyotishId && e.Status && e.Action!=0).OrderByDescending(e=>e.date).ToList();
 
             var totalAmountForCurrentYearByMonth = _context.UserServiceRecord
                 .Where(e => e.Action == 2 && e.JyotishId == jyotishId && e.Status).Sum(e => e.Count);

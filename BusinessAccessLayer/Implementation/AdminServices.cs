@@ -20,6 +20,7 @@ using Razorpay.Api;
 using System.Data;
 using Microsoft.EntityFrameworkCore.Storage;
 using static System.Net.WebRequestMethods;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
 
 namespace BusinessAccessLayer.Implementation
@@ -28,7 +29,9 @@ namespace BusinessAccessLayer.Implementation
     {
         private readonly ApplicationContext _context;
         private readonly string _uploadDirectory;
-        public AdminServices(ApplicationContext context)
+        private readonly IAccountServices _account;
+
+        public AdminServices(ApplicationContext context, IAccountServices account)
         {
             _context = context;
             _uploadDirectory = Directory.GetCurrentDirectory();
@@ -38,6 +41,7 @@ namespace BusinessAccessLayer.Implementation
             {
                 Directory.CreateDirectory(_uploadDirectory);
             }
+            _account = account;
         }
 
         public dynamic GetAllJyotish()
@@ -142,7 +146,7 @@ namespace BusinessAccessLayer.Implementation
             {
                 string message = "Hey "+ Jyotish.Name+ ",You are selected as Jyotish in MyJyotish G. Your Account has been Activated Successfully.";
                 string subject = " My Jyotish G";
-                SendEmail(message, Jyotish.Email, subject);
+                _account.SendEmail(message, Jyotish.Email, subject);
                 return true;
             }
             else { return false; }
@@ -163,55 +167,57 @@ namespace BusinessAccessLayer.Implementation
             {
                 string message = model.Message;
                 string subject =model.Subject;
-                SendEmail(message, Jyotish.Email, subject);
+                _account.SendEmail(message, Jyotish.Email, subject);
                 return true;
             }
             else
             { return false; }
         }
 
-        public void SendEmail(string MessageBody, string Mail,string Subjectbody)
-        {
-            try
-            {
-                // Sender's email address and credentials
-                string senderEmail = "varishveer123@gmail.com";
-                string senderPassword = "vjcx xhzp oumw xhdh";
+        //public void SendEmail(string MessageBody, string Mail,string Subjectbody)
+        //{
+        //    try
+        //    {
+        //        var activeMail = _context.ActiveMail.Where(e => e.ActiveStatus && e.Status).FirstOrDefault();
 
-                // Recipient's email address
-                string recipientEmail = Mail;
+        //        // Sender's email address and app-specific password
+        //        string senderEmail = activeMail.Email;
+        //        string senderPassword = activeMail.Password; // Ensure this is an app-specific password if 2FA is enabled
 
-                // SMTP server address and port number
-                string smtpServer = "smtp.gmail.com";
-                int smtpPort = 587; // Use 587 for TLS or 465 for SSL
+        //        // Recipient's email address
+        //        string recipientEmail = Mail;
 
-                // Create a new SMTP client
-                using (SmtpClient client = new SmtpClient(smtpServer, smtpPort))
-                {
-                    client.EnableSsl = true; // Enable SSL/TLS
-                    client.UseDefaultCredentials = false;
-                    client.Credentials = new NetworkCredential(senderEmail, senderPassword);
+        //        // SMTP server address and port number
+        //        string smtpServer = "smtp.gmail.com";
+        //        int smtpPort = 587; // Use 587 for TLS or 465 for SSL
 
-                    // Create a new email message
-                    MailMessage message = new MailMessage(senderEmail, recipientEmail)
-                    {
-                        Subject = Subjectbody,
-                        Body = MessageBody,
-                    };
+        //        // Create a new SMTP client
+        //        using (SmtpClient client = new SmtpClient(smtpServer, smtpPort))
+        //        {
+        //            client.EnableSsl = true; // Enable SSL/TLS
+        //            client.UseDefaultCredentials = false;
+        //            client.Credentials = new NetworkCredential(senderEmail, senderPassword);
 
-                    // Send the email
-                    client.Send(message);
+        //            // Create a new email message
+        //            MailMessage message = new MailMessage(senderEmail, recipientEmail)
+        //            {
+        //                Subject = Subjectbody,
+        //                Body = MessageBody,
+        //            };
 
-                    Console.WriteLine("Email sent successfully.");
-                }
+        //            // Send the email
+        //            client.Send(message);
+
+        //            Console.WriteLine("Email sent successfully.");
+        //        }
 
 
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Failed to send email. Error message: {ex.Message}");
-            }
-        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine($"Failed to send email. Error message: {ex.Message}");
+        //    }
+        //}
 
         public bool RemoveJyotish(IdViewModel JyotishId)
         {
@@ -880,7 +886,7 @@ namespace BusinessAccessLayer.Implementation
 
             try
             {
-                AccountServices.SendEmail(model.Message, jyotish.Email, model.Subject);
+                _account.SendEmail(model.Message, jyotish.Email, model.Subject);
             }
             catch (Exception ex)
             {
@@ -1651,7 +1657,7 @@ namespace BusinessAccessLayer.Implementation
                     jyotish.Role = "Jyotish";
                     var message = "I am pleased to formally accept your offer for the Jyotish role at My Jyotish G. I am excited to join your team and contribute to the success of the company. I truly appreciate the opportunity and the confidence you have shown in me.";
                     var subject = "Interview Outcome";
-                    SendEmail(message, jyotish.Email, subject);
+                    _account.SendEmail(message, jyotish.Email, subject);
                 }
                 else {
                     jyotish.ApprovedStatus = "Rejected";
@@ -1659,7 +1665,7 @@ namespace BusinessAccessLayer.Implementation
                     jyotish.Status = false;
                     var message = "Thank you very much for taking the time to interview for the Jyotish role with My Jyotish G. After careful consideration, we regret to inform you that we will not be moving forward with your application at this time.";
                     var subject = "Interview Outcome";
-                    SendEmail(message, jyotish.Email, subject);
+                    _account.SendEmail(message, jyotish.Email, subject);
                 }
                 _context.JyotishRecords.Update(jyotish);
                 _context.SaveChanges();
@@ -1858,7 +1864,7 @@ Expiry : <span>{model.startDate}-{model.endDate}</span>
 
 
 
-							AccountServices.SendEmail(newMessage, res.Email, NewSubject);
+                            _account.SendEmail(newMessage, res.Email, NewSubject);
 						}
                             transaction.Commit();
 
@@ -2006,7 +2012,7 @@ Expiry : <span>{res.startDate}-{res.endDate}</span>
 
 
 
-                AccountServices.SendEmail(newMessage, jyotish.Email, NewSubject);
+                _account.SendEmail(newMessage, jyotish.Email, NewSubject);
             }
             return _context.SaveChanges()>0;
         }
@@ -2227,7 +2233,7 @@ Expiry : <span>{res.startDate}-{res.endDate}</span>
 
 
 
-                AccountServices.SendEmail(newMessage, model.Email, NewSubject);
+                _account.SendEmail(newMessage, model.Email, NewSubject);
 
                 return true;
             }
@@ -2408,7 +2414,7 @@ Expiry : <span>{res.startDate}-{res.endDate}</span>
 </html>
 ";
 
-                SendEmail(newMessage, JyotishRecord.Email, data.Title);
+                _account.SendEmail(newMessage, JyotishRecord.Email, data.Title);
                 return true; }
             else { return false; }
         }
@@ -3154,7 +3160,7 @@ Expiry : <span>{res.startDate}-{res.endDate}</span>
 </html>
 ";
                 string Subject = "Rejection of Advertisement Banner";
-               SendEmail(message,jyotishRecord.Email, Subject);
+               _account.SendEmail(message,jyotishRecord.Email, Subject);
                 return true;
 
             }
@@ -3175,5 +3181,101 @@ Expiry : <span>{res.startDate}-{res.endDate}</span>
             _context.PurchaseAdvertisement.Update(res);
             return _context.SaveChanges() > 0;
         }
+
+        public bool AddActiveMail(string email,string password)
+        {
+            var res = _context.ActiveMail.Where(e => e.Email == email && e.Status).FirstOrDefault();
+            if (res != null)
+            {
+                res.Email = email;
+                res.Password = password;
+                res.Date = DateTime.Now;
+                _context.ActiveMail.Update(res);
+                return _context.SaveChanges() > 0;
+
+            }
+            ActiveMail am = new ActiveMail
+            {
+                Email=email,
+                Password=password,
+                Status=true,
+                Date=DateTime.Now,
+                ActiveStatus=false
+            };
+            var checkExistRecord = _context.ActiveMail.Where(e => e.Status).ToList();
+
+            if (checkExistRecord.Count == 0)
+            {
+                am.ActiveStatus = true;
+            }
+
+            _context.ActiveMail.Add(am);
+            return _context.SaveChanges() > 0;
+        }
+        
+        public bool ChangeActiveMail(int id)
+        {
+            var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                var preAction = _context.ActiveMail.Where(e => e.Status).ToList();
+                List<ActiveMail> amList = new List<ActiveMail>();
+                foreach (var item in preAction)
+                {
+                    item.ActiveStatus = false;
+                    amList.Add(item);
+                }
+                if (preAction.Count > 0)
+                {
+                    _context.ActiveMail.UpdateRange(amList);
+                    _context.SaveChanges();
+                }
+
+                var res = _context.ActiveMail.Where(e => e.Id == id && e.Status).FirstOrDefault();
+                if (res == null)
+                {
+                    return false;
+                }
+                res.ActiveStatus = true;
+                _context.ActiveMail.Update(res);
+                transaction.Commit();
+                return _context.SaveChanges() > 0;
+            }catch(Exception ex)
+            {
+                transaction.Rollback();
+                return false;
+            }
+        }
+        public bool DeleteActiveMail(int id)
+        {
+           
+            try
+            {
+
+                var res = _context.ActiveMail.Where(e => e.Id == id && e.Status).FirstOrDefault();
+                if (res == null)
+                {
+                    return false;
+                }
+                res.Status = false;
+                _context.ActiveMail.Update(res);
+                return _context.SaveChanges() > 0;
+            }catch(Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public dynamic GetActivemail()
+        {
+            var res = _context.ActiveMail.Where(e => e.Status && e.ActiveStatus).FirstOrDefault();
+            return res;
+        } 
+        public dynamic GetAllActivemail()
+        {
+            var res = _context.ActiveMail.Where(e => e.Status).OrderByDescending(e=>e.Id).ToList();
+            return res;
+        }
+
     }
 }

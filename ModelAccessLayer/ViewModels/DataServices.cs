@@ -491,4 +491,14 @@ namespace ModelAccessLayer.ViewModels
 
         public bool status { get; set; }
     }
+
+    public class ActiveMailService
+    {
+        public int Id { get; set; }
+        public string Email { get; set; }
+        public DateTime Date { get; set; }
+        public string Password { get; set; }
+        public bool Status { get; set; }
+        public bool ActiveStatus { get; set; }
+    }
 }

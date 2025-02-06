@@ -1440,5 +1440,20 @@ namespace BusinessAccessLayer.Implementation
             }
         }
 
+        public dynamic getUserServiceRevordForUser(int userId)
+        {
+            var res = _context.UserServiceRecord.Where(e => e.UserId == userId && e.Status && e.Action!=0).OrderByDescending(e => e.date).ToList();
+            var totalAmountForCurrentYearByMonth = _context.UserServiceRecord
+                .Where(e => e.Action == 2 && e.UserId == userId && e.Status).Sum(e => e.Count);
+            var totalAmountForsYearByMonthForChat = _context.UserServiceRecord
+    .Where(e => e.Action == 1 && e.UserId == userId && e.Status).Sum(e => e.Count);
+            return new
+            {
+                totalCall = totalAmountForCurrentYearByMonth,
+                totalChat = totalAmountForsYearByMonthForChat,
+                serviceRecord = res
+            };
+        }
+
     }
 }

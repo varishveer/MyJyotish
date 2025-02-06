@@ -20,7 +20,8 @@ namespace BusinessAccessLayer.Implementation
     {
         private readonly ApplicationContext _context;
         private readonly string _uploadDirectory;
-        public PendingJyotishServices(ApplicationContext context)
+        private readonly IAccountServices _account;
+        public PendingJyotishServices(ApplicationContext context,IAccountServices account)
         {
             _context = context;
             // Set the directory where files will be saved
@@ -31,6 +32,7 @@ namespace BusinessAccessLayer.Implementation
             {
                 Directory.CreateDirectory(_uploadDirectory);
             }
+            _account = account;
         }
         public async Task<dynamic> ProfileData(int Id)
         {
@@ -508,7 +510,7 @@ namespace BusinessAccessLayer.Implementation
 
    We look forward to speaking with you!";
                 string subject = " Interview Scheduled – MyJyotishG";
-                AccountServices.SendEmail(message, Jyotish.Email, subject);
+                _account.SendEmail(message, Jyotish.Email, subject);
 
                 return "Successful";
             }
