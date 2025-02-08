@@ -213,6 +213,91 @@
 		.text-rebec, .gg-more-vertical-alt, .gg-menu-right {
 			color: rebeccapurple !important;
 		}
+		.call-container {
+		background-color: #ffffff;
+		border-radius: 15px;
+		width: 360px;
+		padding: 20px;
+		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+		text-align: center;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		top:50%;
+		left:50%;
+	}
+
+	.call-info {
+		font-size: 16px;
+		margin-top: 10px;
+		color: #333;
+		margin-bottom: 20px;
+	}
+
+	.call-buttons {
+		display: flex;
+		justify-content: space-evenly;
+		width: 100%;
+	}
+
+		.call-buttons button {
+			background-color: #4CAF50;
+			color: white;
+			border: none;
+			border-radius: 50%;
+			width: 60px;
+			height: 60px;
+			font-size: 18px;
+			cursor: pointer;
+			transition: background-color 0.3s ease;
+		}
+
+			.call-buttons button:disabled {
+				background-color: #ccc;
+			}
+
+			.call-buttons button:hover {
+				background-color: #45a049;
+			}
+
+	.audio-container {
+		margin-top: 20px;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	#remoteAudio {
+		width: 100%;
+		height: 60px;
+		background-color: #eee;
+		border-radius: 8px;
+		margin-bottom: 10px;
+		display: block;
+		box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+	}
+
+	.call-status {
+		font-size: 18px;
+		color: #ff5722;
+		font-weight: bold;
+	}
+
+	.receiver-input {
+		width: 100%;
+		margin-bottom: 10px;
+	}
+
+	.receiver-info {
+		font-size: 14px;
+		color: #555;
+	}
+
+	.call-BackContainer{
+top:0;
+z-index:10000000000000000000;
+	}
 	</style>
 </head>
 
@@ -666,6 +751,35 @@
 			</div>
 		</div>
 	</div>
+
+	<div class="vw-100 vh-100 d-flex justify-content-center d-none align-items-center bg-dark call-BackContainer position-fixed">
+		<div class="call-container shadow">
+			<!-- Display call info -->
+			<div class="call-info">
+				<div class="text-center mb-3">
+					<img src="/user-not-found.png" id="jyotishCallImg" height="100" width="100" class="rounded-circle" />
+				</div>
+				<div id="receiverInfo" class="receiver-info fw-bold">
+					User
+				</div>
+				<div id="audioDuration" class="audio-duration border rounded mt-2 px-2 py-1">00:00</div>
+				<!-- Add real-time audio duration display here -->
+			</div>
+
+			<!-- Buttons for starting and ending the call -->
+			<div class="call-buttons my-4">
+				<button role="button" id="endCallBtn" class="bg-danger text-light" title="End Call" disabled><i class="fas fa-phone-alt"></i></button>
+				<button role="button" id="muteCallBtn" class="bg-warning text-light" title="Mute/Unmute Call" disabled><i class="fas fa-microphone"></i></button>
+			</div>
+
+			<!-- Audio container for remote audio -->
+			<div class="audio-container">
+				<audio id="remoteAudio" hidden autoplay controls></audio>
+				<div class="call-status" id="callStatus">Waiting for call...</div>
+			</div>
+		</div>
+	</div>
+
 	<script src="~/assets/js/core/jquery-3.7.1.min.js"></script>
 	<!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>-->
 	<!-- Include DataTables JS -->
@@ -705,8 +819,9 @@
 	<script src="~/assets/js/setting-demo.js"></script>
 	<script src="~/assets/js/demo.js"></script>
 	<script src="~/summernote/dist/summernote.min.js"></script>
-	<script src="https://unpkg.com/@@zegocloud/zego-uikit-prebuilt/zego-uikit-prebuilt.js"></script>
-
+	<!-- Bootstrap JS and Popper.js (needed for Bootstrap's components like tooltips) -->
+<script src="https://cdn.jsdelivr.net/npm/@@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.7/signalr.min.js" integrity="sha512-7SRCYIJtR6F8ocwW7UxW6wGKqbSyqREDbfCORCbGLatU0iugBLwyOXpzhkPyHIFdBO0K2VCu57fvP2Twgx1o2A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<!--Manage Feature -->
 
 	<script>
@@ -1009,10 +1124,8 @@
 		}
 
 		let userIdForchat = null;
-		const clientId = Math.floor(Math.random() * 10000) + "";
-		const appID = 865742206;
-		const serverSecret = "5a72180880214f43c9358d38af32eacc";
-		let TOKEN;
+	let userConnectionId;
+	let jtargetConnectionId;
 		setTimeout(()=>{
 		establishedConnectionForSendRequest().then((socket) => {
 			debugger
@@ -1050,7 +1163,7 @@
 						$("#requestMessage").text(`${response.type} Request`)
 						if (response.data) {
 							rquestType = response.type
-							roomId = response.roomId;
+							jtargetConnectionId = response.roomId;
 						} else {
 							roomId = null
 						}
@@ -1085,12 +1198,19 @@
 
 				};
 
-				$("#AcceptChatRequest").click(function () {
+				$("#AcceptChatRequest").click(async function () {
 					if (rquestType == "call") {
-						socket.send(`${userIdForchat}:${roomId}:call`)
-						TOKEN = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomId, clientId, $("#userProfileName").text());
-						localStorage.setItem("jcallTOKEN", TOKEN)
-						startCall()
+
+						await startSignalR();
+						if(userConnectionId){
+
+						socket.send(`${userIdForchat}:${userConnectionId}:call`)
+						 await startCall();
+			document.getElementById("callStatus").innerText = "Connected";
+			document.getElementById("endCallBtn").disabled = false;
+			$(".call-BackContainer").removeClass("d-none")
+						}
+						
 					}
 					else {
 
@@ -1105,91 +1225,12 @@
 		})
 		},10000)
 
-		if (localStorage.getItem("jcallTOKEN") != null) {
-			startCall()
-		}
-
 		if (localStorage.getItem("jresumeChat") != null) {
 			userIdForchat = localStorage.getItem("jresumeChat");
 			startChat(userIdForchat);
 		}
 
-			async function changeJyotishServiceStatus(jyotishId,status){
-			let checkServiceStatus=false;
-		await $.ajax({
-				url: BaseUrl + "api/jyotish/changeJyotishServiceStatus", // Ensure BaseUrl is properly defined
-				method: "GET",
-				headers: {
-					'Authorization': `Bearer ${localStorage.getItem("Token2")}` // Retrieve token from localStorage
-				},
-				data: {
-					jyotishId: jyotishId,status:status
-				}, // Corrected JSON.stringify
-				success: function (res) {
-					if (res.status === 200) {
-						checkServiceStatus=true
-					}
-				}
-		})
-		return checkServiceStatus;
-		}
-
-		async function startCall() {
-			const zg = ZegoUIKitPrebuilt.create(localStorage.getItem("jcallTOKEN"));
-			try {
-
-				debugger
-				zg.joinRoom({
-					container: document.querySelector("#root"),
-					turnOnCameraWhenJoining: false,
-					showMyCameraToggleButton: false,
-					showAudioVideoSettingsButton: false,
-					showScreenSharingButton: false,
-					showPreJoinView: false,
-					lowerLeftNotification: {
-						showUserJoinAndLeave: false,
-						showTextChat: false,
-					},
-					showRoomTimer: true,
-					showLeavingView: false,
-					showTextChat: false,
-					maxUsers: 2,
-					showPreJoinView: false,
-					branding: {
-					logoURL: "https://api.myjyotishg.in/Images/Logo.png"
-				},
-					scenario: {
-						mode: ZegoUIKitPrebuilt.OneONoneCall,
-					}, onJoinRoom:async () => {
-						turnOnMicrophoneWhenJoining: true;
-						await changeJyotishServiceStatus(jyotishId,true);
-					},
-					onLeaveRoom:async () => {
-						turnOnMicrophoneWhenJoining: false;
-						localStorage.removeItem("jcallTOKEN")
-						await changeJyotishServiceStatus(jyotishId,false);
-					},
-					onUserJoin: (user) => {
-
-					},
-					onUserLeave: (user) => {
-
-					}
-
-				});
-				zg.setCallInvitationConfig({
-					onSetRoomConfigBeforeJoining: () => {
-						const roomID = zg.getRoomID();
-						sessionStorage.setItem('roomID', roomID);
-
-					}
-				});
-			} catch (error) {
-				console.error('Error starting the call:', error);
-			}
-		}
-
-
+		
 		function getChatHistory() {
 			$.ajax({
 				url: `${BaseUrl}api/chat/getchats`,
@@ -1241,9 +1282,15 @@
 
 						if (res.data != null) {
 							$("#userhdetailschatheader").attr("src", res.data.image)
+							$("#jyotishCallImg").attr("src", res.data.image)
 							$("#ChatModalLabel").text(res.data.name)
+								$("#receiverInfo").text(res.data.name)
 						}
 					}
+					$("#jyotishCallImg").on("error",function(){
+								$("#jyotishCallImg").attr("src", "/user-not-found.png")
+
+					})
 				}
 			})
 		}
@@ -1270,7 +1317,7 @@
 		};
 
 		function startChat(userId) {
-			getSomeUser(userId)
+			getSomeUser()
 			getChatHistory(userId);
 			establishedConnection(userId).then((socket) => {
 				if (socket) {
@@ -1375,6 +1422,239 @@
 			});
 		}
 
+
+		//call mamangement
+
+	 let connection;
+		let peerConnection;
+		let localStream;
+		let queuedIceCandidates = [];
+		const configuration = {
+			iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]  // STUN server to get ICE candidates
+		};
+
+		 // Start the SignalR connection
+		async function startSignalR() {
+			connection = new signalR.HubConnectionBuilder()
+					.withUrl(`https://localhost:7118/callhub?userId=${localStorage.getItem("Id")}&sendby=jyotish`)  // Replace with the actual URL of your SignalR Hub
+				.build();
+
+			connection.on("ReceiveSignal", async (fromConnectionId, signalData) => {
+				console.log("Signal received from:", fromConnectionId, "Data:", signalData);
+				let signal = JSON.parse(signalData);
+
+				// Handle a Call Request
+				if (signal.type === "callRequest") {
+					if (!peerConnection) {
+						await createPeerConnection();
+					}
+					// Set the remote description (SDP) from the received signal
+					if (signal.sdp) {
+						try {
+							await peerConnection.setRemoteDescription(new RTCSessionDescription(signal.sdp));
+							// Create an answer to send back to the sender
+							const answer = await peerConnection.createAnswer();
+							await peerConnection.setLocalDescription(answer);
+							sendSignal(connection.connectionId, JSON.stringify({ sdp: peerConnection.localDescription }));
+						} catch (err) {
+							console.error("Error during call acceptance negotiation:", err);
+						}
+					}
+				}
+
+				// Handle SDP (Offer/Answer) Negotiation
+				else if (signal.sdp) {
+					if (!peerConnection) {
+						console.log("peerConnection is not created. Creating now...");
+						await createPeerConnection();
+					}
+					try {
+						await peerConnection.setRemoteDescription(new RTCSessionDescription(signal.sdp));
+					} catch (err) {
+						console.error("Error setting remote description:", err);
+					}
+
+					if (signal.sdp.type === "offer") {
+						console.log("Received offer. Creating answer...");
+						const answer = await peerConnection.createAnswer();
+						await peerConnection.setLocalDescription(answer);
+						sendSignal(connection.connectionId, JSON.stringify({ sdp: peerConnection.localDescription }));
+					}
+				}
+
+				// Handle ICE Candidate
+				else if (signal.ice) {
+					console.log("ICE candidate received:", signal.ice);
+					if (peerConnection) {
+						try {
+							await peerConnection.addIceCandidate(new RTCIceCandidate(signal.ice));
+						} catch (err) {
+							console.error("Error adding ICE candidate:", err);
+						}
+					} else {
+						queuedIceCandidates.push(signal.ice);
+					}
+				}
+			});
+
+			try {
+				await connection.start();
+				console.log("SignalR connected, connection ID:", connection.connectionId);
+				userConnectionId= connection.connectionId
+			} catch (err) {
+				console.error("Error connecting to SignalR:", err);
+			}
+		}
+
+		  function sendSignal(senderId, signalData) {
+			let targetConnectionId = jtargetConnectionId;
+			if (!targetConnectionId) {
+				targetConnectionId = prompt("Receiver connection ID is empty. Please enter the receiver connection ID:");
+				if (!targetConnectionId) {
+					console.error("No receiver connection ID provided.");
+					return;
+				}
+			}
+			let userId = localStorage.getItem("userId");
+			console.log("Sending signal from", senderId, "to", targetConnectionId, "data:", signalData);
+			connection.invoke("SendSignal", senderId, targetConnectionId, signalData, "jyotish")
+				.catch(err => console.error("Error invoking SendSignal:", err));
+		}
+
+		// Function to create PeerConnection
+		async function createPeerConnection() {
+			peerConnection = new RTCPeerConnection(configuration);
+
+			// Handle ICE candidates
+			peerConnection.onicecandidate = event => {
+				if (event.candidate) {
+					console.log("Local ICE candidate generated:", event.candidate);
+					sendSignal(connection.connectionId, JSON.stringify({ ice: event.candidate }));
+				}
+			};
+
+			// Handle receiving remote tracks
+			peerConnection.ontrack = event => {
+				console.log("Remote track received:", event.streams[0]);
+				const remoteAudio = document.getElementById("remoteAudio");
+				const remoteStream = event.streams[0];
+				remoteAudio.srcObject = remoteStream;
+				remoteAudio.muted = false;
+				remoteAudio.volume = 1.0;
+				remoteAudio.play().catch(err => {
+					console.error("Error playing remote audio:", err);
+				});
+			};
+
+			// Handle the state of the peer connection
+			peerConnection.onconnectionstatechange = () => {
+				console.log("Connection state:", peerConnection.connectionState);
+			};
+
+			// Add the local stream tracks to the peer connection
+			if (localStream) {
+				localStream.getTracks().forEach(track => {
+					peerConnection.addTrack(track, localStream);
+				});
+			} else {
+				console.error("Local stream is not available!");
+			}
+
+			// Process queued ICE candidates (if any)
+			if (queuedIceCandidates.length > 0) {
+				console.log("Processing queued ICE candidates...");
+				for (const candidate of queuedIceCandidates) {
+					try {
+						await peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
+					} catch (err) {
+						console.error("Error processing queued ICE candidate:", err);
+					}
+				}
+				queuedIceCandidates = [];
+			}
+		}
+
+				// Get the audio element and the duration display element
+		const remoteAudio = document.getElementById('remoteAudio');
+		const audioDuration = document.getElementById('audioDuration');
+		const muteCallBtn = document.getElementById('muteCallBtn');
+		let isMuted = false;
+		// Function to start the call
+		async function startCall() {
+			try {
+				localStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+				console.log("Local audio stream captured:", localStream);
+			} catch (err) {
+				console.error("Error accessing audio devices:", err);
+				alert("Could not access audio devices.");
+				return;
+			}
+
+			await createPeerConnection();
+
+
+			const offer = await peerConnection.createOffer();
+			await peerConnection.setLocalDescription(offer);
+			console.log("Local SDP set (offer):", peerConnection.localDescription.sdp);
+				getSomeUser();
+
+			const callRequestSignal = JSON.stringify({
+				type: "callRequest",
+				sdp: peerConnection.localDescription
+			});
+			sendSignal(connection.connectionId, callRequestSignal);
+
+					remoteAudio.ontimeupdate = function() {
+		  const currentTime = remoteAudio.currentTime; // Get the current playback time
+		  const minutes = Math.floor(currentTime / 60); // Get the minutes
+		  const seconds = Math.floor(currentTime % 60); // Get the seconds
+
+		  // Format the time in MM:SS format
+		  const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+		  // Update the displayed duration
+			audioDuration.textContent = formattedTime;
+		};
+
+		muteCallBtn.removeAttribute("disabled")
+		muteCallBtn.innerHTML = '<i class="fas fa-microphone"></i>'; // Change to "unmute" icon
+			muteCallBtn.classList.remove('bg-secondary'); // Revert button color when unmuted
+			muteCallBtn.classList.remove('bg-warning'); // Revert button color when unmuted
+			muteCallBtn.classList.add('bg-warning'); // Optional: change button color to indicate mute
+			// Mute or unmute the audio
+			isMuted=false;
+		  remoteAudio.muted = isMuted;
+		}
+
+		muteCallBtn.addEventListener('click', function() {
+				debugger
+			  isMuted = !isMuted; // Toggle mute state
+			  // Mute or unmute the audio
+			  remoteAudio.muted = isMuted;
+			  // Update the button icon based on mute state
+			  if (isMuted) {
+				muteCallBtn.innerHTML = '<i class="fas fa-microphone"></i>'; // Change to "unmute" icon
+				muteCallBtn.classList.add('bg-warning'); // Optional: change button color to indicate mute
+				muteCallBtn.classList.remove('bg-secondary'); // Revert button color when unmuted
+			  } else {
+				muteCallBtn.innerHTML = '<i class="fas fa-microphone-slash"></i>'; // Change to "mute" icon
+				muteCallBtn.classList.remove('bg-warning'); // Revert button color when unmuted
+				muteCallBtn.classList.add('bg-secondary'); // Revert button color when unmuted
+			  }
+			});
+
+				// Handle the "End Call" button click event
+			document.getElementById("endCallBtn").addEventListener("click", () => {
+				peerConnection.close();
+				peerConnection = null;
+				localStream.getTracks().forEach(track => track.stop());
+				localStream = null;
+				document.getElementById("callStatus").innerText = "Call Ended";
+				document.getElementById("endCallBtn").disabled = true;
+				setTimeout(()=>{
+					$(".call-BackContainer").addClass("d-none")
+
+				},2000)
+			});
 
 	</script>
 

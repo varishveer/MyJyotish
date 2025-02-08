@@ -1,106 +1,288 @@
 ﻿
+using BusinessAccessLayer.Abstraction;
 using Microsoft.AspNetCore.SignalR;
+using Newtonsoft.Json;
+using NuGet.Protocol.Plugins;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 
 namespace BusinessAccessLayer.Implementation
 {
     public class CallHub : Hub
-    {
-        // Method to handle sending an ICE candidate
-        public async Task SendIceCandidate(string toUserId, string candidate)
+    {// Tracks pending call requests using a key "senderId-targetId".
+    private readonly IUserServices _service;
+    private readonly IJyotishServices _jyotish;
+        private static readonly HashSet<string> pendingCallRequests = new();
+        private static readonly Dictionary<string, string> connectedClients = new(); // Store the connection IDs for each user
+        private static Dictionary<string, DateTime> _chatTimeManager = new();
+        private static readonly Dictionary<string, string> receiverSenderConnectionId = new();
+        public CallHub(IUserServices service,IJyotishServices jyotish)
         {
-            if (string.IsNullOrEmpty(toUserId))
-            {
-                throw new ArgumentException("Recipient user ID is required.", nameof(toUserId));
-            }
+            _service = service;
+            _jyotish = jyotish;
+        }
 
-            if (string.IsNullOrEmpty(candidate))
-            {
-                throw new ArgumentException("ICE candidate is required.", nameof(candidate));
-            }
-
+        /// <summary>
+        /// Handles client connection to the hub.
+        /// </summary>
+        public override async Task OnConnectedAsync()
+        {
+            // Optionally, you can associate the connection ID with a user ID (if using authentication).
+            string userId = Context.GetHttpContext()?.Request.Query["userId"];  // Assuming userId is passed in the query string
+            string sendby = Context.GetHttpContext()?.Request.Query["sendby"];  // Assuming userId is passed in the query string
+                    var senderId = sendby == "client" ? userId + "_client" : userId + "_jyotish";
             try
             {
-                // Send the ICE candidate to the intended recipient
-                await Clients.User(toUserId).SendAsync("ReceiveIceCandidate", candidate);
-            }
-            catch (Exception ex)
+                // This will be triggered when a client successfully connects.
+                string connectionId = Context.ConnectionId;
+                Console.WriteLine($"Client connected: {connectionId}");
+
+                if (!string.IsNullOrEmpty(userId))
+                {
+                    connectedClients[senderId] = connectionId;
+                    Console.WriteLine($"User {senderId} connected with connection ID {connectionId}");
+                    if (sendby == "client")
+                    {
+                        Task.Run(() =>
+                        {
+                            _service.changeUserServiceStatus(int.Parse(userId), true);
+                        }).Wait();
+                    }
+                    else
+                    {
+                        Task.Run(() =>
+                        {
+                            _jyotish.changeJyotishServiceStatus(int.Parse(userId), true);
+                        }).Wait();
+
+                    }
+                }
+
+                // Proceed with the rest of the connection logic
+                await base.OnConnectedAsync();
+            }catch(Exception ex)
             {
-                Console.Error.WriteLine($"Error sending ICE candidate: {ex.Message}");
-                throw;  // Rethrow the error to let the client know about the failure
+                if (!string.IsNullOrEmpty(userId))
+                {
+                    if (sendby == "client")
+                    {
+                        Task.Run(() =>
+                        {
+                            _service.changeUserServiceStatus(int.Parse(userId), false);
+                        }).Wait();
+                    }
+                    else
+                    {
+                        Task.Run(() =>
+                        {
+                            _jyotish.changeJyotishServiceStatus(int.Parse(userId), false);
+                        }).Wait();
+
+                    }
+                }
             }
         }
 
-        // Method to handle sending a call offer
-        public async Task SendCallOffer(string toUserId, string offer)
+        /// <summary>
+        /// Handles client disconnection from the hub.
+        /// </summary>
+        public override async Task OnDisconnectedAsync(Exception exception)
         {
-            if (string.IsNullOrEmpty(toUserId) || string.IsNullOrEmpty(offer))
-            {
-                throw new ArgumentException("Invalid parameters received in SendCallOffer");
-            }
-
+                string connectionId = Context.ConnectionId;
+                string userId = connectedClients.FirstOrDefault(c => c.Value == connectionId).Key;
             try
             {
-                // Send the offer to the target user
-                await Clients.User(toUserId).SendAsync("ReceiveCallOffer", offer);
-            }
-            catch (Exception ex)
+                // This will be triggered when a client disconnects.
+                Console.WriteLine($"Client disconnected: {connectionId}");
+                // Optionally, you can find the associated user ID and clean up.
+
+                if (!string.IsNullOrEmpty(userId))
+                {
+                    var senderId = userId.Split("_")[0];
+                    var senderType = userId.Split("_")[1];
+                    if (senderType == "client")
+                    {
+                        if (receiverSenderConnectionId.ContainsKey(Context.ConnectionId))
+                        {
+
+                            var receiverId = receiverSenderConnectionId.FirstOrDefault(e => e.Key == Context.ConnectionId).Value;
+                            var jyotishData = connectedClients.FirstOrDefault(e => e.Value == receiverId).Key;
+
+                            if (!string.IsNullOrEmpty(jyotishData) && _chatTimeManager.ContainsKey(userId))
+                            {
+                                var id = jyotishData.Split("_")[0];
+                                int getJyotishchatCharges = 0;
+                                Task.Run(() =>
+                                {
+                                    getJyotishchatCharges = _service.getJyotishCallServicesCharges(int.Parse(id));
+                                }).Wait();
+                                var dateDifference = _chatTimeManager.Where(e => e.Key == userId).First().Value - DateTime.Now;
+                                var totalMinutes = Math.Ceiling(Math.Abs(dateDifference.TotalMinutes));
+                                var totalAmount = getJyotishchatCharges * totalMinutes;
+                                _chatTimeManager.Remove(userId);
+                                string messages = "call with astrologers";
+                                Task.Run(() =>
+                                {
+                                    _service.ApplyChargesFromUserWalletForService(int.Parse(senderId), Convert.ToInt32(totalAmount), messages, int.Parse(id));
+                                }).Wait();
+                                receiverSenderConnectionId.Remove(Context.ConnectionId);
+                            }
+                        }
+                            Task.Run(() =>
+                            {
+                                _service.changeUserServiceStatus(int.Parse(senderId), false);
+                            }).Wait();
+                    }
+                    else
+                    {
+                      
+                        if (receiverSenderConnectionId.ContainsValue(Context.ConnectionId))
+                        {
+
+                            var receiverId = receiverSenderConnectionId.FirstOrDefault(e => e.Key == Context.ConnectionId).Value;
+                            var userData = connectedClients.FirstOrDefault(e => e.Value == receiverId).Key;
+
+                            if (!string.IsNullOrEmpty(userData) && _chatTimeManager.ContainsKey(userData))
+                            {
+                                var id = userData.Split("_")[0];
+                                int getJyotishchatCharges = 0;
+                                Task.Run(() =>
+                                {
+                                    getJyotishchatCharges = _service.getJyotishCallServicesCharges(int.Parse(senderId));
+                                }).Wait();
+                                var dateDifference = _chatTimeManager.Where(e => e.Key == userData).First().Value - DateTime.Now;
+                                var totalMinutes = Math.Ceiling(Math.Abs(dateDifference.TotalMinutes));
+                                var totalAmount = getJyotishchatCharges * totalMinutes;
+                                _chatTimeManager.Remove(userData);
+                                string messages = "call with astrologers";
+                                Task.Run(() =>
+                                {
+                                    _service.ApplyChargesFromUserWalletForService(int.Parse(id), Convert.ToInt32(totalAmount), messages, int.Parse(senderId));
+                                }).Wait();
+                            }
+                           
+                            receiverSenderConnectionId.Remove(receiverId);
+
+                        }
+                        Task.Run(() =>
+                        {
+                            _jyotish.changeJyotishServiceStatus(int.Parse(senderId), false);
+                        }).Wait();
+                        
+
+                    }
+                    connectedClients.Remove(userId);
+                    Console.WriteLine($"User {userId} disconnected, removed connection ID {connectionId}");
+                }
+
+                // Clean up pending call requests related to this user
+                var toRemove = pendingCallRequests.Where(r => r.StartsWith(userId + "-") || r.EndsWith("-" + userId)).ToList();
+                foreach (var request in toRemove)
+                {
+                    pendingCallRequests.Remove(request);
+
+                    Console.WriteLine($"Removed pending call request: {request}");
+                }
+                // Proceed with the rest of the disconnection logic
+                await base.OnDisconnectedAsync(exception);
+            }catch(Exception ex)
             {
-                Console.Error.WriteLine($"Error sending call offer: {ex.Message}");
-                throw;  // Rethrow the error to let the client know about the failure
-            }
+                if (!string.IsNullOrEmpty(userId))
+                {
+                    var senderId = userId.Split("_")[0];
+                    var senderType = userId.Split("_")[1];
+                    if (senderType == "client")
+                    {
+                        Task.Run(() =>
+                        {
+                            _service.changeUserServiceStatus(int.Parse(senderId), false);
+                        }).Wait();
+                    }
+                    else
+                    {
+                        Task.Run(() =>
+                        {
+                            _jyotish.changeJyotishServiceStatus(int.Parse(senderId), false);
+                        }).Wait();
+
+                    }
+                }
+                }
         }
 
-        // Method to handle the call answer
-        public async Task SendCallAnswer(string toUserId, string answer)
+        /// <summary>
+        /// Receives signaling data from a client and forwards it to the target client.
+        /// If the signal is a call request, check that it has not been sent already.
+        /// </summary>
+        public async Task SendSignal(string senderConnectionId, string targetConnectionId, string signalData, string sendby)
         {
-            if (string.IsNullOrEmpty(toUserId))
-            {
-                throw new ArgumentException("Recipient user ID is required.", nameof(toUserId));
-            }
-
-            if (string.IsNullOrEmpty(answer))
-            {
-                throw new ArgumentException("Answer is required.", nameof(answer));
-            }
-
+            // Try to parse the incoming signal as JSON.
+            dynamic signalObj = null;
             try
             {
-                // Send the answer to the recipient user
-                await Clients.User(toUserId).SendAsync("ReceiveCallAnswer", answer);
+                signalObj = JsonConvert.DeserializeObject(signalData);
             }
             catch (Exception ex)
             {
-                Console.Error.WriteLine($"Error sending call answer: {ex.Message}");
-                throw;  // Rethrow the error to let the client know about the failure
+                Console.WriteLine("Invalid signal data: " + ex.Message);
+                throw;
             }
+
+            string type = signalObj?.type;
+            if (type == "callRequest")
+            {
+                // Create a unique key for the request.
+                string requestKey = $"{senderConnectionId}-{targetConnectionId}";
+
+                // If a request with this key is already pending, do nothing.
+                if (pendingCallRequests.Contains(requestKey))
+                {
+                    Console.WriteLine($"Call request from {senderConnectionId} to {targetConnectionId} is already pending.");
+                    return;
+                }
+                else
+                {
+                    pendingCallRequests.Add(requestKey);
+                    if (sendby == "client")
+                    {
+           if(!receiverSenderConnectionId.ContainsKey(senderConnectionId)) receiverSenderConnectionId[senderConnectionId] = targetConnectionId;
+                    string clientId = connectedClients.FirstOrDefault(c => c.Value == senderConnectionId).Key;
+                        if (!string.IsNullOrEmpty(clientId))
+                        {
+                            if (!_chatTimeManager.ContainsKey(clientId))
+                            {
+                                _chatTimeManager.Add(clientId, DateTime.Now);
+                            }
+                        }
+                    }
+                   
+
+                }
+            }
+
+            // Forward the signal to the target client.
+            await Clients.Client(targetConnectionId).SendAsync("ReceiveSignal", senderConnectionId, signalData);
         }
 
-        // Method to handle hang-up calls
-        public async Task SendHangUp(string toUserId)
+        /// <summary>
+        /// Optional: Remove the pending call request once it is handled (accepted or rejected).
+        /// This can be called from another hub method or via a dedicated client call.
+        /// </summary>
+        public static void RemovePendingCallRequest(string senderConnectionId, string targetConnectionId)
         {
-            if (string.IsNullOrEmpty(toUserId))
+            string requestKey = $"{senderConnectionId}-{targetConnectionId}";
+            if (pendingCallRequests.Contains(requestKey))
             {
-                throw new ArgumentException("Recipient user ID is required.", nameof(toUserId));
-            }
-
-            try
-            {
-                // Notify the recipient user that the call has ended
-                await Clients.User(toUserId).SendAsync("ReceiveHangUp");
-            }
-            catch (Exception ex)
-            {
-                Console.Error.WriteLine($"Error sending hang up: {ex.Message}");
-                throw;  // Rethrow the error to let the client know about the failure
+                pendingCallRequests.Remove(requestKey);
             }
         }
     }
+    }
 
-}
+
