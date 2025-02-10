@@ -53,12 +53,9 @@ namespace MyJyotishGApi.Controllers
                 // Accept WebSocket connection
                 var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
                 _clients[changeIdPref] = webSocket;
-
                 if (sendBy == "client")
                 {
                     // Get wallet and charges asynchronously and wait for the result
-
-                   
 
                     var totalWalletAmount = _services.GetWallet(int.Parse(id));
                     var getJyotishchatCharges = _services.getJyotishServicesCharges(int.Parse(receiverId));

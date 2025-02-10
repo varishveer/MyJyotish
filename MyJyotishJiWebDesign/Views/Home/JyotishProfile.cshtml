@@ -1333,7 +1333,6 @@ z-index:10000000000000000000;
 							}
 						}
 					}
-
 	})
 			if (checkChatValidation) {
 				var DataContainer = {
@@ -1354,15 +1353,13 @@ z-index:10000000000000000000;
 					})
 
 				} else {
-
-					Swal.fire({
+						Swal.fire({
 						title: "Processing Your Request",
 						allowOutsideClick: false,
 						didOpen: () => {
 							Swal.showLoading();
 						}
 					})
-
 					$.ajax({
 						url: BaseUrl + "api/User/AddUserServiceRecord", // Ensure BaseUrl is properly defined
 						method: "POST",
@@ -1407,13 +1404,13 @@ z-index:10000000000000000000;
 			Hi, Below are my Details :<br> <p>Name: ${Name}</p> <p>Gender:${Gender} </p> <p>DOB: ${DateOfBirth} </p> <p> DOT: ${TimeOfBirth} </p> <p> POB: ${PlaceOfBirth} </p>`)
 												} else {
 													utargetConnectionId=response.roomId
-
+													setTimeout(async()=>{
 													 await startCall();
 			document.getElementById("callStatus").innerText = "Connected";
 			document.getElementById("endCallBtn").disabled = false;
 			$(".call-BackContainer").removeClass("d-none")
+													},3000)
 													socket.close()
-
 												}
 											} else if (!response.data) {
 												if (response.anotherRequest && !response.notAvailable) {
@@ -1488,8 +1485,6 @@ z-index:10000000000000000000;
 	}
 		});
 
-	
-
 	if (localStorage.getItem("resumeChat") != null) {
 		startChat();
 	}
@@ -1511,7 +1506,6 @@ z-index:10000000000000000000;
 					walletAmount = res;
 				}	
 			}
-
 		})
 		return walletAmount;
 	}
@@ -1536,7 +1530,6 @@ z-index:10000000000000000000;
 	return checkServiceStatus;
 	}
 
-
 	function GetUserDataForService(Id) {
 		$.ajax({
 			url: `${BaseUrl}api/User/GetUserDataForService?Id=${Id}`,
@@ -1552,7 +1545,6 @@ z-index:10000000000000000000;
 					$('#DateOfBirth').val(response.data.dateOfBirth.split("T")[0]);
 					$('#TimeOfBirth').val(response.data.timeOfBirth != null || response.data.timeOfBirth != "" ? response.data.timeOfBirth.split(' ')[0] : "");
 					$('#PlaceOfBirth').val(response.data.placeOfBirth);
-
 				}
 			},
 			error: function (xhr, status, error) {
@@ -1562,7 +1554,6 @@ z-index:10000000000000000000;
 			}
 		});
 	}
-
 	//time management for message
 
 	function getSomeJyotish() {
@@ -1810,13 +1801,13 @@ z-index:10000000000000000000;
 		});
 	}
 
-
 	//call mamangement
 
-	 let connection;
+	    let connection;
 		let peerConnection;
 		let localStream;
 		let queuedIceCandidates = [];
+			let remoteDescriptionSet = false;
 		const configuration = {
 			iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]  // STUN server to get ICE candidates
 		};
@@ -1824,11 +1815,10 @@ z-index:10000000000000000000;
 		 // Start the SignalR connection
 		async function startSignalR() {
 			connection = new signalR.HubConnectionBuilder()
-					.withUrl(`https://localhost:7118/callhub?userId=${localStorage.getItem("userId")}&sendby=client`)  // Replace with the actual URL of your SignalR Hub
+					.withUrl(`${BaseUrl}callhub?userId=${localStorage.getItem("userId")}&sendby=client`)  // Replace with the actual URL of your SignalR Hub
 				.build();
 
-			connection.on("ReceiveSignal", async (fromConnectionId, signalData) => {
-				console.log("Signal received from:", fromConnectionId, "Data:", signalData);
+				connection.on("ReceiveSignal", async (fromConnectionId, signalData,totaltimeforcall) => {
 				let signal = JSON.parse(signalData);
 
 				// Handle a Call Request
@@ -1837,9 +1827,9 @@ z-index:10000000000000000000;
 						await createPeerConnection();
 					}
 					// Set the remote description (SDP) from the received signal
-					if (signal.sdp) {
+						if (signal.sdp) {
 						try {
-							await peerConnection.setRemoteDescription(new RTCSessionDescription(signal.sdp));
+							await setRemoteDescription(signal.sdp);
 							// Create an answer to send back to the sender
 							const answer = await peerConnection.createAnswer();
 							await peerConnection.setLocalDescription(answer);
@@ -1848,34 +1838,47 @@ z-index:10000000000000000000;
 							console.error("Error during call acceptance negotiation:", err);
 						}
 					}
+						const remoteAudio = document.getElementById('remoteAudio');
+										remoteAudio.ontimeupdate = function() {
+										let Interval=setInterval(()=>{
+										const currentTime = remoteAudio.currentTime;
+													if(currentTime>=totaltimeforcall){
+														$("#endCallBtn").click()
+										Swal.fire({
+											text:"Insufficient Balance",
+											title:"Disconnected",
+											icon:"info"
+										})
+										clearInterval(Interval);
+												}
+										},1000)
+										}
 				}
-
 				// Handle SDP (Offer/Answer) Negotiation
 				else if (signal.sdp) {
 					if (!peerConnection) {
-						console.log("peerConnection is not created. Creating now...");
 						await createPeerConnection();
 					}
 					try {
-						await peerConnection.setRemoteDescription(new RTCSessionDescription(signal.sdp));
+					await setRemoteDescription(signal.sdp);
 					} catch (err) {
+					await setRemoteDescription(signal.sdp);
 						console.error("Error setting remote description:", err);
 					}
 					if (signal.sdp.type === "offer") {
-						console.log("Received offer. Creating answer...");
 						const answer = await peerConnection.createAnswer();
 						await peerConnection.setLocalDescription(answer);
 						sendSignal(connection.connectionId, JSON.stringify({ sdp: peerConnection.localDescription }));
 					}
 				}
-
 				// Handle ICE Candidate
 				else if (signal.ice) {
-					console.log("ICE candidate received:", signal.ice);
-					if (peerConnection) {
+						if (peerConnection && remoteDescriptionSet) {
 						try {
-							await peerConnection.addIceCandidate(new RTCIceCandidate(signal.ice));
+						await addCandidate(signal.ice)
+
 						} catch (err) {
+							await addCandidate(signal.ice)
 							console.error("Error adding ICE candidate:", err);
 						}
 					} else {
@@ -1884,14 +1887,56 @@ z-index:10000000000000000000;
 				}
 			});
 
-			try {
+			connection.on("ClientDisconnet",async function(){
+					$("#endCallBtn").click()
+					Swal.fire({
+						text:"Jyotish are disconnected",
+						title:"Disconnected",
+						icon:"info"
+					})
+			})
+				try {
 				await connection.start();
-				console.log("SignalR connected, connection ID:", connection.connectionId);
 				userConnectionId= connection.connectionId
 			} catch (err) {
 				console.error("Error connecting to SignalR:", err);
 			}
 		}
+
+		async function addCandidate(signal){
+		await peerConnection.addIceCandidate(new RTCIceCandidate(signal)).catch(async (err)=>{
+			console.log(err)
+			await addCandidate(signal)
+		});
+
+		}
+
+			window.addEventListener('beforeunload', function (event) {
+		// This will show a default confirmation message in most browsers
+		const message = "Are you sure you want to leave? You might lose your data.";
+
+		// Standard browser behavior for showing an alert
+		event.returnValue = message; // For most browsers (e.g., Chrome)
+
+		return message; // For other browsers (e.g., Firefox)
+	});
+
+			// Function to set remote description
+	async function setRemoteDescription(sdp) {
+		await peerConnection.setRemoteDescription(sdp);
+		remoteDescriptionSet = true; // Indicate that the remote description has been set.
+		// Add all queued ICE candidates now that the remote description has been set.
+		queuedIceCandidates.forEach(async (candidate) => {
+			try {
+				await peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
+			} catch (err) {
+				console.error("Error adding queued ICE candidate:", err);
+			}
+		});
+		queuedIceCandidates = []; // Clear the queue after adding the candidates.
+	}
+
+			// Function to set remote description
 
 		  function sendSignal(senderId, signalData) {
 			let targetConnectionId = utargetConnectionId;
@@ -1903,9 +1948,12 @@ z-index:10000000000000000000;
 				}
 			}
 			let userId = localStorage.getItem("userId");
-			console.log("Sending signal from", senderId, "to", targetConnectionId, "data:", signalData);
 			connection.invoke("SendSignal", senderId, targetConnectionId, signalData, "client")
 				.catch(err => console.error("Error invoking SendSignal:", err));
+
+			
+				
+			
 		}
 
 		// Function to create PeerConnection
@@ -1915,7 +1963,6 @@ z-index:10000000000000000000;
 			// Handle ICE candidates
 			peerConnection.onicecandidate = event => {
 				if (event.candidate) {
-					console.log("Local ICE candidate generated:", event.candidate);
 					sendSignal(connection.connectionId, JSON.stringify({ ice: event.candidate }));
 				}
 			};
@@ -1949,7 +1996,6 @@ z-index:10000000000000000000;
 
 			// Process queued ICE candidates (if any)
 			if (queuedIceCandidates.length > 0) {
-				console.log("Processing queued ICE candidates...");
 				for (const candidate of queuedIceCandidates) {
 					try {
 						await peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
@@ -1960,8 +2006,6 @@ z-index:10000000000000000000;
 				queuedIceCandidates = [];
 			}
 		}
-
-
 			// Get the audio element and the duration display element
 	const remoteAudio = document.getElementById('remoteAudio');
 	const audioDuration = document.getElementById('audioDuration');
@@ -1972,7 +2016,6 @@ z-index:10000000000000000000;
 		async function startCall() {
 			try {
 				localStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
-				console.log("Local audio stream captured:", localStream);
 			} catch (err) {
 				console.error("Error accessing audio devices:", err);
 				alert("Could not access audio devices.");
@@ -1984,7 +2027,6 @@ z-index:10000000000000000000;
 
 			const offer = await peerConnection.createOffer();
 			await peerConnection.setLocalDescription(offer);
-			console.log("Local SDP set (offer):", peerConnection.localDescription.sdp);
 
 			const callRequestSignal = JSON.stringify({
 				type: "callRequest",
@@ -1999,11 +2041,8 @@ z-index:10000000000000000000;
 
 	  // Format the time in MM:SS format
 	  const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-
 	  // Update the displayed duration
 	    audioDuration.textContent = formattedTime;
-
-
 	};
 
 	muteCallBtn.removeAttribute("disabled")
@@ -2024,19 +2063,22 @@ muteCallBtn.addEventListener('click', function() {
 	  remoteAudio.muted = isMuted;
 	  // Update the button icon based on mute state
 	  if (isMuted) {
-		muteCallBtn.innerHTML = '<i class="fas fa-microphone"></i>'; // Change to "unmute" icon
-		muteCallBtn.classList.add('bg-warning'); // Optional: change button color to indicate mute
-		muteCallBtn.classList.remove('bg-secondary'); // Revert button color when unmuted
+		muteCallBtn.innerHTML = '<i class="fas fa-microphone-slash"></i>'; // Change to "unmute" icon
+		muteCallBtn.classList.remove('bg-warning'); // Optional: change button color to indicate mute
+			muteCallBtn.classList.add('bg-secondary'); // Revert button color when unmuted
 	  } else {
-		muteCallBtn.innerHTML = '<i class="fas fa-microphone-slash"></i>'; // Change to "mute" icon
-		muteCallBtn.classList.remove('bg-warning'); // Revert button color when unmuted
-		muteCallBtn.classList.add('bg-secondary'); // Revert button color when unmuted
+		muteCallBtn.innerHTML = '<i class="fas fa-microphone"></i>'; // Change to "mute" icon
+			muteCallBtn.classList.remove('bg-secondary'); // Revert button color when unmuted
+			muteCallBtn.classList.add('bg-warning'); // Revert button color when unmuted
 	  }
 	});
 		// Handle the "End Call" button click event
 		document.getElementById("endCallBtn").addEventListener("click", () => {
 			peerConnection.close();
 			peerConnection = null;
+				connection.stop();
+					connection=null;
+							remoteAudio.currentTime = 0;
 			localStream.getTracks().forEach(track => track.stop());
 			localStream = null;
 			document.getElementById("callStatus").innerText = "Call Ended";
@@ -2047,6 +2089,7 @@ muteCallBtn.addEventListener('click', function() {
 			},2000)
 		});
 
+		
 </script>
 
 

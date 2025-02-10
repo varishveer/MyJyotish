@@ -6,6 +6,7 @@ using NuGet.Protocol.Plugins;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -16,18 +17,17 @@ namespace BusinessAccessLayer.Implementation
 {
     public class CallHub : Hub
     {// Tracks pending call requests using a key "senderId-targetId".
-    private readonly IUserServices _service;
-    private readonly IJyotishServices _jyotish;
+        private readonly IUserServices _service;
+        private readonly IJyotishServices _jyotish;
         private static readonly HashSet<string> pendingCallRequests = new();
         private static readonly Dictionary<string, string> connectedClients = new(); // Store the connection IDs for each user
-        private static Dictionary<string, DateTime> _chatTimeManager = new();
+        private static Dictionary<string, DateTime> _callTimeManager = new();
         private static readonly Dictionary<string, string> receiverSenderConnectionId = new();
-        public CallHub(IUserServices service,IJyotishServices jyotish)
+        public CallHub(IUserServices service, IJyotishServices jyotish)
         {
             _service = service;
             _jyotish = jyotish;
         }
-
         /// <summary>
         /// Handles client connection to the hub.
         /// </summary>
@@ -36,9 +36,11 @@ namespace BusinessAccessLayer.Implementation
             // Optionally, you can associate the connection ID with a user ID (if using authentication).
             string userId = Context.GetHttpContext()?.Request.Query["userId"];  // Assuming userId is passed in the query string
             string sendby = Context.GetHttpContext()?.Request.Query["sendby"];  // Assuming userId is passed in the query string
-                    var senderId = sendby == "client" ? userId + "_client" : userId + "_jyotish";
+            var senderId = sendby == "client" ? userId + "_client" : userId + "_jyotish";
+
             try
             {
+
                 // This will be triggered when a client successfully connects.
                 string connectionId = Context.ConnectionId;
                 Console.WriteLine($"Client connected: {connectionId}");
@@ -59,43 +61,42 @@ namespace BusinessAccessLayer.Implementation
                         Task.Run(() =>
                         {
                             _jyotish.changeJyotishServiceStatus(int.Parse(userId), true);
+
                         }).Wait();
+
 
                     }
                 }
 
                 // Proceed with the rest of the connection logic
                 await base.OnConnectedAsync();
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 if (!string.IsNullOrEmpty(userId))
                 {
                     if (sendby == "client")
                     {
-                        Task.Run(() =>
-                        {
+                       
                             _service.changeUserServiceStatus(int.Parse(userId), false);
-                        }).Wait();
+                        
                     }
                     else
                     {
-                        Task.Run(() =>
-                        {
+                        
                             _jyotish.changeJyotishServiceStatus(int.Parse(userId), false);
-                        }).Wait();
-
+                       
                     }
                 }
             }
         }
-
         /// <summary>
         /// Handles client disconnection from the hub.
         /// </summary>
         public override async Task OnDisconnectedAsync(Exception exception)
         {
-                string connectionId = Context.ConnectionId;
-                string userId = connectedClients.FirstOrDefault(c => c.Value == connectionId).Key;
+            string connectionId = Context.ConnectionId;
+            string userId = connectedClients.FirstOrDefault(c => c.Value == connectionId).Key;
             try
             {
                 // This will be triggered when a client disconnects.
@@ -110,11 +111,10 @@ namespace BusinessAccessLayer.Implementation
                     {
                         if (receiverSenderConnectionId.ContainsKey(Context.ConnectionId))
                         {
-
                             var receiverId = receiverSenderConnectionId.FirstOrDefault(e => e.Key == Context.ConnectionId).Value;
                             var jyotishData = connectedClients.FirstOrDefault(e => e.Value == receiverId).Key;
 
-                            if (!string.IsNullOrEmpty(jyotishData) && _chatTimeManager.ContainsKey(userId))
+                            if (!string.IsNullOrEmpty(jyotishData) && _callTimeManager.ContainsKey(userId))
                             {
                                 var id = jyotishData.Split("_")[0];
                                 int getJyotishchatCharges = 0;
@@ -122,33 +122,32 @@ namespace BusinessAccessLayer.Implementation
                                 {
                                     getJyotishchatCharges = _service.getJyotishCallServicesCharges(int.Parse(id));
                                 }).Wait();
-                                var dateDifference = _chatTimeManager.Where(e => e.Key == userId).First().Value - DateTime.Now;
+                                var dateDifference = _callTimeManager.Where(e => e.Key == userId).First().Value - DateTime.Now;
                                 var totalMinutes = Math.Ceiling(Math.Abs(dateDifference.TotalMinutes));
                                 var totalAmount = getJyotishchatCharges * totalMinutes;
-                                _chatTimeManager.Remove(userId);
+                                _callTimeManager.Remove(userId);
                                 string messages = "call with astrologers";
                                 Task.Run(() =>
                                 {
                                     _service.ApplyChargesFromUserWalletForService(int.Parse(senderId), Convert.ToInt32(totalAmount), messages, int.Parse(id));
                                 }).Wait();
                                 receiverSenderConnectionId.Remove(Context.ConnectionId);
+                                await Clients.Client(receiverId).SendAsync("ClientDisconnet");
                             }
                         }
-                            Task.Run(() =>
-                            {
-                                _service.changeUserServiceStatus(int.Parse(senderId), false);
-                            }).Wait();
+                        
+                            _service.changeUserServiceStatus(int.Parse(senderId), false);
+                       
                     }
                     else
                     {
-                      
                         if (receiverSenderConnectionId.ContainsValue(Context.ConnectionId))
                         {
 
-                            var receiverId = receiverSenderConnectionId.FirstOrDefault(e => e.Key == Context.ConnectionId).Value;
+                            var receiverId = receiverSenderConnectionId.FirstOrDefault(e => e.Value == Context.ConnectionId).Key;
                             var userData = connectedClients.FirstOrDefault(e => e.Value == receiverId).Key;
 
-                            if (!string.IsNullOrEmpty(userData) && _chatTimeManager.ContainsKey(userData))
+                            if (!string.IsNullOrEmpty(userData) && _callTimeManager.ContainsKey(userData))
                             {
                                 var id = userData.Split("_")[0];
                                 int getJyotishchatCharges = 0;
@@ -156,31 +155,36 @@ namespace BusinessAccessLayer.Implementation
                                 {
                                     getJyotishchatCharges = _service.getJyotishCallServicesCharges(int.Parse(senderId));
                                 }).Wait();
-                                var dateDifference = _chatTimeManager.Where(e => e.Key == userData).First().Value - DateTime.Now;
+                                var dateDifference = _callTimeManager.Where(e => e.Key == userData).First().Value - DateTime.Now;
                                 var totalMinutes = Math.Ceiling(Math.Abs(dateDifference.TotalMinutes));
                                 var totalAmount = getJyotishchatCharges * totalMinutes;
-                                _chatTimeManager.Remove(userData);
+                                _callTimeManager.Remove(userData);
                                 string messages = "call with astrologers";
                                 Task.Run(() =>
                                 {
                                     _service.ApplyChargesFromUserWalletForService(int.Parse(id), Convert.ToInt32(totalAmount), messages, int.Parse(senderId));
                                 }).Wait();
                             }
-                           
+
                             receiverSenderConnectionId.Remove(receiverId);
+                            await Clients.Client(receiverId).SendAsync("ClientDisconnet");
 
                         }
-                        Task.Run(() =>
-                        {
+                     
                             _jyotish.changeJyotishServiceStatus(int.Parse(senderId), false);
-                        }).Wait();
-                        
-
+                       
                     }
                     connectedClients.Remove(userId);
                     Console.WriteLine($"User {userId} disconnected, removed connection ID {connectionId}");
                 }
 
+                var toRemoveNull = pendingCallRequests.Where(r => r==null).ToList();
+                foreach (var request in toRemoveNull)
+                {
+                    pendingCallRequests.Remove(request);
+
+                    Console.WriteLine($"Removed pending call request: {request}");
+                }
                 // Clean up pending call requests related to this user
                 var toRemove = pendingCallRequests.Where(r => r.StartsWith(userId + "-") || r.EndsWith("-" + userId)).ToList();
                 foreach (var request in toRemove)
@@ -191,7 +195,8 @@ namespace BusinessAccessLayer.Implementation
                 }
                 // Proceed with the rest of the disconnection logic
                 await base.OnDisconnectedAsync(exception);
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 if (!string.IsNullOrEmpty(userId))
                 {
@@ -199,21 +204,19 @@ namespace BusinessAccessLayer.Implementation
                     var senderType = userId.Split("_")[1];
                     if (senderType == "client")
                     {
-                        Task.Run(() =>
-                        {
+                        
                             _service.changeUserServiceStatus(int.Parse(senderId), false);
-                        }).Wait();
+                        
                     }
                     else
                     {
-                        Task.Run(() =>
-                        {
+                       
                             _jyotish.changeJyotishServiceStatus(int.Parse(senderId), false);
-                        }).Wait();
+                        
 
                     }
                 }
-                }
+            }
         }
 
         /// <summary>
@@ -235,6 +238,7 @@ namespace BusinessAccessLayer.Implementation
             }
 
             string type = signalObj?.type;
+            long totaltimeforcall = 0;
             if (type == "callRequest")
             {
                 // Create a unique key for the request.
@@ -249,25 +253,39 @@ namespace BusinessAccessLayer.Implementation
                 else
                 {
                     pendingCallRequests.Add(requestKey);
+                        string clientId = connectedClients.FirstOrDefault(c => c.Value == senderConnectionId).Key;
+                        var userData = connectedClients.FirstOrDefault(e => e.Value == targetConnectionId).Key;
+                            if (string.IsNullOrEmpty(userData)) return;
                     if (sendby == "client")
                     {
-           if(!receiverSenderConnectionId.ContainsKey(senderConnectionId)) receiverSenderConnectionId[senderConnectionId] = targetConnectionId;
-                    string clientId = connectedClients.FirstOrDefault(c => c.Value == senderConnectionId).Key;
+                        if (!receiverSenderConnectionId.ContainsKey(senderConnectionId)) receiverSenderConnectionId[senderConnectionId] = targetConnectionId;
                         if (!string.IsNullOrEmpty(clientId))
                         {
-                            if (!_chatTimeManager.ContainsKey(clientId))
+
+                            if (!_callTimeManager.ContainsKey(clientId))
                             {
-                                _chatTimeManager.Add(clientId, DateTime.Now);
+                                _callTimeManager.Add(clientId, DateTime.Now);
                             }
+
                         }
                     }
-                   
-
+                    else
+                    {
+                        var id = clientId.Split("_")[0];
+                        var uId = userData.Split("_")[0];
+                        Task.Run(() =>
+                        {
+                            var totalWalletAmount = _service.GetWallet(int.Parse(uId));
+                            var getJyotishchatCharges = _service.getJyotishCallServicesCharges(int.Parse(id));
+                            totaltimeforcall = getJyotishchatCharges > 0 ? totalWalletAmount / getJyotishchatCharges : 0;
+                        }).Wait();
+                    }
                 }
             }
 
             // Forward the signal to the target client.
-            await Clients.Client(targetConnectionId).SendAsync("ReceiveSignal", senderConnectionId, signalData);
+            await Clients.Client(targetConnectionId).SendAsync("ReceiveSignal", senderConnectionId, signalData, totaltimeforcall);
+
         }
 
         /// <summary>
@@ -283,6 +301,6 @@ namespace BusinessAccessLayer.Implementation
             }
         }
     }
-    }
+}
 
 

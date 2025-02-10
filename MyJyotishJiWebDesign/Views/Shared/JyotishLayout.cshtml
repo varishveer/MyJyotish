@@ -1203,12 +1203,13 @@ z-index:10000000000000000000;
 
 						await startSignalR();
 						if(userConnectionId){
-
 						socket.send(`${userIdForchat}:${userConnectionId}:call`)
+						setTimeout(async()=>{
 						 await startCall();
 			document.getElementById("callStatus").innerText = "Connected";
 			document.getElementById("endCallBtn").disabled = false;
 			$(".call-BackContainer").removeClass("d-none")
+						},2000)
 						}
 						
 					}
@@ -1429,6 +1430,7 @@ z-index:10000000000000000000;
 		let peerConnection;
 		let localStream;
 		let queuedIceCandidates = [];
+		let remoteDescriptionSet=false;
 		const configuration = {
 			iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]  // STUN server to get ICE candidates
 		};
@@ -1436,10 +1438,9 @@ z-index:10000000000000000000;
 		 // Start the SignalR connection
 		async function startSignalR() {
 			connection = new signalR.HubConnectionBuilder()
-					.withUrl(`https://localhost:7118/callhub?userId=${localStorage.getItem("Id")}&sendby=jyotish`)  // Replace with the actual URL of your SignalR Hub
+						.withUrl(`${BaseUrl}callhub?userId=${localStorage.getItem("Id")}&sendby=jyotish`)  // Replace with the actual URL of your SignalR Hub
 				.build();
-
-			connection.on("ReceiveSignal", async (fromConnectionId, signalData) => {
+				connection.on("ReceiveSignal", async (fromConnectionId, signalData,totaltimeforcall) => {
 				console.log("Signal received from:", fromConnectionId, "Data:", signalData);
 				let signal = JSON.parse(signalData);
 
@@ -1451,7 +1452,7 @@ z-index:10000000000000000000;
 					// Set the remote description (SDP) from the received signal
 					if (signal.sdp) {
 						try {
-							await peerConnection.setRemoteDescription(new RTCSessionDescription(signal.sdp));
+									await setRemoteDescription(signal.sdp);
 							// Create an answer to send back to the sender
 							const answer = await peerConnection.createAnswer();
 							await peerConnection.setLocalDescription(answer);
@@ -1469,8 +1470,9 @@ z-index:10000000000000000000;
 						await createPeerConnection();
 					}
 					try {
-						await peerConnection.setRemoteDescription(new RTCSessionDescription(signal.sdp));
+					await setRemoteDescription(signal.sdp);
 					} catch (err) {
+						await setRemoteDescription(signal.sdp);
 						console.error("Error setting remote description:", err);
 					}
 
@@ -1485,7 +1487,7 @@ z-index:10000000000000000000;
 				// Handle ICE Candidate
 				else if (signal.ice) {
 					console.log("ICE candidate received:", signal.ice);
-					if (peerConnection) {
+						if (peerConnection && remoteDescriptionSet) {
 						try {
 							await peerConnection.addIceCandidate(new RTCIceCandidate(signal.ice));
 						} catch (err) {
@@ -1497,6 +1499,15 @@ z-index:10000000000000000000;
 				}
 			});
 
+				connection.on("ClientDisconnet",async function(){
+						$("#endCallBtn").click()
+						Swal.fire({
+							text:"Client are disconnected",
+							title:"Disconnected",
+							icon:"info"
+						})
+				})
+
 			try {
 				await connection.start();
 				console.log("SignalR connected, connection ID:", connection.connectionId);
@@ -1504,6 +1515,20 @@ z-index:10000000000000000000;
 			} catch (err) {
 				console.error("Error connecting to SignalR:", err);
 			}
+		}
+
+			async function setRemoteDescription(sdp) {
+			await peerConnection.setRemoteDescription(sdp);
+			remoteDescriptionSet = true; // Indicate that the remote description has been set.
+			// Add all queued ICE candidates now that the remote description has been set.
+			queuedIceCandidates.forEach(async (candidate) => {
+				try {
+					await peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
+				} catch (err) {
+					console.error("Error adding queued ICE candidate:", err);
+				}
+			});
+			queuedIceCandidates = []; // Clear the queue after adding the candidates.
 		}
 
 		  function sendSignal(senderId, signalData) {
@@ -1632,13 +1657,13 @@ z-index:10000000000000000000;
 			  remoteAudio.muted = isMuted;
 			  // Update the button icon based on mute state
 			  if (isMuted) {
-				muteCallBtn.innerHTML = '<i class="fas fa-microphone"></i>'; // Change to "unmute" icon
-				muteCallBtn.classList.add('bg-warning'); // Optional: change button color to indicate mute
-				muteCallBtn.classList.remove('bg-secondary'); // Revert button color when unmuted
-			  } else {
-				muteCallBtn.innerHTML = '<i class="fas fa-microphone-slash"></i>'; // Change to "mute" icon
-				muteCallBtn.classList.remove('bg-warning'); // Revert button color when unmuted
+				muteCallBtn.innerHTML = '<i class="fas fa-microphone-slash"></i>'; // Change to "unmute" icon
+					muteCallBtn.classList.remove('bg-warning'); // Optional: change button color to indicate mute
 				muteCallBtn.classList.add('bg-secondary'); // Revert button color when unmuted
+			  } else {
+				muteCallBtn.innerHTML = '<i class="fas fa-microphone"></i>'; // Change to "mute" icon
+				muteCallBtn.classList.remove('bg-secondary'); // Revert button color when unmuted
+				muteCallBtn.classList.add('bg-warning'); // Revert button color when unmuted
 			  }
 			});
 
@@ -1646,6 +1671,9 @@ z-index:10000000000000000000;
 			document.getElementById("endCallBtn").addEventListener("click", () => {
 				peerConnection.close();
 				peerConnection = null;
+						connection.stop();
+						connection=null;
+								remoteAudio.currentTime = 0;
 				localStream.getTracks().forEach(track => track.stop());
 				localStream = null;
 				document.getElementById("callStatus").innerText = "Call Ended";
