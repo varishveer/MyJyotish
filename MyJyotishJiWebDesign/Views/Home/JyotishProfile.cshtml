@@ -202,7 +202,110 @@
 top:0;
 z-index:10000000000000000000;
 	}
+
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+
+	/* Fullscreen background */
+	.loader-continer-for-call {
+		height: 100vh;
+		width:100vw;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		background: linear-gradient(135deg, black, gray);
+		overflow: hidden;
+		position:fixed;
+		top:0;
+		left:0;
+		z-index: 10000000000000000000;
+	}
+
+	/* Loader container */
+	.call-loader {
+		position: relative;
+		width: 150px;
+		height: 150px;
+	}
+
+	/* Central glowing orb */
+	.orb {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 30px;
+		height: 30px;
+		background: #00d1ff;
+		border-radius: 50%;
+		box-shadow: 0 0 15px #00d1ff, 0 0 30px #00d1ff, 0 0 60px rgba(0, 209, 255, 0.5);
+		transform: translate(-50%, -50%);
+		animation: pulse 2s infinite ease-in-out;
+	}
+
+	/* Pulsating waves */
+	.wave {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 100%;
+		height: 100%;
+		background: none;
+		border: 2px solid rgba(0, 209, 255, 0.5);
+		border-radius: 50%;
+		transform: translate(-50%, -50%) scale(0);
+		animation: expand 3s infinite ease-in-out;
+	}
+
+		.wave:nth-child(2) {
+			animation-delay: 1s;
+		}
+
+		.wave:nth-child(3) {
+			animation-delay: 2s;
+		}
+
+	/* Animations */
+	@@keyframes pulse {
+		0%, 100%
+
+	{
+		transform: translate(-50%, -50%) scale(1);
+	}
+
+	50% {
+		transform: translate(-50%, -50%) scale(1.2);
+	}
+
+	}
+
+	@@keyframes expand {
+		0%
+
+	{
+		transform: translate(-50%, -50%) scale(0);
+		opacity: 1;
+	}
+
+	100% {
+		transform: translate(-50%, -50%) scale(1.5);
+		opacity: 0;
+	}
+
+	}
 </style>
+
+<div class="d-none loader-continer-for-call">
+<div class="call-loader">
+	<div class="orb"></div>
+	<div class="wave"></div>
+	<div class="wave"></div>
+	<div class="wave"></div>
+</div>
+</div>
+
 
 <div class="container my-3" style="margin-top:100px; background-color: #f7f7f7; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
 	<div class="card w-100 mx-auto shadow-sm" style="background-color: #ffffff; padding: 20px; border-radius: 10px;">
@@ -1403,13 +1506,15 @@ z-index:10000000000000000000;
 													$(".messageInpBox").val(`
 			Hi, Below are my Details :<br> <p>Name: ${Name}</p> <p>Gender:${Gender} </p> <p>DOB: ${DateOfBirth} </p> <p> DOT: ${TimeOfBirth} </p> <p> POB: ${PlaceOfBirth} </p>`)
 												} else {
+														$(".loader-continer-for-call").removeClass("d-none")
 													utargetConnectionId=response.roomId
 													setTimeout(async()=>{
 													 await startCall();
+														$(".loader-continer-for-call").addClass("d-none")
 			document.getElementById("callStatus").innerText = "Connected";
 			document.getElementById("endCallBtn").disabled = false;
 			$(".call-BackContainer").removeClass("d-none")
-													},3000)
+													},4000)
 													socket.close()
 												}
 											} else if (!response.data) {
@@ -1423,9 +1528,15 @@ z-index:10000000000000000000;
 													Swal.fire({
 														text: "Currently jyotish are busy	..",
 														title: "warning",
-														icon: "warning"
+														icon: "warning",
+														didClose:()=>{
+																$(".callBtn").show();
+												$("#waitingBtn").addClass("d-none")
+														}
 													});
 												}
+													$(".callBtn").show();
+											$("#waitingBtn").addClass("d-none")
 												socket.close()
 											}
 										};
@@ -1838,21 +1949,27 @@ z-index:10000000000000000000;
 							console.error("Error during call acceptance negotiation:", err);
 						}
 					}
-						const remoteAudio = document.getElementById('remoteAudio');
-										remoteAudio.ontimeupdate = function() {
-										let Interval=setInterval(()=>{
-										const currentTime = remoteAudio.currentTime;
-													if(currentTime>=totaltimeforcall){
-														$("#endCallBtn").click()
-										Swal.fire({
-											text:"Insufficient Balance",
-											title:"Disconnected",
-											icon:"info"
-										})
-										clearInterval(Interval);
+							const remoteAudio = document.getElementById('remoteAudio');
+								const audioDuration = document.getElementById('audioDuration');
+												remoteAudio.ontimeupdate = function() {
+											 const currentTime = remoteAudio.currentTime; // Get the current playback time
+											 const minutes = Math.floor(currentTime / 60); // Get the minutes
+											 const seconds = Math.floor(currentTime % 60); // Get the seconds
+
+											 // Format the time in MM:SS format
+											 const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+											 // Update the displayed duration
+												audioDuration.textContent = formattedTime;
+															if(currentTime>=totaltimeforcall){
+																$("#endCallBtn").click()
+												Swal.fire({
+													text:"Insufficient Balance",
+													title:"Disconnected",
+													icon:"info"
+												})
+
+														}
 												}
-										},1000)
-										}
 				}
 				// Handle SDP (Offer/Answer) Negotiation
 				else if (signal.sdp) {
@@ -1981,10 +2098,20 @@ z-index:10000000000000000000;
 			};
 
 			// Handle the state of the peer connection
-			peerConnection.onconnectionstatechange = () => {
+			peerConnection.onconnectionstatechange = async () => {
+					if(peerConnection){
+						$("#callStatus").text(peerConnection.connectionState)
+						if(peerConnection.connectionState=="failed"){
+					await createPeerConnection();
+						}else if(peerConnection.connectionState=="connected"){
+									connection.invoke("manageUserPayment").catch(err=>{
+								console.log(err)
+							})
+						}
 				console.log("Connection state:", peerConnection.connectionState);
+					}
 			};
-
+			
 			// Add the local stream tracks to the peer connection
 			if (localStream) {
 				localStream.getTracks().forEach(track => {
@@ -2033,17 +2160,6 @@ z-index:10000000000000000000;
 				sdp: peerConnection.localDescription
 			});
 			sendSignal(connection.connectionId, callRequestSignal);
-
-	remoteAudio.ontimeupdate = function() {
-	  const currentTime = remoteAudio.currentTime; // Get the current playback time
-	  const minutes = Math.floor(currentTime / 60); // Get the minutes
-	  const seconds = Math.floor(currentTime % 60); // Get the seconds
-
-	  // Format the time in MM:SS format
-	  const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-	  // Update the displayed duration
-	    audioDuration.textContent = formattedTime;
-	};
 
 	muteCallBtn.removeAttribute("disabled")
 	muteCallBtn.innerHTML = '<i class="fas fa-microphone"></i>'; // Change to "unmute" icon

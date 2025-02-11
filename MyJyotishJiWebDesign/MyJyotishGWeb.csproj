@@ -12,6 +12,7 @@
     <None Include="wwwroot\dropify\fonts\dropify.woff" />
     <None Include="wwwroot\dropify\js\dropify.js" />
     <None Include="wwwroot\dropify\js\dropify.min.js" />
+    
   </ItemGroup>
 
   <ItemGroup>

@@ -258,15 +258,6 @@
             <!-- Navigation items in the middle -->
             <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Language
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="languageDropdown">
-                            <li><a class="dropdown-item" href="#">English</a></li>
-                            <li><a class="dropdown-item" href="#">Hindi</a></li>
-                        </ul>
-                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/Home/Chat">Chat with Astrologer</a>
                     </li>
@@ -291,10 +282,6 @@
                             <li><a class="dropdown-item" href="#">Weekly</a></li>
                             <li><a class="dropdown-item" href="#">Overall</a></li>
                         </ul>
-                    </li>
-                   
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Blog</a>
                     </li>
                     <li class="nav-item dropdown" id="LoginDropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -329,7 +316,6 @@
                                 </h5>
                                 <p class="card-text placeholder-glow">
                                     <span class="placeholder col-7"></span>
-
                                 </p>
                             </div>
                         </div>
@@ -345,8 +331,8 @@
 
       <!-- jQuery -->
   <script>
-      //  var BaseUrl = "https://api.myjyotishg.in/";
-        var BaseUrl = "https://localhost:7118/";
+         var BaseUrl = "https://api.myjyotishg.in/";
+        //var BaseUrl = "https://localhost:7118/";
 
         var BaseUrlImg = "https://myjyotishg.in/";
         let userId = "636001";
@@ -383,37 +369,32 @@
             <div class="row">
                 <!-- 1st Column: Jyotish Services -->
                 <div class="col-md-3">
-                    <h5 class="footer-heading" style="font-weight:bolder">Jyotish Services</h5>
+                    <h5 class="footer-heading" style="font-weight:bolder">Our Services</h5>
                     <hr class="footer-line">
                     <ul class="list-unstyled">
-                        <li class="footer-item"><a href="#">  Astrological Consultation</a></li>
-                        <li class="footer-item"><a href="#">  Personalized Horoscope</a></li>
-                        <li class="footer-item"><a href="#">  Kundali Matching</a></li>
-                        <li class="footer-item"><a href="#">  Vedic Astrology</a></li>
-                        <li class="footer-item"><a href="#">  Palmistry</a></li>
-                        <li class="footer-item"><a href="#">  Numerology</a></li>
-                        <li class="footer-item"><a href="#">  Tarot Card Reading</a></li>
-                        <li class="footer-item"><a href="#">  Face Reading</a></li>
-                        <li class="footer-item"><a href="#">  Birth Chart Analysis</a></li>
-                        <li class="footer-item"><a href="#">  Gemstone Therapy</a></li>
+                        <li class="footer-item"><a href="/home/talk">  Call with Astrologers</a></li>
+                        <li class="footer-item"><a href="/home/chat">  Chat with Astrologers</a></li>
+                        <li class="footer-item"><a href="/home/Astrology">  Astrology</a></li>
+                        <li class="footer-item"><a href="/home/Palmistry">  Palmistry</a></li>
+                        <li class="footer-item"><a href="/home/Tarot">  Tarot</a></li>
+                        <li class="footer-item"><a href="/home/Vastu">  Vastu</a></li>
+                        <li class="footer-item"><a href="/home/Compatibility">  Compatibilty</a></li>
+                        <li class="footer-item"><a href="/Home/Search">  Find astrologers</a></li>
+                      
                     </ul>
                 </div>
 
                 <!-- 2nd Column: Our Services -->
                 <div class="col-md-3">
-                    <h5 class="footer-heading" style="font-weight:bolder">Our Services</h5>
+                    <h5 class="footer-heading" style="font-weight:bolder">Free Services</h5>
                     <hr class="footer-line">
                     <ul class="list-unstyled">
-                        <li class="footer-item"><a href="#">  Pooja and Rituals</a></li>
-                        <li class="footer-item"><a href="#">  Gemstone Suggestions</a></li>
-                        <li class="footer-item"><a href="#">  Astrological Remedies</a></li>
-                        <li class="footer-item"><a href="#">  Muhurta Selection</a></li>
-                        <li class="footer-item"><a href="#">  Vaastu Consultation</a></li>
-                        <li class="footer-item"><a href="#">  Health Astrology</a></li>
-                        <li class="footer-item"><a href="#">  Finance Astrology</a></li>
-                        <li class="footer-item"><a href="#">  Business Astrology</a></li>
-                        <li class="footer-item"><a href="#">  Child Birth Remedies</a></li>
-                        <li class="footer-item"><a href="#">  Dasha Prediction</a></li>
+                        <li class="footer-item"><a href="/home/KundaliMatching">  Kundali Matching</a></li>
+                        <li class="footer-item"><a href="/home/FreeKundali">  Free Kundali</a></li>
+                        <li class="footer-item"><a href="/home/TodayHoroscope">  Horoscope</a></li>
+                        <li class="footer-item"><a href="/home/BookPooja">  Book Pooja</a></li>
+                        <li class="footer-item"><a href="/home/Panchang">  Todays Panchang</a></li>
+                        <li class="footer-item"><a href="/home/IndianCalendarFestivals">  Festive Calender</a></li>
                     </ul>
                 </div>
 
@@ -422,10 +403,9 @@
                     <h5 class="footer-heading" style="font-weight:bolder">Quick Links</h5>
                     <hr class="footer-line">
                     <ul class="list-unstyled">
-                        <li class="footer-item"><a href="#">  About Jyotish G</a></li>
-                        <li class="footer-item"><a href="#">  Astrology Blogs</a></li>
-                        <li class="footer-item"><a href="#">  Contact Jyotish G</a></li>
-                        <li class="footer-item"><a href="#">  FAQ</a></li>
+                        <li class="footer-item"><a href="/home/aboutus">  About Jyotish G</a></li>
+                        <li class="footer-item"><a href="/home/contactus">  Contact Jyotish G</a></li>
+                        <li class="footer-item"><a href="/home/FrequentlyAskQuestion">  FAQ</a></li>
                     </ul>
 
                     <h5 class="footer-heading" style="font-weight:bolder">Privacy Policy & Terms</h5>
@@ -447,38 +427,38 @@
                     <p class="footer-item"><a href="" target="_blank"><i class="fa-brands fa-edge"></i>&nbsp; <span id="companyWebsite"></span></a></p>
                 </div>
             </div>
-            <div class="d-flex justify-content-center mt-3">
-                <div class="btn-toolbar">
+            @* <div class="d-flex justify-content-center mt-3"> *@
+            @*     <div class="btn-toolbar"> *@
 
-                    <a class="btn btn-md-square rounded-circle mx-2" href="#" target="_blank" title="facebook">
-                        <img src="https://api.myjyotishg.in/Images/Icon/facebook.png" width="30" />
-                    </a>
+            @*         <a class="btn btn-md-square rounded-circle mx-2" href="#" target="_blank" title="facebook"> *@
+            @*             <img src="https://api.myjyotishg.in/Images/Icon/facebook.png" width="30" /> *@
+            @*         </a> *@
 
-                    <a class="btn  btn-md-square rounded-circle mx-2" href="#" target="_blank" title="instagram">
-                        <img src="https://api.myjyotishg.in/Images/Icon/Instagram.png" width="30" />
-                    </a>
+            @*         <a class="btn  btn-md-square rounded-circle mx-2" href="#" target="_blank" title="instagram"> *@
+            @*             <img src="https://api.myjyotishg.in/Images/Icon/Instagram.png" width="30" /> *@
+            @*         </a> *@
 
-                    <a class="btn  btn-md-square rounded-circle mx-2" title="linkedin" href="#" target="_blank">
-                        <img src="https://api.myjyotishg.in/Images/Icon/Linkedin.png" width="30" />
-                    </a>
+            @*         <a class="btn  btn-md-square rounded-circle mx-2" title="linkedin" href="#" target="_blank"> *@
+            @*             <img src="https://api.myjyotishg.in/Images/Icon/Linkedin.png" width="30" /> *@
+            @*         </a> *@
 
-                    <a class="btn  btn-md-square rounded-circle mx-2" href="#" target="_blank" title="youtube">
-                        <img src="https://api.myjyotishg.in/Images/Icon/Youtube.png" width="30" />
-                    </a>
+            @*         <a class="btn  btn-md-square rounded-circle mx-2" href="#" target="_blank" title="youtube"> *@
+            @*             <img src="https://api.myjyotishg.in/Images/Icon/Youtube.png" width="30" /> *@
+            @*         </a> *@
 
-                    <a class="btn  btn-md-square rounded-circle mx-2" href="#" title="twitter" target="_blank">
-                        <img src="https://api.myjyotishg.in/Images/Icon/twitter.png" width="30" />
-                    </a>
+            @*         <a class="btn  btn-md-square rounded-circle mx-2" href="#" title="twitter" target="_blank"> *@
+            @*             <img src="https://api.myjyotishg.in/Images/Icon/twitter.png" width="30" /> *@
+            @*         </a> *@
 
-                    <a class="btn  btn-md-square rounded-circle mx-2" href="#" title="pinterest" target="_blank">
-                        <img src="https://api.myjyotishg.in/Images/Icon/pinterest.png" width="30" />
-                    </a>
+            @*         <a class="btn  btn-md-square rounded-circle mx-2" href="#" title="pinterest" target="_blank"> *@
+            @*             <img src="https://api.myjyotishg.in/Images/Icon/pinterest.png" width="30" /> *@
+            @*         </a> *@
 
-                    <a class="btn  btn-md-square rounded-circle mx-2" href="#" title="blogger" target="_blank">
-                        <img src="https://api.myjyotishg.in/Images/Icon/blogger.png" width="30" />
-                    </a>
-                </div>
-            </div>
+            @*         <a class="btn  btn-md-square rounded-circle mx-2" href="#" title="blogger" target="_blank"> *@
+            @*             <img src="https://api.myjyotishg.in/Images/Icon/blogger.png" width="30" /> *@
+            @*         </a> *@
+            @*     </div> *@
+            @* </div> *@
             <hr style="color:grey" />
         </div>
     </footer>

@@ -114,5 +114,38 @@ namespace MyJyotishJiWebDesign.Controllers
         public IActionResult WalletPaymentLayout(int amount,int jyotishId,string message,string paymentby) {
             return PartialView("_WalletPartialView", new { amount = amount,jyotishId=jyotishId,message=message, paymentby = paymentby });
         }
+
+        // Error handler for specific HTTP status codes
+        public IActionResult Error(int? statusCode)
+        {
+            if (statusCode == 404)
+            {
+                ViewData["ErrorMessage"] = "Oops! The page you are looking for could not be found.";
+            }
+            else if (statusCode == 500)
+            {
+                ViewData["ErrorMessage"] = "Oops! Something went wrong on our end. Please try again later.";
+            }
+            else
+            {
+                ViewData["ErrorMessage"] = "An unknown error occurred.";
+            }
+
+            return View("Error");
+        }
+
+        public IActionResult ContactUs()
+        {
+            return View();
+        }
+        public IActionResult AboutUs()
+        {
+            return View();
+        } 
+        public IActionResult FrequentlyAskQuestion()
+        {
+            return View();
+        }
+
     }
 }

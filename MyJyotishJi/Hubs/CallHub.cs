@@ -90,6 +90,26 @@ namespace BusinessAccessLayer.Implementation
                 }
             }
         }
+
+        public async Task manageUserPayment()
+        {
+            var userId = connectedClients.FirstOrDefault(e => e.Value == Context.ConnectionId).Key;
+
+            if (!string.IsNullOrEmpty(userId))
+            {
+
+                    if (!_callTimeManager.ContainsKey(userId))
+                    {
+                        _callTimeManager.Add(userId, DateTime.Now);
+                    }
+            }
+            else
+            {
+                await Clients.Client(Context.ConnectionId).SendAsync("ClientDisconnet");
+
+            }
+        }
+
         /// <summary>
         /// Handles client disconnection from the hub.
         /// </summary>
@@ -122,15 +142,18 @@ namespace BusinessAccessLayer.Implementation
                                 {
                                     getJyotishchatCharges = _service.getJyotishCallServicesCharges(int.Parse(id));
                                 }).Wait();
-                                var dateDifference = _callTimeManager.Where(e => e.Key == userId).First().Value - DateTime.Now;
-                                var totalMinutes = Math.Ceiling(Math.Abs(dateDifference.TotalMinutes));
-                                var totalAmount = getJyotishchatCharges * totalMinutes;
-                                _callTimeManager.Remove(userId);
-                                string messages = "call with astrologers";
-                                Task.Run(() =>
+                                if (_callTimeManager.ContainsKey(userId))
                                 {
-                                    _service.ApplyChargesFromUserWalletForService(int.Parse(senderId), Convert.ToInt32(totalAmount), messages, int.Parse(id));
-                                }).Wait();
+                                    var dateDifference = _callTimeManager.Where(e => e.Key == userId).First().Value - DateTime.Now;
+                                    var totalMinutes = Math.Ceiling(Math.Abs(dateDifference.TotalMinutes));
+                                    var totalAmount = getJyotishchatCharges * totalMinutes;
+                                    _callTimeManager.Remove(userId);
+                                    string messages = "call with astrologers";
+                                    Task.Run(() =>
+                                    {
+                                        _service.ApplyChargesFromUserWalletForService(int.Parse(senderId), Convert.ToInt32(totalAmount), messages, int.Parse(id));
+                                    }).Wait();
+                                }
                                 receiverSenderConnectionId.Remove(Context.ConnectionId);
                                 await Clients.Client(receiverId).SendAsync("ClientDisconnet");
                             }
@@ -259,15 +282,7 @@ namespace BusinessAccessLayer.Implementation
                     if (sendby == "client")
                     {
                         if (!receiverSenderConnectionId.ContainsKey(senderConnectionId)) receiverSenderConnectionId[senderConnectionId] = targetConnectionId;
-                        if (!string.IsNullOrEmpty(clientId))
-                        {
-
-                            if (!_callTimeManager.ContainsKey(clientId))
-                            {
-                                _callTimeManager.Add(clientId, DateTime.Now);
-                            }
-
-                        }
+                       
                     }
                     else
                     {

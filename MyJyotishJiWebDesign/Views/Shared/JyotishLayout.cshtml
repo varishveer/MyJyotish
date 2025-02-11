@@ -298,6 +298,87 @@
 top:0;
 z-index:10000000000000000000;
 	}
+		/* Fullscreen background */
+		.loader-continer-for-call {
+			height: 100vh;
+			width: 100vw;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			background: linear-gradient(135deg, black, gray);
+			overflow: hidden;
+			position: fixed;
+			top: 0;
+			left: 0;
+			z-index: 10000000000000000000;
+		}
+
+		/* Loader container */
+		.call-loader {
+			position: relative;
+			width: 150px;
+			height: 150px;
+		}
+
+
+		/* Central glowing orb */
+		.orb {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 30px;
+			height: 30px;
+			background: #00d1ff;
+			border-radius: 50%;
+			box-shadow: 0 0 15px #00d1ff, 0 0 30px #00d1ff, 0 0 60px rgba(0, 209, 255, 0.5);
+			transform: translate(-50%, -50%);
+			animation: pulse 2s infinite ease-in-out;
+		}
+
+		/* Pulsating waves */
+		.wave {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 100%;
+			height: 100%;
+			background: none;
+			border: 2px solid rgba(0, 209, 255, 0.5);
+			border-radius: 50%;
+			transform: translate(-50%, -50%) scale(0);
+			animation: expand 3s infinite ease-in-out;
+		}
+
+			.wave:nth-child(2) {
+				animation-delay: 1s;
+			}
+
+			.wave:nth-child(3) {
+				animation-delay: 2s;
+			}
+
+		/* Animations */
+		@@keyframes pulse {
+			0%, 100% {
+				transform: translate(-50%, -50%) scale(1);
+			}
+
+			50% {
+				transform: translate(-50%, -50%) scale(1.2);
+			}
+		}
+
+		@@keyframes expand {
+			0% {
+				transform: translate(-50%, -50%) scale(0);
+				opacity: 1;
+			}
+
+			100% {
+				transform: translate(-50%, -50%) scale(1.5);
+				opacity: 0;
+			}
+		}
 	</style>
 </head>
 
@@ -309,6 +390,16 @@ z-index:10000000000000000000;
 			&nbsp;<span class="alert-content"></span>
 		</div>
 	</div>
+
+	<div class="d-none loader-continer-for-call">
+		<div class="call-loader">
+			<div class="orb"></div>
+			<div class="wave"></div>
+			<div class="wave"></div>
+			<div class="wave"></div>
+		</div>
+	</div>
+
 	<div class="wrapper">
 
 		<!-- Sidebar -->
@@ -681,8 +772,8 @@ z-index:10000000000000000000;
 
 
 			<script>
-				//var BaseUrl = "https://api.myjyotishg.in/"
-				var BaseUrl = "https://localhost:7118/"
+				var BaseUrl = "https://api.myjyotishg.in/"
+				//var BaseUrl = "https://localhost:7118/"
 			</script>
 
 			<div class="container">
@@ -1204,12 +1295,15 @@ z-index:10000000000000000000;
 						await startSignalR();
 						if(userConnectionId){
 						socket.send(`${userIdForchat}:${userConnectionId}:call`)
+														$(".loader-continer-for-call").removeClass("d-none")
 						setTimeout(async()=>{
 						 await startCall();
+															$(".loader-continer-for-call").addClass("d-none")
+
 			document.getElementById("callStatus").innerText = "Connected";
 			document.getElementById("endCallBtn").disabled = false;
 			$(".call-BackContainer").removeClass("d-none")
-						},2000)
+						},4000)
 						}
 						
 					}
@@ -1571,10 +1665,20 @@ z-index:10000000000000000000;
 				});
 			};
 
-			// Handle the state of the peer connection
-			peerConnection.onconnectionstatechange = () => {
-				console.log("Connection state:", peerConnection.connectionState);
-			};
+				// Handle the state of the peer connection
+					peerConnection.onconnectionstatechange = async () => {
+							if(peerConnection){
+							$("#callStatus").text(peerConnection.connectionState)
+							if(peerConnection.connectionState=="failed"){
+						await createPeerConnection();
+							}else if(peerConnection.connectionState=="connected"){
+										connection.invoke("manageUserPayment").catch(err=>{
+									console.log(err)
+								})
+							}
+					console.log("Connection state:", peerConnection.connectionState);
+							}
+				};
 
 			// Add the local stream tracks to the peer connection
 			if (localStream) {

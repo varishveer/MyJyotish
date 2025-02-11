@@ -27,7 +27,7 @@
 		padding: 30px 20px;
 		transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
 		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-max-width:300px !important;
+		max-width: 300px !important;
 	}
 
 		.astrologer-card:hover {
@@ -170,8 +170,106 @@ max-width:300px !important;
 		top: 0;
 		z-index: 10000000000000000000;
 	}
+
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+
+	/* Fullscreen background */
+	.loader-continer-for-call {
+		height: 100vh;
+		width: 100vw;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		background: linear-gradient(135deg, black, gray);
+		overflow: hidden;
+		position: fixed;
+		top: 0;
+		left: 0;
+		z-index: 10000000000000000000;
+	}
+
+	/* Loader container */
+	.call-loader {
+		position: relative;
+		width: 150px;
+		height: 150px;
+	}
+
+
+	/* Central glowing orb */
+	.orb {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 30px;
+		height: 30px;
+		background: #00d1ff;
+		border-radius: 50%;
+		box-shadow: 0 0 15px #00d1ff, 0 0 30px #00d1ff, 0 0 60px rgba(0, 209, 255, 0.5);
+		transform: translate(-50%, -50%);
+		animation: pulse 2s infinite ease-in-out;
+	}
+
+	/* Pulsating waves */
+	.wave {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 100%;
+		height: 100%;
+		background: none;
+		border: 2px solid rgba(0, 209, 255, 0.5);
+		border-radius: 50%;
+		transform: translate(-50%, -50%) scale(0);
+		animation: expand 3s infinite ease-in-out;
+	}
+
+		.wave:nth-child(2) {
+			animation-delay: 1s;
+		}
+
+		.wave:nth-child(3) {
+			animation-delay: 2s;
+		}
+
+	/* Animations */
+	@@keyframes pulse {
+		0%, 100% {
+			transform: translate(-50%, -50%) scale(1);
+		}
+
+		50% {
+			transform: translate(-50%, -50%) scale(1.2);
+		}
+	}
+
+	@@keyframes expand {
+		0% {
+			transform: translate(-50%, -50%) scale(0);
+			opacity: 1;
+		}
+
+		100% {
+			transform: translate(-50%, -50%) scale(1.5);
+			opacity: 0;
+		}
+	}
 </style>
-<div class="astrologer-list mt-3" >
+
+<div class="d-none loader-continer-for-call">
+	<div class="call-loader">
+		<div class="orb"></div>
+		<div class="wave"></div>
+		<div class="wave"></div>
+		<div class="wave"></div>
+	</div>
+</div>
+
+<div class="astrologer-list mt-3">
 	<div class="row" id="astrologerList"></div>
 	<!-- Astrologer results will be injected here -->
 </div>
@@ -270,7 +368,7 @@ max-width:300px !important;
 <script src="https://cdn.jsdelivr.net/npm/@@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.7/signalr.min.js" integrity="sha512-7SRCYIJtR6F8ocwW7UxW6wGKqbSyqREDbfCORCbGLatU0iugBLwyOXpzhkPyHIFdBO0K2VCu57fvP2Twgx1o2A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
-	
+
 	//time management for message
 
 	function getSomeJyotish(jyotishId) {
@@ -535,30 +633,47 @@ max-width:300px !important;
 											debugger
 											if(response.type=="call"){
 											utargetConnectionId=response.roomId
-			await startCall(astrologerId);
+														$(".loader-continer-for-call").removeClass("d-none")
+													setTimeout(async()=>{
+			await startCall();
+														$(".loader-continer-for-call").addClass("d-none")
 			document.getElementById("callStatus").innerText = "Connected";
 			document.getElementById("endCallBtn").disabled = false;
 			$(".call-BackContainer").removeClass("d-none")
-										socket.close()
+													},3000)
 										}
 								} else if(!response.data){
 											if (response.anotherRequest && !response.notAvailable) {
 												Swal.fire({
 													text: "Another Request are already in Progress..",
 													title: "warning",
-													icon: "warning"
+													icon: "warning",
+													didClose:()=>{
+										socket.close()
+										$("#callBtn_" + astrologerId).show();
+									$("#waitingBtn_" + astrologerId).addClass("d-none")
+													}
 												});
 											}else {
 											Swal.fire({
 												text: "Currently jyotish are busy..",
 												title: "warning",
-												icon: "warning"
+												icon: "warning",
+												didClose:()=>{
+											socket.close()
+											$("#callBtn_" + astrologerId).show();
+									$("#waitingBtn_" + astrologerId).addClass("d-none")
+												}
 											});
+
 										}
-										socket.close()
 									$("#callBtn_" + astrologerId).show();
 									$("#waitingBtn_" + astrologerId).addClass("d-none")
-										} 
+									if(socket.OPEN){
+											socket.close()
+									}
+
+										}
 								};
 
 									socket.onerror = function (event) {
@@ -574,11 +689,9 @@ max-width:300px !important;
 										console.log('WebSocket connection closed:', event);
 
 								$("#callBtn_" + astrologerId).show();
-
-										$("#waitingBtn_"+astrologerId).addClass("d-none")
+								$("#waitingBtn_"+astrologerId).addClass("d-none")
 
 									};
-
 
 								}
 							})
@@ -687,7 +800,7 @@ max-width:300px !important;
 			success: function (res) {
 				if (res.status === 200) {
 					walletAmount = res;
-				}	
+				}
 			}
 
 		})
@@ -714,23 +827,13 @@ max-width:300px !important;
 	return checkServiceStatus;
 	}
 
-		window.addEventListener("beforeunload", function (event) {
-		event.preventDefault();
-		debugger
-		if(jyotishConnected){
-		applyCallCharges(localStorage.getItem("userId"),localStorage.getItem("JyotishIdForCall"),totalSecond)
-		}
+			//call mamangement
 
-		event.returnValue = '';
-	});
-
-		//call mamangement
-
-		 let connection;
+			let connection;
 			let peerConnection;
 			let localStream;
 			let queuedIceCandidates = [];
-			let remoteDescriptionSet=false;
+				let remoteDescriptionSet = false;
 			const configuration = {
 				iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]  // STUN server to get ICE candidates
 			};
@@ -738,11 +841,10 @@ max-width:300px !important;
 			 // Start the SignalR connection
 			async function startSignalR() {
 				connection = new signalR.HubConnectionBuilder()
-					.withUrl(`${BaseUrl}callhub?userId=${localStorage.getItem("userId")}&sendby=client`)  // Replace with the actual URL of your SignalR Hub
+						.withUrl(`${BaseUrl}callhub?userId=${localStorage.getItem("userId")}&sendby=client`)  // Replace with the actual URL of your SignalR Hub
 					.build();
 
-				connection.on("ReceiveSignal", async (fromConnectionId, signalData) => {
-					console.log("Signal received from:", fromConnectionId, "Data:", signalData);
+					connection.on("ReceiveSignal", async (fromConnectionId, signalData,totaltimeforcall) => {
 					let signal = JSON.parse(signalData);
 
 					// Handle a Call Request
@@ -751,9 +853,9 @@ max-width:300px !important;
 							await createPeerConnection();
 						}
 						// Set the remote description (SDP) from the received signal
-						if (signal.sdp) {
+							if (signal.sdp) {
 							try {
-							await setRemoteDescription(signal.sdp);
+								await setRemoteDescription(signal.sdp);
 								// Create an answer to send back to the sender
 								const answer = await peerConnection.createAnswer();
 								await peerConnection.setLocalDescription(answer);
@@ -762,33 +864,53 @@ max-width:300px !important;
 								console.error("Error during call acceptance negotiation:", err);
 							}
 						}
+							const remoteAudio = document.getElementById('remoteAudio');
+							const audioDuration = document.getElementById('audioDuration');
+											remoteAudio.ontimeupdate = function() {
+										 const currentTime = remoteAudio.currentTime; // Get the current playback time
+		                                 const minutes = Math.floor(currentTime / 60); // Get the minutes
+		                                 const seconds = Math.floor(currentTime % 60); // Get the seconds
+		                                
+		                                 // Format the time in MM:SS format
+		                                 const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+		                                 // Update the displayed duration
+		                                	audioDuration.textContent = formattedTime;
+														if(currentTime>=totaltimeforcall){
+															$("#endCallBtn").click()
+											Swal.fire({
+												text:"Insufficient Balance",
+												title:"Disconnected",
+												icon:"info"
+											})
+
+													}
+											}
 					}
 					// Handle SDP (Offer/Answer) Negotiation
 					else if (signal.sdp) {
 						if (!peerConnection) {
-							console.log("peerConnection is not created. Creating now...");
 							await createPeerConnection();
 						}
 						try {
-							await setRemoteDescription(signal.sdp);
+						await setRemoteDescription(signal.sdp);
 						} catch (err) {
+						await setRemoteDescription(signal.sdp);
 							console.error("Error setting remote description:", err);
 						}
 						if (signal.sdp.type === "offer") {
-							console.log("Received offer. Creating answer...");
 							const answer = await peerConnection.createAnswer();
 							await peerConnection.setLocalDescription(answer);
 							sendSignal(connection.connectionId, JSON.stringify({ sdp: peerConnection.localDescription }));
 						}
 					}
-
 					// Handle ICE Candidate
 					else if (signal.ice) {
-						console.log("ICE candidate received:", signal.ice);
-						if (peerConnection && remoteDescriptionSet) {
+							if (peerConnection && remoteDescriptionSet) {
 							try {
-								await peerConnection.addIceCandidate(new RTCIceCandidate(signal.ice));
+							await addCandidate(signal.ice)
+
 							} catch (err) {
+								await addCandidate(signal.ice)
 								console.error("Error adding ICE candidate:", err);
 							}
 						} else {
@@ -798,36 +920,56 @@ max-width:300px !important;
 				});
 
 				connection.on("ClientDisconnet",async function(){
-					$("#endCallBtn").click()
-					Swal.fire({
-						text:"Jyotish are disconnected",
-						title:"Disconnected",
-						icon:"info"
-					})
-			})
-
-				try {
+						$("#endCallBtn").click()
+						Swal.fire({
+							text:"Jyotish are disconnected",
+							title:"Disconnected",
+							icon:"info"
+						})
+				})
+					try {
 					await connection.start();
-					console.log("SignalR connected, connection ID:", connection.connectionId);
 					userConnectionId= connection.connectionId
 				} catch (err) {
 					console.error("Error connecting to SignalR:", err);
 				}
 			}
 
-			async function setRemoteDescription(sdp) {
-		await peerConnection.setRemoteDescription(sdp);
-		remoteDescriptionSet = true; // Indicate that the remote description has been set.
-		// Add all queued ICE candidates now that the remote description has been set.
-		queuedIceCandidates.forEach(async (candidate) => {
-			try {
-				await peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
-			} catch (err) {
-				console.error("Error adding queued ICE candidate:", err);
+			async function addCandidate(signal){
+			await peerConnection.addIceCandidate(new RTCIceCandidate(signal)).catch(async (err)=>{
+				console.log(err)
+				await addCandidate(signal)
+			});
+
 			}
+
+				window.addEventListener('beforeunload', function (event) {
+			// This will show a default confirmation message in most browsers
+			const message = "Are you sure you want to leave? You might lose your data.";
+
+			// Standard browser behavior for showing an alert
+			event.returnValue = message; // For most browsers (e.g., Chrome)
+
+			return message; // For other browsers (e.g., Firefox)
 		});
-		queuedIceCandidates = []; // Clear the queue after adding the candidates.
-	}
+
+				// Function to set remote description
+		async function setRemoteDescription(sdp) {
+			await peerConnection.setRemoteDescription(sdp);
+			remoteDescriptionSet = true; // Indicate that the remote description has been set.
+			// Add all queued ICE candidates now that the remote description has been set.
+			queuedIceCandidates.forEach(async (candidate) => {
+				try {
+					await peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
+				} catch (err) {
+					console.error("Error adding queued ICE candidate:", err);
+				}
+			});
+			queuedIceCandidates = []; // Clear the queue after adding the candidates.
+		}
+
+				// Function to set remote description
+
 			  function sendSignal(senderId, signalData) {
 				let targetConnectionId = utargetConnectionId;
 				if (!targetConnectionId) {
@@ -838,10 +980,16 @@ max-width:300px !important;
 					}
 				}
 				let userId = localStorage.getItem("userId");
-				console.log("Sending signal from", senderId, "to", targetConnectionId, "data:", signalData);
 				connection.invoke("SendSignal", senderId, targetConnectionId, signalData, "client")
 					.catch(err => console.error("Error invoking SendSignal:", err));
+
+
+
+
 			}
+
+			// Get the audio element and the duration display element
+		const remoteAudio = document.getElementById('remoteAudio');
 
 			// Function to create PeerConnection
 			async function createPeerConnection() {
@@ -850,7 +998,6 @@ max-width:300px !important;
 				// Handle ICE candidates
 				peerConnection.onicecandidate = event => {
 					if (event.candidate) {
-						console.log("Local ICE candidate generated:", event.candidate);
 						sendSignal(connection.connectionId, JSON.stringify({ ice: event.candidate }));
 					}
 				};
@@ -858,7 +1005,6 @@ max-width:300px !important;
 				// Handle receiving remote tracks
 				peerConnection.ontrack = event => {
 					console.log("Remote track received:", event.streams[0]);
-					const remoteAudio = document.getElementById("remoteAudio");
 					const remoteStream = event.streams[0];
 					remoteAudio.srcObject = remoteStream;
 					remoteAudio.muted = false;
@@ -869,8 +1015,18 @@ max-width:300px !important;
 				};
 
 				// Handle the state of the peer connection
-				peerConnection.onconnectionstatechange = () => {
+				peerConnection.onconnectionstatechange = async () => {
+					if(peerConnection){
+							$("#callStatus").text(peerConnection.connectionState)
+							if(peerConnection.connectionState=="failed"){
+						await createPeerConnection();
+							}else if(peerConnection.connectionState=="connected"){
+										connection.invoke("manageUserPayment").catch(err=>{
+									console.log(err)
+								})
+							}
 					console.log("Connection state:", peerConnection.connectionState);
+					}
 				};
 
 				// Add the local stream tracks to the peer connection
@@ -884,7 +1040,6 @@ max-width:300px !important;
 
 				// Process queued ICE candidates (if any)
 				if (queuedIceCandidates.length > 0) {
-					console.log("Processing queued ICE candidates...");
 					for (const candidate of queuedIceCandidates) {
 						try {
 							await peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
@@ -896,50 +1051,31 @@ max-width:300px !important;
 				}
 			}
 
-
-				// Get the audio element and the duration display element
-		const remoteAudio = document.getElementById('remoteAudio');
-		const audioDuration = document.getElementById('audioDuration');
+	const audioDuration = document.getElementById('audioDuration');
 		const muteCallBtn = document.getElementById('muteCallBtn');
 		let isMuted = false;
 
 			// Function to start the call
-			async function startCall(jyotishId) {
+			async function startCall() {
 				try {
 					localStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
-					console.log("Local audio stream captured:", localStream);
 				} catch (err) {
 					console.error("Error accessing audio devices:", err);
 					alert("Could not access audio devices.");
 					return;
 				}
-				getSomeJyotish(jyotishId);
+				getSomeJyotish();
 
 				await createPeerConnection();
 
 				const offer = await peerConnection.createOffer();
 				await peerConnection.setLocalDescription(offer);
-				console.log("Local SDP set (offer):", peerConnection.localDescription.sdp);
 
 				const callRequestSignal = JSON.stringify({
 					type: "callRequest",
 					sdp: peerConnection.localDescription
 				});
 				sendSignal(connection.connectionId, callRequestSignal);
-
-		remoteAudio.ontimeupdate = function() {
-		  const currentTime = remoteAudio.currentTime; // Get the current playback time
-		  const minutes = Math.floor(currentTime / 60); // Get the minutes
-		  const seconds = Math.floor(currentTime % 60); // Get the seconds
-
-		  // Format the time in MM:SS format
-		  const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-
-		  // Update the displayed duration
-			audioDuration.textContent = formattedTime;
-
-
-		};
 
 		muteCallBtn.removeAttribute("disabled")
 		muteCallBtn.innerHTML = '<i class="fas fa-microphone"></i>'; // Change to "unmute" icon
@@ -949,7 +1085,6 @@ max-width:300px !important;
 			// Mute or unmute the audio
 			isMuted=false;
 		  remoteAudio.muted = isMuted;
-
 			}
 
 	muteCallBtn.addEventListener('click', function() {
@@ -957,7 +1092,6 @@ max-width:300px !important;
 		  isMuted = !isMuted; // Toggle mute state
 		  // Mute or unmute the audio
 		  remoteAudio.muted = isMuted;
-
 		  // Update the button icon based on mute state
 		  if (isMuted) {
 			muteCallBtn.innerHTML = '<i class="fas fa-microphone-slash"></i>'; // Change to "unmute" icon
@@ -965,7 +1099,7 @@ max-width:300px !important;
 				muteCallBtn.classList.add('bg-secondary'); // Revert button color when unmuted
 		  } else {
 			muteCallBtn.innerHTML = '<i class="fas fa-microphone"></i>'; // Change to "mute" icon
-			muteCallBtn.classList.remove('bg-secondary'); // Revert button color when unmuted
+				muteCallBtn.classList.remove('bg-secondary'); // Revert button color when unmuted
 				muteCallBtn.classList.add('bg-warning'); // Revert button color when unmuted
 		  }
 		});
@@ -974,7 +1108,8 @@ max-width:300px !important;
 				peerConnection.close();
 				peerConnection = null;
 					connection.stop();
-					connection=null;
+						connection=null;
+								remoteAudio.currentTime = 0;
 				localStream.getTracks().forEach(track => track.stop());
 				localStream = null;
 				document.getElementById("callStatus").innerText = "Call Ended";
