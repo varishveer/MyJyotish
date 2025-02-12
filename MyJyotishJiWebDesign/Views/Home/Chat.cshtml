@@ -677,10 +677,11 @@
 		});
 	}
 
+	let interval;
 	function startCounting(totalTime, socket) {
 		let count = 0
 		let minute = 0;
-		setInterval(() => {
+		interval=setInterval(() => {
 			count++;
 			if (count >= 60) {
 				minute++;
@@ -725,6 +726,7 @@
 					console.log(receiveMessage)
 					if (receiveMessage.type == "chatPayment") {
 						startCounting(receiveMessage.totalTime, socket);
+
 					} else {
 						const now = new Date();
 						const hours = now.getHours();
@@ -747,12 +749,17 @@
 						title: "error",
 						icon: "error"
 					});
+					if(interval){
+					clearInterval(interval)
+						}
 				};
 
 				socket.onclose = function (event) {
 					console.log('WebSocket connection closed:', event);
 					$("#ChatModal").modal("hide")
-
+					if(interval){
+					clearInterval(interval)
+						}
 				};
 				
 

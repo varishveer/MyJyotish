@@ -1,9 +1,4 @@
 
-
-using DataAccessLayer.DbServices;
-using Microsoft.EntityFrameworkCore;
-using ModelAccessLayer.Models;
-
 var builder = WebApplication.CreateBuilder(args);
 
 
@@ -36,6 +31,6 @@ app.UseRouting();
 app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=home}/{action=index}/{id?}");
 app.Run();
 

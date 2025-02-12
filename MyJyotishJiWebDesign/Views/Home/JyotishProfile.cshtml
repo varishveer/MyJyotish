@@ -1454,7 +1454,6 @@ z-index:10000000000000000000;
 						text: "all fields are required",
 						icon: "warning"
 					})
-
 				} else {
 						Swal.fire({
 						title: "Processing Your Request",
@@ -1483,6 +1482,8 @@ z-index:10000000000000000000;
 											if (jyotishId) {
 												if (Action == "1") {
 													$(".chatBtn").hide();
+													socket.send(`${jyotishId}:${userConnectionId}:${Action == "1" ? "chat" : "call"}`);
+
 												} else {
 													await startSignalR();
 													$(".callBtn").hide();
@@ -1728,10 +1729,12 @@ z-index:10000000000000000000;
 		});
 	}
 
+	let interval;
+
 	function startCounting(totalTime, socket) {
 		let count = 0
 		let minute = 0;
-		setInterval(() => {
+		interval=setInterval(() => {
 			count++;
 			if (count >= 60) {
 				minute++;
@@ -1777,6 +1780,7 @@ z-index:10000000000000000000;
 					console.log(receiveMessage)
 					if (receiveMessage.type == "chatPayment") {
 						startCounting(receiveMessage.totalTime, socket);
+						
 					} else {
 						const now = new Date();
 						const hours = now.getHours();
@@ -1801,11 +1805,17 @@ z-index:10000000000000000000;
 						title: "error",
 						icon: "error"
 					});
+					if(interval){
+					clearInterval(interval)
+						}
 				};
 
 				socket.onclose = function (event) {
 					console.log('WebSocket connection closed:', event);
 					$("#ChatModal").modal("hide")
+					if(interval){
+					clearInterval(interval)
+						}
 				};
 
 

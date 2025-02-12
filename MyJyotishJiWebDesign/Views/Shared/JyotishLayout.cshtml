@@ -1228,7 +1228,7 @@ z-index:10000000000000000000;
 				socket.onmessage = function (event) {
 					let response = JSON.parse(event.data)
 					let userDetail = JSON.parse(response.data)
-					console.log(userDetail)
+					console.log(response,"chat request")
 					debugger
 					if (userDetail != null && userDetail != false) {
 						$("#userImage").attr("src", userDetail.Image)
@@ -1239,7 +1239,6 @@ z-index:10000000000000000000;
 							const toast = new bootstrap.Toast(toastEl, {
 								autohide: false
 							});
-
 							toast.show();
 						})
 						const now = new Date();
@@ -1266,14 +1265,11 @@ z-index:10000000000000000000;
 							const toast = new bootstrap.Toast(toastEl, {
 								autohide: false
 							});
-
 							toast.hide();
 						})
 						$(".toast-container").addClass("d-none")
-
 					}
 				};
-
 				socket.onerror = function (event) {
 					console.error('WebSocket error observed:', event);
 					Swal.fire({
@@ -1282,11 +1278,8 @@ z-index:10000000000000000000;
 						icon: "error"
 					});
 				};
-
 				socket.onclose = function (event) {
 					console.log('WebSocket connection closed:', event);
-
-
 				};
 
 				$("#AcceptChatRequest").click(async function () {
@@ -1324,7 +1317,6 @@ z-index:10000000000000000000;
 			userIdForchat = localStorage.getItem("jresumeChat");
 			startChat(userIdForchat);
 		}
-
 		
 		function getChatHistory() {
 			$.ajax({
@@ -1390,11 +1382,10 @@ z-index:10000000000000000000;
 			})
 		}
 
-		function startCounting(status) {
+		let interval;
+		function startCounting() {
 			let count = 0
 			let minute = 0;
-			let interval;
-			if(status){
 			interval=setInterval(() => {
 				count++;
 				if (count >= 60) {
@@ -1406,9 +1397,7 @@ z-index:10000000000000000000;
 
 			$("#chatTimer").text(`${formattedMinute}:${formattedCount}`);
 			}, 1000)
-			}else{
-				clearInterval(interval);
-			}
+			
 		};
 
 		function startChat(userId) {
@@ -1421,7 +1410,7 @@ z-index:10000000000000000000;
 					socket.onopen = function (event) {
 						console.log('WebSocket connection established:', event);
 						$("#ChatModal").modal("show")
-						startCounting(true);
+						startCounting();
 						const toastElList = document.querySelectorAll('.toast');
 
 						const toastList = [...toastElList].map(toastEl => {
@@ -1454,17 +1443,20 @@ z-index:10000000000000000000;
 							title: "error",
 							icon: "error"
 						});
-						startCounting(false);
+							if(interval){
+						clearInterval(interval)
+							}
 
 					};
 
 					socket.onclose = function (event) {
 						console.log('WebSocket connection closed:', event);
 						$("#ChatModal").modal("hide")
-						startCounting(false);
+							if(interval){
+						clearInterval(interval)
+							}
 
 					};
-
 
 					$("#messageForm").submit(function (e) {
 						e.preventDefault();
@@ -1472,9 +1464,7 @@ z-index:10000000000000000000;
 						let message = $(".messageInpBoxs").val();
 						const messagesDiv = document.querySelector('.chat-modal-body');
 
-
 						if (socket && socket.readyState === WebSocket.OPEN) {
-
 							if (jyotishId && message) {
 								const now = new Date();
 								const hours = now.getHours();
@@ -1770,7 +1760,6 @@ z-index:10000000000000000000;
 				muteCallBtn.classList.add('bg-warning'); // Revert button color when unmuted
 			  }
 			});
-
 				// Handle the "End Call" button click event
 			document.getElementById("endCallBtn").addEventListener("click", () => {
 				peerConnection.close();

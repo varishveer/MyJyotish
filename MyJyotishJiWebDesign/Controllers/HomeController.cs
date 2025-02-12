@@ -33,21 +33,28 @@ namespace MyJyotishJiWebDesign.Controllers
         public IActionResult OtpVerification() { return View(); }
         public IActionResult Login() { return View();}
         public async Task<IActionResult> Index() {
-            HttpClient client = new HttpClient();
-            HttpResponseMessage response =await client.GetAsync("https://localhost:7118/api/user/GetTopOneAdvertisementBanner");
-            dynamic res = null;
-            if (response.IsSuccessStatusCode)
+                dynamic res = null;
+            try
             {
-                res = await response.Content.ReadAsStringAsync();
-                res = JObject.Parse(res);
-                res = res.data.result;
-                if (res.Count == 0)
+                HttpClient client = new HttpClient();
+                HttpResponseMessage response = await client.GetAsync("https://api.myjyotishg.in/api/user/GetTopOneAdvertisementBanner");
+                if (response.IsSuccessStatusCode)
                 {
-                    res = null;
+                    res = await response.Content.ReadAsStringAsync();
+                    res = JObject.Parse(res);
+                    res = res.data.result;
+                    if (res.Count == 0)
+                    {
+                        res = null;
+                    }
                 }
+            }catch(Exception ex)
+            {
+                res = null;
             }
             return View(res);
         }
+
         [HttpPost]
         public IActionResult Search(string? filterValue,string? searchInput) {
             ViewBag.filterValue = filterValue;

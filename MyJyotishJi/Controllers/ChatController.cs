@@ -316,11 +316,8 @@ namespace MyJyotishGApi.Controllers
                     }
                     else
                     {
-                        bool checkJyotishAvailability = false;
-                        Task.Run(() =>
-                        {
-                            checkJyotishAvailability = _jyotish.getJyotishserviceStatus(int.Parse(receiverId));
-                        }).Wait();
+                        bool checkJyotishAvailability = _jyotish.getJyotishserviceStatus(int.Parse(receiverId));
+                        
                         if (checkJyotishAvailability)
                         {
                             string jsonString = JsonConvert.SerializeObject(new { status = true, data = false, anotherRequest = false, notAvailable = true });
