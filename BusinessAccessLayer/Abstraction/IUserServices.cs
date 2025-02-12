@@ -14,11 +14,11 @@ namespace BusinessAccessLayer.Abstraction
 
 
 
-        public List<JyotishModel> GetAstroListCallChat(string ListName);
+        public dynamic GetAstroListCallChat(string ListName);
         /*       public List<PoojaCategoryModel> GetAllPoojaCategory();*/
         /*  public List<PoojaRecordModel> GetPoojaList(int id);*/
         public PoojaRecordModel GetPoojaDetail(int PoojaId);
-        public List<TopAstrologer> TopAstrologer(string City);
+        public dynamic TopAstrologer();
         public List<JyotishModel> AllAstrologer();
         public JyotishProfileViewModel AstrologerProfile(int Id);
         public List<JyotishModel> FilterAstrologer(FilterModel fm);

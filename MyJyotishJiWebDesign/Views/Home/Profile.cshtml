@@ -2,858 +2,855 @@
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <style>
-    .profile-container {
-        max-width: 1170px;
-        margin: 2rem auto;
-    }
+	.profile-container {
+		max-width: 1170px;
+		margin: 2rem auto;
+	}
 
-    .profile-sidebar {
-        background-color: white;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        position: sticky;
-        top: 50px;
-    }
+	.profile-sidebar {
+		background-color: white;
+		padding: 20px;
+		border-radius: 8px;
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+		position: sticky;
+		top: 50px;
+	}
 
-    .profile-photo {
-        width: 150px;
-        height: 150px;
-        border-radius: 50%;
-        border: 5px solid #fff;
-        margin-bottom: 20px;
-        object-fit: cover;
-    }
+	.profile-photo {
+		width: 150px;
+		height: 150px;
+		border-radius: 50%;
+		border: 5px solid #fff;
+		margin-bottom: 20px;
+		object-fit: cover;
+	}
 
-    .profile-main {
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 8px;
-    }
+	.profile-main {
+		background-color: #fff;
+		padding: 20px;
+		border-radius: 8px;
+	}
 
-    .section-title {
-        font-size: 16px;
-        margin-bottom: 15px;
-        font-weight: 600;
-        color: #333;
-    }
+	.section-title {
+		font-size: 16px;
+		margin-bottom: 15px;
+		font-weight: 600;
+		color: #333;
+	}
 
-    .profile-detals-container {
-        min-height: 70vh;
-        background: #f2f2f2;
-    }
+	.profile-detals-container {
+		min-height: 70vh;
+		background: #f2f2f2;
+	}
 
-    .detail-label {
-        font-weight: 500;
-        color: #6c757d;
-        font-size: 14px;
-    }
+	.detail-label {
+		font-weight: 500;
+		color: #6c757d;
+		font-size: 14px;
+	}
 
-    .detail-value {
-        font-weight: 600;
-        color: #495057;
-        font-size: 14px;
-    }
+	.detail-value {
+		font-weight: 600;
+		color: #495057;
+		font-size: 14px;
+	}
 
-    .img-container {
-        background: #d2e2fc;
-    }
+	.img-container {
+		background: #d2e2fc;
+	}
 
-    .loader-container {
-        display: none !important;
-    }
+	.loader-container {
+		display: none !important;
+	}
 
-    @@media screen and (max-width:575px) {
-        .profile-detals-container {
-            width: 100% !important;
-        }
-    }
+	@@media screen and (max-width:575px) {
+		.profile-detals-container {
+			width: 100% !important;
+		}
+	}
 
-    #PlaceOfBirthList {
-  
-        height: 250px;
-        padding: 10px;
-        overflow: auto;
-        z-index:999;
-    }
+	#PlaceOfBirthList {
+		height: 250px;
+		padding: 10px;
+		overflow: auto;
+		z-index: 999;
+	}
 
-    .pOBPtag:hover {
-        background-color: skyblue;
-        color: white;
-    }
+	.pOBPtag:hover {
+		background-color: skyblue;
+		color: white;
+	}
 
-    #exampleModal{
-        z-index:10000000;
-    }
+	#exampleModal {
+		z-index: 10000000;
+	}
 
-    .swal2-container{
-        z-index: 100000000;
-    }
+	.swal2-container {
+		z-index: 100000000;
+	}
 
-    .datepicker{
-        z-index: 10000000000 !important;
-    }
-        
-        </style>
+	.datepicker {
+		z-index: 10000000000 !important;
+	}
+</style>
 
 <div class="container profile-container ">
-    <div class="shadow rounded-3 w-100 mx-auto profile-detals-container">
-        <div class="row p-4 mt-2 h-100 justify-content-center">
-            <!-- Left Sidebar -->
-            <div class="col-md-4 h-100 p-2 rounded img-container">
-                <div class="row">
-                    <div class="mb-3 col-sm-12 text-center">
-                        <img id="profileImage" src="~/Img/UserPlaceholder.png" alt="Profile Image" class="profile-photo border">
-                    </div>
+	<div class="shadow rounded-3 w-100 mx-auto profile-detals-container">
+		<div class="row p-4 mt-2 h-100 justify-content-center">
+			<!-- Left Sidebar -->
+			<div class="col-md-4 h-100 p-2 rounded img-container">
+				<div class="row">
+					<div class="mb-3 col-sm-12 text-center">
+						<img id="profileImage" src="~/Img/UserPlaceholder.png" alt="Profile Image" class="profile-photo border">
+					</div>
 
-                    <div class="mb-3 col-sm-12 justify-content-center d-flex ">
-                        <div class="d-flex gap-2">
-                            <button class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#exampleModal">Edit Profile</button>
-                            <button class="btn btn-outline-info" id="changePasswordBtn">Change Password</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Right Profile Details -->
-            <div class="col-md-8 h-100">
-                <div class="section-title fw-bold fs-3 px-3">Personal Details</div>
-                <div class="row p-3">
-                    <div class="col-sm-6 mb-2">
-                        <div class="row">
-                            <div class="col-6">
-                                <span class="detail-label">Full Name</span>
-                            </div>
-                            <div class="col-6">
-                                <span class="detail-value" id="name"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 mb-2">
-                        <div class="row">
-                            <div class="col-6">
-                                <span class="detail-label">Email</span>
-                            </div>
-                            <div class="col-6">
+					<div class="mb-3 col-sm-12 justify-content-center d-flex ">
+						<div class="d-flex gap-2">
+							<button class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#exampleModal">Edit Profile</button>
+							<button class="btn btn-outline-info" id="changePasswordBtn">Change Password</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Right Profile Details -->
+			<div class="col-md-8 h-100">
+				<div class="section-title fw-bold fs-3 px-3">Personal Details</div>
+				<div class="row p-3">
+					<div class="col-sm-6 mb-2">
+						<div class="row">
+							<div class="col-6">
+								<span class="detail-label">Full Name</span>
+							</div>
+							<div class="col-6">
+								<span class="detail-value" id="name"></span>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6 mb-2">
+						<div class="row">
+							<div class="col-6">
+								<span class="detail-label">Email</span>
+							</div>
+							<div class="col-6">
 
-                                <span class="detail-value" id="email"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 mb-2">
-                        <div class="row">
-                            <div class="col-6">
-                                <span class="detail-label">Phone</span>
+								<span class="detail-value" id="email"></span>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6 mb-2">
+						<div class="row">
+							<div class="col-6">
+								<span class="detail-label">Phone</span>
 
-                            </div>
-                            <div class="col-6">
-                                <span class="detail-value" id="mobile"></span>
+							</div>
+							<div class="col-6">
+								<span class="detail-value" id="mobile"></span>
 
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 mb-2">
-                        <div class="row">
-                            <div class="col-6">
-                                <span class="detail-label">Gender</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6 mb-2">
+						<div class="row">
+							<div class="col-6">
+								<span class="detail-label">Gender</span>
 
-                            </div>
-                            <div class="col-6">
-                                <span class="detail-value" id="gender"></span>
+							</div>
+							<div class="col-6">
+								<span class="detail-value" id="gender"></span>
 
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 mb-2">
-                        <div class="row">
-                            <div class="col-6">
-                                <span class="detail-label">Date of Birth</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6 mb-2">
+						<div class="row">
+							<div class="col-6">
+								<span class="detail-label">Date of Birth</span>
 
-                            </div>
-                            <div class="col-6">
-                                <span class="detail-value" id="dateOfBirth"></span>
+							</div>
+							<div class="col-6">
+								<span class="detail-value" id="dateOfBirth"></span>
 
-                            </div>
-                        </div>
-                    </div>
+							</div>
+						</div>
+					</div>
 
-                    <div class="col-sm-6 mb-2">
-                        <div class="row">
-                            <div class="col-6">
-                                <span class="detail-label">Place Of Birth</span>
+					<div class="col-sm-6 mb-2">
+						<div class="row">
+							<div class="col-6">
+								<span class="detail-label">Place Of Birth</span>
 
-                            </div>
-                            <div class="col-6">
-                                <span class="detail-value" id="placeOfBirth"></span>
+							</div>
+							<div class="col-6">
+								<span class="detail-value" id="placeOfBirth"></span>
 
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 mb-2">
-                        <div class="row">
-                            <div class="col-6">
-                                <span class="detail-label">Time Of Birth</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6 mb-2">
+						<div class="row">
+							<div class="col-6">
+								<span class="detail-label">Time Of Birth</span>
 
-                            </div>
-                            <div class="col-6">
-                                <span class="detail-value" id="timeOfBirth"></span>
+							</div>
+							<div class="col-6">
+								<span class="detail-value" id="timeOfBirth"></span>
 
-                            </div>
-                        </div>
-                    </div>
+							</div>
+						</div>
+					</div>
 
 
-                    <div class="col-sm-6 mb-2">
-                        <div class="row">
-                            <div class="col-6">
-                                <span class="detail-label">Country</span>
+					<div class="col-sm-6 mb-2">
+						<div class="row">
+							<div class="col-6">
+								<span class="detail-label">Country</span>
 
-                            </div>
-                            <div class="col-6">
-                                <span class="detail-value" id="insCountry"></span>
+							</div>
+							<div class="col-6">
+								<span class="detail-value" id="insCountry"></span>
 
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 mb-2">
-                        <div class="row">
-                            <div class="col-6">
-                                <span class="detail-label">State</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6 mb-2">
+						<div class="row">
+							<div class="col-6">
+								<span class="detail-label">State</span>
 
-                            </div>
-                            <div class="col-6">
-                                <span class="detail-value" id="insState"></span>
+							</div>
+							<div class="col-6">
+								<span class="detail-value" id="insState"></span>
 
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 mb-2">
-                        <div class="row">
-                            <div class="col-6">
-                                <span class="detail-label">City</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6 mb-2">
+						<div class="row">
+							<div class="col-6">
+								<span class="detail-label">City</span>
 
-                            </div>
-                            <div class="col-6">
-                                <span class="detail-value" id="insCity"></span>
+							</div>
+							<div class="col-6">
+								<span class="detail-value" id="insCity"></span>
 
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 mb-2">
-                        <div class="row">
-                            <div class="col-6">
-                                <span class="detail-label">Pincode</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6 mb-2">
+						<div class="row">
+							<div class="col-6">
+								<span class="detail-label">Pincode</span>
 
-                            </div>
-                            <div class="col-6">
-                                <span class="detail-value" id="insPincode"></span>
+							</div>
+							<div class="col-6">
+								<span class="detail-value" id="insPincode"></span>
 
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 mb-2">
-                        <div class="row">
-                            <div class="col-6">
-                                <span class="detail-label">Full Address</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6 mb-2">
+						<div class="row">
+							<div class="col-6">
+								<span class="detail-label">Full Address</span>
 
-                            </div>
-                            <div class="col-6">
-                                <span class="detail-value" id="insAddress"></span>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+							</div>
+							<div class="col-6">
+								<span class="detail-value" id="insAddress"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Update Profile</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form class="userUpdateFormData">
-                    <div class="row">
-                        <input type="hidden" name="id" id="userId" />
-                        <div class="col-sm-12 my-4 text-center">
-                            <img src="" id="userImage" class="rounded-circle" height="100" width="100" /><br /><br />
-                            <label for="pImage" class="btn btn-outline-primary">Edit Profile Image</label>
-                            <input type="file" name="pImage" accept="image/*" hidden id="pImage" />
+	<div class="modal-dialog modal-xl modal-dialog-scrollable">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5" id="exampleModalLabel">Update Profile</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form class="userUpdateFormData">
+					<div class="row">
+						<input type="hidden" name="id" id="userId" />
+						<div class="col-sm-12 my-4 text-center">
+							<img src="" id="userImage" class="rounded-circle" height="100" width="100" /><br /><br />
+							<label for="pImage" class="btn btn-outline-primary">Edit Profile Image</label>
+							<input type="file" name="pImage" accept="image/*" hidden id="pImage" />
 
-                        </div>
-                        <div class="col-sm-12">
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="row">
-                                        <div class="col-4">
-                                            Name :
-                                        </div>
-                                        <div class="col-8">
-                                            <input type="text" required id="userName" placeholder="Enter Your Name" class="form-control" name="name" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="row">
-                                        <div class="col-4">
-                                            Phone Number :
-                                        </div>
-                                        <div class="col-8">
-                                            <div class="d-flex">
-                                                <input type="text" class="rounded-start countryCode " value="+91" disabled style="width:40px;" />
-                                                <input type="number" required id="mobno" placeholder="Enter Your Phone Number" class="form-control" name="mobile" />
-                                            </div>
+						</div>
+						<div class="col-sm-12">
+							<div class="row">
+								<div class="col-sm-6">
+									<div class="row">
+										<div class="col-4">
+											Name :
+										</div>
+										<div class="col-8">
+											<input type="text" required id="userName" placeholder="Enter Your Name" class="form-control" name="name" />
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="row">
+										<div class="col-4">
+											Phone Number :
+										</div>
+										<div class="col-8">
+											<div class="d-flex">
+												<input type="text" class="rounded-start countryCode " value="+91" disabled style="width:40px;" />
+												<input type="number" required id="mobno" placeholder="Enter Your Phone Number" class="form-control" name="mobile" />
+											</div>
 
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-12 mt-3">
-                            <div class="row">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-12 mt-3">
+							<div class="row">
 
-                                <div class="col-sm-6">
-                                    <div class="row">
-                                        <div class="col-4">
-                                            Date of Birth :
-                                        </div>
-                                        <div class="col-8">
-                                            <input type="text" required id="userdob" class="form-control" name="BootstrapdoB" autocomplete="off" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="row">
-                                        <div class="col-4">
-                                            Gender :
-                                        </div>
-                                        <div class="col-8">
-                                            <input type="radio" required class="userGender" name="gender" value="Male" /> Male &nbsp;&nbsp;
-                                            <input type="radio" required class="userGender" name="gender" value="Female" /> Female
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-12  mt-3">
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="row">
-                                        <div class="col-4">
-                                            State :
-                                        </div>
-                                        <div class="col-8">
-                                            <select id="state" required name="state" class="form-control form-control-sm" disabled>
-                                                <option selected disabled>Select State</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="row ">
-                                        <div class="col-4">
-                                            Place of Birth :
-                                        </div>
-                                        <div class="col-8 position-relative">
+								<div class="col-sm-6">
+									<div class="row">
+										<div class="col-4">
+											Date of Birth :
+										</div>
+										<div class="col-8">
+											<input type="text" required id="userdob" class="form-control" name="BootstrapdoB" autocomplete="off" />
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="row">
+										<div class="col-4">
+											Gender :
+										</div>
+										<div class="col-8">
+											<input type="radio" required class="userGender" name="gender" value="Male" /> Male &nbsp;&nbsp;
+											<input type="radio" required class="userGender" name="gender" value="Female" /> Female
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-12  mt-3">
+							<div class="row">
+								<div class="col-sm-6">
+									<div class="row">
+										<div class="col-4">
+											State :
+										</div>
+										<div class="col-8">
+											<select id="state" required name="state" class="form-control form-control-sm" disabled>
+												<option selected disabled>Select State</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="row ">
+										<div class="col-4">
+											Place of Birth :
+										</div>
+										<div class="col-8 position-relative">
 
-                                            <input list="PlaceOfBirthList" type="text" id="PlaceOfBirthInput" name="placeOfBirth" class="form-control custom-field"
-                                                   placeholder="Enter City" autocomplete="off" />
-                                            <div class="position-absolute bg-light  d-none" id="PlaceOfBirthList">
-                                            </div>
-                                          
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                       
-                        <div class="col-sm-12  mt-3">
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="row">
-                                        <div class="col-4">
-                                            City :
-                                        </div>
-                                        <div class="col-8">
-                                            <select id="city" required name="city" class="form-control form-control-sm" disabled>
-                                                <option class="city" selected disabled>Select City</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="row">
-                                        <div class="col-4">
-                                            Current Address :
-                                        </div>
-                                        <div class="col-8">
-                                            <input type="text" required id="address" placeholder="Current Address" class="form-control" name="currentAddress" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-12  mt-3">
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="row">
-                                        <div class="col-4">
-                                            Pincode :
-                                        </div>
-                                        <div class="col-8">
-                                            <input type="number" required placeholder="Pincode" name="pincode" class="form-control" id="pincode" />
-                                        </div>
-                                    </div>
-                                </div>
+											<input list="PlaceOfBirthList" type="text" id="PlaceOfBirthInput" name="placeOfBirth" class="form-control custom-field"
+												   placeholder="Enter City" autocomplete="off" />
+											<div class="position-absolute bg-light  d-none" id="PlaceOfBirthList">
+											</div>
 
-                                <div class="col-sm-6">
-                                    <div class="row">
-                                        <div class="col-4">
-                                            Time Of Birth :
-                                        </div>
-                                        <div class="col-8">
-                                            <input type="time"   name="timeOfBirth" class="form-control" id="userTimeOfBirth" />
-                                        </div>
-                                    </div>
-                                </div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-sm-12  mt-3">
+							<div class="row">
+								<div class="col-sm-6">
+									<div class="row">
+										<div class="col-4">
+											City :
+										</div>
+										<div class="col-8">
+											<select id="city" required name="city" class="form-control form-control-sm" disabled>
+												<option class="city" selected disabled>Select City</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="row">
+										<div class="col-4">
+											Current Address :
+										</div>
+										<div class="col-8">
+											<input type="text" required id="address" placeholder="Current Address" class="form-control" name="currentAddress" />
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-12  mt-3">
+							<div class="row">
+								<div class="col-sm-6">
+									<div class="row">
+										<div class="col-4">
+											Pincode :
+										</div>
+										<div class="col-8">
+											<input type="number" required placeholder="Pincode" name="pincode" class="form-control" id="pincode" />
+										</div>
+									</div>
+								</div>
+
+								<div class="col-sm-6">
+									<div class="row">
+										<div class="col-4">
+											Time Of Birth :
+										</div>
+										<div class="col-8">
+											<input type="time" name="timeOfBirth" class="form-control" id="userTimeOfBirth" />
+										</div>
+									</div>
+								</div>
 
 
 
-                            </div>
-                        </div>
-                    </div>
-                    <div class="my-3 text-end px-3"><input type="submit" value="Update" class="btn btn-success" /></div>
-                </form>
-            </div>
-        </div>
-    </div>
+							</div>
+						</div>
+					</div>
+					<div class="my-3 text-end px-3"><input type="submit" value="Update" class="btn btn-success" /></div>
+				</form>
+			</div>
+		</div>
+	</div>
 </div>
 
 <script>
-    function reverseDate(dateString) {
-        const parts = dateString.split('-');
+	function reverseDate(dateString) {
+		const parts = dateString.split('-');
 
-        const reversedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
+		const reversedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
 
-        return reversedDate;
-    }
-    $(document).ready(function () {
-        var Id = localStorage.getItem('userId'); // Assuming Id is stored in localStorage
+		return reversedDate;
+	}
+	$(document).ready(function () {
+		var Id = localStorage.getItem('userId'); // Assuming Id is stored in localStorage
 
-        $.ajax({
-            url: BaseUrl + `api/User/GetUserProfile?Id=${Id}`,
-            type: 'GET',
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem("Token")}`,
-                'Content-Type': 'application/json',
-            },
-            success: function (response) {
-                $(".loader-container").addClass("d-none");
-                if (response.status === 200) {
-                     
-                    var profile = response.data;
-                    if (profile.dateOfBirth != null) {
-                       
-                        $('#dateOfBirth').text(profile.dateOfBirth != null ? profile.dateOfBirth : 'N/A');
-                        $('#userdob').val(profile.dateOfBirth !== "null" ? profile.dateOfBirth : 'N/A');
-                    }
-                 
-                    var mobileNumber = "+"+profile.countryCode+"-" + profile.mobile;
-                    // Fill in the data fields
-                    $('#profileImage').attr('src', profile.profilePictureUrl ? BaseUrl + profile.profilePictureUrl : '/Img/UserPlaceholder.png');
-                    $('#name').text(profile.name);
-                    $('#email').text(profile.email);
-                    $('#mobile').text(mobileNumber);
-                    $('#gender').text(profile.gender);
-                    $('#insCountry').text(profile.country !== "null" ? profile.country : 'N/A');
-                    $('#insState').text(profile.state !== "null" ? profile.state : 'N/A');
-                    $('#insCity').text(profile.city !== "null" ? profile.city : 'N/A');
-                    $('#insAddress').text(profile.currentAddress !== "null" ? profile.currentAddress : 'N/A');
-                   
-                    $('#insPincode').text(profile.pincode !== "null" ? profile.pincode : 'N/A');
-                    $('#placeOfBirth').text(profile.placeOfBirth !== "null" ? profile.placeOfBirth : 'N/A');
-                    $('#timeOfBirth').text(profile.timeOfBirth !== "null" ? profile.timeOfBirth.slice(0,5) : 'N/A');
+		$.ajax({
+			url: BaseUrl + `api/User/GetUserProfile?Id=${Id}`,
+			type: 'GET',
+			headers: {
+				'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+				'Content-Type': 'application/json',
+			},
+			success: function (response) {
+				$(".loader-container").addClass("d-none");
+				if (response.status === 200) {
 
-                    // upate user
+					var profile = response.data;
+					if (profile.dateOfBirth != null) {
 
-                    $('#userImage').attr('src', profile.profilePictureUrl ? BaseUrl + profile.profilePictureUrl : '/Img/UserPlaceholder.png');
-                    $('#userName').val(profile.name);
-                  
-                    $('#mobno').val(profile.mobile);
-                 
-                    $('#PlaceOfBirthInput').val(profile.placeOfBirth !== "null" ? profile.placeOfBirth : 'N/A');
-                    $("#userId").val(profile.id)
-                    $("#pincode").val(profile.pincode)
-                    $("#address").val(profile.currentAddress)
-                    $(".userGender").each(function (i, d) {
-                        if (d.value == $('#gender').text()) {
-                            d.setAttribute("checked", true)
-                        }
-                    })
-                    $(".countryCode").val("+" + profile.countryCode);
-                    if (profile.country != null) {
-                        $(".country").each(function (i, d) {
-                            if (d.text == profile.country) {
-                                d.setAttribute("selected", true)
-                            }
-                        })
-                    }
+						$('#dateOfBirth').text(profile.dateOfBirth != null ? profile.dateOfBirth : 'N/A');
+						$('#userdob').val(profile.dateOfBirth !== "null" ? profile.dateOfBirth : 'N/A');
+					}
 
+					var mobileNumber = "+"+profile.countryCode+"-" + profile.mobile;
+					// Fill in the data fields
+					$('#profileImage').attr('src', profile.profilePictureUrl ? BaseUrl + profile.profilePictureUrl : '/Img/UserPlaceholder.png');
+					$('#name').text(profile.name);
+					$('#email').text(profile.email);
+					$('#mobile').text(mobileNumber);
+					$('#gender').text(profile.gender);
+					$('#insCountry').text(profile.country !== "null" ? profile.country : 'N/A');
+					$('#insState').text(profile.state !== "null" ? profile.state : 'N/A');
+					$('#insCity').text(profile.city !== "null" ? profile.city : 'N/A');
+					$('#insAddress').text(profile.currentAddress !== "null" ? profile.currentAddress : 'N/A');
 
-                    if (profile.state != null) {
-                        $("#country").trigger("change");
-                        setTimeout(() => {
-                            $(".state").each(function (i, d) {
-                                if (d.text == profile.state) {
-                                    d.setAttribute("selected", true)
-                                }
-                            })
-                            if (profile.city != null) {
-                                $("#state").trigger("change")
-                            }
-                        }, 1000)
-                    }
-                    debugger
-                    if (profile.city != null) {
-                        setTimeout(() => {
-                            $(".city").each(function (i, d) {
-                                if (d.text == profile.city) {
-                                    d.setAttribute("selected", true)
-                                }
-                            })
-                            $("#city").trigger("change")
-                        }, 2000)
+					$('#insPincode').text(profile.pincode !== "null" ? profile.pincode : 'N/A');
+					$('#placeOfBirth').text(profile.placeOfBirth !== "null" ? profile.placeOfBirth : 'N/A');
+					$('#timeOfBirth').text(profile.timeOfBirth !== "null" ? profile.timeOfBirth.slice(0,5) : 'N/A');
+
+					// upate user
+
+					$('#userImage').attr('src', profile.profilePictureUrl ? BaseUrl + profile.profilePictureUrl : '/Img/UserPlaceholder.png');
+					$('#userName').val(profile.name);
+
+					$('#mobno').val(profile.mobile);
+
+					$('#PlaceOfBirthInput').val(profile.placeOfBirth !== "null" ? profile.placeOfBirth : 'N/A');
+					$("#userId").val(profile.id)
+					$("#pincode").val(profile.pincode)
+					$("#address").val(profile.currentAddress)
+					$(".userGender").each(function (i, d) {
+						if (d.value == $('#gender').text()) {
+							d.setAttribute("checked", true)
+						}
+					})
+					$(".countryCode").val("+" + profile.countryCode);
+					if (profile.country != null) {
+						$(".country").each(function (i, d) {
+							if (d.text == profile.country) {
+								d.setAttribute("selected", true)
+							}
+						})
+					}
 
 
-                    }
-                    if (profile.countryId) {
-                        $.ajax({
-                            url: BaseUrl + 'Api/Jyotish/State',
-                            type: 'GET',
-                            data: { Id: profile.countryId },
-
-                            success: function (response) {
-                                var stateDropdown = $('#state');
-                                stateDropdown.empty().append('<option value="">Select State</option>');
-                                response.data.forEach(state => {
-                                    stateDropdown.append(`<option class='state' value="${state.id}">${state.name}</option>`);
-                                });
-                                stateDropdown.prop('disabled', false);
-                            },
-                            error: function (jqXHR, textStatus, errorThrown) {
-                                console.error('Error fetching states:', textStatus, errorThrown);
-                            }
-                        });
-                    }
-                    $('#userTimeOfBirth').val(profile.timeOfBirth);
-                    const image = document.querySelector('#userImage');
-                    image.addEventListener('error', function () {
-                        image.src = '/user-not-found.png';
-                    }); 
-                    const image2 = document.querySelector('#profileImage');
-                    image2.addEventListener('error', function () {
-                        image2.src = '/user-not-found.png';
-                    });
+					if (profile.state != null) {
+						$("#country").trigger("change");
+						setTimeout(() => {
+							$(".state").each(function (i, d) {
+								if (d.text == profile.state) {
+									d.setAttribute("selected", true)
+								}
+							})
+							if (profile.city != null) {
+								$("#state").trigger("change")
+							}
+						}, 1000)
+					}
+					debugger
+					if (profile.city != null) {
+						setTimeout(() => {
+							$(".city").each(function (i, d) {
+								if (d.text == profile.city) {
+									d.setAttribute("selected", true)
+								}
+							})
+							$("#city").trigger("change")
+						}, 2000)
 
 
-                } else {
-                    alert('Error: Could not load profile.');
-                }
+					}
+					if (profile.countryId) {
+						$.ajax({
+							url: BaseUrl + 'Api/Jyotish/State',
+							type: 'GET',
+							data: { Id: profile.countryId },
 
-            },
-            error: function (xhr, status, error) {
-
-                console.error('Error:', error);
-                alert('There was an error fetching the profile data.');
-            }
-        });
-
-
-        $("#pImage").on("change", function (e) {
-            const file = e.target.files[0];
-            if (file) {
-                const url = URL.createObjectURL(file);
-                $('#userImage').attr('src', url);
-
-            }
-        })
-
-        $('#state').change(function () {
-            var stateId = $(this).val();
-            $('#city').prop('disabled', false).empty().append('<option value="">Select City</option>'); // Reset City dropdown
-
-            if (stateId) {
-                $.ajax({
-                    url: BaseUrl + 'Api/Jyotish/City',
-                    type: 'GET',
-                    data: { Id: stateId },
-
-                    success: function (response) {
-                        var cityDropdown = $('#city');
-                        cityDropdown.empty().append('<option value="">Select City</option>');
-                        response.data.forEach(city => {
-                            cityDropdown.append(`<option class='city' value="${city.id}">${city.name}</option>`);
-                        });
-                        cityDropdown.prop('disabled', false);
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        console.error('Error fetching cities:', textStatus, errorThrown);
-                    }
-                });
-            }
-        });
-
-        $(".userUpdateFormData").submit(function (e) {
-            e.preventDefault();
-
-            Swal.fire({
-                title: "Processing Your Request",
-                didOpen: () => {
-                    Swal.showLoading();
-                }
-            })
-
-            function convertDateFormatdesc(dateString) {
-                const dateParts = dateString.split('-');
-
-                if (dateParts.length === 3) {
-                    const day = dateParts[0];
-                    const month = dateParts[1];
-                    const year = dateParts[2];
-
-                    return `${year}/${month}/${day}`;
-                } else {
-                    return 'Invalid date format';
-                }
-            }
-            let formdata = new FormData();
-            let formarray = $(this).serializeArray();
-            debugger
-            formarray.forEach(function (e) {
-                if (e.name == "BootstrapdoB"){
-                    formdata.append("DoB", convertDateFormatdesc(e.value));
-                }
-                else{
-                    formdata.append(e.name, e.value);
-                }
-
-            })
-            if ($("#pImage").val() != null && $("#pImage").val() != "") {
-                formdata.append("profilePictureUrl", $("#pImage").get(0).files[0])
-            }
-
-            $.ajax({
-                url: BaseUrl + 'Api/User/UpdateProfile',
-                type: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem("Token")}`,
-
-                },
-                contentType: false,
-                processData: false,
-                data: formdata,   
-                success: function (response) {
-                    if (response.status == 200) {
-                        Swal.fire({
-                            title: "Success",
-                            text: "Profile Updated Successfully",
-                            icon: "success",
-                            didClose: () => {
-                                location.reload(true)
-                            }
-                        });
-                    } else {
-                        Swal.fire({
-                            title: "error",
-                            text: "some error occured while updating your profile",
-                            icon: "error"
-                        });
-                    }
-                },
-                error: function () {
-                    Swal.fire({
-                        title: "error",
-                        text: "some error occured ",
-                        icon: "error"
-                    });
-                }
-            })
-
-        })
-    });
+							success: function (response) {
+								var stateDropdown = $('#state');
+								stateDropdown.empty().append('<option value="">Select State</option>');
+								response.data.forEach(state => {
+									stateDropdown.append(`<option class='state' value="${state.id}">${state.name}</option>`);
+								});
+								stateDropdown.prop('disabled', false);
+							},
+							error: function (jqXHR, textStatus, errorThrown) {
+								console.error('Error fetching states:', textStatus, errorThrown);
+							}
+						});
+					}
+					$('#userTimeOfBirth').val(profile.timeOfBirth);
+					const image = document.querySelector('#userImage');
+					image.addEventListener('error', function () {
+						image.src = '/user-not-found.png';
+					});
+					const image2 = document.querySelector('#profileImage');
+					image2.addEventListener('error', function () {
+						image2.src = '/user-not-found.png';
+					});
 
 
-    var maxDate = new Date();
-    maxDate.setFullYear(maxDate.getFullYear());
+				} else {
+					alert('Error: Could not load profile.');
+				}
+
+			},
+			error: function (xhr, status, error) {
+
+				console.error('Error:', error);
+				alert('There was an error fetching the profile data.');
+			}
+		});
 
 
-    // Initialize the datepicker with the calculated maxDate
-    $("#userdob").datepicker({
-        autoclose: true,
-        dateFormat: 'dd-mm-yyyy',
-        changeMonth: true,
-        changeYear: true,
-        yearRange: "c-100:c",
-        endDate: maxDate,
-        showAnim: "slideDown",
-        buttonImageOnly: true,
-        buttonText: "Select date"
+		$("#pImage").on("change", function (e) {
+			const file = e.target.files[0];
+			if (file) {
+				const url = URL.createObjectURL(file);
+				$('#userImage').attr('src', url);
+
+			}
+		})
+
+		$('#state').change(function () {
+			var stateId = $(this).val();
+			$('#city').prop('disabled', false).empty().append('<option value="">Select City</option>'); // Reset City dropdown
+
+			if (stateId) {
+				$.ajax({
+					url: BaseUrl + 'Api/Jyotish/City',
+					type: 'GET',
+					data: { Id: stateId },
+
+					success: function (response) {
+						var cityDropdown = $('#city');
+						cityDropdown.empty().append('<option value="">Select City</option>');
+						response.data.forEach(city => {
+							cityDropdown.append(`<option class='city' value="${city.id}">${city.name}</option>`);
+						});
+						cityDropdown.prop('disabled', false);
+					},
+					error: function (jqXHR, textStatus, errorThrown) {
+						console.error('Error fetching cities:', textStatus, errorThrown);
+					}
+				});
+			}
+		});
+
+		$(".userUpdateFormData").submit(function (e) {
+			e.preventDefault();
+
+			Swal.fire({
+				title: "Processing Your Request",
+				didOpen: () => {
+					Swal.showLoading();
+				}
+			})
+
+			function convertDateFormatdesc(dateString) {
+				const dateParts = dateString.split('-');
+
+				if (dateParts.length === 3) {
+					const day = dateParts[0];
+					const month = dateParts[1];
+					const year = dateParts[2];
+
+					return `${year}/${month}/${day}`;
+				} else {
+					return 'Invalid date format';
+				}
+			}
+			let formdata = new FormData();
+			let formarray = $(this).serializeArray();
+			debugger
+			formarray.forEach(function (e) {
+				if (e.name == "BootstrapdoB"){
+					formdata.append("DoB", convertDateFormatdesc(e.value));
+				}
+				else{
+					formdata.append(e.name, e.value);
+				}
+
+			})
+			if ($("#pImage").val() != null && $("#pImage").val() != "") {
+				formdata.append("profilePictureUrl", $("#pImage").get(0).files[0])
+			}
+
+			$.ajax({
+				url: BaseUrl + 'Api/User/UpdateProfile',
+				type: 'POST',
+				headers: {
+					'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+
+				},
+				contentType: false,
+				processData: false,
+				data: formdata,
+				success: function (response) {
+					if (response.status == 200) {
+						Swal.fire({
+							title: "Success",
+							text: "Profile Updated Successfully",
+							icon: "success",
+							didClose: () => {
+								location.reload(true)
+							}
+						});
+					} else {
+						Swal.fire({
+							title: "error",
+							text: "some error occured while updating your profile",
+							icon: "error"
+						});
+					}
+				},
+				error: function () {
+					Swal.fire({
+						title: "error",
+						text: "some error occured ",
+						icon: "error"
+					});
+				}
+			})
+
+		})
+	});
 
 
-    });
-    function convertDateFormat(dateString) {
-        const dateParts = dateString.split('/');
+	var maxDate = new Date();
+	maxDate.setFullYear(maxDate.getFullYear());
 
-        if (dateParts.length === 3) {
-            const month = dateParts[0];
-            const day = dateParts[1];
-            const year = dateParts[2];
 
-            return `${day}/${month}/${year}`;
-        } else {
-            return 'Invalid date format';
-        }
-    }
+	// Initialize the datepicker with the calculated maxDate
+	$("#userdob").datepicker({
+		autoclose: true,
+		dateFormat: 'dd-mm-yyyy',
+		changeMonth: true,
+		changeYear: true,
+		yearRange: "c-100:c",
+		endDate: maxDate,
+		showAnim: "slideDown",
+		buttonImageOnly: true,
+		buttonText: "Select date"
 
-    $("#userdob").on('change', function () {
-        let formatedDate = convertDateFormat($(this).val());
-        console.log(formatedDate)
-        setTimeout(() => {
 
-            $(this).val(formatedDate)
-        })
-    });
+	});
+	function convertDateFormat(dateString) {
+		const dateParts = dateString.split('/');
 
-    async function loadPlaceOfBirth(city) {
-        if (!city) return;
+		if (dateParts.length === 3) {
+			const month = dateParts[0];
+			const day = dateParts[1];
+			const year = dateParts[2];
 
-        try {
-            const response = await fetch(BaseUrl + `Api/Account/PlaceOfBirthList?City=${encodeURIComponent(city)}`);
-            const data = await response.json();
-            const $placeOfBirthDropdown = $('#PlaceOfBirthList');
-            console.log(data);
-            $('#PlaceOfBirthList').removeClass('d-none');
-            $placeOfBirthDropdown.empty();
-            data.data.forEach(placeOfBirth => {
-                $placeOfBirthDropdown.append(`<p class="pOBPtag" onClick="setPlace('${placeOfBirth.record}')"> ${placeOfBirth.record}</p>`);
-            });
-        } catch (error) {
-            console.error('Error fetching PlaceOfBirth:', error);
-        }
-    }
-    function setPlace(svalue) {
+			return `${day}/${month}/${year}`;
+		} else {
+			return 'Invalid date format';
+		}
+	}
 
-        $('#PlaceOfBirthList').addClass('d-none');
-        $('#PlaceOfBirthInput').val(svalue);
-    }
-    // Trigger API call on every keypress in the PlaceOfBirth input
-    $('#PlaceOfBirthInput').on('keyup', function () {
-         
-        $('#PlaceOfBirthList').show();
-        const city = $(this).val();
-        loadPlaceOfBirth(city);
+	$("#userdob").on('change', function () {
+		let formatedDate = convertDateFormat($(this).val());
+		console.log(formatedDate)
+		setTimeout(() => {
 
-    });
-   
-   
+			$(this).val(formatedDate)
+		})
+	});
+
+	async function loadPlaceOfBirth(city) {
+		if (!city) return;
+
+		try {
+			const response = await fetch(BaseUrl + `Api/Account/PlaceOfBirthList?City=${encodeURIComponent(city)}`);
+			const data = await response.json();
+			const $placeOfBirthDropdown = $('#PlaceOfBirthList');
+			console.log(data);
+			$('#PlaceOfBirthList').removeClass('d-none');
+			$placeOfBirthDropdown.empty();
+			data.data.forEach(placeOfBirth => {
+				$placeOfBirthDropdown.append(`<p class="pOBPtag" onClick="setPlace('${placeOfBirth.record}')"> ${placeOfBirth.record}</p>`);
+			});
+		} catch (error) {
+			console.error('Error fetching PlaceOfBirth:', error);
+		}
+	}
+	function setPlace(svalue) {
+
+		$('#PlaceOfBirthList').addClass('d-none');
+		$('#PlaceOfBirthInput').val(svalue);
+	}
+	// Trigger API call on every keypress in the PlaceOfBirth input
+	$('#PlaceOfBirthInput').on('keyup', function () {
+
+		$('#PlaceOfBirthList').show();
+		const city = $(this).val();
+		loadPlaceOfBirth(city);
+
+	});
+
+
 </script>
 
-            <script>
-      $("#changePasswordBtn").click(function() {
-        Swal.fire({
-            title: 'Change Your Password',
-            html: `
-                <div class="form-group text-start">
-                    <label for="oldPassword">Old Password</label>
-                    <input id="oldPassword" class="form-control" type="password" placeholder="Old Password" autocomplete="off" required>
-                </div>
-                <div class="form-group text-start">
-                    <label for="newPassword">New Password</label>
-                    <input id="newPassword" class="form-control" type="password" placeholder="New Password" autocomplete="off" required>
-                </div>
-                <div class="form-group text-start">
-                    <label for="confirmPassword">Confirm New Password</label>
-                    <input id="confirmPassword" class="form-control" type="password" placeholder="Confirm New Password" autocomplete="off" required>
-                </div>
-            `,
-            showCancelButton: true,
-            confirmButtonText: 'Submit',
-            cancelButtonText: 'Cancel',
-            focusConfirm: false, // Keep focus on the input fields rather than the confirm button
-            preConfirm: () => {
-                const oldPassword = $('#oldPassword').val();
-                const newPassword = $('#newPassword').val();
-                const confirmPassword = $('#confirmPassword').val();
+<script>
+	  $("#changePasswordBtn").click(function() {
+		Swal.fire({
+			title: 'Change Your Password',
+			html: `
+				<div class="form-group text-start">
+					<label for="oldPassword">Old Password</label>
+					<input id="oldPassword" class="form-control" type="password" placeholder="Old Password" autocomplete="off" required>
+				</div>
+				<div class="form-group text-start">
+					<label for="newPassword">New Password</label>
+					<input id="newPassword" class="form-control" type="password" placeholder="New Password" autocomplete="off" required>
+				</div>
+				<div class="form-group text-start">
+					<label for="confirmPassword">Confirm New Password</label>
+					<input id="confirmPassword" class="form-control" type="password" placeholder="Confirm New Password" autocomplete="off" required>
+				</div>
+			`,
+			showCancelButton: true,
+			confirmButtonText: 'Submit',
+			cancelButtonText: 'Cancel',
+			focusConfirm: false, // Keep focus on the input fields rather than the confirm button
+			preConfirm: () => {
+				const oldPassword = $('#oldPassword').val();
+				const newPassword = $('#newPassword').val();
+				const confirmPassword = $('#confirmPassword').val();
 
-                // Validate if all fields are filled
-                if (!oldPassword || !newPassword || !confirmPassword) {
-                    Swal.showValidationMessage('Please fill out all fields');
-                    return false;
-                }
+				// Validate if all fields are filled
+				if (!oldPassword || !newPassword || !confirmPassword) {
+					Swal.showValidationMessage('Please fill out all fields');
+					return false;
+				}
 
-                // Validate if new password matches confirm password
-                if (newPassword !== confirmPassword) {
-                    Swal.showValidationMessage('New password and confirm password do not match');
-                    return false;
-                }
+				// Validate if new password matches confirm password
+				if (newPassword !== confirmPassword) {
+					Swal.showValidationMessage('New password and confirm password do not match');
+					return false;
+				}
 
-                // Optional: Add additional password strength validation here (e.g. length, special chars, etc.)
+				// Optional: Add additional password strength validation here (e.g. length, special chars, etc.)
 
-                return { oldPassword, newPassword };
-            },
-            customClass: {
-                popup: 'custom-swal-popup',
-                input: 'custom-swal-input',
-                confirmButton: 'btn btn-primary custom-swal-confirm',
-                cancelButton: 'btn btn-secondary custom-swal-cancel',
-            },
-            padding: '20px'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                const { oldPassword, newPassword } = result.value;
+				return { oldPassword, newPassword };
+			},
+			customClass: {
+				popup: 'custom-swal-popup',
+				input: 'custom-swal-input',
+				confirmButton: 'btn btn-primary custom-swal-confirm',
+				cancelButton: 'btn btn-secondary custom-swal-cancel',
+			},
+			padding: '20px'
+		}).then((result) => {
+			if (result.isConfirmed) {
+				const { oldPassword, newPassword } = result.value;
 
-                Swal.fire({
-                    title: "Processing Your Request",
-                    allowOutsideClick: false,
-                    didOpen: () => {
-                        Swal.showLoading();
-                    }
-                });
+				Swal.fire({
+					title: "Processing Your Request",
+					allowOutsideClick: false,
+					didOpen: () => {
+						Swal.showLoading();
+					}
+				});
 
-                // Make AJAX request to change password
-                $.ajax({
-                    url: BaseUrl + 'api/account/changePasswordByOldPassword', // Replace with your server endpoint
-                    type: 'get', // Changed to POST for better security
-                    data: {
-                        oldpassword: oldPassword,
-                        Password: newPassword,
-                        userId: localStorage.getItem("userId"),
-                        sendBy: "client"
-                    },
-                    success: function(response) {
-                        if (response.status === 200) {
-                            Swal.fire('Success', 'Your password has been changed successfully!', 'success');
-                        } else {
-                            Swal.fire('Error', response.message || 'Something went wrong. Please try again later.', 'error').then(()=>{
-                                 $("#changePasswordBtn").click();
-                            });
-                             
-                        }
-                    },
-                    error: function() {
-                        Swal.fire('Error', 'Something went wrong while changing your password. Please try again.', 'error').then(()=>{
-                                 $("#changePasswordBtn").click();
+				// Make AJAX request to change password
+				$.ajax({
+					url: BaseUrl + 'api/account/changePasswordByOldPassword', // Replace with your server endpoint
+					type: 'get', // Changed to POST for better security
+					data: {
+						oldpassword: oldPassword,
+						Password: newPassword,
+						userId: localStorage.getItem("userId"),
+						sendBy: "client"
+					},
+					success: function(response) {
+						if (response.status === 200) {
+							Swal.fire('Success', 'Your password has been changed successfully!', 'success');
+						} else {
+							Swal.fire('Error', response.message || 'Something went wrong. Please try again later.', 'error').then(()=>{
+								 $("#changePasswordBtn").click();
+							});
 
-                        });
-                    }
-                });
-            }
-        });
-    });
+						}
+					},
+					error: function() {
+						Swal.fire('Error', 'Something went wrong while changing your password. Please try again.', 'error').then(()=>{
+								 $("#changePasswordBtn").click();
 
-            </script>
+						});
+					}
+				});
+			}
+		});
+	});
+
+</script>

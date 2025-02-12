@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UserModel = ModelAccessLayer.Models.UserModel;
@@ -29,16 +30,44 @@ namespace BusinessAccessLayer.Implementation
             _admin = admin;
         }
 
-        public List<JyotishModel> GetAstroListCallChat(string ListName)
+        public dynamic GetAstroListCallChat(string ListName)
         {
             if (ListName == "Chat")
             {
-                var record = _context.JyotishRecords.Where(x => x.Chat == true && x.Status && x.ActiveStatus && !x.NewStatus).ToList();
+                var record = _context.JyotishRecords.Where(x => x.Chat == true && x.Status && !x.NewStatus).Include(e => e.JyotishRating).Select(e => new {
+                    activeStatus=e.ActiveStatus,
+                    chat=e.Chat,
+                    chatCharges=e.ChatCharges,
+                    city=e.City,
+                    experience=e.Experience,
+                    expertise=e.Expertise,
+                    gender=e.Gender,
+                    id=e.Id,
+                    name=e.Name,
+                    profileImageUrl=e.ProfileImageUrl,
+                    specialization=e.Specialization,
+                    serviceStatus=e.ServiceStatus,
+                    stars= e.JyotishRating!=null && e.JyotishRating.Any()?e.JyotishRating.Average(e=>e.Stars):0
+                }).ToList().OrderByDescending(e => e.stars);
                 return record;
             }
             else if (ListName == "Call")
             {
-                var record = _context.JyotishRecords.Where(x => x.Call == true && x.Status && x.ActiveStatus && !x.NewStatus).ToList();
+                var record = _context.JyotishRecords.Where(x => x.Call == true && x.Status && !x.NewStatus).Include(e => e.JyotishRating).Select(e => new {
+                    activeStatus = e.ActiveStatus,
+                    call = e.Call,
+                    callCharges = e.CallCharges,
+                    city = e.City,
+                    experience = e.Experience,
+                    expertise = e.Expertise,
+                    gender = e.Gender,
+                    id = e.Id,
+                    name = e.Name,
+                    profileImageUrl = e.ProfileImageUrl,
+                    specialization = e.Specialization,
+                    serviceStatus = e.ServiceStatus,
+                    stars = e.JyotishRating != null && e.JyotishRating.Any() ? e.JyotishRating.Average(e => e.Stars) : 0
+                }).ToList().OrderByDescending(e => e.stars).ToList();
                 return record;
             }
             else { return null; }
@@ -68,36 +97,37 @@ namespace BusinessAccessLayer.Implementation
             else { return record; }
         }
 
-
-
-
-        public List<TopAstrologer> TopAstrologer(string City)
+        public dynamic TopAstrologer()
         {
+            Random rmd = new Random();
 
-            var records = _context.JyotishRecords.Where(a => a.Role == "Jyotish").Where(x => x.City.Contains(City) || x.Country.Contains("India")).Include(x => x.JyotishRating).Select(x => new TopAstrologer
-            {
-                Id = x.Id,
-                profileImageUrl = x.ProfileImageUrl,
-                Name = x.Name,
-                City = x.City,
-                Expertise = x.Expertise,
-                Experience = x.Experience,
-                Language = x.Language,
-                CallPrice = x.CallCharges,
-                ChatPrice = x.ChatCharges,
-
-
-
-            }).ToList();
-
-            foreach (var Data in records)
-            {
-                var Rating = _context.JyotishRating.Where(x => x.JyotishId == Data.Id).Select(x => x.Stars).ToList();
-                Data.Rating = Rating.Any() ? Rating.Average() : 0;
-            }
-
+            var records = _context.JyotishRecords
+                .Where(j => j.Role == "Jyotish")
+                .Include(x => x.JyotishRating) // Include related ratings
+                .Select(x => new
+                {
+                    Id = x.Id,
+                    profileImageUrl = x.ProfileImageUrl,
+                    Name = x.Name,
+                    City = x.City,
+                    Expertise = x.Expertise,
+                    Experience = x.Experience,
+                    Language = x.Language,
+                    CallPrice = x.CallCharges,
+                    ChatPrice = x.ChatCharges,
+                    stars = x.JyotishRating != null && x.JyotishRating.Any()
+                            ? x.JyotishRating.Average(r => r.Stars)
+                            : 0
+                })
+                .ToList() // Materialize the data into memory
+                .OrderByDescending(e => e.stars) // Sort by stars in memory
+                .Take(10) // Take top 10 records
+                .OrderBy(e => rmd.Next()) // Randomize the order in memory
+                .ToList();
 
             return records;
+
+
         }
 
 

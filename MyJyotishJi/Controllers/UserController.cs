@@ -29,11 +29,11 @@ namespace MyJyotishGApi.Controllers
 
 		[AllowAnonymous]
 		[HttpGet("TopAstrologer")]
-		public IActionResult TopAstrologer(string city)
+		public IActionResult TopAstrologer()
 		{
 			try
 			{
-				var records = _services.TopAstrologer(city);
+				var records = _services.TopAstrologer();
 				if (records == null)
 				{
 					return Ok(new { Status = 404, Message = "Jyotish not found" });
@@ -234,11 +234,7 @@ namespace MyJyotishGApi.Controllers
 			try
 			{
 				var record = _services.GetAstroListCallChat(ListName);
-				if (record.Count == 0)
-				{
-					return Ok(new { Status = 400, Message = "List is empty" });
-				}
-				else { return Ok(new { Status = 200, message = "Succussfull", data = record }); }
+				 return Ok(new { Status = 200, message = "Succussfull", data = record }); 
 			}
 			catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
 		}

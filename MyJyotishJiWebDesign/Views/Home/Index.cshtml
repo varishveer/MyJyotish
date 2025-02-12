@@ -84,7 +84,7 @@
 </div>
 
 <div class="container-fluid">
-	<div class="container-fluid my-5">
+	<div class="container-fluid mb-5 mt-2">
 		<h3 class="text-center mb-5">Our Services</h3>
 		<div class="row  justify-content-between p-1">
 				<div class="col-6 col-md-2  mb-4 service-card rounded  text-center  ">
@@ -336,54 +336,6 @@
 		</div>
 	</div>
 
-	<!-- Testimonials -->
-	<div class="container-fluid testimonial-section my-5">
-		<h3 class="text-center mb-4">Testimonials</h3>
-		<div id="testimonialsCarousel" class="carousel slide" data-bs-ride="carousel">
-			<div class="carousel-inner">
-				<div class="carousel-item active">
-					<div class="d-flex justify-content-center">
-						<div class="testimonial-card text-center">
-							<img src="https://api.myjyotishg.in/Images/Testimonials/1.png" class="rounded-circle mb-3" alt="Client 1" style="width:100px" />
-							<h5>John Doe</h5>
-							<p class="testimonial-text">"The astrology services are accurate and insightful. It has helped me tremendously in understanding my life path."</p>
-						</div>
-					</div>
-				</div>
-				<div class="carousel-item">
-					<div class="d-flex justify-content-center">
-						<div class="testimonial-card text-center">
-							<img src="https://api.myjyotishg.in/Images/Testimonials/5.png" class="rounded-circle mb-3" alt="Client 2" style="width:100px" />
-							<h5>Jane Smith</h5>
-							<p class="testimonial-text">"I had a wonderful experience with their tarot reading. It provided me with clarity and guidance."</p>
-						</div>
-					</div>
-				</div>
-				<div class="carousel-item">
-					<div class="d-flex justify-content-center">
-						<div class="testimonial-card text-center">
-							<img src="https://api.myjyotishg.in/Images/Testimonials/6.png" class="rounded-circle mb-3" alt="Client 3" style="width:100px">
-							<h5>Michael Brown</h5>
-							<p class="testimonial-text">"Highly recommend their vastu consultation services. My home feels more balanced and peaceful now."</p>
-						</div>
-					</div>
-				</div>
-			</div>
-			<button class="carousel-control-prev" type="button" data-bs-target="#testimonialsCarousel" data-bs-slide="prev">
-				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-				<span class="visually-hidden">Previous</span>
-			</button>
-			<button class="carousel-control-next" type="button" data-bs-target="#testimonialsCarousel" data-bs-slide="next">
-				<span class="carousel-control-next-icon" aria-hidden="true"></span>
-				<span class="visually-hidden">Next</span>
-			</button>
-		</div>
-	</div>
-
-
-
-
-
 	<section>
 		<div class="container-fluid my-5">
 			<div class="mb-4">
@@ -494,16 +446,7 @@
 
 <script>
 	$(document).ready(function () {
-		Swal.fire({
-			title: "Processing Your Request",
-			allowOutsideClick: false,
-			didOpen: () => {
-				Swal.showLoading();
-			}
-		})
-
-
-
+	
 		function RatingStar(rating) {
 			if (rating != null) {
 				// Ensure the rating is a valid number before proceeding
@@ -524,12 +467,13 @@
 		}
 
 		$.ajax({
-			url: BaseUrl + 'Api/User/TopAstrologer?City=NewDelhi',
+			url: BaseUrl + 'Api/User/TopAstrologer',
 			method: 'GET',
 			success: function (response) {
 
 				if (response.status === 200) {
-					const records = response.data.slice(0, 5);
+					const records = response.data;
+					if(records.length>0){
 					records.forEach(function (astrologer) {
 
 						var src = `${astrologer.profileImageUrl != null || astrologer.profileImageUrl != "" ? BaseUrl + astrologer.profileImageUrl : BaseUrlImg + "user-not-found.png"}`;
@@ -538,7 +482,7 @@
 										 <div class="col-sm-2 col-md-2 col-lg-2 mb-2 p-2">
 											<div class="card astrologer-card shadow">
 												 <a class='text-secondary text-decoration-none' href= "/Home/JyotishProfile?Id=${astrologer.id}">
-														<img height="160" width="150" src="${src}" class="card-img-top jyotishProfileImages p-2 px-5 rounded" alt="${astrologer.name}">
+														<img height="160" width="150" src="${src}" class="card-img-top jyotishProfileImages rounded" alt="${astrologer.name}">
 													<div class="card-body p-0 pt-2">
 																	<h6 class="card-title text-center">${astrologer.name != null ? astrologer.name : "N/A"} <i class="fa-solid text-primary fa-circle-check"></i> - ${astrologer.city}</h6 >
 																<p class='text-center text-warning' >${RatingStar(astrologer.rating)}</p>
@@ -553,9 +497,9 @@
 
 								`);
 					});
-					Swal.close()
+					}
 					$(".jyotishProfileImages").on('error', function () {
-						$(this).attr("src", '/user-not-found.png');
+						$(this).attr("src", '/no-image.png');
 					});
 				} else {
 					alert(response.Message);
