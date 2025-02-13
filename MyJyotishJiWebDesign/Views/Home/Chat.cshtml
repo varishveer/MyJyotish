@@ -17,17 +17,16 @@
 		margin: 0 auto;
 	}
 
-	/* Card styling */
 	.astrologer-card {
 		position: relative;
 		background: white;
 		border-radius: 15px;
 		overflow: hidden;
-		text-align: center;
-		padding: 30px 20px;
+		padding: 20px;
 		transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
 		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-		max-width: 300px !important;
+		max-width: 450px !important;
+		background: linear-gradient(135deg, #f8f9fa, #f1f1f1);
 	}
 
 		.astrologer-card:hover {
@@ -35,55 +34,109 @@
 			box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
 		}
 
-		/* Avatar with unique animation and effect */
-		.astrologer-card img {
-			width: 120px;
-			height: 120px;
-			border-radius: 50%;
-			object-fit: cover;
-			margin-bottom: 15px;
-			border: 5px solid #f0f4fd;
-			transition: border-color 0.4s ease-in-out;
-			box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
-		}
+	/* Left Section: Profile Image and Stars */
+	.profile-section {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+	}
 
-		.astrologer-card:hover img {
-			border-color: #ffc107;
-			transform: rotate(360deg);
-		}
+	.profile-image-container {
+		width: 120px;
+		height: 120px;
+		border-radius: 8px;
+		overflow: hidden;
+		border: 5px solid #f0f4fd;
+		box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+	}
 
-		/* Card content styling */
-		.astrologer-card h4 {
-			font-size: 1.3em;
-			margin: 10px 0 5px;
+	.jyotishProfileImages {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transition: border-color 0.4s ease-in-out;
+	}
+
+	.astrologer-card:hover .jyotishProfileImages {
+		border-color: #ffc107;
+	}
+
+	.text-warning {
+		font-size: 1.2em;
+		color: #ffc107;
+	}
+
+	/* Right Section: Details */
+	.card-body {
+		text-align: left;
+		padding-left: 15px;
+	}
+
+	.astrologer-card h6 {
+		font-size: 1.2em;
+		font-weight: bold;
+		margin: 10px 0 5px;
+		color: #333;
+	}
+
+	.astrologer-card p {
+		font-size: 0.95em;
+		color: #666;
+		margin: 8px 0;
+	}
+
+		.astrologer-card p span {
 			color: #333;
+			font-weight: bold;
 		}
 
-		.astrologer-card p {
-			font-size: 0.95em;
-			color: #666;
-			margin: 8px 0;
+	/* Add a decorative icon for creativity */
+	.astrologer-card .decorative-icon {
+		position: absolute;
+		top: -20px;
+		right: -20px;
+		font-size: 50px;
+		color: rgba(255, 193, 7, 0.1);
+		transition: transform 0.4s ease;
+	}
+
+	.astrologer-card:hover .decorative-icon {
+		transform: rotate(45deg);
+		color: rgba(255, 193, 7, 0.3);
+	}
+
+	/* Active badge style */
+	.active-logo {
+		background-color: #28a745;
+		color: white;
+		padding: 5px 10px;
+		border-radius: 12px;
+		font-weight: bold;
+		top: 10px;
+		left: 10px;
+	}
+
+	/* Chat button styling */
+	.chatBtn {
+		background-color: #4CAF50;
+		border-color: #4CAF50;
+		width: 100%;
+		font-size: 14px;
+		padding: 10px 0;
+		border-radius: 8px;
+		transition: background-color 0.3s ease;
+	}
+
+		.chatBtn:hover {
+			background-color: #218838;
 		}
 
-			.astrologer-card p span {
-				color: #333;
-				font-weight: bold;
-			}
-
-		/* Add a decorative icon for creativity */
-		.astrologer-card .decorative-icon {
-			position: absolute;
-			top: -20px;
-			right: -20px;
-			font-size: 50px;
-			color: rgba(255, 193, 7, 0.1);
-			transition: transform 0.4s ease;
-		}
-
-		.astrologer-card:hover .decorative-icon {
-			transform: rotate(45deg);
-			color: rgba(255, 193, 7, 0.3);
-		}
+	.btn-outline-success {
+		font-size: 14px;
+		padding: 8px 10px;
+		border-radius: 8px;
+	}
 
 	.chat-modal-body {
 		height: 60vh;
@@ -159,14 +212,14 @@
 		z-index: 100000;
 	}
 	.w-23{
-		width:23.8%;
+		width:32.4%;
 	}
 
 	.active-logo{
 		left:0;
 	}
 </style>
-<div class="astrologer-list mt-3">
+<div class="astrologer-list mx-3 mt-3">
 	<!-- Astrologer results will be injected here -->
 	<div class="row gap-3" id="astrologerList"></div>
 
@@ -401,25 +454,48 @@
 		astrologers.forEach(function (astrologer) {
 			var ImgSrc = BaseUrl + astrologer.profileImageUrl;
 			html += `
-								<div class="astrologer-card w-23 position-relative">
-								<small class="py-1 fw-bold px-2 text-light position-absolute top-0 active-logo ${astrologer.activeStatus?"bg-success":"bg-danger"}">${astrologer.activeStatus?"active":"inactive"}</small>
-										<a href="/Home/JyotishProfile?Id=${astrologer.id}" class="text-decoration-none">
-										<i class="decorative-icon fa fa-star"></i>
-											<img src="${ImgSrc}" class='jyotishProfileImages'  alt="${astrologer.name}">
-																<div class="card-body p-0 pt-2">
-																		<h6 class="card-title  text-center">${astrologer.name} <i class="fa-solid text-primary fa-circle-check"></i> - ${astrologer.city}</h6>
-																		<p class='text-center text-warning' >${generateFullStars(astrologer.stars)}</p>
-																	<p class="card-text px-1 text-center" >
-																		 ${astrologer.expertise} | ${astrologer.experience != null ? astrologer.experience : 0} Years
-																	</p>
-																</div>
-									</a><br>
-												 <button ${astrologer.activeStatus?'':'disabled'} class="btn btn-primary chatBtn me-2 mb-2 mb-md-0 " id='chatBtn_${astrologer.id}' onclick="ChatBtn(${astrologer.id})"   style="background-color: #4CAF50; border-color: #4CAF50;">
-													Start Chat ₹${astrologer.chatCharges}/min
-										</button>
-											<button class="btn btn-outline-success d-none" id="waitingBtn_${astrologer.id}">Waiting...</button>
+											<div class="astrologer-card w-23 position-relative">
+		<small class="py-1 fw-bold px-2 text-light position-absolute top-0 active-logo ${astrologer.activeStatus ? 'bg-success' : 'bg-danger'}">
+			${astrologer.activeStatus ? 'active' : 'inactive'}
+		</small>
 
-								</div>
+		<a href="/Home/JyotishProfile?Id=${astrologer.id}" class="text-decoration-none">
+			<div class="d-flex align-items-start">
+				<!-- Left side: Avatar and Star Section -->
+				<div class="profile-section">
+					<div class="profile-image-container">
+						<img src="${ImgSrc}" class="jyotishProfileImages" alt="${astrologer.name}">
+					</div>
+					<div class="text-warning my-2">
+						${generateFullStars(astrologer.stars)}
+					</div>
+					<div class="text-secondary">Orders : ${astrologer.totalOrder}</div>
+				</div>
+
+				<!-- Right side: Details Section -->
+				<div class="card-body ms-3">
+					<p class="card-title fw-bold">${astrologer.name} <i class="fa-solid text-success fa-circle-check"></i> - ${astrologer.city}</p>
+					<small class=" text-secondary">
+						${astrologer.expertise?.split(',').splice(0,3).toString()} 
+					</small>
+					<small class="d-block text-secondary">${astrologer.language}</small>
+					<small class="d-block text-secondary">Exp : ${astrologer.experience != null ? astrologer.experience : 0} Years</small>
+					<br>
+					<button ${astrologer.activeStatus ? '' : 'disabled'} class="btn btn-primary chatBtn me-2 mb-2 mb-md-0"
+			id="chatBtn_${astrologer.id}" onclick="ChatBtn(${astrologer.id})"
+			style="background-color: #4CAF50; border-color: #4CAF50;">
+			Start Chat ₹${astrologer.chatCharges}/min
+		</button>
+		<button class="btn btn-outline-success d-none" id="waitingBtn_${astrologer.id}">Waiting...</button>
+				</div>
+			</div>
+		</a>
+
+		
+	</div>
+
+
+
 							`;
 							 adCount++
 				if(adCount==8 &&data!=null){

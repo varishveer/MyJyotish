@@ -47,8 +47,10 @@ namespace BusinessAccessLayer.Implementation
                     profileImageUrl=e.ProfileImageUrl,
                     specialization=e.Specialization,
                     serviceStatus=e.ServiceStatus,
-                    stars= e.JyotishRating!=null && e.JyotishRating.Any()?e.JyotishRating.Average(e=>e.Stars):0
-                }).ToList().OrderByDescending(e => e.stars);
+                    stars= e.JyotishRating!=null && e.JyotishRating.Any()?e.JyotishRating.Average(e=>e.Stars):0,
+                    totalOrder= e.UserServiceRecord.Any()?e.UserServiceRecord.Where(e=>e.Action==1).Sum(e=>e.Count):0,
+                    language=e.Language
+                }).ToList().OrderByDescending(e => e.stars).OrderByDescending(e => e.totalOrder).ToList();
                 return record;
             }
             else if (ListName == "Call")
@@ -66,8 +68,10 @@ namespace BusinessAccessLayer.Implementation
                     profileImageUrl = e.ProfileImageUrl,
                     specialization = e.Specialization,
                     serviceStatus = e.ServiceStatus,
-                    stars = e.JyotishRating != null && e.JyotishRating.Any() ? e.JyotishRating.Average(e => e.Stars) : 0
-                }).ToList().OrderByDescending(e => e.stars).ToList();
+                    stars = e.JyotishRating != null && e.JyotishRating.Any() ? e.JyotishRating.Average(e => e.Stars) : 0,
+                    totalOrder = e.UserServiceRecord.Any() ? e.UserServiceRecord.Where(e => e.Action == 2).Sum(e => e.Count) : 0,
+                    language = e.Language
+                }).ToList().OrderByDescending(e => e.stars).OrderByDescending(e=>e.totalOrder).ToList();
                 return record;
             }
             else { return null; }
