@@ -101,18 +101,6 @@
 		color: rgba(255, 193, 7, 0.3);
 	}
 
-	/* Active badge style */
-	.active-logo {
-		background-color: #28a745;
-		color: white;
-		padding: 5px 10px;
-		border-radius: 12px;
-		font-weight: bold;
-		top: 10px;
-		left: 10px;
-	}
-
-
 	.call-container {
 		background-color: #ffffff;
 		border-radius: 15px;
@@ -542,7 +530,7 @@
 					<button ${astrologer.activeStatus ? '' : 'disabled'} class="btn btn-success callBtn me-2 mb-2 mb-md-0"
 			id="callBtn_${astrologer.id}" onclick="CallBtn(${astrologer.id})"
 			>
-			Start Call ${astrologer.chatCharges==0?"Free":"₹"+astrologer.callCharges+"/min"}
+			Start Call ${astrologer.callCharges==0?"Free":"₹"+astrologer.callCharges+"/min"}
 		</button>
 		<button class="btn btn-outline-success d-none" id="waitingBtn_${astrologer.id}">Waiting...</button>
 				</div>
