@@ -161,6 +161,10 @@
 	.w-23{
 		width:23.8%;
 	}
+
+	.active-logo{
+		left:0;
+	}
 </style>
 <div class="astrologer-list mt-3">
 	<!-- Astrologer results will be injected here -->
@@ -361,8 +365,15 @@
 			}
 		});
 	}
-	function generateFullStars() {
-		return '<i class="fa fa-star"></i>'.repeat(5); // Return 5 filled stars
+	function generateFullStars(starCount) {
+
+		let hstarCount=starCount%1!=0?1:0;
+
+		let empStars='<i class="far fa-star"></i>'.repeat(5-starCount);;
+		let fillStars='<i class="fa fa-star"></i>'.repeat(starCount);;
+		let halfStars='<i class="fas fa-star-half-alt"></i>'.repeat(hstarCount);
+
+		return fillStars+halfStars+empStars;
 	}
 
 	async function getAdvertisementBanners(){
@@ -390,19 +401,20 @@
 		astrologers.forEach(function (astrologer) {
 			var ImgSrc = BaseUrl + astrologer.profileImageUrl;
 			html += `
-								<div class="astrologer-card w-23">
+								<div class="astrologer-card w-23 position-relative">
+								<small class="py-1 fw-bold px-2 text-light position-absolute top-0 active-logo ${astrologer.activeStatus?"bg-success":"bg-danger"}">${astrologer.activeStatus?"active":"inactive"}</small>
 										<a href="/Home/JyotishProfile?Id=${astrologer.id}" class="text-decoration-none">
 										<i class="decorative-icon fa fa-star"></i>
 											<img src="${ImgSrc}" class='jyotishProfileImages'  alt="${astrologer.name}">
 																<div class="card-body p-0 pt-2">
 																		<h6 class="card-title  text-center">${astrologer.name} <i class="fa-solid text-primary fa-circle-check"></i> - ${astrologer.city}</h6>
-																		<p class='text-center text-warning' >${generateFullStars()}</p>
+																		<p class='text-center text-warning' >${generateFullStars(astrologer.stars)}</p>
 																	<p class="card-text px-1 text-center" >
 																		 ${astrologer.expertise} | ${astrologer.experience != null ? astrologer.experience : 0} Years
 																	</p>
 																</div>
 									</a><br>
-												 <button disabled="${astrologer.activeStatus}" class="btn btn-primary chatBtn me-2 mb-2 mb-md-0 " id='chatBtn_${astrologer.id}' onclick="ChatBtn(${astrologer.id})"   style="background-color: #4CAF50; border-color: #4CAF50;">
+												 <button ${astrologer.activeStatus?'':'disabled'} class="btn btn-primary chatBtn me-2 mb-2 mb-md-0 " id='chatBtn_${astrologer.id}' onclick="ChatBtn(${astrologer.id})"   style="background-color: #4CAF50; border-color: #4CAF50;">
 													Start Chat ₹${astrologer.chatCharges}/min
 										</button>
 											<button class="btn btn-outline-success d-none" id="waitingBtn_${astrologer.id}">Waiting...</button>

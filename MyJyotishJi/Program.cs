@@ -193,18 +193,17 @@ public class DatabaseBackgroundService : BackgroundService
                 {
                     // Resolve the scoped service (MyDbContext) within the scope
                     var _dbContext = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
-
                     var res = _dbContext.PurchaseAdvertisement
       .Where(e => e.status)
       .Include(e => e.advertisement)
       .ToList();
 
                 List<PurchaseAdvertisement> pa = new List<PurchaseAdvertisement>();
-
                 if (res.Count > 0)
                 {
                     foreach (var item in res)
                     {
+                            var startDate = item.StartDate;
                         // Calculate the endDate based on Plantype
                         var endDate = item.advertisement.Plantype.ToLower() switch
                         {
@@ -214,7 +213,7 @@ public class DatabaseBackgroundService : BackgroundService
                         };
 
                         // Compare StartDate and endDate to current date
-                        if (item.StartDate.Date == DateTime.Now.Date)
+                        if (startDate.Date == DateTime.Now.Date)
                         {
                             item.activeStatus = true;
                             pa.Add(item);

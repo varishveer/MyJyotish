@@ -71,6 +71,8 @@
         <thead>
             <tr>
                 <th>Sr</th>
+                <th>Jyotish Name</th>
+                <th>Email</th>
                 <th>Advertisement Area</th>
                 <th>Area Name</th>
                 <th>Type</th>
@@ -118,6 +120,8 @@
           data.forEach((item,i) => {
             const row = `<tr>
               <td>${i+1}</td>
+              <td>${item.name}</td>
+              <td>${item.email}</td>
               <td>${item.advertisementArea}</td>
               <td>${item.areaName}</td>
               <td>${item.planType}</td>
