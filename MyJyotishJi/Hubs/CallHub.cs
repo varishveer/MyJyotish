@@ -40,7 +40,6 @@ namespace BusinessAccessLayer.Implementation
 
             try
             {
-
                 // This will be triggered when a client successfully connects.
                 string connectionId = Context.ConnectionId;
                 Console.WriteLine($"Client connected: {connectionId}");
@@ -63,8 +62,6 @@ namespace BusinessAccessLayer.Implementation
                             _jyotish.changeJyotishServiceStatus(int.Parse(userId), true);
 
                         }).Wait();
-
-
                     }
                 }
 
@@ -148,11 +145,16 @@ namespace BusinessAccessLayer.Implementation
                                     var totalMinutes = Math.Ceiling(Math.Abs(dateDifference.TotalMinutes));
                                     var totalAmount = getJyotishchatCharges * totalMinutes;
                                     _callTimeManager.Remove(userId);
+
                                     string messages = "call with astrologers";
-                                    Task.Run(() =>
+                                    if (getJyotishchatCharges != 0)
                                     {
-                                        _service.ApplyChargesFromUserWalletForService(int.Parse(senderId), Convert.ToInt32(totalAmount), messages, int.Parse(id));
-                                    }).Wait();
+                                        Task.Run(() =>
+                                        {
+                                            _service.ApplyChargesFromUserWalletForService(int.Parse(senderId), Convert.ToInt32(totalAmount), messages, int.Parse(id));
+                                        }).Wait();
+                                    }
+                                    _service.UpdateUserService(int.Parse(senderId), 2, totalMinutes);
                                 }
                                 receiverSenderConnectionId.Remove(Context.ConnectionId);
                                 await Clients.Client(receiverId).SendAsync("ClientDisconnet");
@@ -187,6 +189,8 @@ namespace BusinessAccessLayer.Implementation
                                 {
                                     _service.ApplyChargesFromUserWalletForService(int.Parse(id), Convert.ToInt32(totalAmount), messages, int.Parse(senderId));
                                 }).Wait();
+                                _service.UpdateUserService(int.Parse(id), 2, totalMinutes);
+
                             }
 
                             receiverSenderConnectionId.Remove(receiverId);
@@ -291,8 +295,8 @@ namespace BusinessAccessLayer.Implementation
                         Task.Run(() =>
                         {
                             var totalWalletAmount = _service.GetWallet(int.Parse(uId));
-                            var getJyotishchatCharges = _service.getJyotishCallServicesCharges(int.Parse(id));
-                            totaltimeforcall = getJyotishchatCharges > 0 ? totalWalletAmount / getJyotishchatCharges : 0;
+                            var getJyotishcallCharges = _service.getJyotishCallServicesCharges(int.Parse(id));
+                            totaltimeforcall = getJyotishcallCharges > 0 ? totalWalletAmount / getJyotishcallCharges : getJyotishcallCharges==0?2: 0;
                         }).Wait();
                     }
                 }

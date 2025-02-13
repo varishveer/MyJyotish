@@ -8,6 +8,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace ModelAccessLayer.ViewModels
@@ -500,5 +501,63 @@ namespace ModelAccessLayer.ViewModels
         public string Password { get; set; }
         public bool Status { get; set; }
         public bool ActiveStatus { get; set; }
+    }
+
+    public class JyotishModelService
+    {
+        [Key]
+        public int Id { get; set; }
+        public string Email { get; set; }
+        public string? Mobile { get; set; }
+        public string? AlternateMobile { get; set; }
+
+        public string Role { get; set; }
+
+        public string? Name { get; set; }
+
+        public string? Gender { get; set; }
+
+        public string? Language { get; set; }
+
+        public string? Expertise { get; set; }
+        public string? Country { get; set; }
+        public string? State { get; set; }
+        public string? City { get; set; }
+        [JsonIgnore]
+        public string? Password { get; set; }
+        public DateOnly? DateOfBirth { get; set; }
+        public string? ProfileImageUrl { get; set; }
+
+        public string? ApprovedStatus { get; set; }
+        public bool Status { get; set; }
+        public bool NewStatus { get; set; }
+        public int? Otp { get; set; }
+        public int? Experience { get; set; }
+        public bool? Pooja { get; set; }
+        public bool? Call { get; set; }
+        public int? CallCharges { get; set; }
+        public bool? Chat { get; set; }
+        public int? ChatCharges { get; set; }
+        public bool? Appointment { get; set; }
+        public int? AppointmentCharges { get; set; }
+        public int? stars { get; set; }
+        public string? Address { get; set; }
+        public TimeOnly? TimeTo { get; set; }
+        public TimeOnly? TimeFrom { get; set; }
+        public string? About { get; set; }
+        public string? AwordsAndAchievement { get; set; }
+        public string? Specialization { get; set; }
+        public DateTime Date { get; set; }
+        public string? SuccessRate { get; set; }
+        public int? Pincode { get; set; }
+        public int? countryCode { get; set; }
+        public string? Message { get; set; }
+        public bool Feedback { get; set; }
+        public bool ActiveStatus { get; set; }
+        public bool ServiceStatus { get; set; }
+        // public int? TempRecordId { get; set; }
+
+        
+
     }
 }

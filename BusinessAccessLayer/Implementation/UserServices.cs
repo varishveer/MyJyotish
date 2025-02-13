@@ -50,7 +50,7 @@ namespace BusinessAccessLayer.Implementation
                     stars= e.JyotishRating!=null && e.JyotishRating.Any()?e.JyotishRating.Average(e=>e.Stars):0,
                     totalOrder= e.UserServiceRecord.Any()?e.UserServiceRecord.Where(e=>e.Action==1).Sum(e=>e.Count):0,
                     language=e.Language
-                }).ToList().OrderByDescending(e => e.stars).OrderByDescending(e => e.totalOrder).ToList();
+                }).ToList().OrderByDescending(e => e.stars).ToList();
                 return record;
             }
             else if (ListName == "Call")
@@ -71,27 +71,11 @@ namespace BusinessAccessLayer.Implementation
                     stars = e.JyotishRating != null && e.JyotishRating.Any() ? e.JyotishRating.Average(e => e.Stars) : 0,
                     totalOrder = e.UserServiceRecord.Any() ? e.UserServiceRecord.Where(e => e.Action == 2).Sum(e => e.Count) : 0,
                     language = e.Language
-                }).ToList().OrderByDescending(e => e.stars).OrderByDescending(e=>e.totalOrder).ToList();
+                }).ToList().OrderByDescending(e => e.stars).ToList();
                 return record;
             }
             else { return null; }
         }
-
-        /*  public List<PoojaCategoryModel> GetAllPoojaCategory()
-          {
-              var record = _context.PoojaCategory.ToList();
-              if (record == null)
-              { return null; }
-              else { return record; }
-          }*/
-
-        /* public List<PoojaRecordModel> GetPoojaList(int id)
-         {
-             var record = _context.PoojaRecord.Where(x => x.PoojaCategoryId == id).ToList();
-             if (record == null)
-             { return null; }
-             else { return record; }
-         }*/
 
         public PoojaRecordModel GetPoojaDetail(int PoojaId)
         {
@@ -153,8 +137,43 @@ namespace BusinessAccessLayer.Implementation
         {
             // Fetch the Jyotish record based on the provided Id and status
             var jyotishRecord = _context.JyotishRecords
-                                         .Where(x => x.Role == "Jyotish" && x.Id == Id)
-                                         .FirstOrDefault();
+                               .Where(x => x.Role == "Jyotish" && x.Id == Id)
+                               .Select(x => new
+                               {
+                                   x.Id,
+                                   x.Email,
+                                   x.Mobile,
+                                   x.AlternateMobile,
+                                   x.Name,
+                                   x.Gender,
+                                   x.Language,
+                                   x.Expertise,
+                                   x.Country,
+                                   x.State,
+                                   x.City,
+                                   x.DateOfBirth,
+                                   x.ProfileImageUrl,
+                                   x.Experience,
+                                   x.Pooja,
+                                   x.Call,
+                                   x.CallCharges,
+                                   x.Chat,
+                                   x.ChatCharges,
+                                   x.Appointment,
+                                   x.AppointmentCharges,
+                                   x.Address,
+                                   x.TimeTo,
+                                   x.TimeFrom,
+                                   x.About,
+                                   x.AwordsAndAchievement,
+                                   x.Specialization,
+                                   x.Date,
+                                   x.countryCode,
+                                   x.ActiveStatus,
+                                   x.ServiceStatus
+                               })
+                               .FirstOrDefault();
+
 
             // Return null if no record found
             if (jyotishRecord == null)
@@ -207,7 +226,6 @@ namespace BusinessAccessLayer.Implementation
                 Id = jyotishRecord.Id,
                 Email = jyotishRecord.Email,
                 Mobile = jyotishRecord.Mobile,
-                Role = jyotishRecord.Role,
                 Name = jyotishRecord.Name,
                 Gender = jyotishRecord.Gender,
                 Language = jyotishRecord.Language,
@@ -218,8 +236,6 @@ namespace BusinessAccessLayer.Implementation
                 ActiveStatus=jyotishRecord.ActiveStatus,
                 DateOfBirth = jyotishRecord.DateOfBirth,
                 ProfileImageUrl = jyotishRecord.ProfileImageUrl,
-                Status = jyotishRecord.ApprovedStatus,
-                Otp = jyotishRecord.Otp,
                 Experience = jyotishRecord.Experience,
 
                 Call = jyotishRecord.Call,
@@ -245,7 +261,7 @@ namespace BusinessAccessLayer.Implementation
             return profileViewModel;
         }
 
-        public List<JyotishModel> FilterAstrologer(FilterModel fm)
+        public List<JyotishModelService> FilterAstrologer(FilterModel fm)
         {
             int expFrom = 0;
             int expTo = 0;
@@ -263,20 +279,18 @@ namespace BusinessAccessLayer.Implementation
             }
 
             // Call the stored procedure and return results
-            var jyotish = _context.Set<JyotishModel>()
-          .FromSqlInterpolated($"EXEC dbo.sp_filterJyotish @country={fm.country}, @city={fm.city}, @state={fm.state}, @expFrom={expFrom}, @expTo={expTo}, @rating={fm.rating}, @activity={fm.activity}, @gender={fm.gender ?? (object)DBNull.Value},@expertise={fm.expertise}")
+            var jyotish = _context.Database.SqlQuery<JyotishModelService>($"EXEC dbo.sp_filterJyotish @country={fm.country}, @city={fm.city}, @state={fm.state}, @expFrom={expFrom}, @expTo={expTo}, @rating={fm.rating}, @activity={fm.activity}, @gender={fm.gender ?? (object)DBNull.Value},@expertise={fm.expertise}")
           .ToList();
 
             return jyotish;
         }
 
-        public List<JyotishModel> SearchAstrologer(string? searchInp)
+        public List<JyotishModelService> SearchAstrologer(string? searchInp)
         {
 
 
             // Call the stored procedure and return results
-            var jyotish = _context.Set<JyotishModel>()
-          .FromSqlInterpolated($"EXEC dbo.sp_searchJyotish @searchInp={searchInp}")
+            var jyotish = _context.Database.SqlQuery<JyotishModelService>($"EXEC dbo.sp_searchJyotish @searchInp={searchInp}")
           .ToList();
 
             return jyotish;
@@ -1081,6 +1095,8 @@ namespace BusinessAccessLayer.Implementation
             newData.Status = true;
             newData.Count = 1;
             newData.date = DateTime.Now;
+            newData.LastTalkTime = 0;
+            newData.TotalTime = 0;
             _context.UserServiceRecord.Add(newData);
             if (_context.SaveChanges() > 0)
             {
@@ -1089,6 +1105,22 @@ namespace BusinessAccessLayer.Implementation
             else { return false; }
 
 
+        }
+
+        public bool UpdateUserService(int userId,int action,double totalTime)
+        {
+           
+            var oldData = _context.UserServiceRecord.Where(e => e.UserId == userId && e.Action == action).OrderByDescending(e=>e.date).FirstOrDefault();
+
+            if (oldData == null)
+            {
+                return false;
+               
+            }
+            oldData.LastTalkTime = (float)totalTime;
+            oldData.TotalTime += (float)totalTime;
+            _context.UserServiceRecord.Update(oldData);
+            return _context.SaveChanges() > 0;
         }
 
         public UserServiceRecordViewModel GetUserDataForService(int Id)

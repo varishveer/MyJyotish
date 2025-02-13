@@ -21,7 +21,7 @@ namespace BusinessAccessLayer.Abstraction
         public dynamic TopAstrologer();
         public List<JyotishModel> AllAstrologer();
         public JyotishProfileViewModel AstrologerProfile(int Id);
-        public List<JyotishModel> FilterAstrologer(FilterModel fm);
+        public List<JyotishModelService> FilterAstrologer(FilterModel fm);
         public List<IdImageViewModel> SliderImageList();
         public string BookAppointment(AppointmentViewModel model);
         public List<JyotishModel> SpecializationFilter(string Keyword);
@@ -35,7 +35,7 @@ namespace BusinessAccessLayer.Abstraction
         public List<AppointmentSlotUserViewModel> GetAllAppointmentSlot(int id);
         public string AddUserWallets(UserWalletViewmodel uw);
         public string PurchaseWithUserWallets(UserWalletViewmodel uw);
-        public List<JyotishModel> SearchAstrologer(string? searchInp);
+        public List<JyotishModelService> SearchAstrologer(string? searchInp);
         public List<JyotishUserAttachmentJyotishViewModel> GetAllUserAttachments(int Id);
         public dynamic GetProblemSolutionDetail(int appointmentId);
         public bool changeUserServiceStatus(int userId,bool status);
@@ -82,6 +82,7 @@ namespace BusinessAccessLayer.Abstraction
 
         public dynamic getUserServiceRevordForUser(int userId);
 
+        public bool UpdateUserService(int userId, int action, double totalTime);
 
     }
 

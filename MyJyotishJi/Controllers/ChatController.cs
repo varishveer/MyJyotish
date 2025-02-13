@@ -70,7 +70,7 @@ namespace MyJyotishGApi.Controllers
                     }
 
                     // Calculate total chat time based on wallet amount and charges
-                    var totaltimeforchat = getJyotishchatCharges > 0 ? totalWalletAmount / getJyotishchatCharges : 0;
+                    var totaltimeforchat = getJyotishchatCharges > 0 ? totalWalletAmount / getJyotishchatCharges : getJyotishchatCharges==0?2: 0;
 
                     // Update wallet amount for the user
                     _userWalletAmount[id] = totalWalletAmount;
@@ -203,11 +203,16 @@ namespace MyJyotishGApi.Controllers
                             _userWalletAmount.Remove(userId);
                             _chatTimeManager.Remove(userId);
 
+                            _services.UpdateUserService(int.Parse(userId),1, totalMinutes);
+
                             string messages = "Chat with astrologers";
-                            Task.Run(() =>
+                            if (getJyotishchatCharges != 0)
                             {
-                                _services.ApplyChargesFromUserWalletForService(int.Parse(userId), Convert.ToInt32(totalAmount), messages, int.Parse(jyotishId));
-                            }).Wait();
+                                Task.Run(() =>
+                                {
+                                    _services.ApplyChargesFromUserWalletForService(int.Parse(userId), Convert.ToInt32(totalAmount), messages, int.Parse(jyotishId));
+                                }).Wait();
+                            }
                         }
                         ReceiveChat ms = new ReceiveChat
                         {

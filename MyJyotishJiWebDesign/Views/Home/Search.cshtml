@@ -36,11 +36,11 @@
         background: white;
         border-radius: 15px;
         overflow: hidden;
-        text-align: center;
-        padding: 30px 20px;
+        padding: 7px;
         transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        max-width: 300px !important;
+        max-width: 450px !important;
+        background: linear-gradient(135deg, #f8f9fa, #f1f1f1);
     }
 
         .astrologer-card:hover {
@@ -48,55 +48,72 @@
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
         }
 
-        /* Avatar with unique animation and effect */
-        .astrologer-card img {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 15px;
-            border: 5px solid #f0f4fd;
-            transition: border-color 0.4s ease-in-out;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
-        }
+    /* Left Section: Profile Image and Stars */
+    .profile-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
 
-        .astrologer-card:hover img {
-            border-color: #ffc107;
-            transform: rotate(360deg);
-        }
+    .profile-image-container {
+        width: 100px;
+        height: 120px;
+        border-radius: 10px;
+        overflow: hidden;
+        border: 5px solid #f0f4fd;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+    }
 
-        /* Card content styling */
-        .astrologer-card h4 {
-            font-size: 1.3em;
-            margin: 10px 0 5px;
+    .jyotishProfileImages {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: border-color 0.4s ease-in-out;
+    }
+
+    .astrologer-card:hover .jyotishProfileImages {
+        border-color: #ffc107;
+    }
+
+    /* Right Section: Details */
+    .card-body {
+        text-align: left;
+        padding-left: 15px;
+    }
+
+    .astrologer-card h6 {
+        font-size: 1.2em;
+        font-weight: bold;
+        margin: 10px 0 5px;
+        color: #333;
+    }
+
+    .astrologer-card p {
+        font-size: 0.95em;
+        color: #666;
+        margin: 8px 0;
+    }
+
+        .astrologer-card p span {
             color: #333;
+            font-weight: bold;
         }
 
-        .astrologer-card p {
-            font-size: 0.95em;
-            color: #666;
-            margin: 8px 0;
-        }
+    /* Add a decorative icon for creativity */
+    .astrologer-card .decorative-icon {
+        position: absolute;
+        top: -20px;
+        right: -20px;
+        font-size: 50px;
+        color: rgba(255, 193, 7, 0.1);
+        transition: transform 0.4s ease;
+    }
 
-            .astrologer-card p span {
-                color: #333;
-                font-weight: bold;
-            }
-
-        /* Add a decorative icon for creativity */
-        .astrologer-card .decorative-icon {
-            position: absolute;
-            top: -20px;
-            right: -20px;
-            font-size: 50px;
-            color: rgba(255, 193, 7, 0.1);
-            transition: transform 0.4s ease;
-        }
-
-        .astrologer-card:hover .decorative-icon {
-            transform: rotate(45deg);
-            color: rgba(255, 193, 7, 0.3);
-        }
+    .astrologer-card:hover .decorative-icon {
+        transform: rotate(45deg);
+        color: rgba(255, 193, 7, 0.3);
+    }
         .content-container{
             max-height:100vh;
            
@@ -111,8 +128,12 @@
             border-radius:10px;
     }
 
-    .advertisementBanner{
-       
+    .w-23 {
+        width: 30%;
+    }
+
+    .active-logo {
+        left: 0;
     }
 </style>
 
@@ -174,7 +195,7 @@
                 </div>
                 </div>
             <div class="astrologer-list col-sm-9  overflow-auto content-container" >
-                <div class="row" id="astrologerList"></div>
+                <div class="row gap-3" id="astrologerList"></div>
     <!-- Astrologer results will be injected here -->
 </div>
         </div>
@@ -283,9 +304,16 @@
 
 
     //function for create stars
-    function generateFullStars() {
-        return '<i class="fa fa-star"></i>'.repeat(5); // Return 5 filled stars
-    }
+     function generateFullStars(starCount) {
+
+          let hstarCount=starCount%1!=0?1:0;
+
+          let empStars='<i class="far fa-star"></i>'.repeat(5-starCount);;
+          let fillStars='<i class="fa fa-star"></i>'.repeat(starCount);;
+          let halfStars='<i class="fas fa-star-half-alt"></i>'.repeat(hstarCount);
+
+          return fillStars+halfStars+empStars;
+      }
     // Function to display astrologers
    async function displayAstrologers(astrologers) {
         var html = '';
@@ -297,31 +325,46 @@
             astrologers.forEach(function (astrologer) {
                 var ImgSrc = "@BaseUrl" + `${astrologer.profileImageUrl}`;
                 html += `
-                 <div class="col-3 col-sm-3 col-md-3 col-lg-3 mb-2 p-1">
-                                            <div class="card astrologer-card shadow">
-                                                 <a class='text-secondary text-decoration-none' href= "/Home/JyotishProfile?Id=${astrologer.id}">
-                                                        <img src="${ImgSrc}" class="jyotishProfileImages card-img-top rounded-circle" alt="${astrologer.name}">
-                                                    <div class="card-body p-0 pt-2">
-                                                        <h6 class="card-title text-center">${astrologer.name} - ${astrologer.city}</h6>
-                                                            <p class='text-center text-warning' >${generateFullStars()}</p>
-                                                        <p class="card-text px-1 text-center" >
-                                                                         ${astrologer.expertise.split(',')[0] || 'NA'}  ${astrologer.expertise != null ? astrologer.expertise.split(',').length > 1 ? "+" + astrologer.expertise.split(',').length +"more" : "":""
-            } | ${ astrologer.experience != null ? astrologer.experience : 0 } Years
-                                                        </p>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-                
+
+                  <div class="astrologer-card w-23 position-relative">
+          <small class="py-1 fw-bold px-2 text-light position-absolute top-0 active-logo ${astrologer.activeStatus ? 'bg-success' : 'bg-danger'}">
+              ${astrologer.activeStatus ? 'Active' : 'Inactive'}
+          </small>
+
+          <a href="/Home/JyotishProfile?Id=${astrologer.id}" class="text-decoration-none">
+              <div class="d-flex align-items-start">
+                  <!-- Left side: Avatar and Star Section -->
+                  <div class="profile-section">
+                      <div class="profile-image-container">
+                          <img src="${ImgSrc}" class="jyotishProfileImages" alt="${astrologer.name}">
+                      </div>
+                      <div class="text-warning my-2">
+                            ${generateFullStars(astrologer.stars)}
+                      </div>
+                  </div>
+
+                  <!-- Right side: Details Section -->
+                  <div class="card-body ms-3">
+                      <p class="card-title fw-bold">${astrologer.name} <i class="fa-solid text-success fa-circle-check"></i> - ${astrologer.city}</p>
+                      <small class=" text-secondary">
+                           ${astrologer.expertise.split(',')[0] || 'NA'}  ${astrologer.expertise != null ? astrologer.expertise.split(',').length > 1 ? "+" + astrologer.expertise.split(',').length +"more" : "":""
+              }
+                      </small>
+                      <small class="d-block text-secondary">${astrologer.language}</small>
+                      <small class="d-block text-secondary">Exp : ${astrologer.experience != null ? astrologer.experience : 0} Years</small>
+                  </div>    
+              </div>
+          </a>
+      </div>
                 `
                 adCount++
-                if(adCount==8 &&data!=null){
+                if(adCount==6 &&data!=null){
                     if(data.data.result.length>0){
 
                     html+=`
       <div class="col-12 col-sm-12 col-md-12 rounded border-0 col-lg-12 mb-2 p-1">
                                                 <div class="card w-100 h-100 ">
-                                                      <img height="200" class="w-100 rounded" src="${BaseUrl+data.data.result[showAdvCount].bannerUrl}">
+                                                      <img height="170" class="w-100 rounded" src="${BaseUrl+data.data.result[showAdvCount].bannerUrl}">
                                                 </div>
                                             </div>`
                                                     if(data.data.result.length-1==showAdvCount){
@@ -333,23 +376,27 @@
                 adCount=0;
                   }
             });
-               if(astrologers.length<8){
+                 if(astrologers.length<6 && data!=null){
+                      if(data.data.result.length>0){
                      html+=`
         <div class="col-12 col-sm-12 col-md-12 rounded border-0 col-lg-12 mb-2 p-1">
                                                   <div class="card w-100 h-100 ">
-                                                        <img height="200" class="w-100 rounded" src="${BaseUrl+data.data.result[showAdvCount].bannerUrl}">
+                                                        <img height="170" class="w-100 rounded" src="${BaseUrl+data.data.result[showAdvCount].bannerUrl}">
                                                   </div>
                                               </div>`
                     }
-           
-        }else{
+                    }
+
+          }else if(data!=null){
+                        if(data.data.result.length>0){
             html='<p class="text-center text-secondary my-4">no record found</p>'
               html+=`
         <div class="col-12 col-sm-12 col-md-12 rounded border-0 col-lg-12 mb-2 p-1">
                                                   <div class="card w-100 h-75 ">
-                                                        <img height="200" class="w-100 rounded" src="${BaseUrl+data.data.result[showAdvCount].bannerUrl}">
+                                                        <img height="170" class="w-100 rounded" src="${BaseUrl+data.data.result[showAdvCount].bannerUrl}">
                                                   </div>
                                               </div>`
+                                              }
         }
         $('#astrologerList').html(html);
         $(".jyotishProfileImages").on('error', function () {

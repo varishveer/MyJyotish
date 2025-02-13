@@ -726,7 +726,7 @@ z-index:10000000000000000000;
 					if (!data.call) {
 						$(".callBtn").hide()
 					} else {
-						$(".callBtn").attr("data-bs-title", `₹${data.callCharges != null ? data.callCharges : 0} /min`)
+						$(".callBtn").attr("data-bs-title", `${data.callCharges != null && data.callCharges>0? "₹"+data.callCharges+"/min" : "Free"} `)
 
 						const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip2"]')
 						const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => {
@@ -739,7 +739,7 @@ z-index:10000000000000000000;
 					if (!data.chat) {
 						$(".chatBtn").hide()
 					} else {
-						$(".chatBtn").attr("data-bs-title", `₹${data.chatCharges != null ? data.chatCharges : 0} /min`)
+						$(".chatBtn").attr("data-bs-title", `${data.chatCharges != null && data.chatCharges>0 ? "₹"+data.chatCharges+"/min" : "Free"} `)
 						const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip1"]')
 						const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => {
 							const tooltipInstance = new bootstrap.Tooltip(tooltipTriggerEl);
@@ -1976,7 +1976,7 @@ z-index:10000000000000000000;
 											 const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 											 // Update the displayed duration
 												audioDuration.textContent = formattedTime;
-															if(currentTime>=totaltimeforcall){
+															if(minutes>=totaltimeforcall){
 																$("#endCallBtn").click()
 												Swal.fire({
 													text:"Insufficient Balance",

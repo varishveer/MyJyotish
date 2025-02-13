@@ -38,6 +38,8 @@
 				<th>Place Of Birth</th>
 				<th>ServiceType</th>
 				<th>Total Service Count</th>
+				<th>Total Time</th>
+				<th>Last Time</th>
 				<th>Last Date</th>
 			</tr>
 		</thead>
@@ -84,6 +86,8 @@
 				<td>${d.placeOfBirth}</td>
 				<td>${d.action==1?"Chat":"Call"}</td>
 				<td>${d.count}</td>
+				<td>${d.totalTime} min</td>
+				<td>${d.lastTalkTime} min</td>
 				<td>${d.date!=null? d.date.split('T')[0] +" "+ d.date.split('T')[1]:"N/A"}</td>
 				
 				</tr>

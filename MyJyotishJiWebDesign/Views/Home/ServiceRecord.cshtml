@@ -13,6 +13,57 @@
 	.fs-10 {
 		font-size: 60px;
 	}
+	/* Custom Table Styles */
+	#DataTable {
+		font-size: 14px;
+		border-collapse: separate;
+		border-spacing: 0 15px; /* Space between rows */
+	}
+
+		#DataTable th, #DataTable td {
+			text-align: center;
+			padding: 12px 15px;
+		}
+
+		#DataTable th {
+			background-color: #1e2a3d;
+			font-size: 16px;
+			text-transform: uppercase;
+			letter-spacing: 1px;
+			border-top: 2px solid #fff;
+		}
+
+		#DataTable tbody tr {
+			background-color: #f9f9f9;
+			transition: all 0.3s ease;
+		}
+
+			#DataTable tbody tr:hover {
+				background-color: #f1f1f1;
+				cursor: pointer;
+			}
+
+			#DataTable tbody tr:nth-child(even) {
+				background-color: #f1f1f1;
+			}
+
+			#DataTable tbody tr:nth-child(odd) {
+				background-color: #ffffff;
+			}
+
+	/* Responsive Table */
+	@@media (max-width: 768px) {
+		#DataTable
+
+	{
+		font-size: 12px;
+	}
+
+	#DataTable th, #DataTable td {
+		padding: 8px 10px;
+	}
+
+	}
 </style>
 
 <div class="col-sm-12 m-4">
@@ -26,24 +77,29 @@
 	</div>
 </div>
 
-<div class="table-responsive mt-5 container">
-	<table id="DataTable" class="table table-bordered ">
-		<thead class="table-primary">
-			<tr>
-				<th>Sr</th>
-				<th>Name</th>
-				<th>Gender</th>
-				<th>Date Of Birth</th>
-				<th>Time Of Birth</th>
-				<th>Place Of Birth</th>
-				<th>ServiceType</th>
-				<th>Total Service Count</th>
-				<th>Last Date</th>
-			</tr>
-		</thead>
-		<tbody id="serviceData">
-		</tbody>
-	</table>
+<div class="mt-5 container-fluid">
+	<div class="table-responsive">
+		<table id="DataTable" class="table table-bordered table-striped table-hover">
+			<thead class="table-dark text-light">
+				<tr>
+					<th>Sr</th>
+					<th>Name</th>
+					<th>Gender</th>
+					<th>Date Of Birth</th>
+					<th>Time Of Birth</th>
+					<th>Place Of Birth</th>
+					<th>Service Type</th>
+					<th>Total Service Count</th>
+					<th>Total Time</th>
+					<th>Last Time</th>
+					<th>Last Date</th>
+				</tr>
+			</thead>
+			<tbody id="serviceData">
+				<!-- Data will be dynamically inserted here -->
+			</tbody>
+		</table>
+	</div>
 </div>
 
 <script>
@@ -83,6 +139,8 @@
 				<td>${d.placeOfBirth}</td>
 				<td>${d.action==1?"Chat":"Call"}</td>
 				<td>${d.count}</td>
+				<td>${d.totalTime} min</td>
+				<td>${d.lastTalkTime} min</td>
 				<td>${d.date!=null? d.date.split('T')[0] +" "+ d.date.split('T')[1]:"N/A"}</td>
 
 				</tr>

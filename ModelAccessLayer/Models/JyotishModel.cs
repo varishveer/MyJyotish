@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -27,8 +28,6 @@ namespace ModelAccessLayer.Models
         public string? Language { get; set; }
       
         public string? Expertise { get; set; }
-        
-       
         public string? Country { get; set; }
         public string? State { get; set; }
         public string? City { get; set; }
@@ -56,7 +55,6 @@ namespace ModelAccessLayer.Models
         public string? AwordsAndAchievement { get; set; }
         public string? Specialization { get; set; }
         public DateTime Date { get; set; }
-      
         public string? SuccessRate { get; set; }
         public int? Pincode { get; set; }
         public int? countryCode { get; set; }

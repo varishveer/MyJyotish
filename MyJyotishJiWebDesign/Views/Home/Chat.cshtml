@@ -22,7 +22,7 @@
 		background: white;
 		border-radius: 15px;
 		overflow: hidden;
-		padding: 20px;
+		padding: 10px;
 		transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
 		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 		max-width: 450px !important;
@@ -62,11 +62,6 @@
 		border-color: #ffc107;
 	}
 
-	.text-warning {
-		font-size: 1.2em;
-		color: #ffc107;
-	}
-
 	/* Right Section: Details */
 	.card-body {
 		text-align: left;
@@ -104,17 +99,6 @@
 	.astrologer-card:hover .decorative-icon {
 		transform: rotate(45deg);
 		color: rgba(255, 193, 7, 0.3);
-	}
-
-	/* Active badge style */
-	.active-logo {
-		background-color: #28a745;
-		color: white;
-		padding: 5px 10px;
-		border-radius: 12px;
-		font-weight: bold;
-		top: 10px;
-		left: 10px;
 	}
 
 	/* Chat button styling */
@@ -456,19 +440,20 @@
 			html += `
 											<div class="astrologer-card w-23 position-relative">
 		<small class="py-1 fw-bold px-2 text-light position-absolute top-0 active-logo ${astrologer.activeStatus ? 'bg-success' : 'bg-danger'}">
-			${astrologer.activeStatus ? 'active' : 'inactive'}
+			${astrologer.activeStatus ? 'Active' : 'Inactive'}
 		</small>
 
-		<a href="/Home/JyotishProfile?Id=${astrologer.id}" class="text-decoration-none">
 			<div class="d-flex align-items-start">
 				<!-- Left side: Avatar and Star Section -->
 				<div class="profile-section">
+		<a href="/Home/JyotishProfile?Id=${astrologer.id}" class="text-decoration-none">
 					<div class="profile-image-container">
 						<img src="${ImgSrc}" class="jyotishProfileImages" alt="${astrologer.name}">
 					</div>
 					<div class="text-warning my-2">
 						${generateFullStars(astrologer.stars)}
 					</div>
+		</a>
 					<div class="text-secondary">Orders : ${astrologer.totalOrder}</div>
 				</div>
 
@@ -484,12 +469,11 @@
 					<button ${astrologer.activeStatus ? '' : 'disabled'} class="btn btn-primary chatBtn me-2 mb-2 mb-md-0"
 			id="chatBtn_${astrologer.id}" onclick="ChatBtn(${astrologer.id})"
 			style="background-color: #4CAF50; border-color: #4CAF50;">
-			Start Chat ₹${astrologer.chatCharges}/min
+			Start Chat ${astrologer.chatCharges==0?"Free":"₹"+astrologer.chatCharges+"/min"}
 		</button>
 		<button class="btn btn-outline-success d-none" id="waitingBtn_${astrologer.id}">Waiting...</button>
 				</div>
 			</div>
-		</a>
 
 		
 	</div>
@@ -498,13 +482,13 @@
 
 							`;
 							 adCount++
-				if(adCount==8 &&data!=null){
+				if(adCount==6 &&data!=null){
 					if(data.data.result.length>0){
 
 					html+=`
 	  <div class="col-12 col-sm-12 col-md-12 rounded border-0 col-lg-12 mb-2 mt-4 p-1">
 												<div class="card w-100 h-100 ">
-													  <img height="200" class="w-100 rounded" src="${BaseUrl+data.data.result[showAdvCount].bannerUrl}">
+													  <img height="170" class="w-100 rounded" src="${BaseUrl+data.data.result[showAdvCount].bannerUrl}">
 												</div>
 											</div>`
 													if(data.data.result.length-1==showAdvCount){
@@ -516,13 +500,13 @@
 				adCount=0;
 				  }
 			});
-			   if(astrologers.length<8){
+			   if(astrologers.length<6){
 					if(data.data.result.length>0){
 
 					 html+=`
 		<div class="col-12 col-sm-12 col-md-12 rounded border-0 col-lg-12 mt-4 mb-2 p-1">
 												  <div class="card w-100 h-100 ">
-														<img height="200" class="w-100 rounded" src="${BaseUrl+data.data.result[showAdvCount].bannerUrl}">
+														<img height="170" class="w-100 rounded" src="${BaseUrl+data.data.result[showAdvCount].bannerUrl}">
 												  </div>
 											  </div>`
 					}
@@ -786,7 +770,6 @@
 			}
 			let formattedMinute = minute.toString().padStart(2, '0');
 			let formattedCount = count.toString().padStart(2, '0');
-
 			$("#chatTimer").text(`${formattedMinute}:${formattedCount}`);
 		}, 1000)
 	};
