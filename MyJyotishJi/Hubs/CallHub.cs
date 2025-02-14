@@ -48,21 +48,7 @@ namespace BusinessAccessLayer.Implementation
                 {
                     connectedClients[senderId] = connectionId;
                     Console.WriteLine($"User {senderId} connected with connection ID {connectionId}");
-                    if (sendby == "client")
-                    {
-                        Task.Run(() =>
-                        {
-                            _service.changeUserServiceStatus(int.Parse(userId), true);
-                        }).Wait();
-                    }
-                    else
-                    {
-                        Task.Run(() =>
-                        {
-                            _jyotish.changeJyotishServiceStatus(int.Parse(userId), true);
-
-                        }).Wait();
-                    }
+                  
                 }
 
                 // Proceed with the rest of the connection logic
@@ -285,8 +271,10 @@ namespace BusinessAccessLayer.Implementation
                             if (string.IsNullOrEmpty(userData)) return;
                     if (sendby == "client")
                     {
+                        var id = clientId.Split("_")[0];
                         if (!receiverSenderConnectionId.ContainsKey(senderConnectionId)) receiverSenderConnectionId[senderConnectionId] = targetConnectionId;
                        
+                        _service.changeUserServiceStatus(int.Parse(id), true);
                     }
                     else
                     {
@@ -298,6 +286,13 @@ namespace BusinessAccessLayer.Implementation
                             var getJyotishcallCharges = _service.getJyotishCallServicesCharges(int.Parse(id));
                             totaltimeforcall = getJyotishcallCharges > 0 ? totalWalletAmount / getJyotishcallCharges : getJyotishcallCharges==0?2: 0;
                         }).Wait();
+                        _jyotish.changeJyotishServiceStatus(int.Parse(id), true);
+                    }
+                    if (sendby == "client")
+                    {
+                    }
+                    else
+                    {
                     }
                 }
             }

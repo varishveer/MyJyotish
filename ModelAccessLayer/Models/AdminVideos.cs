@@ -2,21 +2,21 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ModelAccessLayer.Models
 {
-    public class JyotishVideosModel
+    public class AdminVideos
     {
         [Key]
         public int Id { get; set; }
-        public string VideoTitle { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
         public string VideoUrl { get; set; }
-        public string ImageUrl { get; set; }
-        public string SerialNo { get; set; }
-        public int JyotishId { get; set; }
-        public bool Status { get; set; }
-        public JyotishModel Jyotish { get; set; }
+        public DateTime Date { get; set; }
+        public int serialNumber { get; set; }
+        public bool status { get; set; }
     }
 }

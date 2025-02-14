@@ -40,6 +40,8 @@
 </style>
 
 <div class="container mt-4">
+
+    
     <div class="d-flex justify-content-between">
         <h4 class="text-primary font-weight-bold">Gallery</h4>
         <button type="button" class="btn btn-primary" id="AddImageBtn">
@@ -49,20 +51,35 @@
    
     <hr />
     <!-- Button to open the modal -->
-    
-    <div class="gallery-container" id="galleryContainer">
-        <!-- Images will be dynamically loaded here -->
+    <div class="gallery-container table-responsive" >
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Sr</th>
+                    <th>Title</th>
+                    <th>Image</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="galleryContainer">
+            </tbody>
+        </table>
+
     </div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function () {
+         Swal.fire({
+                        title: "Processing Your Request",
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    })
         // Get the ID from the URL
-       
-         
         var ApiUrl = BaseUrl + "Api/Jyotish/JyotishGallery?Id=" + `${localStorage.getItem("Id")}`;
-        console.log(ApiUrl);
         // Fetch gallery data based on the ID
         $.ajax({
             url: ApiUrl,
@@ -72,23 +89,28 @@
                 'Content-Type': 'application/json',
             },
             success: function (res) {
-                 
                 if (res.status === 200) {
                     const galleryData = res.data;
-                  
+                  console.log(galleryData)
                     galleryData.forEach(item => {
                         var src = BaseUrl + item.imageUrl
                         $('#galleryContainer').append(`
-                            <div class="gallery-item col-md-3">
-                                    <img src= "${src}" alt="${item.imageTitle}" style="width:250px; height:250px;">
-                                <div class="gallery-title">${item.imageTitle}</div>
-                            </div>
+                            <tr>
+                            <td id="sr_${item.id}">${item.serialNo || 0}</td>
+                               <td id="title_${item.id}">${item.imageTitle}</td>
+                                    <td><img src= "${src}" alt="${item.imageTitle}" width="130" height="130"></td>
+                                    <td>
+                                    <i data-id=${item.id} role="button" class="fas editGalleryImage text-warning fs-5 fa-edit"></i> &nbsp;
+                                    <i data-id=${item.id} role="button" class="fas removeGalleryImage text-danger fs-5 fa-trash-alt"></i>
+                                    </td>
+                           </tr>
                         `);
                     });
                 } else {
                      
                     console.error("Failed to load gallery data:", res.message);
                 }
+                Swal.close();
             },
             error: function (error) {
                  
@@ -105,7 +127,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="AddModalLabel">Add Images</h5>
+                <h5 class="modal-title" id="AddModalLabel"><span class="FormAction">Add</span> Images</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
             </div>
@@ -115,17 +137,17 @@
 
                     <div class="form-group">
                         <label for="image">Image </label>
-                        <input type="File" class="form-control" id="image" name="Image" required />
+                        <input type="File"  class="form-control" id="image" name="Image" required />
                     </div>
 
                     <div class="form-group">
                         <label for="imageTitle">Image Title</label>
-                        <input type="text" class="form-control" id="imageTitle" name="ImageTitle" required />
+                        <input type="text" required class="form-control" id="imageTitle" name="ImageTitle" required />
                     </div>
 
                     <div class="form-group">
                         <label for="serialNo">Serial Number</label>
-                        <input type="number" class="form-control" id="serialNo" name="SerialNo" required />
+                        <input type="number" required class="form-control" id="serialNo" name="SerialNo" required />
                     </div>
 
                     <div class="modal-footer">
@@ -143,12 +165,20 @@
 
         $("#AddImageBtn").click(function(){
             $("#AddModal").modal("show")
+            $(".FormAction").text("Add")
+            $("#image").attr("required",true)
         })
 
         // Handle form submission for the modal
         $('#AddForm').on('submit', function (e) {
             e.preventDefault(); // Prevent default form submission
-             
+              Swal.fire({
+                        title: "Processing Your Request",
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    })
             // Gather individual field values
             var imageFile = $('#image')[0].files[0]; // Get the file object
             var imageTitle = $('#imageTitle').val();
@@ -161,9 +191,10 @@
             formData.append('ImageTitle', imageTitle);
             formData.append('SerialNo', serialNo);
             formData.append('JyotishId', jyotishId);
+            formData.append('Id', $("#imageId").val());
 
             // Define the API endpoint for adding an image
-            var addImageUrl = BaseUrl + "Api/Jyotish/AddJyotishGallery"; // Adjust this to your actual API endpoint
+            var addImageUrl = BaseUrl + `Api/Jyotish/${document.querySelector(".FormAction").innerText=="Add"?"AddJyotishGallery":"UpdateGallery"}`; // Adjust this to your actual API endpoint
 
             // Make AJAX request to submit the form
             $.ajax({
@@ -182,7 +213,10 @@
                         Swal.fire({
                             title:"success",
                             text:response.message,
-                            icon:"success"
+                            icon:"success",
+                            didClose:()=>{
+                                location.reload()
+                            }
                         });
             $("#AddModal").modal("hide")
 
@@ -204,5 +238,80 @@
                 }
             });
         });
+
+        $(document).on("click",".removeGalleryImage",function(){
+            let gid=$(this).attr("data-id")
+               Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+           Swal.fire({
+                        title: "Processing Your Request",
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    })
+            // Make AJAX request to submit the form
+            $.ajax({
+                url: BaseUrl+"api/jyotish/RemoveJyotishGallery",
+                type: 'get',
+                data: {id:gid},
+                
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+                },
+                success: function (response) {
+                    if (response.status === 200) {
+                        Swal.fire({
+                            title:"success",
+                            text:response.message,
+                            icon:"success",
+                            didClose:()=>{
+                                location.reload();
+                            }
+                        });
+                    } else {
+                       Swal.fire({
+                            title:"error",
+                            text:response.message,
+                            icon:"error"
+                        });
+                    }
+                },
+                error: function (xhr) {
+
+                    console.error('An error occurred while adding the image:', xhr);
+                    console.error('Status:', xhr.status);
+                    console.error('Response Text:', xhr.responseText);
+                }
+            });
+
+      }
+      })
+
+    });
+
+    $(document).on("click",".editGalleryImage",function(){
+            $("#AddModal").modal("show")
+            let id=$(this).attr("data-id")
+            $("#imageTitle").val($("#title_"+id).text())
+            $("#serialNo").val($("#sr_"+id).text())
+            $("#imageId").val(id)
+            $(".FormAction").text("Update")
+            $("#image").attr("required",false)
+
+    })
+
+     $("#AddModal").on("show.bs.modal",function(){
+         document.getElementById("AddForm").reset();
+     })
+
     });
 </script>

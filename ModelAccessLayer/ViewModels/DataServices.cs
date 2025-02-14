@@ -556,8 +556,27 @@ namespace ModelAccessLayer.ViewModels
         public bool ActiveStatus { get; set; }
         public bool ServiceStatus { get; set; }
         // public int? TempRecordId { get; set; }
+    }
 
-        
-
+    public class ContactUsServices
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string Message { get; set; }
+        public DateTime Date { get; set; }
+        public DateTime CompleteDate { get; set; }
+        public bool CompleteStatus { get; set; }
+        public bool Status { get; set; }
+    }
+    public class AdminVideoService
+    {
+        public int? Id { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public string VideoUrl { get; set; }
+        public DateTime? Date { get; set; }
+        public int serialNumber { get; set; }
+        public bool status { get; set; }
     }
 }

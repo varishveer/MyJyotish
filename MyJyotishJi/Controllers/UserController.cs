@@ -1032,6 +1032,19 @@ namespace MyJyotishGApi.Controllers
 			return Ok(new { status = 200, message = "data retrieved", data = res });
 
         }
+		[AllowAnonymous]
+        [HttpPost("AddContactUs")]
+        public IActionResult AddContactUs(ContactUsServices cs)
+        {
+            var res = _services.AddContactUs(cs);
+            if (res)
+            {
+                return Ok(new { status = 200, message = "Message added successfully" });
 
-	}
+            }
+            return Ok(new { status = 500, message = "some error occured" });
+
+        }
+       
+    }
 }

@@ -2368,5 +2368,80 @@ namespace MyJyotishJiApi.Controllers
             }
             catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error ", Error = ex }); }
         }
+
+        [HttpGet("MakeContactComplete")]
+        public IActionResult MakeContactComplete(int id)
+        {
+            var res = _admin.MakeContactComplete(id);
+            if (res)
+            {
+                return Ok(new { status = 200, message = "Enquiry completed successfully" });
+
+            }
+            return Ok(new { status = 500, message = "some error occured" });
+
+        }
+        [HttpGet("GetEnquiryList")]
+        public IActionResult GetEnquiryList()
+        {
+            var res = _admin.GetEnquiryList();
+            
+           return Ok(new { status = 200, message = "data retrieved", data = res });
+
+        }
+        [HttpGet("GetEnquiryHistoryList")]
+        public IActionResult GetEnquiryHistoryList()
+        {
+            var res = _admin.GetEnquiryHistoryList();
+            
+                return Ok(new { status = 200, message = "data retrieved", data = res });
+            
+        }
+
+        [HttpPost("AddAdminVideo")]
+        public IActionResult AddAdminVideo(AdminVideoService model)
+        {
+
+            var res = _admin.AddAdminVideo(model);
+            if (res== "Successful")
+            {
+                return Ok(new { status = 200, message = "Video Added successfully" });
+
+            }
+            return Ok(new { status = 500, message = "some error occured" });
+
+        }
+        [HttpPost("UpdateVideo")]
+        public IActionResult UpdateVideo(AdminVideoService? model)
+        {
+            var res = _admin.UpdateVideo(model);
+            if (res)
+            {
+                return Ok(new { status = 200, message = "Video updated successfully" });
+
+            }
+            return Ok(new { status = 500, message = "some error occured" });
+
+        }
+        [HttpGet("RemoveVideo")]
+        public IActionResult RemoveVideo(int id)
+        {
+            var res = _admin.RemoveVideo(id);
+            if (res)
+            {
+                return Ok(new { status = 200, message = "Video updated successfully" });
+
+            }
+            return Ok(new { status = 500, message = "some error occured" });
+
+        }
+        [HttpGet("GetAdminVideoList")]
+        public IActionResult GetAdminVideoList()
+        {
+            var res = _admin.GetAdminVideoList();
+            
+                return Ok(new { status = 200, message = "data retrieved",data=res });
+
+        }
     }
 }

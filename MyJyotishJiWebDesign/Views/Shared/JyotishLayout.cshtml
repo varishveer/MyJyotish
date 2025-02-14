@@ -773,8 +773,8 @@ z-index:10000000000000000000;
 
 
 			<script>
-				var BaseUrl = "https://api.myjyotishg.in/"
-				//var BaseUrl = "https://localhost:7118/"
+				//var BaseUrl = "https://api.myjyotishg.in/"
+				var BaseUrl = "https://localhost:7118/"
 			</script>
 
 			<div class="container">
@@ -1091,6 +1091,10 @@ z-index:10000000000000000000;
 						$(".userEmail").text(item.email)
 						if (item.image != null || item.image != "")
 							$(".userProfile").attr("src", BaseUrl + item.image)
+							$(".userProfile").on("error",function(){
+								$(".userProfile").attr("src", "/user-not-found.png")
+
+							})
 					}
 				})
 

@@ -47,6 +47,7 @@ namespace MyJyotishGWeb.Controllers
 
             return View();
         } 
+
        
     }
 }

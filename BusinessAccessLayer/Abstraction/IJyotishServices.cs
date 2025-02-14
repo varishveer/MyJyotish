@@ -115,6 +115,11 @@ namespace BusinessAccessLayer.Abstraction
         public dynamic getBookedPoojaListWhichIsCompleted(int jyotishId);
         public dynamic getPoojaBookmark(int id);
         public bool removePoojaBookmark(int id);
+        public bool RemoveVideo(int id);
+        public bool RemoveGallery(int id);
+        public bool UpdateGallery(JyotishGalleryViewModel model);
+        public bool UpdateVideo(JyotishVideosViewModel model);
+      
 
     }
 }

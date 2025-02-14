@@ -1520,6 +1520,30 @@ namespace BusinessAccessLayer.Implementation
                 serviceRecord = res
             };
         }
+        public bool AddContactUs(ContactUsServices cs)
+        {
+            var res = _context.ContactUs.Where(e => e.Email == cs.Email && cs.Status && !cs.CompleteStatus).FirstOrDefault();
+            if (res != null)
+            {
+                return false;
+            }
+
+            ContactUs cons = new ContactUs
+            {
+                Name = cs.Name,
+                Email = cs.Email,
+                Message = cs.Message,
+                Status = true,
+                CompleteStatus = false,
+                Date = DateTime.Now,
+                CompleteDate = DateTime.Now
+            };
+
+            _context.ContactUs.Add(cons);
+            return _context.SaveChanges() > 0;
+        }
+
+       
 
     }
 }

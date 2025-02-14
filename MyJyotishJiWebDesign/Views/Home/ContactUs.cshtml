@@ -157,7 +157,49 @@
     <script>
         document.getElementById("contactForm").addEventListener("submit", function(event) {
             event.preventDefault();
-            alert("Thank you for contacting us! We will get back to you soon.");
+              Swal.fire({
+                        title: "Processing Your Request",
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    })
+           let formData={};
+           let arrData=$(this).serializeArray();
+           arrData.forEach(function(d){
+               formData[d.name]=d.value
+           })
+            $.ajax({
+                url: BaseUrl+"api/user/AddContactUs",
+                type: 'POST',
+                data: JSON.stringify(formData),
+                contentType: "application/json", // Important for file uploads
+                success: function (response) {
+                    if (response.status === 200) {
+                        Swal.fire({
+                            title:"success",
+                            text:response.message,
+                            icon:"success",
+                          
+                        });
+            $("#AddModal").modal("hide")
+
+                    } else {
+                       Swal.fire({
+                            title:"error",
+                            text:response.message,
+                            icon:"error"
+                        });
+            $("#AddModal").modal("hide")
+
+                    }
+                    document.getElementById("contactForm").reset();
+                },
+                error: function (xhr) {
+
+                    console.error('Status:', xhr);
+                }
+            });
         });
     </script>
 </body>

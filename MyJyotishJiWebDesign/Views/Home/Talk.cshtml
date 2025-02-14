@@ -514,8 +514,8 @@
 					<div class="text-warning my-2">
 						${generateFullStars(astrologer.stars)}
 					</div>
-		</a>
 					<div class="text-secondary">Orders : ${astrologer.totalOrder}</div>
+		</a>
 				</div>
 
 				<!-- Right side: Details Section -->
@@ -859,28 +859,7 @@
 		return walletAmount;
 	}
 
-	async function changeUserServiceStatus(userId,status){
-		let checkServiceStatus=false;
-	await $.ajax({
-			url: BaseUrl + "api/User/changeUserActiveStatus", // Ensure BaseUrl is properly defined
-			method: "GET",
-			headers: {
-				'Authorization': `Bearer ${localStorage.getItem("Token")}` // Retrieve token from localStorage
-			},
-			data: {
-				userId: userId,status:status
-			}, // Corrected JSON.stringify
-			success: function (res) {
-				if (res.status === 200) {
-					checkServiceStatus=true
-				}
-			}
-	})
-	return checkServiceStatus;
-	}
-
 			//call mamangement
-
 			let connection;
 			let peerConnection;
 			let localStream;

@@ -80,6 +80,8 @@ namespace DataAccessLayer.DbServices
         public DbSet<PurchaseAdvertisement> PurchaseAdvertisement { get; set; }
         public DbSet<PoojaBookMark> PoojaBookMark { get; set; }
         public DbSet<ActiveMail> ActiveMail { get; set; }
+        public DbSet<ContactUs> ContactUs { get; set; }
+        public DbSet<AdminVideos> AdminVideos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         { 

@@ -15,6 +15,7 @@ namespace ModelAccessLayer.Models
         public string ImageUrl { get; set; }
         public string SerialNo { get; set; }
         public int JyotishId { get; set; }
+        public bool Status { get; set; }
         public JyotishModel Jyotish { get; set; }
 
     }

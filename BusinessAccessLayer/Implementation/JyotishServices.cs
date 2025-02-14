@@ -354,7 +354,8 @@ namespace BusinessAccessLayer.Implementation
 
         public bool CreateAPooja(PoojaRecordModel model)
         {
-          
+
+           
 
             var isPoojaValid = _context.PoojaRecord.Where(x => x.PoojaType == model.PoojaType && x.status).FirstOrDefault();
             if (isPoojaValid != null)
@@ -532,8 +533,6 @@ namespace BusinessAccessLayer.Implementation
             }
         }
 
-        
-
         public bool CompletePoojaContact(int id)
         {
             var res = _context.BookedPoojaList.Where(e => e.Id == id && e.status).FirstOrDefault();
@@ -604,6 +603,16 @@ namespace BusinessAccessLayer.Implementation
         public string AddJyotishVideo(JyotishVideosViewModel model)
         {
             if (model == null) { return "invalid data"; }
+
+            var gallerySrCount = _context.JyotishVideos.Where(e => e.JyotishId == model.JyotishId && e.Status && Convert.ToInt32(e.SerialNo) >= Convert.ToInt32(model.SerialNo)).ToList();
+            int srCount = 1;
+            foreach (var item in gallerySrCount)
+            {
+                item.SerialNo = (Convert.ToInt32(model.SerialNo) + srCount).ToString();
+                srCount++;
+            }
+            _context.JyotishVideos.UpdateRange(gallerySrCount);
+
             JyotishVideosModel data = new JyotishVideosModel();
             if (model.Image != null)
             {
@@ -629,21 +638,69 @@ namespace BusinessAccessLayer.Implementation
             else { return "internal server Error"; }
         }
 
+        public bool UpdateVideo(JyotishVideosViewModel model)
+        {
+            var res = _context.JyotishVideos.Where(e => e.Id == model.Id && e.Status).FirstOrDefault();
+            if (res == null)
+            {
+                return false;
+            }
+            var gallerySrCount = _context.JyotishVideos.Where(e => e.JyotishId == model.JyotishId && e.Status && Convert.ToInt32(e.SerialNo) >= Convert.ToInt32(model.SerialNo)).ToList();
+            int srCount = 1;
+            foreach (var item in gallerySrCount)
+            {
+                item.SerialNo = (Convert.ToInt32(model.SerialNo) + srCount).ToString();
+                srCount++;
+            }
+            _context.JyotishVideos.UpdateRange(gallerySrCount);
+            if (model.Image != null)
+            {
+                const long MaxFileSize = 5 * 1024 * 1024; // 5 MB
+                var allowedExtensions = new[] { ".pdf", ".jpg", ".jpeg", ".png" };
+                if (ValidateFile(model.Image, MaxFileSize, allowedExtensions) == false)
+                { return false; }
+                var ProfileGuid = Guid.NewGuid().ToString();
+                var SqlPath = "wwwroot/Images/Jyotish/Video" + ProfileGuid + model.Image.FileName;
+                var ProfilePath = Path.Combine(_uploadDirectory, SqlPath);
+                using (var stream = new FileStream(ProfilePath, FileMode.Create))
+                {
+                    model.Image.CopyTo(stream);
+                }
+                res.ImageUrl = "/Images/Jyotish/Video" + ProfileGuid + model.Image.FileName;
+            }
+
+            res.VideoTitle = model.VideoTitle;
+            res.VideoUrl = model.VideoUrl;
+            res.SerialNo = model.SerialNo;
+            _context.JyotishVideos.Update(res);
+            return _context.SaveChanges() > 0;
+        }
+
         public string AddJyotishGallery(JyotishGalleryViewModel model)
         {
 
             if (model == null) { return "invalid data"; }
 
-            var totalUsedServiceCount = _context.JyotishGallery.Count(e => e.JyotishId == model.JyotishId);
+            var totalUsedServiceCount = _context.JyotishGallery.Count(e => e.JyotishId == model.JyotishId && e.Status);
             var serviceCount = (from package in _context.PackageManager
                                 join managepk in _context.ManageSubscriptionModels on package.SubscriptionId equals managepk.SubscriptionId
                                 join feature in _context.SubscriptionFeatures on managepk.FeatureId equals feature.FeatureId
                                 where package.JyotishId == model.JyotishId && package.Status && feature.ServiceUrl == "/Jyotish/Gallery"
                                 select managepk.ServiceCount).FirstOrDefault();
+
             if (totalUsedServiceCount > serviceCount)
             {
                 return "Limit Exeeced";
             }
+
+            var gallerySrCount = _context.JyotishGallery.Where(e => e.JyotishId == model.JyotishId && e.Status && Convert.ToInt32(e.SerialNo) >= Convert.ToInt32(model.SerialNo)).ToList();
+            int srCount = 1;
+            foreach(var item in gallerySrCount)
+            {
+                item.SerialNo = (Convert.ToInt32(model.SerialNo) + srCount).ToString();
+                srCount++;
+            }
+            _context.JyotishGallery.UpdateRange(gallerySrCount);
             JyotishGalleryModel data = new JyotishGalleryModel();
             if (model.ImageUrl != null)
             {
@@ -661,7 +718,7 @@ namespace BusinessAccessLayer.Implementation
                 data.ImageUrl = "/Images/Jyotish/" + ProfileGuid + model.ImageUrl.FileName;
             }
 
-
+            data.Status = true;
             data.ImageTitle = model.ImageTitle;
             data.JyotishId = model.JyotishId;
             data.SerialNo = model.SerialNo;
@@ -670,14 +727,84 @@ namespace BusinessAccessLayer.Implementation
             else { return "internal server Error"; }
         }
 
+        public bool UpdateGallery(JyotishGalleryViewModel model)
+        {
+            var res = _context.JyotishGallery.Where(e => e.Id == model.Id && e.Status).FirstOrDefault();
+            if (res == null)
+            {
+                return false;
+            }
+            var gallerySrCount = _context.JyotishGallery.Where(e => e.JyotishId == model.JyotishId && e.Status && Convert.ToInt32(e.SerialNo) >= Convert.ToInt32(model.SerialNo)).ToList();
+            int srCount = 1;
+            foreach (var item in gallerySrCount)
+            {
+                item.SerialNo = (Convert.ToInt32(model.SerialNo) + srCount).ToString();
+                srCount++;
+            }
+            _context.JyotishGallery.UpdateRange(gallerySrCount);
+            if (model.ImageUrl != null)
+            {
+                const long MaxFileSize = 5 * 1024 * 1024; // 5 MB
+                var allowedExtensions = new[] { ".pdf", ".jpg", ".jpeg", ".png" };
+                if (ValidateFile(model.ImageUrl, MaxFileSize, allowedExtensions) == false)
+                { return false; }
+                var ProfileGuid = Guid.NewGuid().ToString();
+                var SqlPath = "wwwroot/Images/Jyotish/" + ProfileGuid + model.ImageUrl.FileName;
+                var ProfilePath = Path.Combine(_uploadDirectory, SqlPath);
+                using (var stream = new FileStream(ProfilePath, FileMode.Create))
+                {
+                    model.ImageUrl.CopyTo(stream);
+                }
+                res.ImageUrl = "/Images/Jyotish/" + ProfileGuid + model.ImageUrl.FileName;
+            }
+
+            res.ImageTitle = model.ImageTitle;
+            res.SerialNo = model.SerialNo;
+            _context.JyotishGallery.Update(res);
+            return _context.SaveChanges() > 0;
+        }
+
+        public bool RemoveGallery(int id)
+        {
+            var res = _context.JyotishGallery.Where(e => e.Id == id).FirstOrDefault();
+            if (res == null)
+            {
+                return false;
+            
+            }
+            var ImagePath = Path.Combine(Directory.GetCurrentDirectory(), res.ImageUrl);
+            if (Path.Exists(ImagePath))
+            {
+                System.IO.File.Delete(ImagePath);
+            }
+
+            res.Status = false;
+            _context.JyotishGallery.Update(res);
+            return _context.SaveChanges() > 0;
+        }
+         public bool RemoveVideo(int id)
+        {
+            var res = _context.JyotishVideos.Where(e => e.Id == id).FirstOrDefault();
+            if (res == null)
+            {
+                return false;
+            }
+           
+            res.Status = false;
+            _context.JyotishVideos.Update(res);
+            return _context.SaveChanges() > 0;
+        }
+
+       
+
         public List<JyotishVideosModel> JyotishVideos(int Id)
         {
-            var records = _context.JyotishVideos.Where(x => x.JyotishId == Id).OrderBy(x => x.SerialNo).ToList();
+            var records = _context.JyotishVideos.Where(x => x.JyotishId == Id && x.Status).OrderBy(x => x.SerialNo).ToList();
             return records;
         }
         public List<JyotishGalleryModel> JyotishGallery(int Id)
         {
-            var records = _context.JyotishGallery.Where(x => x.JyotishId == Id).OrderBy(x => x.SerialNo).ToList();
+            var records = _context.JyotishGallery.Where(x => x.JyotishId == Id && x.Status).OrderBy(x => x.SerialNo).ToList();
             return records;
         }
 
@@ -741,37 +868,6 @@ namespace BusinessAccessLayer.Implementation
 
             return Data;
         }
-
-        /* public List<SubscrictionListJyotishViewModel> GetAllSubscription()
-         {
-             var featureData = _context.SubscriptionFeatures.Where(x => x.Status == true).ToList();
-
-             var records = _context.Subscriptions.Where(x=>x.Status == true)
-                         .Select(subscription => new SubscrictionListJyotishViewModel
-                         {
-                             SubscriptionId = subscription.SubscriptionId,
-                             Name = subscription.Name,
-                             OldPrice = subscription.OldPrice,
-                             NewPrice = subscription.NewPrice,
-                             Discount = subscription.Discount,
-                             Gst = subscription.Gst,
-                             DiscountAmount = subscription.DiscountAmount,
-                             PlanType = subscription.PlanType,
-                             description = subscription.description,
-
-                             Features = featureData.Select(feature => new FeatureList
-                             {
-                                 FeatureId = feature.FeatureId,
-                                 Name = feature.Name,
-                                 Status = _context.ManageSubscriptionModels
-                                .Any(ms => ms.SubscriptionId == subscription.SubscriptionId && ms.FeatureId == feature.FeatureId && ms.Status == true)
-                                             }).ToArray()
-                         }).ToList();
-
-
-             return records;
-         }*/
-
 
         public List<SubscrictionListJyotishViewModel> GetAllSubscription()
         {
@@ -2363,6 +2459,18 @@ namespace BusinessAccessLayer.Implementation
                     jdata.Pooja = true;
                 }
             }
+
+            var totalUsedServiceCount = _context.JyotishPooja.Count(e => e.JyotishId == model.JyotishId);
+            var serviceCount = (from package in _context.PackageManager
+                                join managepk in _context.ManageSubscriptionModels on package.SubscriptionId equals managepk.SubscriptionId
+                                join feature in _context.SubscriptionFeatures on managepk.FeatureId equals feature.FeatureId
+                                where package.JyotishId == model.JyotishId && package.Status && feature.ServiceUrl.ToLower() == "/jyotish/pooja"
+                                select managepk.ServiceCount).FirstOrDefault();
+            if (totalUsedServiceCount > serviceCount)
+            {
+                return false;
+            }
+
             var res = _context.JyotishPooja.Where(e => e.poojaType == model.poojaType && e.JyotishId == model.JyotishId && e.status).FirstOrDefault();
 
             if (res != null)
@@ -2736,6 +2844,7 @@ namespace BusinessAccessLayer.Implementation
             return res;
         }
 
+       
 
     }
 }

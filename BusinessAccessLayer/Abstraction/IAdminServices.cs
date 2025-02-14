@@ -160,8 +160,14 @@ namespace BusinessAccessLayer.Abstraction
         public bool ChangeActiveMail(int id);
         public dynamic GetActivemail();
         public dynamic GetAllActivemail();
+        public string AddAdminVideo(AdminVideoService model);
+        public bool UpdateVideo(AdminVideoService model);
+        public bool RemoveVideo(int id);
+        public dynamic GetAdminVideoList();
 
         public bool DeleteActiveMail(int id);
-
+        public bool MakeContactComplete(int id);
+        public dynamic GetEnquiryList();
+        public dynamic GetEnquiryHistoryList();
     }
 }

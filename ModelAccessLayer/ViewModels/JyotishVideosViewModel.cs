@@ -13,7 +13,7 @@ namespace ModelAccessLayer.ViewModels
         [Key]
         public int Id { get; set; }
         public string VideoTitle { get; set; }
-        public IFormFile Image { get; set; }
+        public IFormFile? Image { get; set; }
         public string VideoUrl { get; set; }
         public string SerialNo { get; set; }
         public int JyotishId { get; set; }

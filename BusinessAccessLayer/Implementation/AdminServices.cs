@@ -3276,6 +3276,91 @@ Expiry : <span>{res.startDate}-{res.endDate}</span>
             var res = _context.ActiveMail.Where(e => e.Status).OrderByDescending(e=>e.Id).ToList();
             return res;
         }
+        public bool MakeContactComplete(int id)
+        {
+            var res = _context.ContactUs.Where(e => e.Id == id && e.Status).FirstOrDefault();
+            if (res == null)
+            {
+                return false;
+            }
+            res.CompleteDate = DateTime.Now;
+            res.CompleteStatus = true;
+            _context.ContactUs.Update(res);
+            return _context.SaveChanges() > 0;
+        }
+
+        public dynamic GetEnquiryList()
+        {
+            var res = _context.ContactUs.Where(e => e.Status && !e.CompleteStatus).OrderByDescending(e=>e.Id).ToList();
+            return res;
+        }
+        public dynamic GetEnquiryHistoryList()
+        {
+            var res = _context.ContactUs.Where(e => e.Status && e.CompleteStatus).OrderByDescending(e=>e.Id).ToList();
+            return res;
+        }
+        public string AddAdminVideo(AdminVideoService model)
+        {
+            if (model == null) { return "invalid data"; }
+            var gallerySrCount = _context.AdminVideos.Where(e => e.status && Convert.ToInt32(e.serialNumber) >= Convert.ToInt32(model.serialNumber)).ToList();
+            int srCount = 1;
+            foreach (var item in gallerySrCount)
+            {
+                item.serialNumber = Convert.ToInt32(model.serialNumber) + srCount;
+                srCount++;
+            }
+            _context.AdminVideos.UpdateRange(gallerySrCount);
+            AdminVideos data = new AdminVideos();
+            data.Title = model.Title;
+            data.VideoUrl = model.VideoUrl;
+            data.Description = model.Description;
+            data.serialNumber = model.serialNumber;
+            data.Date = DateTime.Now;
+            _context.AdminVideos.Add(data);
+            if (_context.SaveChanges() > 0) { return "Successful"; }
+            else { return "internal server Error"; }
+        }
+
+        public bool UpdateVideo(AdminVideoService model)
+        {
+            var res = _context.AdminVideos.Where(e => e.Id == model.Id && e.status).FirstOrDefault();
+            if (res == null)
+            {
+                return false;
+            }
+            var gallerySrCount = _context.AdminVideos.Where(e => e.status && Convert.ToInt32(e.serialNumber) >= Convert.ToInt32(model.serialNumber)).ToList();
+            int srCount = 1;
+            foreach (var item in gallerySrCount)
+            {
+                item.serialNumber = Convert.ToInt32(model.serialNumber) + srCount;
+                srCount++;
+            }
+            _context.AdminVideos.UpdateRange(gallerySrCount);
+            res.Title = model.Title;
+            res.VideoUrl = model.VideoUrl;
+            res.serialNumber = model.serialNumber;
+            res.Description = model.Description;
+            _context.AdminVideos.Update(res);
+            return _context.SaveChanges() > 0;
+        }
+        public bool RemoveVideo(int id)
+        {
+            var res = _context.AdminVideos.Where(e => e.Id == id).FirstOrDefault();
+            if (res == null)
+            {
+                return false;
+            }
+
+            res.status = false;
+            _context.AdminVideos.Update(res);
+            return _context.SaveChanges() > 0;
+        }
+
+        public dynamic GetAdminVideoList()
+        {
+            var res = _context.AdminVideos.Where(e => e.status).ToList();
+            return res;
+        }
 
     }
 }

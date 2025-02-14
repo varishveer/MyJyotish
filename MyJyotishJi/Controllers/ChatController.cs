@@ -585,7 +585,6 @@ namespace MyJyotishGApi.Controllers
                             string jsonString = JsonConvert.SerializeObject(new { status = true, type = requestType == "call" && sendBy == "client" ? _clientRoomId.Count > 0 ? "call" : "chat" : requestType, roomId = requestType == "call" && sendBy == "client" && _clientRoomId.Count > 0 ? _clientRoomId.Where(e => e.Key == recipientId).First().Value : roomId = requestType == "call" && sendBy != "client" ? roomId : null, data = userRequestRecord });
                             var msgBuffer = System.Text.Encoding.UTF8.GetBytes(jsonString);
                             await recipientSocket.SendAsync(new ArraySegment<byte>(msgBuffer), result.MessageType, result.EndOfMessage, CancellationToken.None);
-
                         }
 
                     }

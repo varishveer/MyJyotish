@@ -14,7 +14,7 @@ namespace ModelAccessLayer.ViewModels
         public int Id { get; set; }
         public string ImageTitle { get; set; }
         public string SerialNo { get; set; }
-        public IFormFile ImageUrl { get; set; }
+        public IFormFile? ImageUrl { get; set; }
         public int JyotishId { get; set; }
     }
 }

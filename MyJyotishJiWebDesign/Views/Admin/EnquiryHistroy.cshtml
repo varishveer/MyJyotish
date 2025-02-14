@@ -1,0 +1,66 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+
+<div class="container">
+
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Sr</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Raise Date</th>
+                    <th>Completed Date</th>
+                    <th>Message</th>
+                </tr>
+            </thead>
+            <tbody id="enquiryContainer">
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<script>
+    $(document).ready(function(){
+         $.ajax({
+               url: BaseUrl + "api/Admin/GetEnquiryHistoryList",
+               type: 'GET',
+               headers: {
+                   'Authorization': `Bearer ${localStorage.getItem("Token")}`,
+                   'Content-Type': 'application/json',
+               },
+               success: function (res) {
+                   console.log(res); // Log the API response
+                   if(res.status==200){
+                   $.each(res.data, function (key, item) {
+                   $('#enquiryContainer').append(`
+                   <tr>
+                   <td>${key+1}</td>
+                   <td>${item.name}</td>
+                   <td>${item.email}</td>
+                   <td>${item.date.split('T')[0]} ${item.date.split('T')[1]}</td>
+                   <td>${item.completeDate.split('T')[0]} ${item.completeDate.split('T')[1]}</td>
+                   <td>${item.message}</td>
+                   
+                   </tr>
+                   `);
+
+
+                   });
+                   }
+
+                   // Initialize DataTable after the data is loaded
+
+               },
+               error: function (errormessage) {
+                   console.error('Error fetching data:', errormessage.responseText);
+               }
+           });
+           });
+</script>

@@ -83,6 +83,8 @@ namespace BusinessAccessLayer.Abstraction
         public dynamic getUserServiceRevordForUser(int userId);
 
         public bool UpdateUserService(int userId, int action, double totalTime);
+        public bool AddContactUs(ContactUsServices cs);
+       
 
     }
 

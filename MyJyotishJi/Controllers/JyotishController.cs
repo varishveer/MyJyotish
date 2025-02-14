@@ -329,7 +329,48 @@ public IActionResult AddJyotishGallery(JyotishGalleryViewModel model)
 		return StatusCode(500, new { Status = 500, Message = ex.Message, Error = ex });
 	}
 }
+		[HttpGet("RemoveJyotishGallery")]
+		public IActionResult RemoveJyotishGallery(int id)
+		{
+			try
+			{
+				var res = _jyotish.RemoveGallery(id);
+				if (res)
+				{
+					return Ok(new { status = 200, message = "Image deleted successfully" });
+				}
+				else
+				{
+					return Ok(new { status = 500, message = "Something went wrong" });
 
+				}
+			}catch(Exception ex)
+			{
+                return Ok(new { status = 500, message = "Something went wrong",error=ex });
+
+            }
+        }
+		[HttpPost("UpdateGallery")]
+		public IActionResult UpdateGallery(JyotishGalleryViewModel gm)
+		{
+			try
+			{
+				var res = _jyotish.UpdateGallery(gm);
+				if (res)
+				{
+					return Ok(new { status = 200, message = "Image updated successfully" });
+				}
+				else
+				{
+					return Ok(new { status = 500, message = "Something went wrong" });
+
+				}
+			}catch(Exception ex)
+			{
+                return Ok(new { status = 500, message = "Something went wrong",error=ex });
+
+            }
+        }
 
 
 // Method to fetch Jyotish gallery images by Jyotish ID
@@ -360,8 +401,52 @@ public IActionResult JyotishVideos(int id)
 		return StatusCode(500, new { Status = 500, Message = ex.Message, Error = ex });
 	}
 }
+        [HttpGet("RemoveJyotishVideo")]
+        public IActionResult RemoveJyotishVideo(int id)
+        {
+            try
+            {
+                var res = _jyotish.RemoveVideo(id);
+                if (res)
+                {
+                    return Ok(new { status = 200, message = "Video deleted successfully" });
+                }
+                else
+                {
+                    return Ok(new { status = 500, message = "Something went wrong" });
 
-[HttpGet("GetProfile")]
+                }
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { status = 500, message = "Something went wrong", error = ex });
+
+            }
+        }
+		[HttpPost("UpdateVideo")]
+        public IActionResult UpdateVideo(JyotishVideosViewModel vm)
+        {
+            try
+            {
+                var res = _jyotish.UpdateVideo(vm);
+                if (res)
+                {
+                    return Ok(new { status = 200, message = "Video updated successfully" });
+                }
+                else
+                {
+                    return Ok(new { status = 500, message = "Something went wrong" });
+
+                }
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { status = 500, message = "Something went wrong", error = ex });
+
+            }
+        }
+
+        [HttpGet("GetProfile")]
 public IActionResult GetProfile(int Id)
 {
 	try
@@ -1326,7 +1411,7 @@ public IActionResult AddJyotishPooja()
 		}
 		else
 		{
-			return Ok(new { status = 500, message = "Something went wrong or maybe Pooja Type already selected" });
+			return Ok(new { status = 500, message = "Something went wrong or maybe Pooja Type already selected or maybe you reached your limit." });
 
 		}
 	}
@@ -1596,6 +1681,7 @@ public IActionResult removePoojaBookmark(int id)
             return Ok(new { status = 500, message = "some error occured" });
 
         }
+		
 
 
     }
