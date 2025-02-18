@@ -55,8 +55,7 @@ namespace MyJyotishJiWebDesign.Controllers
             return View(res);
         }
 
-        [HttpPost]
-        public IActionResult Search(string? filterValue,string? searchInput) {
+        public IActionResult Search(string filterValue,string searchInput) {
             ViewBag.filterValue = filterValue;
             ViewBag.searchInput = searchInput;
             return View(); 
@@ -150,6 +149,10 @@ namespace MyJyotishJiWebDesign.Controllers
             return View();
         } 
         public IActionResult FrequentlyAskQuestion()
+        {
+            return View();
+        }
+        public IActionResult MoreVideos()
         {
             return View();
         }

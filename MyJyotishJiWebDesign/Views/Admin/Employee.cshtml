@@ -32,7 +32,7 @@
                 </div>
             <div class="col-sm-6">
                 Date of Birth
-                    <input type="date" required placeholder="dd/mm/yyyy" id="dob" class="form-control mb-2" name="dob" />
+                    <input type="date" required placeholder="dd/mm/yyyy" max="@DateTime.Now.AddYears(-18).ToString("yyyy-MM-dd")" id="dob" class="form-control mb-2" name="dob" />
             </div>
             <div class="col-sm-6">
                 Department

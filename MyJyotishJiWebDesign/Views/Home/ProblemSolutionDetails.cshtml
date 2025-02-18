@@ -4,8 +4,6 @@
 
 <!-- External CSS for styling -->
 <style>
-    
-    
 
     .card {
         background: rgba(255, 255, 255, 0.8);
@@ -23,13 +21,9 @@
     .section-title {
         font-weight: bold;
         font-size: 1.2rem;
-        color: #343a40;
         margin-top: 1rem;
 
     }
-
-   
-
         .problem-solution img {
             max-width: 100%; /* Ensure images are responsive */
             height: auto; /* Maintain aspect ratio */
@@ -40,16 +34,13 @@
         font-style: italic;
     }
 
-    #profileData{
-        background: #f0f0f0;
-    }
 </style>
 
 <!-- Main container for profile data -->
 <div class="container my-3">
     <div class="row justify-content-center">
         <div class="col-lg-12 col-md-12">
-            <div id="profileData" class="card p-4 shadow-sm">
+            <div id="profileData" class="card p-4 ">
                 <div class="text-center">
                     <!-- Profile Image Placeholder -->
                   
@@ -130,8 +121,8 @@
                             data.forEach(function (d) {
                                 const content = `
                                            <div class="container my-3 text-end">
-                                                <button role='button' class='btn btn-info' onClick='printReceipt(${JSON.stringify(d)})' type='button'><i class="fas fa-print"></i></button>
-                                                   <button role="button" type="button" class="btn btn-secondary attachmentModaltriggerforUpdate" onClick='getUserAttachment(${d.appointmentId},${d.memberId})' ><i class="fas fa-paperclip"></i></button>
+                                                <button role='button' class='btn btn-info' onClick='printReceipt(${JSON.stringify(d)})' type='button'><i class="fas fa-print"></i> Print</button>
+                                                   <button role="button" type="button" class="btn btn-secondary attachmentModaltriggerforUpdate" onClick='getUserAttachment(${d.appointmentId},${d.memberId})' ><i class="fas fa-paperclip"></i> Attachments</button>
                                         
                                     </div>
                                     <div class="border shadow rounded p-3 problem-solution-container">

@@ -30,29 +30,67 @@
 		min-width: 250px;
 	}
 
-	#astrologers-container::-webkit-scrollbar {
+	.customeScroller::-webkit-scrollbar {
 		height: 5px;
 	}
 
-	#astrologers-container::-webkit-scrollbar-thumb {
+	.customeScroller::-webkit-scrollbar-thumb {
 		background: #e8985f;
 	}
 
-	#astrologers-container::-webkit-scrollbar-track {
+	.customeScroller::-webkit-scrollbar-track {
 		background: #fcdfb6;
 	}
 
 	#SliderImageHomePage {
-		height: 60vh;
+		/* height: 60vh; */
 	}
 
 	.banner {
 		background-size: cover;
 		background-position: center;
 	}
+
+	.cardscontainer {
+		position: relative;
+		width: 80%;
+		max-width: 200px;
+		height: 250px;
+		margin: auto;
+		padding: 10px;
+		background-color: #F5F5F5;
+		border: 3px solid #fcd65e;
+		text-align: center;
+		border-radius: 10px;
+		box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.9);
+		font-family: "oswald";
+		padding: 0;
+	}
+
+	.foto-perfil img {
+		width: 150px;
+		height: 150px;
+		border-radius: 50%;
+		border: 5px solid #ffe735;
+		padding: 3px;
+		margin-top: 10px;
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+		left: 50%;
+		top: 75px;
+	}
+
+	.fondo-texto {
+		background-color: #F5E1F7;
+		margin: 20px 0 0 0; /* Elimina cualquier margen */
+		text-align: center;
+		width: 100%; /* Asegura que ocupe todo el ancho */
+		padding: 0 0 10px 0;
+		box-sizing: border-box; /* Evita que el padding afecte el ancho total */
+	}
+
 </style>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js" integrity="sha512-Tn2m0TIpgVyTzzvmxLNuqbSJH3JP8jm+Cy3hvHrW7ndTDcJ1w5mBiksqDBb8GpE2ksktFvDB/ykZ0mDpsZj20w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+@* <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" /> *@
+@* <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js" integrity="sha512-Tn2m0TIpgVyTzzvmxLNuqbSJH3JP8jm+Cy3hvHrW7ndTDcJ1w5mBiksqDBb8GpE2ksktFvDB/ykZ0mDpsZj20w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> *@
 
 <!-- Book A Pooja Section -->
 <div id="astroBookPoojacontainer-fluid" class="fixed-section rounded">
@@ -64,9 +102,7 @@
 
 	</div>
 
-
 </div>
-
 
 
 <!-- Banners (Carousel) -->
@@ -84,51 +120,52 @@
 </div>
 
 <div class="container-fluid">
-	<div class="container-fluid mb-5 mt-2">
-		<h3 class="text-center mb-5">Our Services</h3>
-		<div class="row  justify-content-between p-1">
-				<div class="col-6 col-md-2  mb-4 service-card rounded  text-center  ">
-			<a class="text-decoration-none text-dark" href="/home/Astrology">
+	<div class="container-fluid mb-3 mt-2">
+		<h3 class="text-center mb-3">Our Services</h3>
+		<div class="row flex-nowrap overflow-auto customeScroller gap-4 justify-content-between p-1">
+
+			<div class="col-6 col-md-2 cardscontainer mb-4 service-card rounded  text-center  ">
+				<a class="text-decoration-none text-dark foto-perfil" href="/home/Astrology">
 					<img src="https://api.myjyotishg.in/Images/Tabs/Astrology.jpg"
 						 class="card-img-top rounded-circle servicecard"
 						 alt="Astrology" />
-					<p class="card-title mt-2">
+					<p class="card-title fw-bold fondo-texto mt-2">
 						Astrology
 					</p>
 			</a>
 				</div>
-			<div class="col-6 col-md-2 mb-4 service-card rounded text-center ">
-				<a class="text-decoration-none text-dark" href="/home/Palmistry">
+			<div class="col-6 col-md-2 cardscontainer mb-4 service-card rounded text-center ">
+				<a class="text-decoration-none foto-perfil text-dark" href="/home/Palmistry">
 				<img src="https://api.myjyotishg.in/Images/Tabs/Palmistry.jpg"
 					 class="card-img-top rounded-circle servicecard"
 					 alt="Palmistry" />
-				<p class="card-title mt-2">Palmistry</p>
+					<p class="card-title fw-bold fondo-texto mt-2">Palmistry</p>
 				</a>
 			</div>
-			<div class="col-6 col-md-2 mb-4 service-card rounded text-center">
-				<a class="text-decoration-none text-dark" href="/home/Tarot">
+			<div class="col-6 col-md-2 mb-4 cardscontainer service-card rounded text-center">
+				<a class="text-decoration-none text-dark foto-perfil" href="/home/Tarot">
 				<img src="https://api.myjyotishg.in/Images/Tabs/tarot.png"
 					 class="card-img-top rounded-circle servicecard"
 					 alt="Tarot" />
-				<p class="card-title mt-2">
+					<p class="card-title fw-bold fondo-texto mt-2">
 				Tarot</p>
 				</a>
 			</div>
-			<div class="col-6 col-md-2 mb-4 service-card  rounded text-center">
-				<a class="text-decoration-none text-dark" href="/home/Vastu">
+			<div class="col-6 col-md-2 mb-4 cardscontainer service-card  rounded text-center">
+				<a class="text-decoration-none text-dark foto-perfil" href="/home/Vastu">
 				<img src="https://api.myjyotishg.in/Images/Tabs/vastu.jpg"
 					 class="card-img-top rounded-circle servicecard"
 					 alt="Vastu" />
-				<p class="card-title mt-2">
+					<p class="card-title fw-bold fondo-texto mt-2">
 					Vastu</p>
 					</a>
 			</div>
-			<div class="col-12 col-md-2 mb-4 service-card rounded text-center">
-				<a class="text-decoration-none text-dark" href="/home/Compatibility">
+			<div class="col-12 col-md-2 mb-4 cardscontainer service-card rounded text-center">
+				<a class="text-decoration-none text-dark foto-perfil" href="/home/Compatibility">
 				<img src="https://api.myjyotishg.in/Images/Tabs/Horoscope.jpg"
 					 class="card-img-top rounded-circle servicecard    "
 					 alt="Horoscope" />
-				<p class="card-title mt-2">
+					<p class="card-title fw-bold fondo-texto mt-2">
 					Compatibility</p>
 				</a>
 			</div>
@@ -136,18 +173,19 @@
 	</div>
 
 	<!-- Top Astrologers -->
-	<div class="container-fluid my-5">
-		<h3 class="text-center mb-5">Top Astrologers</h3>
+	<div class="container-fluid mt-4">
+		<h3 class="text-center mb-3">Top Astrologers</h3>
 		<div class="row">
 			<div class="col-sm-12">
-				<div class="row flex-nowrap gap-3 justify-content-between overflow-auto" id="astrologers-container"></div>
+				<div class="row flex-nowrap customeScroller gap-3 justify-content-between overflow-auto" id="astrologers-container"></div>
 			</div>
 		</div>
+		<div class="text-center mt-2"><a href="/Home/Search" class="btn btn-warning text-light fw-bold">See More</a></div>
 	</div>
 
 
 	<!-- Small Banner -->
-	<div class="container-fluid my-3">
+	<div class="container-fluid my-4">
 		<div class="row">
 			@if(Model!=null){
 
@@ -223,10 +261,10 @@
 	</style>
 
 	<!-- Services Section -->
-	<div class="container-fluid my-5">
-		<h3 class="text-center mb-5">Services</h3>
+	<div class="container-fluid my-3">
+		<h3 class="text-center mb-4">Services</h3>
 
-		<div class="row SSBgColor rounded p-2 mb-5">
+		<div class="row SSBgColor rounded p-2 mb-2">
 			<div class="col-md-9">
 				<h3>Astrology</h3>
 				<p style="text-align: justify;">
@@ -235,13 +273,13 @@
 
 				</p>
 			</div>
-			<div class="col-md-3 text-center d-flex flex-column align-items-center justify-content-center ">
+			<div class="col-md-3 text-center d-flex flex-column justify-content-center ">
 				<img src="https://api.myjyotishg.in/Images/Services/AstrologyServices.jpeg" style="height:200px;" class="img-fluid rounded" alt="Astrology Services Image">
 			</div>
 		</div>
 
-		<div class="row SSBgColor rounded p-2 mb-5">
-			<div class="col-md-3 text-center d-flex flex-column align-items-center justify-content-center ">
+		<div class="row SSBgColor rounded p-2 mb-2">
+			<div class="col-md-3 text-center d-flex flex-column justify-content-center ">
 				<img src="https://api.myjyotishg.in/Images/Services/PoojaServices.jpeg" style="height:200px;" class="img-fluid rounded" alt="Pooja Services Image">
 			</div>
 			<div class="col-md-9">
@@ -253,7 +291,7 @@
 			</div>
 		</div>
 
-		<div class="row SSBgColor rounded p-2 mb-5">
+		<div class="row SSBgColor rounded p-2 mb-2">
 			<div class="col-md-9">
 				<h3>Palmistry</h3>
 				<p style="text-align: justify;">
@@ -261,13 +299,13 @@
 					Astrology explores the influence of celestial bodies on human behavior and events. Rooted in ancient traditions, it involves creating charts based on planetary positions to interpret personality traits and predict future outcomes. Despite its lack of scientific backing.<br />
 				</p>
 			</div>
-			<div class="col-md-3 text-center d-flex flex-column align-items-center justify-content-center">
+			<div class="col-md-3 text-center d-flex flex-column justify-content-center">
 				<img src="https://api.myjyotishg.in/Images/Services/horoscope.jpeg" style="height:200px;" class="img-fluid rounded" alt="Palmistry Services Image">
 			</div>
 		</div>
 
-		<div class="row SSBgColor rounded p-2 mb-5">
-			<div class="col-md-3 text-center d-flex flex-column align-items-center justify-content-center ">
+		<div class="row SSBgColor rounded p-2 mb-2">
+			<div class="col-md-3 text-center d-flex flex-column justify-content-center ">
 				<img src="https://api.myjyotishg.in/Images/Services/Vastu.jpeg" style="height:200px;" class="img-fluid rounded" alt="Vastu Services Image">
 			</div>
 			<div class="col-md-9">
@@ -279,7 +317,7 @@
 			</div>
 		</div>
 
-		<div class="row SSBgColor rounded p-2 mb-5">
+		<div class="row SSBgColor rounded p-2 mb-2">
 			<div class="col-md-9">
 				<h3>Tarot</h3>
 				<p style="text-align: justify;">
@@ -287,13 +325,13 @@
 					Astrology explores the influence of celestial bodies on human behavior and events. Rooted in ancient traditions, it involves creating charts based on planetary positions to interpret personality traits and predict future outcomes. Despite its lack of scientific backing.<br />
 				</p>
 			</div>
-			<div class="col-md-3 text-center d-flex flex-column align-items-center justify-content-center ">
+			<div class="col-md-3 text-center d-flex flex-column justify-content-center ">
 				<img src="https://api.myjyotishg.in/Images/Services/Tarot.jpeg" style="height:200px;" class="img-fluid rounded" alt="Tarot Services Image">
 			</div>
 		</div>
 
-		<div class="row SSBgColor rounded p-2 mb-5">
-			<div class="col-md-3 text-center d-flex flex-column align-items-center justify-content-center ">
+		<div class="row SSBgColor rounded p-2 mb-2">
+			<div class="col-md-3 text-center d-flex flex-column justify-content-center ">
 				<img src="https://api.myjyotishg.in/Images/Services/KundaliServiceSection.jpeg" style="height:200px;" class="img-fluid rounded" alt="Kundli Services Image">
 			</div>
 			<div class="col-md-9">
@@ -306,7 +344,7 @@
 
 		</div>
 
-		<div class="row SSBgColor rounded p-2 mb-5">
+		<div class="row SSBgColor rounded p-2 mb-2">
 			<div class="col-md-9">
 				<h3>Horoscope</h3>
 				<p style="text-align: justify;">
@@ -314,14 +352,14 @@
 					Astrology explores the influence of celestial bodies on human behavior and events. Rooted in ancient traditions, it involves creating charts based on planetary positions to interpret personality traits and predict future outcomes. Despite its lack of scientific backing.<br />
 				</p>
 			</div>
-			<div class="col-md-3 text-center d-flex flex-column align-items-center justify-content-center ">
+			<div class="col-md-3 text-center d-flex flex-column justify-content-center ">
 				<img src="https://api.myjyotishg.in/Images/Services/Horoscope.jpeg" style="height:200px;" class="img-fluid rounded" alt="Horoscope Services Image">
 			</div>
 		</div>
 
-		<div class="row SSBgColor rounded p-2 mb-5">
+		<div class="row SSBgColor rounded p-2 mb-2">
 
-			<div class="col-md-3 text-center d-flex flex-column align-items-center justify-content-center ">
+			<div class="col-md-3 d-flex flex-column justify-content-center ">
 				<img src="https://api.myjyotishg.in/Images/Services/KundaliMatchingFreeService.jpeg" style="height:200px;" class="img-fluid rounded" alt="Kundli Matching Services Image">
 			</div>
 			<div class="col-md-9">
@@ -342,60 +380,11 @@
 				<h3>Trending Videos</h3>
 				<hr>
 			</div>
-			<div class="row">
-				<div class="col-lg-4 col-md-4 col-sm-4 col-12 mb-3">
-					<div>
-						<div class="mb-3">
-							<iframe class="rounded" width="100%" height="215" src="https://www.youtube.com/embed/CpqQFCIQURY?si=KqEc3aR1J1Adk3p_"></iframe>
-
-						</div>
-						<div>
-							<h5><a href="#" style="text-decoration:none;">How To Read Your Own Hand/Palm </a></h5>
-							<p>Consectetur adipisicing elit. Laborum fuga incidunt laboriosam voluptas iure, delectus..</p>
-							<a href="#" class="btn btn-danger">Read More</a>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-4 col-sm-4 col-12 mb-3">
-					<div>
-						<div class="mb-3">
-							<iframe class="rounded" width="100%" height="215" src="https://www.youtube.com/embed/LqEoMx0Cmt8?si=1qnohuRjU-0cvvVh"></iframe>
-
-						</div>
-						<div>
-							<h5><a href="#" style="text-decoration:none;">Masterclass on ASTROLOGY | Watch now </a></h5>
-							<p>Consectetur adipisicing elit. Laborum fuga incidunt laboriosam voluptas iure, delectus..</p>
-							<a href="#" class="btn btn-danger">Read More</a>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-4 col-sm-4 col-12 mb-3">
-					<div>
-						<div class="mb-3">
-							<iframe class="rounded" width="100%" height="215" src="https://www.youtube.com/embed/ynOX3sGnnG0?si=-5EV_ZqjAxdwG0-v"></iframe>
-
-						</div>
-						<div>
-							<h5>
-								<a href="#" style="text-decoration:none;">
-									Will we get solution through Astrologer
-								</a>
-							</h5>
-							<p>Consectetur adipisicing elit. Laborum fuga incidunt laboriosam voluptas iure, delectus..</p>
-							<a href="#" class="btn btn-danger">Read More</a>
-						</div>
-					</div>
-				</div>
+			<div class="row" id="adminvideoContainer">
 			</div>
 		</div>
 	</section>
 </div>
-
-
-
-
-
-
 <script>
 	$(document).ready(function () {
 		function fetchSliderImages() {
@@ -432,7 +421,7 @@
 				const isActive = index === 0 ? 'active' : ''; // Set the first image as active
 				const carouselItem = `
 						<div class="carousel-item ${isActive}">
-							<img src="${BaseUrl + image.imageUrl}" class="d-block w-100 banner " alt="Banner ${index + 1}">
+							<img src="${BaseUrl + image.imageUrl}" class="d-block w-100 banner" height="500" alt="Banner ${index + 1}">
 						</div>
 					`;
 				container.append(carouselItem); // Append image to the container
@@ -513,6 +502,39 @@
 		function generateFullStars() {
 			return '<i class="fa fa-star"></i>'.repeat(5); // Return 5 filled stars
 		}
+
+
+		function getAdminVideo(){
+			$.ajax({
+			url: BaseUrl + 'Api/admin/GetTop3AdminVideoList',
+			method: 'GET',
+			success: function (response) {
+				if (response.status === 200) {
+					if(response.data.length>0){
+						response.data.forEach(function(d){
+	$("#adminvideoContainer").append(`
+	<div class="col-lg-4 col-md-4 col-sm-4 col-12 mb-3">
+					<div>
+						<div class="mb-3">
+							<iframe class="rounded" width="100%" height="215" src="${d.videoUrl}"></iframe>
+
+						</div>
+						<div>
+							<h5><a target="_blank" class="text-secondary" href="${d.videoUrl}" style="text-decoration:none;">${d.title.slice(0,70)}.. </a></h5>
+							<p>${d.description.slice(0,150)}..</p>
+							<a href="/home/MoreVideos" class="btn btn-danger">See More</a>
+						</div>
+					</div>
+				</div>
+						`)
+						})
+					
+					}
+				}
+			}
+			})
+		}
+		getAdminVideo();
 	});
 
 </script>

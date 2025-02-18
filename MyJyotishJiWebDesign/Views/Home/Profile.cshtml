@@ -1,262 +1,228 @@
-﻿
-
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<style>
+﻿<style>
+	/* Main Container */
 	.profile-container {
-		max-width: 1170px;
-		margin: 2rem auto;
+		max-width: 1300px;
+		margin: 1rem auto;
+		padding: 2rem;
 	}
 
-	.profile-sidebar {
-		background-color: white;
-		padding: 20px;
-		border-radius: 8px;
-		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	/* Profile Sidebar */
+	.sidebar-container {
+		background-color: #fff;
+		padding: 25px;
+		border-radius: 12px;
+		box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 		position: sticky;
-		top: 50px;
+		top: 70px;
+		min-height:60vh;
 	}
 
-	.profile-photo {
-		width: 150px;
-		height: 150px;
+	/* Profile Image */
+	.profile-img {
+		width: 140px;
+		height: 140px;
 		border-radius: 50%;
-		border: 5px solid #fff;
-		margin-bottom: 20px;
+		border: 5px solid #e0e0e0;
 		object-fit: cover;
+		margin-bottom: 30px;
+		box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
 	}
 
+	/* Button Styling */
+	.button-group {
+		display: flex;
+		justify-content: center;
+		gap: 15px;
+		margin-top: 20px;
+	}
+
+		.button-group button {
+			border-radius: 50px;
+			padding: 10px 20px;
+			font-weight: 600;
+		}
+
+		.button-group .btn-edit {
+			background-color: #3498db;
+			color: #fff;
+			border: none;
+			transition: background-color 0.3s ease-in-out;
+		}
+
+			.button-group .btn-edit:hover {
+				background-color: #2980b9;
+			}
+
+		.button-group .btn-change-password {
+			background-color: #f39c12;
+			color: #fff;
+			border: none;
+			transition: background-color 0.3s ease-in-out;
+		}
+
+			.button-group .btn-change-password:hover {
+				background-color: #e67e22;
+			}
+
+	/* Profile Main Section */
 	.profile-main {
 		background-color: #fff;
-		padding: 20px;
-		border-radius: 8px;
+		padding: 30px;
+		border-radius: 12px;
+		box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
 	}
 
+	/* Section Title */
 	.section-title {
-		font-size: 16px;
-		margin-bottom: 15px;
-		font-weight: 600;
-		color: #333;
+		font-size: 20px;
+		font-weight: 700;
+		color: #2c3e50;
+		margin-bottom: 30px;
 	}
 
-	.profile-detals-container {
-		min-height: 70vh;
-		background: #f2f2f2;
+	/* Profile Details */
+	.profile-details {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		grid-gap: 30px;
 	}
 
+	/* Label and Value Styling */
 	.detail-label {
 		font-weight: 500;
-		color: #6c757d;
-		font-size: 14px;
+		color: #7f8c8d;
+		font-size: 16px;
 	}
 
 	.detail-value {
-		font-weight: 600;
-		color: #495057;
-		font-size: 14px;
+		font-weight: 700;
+		color: #34495e;
+		font-size: 16px;
 	}
 
-	.img-container {
-		background: #d2e2fc;
-	}
-
-	.loader-container {
-		display: none !important;
-	}
-
-	@@media screen and (max-width:575px) {
-		.profile-detals-container {
-			width: 100% !important;
+		/* Hover effect for detail values */
+		.detail-value:hover {
+			color: #3498db;
+			cursor: pointer;
 		}
+
+	/* Background for the Image Section */
+	.image-background {
+		background-color: #ecf0f1;
+		padding: 20px;
+		border-radius: 12px;
 	}
 
-	#PlaceOfBirthList {
-		height: 250px;
-		padding: 10px;
-		overflow: auto;
-		z-index: 999;
+	/* Responsive Design */
+	@@media screen and (max-width: 768px) {
+		.profile-details
+
+	{
+		grid-template-columns: 1fr;
 	}
 
-	.pOBPtag:hover {
-		background-color: skyblue;
-		color: white;
+	.profile-container {
+		padding: 15px;
 	}
 
-	#exampleModal {
-		z-index: 10000000;
 	}
 
-	.swal2-container {
-		z-index: 100000000;
-	}
-
-	.datepicker {
-		z-index: 10000000000 !important;
+	#exampleModal{
+		z-index:10000 !important;
 	}
 </style>
 
-<div class="container profile-container ">
-	<div class="shadow rounded-3 w-100 mx-auto profile-detals-container">
-		<div class="row p-4 mt-2 h-100 justify-content-center">
-			<!-- Left Sidebar -->
-			<div class="col-md-4 h-100 p-2 rounded img-container">
-				<div class="row">
-					<div class="mb-3 col-sm-12 text-center">
-						<img id="profileImage" src="~/Img/UserPlaceholder.png" alt="Profile Image" class="profile-photo border">
-					</div>
+<div class="container profile-container">
+	<div class="row shadow rounded-4 w-100 h-100 mx-auto">
+		<!-- Sidebar Section -->
+		<div class="col-md-4 sidebar-container">
+			<div class="text-center">
+				<img id="profileImage" src="~/Img/UserPlaceholder.png" alt="Profile Image" class="profile-img">
+			</div>
+			<div class="button-group">
+				<button class="btn btn-edit" data-bs-toggle="modal" data-bs-target="#exampleModal">Edit Profile</button>
+				<button class="btn btn-change-password" id="changePasswordBtn">Change Password</button>
+			</div>
+		</div>
 
-					<div class="mb-3 col-sm-12 justify-content-center d-flex ">
-						<div class="d-flex gap-2">
-							<button class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#exampleModal">Edit Profile</button>
-							<button class="btn btn-outline-info" id="changePasswordBtn">Change Password</button>
+		<!-- Profile Details Section -->
+		<div class="col-md-8 profile-main">
+			<div class="section-title">Personal Information</div>
+			<div class="profile-details">
+				<div>
+					<div class="row mb-4">
+						<div class="col-6">
+							<span class="detail-label">Full Name</span>
+						</div>
+						<div class="col-6">
+							<span class="detail-value" id="name"></span>
+						</div>
+					</div>
+					<div class="row mb-4">
+						<div class="col-6">
+							<span class="detail-label">Email</span>
+						</div>
+						<div class="col-6">
+							<span class="detail-value" id="email"></span>
+						</div>
+					</div>
+					<div class="row mb-4">
+						<div class="col-6">
+							<span class="detail-label">Phone</span>
+						</div>
+						<div class="col-6">
+							<span class="detail-value" id="mobile"></span>
+						</div>
+					</div>
+					<div class="row mb-4">
+						<div class="col-6">
+							<span class="detail-label">City</span>
+						</div>
+						<div class="col-6">
+							<span class="detail-value" id="insCity"></span>
 						</div>
 					</div>
 				</div>
-			</div>
-			<!-- Right Profile Details -->
-			<div class="col-md-8 h-100">
-				<div class="section-title fw-bold fs-3 px-3">Personal Details</div>
-				<div class="row p-3">
-					<div class="col-sm-6 mb-2">
-						<div class="row">
-							<div class="col-6">
-								<span class="detail-label">Full Name</span>
-							</div>
-							<div class="col-6">
-								<span class="detail-value" id="name"></span>
-							</div>
+
+				<div>
+					<div class="row mb-4">
+						<div class="col-6">
+							<span class="detail-label">Gender</span>
+						</div>
+						<div class="col-6">
+							<span class="detail-value" id="gender"></span>
 						</div>
 					</div>
-					<div class="col-sm-6 mb-2">
-						<div class="row">
-							<div class="col-6">
-								<span class="detail-label">Email</span>
-							</div>
-							<div class="col-6">
-
-								<span class="detail-value" id="email"></span>
-							</div>
+					<div class="row mb-4">
+						<div class="col-6">
+							<span class="detail-label">Date of Birth</span>
+						</div>
+						<div class="col-6">
+							<span class="detail-value" id="dateOfBirth"></span>
 						</div>
 					</div>
-					<div class="col-sm-6 mb-2">
-						<div class="row">
-							<div class="col-6">
-								<span class="detail-label">Phone</span>
-
-							</div>
-							<div class="col-6">
-								<span class="detail-value" id="mobile"></span>
-
-							</div>
+					<div class="row mb-4">
+						<div class="col-6">
+							<span class="detail-label">Country</span>
+						</div>
+						<div class="col-6">
+							<span class="detail-value" id="insCountry"></span>
 						</div>
 					</div>
-					<div class="col-sm-6 mb-2">
-						<div class="row">
-							<div class="col-6">
-								<span class="detail-label">Gender</span>
-
-							</div>
-							<div class="col-6">
-								<span class="detail-value" id="gender"></span>
-
-							</div>
+					<div class="row mb-4">
+						<div class="col-6">
+							<span class="detail-label">State</span>
+						</div>
+						<div class="col-6">
+							<span class="detail-value" id="insState"></span>
 						</div>
 					</div>
-					<div class="col-sm-6 mb-2">
-						<div class="row">
-							<div class="col-6">
-								<span class="detail-label">Date of Birth</span>
-
-							</div>
-							<div class="col-6">
-								<span class="detail-value" id="dateOfBirth"></span>
-
-							</div>
+					<div class="row mb-4">
+						<div class="col-6">
+							<span class="detail-label">Postal Code</span>
 						</div>
-					</div>
-
-					<div class="col-sm-6 mb-2">
-						<div class="row">
-							<div class="col-6">
-								<span class="detail-label">Place Of Birth</span>
-
-							</div>
-							<div class="col-6">
-								<span class="detail-value" id="placeOfBirth"></span>
-
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-6 mb-2">
-						<div class="row">
-							<div class="col-6">
-								<span class="detail-label">Time Of Birth</span>
-
-							</div>
-							<div class="col-6">
-								<span class="detail-value" id="timeOfBirth"></span>
-
-							</div>
-						</div>
-					</div>
-
-
-					<div class="col-sm-6 mb-2">
-						<div class="row">
-							<div class="col-6">
-								<span class="detail-label">Country</span>
-
-							</div>
-							<div class="col-6">
-								<span class="detail-value" id="insCountry"></span>
-
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-6 mb-2">
-						<div class="row">
-							<div class="col-6">
-								<span class="detail-label">State</span>
-
-							</div>
-							<div class="col-6">
-								<span class="detail-value" id="insState"></span>
-
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-6 mb-2">
-						<div class="row">
-							<div class="col-6">
-								<span class="detail-label">City</span>
-
-							</div>
-							<div class="col-6">
-								<span class="detail-value" id="insCity"></span>
-
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-6 mb-2">
-						<div class="row">
-							<div class="col-6">
-								<span class="detail-label">Pincode</span>
-
-							</div>
-							<div class="col-6">
-								<span class="detail-value" id="insPincode"></span>
-
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-6 mb-2">
-						<div class="row">
-							<div class="col-6">
-								<span class="detail-label">Full Address</span>
-
-							</div>
-							<div class="col-6">
-								<span class="detail-value" id="insAddress"></span>
-							</div>
+						<div class="col-6">
+							<span class="detail-value" id="insPincode"></span>
 						</div>
 					</div>
 				</div>
@@ -645,12 +611,11 @@
 			}
 
 			$.ajax({
-				url: BaseUrl + 'Api/User/UpdateProfile',
+				url: BaseUrl + 'Api/User/UpdateProfiles',
 				type: 'POST',
 				headers: {
-					'Authorization': `Bearer ${localStorage.getItem("Token")}`,
-
-				},
+				'Authorization': `Bearer ${localStorage.getItem("Token")}`
+			},
 				contentType: false,
 				processData: false,
 				data: formdata,
@@ -765,11 +730,11 @@
 		Swal.fire({
 			title: 'Change Your Password',
 			html: `
-				<div class="form-group text-start">
+				<div class="form-group text-start mb-3">
 					<label for="oldPassword">Old Password</label>
 					<input id="oldPassword" class="form-control" type="password" placeholder="Old Password" autocomplete="off" required>
 				</div>
-				<div class="form-group text-start">
+				<div class="form-group text-start mb-3">
 					<label for="newPassword">New Password</label>
 					<input id="newPassword" class="form-control" type="password" placeholder="New Password" autocomplete="off" required>
 				</div>

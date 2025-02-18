@@ -295,7 +295,7 @@ namespace MyJyotishGApi.Controllers
 
 
 
-		[HttpPost("UpdateProfile")]
+		[HttpPost("UpdateProfiles")]
 		public IActionResult UpdateProfile()
 		{
 			try

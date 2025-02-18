@@ -3316,6 +3316,7 @@ Expiry : <span>{res.startDate}-{res.endDate}</span>
             data.Description = model.Description;
             data.serialNumber = model.serialNumber;
             data.Date = DateTime.Now;
+            data.status = true;
             _context.AdminVideos.Add(data);
             if (_context.SaveChanges() > 0) { return "Successful"; }
             else { return "internal server Error"; }
@@ -3358,7 +3359,12 @@ Expiry : <span>{res.startDate}-{res.endDate}</span>
 
         public dynamic GetAdminVideoList()
         {
-            var res = _context.AdminVideos.Where(e => e.status).ToList();
+            var res = _context.AdminVideos.Where(e => e.status).OrderBy(e=>e.serialNumber).ToList();
+            return res;
+        } 
+        public dynamic GetTop3AdminVideoList()
+        {
+            var res = _context.AdminVideos.Where(e => e.status).OrderBy(e => e.serialNumber).Take(3).ToList();
             return res;
         }
 

@@ -188,7 +188,7 @@ namespace BusinessAccessLayer.Implementation
             var Rating = RatingList.Any() ? RatingList.Average() : 0;
             // Fetch videos and gallery related to the Jyotish record
             var videos = _context.JyotishVideos
-                                 .Where(x => x.JyotishId == Id)
+                                 .Where(x => x.JyotishId == Id && x.Status)
                                  .Select(video => new JyotishVideosUserViewModel
                                  {
 
@@ -202,7 +202,7 @@ namespace BusinessAccessLayer.Implementation
                                  .ToArray();
 
             var gallery = _context.JyotishGallery
-                                  .Where(x => x.JyotishId == Id)
+                                  .Where(x => x.JyotishId == Id && x.Status)
                                   .Select(image => new JyotishGalleryUserViewModel
                                   {
                                       Id = image.Id,

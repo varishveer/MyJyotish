@@ -2399,8 +2399,17 @@ namespace MyJyotishJiApi.Controllers
         }
 
         [HttpPost("AddAdminVideo")]
-        public IActionResult AddAdminVideo(AdminVideoService model)
+        public IActionResult AddAdminVideo()
         {
+
+            var httpRequest = HttpContext.Request;
+            AdminVideoService model = new AdminVideoService
+            {
+                Title= httpRequest.Form["title"],
+                Description = httpRequest.Form["description"],
+                serialNumber = Convert.ToInt32(httpRequest.Form["serialNumber"]),
+                VideoUrl = httpRequest.Form["videoUrl"]
+            };
 
             var res = _admin.AddAdminVideo(model);
             if (res== "Successful")
@@ -2412,8 +2421,19 @@ namespace MyJyotishJiApi.Controllers
 
         }
         [HttpPost("UpdateVideo")]
-        public IActionResult UpdateVideo(AdminVideoService? model)
+        public IActionResult UpdateVideo()
         {
+            var httpRequest = HttpContext.Request;
+
+
+            AdminVideoService model = new AdminVideoService
+            {
+                Title = httpRequest.Form["title"],
+                Description = httpRequest.Form["description"],
+                serialNumber = Convert.ToInt32(httpRequest.Form["serialNumber"]),
+                VideoUrl = httpRequest.Form["videoUrl"],
+                Id = Convert.ToInt32(httpRequest.Form["id"])
+            };
             var res = _admin.UpdateVideo(model);
             if (res)
             {
@@ -2429,7 +2449,7 @@ namespace MyJyotishJiApi.Controllers
             var res = _admin.RemoveVideo(id);
             if (res)
             {
-                return Ok(new { status = 200, message = "Video updated successfully" });
+                return Ok(new { status = 200, message = "Video deleted successfully" });
 
             }
             return Ok(new { status = 500, message = "some error occured" });
@@ -2439,6 +2459,16 @@ namespace MyJyotishJiApi.Controllers
         public IActionResult GetAdminVideoList()
         {
             var res = _admin.GetAdminVideoList();
+            
+                return Ok(new { status = 200, message = "data retrieved",data=res });
+
+        }
+
+        [AllowAnonymous]
+        [HttpGet("GetTop3AdminVideoList")]
+        public IActionResult GetTop3AdminVideoList()
+        {
+            var res = _admin.GetTop3AdminVideoList();
             
                 return Ok(new { status = 200, message = "data retrieved",data=res });
 

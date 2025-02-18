@@ -273,7 +273,7 @@
                         </li> 
                         <li class="nav-item">
                             <a data-bs-toggle="collapse" href="#pooja">
-                                <i class="fas fa-pen-square"></i>
+                                <i class="fas fa-praying-hands"></i>
                                 <p>Pooja Records</p>
                                 <span class="caret"></span>
                             </a>
@@ -299,7 +299,7 @@
                         </li>
                         <li class="nav-item">
                             <a data-bs-toggle="collapse" href="#sidebarLayouts">
-                                <i class="fas fa-th-list"></i>
+                                <i class="fas fa-pray"></i>
                                 <p>jyotish Records</p>
                                 <span class="caret"></span>
                             </a>
@@ -330,7 +330,7 @@
                         </li>
                         <li class="nav-item">
                             <a data-bs-toggle="collapse" href="#tables">
-                                <i class="fas fa-table"></i>
+                                <i class="fas fa-user-alt"></i>
                                 <p>User Records</p>
                                 <span class="caret"></span>
                             </a>
@@ -345,10 +345,35 @@
                                 </ul>
                             </div>
                         </li>
-
+                        <li class="nav-item">
+                            <a data-bs-toggle="collapse" href="#employeelist">
+                                <i class="fas fa-user-tie"></i>
+                                <p>Employee</p>
+                                <span class="caret"></span>
+                            </a>
+                            <div class="collapse" id="employeelist">
+                                <ul class="nav nav-collapse">
+                                    <li>
+                                        <a href="/Admin/employee">
+                                            <span class="sub-item">Employees</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/Admin/employeeList">
+                                            <span class="sub-item">Employees List</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/Admin/EmployeeAccessPages">
+                                            <span class="sub-item">EmployeeAccessPages</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
                         <li class="nav-item">
                             <a data-bs-toggle="collapse" href="#feedback">
-                                <i class="fas fa-table"></i>
+                                <i class="fas fa-star"></i>
                                 <p>Rating</p>
                                 <span class="caret"></span>
                             </a>
@@ -372,7 +397,7 @@
                         </li> 
                         <li class="nav-item">
                             <a data-bs-toggle="collapse" href="#Enquiry">
-                                <i class="fas fa-table"></i>
+                                <i class="fas fa-comment-alt"></i>
                                 <p>Enquiry</p>
                                 <span class="caret"></span>
                             </a>
@@ -394,34 +419,10 @@
                               
                             </div>
                         </li>
-                        <li class="nav-item">
-                            <a data-bs-toggle="collapse" href="#employeelist">
-                                <i class="fas fa-table"></i>
-                                <p>Employee</p>
-                                <span class="caret"></span>
-                            </a>
-                            <div class="collapse" id="employeelist">
-                                <ul class="nav nav-collapse">
-                                    <li>
-                                        <a href="/Admin/employee">
-                                            <span class="sub-item">Employees</span>
-                                        </a>
-                                    </li>     <li>
-                                        <a href="/Admin/employeeList">
-                                            <span class="sub-item">Employees List</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="/Admin/EmployeeAccessPages">
-                                            <span class="sub-item">EmployeeAccessPages</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
+                       
                         <li class="nav-item">
                             <a data-bs-toggle="collapse" href="#advertisement">
-                                <i class="fas fa-table"></i>
+                                <i class="fas fa-ad"></i>
                                 <p>Advertisement</p>
                                 <span class="caret"></span>
                             </a>
@@ -442,7 +443,7 @@
                         </li> 
                         <li class="nav-item">
                             <a data-bs-toggle="collapse" href="#redeemCodeRequest">
-                                <i class="fas fa-table"></i>
+                                <i class="fas fa-barcode"></i>
                                 <p>Redeem Requests</p>
                                 <span class="caret"></span>
                             </a>
@@ -467,7 +468,7 @@
 
                         <li class="nav-item">
                             <a data-bs-toggle="collapse" href="#maps">
-                                <i class="fas fa-map-marker-alt"></i>
+                                <i class="fas fa-server"></i>
                                 <p>Subscription</p>
                                 <span class="caret"></span>
                             </a>
@@ -493,7 +494,7 @@
                         </li>
                         <li class="nav-item">
                             <a data-bs-toggle="collapse" href="#privacy">
-                                <i class="fas fa-map-marker-alt"></i>
+                                <i class="fas fa-user-shield"></i>
                                 <p>Privacy Policy</p>
                                 <span class="caret"></span>
                             </a>
@@ -510,7 +511,7 @@
                         </li>
                         <li class="nav-item">
                             <a data-bs-toggle="collapse" href="#mapss">
-                                <i class="fas fa-map-marker-alt"></i>
+                                <i class="fas fa-file-alt"></i>
                                 <p>Reports</p>
                                 <span class="caret"></span>
                             </a>
@@ -641,8 +642,8 @@
            
             <!-- Content Start -->
             <script>
-               // var BaseUrl = "https://api.myjyotishg.in/"
-                  var BaseUrl = "https://localhost:7118/"
+                var BaseUrl = "https://api.myjyotishg.in/"
+                 // var BaseUrl = "https://localhost:7118/"
             </script>
             <script src="~/dropify/js/dropify.min.js"></script>
 
@@ -725,7 +726,7 @@
     <script src="~/assets/js/setting-demo.js"></script>
     <script src="~/assets/js/demo.js"></script>
     <script src="~/summernote/dist/summernote.min.js"></script>
-    <script>
+    <script defer>
         $(document).ready(function(){
             setTimeout(function(){
                 $('.table').DataTable({
@@ -734,7 +735,7 @@
                 "ordering": true,
                 "info": true
             });
-            },3000)
+            },1000)
         })
 
         document.addEventListener('DOMContentLoaded', function () {

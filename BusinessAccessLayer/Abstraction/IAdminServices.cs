@@ -169,5 +169,7 @@ namespace BusinessAccessLayer.Abstraction
         public bool MakeContactComplete(int id);
         public dynamic GetEnquiryList();
         public dynamic GetEnquiryHistoryList();
+        public dynamic GetTop3AdminVideoList();
+
     }
 }

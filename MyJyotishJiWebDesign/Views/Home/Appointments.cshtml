@@ -1,33 +1,34 @@
 ﻿
-@{
-}
-
 <style>
-    .appointment-cont {
-        margin-top: 4rem;
-        margin-bottom: 4rem;
-        background: #f0f0f0;
-    }
-
-    body {
-        background: url("https://api.myjyotishg.in/astrologer-bg.jpg");
-        background-size: cover;
-        background-position: center;
-        background-attachment: fixed;
-        backdrop-filter: blur(3px);
-    }
-
-    .appointment > div {
-        background: rgb(255, 255, 255, 0.7);
+    .appointment-cont{
+        min-height:80vh;
     }
 </style>
 
-<div class="container appointment-cont py-4 pb-5 shadow rounded">
+<div class="container appointment-cont my-1 py-4 pb-5 rounded">
     <h5 class="text-secondary border-bottom pb-2 text-center my-4 appoinmentHeader">Upcomming Appointments</h5>
     <div class="row">
         <div class="col-sm-12">
-            <div class="my-3 px-5 fw-bold ">
-                <div class="row justify-content-center gap-3 appointment"></div>
+            <div class="my-3 fw-bold ">
+                <div class="row justify-content-start appointment"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ProblemModals" tabindex="-1" aria-labelledby="ProblemModalsLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="ProblemModalsLabel">Problem Details</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <p id="problemDetails"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -66,22 +67,30 @@
                     let fdata = d.status || "Not Confirmed"; // Default status if not available
 
                     let cards = `
-                            <div class="col-sm-5 col-md-5 border shadow-sm rounded p-3">
-                                <a href='/Home/JyotishProfile?Id=${d.userId}' class='text-decoration-none text-secondary'>
-                                    <div class="row fw-semi-bold">
-                                        <div class="col-sm-6">
-                                            Name : ${d.userName}<br />
-                                            Fees : ${d.amount != null ? d.amount  : "0"}<br />
-                                            Problem : ${d.problem}<br />
-                                        </div>
-                                        <div class="col-sm-6">
-                                            Date : ${reverseDate(d.date.split("T")[0])}<br />
-                                            Time : ${d.time}<br />
-                                            Status : ${fdata}
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
+                                <div class="col-sm-4 col-md-4 mb-4">
+        <div class="card shadow-sm rounded border">
+            <div class="card-body p-3">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <a href='/Home/JyotishProfile?Id=${d.userId}' class="text-decoration-none">
+                            <h5 class="card-title fw-semibold text-dark">${d.userName}</h5>
+                        </a>
+                        <p class="card-subtitle my-2 text-muted">Fees: ${d.amount != null ? d.amount : "0"}</p>
+                        <p class="card-text text-muted">Problem:
+                            <i class="fas fa-eye" data-bs-toggle="modal" data-bs-target="#ProblemModals" data-problem="${d.problem}"></i>
+                        </p>
+                    </div>
+                    <div class="col-sm-6">
+                        <p class="card-text text-muted">Date: ${reverseDate(d.date.split("T")[0])}</p>
+                        <p class="card-text text-muted">Time: ${d.time}</p>
+                        <span class="badge ${fdata == 'Active' ? 'bg-success' : fdata == 'Pending' ? 'bg-warning' : fdata == 'Cancelled' ? 'bg-danger' : 'bg-info'}">${fdata}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
                         `;
 
                     $(".appointment").append(cards);
@@ -89,6 +98,15 @@
             } else {
                 $(".appointment").html(`<p class='my-5 text-center text-secondary'>There are no appointments yet.</p>`);
             }
+        });
+
+         // Listen for the click event on problem icon
+        $('#ProblemModals').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var problem = button.data('problem'); // Extract the problem from data-* attribute
+
+            var modal = $(this);
+            modal.find('.modal-body #problemDetails').text(problem); // Set the modal content
         });
     });
 </script>

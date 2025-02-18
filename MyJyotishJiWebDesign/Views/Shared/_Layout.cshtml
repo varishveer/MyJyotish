@@ -37,6 +37,10 @@
             text-align: center;
         }
 
+        .swal2-container {
+            z-index: 99999999999999 !important;
+        }
+
         .content-container-fluid {
             padding: 15px;
         }
@@ -203,13 +207,13 @@
             .datepicker th {
                 background-color: white; /* Header background color */
                 color: #007bff; /* Header text color */
-                padding: 10px; /* More padding for header */
+                padding: 5px; /* More padding for header */
                 border: 1px solid #007bff;
             }
 
             .datepicker td {
                 text-align: center; /* Center align dates */
-                padding: 15px; /* More padding for dates */
+                padding: 5px; /* More padding for dates */
             }
 
                 .datepicker td.day:hover {
@@ -326,8 +330,8 @@
 
       <!-- jQuery -->
   <script>
-        // var BaseUrl = "https://api.myjyotishg.in/";
-        var BaseUrl = "https://localhost:7118/";
+               var BaseUrl = "https://api.myjyotishg.in/";
+                //var BaseUrl = "https://localhost:7118/";
 
         var BaseUrlImg = "https://myjyotishg.in/";
         let userId = "636001";
@@ -348,12 +352,12 @@
         <div class="container-fluid">
             <div class="row g-4 align-items-center">
                 <div class="col-md-10  text-md-start mb-md-0">
-                    <span class="text-body">
+                    <span class="text-body ">
                         <a title="macreel" class="border-bottom text-white" style="text-decoration:none;">
                             <i class="fas fa-copyright text-light me-2"></i>
                             <script>document.write(new Date().getFullYear())</script> Macreel Infosoft Pvt . Ltd.
                         </a>,
-                        All right reserved.
+                        <span class="text-light">All right reserved.</span>
                     </span>
                 </div>
             </div>
@@ -367,14 +371,14 @@
                     <h5 class="footer-heading" style="font-weight:bolder">Our Services</h5>
                     <hr class="footer-line">
                     <ul class="list-unstyled">
-                        <li class="footer-item"><a href="/home/talk">  Call with Astrologers</a></li>
-                        <li class="footer-item"><a href="/home/chat">  Chat with Astrologers</a></li>
-                        <li class="footer-item"><a href="/home/Astrology">  Astrology</a></li>
-                        <li class="footer-item"><a href="/home/Palmistry">  Palmistry</a></li>
-                        <li class="footer-item"><a href="/home/Tarot">  Tarot</a></li>
-                        <li class="footer-item"><a href="/home/Vastu">  Vastu</a></li>
-                        <li class="footer-item"><a href="/home/Compatibility">  Compatibilty</a></li>
-                        <li class="footer-item"><a href="/Home/Search">  Find astrologers</a></li>
+                        <li class="footer-item"><a href="/home/talk"><i class="fas fa-caret-right"></i>  Call with Astrologers</a></li>
+                        <li class="footer-item"><a href="/home/chat"><i class="fas fa-caret-right"></i>  Chat with Astrologers</a></li>
+                        <li class="footer-item"><a href="/home/Astrology"><i class="fas fa-caret-right"></i>  Astrology</a></li>
+                        <li class="footer-item"><a href="/home/Palmistry"><i class="fas fa-caret-right"></i>  Palmistry</a></li>
+                        <li class="footer-item"><a href="/home/Tarot"><i class="fas fa-caret-right"></i>  Tarot</a></li>
+                        <li class="footer-item"><a href="/home/Vastu"><i class="fas fa-caret-right"></i>  Vastu</a></li>
+                        <li class="footer-item"><a href="/home/Compatibility"><i class="fas fa-caret-right"></i>  Compatibilty</a></li>
+                        <li class="footer-item"><a href="/Home/Search"><i class="fas fa-caret-right"></i>  Find astrologers</a></li>
                       
                     </ul>
                 </div>
@@ -384,12 +388,12 @@
                     <h5 class="footer-heading" style="font-weight:bolder">Free Services</h5>
                     <hr class="footer-line">
                     <ul class="list-unstyled">
-                        <li class="footer-item"><a href="/home/KundaliMatching">  Kundali Matching</a></li>
-                        <li class="footer-item"><a href="/home/FreeKundali">  Free Kundali</a></li>
-                        <li class="footer-item"><a href="/home/TodayHoroscope">  Horoscope</a></li>
-                        <li class="footer-item"><a href="/home/BookPooja">  Book Pooja</a></li>
-                        <li class="footer-item"><a href="/home/Panchang">  Todays Panchang</a></li>
-                        <li class="footer-item"><a href="/home/IndianCalendarFestivals">  Festive Calender</a></li>
+                        <li class="footer-item"><a href="/home/KundaliMatching"><i class="fas fa-caret-right"></i>  Kundali Matching</a></li>
+                        <li class="footer-item"><a href="/home/FreeKundali"><i class="fas fa-caret-right"></i>  Free Kundali</a></li>
+                        <li class="footer-item"><a href="/home/TodayHoroscope"><i class="fas fa-caret-right"></i>  Horoscope</a></li>
+                        <li class="footer-item"><a href="/home/BookPooja"><i class="fas fa-caret-right"></i>  Book Pooja</a></li>
+                        <li class="footer-item"><a href="/home/Panchang"><i class="fas fa-caret-right"></i>  Todays Panchang</a></li>
+                        <li class="footer-item"><a href="/home/IndianCalendarFestivals"><i class="fas fa-caret-right"></i>  Festive Calender</a></li>
                     </ul>
                 </div>
 
@@ -398,16 +402,16 @@
                     <h5 class="footer-heading" style="font-weight:bolder">Quick Links</h5>
                     <hr class="footer-line">
                     <ul class="list-unstyled">
-                        <li class="footer-item"><a href="/home/aboutus">  About Jyotish G</a></li>
-                        <li class="footer-item"><a href="/home/contactus">  Contact Jyotish G</a></li>
-                        <li class="footer-item"><a href="/home/FrequentlyAskQuestion">  FAQ</a></li>
+                        <li class="footer-item"><a href="/home/aboutus"><i class="fas fa-caret-right"></i>  About Jyotish G</a></li>
+                        <li class="footer-item"><a href="/home/contactus"><i class="fas fa-caret-right"></i>  Contact Jyotish G</a></li>
+                        <li class="footer-item"><a href="/home/FrequentlyAskQuestion"><i class="fas fa-caret-right"></i>  FAQ</a></li>
                     </ul>
 
                     <h5 class="footer-heading" style="font-weight:bolder">Privacy Policy & Terms</h5>
                     <hr class="footer-line">
                     <ul class="list-unstyled">
-                        <li class="footer-item"><a href="/home/privacy">  Privacy Policy</a></li>
-                        <li class="footer-item"><a href="/home/TermCondition">  Terms & Conditions</a></li>
+                        <li class="footer-item"><a href="/home/privacy"><i class="fas fa-caret-right"></i>  Privacy Policy</a></li>
+                        <li class="footer-item"><a href="/home/TermCondition"><i class="fas fa-caret-right"></i>  Terms & Conditions</a></li>
                     </ul>
                 </div>
 
@@ -709,7 +713,7 @@
                         $("#companyWebsite").text(res.data.websiteUrl)
                         $("#companyWebsite").parent().attr("href",res.data.websiteUrl)
                         $("#dialCompanyMobile").attr("href","tel:"+res.data.mobile)
-
+                        $("#aboutusContainer").html(res.data.aboutUs)
                         }
                     }
                 },error:function(xhr){
@@ -722,6 +726,7 @@
             })
             })
 
+        
     </script>
     <!-- JavaScript for Search Toggle and User Profile -->
    
