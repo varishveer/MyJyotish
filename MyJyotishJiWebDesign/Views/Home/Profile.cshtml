@@ -28,13 +28,13 @@
 		box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
 	}
 
-	/* Button Styling */
-	.button-group {
+	    /* Button Styling */
+	   .button-group {
 		display: flex;
 		justify-content: center;
 		gap: 15px;
 		margin-top: 20px;
-	}
+	    }
 
 		.button-group button {
 			border-radius: 50px;
@@ -49,7 +49,7 @@
 			transition: background-color 0.3s ease-in-out;
 		}
 
-			.button-group .btn-edit:hover {
+		.button-group .btn-edit:hover {
 				background-color: #2980b9;
 			}
 
@@ -60,7 +60,7 @@
 			transition: background-color 0.3s ease-in-out;
 		}
 
-			.button-group .btn-change-password:hover {
+	    .button-group .btn-change-password:hover {
 				background-color: #e67e22;
 			}
 
@@ -418,14 +418,11 @@
 			success: function (response) {
 				$(".loader-container").addClass("d-none");
 				if (response.status === 200) {
-
 					var profile = response.data;
 					if (profile.dateOfBirth != null) {
-
 						$('#dateOfBirth').text(profile.dateOfBirth != null ? profile.dateOfBirth : 'N/A');
 						$('#userdob').val(profile.dateOfBirth !== "null" ? profile.dateOfBirth : 'N/A');
 					}
-
 					var mobileNumber = "+"+profile.countryCode+"-" + profile.mobile;
 					// Fill in the data fields
 					$('#profileImage').attr('src', profile.profilePictureUrl ? BaseUrl + profile.profilePictureUrl : '/Img/UserPlaceholder.png');
@@ -491,8 +488,6 @@
 							})
 							$("#city").trigger("change")
 						}, 2000)
-
-
 					}
 					if (profile.countryId) {
 						$.ajax({
@@ -549,7 +544,6 @@
 		$('#state').change(function () {
 			var stateId = $(this).val();
 			$('#city').prop('disabled', false).empty().append('<option value="">Select City</option>'); // Reset City dropdown
-
 			if (stateId) {
 				$.ajax({
 					url: BaseUrl + 'Api/Jyotish/City',
@@ -580,7 +574,6 @@
 					Swal.showLoading();
 				}
 			})
-
 			function convertDateFormatdesc(dateString) {
 				const dateParts = dateString.split('-');
 
@@ -599,13 +592,13 @@
 			debugger
 			formarray.forEach(function (e) {
 				if (e.name == "BootstrapdoB"){
-					formdata.append("DoB", convertDateFormatdesc(e.value));
+					formdata.append("DoB", e.value);
 				}
 				else{
 					formdata.append(e.name, e.value);
 				}
-
 			})
+
 			if ($("#pImage").val() != null && $("#pImage").val() != "") {
 				formdata.append("profilePictureUrl", $("#pImage").get(0).files[0])
 			}
@@ -637,7 +630,8 @@
 						});
 					}
 				},
-				error: function () {
+				error: function (xhr) {
+					console.log(xhr)
 					Swal.fire({
 						title: "error",
 						text: "some error occured ",

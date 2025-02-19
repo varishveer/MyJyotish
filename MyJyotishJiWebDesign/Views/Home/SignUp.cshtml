@@ -366,6 +366,8 @@
                             $("#otp").show();
                             $(".custom-field").attr("disabled", false);
                             $("#verifyOtp").show();
+                                $(".otpContainer").addClass('d-none');
+
                         }
                     })
                 }
@@ -444,9 +446,6 @@
 
             }
         })
-
-
-
         Swal.fire({
             title: "Processing Your Request",
             allowOutsideClick: false,
@@ -454,9 +453,6 @@
                 Swal.showLoading();
             }
         })
-
-
-
         console.log(formData);
         $.ajax({
             url: BaseUrl + 'Api/Account/RegisterUserDetails',
@@ -468,7 +464,7 @@
                 if (response.status === 200) {
                     Swal.fire({
                         title: "success",
-                        text: "Registered Successfully",
+                        text: "Registered Successfully. Please check your email for password.",
                         icon: "success",
                         didClose: () => {
                             window.location.href = "/Home/Login";

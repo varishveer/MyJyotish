@@ -569,8 +569,9 @@
                 success: function (response) {
                     if (response.status == 200) {
                         Swal.fire({
-                            title: "Form submitted successfully!",
+                            title: "Registered successfully!",
                             icon: "success",
+                            text:"Please check your email for password.",
                             allowOutsideClick: false,  // Disable background click
                             allowEscapeKey: false,     // Disable escape key to close alert
                         }).then(() => {
@@ -585,7 +586,6 @@
                             text: response.message
                         })
                     }
-
                 },
                 error: function (xhr) {
                     try {

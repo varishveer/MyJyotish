@@ -296,29 +296,28 @@ namespace MyJyotishGApi.Controllers
 
 
 		[HttpPost("UpdateProfiles")]
-		public IActionResult UpdateProfile()
+		public IActionResult UpdateProfile(UserUpdateViewModel model)
 		{
 			try
 			{
 
-				var httpRequest = HttpContext.Request;
-				UserUpdateViewModel model = new UserUpdateViewModel
-				{
-					Id = Convert.ToInt32(httpRequest.Form["id"]),
-					Mobile = httpRequest.Form["mobile"],
-					Name = httpRequest.Form["name"],
-					Gender = httpRequest.Form["gender"],
-					DoB = Convert.ToDateTime(httpRequest.Form["doB"]),
-					PlaceOfBirth = httpRequest.Form["placeOfBirth"],
-					TimeOfBirth = httpRequest.Form["timeOfBirth"],
-					CurrentAddress = httpRequest.Form["currentAddress"],
-					State = Convert.ToInt32(httpRequest.Form["state"]),
-					City = Convert.ToInt32(httpRequest.Form["city"]),
-					Pincode = Convert.ToInt32(httpRequest.Form["pincode"]),
-					ProfilePictureUrl = httpRequest.Form.Files["profilePictureUrl"],
+				//var httpRequest = HttpContext.Request;
+				//UserUpdateViewModel model = new UserUpdateViewModel
+				//{
+				//	Id = Convert.ToInt32(httpRequest.Form["id"]),
+				//	Mobile = httpRequest.Form["mobile"],
+				//	Name = httpRequest.Form["name"],
+				//	Gender = httpRequest.Form["gender"],
+				//	DoB = Convert.ToDateTime(httpRequest.Form["doB"]),
+				//	PlaceOfBirth = httpRequest.Form["placeOfBirth"],
+				//	TimeOfBirth = httpRequest.Form["timeOfBirth"],
+				//	CurrentAddress = httpRequest.Form["currentAddress"],
+				//	State = Convert.ToInt32(httpRequest.Form["state"]),
+				//	City = Convert.ToInt32(httpRequest.Form["city"]),
+				//	Pincode = Convert.ToInt32(httpRequest.Form["pincode"]),
+				//	ProfilePictureUrl = httpRequest.Form.Files["profilePictureUrl"],
 
-				};
-
+				//};
 
 				string? path = _environment.ContentRootPath;
 				var result = _services.UpdateProfile(model, path);

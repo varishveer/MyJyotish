@@ -551,7 +551,7 @@
 
                                                                      <i class="fas fa-users text-info Addmember" onClick='getClientMember(${item.uId})'  role='button' role='show member'></i>
                                                                                  <a onClick='fetchProblemDate(${item.uId})'><i class="fas fa-eye"></i></a>
-                                                                                           ${item.bookMark!=0 ?  "<i role='button'  onClick='BookMark(${item.id},${item.bookMark})' class='fas fs-4 fa-bookmark'></i>":''}
+                                                                                           ${item.bookMark!=0 ?  `<i role='button'  onClick='BookMark(${item.id},${item.bookMark})' class='fas fs-4 fa-bookmark'></i>`:''}
                                                               </td>`;
                 htmls += '</tr>';
             });
@@ -601,32 +601,7 @@
                                         text: "Bookmark Removed Successfully",
                                         icon: "success",
                                         didClose: () => {
-                                            debugger
-                                            if (checkClickEvent == "today") {
-                                                $("#todayAppointment").trigger("click")
-                                            } else if (checkClickEvent == "upcomming") {
-                                                $("#upcommingAppointment").trigger("click")
-                                            } else if (checkClickEvent == "filter") {
-                                                const searchTerm = $("#searchBox").val().toLowerCase();
-                                                if (searchTerm != "") {
-                                                    if (searchTerm.length >= 1) {
-                                                        debugger
-                                                        const filteredResults = newAppointmentArray.filter(item => item.userName.toLowerCase().includes(searchTerm) | item.userMobile.includes(searchTerm) | item.userEmail.includes(searchTerm))
-                                                        showAppointmentSlots(filteredResults, "filter");
-                                                    } else {
-                                                        $('#resultsList').empty();  // Clear list if search term is empty
-                                                    }
-                                                } else {
-                                                    showAppointmentSlots(newAppointmentArray, "filter");
-
-                                                }
-                                            } else if (checkClickEvent == "bookMark") {
-                                                $("#BookMark").trigger("click")
-
-                                            } else {
-                                                showAppointmentSlots(newAppointmentArray, "filter");
-
-                                            }
+                                                  showAppointmentSlotsHistory()
 
                                         }
                                     });
