@@ -439,7 +439,7 @@
 			var ImgSrc = BaseUrl + astrologer.profileImageUrl;
 			html += `
 											<div class="astrologer-card w-23 position-relative">
-		<small class="py-1 fw-bold px-2 text-light position-absolute top-0 active-logo ${astrologer.activeStatus ? 'bg-success' : 'bg-danger'}">
+		<small class="py-1 fw-bold px-1 text-light position-absolute top-0 active-logo ${astrologer.activeStatus ? 'bg-success' : 'bg-danger'}">
 			${astrologer.activeStatus ? 'Active' : 'Inactive'}
 		</small>
 
@@ -460,11 +460,10 @@
 				<div class="card-body ms-3">
 					<p class="card-title fw-bold">${astrologer.name} <i class="fa-solid text-success fa-circle-check"></i> - ${astrologer.city}</p>
 					<small class=" text-secondary">
-						${astrologer.expertise?.split(',').splice(0,3).toString()} 
+						${astrologer.expertise?.split(',').splice(0,2).toString()} 
 					</small>
 					<small class="d-block text-secondary">${astrologer.language}</small>
-					<small class="d-block text-secondary">Exp : ${astrologer.experience != null ? astrologer.experience : 0} Years</small>
-					<br>
+					<small class="d-block mb-2 text-secondary">Exp : ${astrologer.experience != null ? astrologer.experience : 0} Years</small>
 					<button ${astrologer.activeStatus ? '' : 'disabled'} class="btn btn-primary chatBtn me-2 mb-2 mb-md-0"
 			id="chatBtn_${astrologer.id}" onclick="ChatBtn(${astrologer.id})"
 			style="background-color: #4CAF50; border-color: #4CAF50;">

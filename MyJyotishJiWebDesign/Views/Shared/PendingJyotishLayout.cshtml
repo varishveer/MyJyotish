@@ -237,21 +237,6 @@
             </div>
         </div>
         <!-- Spinner End -->
-        <!-- Sidebar Start -->
-        @* <div class="sidebar pe-4 pb-3 ms-0">
-            <nav class="navbar bg-light navbar-light">
-                <a href="/Dashboard" class="navbar-brand mx-4 mb-3">
-                    <h3 class="text-primary">My Jyotish G</h3>
-                </a>
-               
-                <div class="navbar-nav w-100">
-                    <a href="/Dashboard" class="nav-item nav-link py-2 mb-2 " style="font-weight:300;"><i class="fa fa-tachometer-alt me-2"></i><span class="sidebar-nav d-none">Dashboard</span></a>
-                  
-                
-                </div>
-            </nav>
-        </div> *@
-        <!-- Sidebar End -->
         <!-- Content Start -->
         <div class="content" style="margin:0px; width:100%;">
             <!-- Navbar Start -->
@@ -269,7 +254,6 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
                             <a href="/PendingJyotish/Profile" class="dropdown-item">My Profile</a>
-                            <a href="/Jyotish/CustomerSupport" class="dropdown-item">Customer Support</a>
                             <a id="logout" class="dropdown-item">Log Out</a>
                         </div>
                     </div>
@@ -277,12 +261,11 @@
             </nav>
             <!-- Navbar End -->
             <script>
-                 // var BaseUrl = "https://localhost:7118/";
+                 //var BaseUrl = "https://localhost:7118/";
               var BaseUrl = "https://api.myjyotishg.in/";
             </script>
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
             <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.all.min.js"></script>
-
             @RenderBody()
            
         </div>
@@ -305,20 +288,6 @@
     <script src="~/js/main.js"></script>
 
     <script>
-
-       
-
-                
-
-
-
-
-
-
-
-
-
-       
 
         document.getElementById("logout").addEventListener("click", function () {
             Swal.fire({
@@ -360,15 +329,18 @@
                     'Content-Type': 'application/json'  // Indicate that we're working with JSON
                 },
                 success: function (response) {
-                   
+                   console.log(response)
                     if (response && response.data.name) {
                         $('#profileName').text(response.data.name);
+                        $('#ProfileImage').attr("src",BaseUrl+response.data.image);
                     } else {
                         console.warn('Response does not contain the expected name property.');
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                 
+                 if (jqXHR.status==401){
+                        location.href="/jyotish/login"
+                    }
                     console.error("AJAX error:", textStatus, errorThrown);
 
 

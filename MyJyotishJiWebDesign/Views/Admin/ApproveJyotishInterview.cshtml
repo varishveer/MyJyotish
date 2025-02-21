@@ -59,7 +59,6 @@
     </div>
 </div>
 
-
 <!------Interview Feedback Modal-------->
 <div class="modal fade" id="FeedbackModal" tabindex="-1" aria-labelledby="FeedbackModalLabel" aria-hidden="true">
     <div class="modal-dialog ">
@@ -105,7 +104,6 @@
                     Swal.showLoading();
                 }
             });
-
             $.ajax({
                 url: BaseUrl + "api/Admin/EmployeeInterviewFeedbackList",
                 type: 'GET',
@@ -120,12 +118,11 @@
                     $.each(result.data, function (key, item) {
                         htmls += '<tr>';
                         htmls += `<td class="text-center">${idCounter}</td>`;
-                        htmls += `<td class="text-center">${item.employeeName}</td>`;
+                        htmls += `<td class="text-center">${item.employeeName || "N/A"}</td>`;
                         htmls += `<td class="text-center">${item.jyotishName}</td>`;
                         htmls += `<td class="text-center">${item.grade}</td>`;
                         htmls += `<td class="text-center">${item.startDate}</td>`;
                         htmls += `<td class="text-center">${item.endDate}</td>`;
-
                         // Add the button to open the modal
                         htmls += `<td class="text-center d-flex gap-3">
                                     <button type="button" class="btn btn-sm btn-primary" data-id="${item.id}" data-imageUrl="${item.imageUrl}" data-videoUrl="${item.videoUrl}" data-message="${item.message}" data-toggle="modal" data-target="#InterviewFeedbackModal">
@@ -143,14 +140,6 @@
 
                     htmls += '</tbody>';
                     $('#DataTable').html(htmls);
-
-                    // Initialize DataTable after data is loaded
-                    $('#DataTable').DataTable({
-                        "paging": true,
-                        "searching": true,
-                        "ordering": true,
-                        "info": true
-                    });
 
                     Swal.close(); // Close the loading dialog
                 },
@@ -220,11 +209,6 @@
         });
 
 
-
-       
-
-
-
         $('#feedbackSubmitBtn').on('click', function () {
             // Validate data
             var slotBookingId = Number($('#slotBookingId').val());
@@ -234,7 +218,7 @@
 
             // Check if values are valid
             if (!slotBookingId || !jyotishId || !message) {
-                Swal.fire('Error', 'Please make sure all fields are filled in correctly.', 'error');
+                Swal.fire('Error', 'Please make sure all fields are filled correctly.', 'error');
                 return; // Stop the process if any required value is missing
             }
 

@@ -24,7 +24,7 @@ body {
   margin-left: auto;
   border-radius: 5px;
   background-color: #FFFFFF;
-
+  min-height:100vh;
 }
 
 .left-wallet {
@@ -57,12 +57,15 @@ body {
     .walletContainer{
         min-height:80vh;
     }
+    .mh-100{
+        min-height: 100vh;
+    }
 </style>
 
 <div class="container walletContainer mt-0 pt-1">
     <div class="wallet shadow row ">
-        <div class="col-sm-12">
-            <div class="row">
+        <div class="col-sm-12 mh-100">
+            <div class="row h-100">
                 <div class="col-sm-4 left-wallet">
         <aside class=" p-2">
             <div class="wallet-head">
@@ -103,7 +106,6 @@ body {
                 <small class="text-secondary">Please enter a amount to add into your wallet</small>
                <input type="number" class="form-control my-3" name="amount" placeholder="Enter amount to add wallet" id="amount"/>
                 <span class="text-danger d-none" id="amountvalidalert">min amount required ₹200</span>
-
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -389,11 +391,11 @@ body {
                 <div class="col-sm-12 d-flex justify-content-center flex-column align-items-center" >
                                             <img src="${data.profile == null ? 'https://api.myjyotishg.in/Images/Logo.png' : BaseUrl + data.profile}" class='rounded-circle' height="100" width="100" />
                                                 <p class="text-center"> ${data.paymentStatus.toLowerCase() == 'success' & data.paymentAction.toLowerCase() == "debit" & data.paymentBy.toLowerCase() == 'jyotish' ? "To " :"From "} ${ data.userName == null ? "MyJyotishg" : data.userName }</p >
-                                        <h2>₹${data.amount}</h2>
+                                        <h2 class="m-0 p-0">₹${data.amount}</h2>
                                                         <p class="text-center">${data.paymentStatus.toLowerCase() == 'success' ? `<i class="fas fa-check-circle text-success" ></i > Completed` : `<i class="fas text-danger fa-exclamation-circle"></i>Failed`} </p>
                                 <hr class="w-50"/>
-                                <p class="text-center">${data.paymentDate}</p>
-                                    <div class="border rounded w-100 p-3 row">
+                                <p class="text-center m-0 p-0">${data.paymentDate}</p>
+                                    <div class="border rounded w-100 pt-1 row">
                                             
                                                <div class='col-sm-3'> PaymentId </div>:<div class='col-sm-8'>${data.paymentId}</div>
                                                         <div class='col-sm-3'>Message </div>:<div class='col-sm-8'>${data.paymentFor}</div>

@@ -48,7 +48,7 @@
                     <h3 class="d-flex justify-content-between"><span>Send Meating Link</span><span role="button" id="closeSendModal">x</span></h3>
             <div class="row">
                 <input type="hidden" name="jyotishId" id="JyotishId" />
-                        <input type="hidden" name="employeeId" id="employeeId" />
+                        <input type="hidden" value='0' name="employeeId" id="employeeId" />
                 <div class="col-sm-6">
                     <input type="text" placeholder="Enter Title" class="form-control mb-2" name="title" />
 
@@ -224,13 +224,11 @@
 
                                                     } else {
                                                         $(".startButton_" + d.id).removeClass("d-none")
-
                                                     }
                                                     if (result.data.start && result.data.end) {
                                                         $(".endButton_" + d.id).addClass("d-none")
                                                         $(".feedback_" + d.id).removeClass("d-none")
                                                     } else if (result.data.start) {
-                                                        
                                                         $(".endButton_" + d.id).removeClass("d-none")
                                                     }
                                                     $(".hideAfterSendLinkresheduel_" + d.id).addClass("d-none")
@@ -255,8 +253,6 @@
                             }
                         })
                    })
-                  
-                    
                }
                 
             })
@@ -268,7 +264,7 @@
     function feedback(id){
         let employeeId = localStorage.getItem("Eid")
         $("#slotBookingId").val(id)
-        $("#employeeIds").val(employeeId)
+        $("#employeeIds").val(employeeId || 0)
         debugger
     }
 
@@ -432,7 +428,7 @@
     function openSendLinkModal(jId,sId) {
         $(".fixed-continer").removeClass("d-none")
         $("#JyotishId").val(jId)
-        $("#employeeId").val(localStorage.getItem("Eid"))
+        $("#employeeId").val(localStorage.getItem("Eid") || 0)
     }
     $("#closeSendModal").click(function(){
         $(".fixed-continer").addClass("d-none")
@@ -492,8 +488,8 @@
                         }
                     })
                 }
-            },error:function(){
-
+            },error:function(xhr){
+                console.log(xhr)
                 Swal.fire({
                     text:"some error occured",
                     title:"error",
@@ -575,12 +571,6 @@
         $('#JyotishId').val(id);
     }
 
-
-   
-
-
-
-
     $(document).ready(function () {
         let slotList=[]
         // select appoinment
@@ -651,13 +641,7 @@
             $('#hiddenId').val(id);        // Populate the hidden ID field
             $('#readonlyName').text(name);  // Populate the readonly Name field
         });
-        
-
-
-
-
        
-
         // select appoinment
         $("#appointmentDate").on("input",function(){
 bindslotList()
@@ -674,7 +658,6 @@ bindslotList()
             })
             var id = $('#hiddenId').val();  // Get the hidden ID field value
             var slotId = $('#slotList').val();  // Get the selected SlotId
-
             // Validate if both fields have been selected
             if (!id || !slotId) {
                 Swal.fire('Error', 'Please select a slot and ensure the ID is valid.', 'error');

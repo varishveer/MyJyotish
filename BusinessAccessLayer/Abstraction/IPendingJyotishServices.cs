@@ -28,7 +28,7 @@ namespace BusinessAccessLayer.Abstraction
        
         public LayoutDataViewModel LayoutData(int Id);
         public string RejectedMessage(int Id);
-        public List<InterviewMeetingViewModel> InterviewMeetingListByJyotishId(int jytotishId);
+        public dynamic InterviewMeetingListByJyotishId(int jytotishId);
 
         public bool AddConfirmation(int JyotishId);
 

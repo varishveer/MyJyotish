@@ -512,7 +512,6 @@
 </div>
 
 
-
 <!-- Bootstrap Modal Structure --> 
 <div class="modal fade" id="slotBookingModal" data-bs-backdrop="static"  tabindex="-1" aria-labelledby="slotBookingModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
@@ -690,7 +689,6 @@
                      
                         console.log("Data retrieved successfully:", response.data);
                         const $detailsContainer = $('#details');
-
                         const dateObject = new Date(response.data.date);
                         const formattedDate = dateObject.toLocaleDateString('en-GB');
                         let time = response.data.time;
@@ -711,14 +709,10 @@
                                 </div>
                                 `);
                         $detailsContainer.html($detailsElement);
-
-
                         // Hide the modal using Bootstrap 5 native JavaScript API
                             checkBookinStatus= true
                             Swal.close()
-
                     } else {
-                      
                         console.log("Error:", response.Message);
                             checkBookinStatus= false
                     }
@@ -743,24 +737,36 @@
                         success: function (result) {
                             console.log(result)
                             if(result.status==200 && result.data.length>0){
+                                if(result.data[0].completeStatus){
+                                    $('#details').html(
+                                    `
+                                    <p>Your interview are completed please wait for approvel. its may take some times.</p>
+                                    `
+                                    )
+                                }else{
                                 $("#meatingUrl").append(`
                                         <span>Meating Url : </span><a target='_blank' href='${result.data[0].link}'>${result.data[0].link}</a>
                                              ${result.data[0].approveStatus ? "" : "<p>Please Click here to confirm your meating : <button class='btn btn-primary' onClick='confirmAction()'>Confirm</button></p>"}
                                 `)
+                                }
+                            if(result.data[0].jyotishRole=="Jyotish"){
+                                location.href="/jyotish/Dashboard";
+                            }else if(result.data[0].jyotishRole=="Rejected"){
+                                location.href="/PendingJyotish/Rejected";
                             }
+                            }
+
+
                         }
                     })
                 }
                 getJyotishInterViewMeetingLink()
-
                 
             })
         }
 
         getJyotishSlotDetails()
        
-
-        
         function SlotBooking() {
             Swal.fire({
                 title: "Processing Your Request",
@@ -933,17 +939,6 @@
             });
         }
 
-       
-
-
-
-
-
-
-
-
-
-
         async function fetchDocuments() {
             const Id = localStorage.getItem('Id');
             if (!Id) {
@@ -1005,7 +1000,6 @@
                    
                 }
 
-
                 
                 $('#addressProof').attr('src', response.data.addressProof ? BaseUrl + response.data.addressProof : '/Img/SampleDoc.jpeg');
                 $('#addressProofLink').attr('href', `${BaseUrl}${response.data.addressProof}`);
@@ -1032,16 +1026,11 @@
                      });
                 }
 
-
-
-
                 if (response.data.tenthCertificate == null) {
                     // Hide the 'tenthCertificateDiv' if it exists
                     $('#tenthCertificateDiv').hide();
-
                     // Set the 'href' for the 'tenthCertificateLink' if it exists
                     $('#tenthCertificateLink').attr('href', `${BaseUrl}${response.data.tenthCertificate}`);
-
                 }
 
                 $('#tenthCertificate').attr('src', response.data.tenthCertificate ? BaseUrl + response.data.tenthCertificate : '/Img/SampleDoc.jpeg');
@@ -1067,16 +1056,11 @@
                     });
                 }
 
-
-
-
                 if (response.data.twelveCertificate == null) {
                     // Hide the 'twelveCertificateDiv' if it exists
                     $('#twelveCertificateDiv').hide();
-
                     // Set the href for 'twelveCertificateLink' if it exists
                     $('#twelveCertificateLink').attr('href', `${BaseUrl}${response.data.twelveCertificate}`);
-
                 }
 
                 $('#twelveCertificate').attr('src', response.data.twelveCertificate ? BaseUrl + response.data.twelveCertificate : '/Img/SampleDoc.jpeg');
@@ -1102,10 +1086,6 @@
                 }
 
 
-
-
-
-
                 $('#professionalCertificate').attr('src', response.data.professionalCertificate ? BaseUrl + response.data.professionalCertificate : '/Img/SampleDoc.jpeg');
                 $('#professionalCertificateLink').attr('href', BaseUrl + response.data.professionalCertificate);
 
@@ -1127,15 +1107,12 @@
                                     return tooltipInstance;
                     });
                 }
-
                 $('#loading').hide();
-               
                 if (response.data.idProofStatus == "Verified" && response.data.addressProofStatus == "Verified" && response.data.professionalCertificateStatus == "Verified") {
                     if (checkBookinStatus) {
                         $('#slotBookingModal').modal('hide');
 
                    }else{
-
                     $('#slotBookingModal').modal('show');
                         SlotBooking()
                    }
@@ -1148,8 +1125,6 @@
 
         }
 
-
-
         $('#fileInput').dropify({
             messages: {
                 default: 'max size 2mb',
@@ -1160,8 +1135,6 @@
             maxFileSize: '2M',  // Limit file size to 2 MB
 
         });
-
-
 
 
         // Click event for the submit button
@@ -1238,11 +1211,8 @@
 
         // Click event for the rejected doc upload button
         $(document).on('click', '.rejectedDocUploadBtn', function () {
-           
             var dataName = $(this).data('name'); // Get the value of the 'data-name' attribute
-
             // Update modal title and hidden input field with the data-name value
-           
             $('#dataNameInput').val(dataName); // Set the hidden field value
             $('#rejectedDocUploadModal').modal('show'); // Show the modal
         });

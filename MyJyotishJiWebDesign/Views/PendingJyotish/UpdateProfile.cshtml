@@ -226,7 +226,7 @@
                                     <input type="text" name="mobno" disabled id="mobno" class="form-control" placeholder="Enter your Phone Number" />
                         </div>
                         <div class="col-sm-6">
-                            <label for="altmobno">Alternate Number <span class="text-danger">*</span></label>
+                            <label for="altmobno">Alternate Number</label>
                                                         <div class="d-flex">
                                                             <input type="text" class="rounded-start" id="countryCode" value="+91" disabled style="width:40px;" />
                                     <input type="number" id="altmobno" name="AlternateMobile" class="form-control" placeholder="Enter alternate Phone Number" />
@@ -621,14 +621,15 @@
                     $(".active2").attr("disabled", true)
                     $(".active1").addClass("bg-dark")
                     $(".active1").addClass("text-light")
-            } else if($("#altmobno").val().length!=10) {
-                    Swal.fire({
-                        title: "warning",
-                        text: "invalid number",
-                        icon: "warning",
-
-                    })
             }
+            // else if($("#altmobno").val().length!=10) {
+            //         Swal.fire({
+            //             title: "warning",
+            //             text: "invalid number",
+            //             icon: "warning",
+
+            //         })
+            // }
                     else if($("#dob").val()==""){
                         Swal.fire({
                             title: "warning",

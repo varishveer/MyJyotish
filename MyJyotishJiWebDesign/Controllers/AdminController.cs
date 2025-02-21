@@ -21,7 +21,9 @@ namespace MyJyotishJiWebDesign.Controllers
         public IActionResult ExistingPrice() { return View(); }
         public IActionResult Documents() { return View(); }
         public IActionResult JyotishDocument() { return View(); }
-        public IActionResult JyotishProfile() { return View(); }
+        public IActionResult JyotishProfile() {
+            return View();
+        }
         public IActionResult InterviewList() { return View(); }
         public IActionResult Specialization() { return View(); }
         public IActionResult RedeamCode() { return View(); }

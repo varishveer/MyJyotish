@@ -10,7 +10,7 @@ namespace ModelAccessLayer.Models
     {
         public int Id { get; set; }
         public string Message { get; set; }
-        public int EmployeeId { get; set; }
+        public int? EmployeeId { get; set; }
         public int SlotBookingId { get; set; }
         public int Grade { get; set; }
         public bool Status {get; set;}

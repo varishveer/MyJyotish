@@ -697,10 +697,9 @@ namespace BusinessAccessLayer.Implementation
 
         }
 
-
-        public List<InterviewMeetingViewModel> InterviewMeetingListByJyotishId(int jytotishId)
+        public dynamic InterviewMeetingListByJyotishId(int jytotishId)
         {
-            var Data = _context.InterviewMeeting.Include(x => x.Jyotish).ThenInclude(x => x.Slots).Where(x => x.Status == true && x.JyotishId == jytotishId ).Where(y=>y.Jyotish.Slots.FirstOrDefault().Incomplete == false).Select(x => new InterviewMeetingViewModel
+            var Data = _context.InterviewMeeting.Include(x => x.Jyotish).ThenInclude(x => x.Slots).Where(x => x.Status == true && x.JyotishId == jytotishId ).Where(y=>y.Status==true).Select(x => new 
             {
                 Id = x.Id,
                 Link = x.Link,
@@ -710,14 +709,16 @@ namespace BusinessAccessLayer.Implementation
                 EmployeeName = x.Employee.Name,
                 JyotishId = x.JyotishId,
                 JyotishName = x.Jyotish.Name,
-                ApproveStatus = x.ApproveStatus
-            }).ToList();
+                JyotishRole=x.Jyotish.Role,
+                ApproveStatus = x.ApproveStatus,
+                CompleteStatus=x.Jyotish.Slots.FirstOrDefault().Incomplete
+            }).OrderByDescending(e=>e.Id).Take(1).ToList();
             return Data;
         }
 
         public bool AddConfirmation(int JyotishId)
         {
-            var jyotish = _context.InterviewMeeting.Where(x => x.Status == true && x.JyotishId == JyotishId).FirstOrDefault();
+            var jyotish = _context.InterviewMeeting.Where(x => x.Status == true && x.JyotishId == JyotishId).OrderByDescending(e=>e.Id).FirstOrDefault();
             if (jyotish == null)
             { return false; }
 

@@ -1651,22 +1651,96 @@ namespace BusinessAccessLayer.Implementation
             if ( _context.SaveChanges()>0 ) 
             {
                 var jyotish = _context.JyotishRecords.Where(x => x.Id == feedback.JyotishId).FirstOrDefault();
-                if (feedback.ApprovedStatus == true)
-                {
                     jyotish.ApprovedStatus = "Complete";
                     jyotish.Role = "Jyotish";
-                    var message = "I am pleased to formally accept your offer for the Jyotish role at My Jyotish G. I am excited to join your team and contribute to the success of the company. I truly appreciate the opportunity and the confidence you have shown in me.";
+                    var res = Data.ApprovedStatus ? "Approved" : "Rejected";
+                    var resbg = Data.ApprovedStatus ? "bg-success" : "bg-danger";
+                    var message = $@"
+           <!DOCTYPE html>
+            <html lang=""en"">
+            <head>
+    <meta charset=""UTF-8"">
+    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+    <title>My Jyotish G Email</title>
+    <style>
+        body {{
+            font-family: Arial, sans-serif;
+        }}
+        .container {{
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }}
+        .header {{
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }}
+        .content {{
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }}
+        .otp {{
+            font-size: 20px;
+            font-weight: bold;
+            color: #000;
+        }}
+        .logo {{
+            margin: 20px 0;
+            text-align: center;
+        }}
+        .logo img {{
+            max-width: 150px;
+        }}
+        .footer {{
+            font-size: 14px;
+            color: #555;
+            margin-top: 20px;
+        }}
+        .footer a {{
+            color: #000;
+            text-decoration: none;
+        }}
+.bg-danger{{
+background:#eb3d34;
+padding:3px 10px;
+color:white;
+text-align:center;
+border-radius:10px;
+}}
+.bg-success{{
+background:#0d4a02;
+padding:3px 10px;
+color:white;
+text-align:center;
+border-radius:10px;
+}}
+    </style>
+</head>
+<body>
+    <div class=""container"">
+       
+         <div class=""logo"">
+            <img src=""https://api.myjyotishg.in/Images/Logo.png"" alt=""My Jyotish G Logo"">
+        </div>
+        <div class=""content"">
+            Hi User,<br>
+<div class=""{resbg} text-light"">{res}</div>
+{feedback.Message}
+            If you have any questions, feel free to reach out!
+        </div>
+            <div class=""header"" style=""color:orange"">MyJyotishG</div>
+            <h4>www.myjyotishg.in</h4>
+    </div>
+</body>
+</html>
+"; 
                     var subject = "Interview Outcome";
                     _account.SendEmail(message, jyotish.Email, subject);
-                }
-                else {
-                    jyotish.ApprovedStatus = "Rejected";
-                    jyotish.Role = "Rejected";
-                    jyotish.Status = false;
-                    var message = "Thank you very much for taking the time to interview for the Jyotish role with My Jyotish G. After careful consideration, we regret to inform you that we will not be moving forward with your application at this time.";
-                    var subject = "Interview Outcome";
-                    _account.SendEmail(message, jyotish.Email, subject);
-                }
                 _context.JyotishRecords.Update(jyotish);
                 _context.SaveChanges();
                 return "Successful";
@@ -2318,11 +2392,10 @@ Expiry : <span>{res.startDate}-{res.endDate}</span>
             newRecord.Link = data.Link;
             newRecord.Message = data.Message;
             newRecord.Title = data.Title;
-            newRecord.EmployeeId = data.EmployeeId;
+            newRecord.EmployeeId = data.EmployeeId!=0 && data.EmployeeId!=null? data.EmployeeId:null;
             newRecord.JyotishId = data.JyotishId;
             newRecord.ApproveStatus = false;
             newRecord.Status = true;
-
             SlotBooking.Incomplete = false;
             _context.SlotBooking.Update(SlotBooking);
 
@@ -2396,12 +2469,10 @@ Expiry : <span>{res.startDate}-{res.endDate}</span>
           Interview Details<br/>
                     Time: {SlotDetails.SlotRecords.Time} <br/>
                     Date: {SlotDetails.SlotRecords.Date}<br/>
-                    Meeting Link: {data.Link}<br/>
-            
-
-            If you have any questions, feel free to reach out!
+                    Meeting Link: {data.Link}<br/><br/>
+<a href=""https://myjyotishg.in/Dashboard"">Please click here for go to dashboad and confirm you are available to attend this meeting</a>
+                If you have any questions, feel free to reach out!
         </div>
-
        
             <div class=""header"" style=""color:orange"">My Jyotish G</div>data
             <h4>www.myjyotishg.in</h4>
@@ -2427,7 +2498,7 @@ Expiry : <span>{res.startDate}-{res.endDate}</span>
                 Link = x.Link,
                 Title = x.Title,
                 Message = x.Message,
-                EmployeeId = x.EmployeeId,
+                EmployeeId = x.EmployeeId != null && x.EmployeeId != 0 ? x.EmployeeId : null,
                 EmployeeName = x.Employee.Name,
                 JyotishId =  x.JyotishId,
                 JyotishName = x.Jyotish.Name,
@@ -2444,7 +2515,7 @@ Expiry : <span>{res.startDate}-{res.endDate}</span>
                 Link = x.Link,
                 Title = x.Title,
                 Message = x.Message,
-                EmployeeId = x.EmployeeId,
+                EmployeeId = x.EmployeeId != null && x.EmployeeId != 0 ? x.EmployeeId : null,
                 EmployeeName = x.Employee.Name,
                 JyotishId = x.JyotishId,
                 JyotishName = x.Jyotish.Name,
@@ -2467,6 +2538,8 @@ Expiry : <span>{res.startDate}-{res.endDate}</span>
             {
                 SlotBooking.endDate = DateTime.Now;
                 SlotBooking.end = true;
+                SlotBooking.Incomplete = true;
+              
 
             }
 
@@ -2502,7 +2575,7 @@ Expiry : <span>{res.startDate}-{res.endDate}</span>
             var slotBooking = _context.SlotBooking.FirstOrDefault(x => x.Id == data.SlotBookingId && x.status == true);
 
             
-            if (employee == null || slotBooking == null)
+            if ( slotBooking == null)
             {
                 return false;
             }
@@ -2513,7 +2586,7 @@ Expiry : <span>{res.startDate}-{res.endDate}</span>
             var newFeedback = new EmployeeInterviewFeedbackModel
             {
                 Message = data.Message,
-                EmployeeId = data.EmployeeId,
+                EmployeeId = data.EmployeeId!=null && data.EmployeeId!=0?data.EmployeeId:null,
                 SlotBookingId = data.SlotBookingId,
                 Grade = data.Grade,
                 Status = true
@@ -2584,7 +2657,6 @@ Expiry : <span>{res.startDate}-{res.endDate}</span>
             }
         }
 
-
         public List<EmployeeInterviewFeedbackViewModel> EmployeeInterviewFeedbackList()
         {
            
@@ -2598,7 +2670,7 @@ Expiry : <span>{res.startDate}-{res.endDate}</span>
                                  {
                                      Id = x.Id,
                                      Message = x.Message,
-                                     EmployeeId = x.EmployeeId,
+                                     EmployeeId = x.EmployeeId!=null && x.EmployeeId!=0?x.EmployeeId:null,
                                      EmployeeName = x.Employee.Name,
                                      JyotishId = x.SlotBooking.JyotishId,
                                      JyotishName = x.SlotBooking.JyotishRecords.Name,

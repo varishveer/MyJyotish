@@ -121,13 +121,7 @@
 
                     htmls += '</tbody>';
                     $('#DataTable').html(htmls);
-                    // Initialize DataTable after the data is loaded
-                    $('#DataTable').DataTable({
-                        "paging": true,
-                        "searching": true,
-                        "ordering": true,
-                        "info": true
-                    });
+                    
                 },
                 error: function (errormessage) {
                     console.error('Error fetching data:', errormessage.responseText);

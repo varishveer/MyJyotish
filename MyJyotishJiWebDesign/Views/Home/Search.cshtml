@@ -303,7 +303,6 @@
       return data
   }
 
-
     //function for create stars
      function generateFullStars(starCount) {
 
@@ -334,7 +333,6 @@
 
           <a href="/Home/JyotishProfile?Id=${astrologer.id}" class="text-decoration-none">
               <div class="d-flex align-items-start">
-                  <!-- Left side: Avatar and Star Section -->
                   <div class="profile-section">
                       <div class="profile-image-container">
                           <img src="${ImgSrc}" class="jyotishProfileImages" alt="${astrologer.name}">
@@ -343,8 +341,6 @@
                             ${generateFullStars(astrologer.stars)}
                       </div>
                   </div>
-
-                  <!-- Right side: Details Section -->
                   <div class="card-body ms-3">
                       <p class="card-title fw-bold">${astrologer.name} <i class="fa-solid text-success fa-circle-check"></i> - ${astrologer.city}</p>
                       <small class=" text-secondary">
