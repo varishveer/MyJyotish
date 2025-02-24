@@ -414,7 +414,6 @@
                     icon: "warning",
                     text:"some error occured",
                     showConfirmButton: true, 
-
                 });
             }
         });
@@ -434,7 +433,6 @@
         $(this).attr("src", '/user-not-found.png');
     });
 </script>
-
 <script>
       $("#changePasswordBtn").click(function() {
         Swal.fire({
@@ -509,7 +507,10 @@
                     },
                     success: function(response) {
                         if (response.status === 200) {
-                            Swal.fire('Success', 'Your password has been changed successfully!', 'success');
+                            Swal.fire('Success', 'Your password has been changed successfully!', 'success').then(()=>{
+                                localStorage.clear();
+                                location.href="/jyotish/login"
+                            });
                         } else {
                             Swal.fire('Error', response.message || 'Something went wrong. Please try again later.', 'error').then(()=>{
                                  $("#changePasswordBtn").click();

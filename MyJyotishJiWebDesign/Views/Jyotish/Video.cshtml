@@ -106,11 +106,12 @@
                     });
                     }
                 } else {
-                    console.error("Failed to load gallery data:", res.message);
+                    Swal.fire("error","Failed to load data","error");
                 }
                 Swal.close();
             },
             error: function (error) {
+                    Swal.fire("error","Failed to load data","error");
                 console.error('An error occurred while loading gallery data:', error);
             }
         });
@@ -221,6 +222,8 @@
                     console.error('An error occurred while adding the image:', xhr);
                     console.error('Status:', xhr.status);
                     console.error('Response Text:', xhr.responseText);
+                    Swal.fire("error","Something went wrong","error");
+
                 }
             });
         });

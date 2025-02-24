@@ -231,7 +231,11 @@
                     }
                 },
                 error: function (xhr) {
-                     
+                      Swal.fire({
+                            title:"error",
+                            text:"Something went wrong",
+                            icon:"error"
+                        });
                     console.error('An error occurred while adding the image:', xhr);
                     console.error('Status:', xhr.status);
                     console.error('Response Text:', xhr.responseText);

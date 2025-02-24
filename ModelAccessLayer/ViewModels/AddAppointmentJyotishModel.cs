@@ -15,6 +15,7 @@ namespace ModelAccessLayer.ViewModels
         public string Mobile { get; set; }
         public int JyotishId { get; set; }
         public int SlotId { get; set; }
+        public int country { get; set; }
       
         [Required]
         public string Problem { get; set; }

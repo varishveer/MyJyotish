@@ -141,14 +141,12 @@
 
 
 <!-- Modal for add solution -->
-
-
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Conclusion</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" onclick="openAppointmentSolutionHisModal()" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="modalForm">
@@ -195,9 +193,6 @@
     </div>
 </div>
 
-
-
-
 <!-- Update Problem and Solution Modal -->
 <div class="modal fade" id="updateProblemSolutionModal" tabindex="-1" aria-labelledby="updateProblemSolutionModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -207,22 +202,17 @@
                 <button type="button" class="btn-close" id="updateModalCloseBtn" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-
-
                 <div class="d-flex justify-content-between">
                     <div><div class="section-title">User Name: <span id="modalUserName"></span></div></div>
                     <div><div class="section-title">Date: <span id="modalDate"></span></div></div>
                     <div><div class="section-title">Time: <span id="modalTime"></span></div></div>
                 </div>
-
-
                 <!-- Hidden input to store AppointmentId -->
                 <input type="hidden" id="problemId" name="problemId" />
                 <input type="hidden" id="appointmentId" />
 
                 <div class="container-fluid">
                     <div class="row">
-                        <!-- Column for Problems -->
                         <!-- Problem Section with Add More Feature -->
                         <div id="updateproblemSection" class="my-3 col-sm-12" style="max-height: 300px; overflow-y: auto;">
                             <!-- Added scrolling -->
@@ -235,7 +225,6 @@
                                 <div id="addProblemSolutionContainer" class="w-100"></div>
                             </div>
                         </div>
-
                         <!-- Column for Solutions -->
                         <div class="col-md-12">
                             <h6>Solution</h6>
@@ -253,7 +242,6 @@
 </div>
 
 <!--Add Attachment-->
-<!-- Modal -->
 <div class="modal fade" id="attachmentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg  modal-dialog-scrollable">
         <div class="modal-content">
@@ -268,7 +256,7 @@
                             <button class="btn btn-success" id="addAttachmentBtn">Add Attachment</button>
                         </div>
                         <form id="attachmentForm" class="my-4 " method="post">
-                            <input type="hidden" name="userId" id="userId" />
+                            <input type="hidden" name="userId" id="userIdForAttachment" />
                             <div class="row justify-content-center align-items-end">
                                 <div class="col-sm-5">
                                     <label for="title">Title</label>
@@ -298,7 +286,6 @@
 </div>
 
 <!--Add Attachment for Update-->
-<!-- Modal -->
 <div class="modal fade" id="attachmentModal2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg  modal-dialog-scrollable">
         <div class="modal-content">
@@ -345,7 +332,6 @@
 </div>
 
 <!--solution modal-->
-
 <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
     <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <div class="modal-content">
@@ -355,6 +341,10 @@
             </div>
             <div class="modal-body">
                 <div class="card-body ">
+
+                    <div class="text-end fs-4 mb-3 px-3">
+                        <span class="btn  edit-appointment btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i title="Add Conclusions" role="button" class="fas  rounded-circle fa-plus"></i> Add</span>
+                    </div>
                     <div class="table-responsive">
                         <table id="DataTable2" class="table py-3 table-bordered table-striped">
                             <thead>
@@ -400,7 +390,7 @@
 
 <!--show member Modal -->
 <div class="modal fade" id="showmembermodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Members List</h1>
@@ -428,7 +418,23 @@
     </div>
 </div>
 
-
+<!-- Modal problem-->
+<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel2">Problems</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="problemDetails"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
     $("#attachmentModaltrigger").click(function () {
@@ -441,6 +447,17 @@
         $("#staticBackdrop").modal("show")
 
     })
+
+            // Fetch and populate modal form with appointment data
+            $(document).on('click', '.edit-appointment', function () {
+                $("#exampleModalToggle").modal("hide")
+
+            });
+
+           function openAppointmentSolutionHisModal(){
+
+            $("#exampleModalToggle").modal("show")
+           }
 
     $("#attachmentForm").hide()
     let historyArray = [];
@@ -542,16 +559,12 @@
                 htmls += `<td class="text-center">${item.userMobile}</td>`;
                 htmls += `<td class="text-center">${item.appoinTimeFrom}</td>`;
                 htmls += `<td class="text-center">${item.appoinTimeTo}</td>`;
-                htmls += `<td class="text-center">${item.problem.slice(0, 10)}...</td>`;
+                htmls += `<td class="text-center"><i class="fas fa-eye fs-5" role='button' onclick='setProblemIntoModal("${item.problem}")'></i></td>`;
                 htmls += `<td class="text-center">${item.amount || 'N/A'}</td>`;
                 htmls += `<td class="text-center">
-                                                                                       <svg role='button' onclick='setMembers(${item.uId},${item.id})'  data-id="${item.id}" class="edit-appointment" xmlns="http:www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24" data-bs-toggle="modal" data-bs-target="#staticBackdrop" >
-                                                                    <path fill="currentColor" d="M13.654 21v-2.21l5.96-5.934l2.19 2.204l-5.94 5.94zm6.885-5.94l-.926-.945zm-6 5.056h.95l3.467-3.474l-.45-.494l-.475-.47l-3.493 3.488zM5 21V3h9.5L19 7.5v2.596h-1V8h-4V4H6v16h5.27v1zm13.506-4.852l-.475-.47l.925.964z"/>
-                                                                </svg>
-
-                                                                     <i class="fas fa-users text-info Addmember" onClick='getClientMember(${item.uId})'  role='button' role='show member'></i>
-                                                                                 <a onClick='fetchProblemDate(${item.uId})'><i class="fas fa-eye"></i></a>
-                                                                                           ${item.bookMark!=0 ?  `<i role='button'  onClick='BookMark(${item.id},${item.bookMark})' class='fas fs-4 fa-bookmark'></i>`:''}
+                          <i class="fas fa-users text-info fs-4" onClick='getClientMember(${item.uId})'  role='button' role='show member'></i> &nbsp;
+                          <a role='button' onClick='fetchProblemDate(${item.uId},${item.id})'><i class="fas fs-4 fa-list-alt"></i></a> &nbsp;
+                          ${item.bookMark!=0 ?  `<i role='button' onClick='BookMark(${item.id},${item.bookMark})' class='fas fs-4 fa-bookmark'></i>`:''}
                                                               </td>`;
                 htmls += '</tr>';
             });
@@ -561,6 +574,11 @@
             $('#appointmentHistory').html("<p class='text-center'>no record found</p>");
         }
     }
+
+        function setProblemIntoModal(problem) {
+            $("#problemDetails").text(problem)
+            $("#exampleModal2").modal("show")
+        }
 
         async function BookMark(id, bookmark) {
             debugger
@@ -601,28 +619,24 @@
                                         text: "Bookmark Removed Successfully",
                                         icon: "success",
                                         didClose: () => {
-                                                  showAppointmentSlotsHistory()
-
+                                        showAppointmentSlotsHistory()
                                         }
                                     });
-
                                 }
                             },
                             error: function () {
                                 Swal.fire({
                                     title: "error",
                                     text: "some error occured",
-                                    icon: "error",
-
+                                    icon: "error"
                                 });
                             }
                         });
-
                     }
-
                 });
             }
         }
+
         function getBookmark(id) {
             return $.ajax({
                 url: BaseUrl + `api/Jyotish/GetAppointmentBookmark?Id=${id}`,
@@ -640,8 +654,6 @@
   
     $("#closeAttachmentModal").on("click", function () {
         $("#staticBackdrop").modal("show")
-
-
     })
 
     $("#attachmentForm").hide()
@@ -654,10 +666,12 @@
         arrayData.push({name:"member", value:$("#selectmember").val()})
         arrayData.push({name:"appointmentId",value: $("#appointmentId").val()})
         arrayData.push({name:"attachment", value:$("#attachment").get(0).files[0]})
+        debugger
         arrayData.forEach(function(d)
         {
             formData.append(d.name, d.value);
         })
+
         debugger
         Swal.fire({
             title: "Processing Your Request",
@@ -766,14 +780,12 @@
 
     $("#addAttachmentBtn").click(function(){
     $("#attachmentForm").toggle()
-
     })
 
     function getFileExtension(filename) {
         const lastDotIndex = filename.lastIndexOf('.');
         return lastDotIndex !== -1 ? filename.slice(lastDotIndex + 1) : ''; // Returns empty string if no extension
     }
-
 
     function getUserAttachment(appId,memId){
         Swal.fire({
@@ -840,7 +852,6 @@
                     title: "error",
                     text: "some error occured",
                     icon: "error",
-
                 });
             }
         })
@@ -875,12 +886,11 @@
                         if (res.status == 200) {
                             Swal.fire({
                                 title: "success",
-                                text: result.message,
+                                text: "Attachment Removed Successfully",
                                 icon: "success",
                                 didClose: () => {
                                     $("#attachmentModaltrigger").trigger("click")
                                     $("#attachmentModaltrigger2").trigger("click")
-
                                 }
                             })
                         } else {
@@ -896,7 +906,6 @@
                             title: "error",
                             text: "some error occured",
                             icon: "error",
-
                         });
                     }
                 })
@@ -912,20 +921,14 @@
         getUserAttachment(appId, memId)
         $("#attachmentModal2").modal("show")
         $("#exampleModalToggle2").modal("hide")
-
-
     }
     $("#addAttachmentBtn2").click(function () {
         $("#attachmentForm2").toggle()
-
     })
     $("#closeAttachmentModal2").on("click", function () {
         $("#exampleModalToggle2").modal("show")
 
     })
-
-
-   
 
     function GetProblemSolutionDetail(id) {
         Swal.fire({
@@ -987,19 +990,16 @@
         });
     }
 
-
     function updateData() {
         const Id = $('#problemId').val();
         const appointmentId = $('#appointmentId').val();
         const problems = Array.from($('textarea[name="problem[]"]')).map(input => input.value).filter(d=>d!="");
         const solutions = $("#updateSolutionText").val();
-
         let formData=new FormData()
         formData.append("Id",Id)
         formData.append("Problem",problems)
         formData.append("Solution",solutions)
 
-        debugger
         $.ajax({
             url: `${BaseUrl}Api/Jyotish/UpdateProblemSolution`,
             type: 'POST',
@@ -1019,7 +1019,6 @@
                        GetProblemSolutionDetail(appointmentId)
                     $('#updateProblemSolutionModal').modal('hide');
                     }
-
                 });
                 } else {
                     Swal.fire({
@@ -1043,11 +1042,15 @@
     }
 
     $("#exampleModalToggle").on("show.bs.modal",function(){
-        fetchProblemDate()
-
+        fetchProblemDate();
     })
-
-    function fetchProblemDate(uid) {
+    let userId
+        function fetchProblemDate(uid,appid) {
+            userId = uid
+            debugger
+                $("#userIdForAttachment").val(uid)
+            $(".edit-appointment").attr("onclick", `setMembers(${uid},${appid})`)
+            $(".edit-appointment").attr("data-id", appid)
         Swal.fire({
             title: "Processing Your Request",
             allowOutsideClick: false,
@@ -1072,11 +1075,12 @@
                 var counterForId = 1;
                 let htmls = '';
                 $.each(result.data, function (key, item) {
+                        let [year, month, day] = item.date.split('T')[0].split('-')
                     htmls += '<tr>';
                     htmls += `<td class="text-center">${counterForId}</td>`;
                     htmls += `<td class="text-center">${item.userName}</td>`;
 
-                    htmls += `<td class="text-center">${item.date}</td>`;
+                    htmls += `<td class="text-center">${day + "-" + month + "-" + year}</td>`;
                     htmls += `<td class="text-center">${item.time}</td>`;
                     htmls += `<td class="text-center"> <a onClick='GetProblemSolutionDetail(${item.appointmentId})'" class="btn btn-success"> View </a></td>`
 
@@ -1135,7 +1139,16 @@
 </div>
                     `);
     });
-
+        $('.add-more-problem').click(function () {
+            $('#problemSection').append(`
+                                                        <div class="w-100 my-2">
+                                                        <div class='d-flex justify-content-end mb-1 w-100'>
+                                                                    <button type="button" class="btn btn-outline-danger remove-problem"><i class="fas fa-trash-alt"></i></button>
+                                                            </div>
+                                                                <textarea class="form-control" rows="2" name="problem[]" placeholder="Enter problem"></textarea>
+                                                        </div>
+                                                    `);
+        });
 
     $(document).on('click', '.remove-problem', function () {
         $(this).parent().parent().remove();
@@ -1172,8 +1185,6 @@
                 Swal.showLoading();
             }
         })
-        var Id = localStorage.getItem('Id');
-
         $.ajax({
             url: BaseUrl + `api/Jyotish/GetClientMembers`,
             type: 'GET',
@@ -1190,7 +1201,6 @@
                                     `)
                     if (result.data.memberList.length > 0) {
                         result.data.memberList.forEach(function (item, i) {
-
                                 $("#selectmember").append(`
 <option value='${item.id}'>${item.name} - ${item.relation}</option>
                                 `)
@@ -1409,8 +1419,10 @@
 
         // Prepare the HTML content for printing
         let printContent = `<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap-grid.min.css" integrity="sha512-JQksK36WdRekVrvdxNyV3B0Q1huqbTkIQNbz1dlcFVgNynEMRl0F8OSqOGdVppLUDIvsOejhr/W5L3G/b3J+8w==" crossorigin="anonymous" referrerpolicy="no-referrer" />  <div class="problem-solution-container">
+                                                                   <div> <img height="40" width="40" src="https://api.myjyotishg.in/Images/Logo.png" /></div>
                                         <div class="d-flex justify-content-between">
-                                                                <div><div class="section-title">${data.memberName != null ? "Member Name" : "User Name"}:</div><p>${data.memberName != null ? data.memberName : data.userName}</p></div>
+                                                                <div>
+                                                                <div class="section-title">${data.memberName != null ? "Member Name" : "User Name"}:</div><p>${data.memberName != null ? data.memberName : data.userName}</p></div>
                                       <div><div class="section-title">Date:</div><p>${data.appointmentDate}</p></div>
                                       <div><div class="section-title">Time:</div><p>${data.appointmentTime}</p></div>
                                         </div>

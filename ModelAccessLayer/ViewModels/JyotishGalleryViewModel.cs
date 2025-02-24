@@ -11,7 +11,7 @@ namespace ModelAccessLayer.ViewModels
     public class JyotishGalleryViewModel
     {
         [AllowNull]
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public string ImageTitle { get; set; }
         public string SerialNo { get; set; }
         public IFormFile? ImageUrl { get; set; }

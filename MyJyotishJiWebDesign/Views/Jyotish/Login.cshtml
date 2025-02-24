@@ -226,9 +226,7 @@
 
                         Swal.fire({
                             title: response.message,
-
                             icon: "warning",
-
                             showConfirmButton: true, // Ensure the OK button is shown
                         })
 
@@ -431,7 +429,9 @@
                                 data: { email:email, Password: newPassword, sendBy: "jyotish" },
                                 success: function(changePasswordResponse) {
                                     if (changePasswordResponse.status === 200) {
-                                        Swal.fire('Success', 'Password changed successfully!', 'success');
+                                        Swal.fire('Success', 'Password changed successfully!', 'success').then(()=>{
+                                 localStorage.clear();
+                                        });
                                     } else {
                                         Swal.fire('Error', 'Password change failed. Try again.', 'error');
                                     }

@@ -49,9 +49,6 @@
 		<div class="col-lg-8 col-md-12 p-2 bg-white right-part ">
 			<h5 class="mb-3 text-center">Schedule an Appointment</h5>
 			<form id="appointmentForm">
-
-
-
 				<div class="form-row">
 					<div class="form-group col-md-6">
 						<label for="name" class="form-label">Name</label>
@@ -63,9 +60,15 @@
 					</div>
 				</div>
 				<div class="form-row">
-					<div class="form-group col-md-12">
+					<div class="form-group col-md-6">
 						<label for="mobile" class="form-label">Mobile</label>
 						<input type="text" class="form-control" id="mobile" placeholder="Enter Client Mobile Number here">
+					</div>
+					<div class="form-group col-md-6">
+						<label for="country">Country: <span class="text-danger">*</span></label>
+						<select id="country" name="country" class="form-control select2" required>
+							<option selected disabled>Select Country</option>
+						</select>
 					</div>
 
 				</div>
@@ -78,8 +81,6 @@
 					</div>
 
 				</div>
-
-
 				<div class="form-row">
 					<!-- Date Picker for selecting the appointment date -->
 					<div class="form-group col-md-12">
@@ -95,12 +96,6 @@
 						</select>
 					</div>
 				</div>
-
-
-
-
-
-
 				<div class="form-row">
 					<div class="form-group col-md-6">
 						<button type="submit" class="btn fw-bold btn-info">Submit</button>
@@ -119,7 +114,23 @@
 <script>
 	$(document).ready(function () {
 
-
+				function loadCountries() {
+					$.ajax({
+						url: BaseUrl + 'Api/Jyotish/Country',
+						type: 'GET',
+						success: function (response) {
+							var countryDropdown = $('#country');
+							countryDropdown.empty().append('<option value="">Select Country</option>');
+							response.data.forEach(country => {
+								countryDropdown.append(`<option class='country' value="${country.id}">${country.name}</option>`);
+							});
+						},
+						error: function (jqXHR, textStatus, errorThrown) {
+							console.error('Error fetching countries:', textStatus, errorThrown);
+						}
+					});
+				}
+				loadCountries();
 
 
 
@@ -239,6 +250,7 @@ function fetchSlotsForDate(date) {
 			let JyotishId = localStorage.getItem('Id');
 			let Problem = $('#problem').val();
 			let SlotId = $('#slotSelect').val();
+					let country = $('#country').val();
 
 			var formData = {
 				email: Email,
@@ -247,6 +259,7 @@ function fetchSlotsForDate(date) {
 				jyotishId: JyotishId,
 				problem: Problem,
 				slotId: SlotId,
+				country: country,
 			};
 
 			let checkValidation = true;

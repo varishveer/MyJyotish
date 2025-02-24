@@ -10,8 +10,7 @@ namespace ModelAccessLayer.ViewModels
 {
     public class JyotishVideosViewModel
     {
-        [Key]
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public string VideoTitle { get; set; }
         public IFormFile? Image { get; set; }
         public string VideoUrl { get; set; }

@@ -277,7 +277,6 @@
 </div>
 
 <!--solution modal-->
-
 <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
 	<div class="modal-dialog modal-dialog-scrollable modal-lg">
 		<div class="modal-content">
@@ -314,8 +313,8 @@
 		</div>
 	</div>
 </div>
-<div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
 
+<div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
 	<div class="modal-dialog modal-dialog-scrollable modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -477,9 +476,6 @@
 	</div>
 </div>
 
-
-
-
 <!-- Update Problem and Solution Modal -->
 <div class="modal fade" id="updateProblemSolutionModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="updateProblemSolutionModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg modal-dialog-scrollable">
@@ -489,15 +485,11 @@
 				<button type="button" class="btn-close" id="updateModalCloseBtn" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-
-
 				<div class="d-flex justify-content-between">
 					<div><div class="section-title">User Name: <span id="modalUserName"></span></div></div>
 					<div><div class="section-title">Date: <span id="modalDate"></span></div></div>
 					<div><div class="section-title">Time: <span id="modalTime"></span></div></div>
 				</div>
-
-
 				<!-- Hidden input to store AppointmentId -->
 				<input type="hidden" id="problemId" name="problemId" />
 				<input type="hidden" id="appointmentId" />
@@ -534,8 +526,6 @@
 	</div>
 </div>
 
-
-
 <!-- Button trigger modal -->
 <div class="modal fade" id="AddBookmarkModal" tabindex="-1" aria-labelledby="AddBookmarkModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
@@ -556,10 +546,6 @@
 						<textarea placeholder="Enter Reason" class="form-control" id="reasonForAddBookmark"></textarea>
 					</div>
 				</div>
-
-
-
-
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -600,6 +586,7 @@
 
 	})
 
+	
 	$("#attachmentForm").hide()
 
 	$("#attachmentForm").submit(function (e) {
@@ -825,7 +812,7 @@
 						if (res.status == 200) {
 							Swal.fire({
 								title: "success",
-								text: result.message,
+								text: "Attachment Removed Successfully",
 								icon: "success",
 								didClose: () => {
 									$("#attachmentModaltrigger").trigger("click")
@@ -949,11 +936,9 @@
 					htmls += '<tr>';
 					htmls += `<td class="text-center">${counterForId}</td>`;
 					htmls += `<td class="text-center">${item.userName}</td>`;
-
 					htmls += `<td class="text-center">${day}-${month}-${year}</td>`;
 					htmls += `<td class="text-center">${item.time}</td>`;
 					htmls += `<td class="text-center"> <a onClick='GetProblemSolutionDetail(${item.appointmentId})'" class="btn btn-success"> View </a></td>`
-
 					htmls += '</tr>';
 					counterForId++;
 				});
@@ -1064,7 +1049,6 @@
 							GetProblemSolutionDetail(appointmentId)
 							$('#updateProblemSolutionModal').modal('hide');
 						}
-
 					});
 				} else {
 					Swal.fire({
@@ -1801,8 +1785,9 @@
 
 		// Prepare the HTML content for printing
 		let printContent = `<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap-grid.min.css" integrity="sha512-JQksK36WdRekVrvdxNyV3B0Q1huqbTkIQNbz1dlcFVgNynEMRl0F8OSqOGdVppLUDIvsOejhr/W5L3G/b3J+8w==" crossorigin="anonymous" referrerpolicy="no-referrer" />  <div class="problem-solution-container">
-																<div class="d-flex justify-content-between">
-																						<div><div class="section-title">${data.memberName != null ? "Member Name" : "User Name"}:</div><p>${data.memberName != null ? data.memberName : data.userName}</p></div>
+										<div> <img height="40" width="40" src="https://api.myjyotishg.in/Images/Logo.png" /></div>
+										<div class="d-flex justify-content-between">
+										<div><div class="section-title">${data.memberName != null ? "Member Name" : "User Name"}:</div><p>${data.memberName != null ? data.memberName : data.userName}</p></div>
 															  <div><div class="section-title">Date:</div><p>${data.appointmentDate}</p></div>
 															  <div><div class="section-title">Time:</div><p>${data.appointmentTime}</p></div>
 																</div>

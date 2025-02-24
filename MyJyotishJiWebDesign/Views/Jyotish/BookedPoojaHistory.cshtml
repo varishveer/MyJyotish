@@ -77,9 +77,9 @@
 					}
 				}
 
-				$(document).on("click",".showBookmark",async function(){
-					let id=$(this).attr("data-id")
-					let bookMarkDetail=await getBookmark(id)
+		$(document).on("click",".showBookmark",async function(){
+		    let id=$(this).attr("data-id")
+		    let bookMarkDetail=await getBookmark(id)
 			console.log(bookMarkDetail);
 			let [year,month,day] = bookMarkDetail.data != null ? bookMarkDetail.data.endDate.split("T")[0].split("-") : "";
 			Swal.fire({
@@ -97,7 +97,6 @@
 						type: 'get',
 						headers: {
 							'Authorization': `Bearer ${localStorage.getItem("Token2")}`
-
 						},
 						success: function (response) {
 							if (response.status == 200) {
@@ -109,15 +108,12 @@
 									didClose: () => {
 										location.reload()
 										}
-
 								});
-
 							}else{
 								Swal.fire({
 								title: "error",
 								text: "some error occured",
 								icon: "error",
-
 							});
 							}
 						},
@@ -125,8 +121,7 @@
 							Swal.fire({
 								title: "error",
 								text: "some error occured",
-								icon: "error",
-
+								icon: "error"
 							});
 						}
 					});
@@ -161,14 +156,31 @@
 	}
 	getBookedPoojaList();
 
+	var customFilter = function(settings, data, dataIndex) {
+  var api = new $.fn.dataTable.Api(settings);
+  var cellHtml = api.cell(dataIndex, 7).data() || "";
+  // Test if the cell contains an <i> tag
+  return /<i[^>]*>/i.test(cellHtml);
+};
 	$("#filterHistory").click(function(){
-		let table=$('#DataTable').DataTable();
-		 var filterValue = $(this).val().trim(); 
-		 if(filterValue=="all"){
-			table.column(7).search("").draw();
-		 }else{
-			table.column(7).search('^(?!\s*$).+', true, false).draw();
-		 }
+		 let table = $('#DataTable').DataTable();
+  var filterValue = $(this).val().trim(); 
+
+  if(filterValue === "all"){
+	// Remove the custom filter if it exists.
+	var index = $.fn.dataTable.ext.search.indexOf(customFilter);
+	if(index !== -1){
+	  $.fn.dataTable.ext.search.splice(index, 1);
+	}
+	// Clear any built-in search on column 7
+	table.column(7).search("").draw();
+  } else {
+	// Add the custom filter if not already added.
+	if ($.fn.dataTable.ext.search.indexOf(customFilter) === -1) {
+	  $.fn.dataTable.ext.search.push(customFilter);
+	}
+	table.draw();
+  }
 	});
 
 </script>

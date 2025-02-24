@@ -1,7 +1,7 @@
 ﻿<style>
 	/* Main Container */
 	.profile-container {
-		max-width: 1300px;
+		max-width: 1400px;
 		margin: 1rem auto;
 		padding: 2rem;
 	}
@@ -132,10 +132,10 @@
 	}
 </style>
 
-<div class="container profile-container">
+<div class="container-fluid profile-container">
 	<div class="row shadow rounded-4 w-100 h-100 mx-auto">
 		<!-- Sidebar Section -->
-		<div class="col-md-4 sidebar-container">
+		<div class="col-md-3 sidebar-container">
 			<div class="text-center">
 				<img id="profileImage" src="~/Img/UserPlaceholder.png" alt="Profile Image" class="profile-img">
 			</div>
@@ -146,7 +146,7 @@
 		</div>
 
 		<!-- Profile Details Section -->
-		<div class="col-md-8 profile-main">
+		<div class="col-md-9 profile-main">
 			<div class="section-title">Personal Information</div>
 			<div class="profile-details">
 				<div>
@@ -180,6 +180,14 @@
 						</div>
 						<div class="col-6">
 							<span class="detail-value" id="insCity"></span>
+						</div>
+					</div>
+					<div class="row mb-4">
+						<div class="col-6">
+							<span class="detail-label">Place Of Birth</span>
+						</div>
+						<div class="col-6">
+							<span class="detail-value" id="placeofBirth"></span>
 						</div>
 					</div>
 				</div>
@@ -225,6 +233,7 @@
 							<span class="detail-value" id="insPincode"></span>
 						</div>
 					</div>
+					
 				</div>
 			</div>
 		</div>
@@ -385,8 +394,6 @@
 									</div>
 								</div>
 
-
-
 							</div>
 						</div>
 					</div>
@@ -416,6 +423,7 @@
 				'Content-Type': 'application/json',
 			},
 			success: function (response) {
+			console.log(response)
 				$(".loader-container").addClass("d-none");
 				if (response.status === 200) {
 					var profile = response.data;
@@ -436,8 +444,8 @@
 					$('#insAddress').text(profile.currentAddress !== "null" ? profile.currentAddress : 'N/A');
 
 					$('#insPincode').text(profile.pincode !== "null" ? profile.pincode : 'N/A');
-					$('#placeOfBirth').text(profile.placeOfBirth !== "null" ? profile.placeOfBirth : 'N/A');
-					$('#timeOfBirth').text(profile.timeOfBirth !== "null" ? profile.timeOfBirth.slice(0,5) : 'N/A');
+					$('#placeofBirth').text(profile.placeOfBirth !== "null" ? profile.placeOfBirth : 'N/A');
+					$('#timeOfBirth').text(profile.timeOfBirth !== "null" && profile.timeOfBirth ? profile.timeOfBirth.slice(0,5) : 'N/A');
 
 					// upate user
 
@@ -455,6 +463,7 @@
 							d.setAttribute("checked", true)
 						}
 					})
+
 					$(".countryCode").val("+" + profile.countryCode);
 					if (profile.country != null) {
 						$(".country").each(function (i, d) {
@@ -463,7 +472,6 @@
 							}
 						})
 					}
-
 
 					if (profile.state != null) {
 						$("#country").trigger("change");
@@ -478,7 +486,7 @@
 							}
 						}, 1000)
 					}
-					debugger
+
 					if (profile.city != null) {
 						setTimeout(() => {
 							$(".city").each(function (i, d) {
@@ -643,10 +651,8 @@
 		})
 	});
 
-
 	var maxDate = new Date();
 	maxDate.setFullYear(maxDate.getFullYear());
-
 
 	// Initialize the datepicker with the calculated maxDate
 	$("#userdob").datepicker({
@@ -660,7 +666,6 @@
 		buttonImageOnly: true,
 		buttonText: "Select date"
 
-
 	});
 	function convertDateFormat(dateString) {
 		const dateParts = dateString.split('/');
@@ -669,7 +674,6 @@
 			const month = dateParts[0];
 			const day = dateParts[1];
 			const year = dateParts[2];
-
 			return `${day}/${month}/${year}`;
 		} else {
 			return 'Invalid date format';
@@ -793,7 +797,10 @@
 					},
 					success: function(response) {
 						if (response.status === 200) {
-							Swal.fire('Success', 'Your password has been changed successfully!', 'success');
+							Swal.fire('Success', 'Your password has been changed successfully!', 'success').then(()=>{
+								 localStorage.clear();
+								location.href="/home/login"
+							});
 						} else {
 							Swal.fire('Error', response.message || 'Something went wrong. Please try again later.', 'error').then(()=>{
 								 $("#changePasswordBtn").click();

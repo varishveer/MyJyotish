@@ -1322,7 +1322,7 @@ namespace BusinessAccessLayer.Implementation
 
         public bool BookPooja(BookedPoojaViewModel model)
         {
-            var res = _context.BookedPoojaList.Where(e => e.status && e.PoojaId == model.PoojaId && model.userId == e.userId && !e.completeStatus).FirstOrDefault();
+            var res = _context.BookedPoojaList.Where(e => e.status && e.PoojaId == model.PoojaId && e.jyotishId==model.jyotishId && model.userId == e.userId && !e.completeStatus).FirstOrDefault();
             if (res != null)
             {
                 return false;

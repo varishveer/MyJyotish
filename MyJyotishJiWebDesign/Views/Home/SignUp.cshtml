@@ -290,10 +290,7 @@
                             text: "OTP send successfully",
                             icon: "success",
                             didClose: () => {
-
                                 $(".otpContainer").removeClass('d-none');
-
-
                             }
                         })
                     }
@@ -303,15 +300,10 @@
                             text: res.message,
                             icon: "success",
                             didClose: () => {
-
                                 $(".custom-field").attr("disabled", false)
-
-
                             }
                         })
                     }
-
-
                 }
                 else {
                     Swal.fire({

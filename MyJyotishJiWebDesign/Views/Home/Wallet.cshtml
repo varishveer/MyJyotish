@@ -399,11 +399,10 @@
                                     <img src="${data.profile == null ? 'https://api.myjyotishg.in/Images/Logo.png' : BaseUrl + data.profile}" class='rounded-circle' height="100" width="100" />
                                     <p class="text-center"> ${data.userName == null ? "From MyJyotishg" : "To "+data.userName}</p>
                                         <h2>₹${data.amount}</h2>
-                                        <p class="text-center">${data.paymentStatus.toLowerCase() == 'success' ? `<i class="fas fa-check-circle text-success" ></i > Completed` :  `<i class="fas text-danger fa-exclamation-circle"></i>Failed`}</p>
+                                        <p class="text-center">${data.paymentStatus.toLowerCase() == 'success' ? `<i class="fas fs-6 fa-check-circle text-success" ></i > Completed` :`<i class="fas fs-6 text-danger fa-exclamation-circle"></i>Failed`}</p>
                                     <hr class="w-50"/>
                                     <p class="text-center">${data.paymentDate}</p>
-                                        <div class="border rounded w-100 p-3 row">
-
+                                        <div class="border rounded w-100  p-3 row">
                                                    <div class='col-sm-3'> PaymentId </div>:<div class='col-sm-8'>${data.paymentId}</div>
                                                             <div class='col-sm-3'>Message </div>:<div class='col-sm-8'>${data.paymentFor}</div>
                                                                 ${data.userName != null ? `<div class='col-sm-3'>To</div>:<div class='col-sm-8'>${data.userName}</div>` : `<div class='col-sm-3'>From</div>:<div class='col-sm-8'>MyJyotishg</div>`}

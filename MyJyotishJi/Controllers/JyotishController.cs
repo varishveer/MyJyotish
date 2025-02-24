@@ -303,7 +303,7 @@ public IActionResult AddJyotishVideo(JyotishVideosViewModel model)
 	{
 		var result = _jyotish.AddJyotishVideo(model);
 		if (result == "invalid data") return BadRequest(new { Status = 400, Message = result });
-		else if (result == "Successful") return Ok(new { Status = 200, Message = result });
+		else if (result == "Successful") return Ok(new { Status = 200, Message = "Video Added Successfully"});
 		else return StatusCode(500, new { Status = 500, Message = result });
 	}
 	catch (Exception ex)
@@ -321,7 +321,7 @@ public IActionResult AddJyotishGallery(JyotishGalleryViewModel model)
 	{
 		var result = _jyotish.AddJyotishGallery(model);
 		if (result == "invalid data") return BadRequest(new { Status = 400, Message = result });
-		else if (result == "Successful") return Ok(new { Status = 200, Message = result });
+		else if (result == "Successful") return Ok(new { Status = 200, Message = "Image Added Successfully" });
 		else return Ok( new { Status = 500, Message = result });
 	}
 	catch (Exception ex)

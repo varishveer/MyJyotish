@@ -773,8 +773,8 @@ z-index:10000000000000000000;
 
 
 			<script>
-				var BaseUrl = "https://api.myjyotishg.in/"
-				//var BaseUrl = "https://localhost:7118/"
+				//var BaseUrl = "https://api.myjyotishg.in/"
+				var BaseUrl = "https://localhost:7118/"
 			</script>
 
 			<div class="container">
@@ -1222,7 +1222,6 @@ z-index:10000000000000000000;
 		let userIdForchat = null;
 	let userConnectionId;
 	let jtargetConnectionId;
-		setTimeout(()=>{
 		establishedConnectionForSendRequest().then((socket) => {
 			debugger
 			if (socket) {
@@ -1316,7 +1315,6 @@ z-index:10000000000000000000;
 				})
 			}
 		})
-		},10000)
 
 		if (localStorage.getItem("jresumeChat") != null) {
 			userIdForchat = localStorage.getItem("jresumeChat");

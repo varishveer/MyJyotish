@@ -51,7 +51,7 @@ namespace BusinessAccessLayer.Implementation
             {
                 return "Jyotish Not Found";
             }
-
+            _context.Entry(existingRecord).Reload();
             if (model.ProfileImageUrl != null)
             {
                 var ProfileGuid = Guid.NewGuid().ToString();
@@ -112,6 +112,7 @@ namespace BusinessAccessLayer.Implementation
             existingRecord.About = model.About;
             existingRecord.Specialization = model.Specialization;
             existingRecord.AwordsAndAchievement = model.AwordsAndAchievement;
+
 
             _context.JyotishRecords.Update(existingRecord);
             // Save changes to the database
@@ -204,20 +205,20 @@ namespace BusinessAccessLayer.Implementation
             appointment.JyotishId = model.JyotishId;
             appointment.SlotId = model.SlotId;
 
-
             if (User == null)
             {
                 ModelAccessLayer.Models.UserModel userModel = new ModelAccessLayer.Models.UserModel();
                 userModel.Email = model.Email;
                 userModel.Mobile = model.Mobile;
                 userModel.Name = model.Name;
-
+                userModel.Country = model.country;
+                userModel.CountryCodeId = _context.CountryCode.Where(e => e.country == model.country).Select(e=>e.Id).FirstOrDefault();
                 userModel.Password = (new Random().Next(10000000, 100000000)).ToString();
                 _context.Users.Add(userModel);
                 if (_context.SaveChanges() > 0)
                 { appointment.UserId = userModel.Id; }
-
-                _account.SendEmail("Password" + userModel.Password, model.Email, "MyJyotishG Password");
+                var message = $"Thanks for using Myjyotishg, <br> Here is you credential for login <br> Email : {model.Email} <br> Password : {userModel.Password}";
+                _account.SendEmail(message, model.Email, "MyJyotishG login credential");
             }
             else { appointment.UserId = User.Id; }
             appointment.Problem = model.Problem;
@@ -633,6 +634,7 @@ namespace BusinessAccessLayer.Implementation
             data.VideoUrl = model.VideoUrl;
             data.JyotishId = model.JyotishId;
             data.SerialNo = model.SerialNo;
+            data.Status = true;
             _context.JyotishVideos.Add(data);
             if (_context.SaveChanges() > 0) { return "Successful"; }
             else { return "internal server Error"; }
@@ -1930,10 +1932,6 @@ namespace BusinessAccessLayer.Implementation
           })
     .ToList();*/
 
-
-
-
-
             return allRecords;
         }
 
@@ -2168,7 +2166,7 @@ namespace BusinessAccessLayer.Implementation
                 Date = group.Key.ToString("dd-MM-yyyy"),  // Format the date as "DD-MM-YYYY"
                 TimeDuration = group.First().TimeDuration
             })
-            .ToList();
+            .ToList().OrderByDescending(e=>Convert.ToDateTime(e.Date)).ToList();
             return appointmentSlots;
         }
 
@@ -2538,7 +2536,7 @@ namespace BusinessAccessLayer.Implementation
                 {
                     return "successfull";
                 }
-
+                _context.Entry(res).Reload();
                 res.ActiveStatus = status;
                 _context.JyotishRecords.Update(res);
                 if (_context.SaveChanges() > 0)
