@@ -501,7 +501,7 @@
 			html += `
 					<div class="astrologer-card w-23 position-relative">
 		<small class="py-1 fw-bold px-1 text-light position-absolute top-0 active-logo ${astrologer.activeStatus ? 'bg-success' : 'bg-danger'}">
-			${astrologer.activeStatus ? 'Active' : 'Inactive'}
+			${astrologer.activeStatus ? 'Online' : 'Offline'}
 		</small>
 
 			<div class="d-flex align-items-start">
@@ -828,12 +828,19 @@
 					location.href = "/home/login"
 				}
 			})
-
-
 		} else {
+			  navigator.mediaDevices.enumerateDevices()
+	.then(devices => {
+	  const hasMic = devices.some(device => device.kind === 'audioinput');
+	  if (hasMic) {
 		 $('#JyotishId').val(id);
 			$("#exampleModal2").modal("show")
-		}
+	  }else{
+		Swal.fire("warning","Microphone not found","warning")
+
+	  }
+	})
+	}
 	}
 
 	async function getUserWallet(userId,jyotishId){
@@ -898,13 +905,13 @@
 							const audioDuration = document.getElementById('audioDuration');
 											remoteAudio.ontimeupdate = function() {
 										 const currentTime = remoteAudio.currentTime; // Get the current playback time
-		                                 const minutes = Math.floor(currentTime / 60); // Get the minutes
-		                                 const seconds = Math.floor(currentTime % 60); // Get the seconds
-		                                
-		                                 // Format the time in MM:SS format
-		                                 const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-		                                 // Update the displayed duration
-		                                	audioDuration.textContent = formattedTime;
+										 const minutes = Math.floor(currentTime / 60); // Get the minutes
+										 const seconds = Math.floor(currentTime % 60); // Get the seconds
+
+										 // Format the time in MM:SS format
+										 const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+										 // Update the displayed duration
+											audioDuration.textContent = formattedTime;
 														if(minutes>=totaltimeforcall){
 															$("#endCallBtn").click()
 											Swal.fire({
@@ -997,7 +1004,6 @@
 			});
 			queuedIceCandidates = []; // Clear the queue after adding the candidates.
 		}
-
 				// Function to set remote description
 
 			  function sendSignal(senderId, signalData) {
@@ -1012,10 +1018,6 @@
 				let userId = localStorage.getItem("userId");
 				connection.invoke("SendSignal", senderId, targetConnectionId, signalData, "client")
 					.catch(err => console.error("Error invoking SendSignal:", err));
-
-
-
-
 			}
 
 			// Get the audio element and the duration display element

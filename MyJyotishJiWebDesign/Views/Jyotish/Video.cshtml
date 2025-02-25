@@ -215,7 +215,12 @@
                             }
                         });
                     } else {
-                        console.error("Failed to add image:", response.message);
+                        Swal.fire({
+                            title:"warning",
+                            text:response.message,
+                            icon:"warning",
+                           
+                        });
                     }
                 },
                 error: function (xhr) {

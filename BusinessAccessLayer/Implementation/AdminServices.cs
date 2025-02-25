@@ -3154,7 +3154,7 @@ Expiry : <span>{res.startDate}-{res.endDate}</span>
             {
                 return false;
             }
-
+            res.status = appstatus ? true : false;
             res.appStatus = appstatus;
             _context.PurchaseAdvertisement.Update(res);
            if( _context.SaveChanges() > 0)

@@ -316,7 +316,7 @@
                                         <div class="static mb-3">
                                             <div class="input-container" id="date-picker-container">
                                                 <label for="date-from">Start</label>
-                                                <input type="date" id="date-checkin" class="date-field" name"dateFrom">
+                                                <input type="date" id="date-checkin" min="@DateTime.Now.AddDays(1).Date.ToString("yyyy-MM-dd")" class="date-field" name"dateFrom">
                                             </div>
                                         </div>
                                         <div class="static  mb-3">
@@ -459,7 +459,6 @@
 
         function formatDate(date) {
             if (!date) return 'N/A';
-
             var d = new Date(date);
             var day = ("0" + d.getDate()).slice(-2);  // Add leading zero if day < 10
             var month = ("0" + (d.getMonth() + 1)).slice(-2);  // Add leading zero if month < 10
@@ -1107,7 +1106,7 @@
         const formattedMaxDate = maxDate.toISOString().split('T')[0];
         dateTo.setAttribute('max', formattedMaxDate);
         dateTo.value = formattedMaxDate
-        $("#skipDate").attr("min", this.value)
+        $("#skipDate").attr("min", "@DateTime.Now.Date.AddDays(1)")
         $("#skipDate").attr("max", formattedMaxDate)
     })
 </script>

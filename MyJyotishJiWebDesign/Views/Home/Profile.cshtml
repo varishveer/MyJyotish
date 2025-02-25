@@ -428,32 +428,28 @@
 				if (response.status === 200) {
 					var profile = response.data;
 					if (profile.dateOfBirth != null) {
-						$('#dateOfBirth').text(profile.dateOfBirth != null ? profile.dateOfBirth : 'N/A');
-						$('#userdob').val(profile.dateOfBirth !== "null" ? profile.dateOfBirth : 'N/A');
+						$('#dateOfBirth').text(profile.dateOfBirth != null && profile.dateOfBirth ? profile.dateOfBirth : 'N/A');
+						$('#userdob').val(profile.dateOfBirth !== "null" && profile.dateOfBirth ? profile.dateOfBirth : 'N/A');
 					}
 					var mobileNumber = "+"+profile.countryCode+"-" + profile.mobile;
 					// Fill in the data fields
 					$('#profileImage').attr('src', profile.profilePictureUrl ? BaseUrl + profile.profilePictureUrl : '/Img/UserPlaceholder.png');
-					$('#name').text(profile.name);
-					$('#email').text(profile.email);
-					$('#mobile').text(mobileNumber);
-					$('#gender').text(profile.gender);
-					$('#insCountry').text(profile.country !== "null" ? profile.country : 'N/A');
-					$('#insState').text(profile.state !== "null" ? profile.state : 'N/A');
-					$('#insCity').text(profile.city !== "null" ? profile.city : 'N/A');
-					$('#insAddress').text(profile.currentAddress !== "null" ? profile.currentAddress : 'N/A');
+					$('#name').text(profile.name || "N/A");
+					$('#email').text(profile.email || "N/A");
+					$('#mobile').text(mobileNumber || "N/A");
+					$('#gender').text(profile.gender || "N/A");
+					$('#insCountry').text(profile.country !== "null" && profile.country ? profile.country : 'N/A' );
+					$('#insState').text(profile.state !== "null" && profile.state ? profile.state : 'N/A' );
+					$('#insCity').text(profile.city !== "null" && profile.city ? profile.city : 'N/A' );
+					$('#insAddress').text(profile.currentAddress !== "null" && profile.currentAddress ? profile.currentAddress : 'N/A' );
 
-					$('#insPincode').text(profile.pincode !== "null" ? profile.pincode : 'N/A');
-					$('#placeofBirth').text(profile.placeOfBirth !== "null" ? profile.placeOfBirth : 'N/A');
-					$('#timeOfBirth').text(profile.timeOfBirth !== "null" && profile.timeOfBirth ? profile.timeOfBirth.slice(0,5) : 'N/A');
-
+					$('#insPincode').text(profile.pincode !== "null" && profile.pincode ? profile.pincode : 'N/A' );
+					$('#placeofBirth').text(profile.placeOfBirth !== "null" && profile.placeOfBirth ? profile.placeOfBirth : 'N/A' );
+					$('#timeOfBirth').text(profile.timeOfBirth !== "null" && profile.timeOfBirth ? profile.timeOfBirth.slice(0,5) : 'N/A' );
 					// upate user
-
 					$('#userImage').attr('src', profile.profilePictureUrl ? BaseUrl + profile.profilePictureUrl : '/Img/UserPlaceholder.png');
-					$('#userName').val(profile.name);
-
+					$('#userName').val(profile.name );
 					$('#mobno').val(profile.mobile);
-
 					$('#PlaceOfBirthInput').val(profile.placeOfBirth !== "null" ? profile.placeOfBirth : 'N/A');
 					$("#userId").val(profile.id)
 					$("#pincode").val(profile.pincode)

@@ -34,19 +34,20 @@ namespace MyJyotishGApi.Controllers
 			var records = _jyotish.GetAllAppointment(Id);
 			return Ok(new { Status = 200, data = records });
 		}
+
 		[HttpGet("GetTodayAppointment")]
 		public IActionResult GetTodayAppointment(int Id)
 		{
 			var records = _jyotish.GetTodayAppointment(Id);
 			return Ok(new { Status = 200, data = records });
 		}
+
 		[HttpGet("UpcomingAppointment")]
 		public IActionResult UpcomingAppointment(int Id)
 		{
 			var records = _jyotish.UpcomingAppointment(Id);
 			return Ok(new { data = records });
 		}
-
 
 		[HttpPost("AddAppointment")]
 		public IActionResult AddAppointment(AddAppointmentJyotishModel model)
@@ -58,9 +59,7 @@ namespace MyJyotishGApi.Controllers
 				{
 					return Ok(new { Status = 400, Message = result });
 				}
-
 				else if (result == "Successful") { return Ok(new { Status = 200, message = result }); }
-
 				else { return Ok(new { Status = 500, message = result }); }
 			}
 			catch (Exception ex) { return StatusCode(500, new { Status = 500, Message = "Internal Server Error", Error = ex }); }
@@ -304,7 +303,7 @@ public IActionResult AddJyotishVideo(JyotishVideosViewModel model)
 		var result = _jyotish.AddJyotishVideo(model);
 		if (result == "invalid data") return BadRequest(new { Status = 400, Message = result });
 		else if (result == "Successful") return Ok(new { Status = 200, Message = "Video Added Successfully"});
-		else return StatusCode(500, new { Status = 500, Message = result });
+		else return Ok(new { Status = 500, Message = result });
 	}
 	catch (Exception ex)
 	{
@@ -461,11 +460,11 @@ public IActionResult GetProfile(int Id)
 }
 
 [HttpGet("GetAllSubscription")]
-public IActionResult GetAllSubscription()
+public IActionResult GetAllSubscription(int jyotishId)
 {
 	try
 	{
-		var Result = _jyotish.GetAllSubscription();
+		var Result = _jyotish.GetAllSubscription(jyotishId);
 		if (Result == null)
 		{ return Ok(new { Status = 404, Message = "Data Not Found" }); }
 

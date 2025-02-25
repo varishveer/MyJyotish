@@ -195,7 +195,7 @@
 
 <!-- Update Problem and Solution Modal -->
 <div class="modal fade" id="updateProblemSolutionModal" tabindex="-1" aria-labelledby="updateProblemSolutionModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="updateProblemSolutionModalLabel">Update Problem and Solution</h5>
@@ -795,7 +795,6 @@
                 Swal.showLoading();
             }
         })
-        var Id = localStorage.getItem('Id');
         $.ajax({
             url: BaseUrl + `Api/Jyotish/GetAllUserAttachmentsByAppointmentId`,
             method: 'GET',
@@ -812,7 +811,6 @@
                         let fileExtension = getFileExtension(d.image)
                             if (fileExtension == "pdf") {
                                 $(".attachmentRecord").append(
-
                                     `<div class='col-sm-4'>
                                                 <div class='text-end text-danger'><i data-id='${d.id}' role='button' onClick='removeAttachment(${d.id})' class="fas removeAttachment fa-trash-alt"></i></div>
                                         <a class=" display-block" href='${BaseUrl}${d.image}' target='_blank'>
@@ -840,19 +838,11 @@
                         $(".attachmentRecord").append("<p class='text-center text-secondary'>no attachment found</p>")
                    }
                 } else {
-                    Swal.fire({
-                        title: "warning",
-                        text: result.message,
-                        icon: "warning",
-                    })
+                   
                 }
                Swal.close()
             }, error: function () {
-                Swal.fire({
-                    title: "error",
-                    text: "some error occured",
-                    icon: "error",
-                });
+               
             }
         })
     }
@@ -889,24 +879,15 @@
                                 text: "Attachment Removed Successfully",
                                 icon: "success",
                                 didClose: () => {
-                                    $("#attachmentModaltrigger").trigger("click")
-                                    $("#attachmentModaltrigger2").trigger("click")
+                                      getUserAttachment($("#appointmentId").val(), $("#selectmember").val())
+                                getUserAttachment($("#appointmentIdup").val(), $("#memberup").val())
+
                                 }
                             })
-                        } else {
-                            Swal.fire({
-                                title: "error",
-                                text: result.message,
-                                icon: "error",
-                            })
-                        }
+                        } 
 
                     }, error: function () {
-                        Swal.fire({
-                            title: "error",
-                            text: "some error occured",
-                            icon: "error",
-                        });
+                       
                     }
                 })
             }

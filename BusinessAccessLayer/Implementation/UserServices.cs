@@ -333,6 +333,7 @@ namespace BusinessAccessLayer.Implementation
             Slot.Status = "Booked";
             appointment.BookMark = 0;
             appointment.ArrivedStatus = 0;
+            appointment.BookBy = "client";
             _context.AppointmentSlots.Update(Slot);
             _context.AppointmentRecords.Add(appointment);
             var result = _context.SaveChanges();

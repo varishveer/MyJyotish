@@ -35,7 +35,7 @@ namespace BusinessAccessLayer.Abstraction
         public List<JyotishGalleryModel> JyotishGallery(int Id);
         public List<JyotishVideosModel> JyotishVideos(int Id);
         public JyotishProfileUpdateViewModal GetProfile(int Id);
-        public List<SubscrictionListJyotishViewModel> GetAllSubscription();
+        public List<SubscrictionListJyotishViewModel> GetAllSubscription(int jyotishId);
         public List<JyotishPaymentRecordModel> JyotishPaymentrecords(int Id);
         public JyotishPaymentRecordModel JyotishPaymentDetail(int Id);
         public string AddAppointmentSlot(AppointmentSlotViewModel model);

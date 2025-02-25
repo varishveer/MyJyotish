@@ -66,18 +66,16 @@ header {
   background: #fff;
   color: hsl(233, 13%, 49%);
   border-radius: 0.8rem;
-        transition: 0.3s;
+  transition: 0.3s;
     }
 
 .card:hover.active {
- 
- 
   transform: scale(1.1);
   z-index: 1;
   transition:0.3s;
 }
 
-    .details {
+  .details {
   margin: 2.6rem;
   display: flex;
   flex-direction: column;
@@ -86,7 +84,7 @@ header {
   padding-left:0 !important;
 }
 
-        .details li {
+  .details li {
   list-style-type: none;
   display: flex;
   justify-content: start;
@@ -102,7 +100,6 @@ header {
 .shadow {
   box-shadow: -5px 5px 15px 1px rgba(0, 0, 0, 0.1);
 }
-
 
 .btn-package {
   margin-top: 1rem;
@@ -278,7 +275,7 @@ header {
 
     $(document).ready(function () {
         // API URL
-        var apiUrl = BaseUrl + "Api/Jyotish/GetAllSubscription";
+        var apiUrl = BaseUrl + "Api/Jyotish/GetAllSubscription?jyotishId="+localStorage.getItem("Id");
         Swal.fire({
             title: "Processing Your Request",
             allowOutsideClick: false,

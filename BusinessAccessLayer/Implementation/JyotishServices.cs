@@ -188,6 +188,17 @@ namespace BusinessAccessLayer.Implementation
         public string AddAppointment(AddAppointmentJyotishModel model)
         {
 
+            var totalUsedServiceCount = _context.AppointmentRecords.Count(e => e.JyotishId == model.JyotishId && e.BookBy=="jyotish");
+            var serviceCount = (from package in _context.PackageManager
+                                join managepk in _context.ManageSubscriptionModels on package.SubscriptionId equals managepk.SubscriptionId
+                                join feature in _context.SubscriptionFeatures on managepk.FeatureId equals feature.FeatureId
+                                where package.JyotishId == model.JyotishId && package.Status && feature.ServiceUrl == "/Jyotish/AddAppointment"
+                                select managepk.ServiceCount).FirstOrDefault();
+            if (totalUsedServiceCount >= serviceCount)
+            {
+                return "Limit Exeeced";
+            }
+
             var Jyotish = _context.JyotishRecords.Where(x => x.Id == model.JyotishId).FirstOrDefault();
             var User = _context.Users.FirstOrDefault(x => x.Email == model.Email || x.Mobile == model.Mobile);
 
@@ -226,6 +237,7 @@ namespace BusinessAccessLayer.Implementation
             appointment.Status = "Upcomming";
             appointment.ArrivedStatus = 0;
             appointment.BookMark = 0;
+            appointment.BookBy = "jyotish";
             _context.AppointmentRecords.Add(appointment);
             Slot.Status = "Booked";
             _context.AppointmentSlots.Update(Slot);
@@ -605,6 +617,18 @@ namespace BusinessAccessLayer.Implementation
         {
             if (model == null) { return "invalid data"; }
 
+            var totalUsedServiceCount = _context.JyotishVideos.Count(e => e.JyotishId == model.JyotishId && e.Status);
+            var serviceCount = (from package in _context.PackageManager
+                                join managepk in _context.ManageSubscriptionModels on package.SubscriptionId equals managepk.SubscriptionId
+                                join feature in _context.SubscriptionFeatures on managepk.FeatureId equals feature.FeatureId
+                                where package.JyotishId == model.JyotishId && package.Status && feature.ServiceUrl == "/Jyotish/Video"
+                                select managepk.ServiceCount).FirstOrDefault();
+            if (totalUsedServiceCount >= serviceCount)
+            {
+                return "Limit Exeeced";
+            }
+
+
             var gallerySrCount = _context.JyotishVideos.Where(e => e.JyotishId == model.JyotishId && e.Status && Convert.ToInt32(e.SerialNo) >= Convert.ToInt32(model.SerialNo)).ToList();
             int srCount = 1;
             foreach (var item in gallerySrCount)
@@ -680,17 +704,14 @@ namespace BusinessAccessLayer.Implementation
 
         public string AddJyotishGallery(JyotishGalleryViewModel model)
         {
-
             if (model == null) { return "invalid data"; }
-
             var totalUsedServiceCount = _context.JyotishGallery.Count(e => e.JyotishId == model.JyotishId && e.Status);
             var serviceCount = (from package in _context.PackageManager
                                 join managepk in _context.ManageSubscriptionModels on package.SubscriptionId equals managepk.SubscriptionId
                                 join feature in _context.SubscriptionFeatures on managepk.FeatureId equals feature.FeatureId
                                 where package.JyotishId == model.JyotishId && package.Status && feature.ServiceUrl == "/Jyotish/Gallery"
                                 select managepk.ServiceCount).FirstOrDefault();
-
-            if (totalUsedServiceCount > serviceCount)
+            if (totalUsedServiceCount >= serviceCount)
             {
                 return "Limit Exeeced";
             }
@@ -871,11 +892,13 @@ namespace BusinessAccessLayer.Implementation
             return Data;
         }
 
-        public List<SubscrictionListJyotishViewModel> GetAllSubscription()
+        public List<SubscrictionListJyotishViewModel> GetAllSubscription(int jyotishId)
         {
             var activeFeatures = _context.SubscriptionFeatures
-                                         .Where(x => x.Status == true)
-                                         .ToList();
+                        .Where(x => x.Status == true)
+                        .ToList();
+            var pkManager = _context.PackageManager.Where(e => e.JyotishId == jyotishId && e.Status).Select(e => e.SubscriptionId).FirstOrDefault();
+            var packageLimit= _context.Subscriptions.Where(e => e.SubscriptionId == pkManager).Select(e => e.Name).FirstOrDefault().ToLower() == "silver" ? 2 : _context.Subscriptions.Where(e => e.SubscriptionId == pkManager).Select(e => e.Name).FirstOrDefault().ToLower() == "gold"?1: _context.Subscriptions.Where(e => e.SubscriptionId == pkManager).Select(e => e.Name).FirstOrDefault().ToLower() == "platinum"?1:3;
             var records = _context.Subscriptions
                                   .Where(x => x.Status == true)
                                   .Select(subscription => new SubscrictionListJyotishViewModel
@@ -889,7 +912,6 @@ namespace BusinessAccessLayer.Implementation
                                       DiscountAmount = subscription.DiscountAmount,
                                       PlanType = subscription.PlanType,
                                       description = subscription.description,
-                                      // Here, we map over the active features and use a join to check the status from ManageSubscriptionModels
                                       Features = _context.SubscriptionFeatures
                                          .Where(x => x.Status == true).Select(x => new FeatureList
                                          {
@@ -898,7 +920,7 @@ namespace BusinessAccessLayer.Implementation
                                              ServiceCount = 0,
                                              Status = false
                                          }).ToArray()
-                                  }).OrderByDescending(e => e.SubscriptionId).ToList();
+                                  }).OrderByDescending(e => e.SubscriptionId).Skip(3- packageLimit).ToList();
 
             var ManageSubscriptionData = _context.ManageSubscriptionModels.Where(x => x.Status == true).ToList();
 
@@ -911,7 +933,6 @@ namespace BusinessAccessLayer.Implementation
                                     .FirstOrDefault(x => x.SubscriptionId == data.SubscriptionId
                                                       && x.FeatureId == feature.FeatureId
                                                       && x.Status == true);
-
                     // Check if a matching record is found
                     if (NewData != null)
                     {
@@ -2457,14 +2478,13 @@ namespace BusinessAccessLayer.Implementation
                     jdata.Pooja = true;
                 }
             }
-
-            var totalUsedServiceCount = _context.JyotishPooja.Count(e => e.JyotishId == model.JyotishId);
+            var totalUsedServiceCount = _context.JyotishPooja.Count(e => e.JyotishId == model.JyotishId && e.status);
             var serviceCount = (from package in _context.PackageManager
                                 join managepk in _context.ManageSubscriptionModels on package.SubscriptionId equals managepk.SubscriptionId
                                 join feature in _context.SubscriptionFeatures on managepk.FeatureId equals feature.FeatureId
                                 where package.JyotishId == model.JyotishId && package.Status && feature.ServiceUrl.ToLower() == "/jyotish/pooja"
                                 select managepk.ServiceCount).FirstOrDefault();
-            if (totalUsedServiceCount > serviceCount)
+            if (totalUsedServiceCount >= serviceCount)
             {
                 return false;
             }

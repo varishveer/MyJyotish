@@ -460,7 +460,7 @@ z-index:10000000000000000000;
 				<div class="row d-flex">
 					<div class="col-md-4 mb-2">
 						<label name="Name">Name</label>
-						<input class="form-control" name="Name" id="Name" type="text" />
+						<input class="form-control" required name="Name" id="Name" type="text" />
 					</div>
 					<input id="JyotishId" hidden />
 					<input id="UserId" hidden />
@@ -476,19 +476,19 @@ z-index:10000000000000000000;
 
 					<div class="col-md-4  mb-2">
 						<label name="DateOfBirth">DateOfBirth</label>
-						<input class="form-control" name="DateOfBirth" id="DateOfBirth" type="date" />
+						<input class="form-control" name="DateOfBirth" required id="DateOfBirth" type="date" />
 					</div>
 				</div>
 
 				<div class="row d-flex">
 					<div class="col-md-4 mb-2 ">
 						<label name="TimeOfBirth">TimeOfBirth</label>
-						<input class="form-control" name="TimeOfBirth" id="TimeOfBirth" type="time" />
+						<input class="form-control" name="TimeOfBirth" required id="TimeOfBirth" type="time" />
 					</div>
 					<div class="col-md-4 mb-2 position-relative">
 						<label name="PlaceOfBirth">PlaceOfBirth</label>
 
-						<input list="PlaceOfBirthList" type="text" id="PlaceOfBirth" name="placeOfBirth" class="form-control custom-field"
+						<input list="PlaceOfBirthList" type="text" required id="PlaceOfBirth" name="placeOfBirth" class="form-control custom-field"
 							   placeholder="Enter City" autocomplete="off" />
 						<div class="position-absolute w-100 bg-light d-none" id="PlaceOfBirthList">
 						</div>
@@ -610,14 +610,13 @@ z-index:10000000000000000000;
 			$('#PlaceOfBirthList').removeClass('d-none');
 			$placeOfBirthDropdown.empty();
 			data.data.forEach(placeOfBirth => {
-				$placeOfBirthDropdown.append(`<p class="pOBPtag" onClick="setPlace('${placeOfBirth}')"> ${placeOfBirth}</p>`);
+				$placeOfBirthDropdown.append(`<p role="button" class="pOBPtag" onClick="setPlace('${placeOfBirth.record}')"> ${placeOfBirth.record}</p>`);
 			});
 		} catch (error) {
 			console.error('Error fetching PlaceOfBirth:', error);
 		}
 	}
 	function setPlace(svalue) {
-
 		$('#PlaceOfBirthList').addClass('d-none');
 		$('#PlaceOfBirth').val(svalue);
 	}
@@ -648,8 +647,6 @@ z-index:10000000000000000000;
 
 			}
 		})
-
-
 	}
 
 	let checkAppointmentStatus=false;
@@ -695,7 +692,6 @@ z-index:10000000000000000000;
 					}else{
 						$("#bookAppointmentModalBtn").hide();
 						$("#appointmentCharge").parent().hide()
-
 						checkAppointmentStatus=false;
 					}
 
@@ -1346,16 +1342,30 @@ z-index:10000000000000000000;
 				}
 			})
 		} else {
+			
+			navigator.mediaDevices.enumerateDevices()
+  .then(devices => {
+    const hasMic = devices.some(device => device.kind === 'audioinput');
+    if (hasMic) {
 			$("#exampleModal2").modal("show")
-			var Action = $(this).attr('data-action');
-			$('#Action').val(Action);
+				var Action = $(this).attr('data-action');
+				$('#Action').val(Action);
+					const tooltipTriggerList = document.querySelector('[data-bs-toggle="tooltip1"]')
+			const tooltip = bootstrap.Tooltip.getOrCreateInstance(tooltipTriggerList)
+			const tooltipTriggerList1 = document.querySelector('[data-bs-toggle="tooltip2"]')
+			const tooltip1 = bootstrap.Tooltip.getOrCreateInstance(tooltipTriggerList1)
+			tooltip.hide()
+			tooltip1.hide()
+	}else{
+		
+		Swal.fire("warning","Microphone not found","warning")
+
+	}
+  })
+  
+			
 		}
-		const tooltipTriggerList = document.querySelector('[data-bs-toggle="tooltip1"]')
-		const tooltip = bootstrap.Tooltip.getOrCreateInstance(tooltipTriggerList)
-		const tooltipTriggerList1 = document.querySelector('[data-bs-toggle="tooltip2"]')
-		const tooltip1 = bootstrap.Tooltip.getOrCreateInstance(tooltipTriggerList1)
-		tooltip.hide()
-		tooltip1.hide()
+		
 	})
 
 	//handle modal for book appoinment

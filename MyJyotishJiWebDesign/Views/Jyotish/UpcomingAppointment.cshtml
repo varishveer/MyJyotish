@@ -156,7 +156,6 @@
 	</div>
 </div>
 
-
 <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
@@ -493,12 +492,11 @@
 				<!-- Hidden input to store AppointmentId -->
 				<input type="hidden" id="problemId" name="problemId" />
 				<input type="hidden" id="appointmentId" />
-
 				<div class="container-fluid">
 					<div class="row">
 						<!-- Column for Problems -->
 						<!-- Problem Section with Add More Feature -->
-						<div id="updateproblemSection" class="my-3 col-sm-12" style="max-height: 300px; overflow-y: auto;">
+						<div id="updateproblemSection" class="my-3 col-sm-12">
 							<!-- Added scrolling -->
 							<div class="d-flex mb-1 justify-content-between">
 								<label class="form-label">Problem</label>
@@ -574,18 +572,17 @@
 </div>
 
 <script>
-
 	$("#attachmentModaltrigger").click(function () {
-		$("#staticBackdrop").modal("hide")
-		$("#attachmentModal").modal("show")
-		getUserAttachment($("#appointmentId").val(), $("#selectmember").val())
+		   $("#staticBackdrop").modal("hide")
+		   $("#attachmentModal").modal("show")
+		   getUserAttachment($("#appointmentId").val(), $("#selectmember").val())
 
-	});
+	   });
+
 	$("#closeAttachmentModal").on("click", function () {
 		$("#staticBackdrop").modal("show")
 
 	})
-
 	
 	$("#attachmentForm").hide()
 
@@ -665,7 +662,6 @@
 				Swal.showLoading();
 			}
 		})
-		var Id = localStorage.getItem('Id');
 		$.ajax({
 			url: BaseUrl + `Api/Jyotish/AddUserAttachment`,
 			method: 'Post',
@@ -685,7 +681,6 @@
 							getUserAttachment($("#appointmentIdup").val(), $("#memberup").val())
 							document.getElementById("attachmentForm2").reset();
 						}
-
 					});
 				} else {
 					Swal.fire({
@@ -724,7 +719,6 @@
 				Swal.showLoading();
 			}
 		})
-		var Id = localStorage.getItem('Id');
 		$.ajax({
 			url: BaseUrl + `Api/Jyotish/GetAllUserAttachmentsByAppointmentId`,
 			method: 'GET',
@@ -741,9 +735,8 @@
 							let fileExtension = getFileExtension(d.image)
 							if (fileExtension == "pdf") {
 								$(".attachmentRecord").append(
-
 									`<div class='col-sm-4'>
-																		<div class='text-end text-danger'><i data-id='${d.id}' role='button' onClick='removeAttachment(${d.id})' class="fas removeAttachment fa-trash-alt"></i></div>
+										<div class='text-end text-danger'><i data-id='${d.id}' role='button' onClick='removeAttachment(${d.id},"attachment")' class="fas removeAttachment fa-trash-alt"></i></div>
 																<a class=" display-block" href='${BaseUrl}${d.image}' target='_blank'>
 																   <div  class='w-100'>
 																				<iframe frameborder="0" src="${BaseUrl}${d.image}" height="170" class="w-100  border rounded p-2"/> </iframe>
@@ -756,7 +749,7 @@
 								$(".attachmentRecord").append(
 									`
 															   <div class="col-sm-4">
-																						<div class='text-end text-danger'><i data-id='${d.id}'  role='button' class="fas fa-trash-alt" onClick='removeAttachment(${d.id})'></i></div>
+																						<div class='text-end text-danger'><i data-id='${d.id}'  role='button' class="fas fa-trash-alt" onClick='removeAttachment(${d.id},"attachment")'></i></div>
 
 																			<a href='${BaseUrl}${d.image}' target='_blank'> <img src="${BaseUrl}${d.image}" class="w-100 border rounded p-2" height="170"/></a>
 																<p class="text-center">${d.title}</p>
@@ -773,17 +766,12 @@
 				}
 				Swal.close()
 			}, error: function () {
-				Swal.fire({
-					title: "error",
-					text: "some error occured",
-					icon: "error",
-
-				});
+			
 			}
 		})
 	}
 
-	function removeAttachment(id) {
+	function removeAttachment(id,clickby) {
 		Swal.fire({
 			title: "Are you sure",
 			text: "Do you want to Delete?",
@@ -799,8 +787,7 @@
 					didOpen: () => {
 						Swal.showLoading();
 					}
-				})
-					;
+				});
 				$.ajax({
 					url: BaseUrl + "api/jyotish/DeleteUserAttachment",
 					type: "get",
@@ -815,26 +802,19 @@
 								text: "Attachment Removed Successfully",
 								icon: "success",
 								didClose: () => {
-									$("#attachmentModaltrigger").trigger("click")
-									$("#attachmentModaltrigger2").trigger("click")
-
+							getUserAttachment($("#appointmentId").val(), $("#selectmember").val())
+							getUserAttachment($("#appointmentIdup").val(), $("#memberup").val())
 								}
 							})
-						} else {
-							Swal.fire({
-								title: "error",
-								text: result.message,
-								icon: "error",
-							})
-						}
+						} 
 
 					}, error: function () {
-						Swal.fire({
-							title: "error",
-							text: "some error occured",
-							icon: "error",
+							Swal.fire({
+						title: "error",
+						text: "some error occured",
+						icon: "error",
 
-						});
+					});
 					}
 				})
 			}
