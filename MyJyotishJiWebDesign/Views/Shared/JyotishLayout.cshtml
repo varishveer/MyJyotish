@@ -485,11 +485,11 @@ z-index:10000000000000000000;
 											<span class="sub-item">Pooja</span>
 										</a>
 									</li>
-									<li>
-										<a class="featureValidation" href="/Jyotish/TeamMembers">
-											<span class="sub-item">Add TeamMembers</span>
-										</a>
-									</li>
+									@* <li> *@
+									@* 	<a class="featureValidation" href="/Jyotish/TeamMembers"> *@
+									@* 		<span class="sub-item">Add TeamMembers</span> *@
+									@* 	</a> *@
+									@* </li> *@
 								</ul>
 							</div>
 						</li>
@@ -943,8 +943,6 @@ z-index:10000000000000000000;
 									href.removeAttr("href", "")
 									href.addClass("disable_link");
 									href.attr("onclick", "showAlert(this)")
-
-
 								}
 							}
 						})
@@ -1285,8 +1283,15 @@ z-index:10000000000000000000;
 
 				$("#AcceptChatRequest").click(async function () {
 					if (rquestType == "call") {
-
-						await startSignalR();
+						debugger
+						await navigator.mediaDevices.enumerateDevices()
+	.then(async (devices) => {
+	  const hasMic = devices.some(device => device.kind === 'audioinput');
+	  if (!hasMic) {
+		  Swal.fire("warning","Microphone not found","warning")
+		  return
+	  }else{
+		  await startSignalR();
 						if(userConnectionId){
 						socket.send(`${userIdForchat}:${userConnectionId}:call`)
 														$(".loader-continer-for-call").removeClass("d-none")
@@ -1300,6 +1305,8 @@ z-index:10000000000000000000;
 						},4000)
 						}
 						
+	  }
+	})
 					}
 					else {
 
@@ -1507,7 +1514,6 @@ z-index:10000000000000000000;
 			});
 		}
 
-
 		//call mamangement
 
 	 let connection;
@@ -1705,7 +1711,6 @@ z-index:10000000000000000000;
 				console.log("Local audio stream captured:", localStream);
 			} catch (err) {
 				console.error("Error accessing audio devices:", err);
-				alert("Could not access audio devices.");
 				return;
 			}
 

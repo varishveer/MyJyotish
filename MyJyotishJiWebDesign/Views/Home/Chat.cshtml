@@ -298,6 +298,37 @@
 </div>
 <script>
 
+
+	// place of birth
+		async function loadPlaceOfBirth(city) {
+		if (!city) return;
+
+		try {
+			const response = await fetch(BaseUrl + `Api/Account/PlaceOfBirthList?City=${encodeURIComponent(city)}`);
+			const data = await response.json();
+			const $placeOfBirthDropdown = $('#PlaceOfBirthList');
+			console.log(data);
+			$('#PlaceOfBirthList').removeClass('d-none');
+			$placeOfBirthDropdown.empty();
+			data.data.forEach(placeOfBirth => {
+				$placeOfBirthDropdown.append(`<p role="button" class="pOBPtag" onClick="setPlace('${placeOfBirth.record}')"> ${placeOfBirth.record}</p>`);
+			});
+		} catch (error) {
+			console.error('Error fetching PlaceOfBirth:', error);
+		}
+	}
+	function setPlace(svalue) {
+		$('#PlaceOfBirthList').addClass('d-none');
+		$('#PlaceOfBirth').val(svalue);
+	}
+	$('#PlaceOfBirth').on('keyup', function () {
+
+		$('#PlaceOfBirthList').show();
+		const city = $(this).val();
+		loadPlaceOfBirth(city);
+
+	});
+
 	var UserId = localStorage.getItem('userId');
 	if (UserId != null && UserId != undefined) {
 		GetUserDataForService(UserId);

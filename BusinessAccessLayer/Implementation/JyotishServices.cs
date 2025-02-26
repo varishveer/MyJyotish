@@ -2176,15 +2176,15 @@ namespace BusinessAccessLayer.Implementation
         }
 
 
-        public List<SkipdateJyotishViewModel> SkipDateList(int Id)
+        public dynamic SkipDateList(int Id)
         {
 
             var appointmentSlots = _context.AppointmentSlots
             .Where(x => x.JyotishId == Id && x.ActiveStatus == 0 && x.Date >= DateTime.Now)
             .GroupBy(x => x.Date.Date)
-            .Select(group => new SkipdateJyotishViewModel
+            .Select(group => new 
             {
-                Date = group.Key.ToString("dd-MM-yyyy"),  // Format the date as "DD-MM-YYYY"
+                Date = group.Key,  
                 TimeDuration = group.First().TimeDuration
             })
             .ToList().OrderByDescending(e=>Convert.ToDateTime(e.Date)).ToList();

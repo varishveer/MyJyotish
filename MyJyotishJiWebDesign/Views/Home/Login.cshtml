@@ -161,7 +161,7 @@
 
 							showConfirmButton: true, // Ensure the OK button is shown
 						}).then(() => {
-
+                            localStorage.clear()
 							localStorage.setItem("Token", response.token);
 							localStorage.setItem('userEmail', response.userEmail);
 							localStorage.setItem("userName", response.userName);

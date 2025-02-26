@@ -324,24 +324,18 @@
                                                 <label for="date-from">End</label>
                                                 <input type="date" id="date-checkout" class="date-field" name"dateTo">
                                             </div>
-
-
                                         </div>
                                         <div class="static  mb-3">
                                             <div class="input-container" id="date-picker-container">
                                                 <label for="date-from">Time Start</label>
                                                 <input type="time" id="date-checkout" class="date-field timeFrom" name"timeFrom">
                                             </div>
-
-
                                         </div>
                                         <div class="static  mb-3">
                                             <div class="input-container" id="date-picker-container">
                                                 <label for="date-from">Time End</label>
                                                 <input type="time" id="date-checkout" class="date-field timeTo" name"timeTo">
                                             </div>
-
-
                                         </div>
                                         <div class="static  mb-3">
                                             <div class="input-container" id="date-picker-container">
@@ -359,7 +353,6 @@
                                                 <label for="date-from">Skip Date (Optional)</label>
                                                 <input type="date" id="skipDate" class="date-field" name"">
                                             </div>
-
                                         </div>
                                         <div class=" static skipDays d-block">
                                             <p class="m-0 text-primary">Skip Days (Optional)</p>
@@ -373,8 +366,6 @@
                                     <div class="bottom">
                                     </div>
                                 </div>
-
-
                             </div>
                         </div>
                     </div>
@@ -830,13 +821,13 @@
 
                     // Loop through each date object in the response
                     $.each(res.data, function (index, item) {
-
+                        let [year,month,day]=item.date.split('T')[0].split("-")
 
                         // Construct the row for the table
                         $('.skipDateTBody').append(`
                             <tr>
                                 <td>${slotIndexCount++}</td>
-                                <td>${item.date}</td>
+                                <td>${day + "-"+month+"-"+year}</td>
                                 <td>${item.timeDuration} minutes</td>
 
                             </tr>
@@ -942,7 +933,6 @@
                     icon: 'warning',
                     confirmButtonText: 'Close'
                 });
-
             }
         })
 
@@ -1050,7 +1040,6 @@
         $(document).on('click', '#deletebtn', function () {
             const id = $(this).data('id'); // Get the data-id attribute
             console.log('ID to delete:', id); // Debugging: Log the ID
-
             $.ajax({
                 url: BaseUrl + `api/Jyotish/DeleteAppointmentSlot?Id=${id}`,
                 type: 'DELETE',
@@ -1080,16 +1069,11 @@
                 }
             });
         });
-
-
     });
 </script>
 
 <script>
-
-
     const today = new Date();
-
     const formattedToday = today.toISOString().split('T')[0];
 
     // Set the min and max attributes on the date input

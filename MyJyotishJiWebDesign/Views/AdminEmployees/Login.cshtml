@@ -129,6 +129,7 @@
                 success: function (response) {
 
                     if (response.status === 200) {
+                            localStorage.clear()
                         localStorage.setItem("Token", response.token);
                         localStorage.setItem('Eid', response.user);
                         Swal.fire({

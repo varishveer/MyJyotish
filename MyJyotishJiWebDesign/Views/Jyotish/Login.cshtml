@@ -173,7 +173,7 @@
 
                                 showConfirmButton: true, // Ensure the OK button is shown
                             }).then(() => {
-
+                            localStorage.clear()
                                 localStorage.setItem("Token3", response.token);
                                 localStorage.setItem("Id", response.id);
                                 if (response.newStatus) {
@@ -195,7 +195,7 @@
 
                                 showConfirmButton: true, // Ensure the OK button is shown
                             }).then(() => {
-
+                            localStorage.clear()
                                 localStorage.setItem("Token2", response.token);
                                 localStorage.setItem("Id", response.id);
                                 window.location.href = "/Jyotish/Dashboard";
@@ -213,6 +213,7 @@
 
                                 showConfirmButton: true, // Ensure the OK button is shown
                             }).then(() => {
+                            localStorage.clear()
                                 localStorage.setItem("Id", response.id);
                                 localStorage.setItem("Role", response.role);
                                 localStorage.setItem("UserName", response.userName);

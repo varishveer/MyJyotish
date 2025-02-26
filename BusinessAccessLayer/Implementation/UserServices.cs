@@ -1132,7 +1132,7 @@ namespace BusinessAccessLayer.Implementation
 
             UserRecord.Name = User.Name;
             UserRecord.Gender = User.Gender;
-            UserRecord.DateOfBirth = (DateTime)User.DoB;
+            UserRecord.DateOfBirth = User.DoB != null?(DateTime)User.DoB:DateTime.Now.Date;
             if (User.TimeOfBirth != null)
             {
                 UserRecord.TimeOfBirth = User.TimeOfBirth.ToString();

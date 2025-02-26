@@ -393,6 +393,36 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.7/signalr.min.js" integrity="sha512-7SRCYIJtR6F8ocwW7UxW6wGKqbSyqREDbfCORCbGLatU0iugBLwyOXpzhkPyHIFdBO0K2VCu57fvP2Twgx1o2A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
 
+
+	// place of birth
+		async function loadPlaceOfBirth(city) {
+		if (!city) return;
+
+		try {
+			const response = await fetch(BaseUrl + `Api/Account/PlaceOfBirthList?City=${encodeURIComponent(city)}`);
+			const data = await response.json();
+			const $placeOfBirthDropdown = $('#PlaceOfBirthList');
+			console.log(data);
+			$('#PlaceOfBirthList').removeClass('d-none');
+			$placeOfBirthDropdown.empty();
+			data.data.forEach(placeOfBirth => {
+				$placeOfBirthDropdown.append(`<p role="button" class="pOBPtag" onClick="setPlace('${placeOfBirth.record}')"> ${placeOfBirth.record}</p>`);
+			});
+		} catch (error) {
+			console.error('Error fetching PlaceOfBirth:', error);
+		}
+	}
+	function setPlace(svalue) {
+		$('#PlaceOfBirthList').addClass('d-none');
+		$('#PlaceOfBirth').val(svalue);
+	}
+	$('#PlaceOfBirth').on('keyup', function () {
+
+		$('#PlaceOfBirthList').show();
+		const city = $(this).val();
+		loadPlaceOfBirth(city);
+	})
+
 	//time management for message
 
 	function getSomeJyotish(jyotishId) {
@@ -671,7 +701,7 @@
 											$("#exampleModal2").modal("hide")
 											await startSignalR();
 											socket.send(`${astrologerId}:${userConnectionId}:${call}`);
-									$("#callBtn_" + astrologerId).hide();
+											$("#callBtn_" + astrologerId).hide();
 											$("#waitingBtn_"+astrologerId).removeClass("d-none")
 										}
 									};
@@ -723,7 +753,6 @@
 									if(socket.OPEN){
 											socket.close()
 									}
-
 										}
 								};
 
@@ -1093,7 +1122,6 @@
 					localStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
 				} catch (err) {
 					console.error("Error accessing audio devices:", err);
-					alert("Could not access audio devices.");
 					return;
 				}
 				getSomeJyotish();

@@ -1,734 +1,761 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - MyJyotishJiWebDesign</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] - MyJyotishJiWebDesign</title>
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css" rel="stylesheet" />
+	<!-- Bootstrap CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+	<link href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css" rel="stylesheet" />
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/js/all.min.js" integrity="sha512-1JkMy1LR9bTo3psH+H4SV5bO2dFylgOy+UJhMus1zF4VEFuZVu5lsi4I6iIndE4N9p01z1554ZDcvMSjMaqCBQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    @* <!-- FontAwesome for icons -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/js/all.min.js" integrity="sha512-1JkMy1LR9bTo3psH+H4SV5bO2dFylgOy+UJhMus1zF4VEFuZVu5lsi4I6iIndE4N9p01z1554ZDcvMSjMaqCBQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	@* <!-- FontAwesome for icons -->
     <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc" crossorigin="anonymous"></script> *@
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
-    <link href="~/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
-    <script src="~/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+	<link href="~/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" />
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
+	<script src="~/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
 
-    <style>
-        /* Custom styles */
-        .fixed-section {
-            position: fixed;
-            top: 150px;
-            right: 0;
-            width: 100px;
-            height: 140px;
-            background-color: rgb(116, 82, 199);
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border: 1px solid #ddd;
-            z-index: 1000;
-            overflow-y: auto;
-            transition: width 0.3s ease, transform 0.3s ease;
-            text-align: center;
-        }
+	<style>
+		/* Custom styles */
+		.fixed-section {
+			position: fixed;
+			top: 150px;
+			right: 0;
+			width: 100px;
+			height: 140px;
+			background-color: rgb(116, 82, 199);
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+			border: 1px solid #ddd;
+			z-index: 1000;
+			overflow-y: auto;
+			transition: width 0.3s ease, transform 0.3s ease;
+			text-align: center;
+		}
 
-        .swal2-container {
-            z-index: 99999999999999 !important;
-        }
+		.swal2-container {
+			z-index: 99999999999999 !important;
+		}
 
-        .content-container-fluid {
-            padding: 15px;
-        }
+		.content-container-fluid {
+			padding: 15px;
+		}
 
-        .fixed-section.hidden {
-            transform: translateX(100%);
-            width: 0;
-        }
-        #searchForm{
-               bottom: -60px;
-    left: 20%;
-            background: #fbd550;
-    padding: 30px;
-    width: 60%;
-    height: 0;
-    display: flex;
-    z-index:1000;
-        }
+		.fixed-section.hidden {
+			transform: translateX(100%);
+			width: 0;
+		}
 
-        #mainNavbar{
-            background: #fbd550 !important;
-            max-height: 85px;
-        }
-       
-        .footer-heading {
-            color: white;
-            font-size: 18px;
-        }
+		#searchForm {
+			bottom: -60px;
+			left: 20%;
+			background: #fbd550;
+			padding: 30px;
+			width: 60%;
+			height: 0;
+			display: flex;
+			z-index: 1000;
+		}
 
-        .footer-line {
-            border-top: 2px solid white;
-            width: 50%;
-            margin: 5px 0;
-        }
+		#mainNavbar {
+			background: #fbd550 !important;
+			max-height: 85px;
+		}
 
-        .footer-item a {
-            color: #b0b0b0;
-            margin-bottom: 8px;
-            transition: color 0.3s ease;
-            text-decoration: none
-        }
+		.footer-heading {
+			color: white;
+			font-size: 18px;
+		}
 
-        .footer-item {
-            color: #b0b0b0;
-            margin-bottom: 8px;
-            transition: color 0.3s ease;
-            text-decoration: none
-        }
+		.footer-line {
+			border-top: 2px solid white;
+			width: 50%;
+			margin: 5px 0;
+		}
 
-            .footer-item :hover {
-                color: rgb(253, 224, 182);
-            }
+		.footer-item a {
+			color: #b0b0b0;
+			margin-bottom: 8px;
+			transition: color 0.3s ease;
+			text-decoration: none
+		}
 
-        footer {
-            background-color: #17303B;
-        }
-   
-        .profile-menu{
-            z-index:10000;
-        }
+		.footer-item {
+			color: #b0b0b0;
+			margin-bottom: 8px;
+			transition: color 0.3s ease;
+			text-decoration: none
+		}
 
-        .navbar {
-            transition: all 0.3s ease;
-        }
+			.footer-item :hover {
+				color: rgb(253, 224, 182);
+			}
 
-        .nav-link{
-            font-weight:500 !important;
-        }
-           /* loader   */
-           .loader {
-  width: 78px;
-  height: 78px;
-  margin: auto;
-  position: relative;
-}
+		footer {
+			background-color: #17303B;
+		}
 
-.loader:before {
-  content: '';
-  width: 78px;
-  height: 5px;
-  background: #f0808050;
-                position: absolute;
-  top: 95px;
-  left: 0;
-  border-radius: 50%;
-  animation: shadow324 0.5s linear infinite;
-}
+		.profile-menu {
+			z-index: 10000;
+		}
 
-.loader:after {
-  content: '';
-  width: 100%;
-  height: 100%;
-  background: #f08080;
-  position: absolute;
-  top: 0;
-  left: 0;
-  border-radius: 4px;
-  animation: jump7456 0.5s linear infinite;
-}
+		.navbar {
+			transition: all 0.3s ease;
+		}
 
-@@keyframes jump7456 {
-  15% {
-    border-bottom-right-radius: 3px;
-  }
+		.nav-link {
+			font-weight: 500 !important;
+		}
+		/* loader   */
+		.loader {
+			width: 78px;
+			height: 78px;
+			margin: auto;
+			position: relative;
+		}
 
-  25% {
-    transform: translateY(9px) rotate(22.5deg);
-  }
+			.loader:before {
+				content: '';
+				width: 78px;
+				height: 5px;
+				background: #f0808050;
+				position: absolute;
+				top: 95px;
+				left: 0;
+				border-radius: 50%;
+				animation: shadow324 0.5s linear infinite;
+			}
 
-  50% {
-    transform: translateY(18px) scale(1, .9) rotate(45deg);
-    border-bottom-right-radius: 40px;
-  }
+			.loader:after {
+				content: '';
+				width: 100%;
+				height: 100%;
+				background: #f08080;
+				position: absolute;
+				top: 0;
+				left: 0;
+				border-radius: 4px;
+				animation: jump7456 0.5s linear infinite;
+			}
 
-  75% {
-    transform: translateY(9px) rotate(67.5deg);
-  }
+		@@keyframes jump7456 {
+			15% {
+				border-bottom-right-radius: 3px;
+			}
 
-  100% {
-    transform: translateY(0) rotate(90deg);
-  }
-}
+			25% {
+				transform: translateY(9px) rotate(22.5deg);
+			}
 
-@@keyframes shadow324 {
+			50% {
+				transform: translateY(18px) scale(1, .9) rotate(45deg);
+				border-bottom-right-radius: 40px;
+			}
 
-  0%,
-    100% {
-    transform: scale(1, 1);
-  }
+			75% {
+				transform: translateY(9px) rotate(67.5deg);
+			}
 
-  50% {
-    transform: scale(1.2, 1);
-  }
-}
+			100% {
+				transform: translateY(0) rotate(90deg);
+			}
+		}
 
-        .loader-container{
-            z-index:90000000000;
-        }
+		@@keyframes shadow324 {
 
-        @@media screen and (max-width: 992px) {
+			0%,
+			100% {
+				transform: scale(1, 1);
+			}
 
-            #mainNavbar {
-                max-height: none !important;
-            }
-        }
+			50% {
+				transform: scale(1.2, 1);
+			}
+		}
 
-        #search-Detail{
-            width: 100%;
-            top: 60px;
-            height: 70vh;
-            overflow: auto;
-           
-        }
+		.loader-container {
+			z-index: 90000000000;
+		}
 
-        .datepicker {
-            z-index: 10000 !important; /* Ensure datepicker is above other elements */
-            font-size: 1.1rem; /* Slightly larger font size for datepicker */
-        }
+		@@media screen and (max-width: 992px) {
 
-            .datepicker table {
-                width: 100%; /* Full width */
-            }
+			#mainNavbar {
+				max-height: none !important;
+			}
+		}
 
-            .datepicker th {
-                background-color: white; /* Header background color */
-                color: #007bff; /* Header text color */
-                padding: 5px; /* More padding for header */
-                border: 1px solid #007bff;
-            }
+		#search-Detail {
+			width: 100%;
+			top: 60px;
+			height: 70vh;
+			overflow: auto;
+		}
 
-            .datepicker td {
-                text-align: center; /* Center align dates */
-                padding: 5px; /* More padding for dates */
-            }
+		.datepicker {
+			z-index: 10000 !important; /* Ensure datepicker is above other elements */
+			font-size: 1.1rem; /* Slightly larger font size for datepicker */
+		}
 
-                .datepicker td.day:hover {
-                    background-color: #e9ecef; /* Light hover effect */
-                    cursor: pointer; /* Pointer cursor on hover */
-                }
+			.datepicker table {
+				width: 100%; /* Full width */
+			}
 
-                .datepicker td.day.active {
-                    background-color: #007bff; /* Active date color */
-                    color: white; /* Active date text color */
-                }
+			.datepicker th {
+				background-color: white; /* Header background color */
+				color: #007bff; /* Header text color */
+				padding: 5px; /* More padding for header */
+				border: 1px solid #007bff;
+			}
 
-                .datepicker td.day.disabled {
-                    color: #ced4da; /* Disabled dates color */
-                }
-                #searchInput{
-            background: #fad550 !important;
-            border: none !important;
-            font-weight: 600 !important;
-            outline: none !important;
-            box-shadow: none !important;
-                }
-    </style>
+			.datepicker td {
+				text-align: center; /* Center align dates */
+				padding: 5px; /* More padding for dates */
+			}
+
+				.datepicker td.day:hover {
+					background-color: #e9ecef; /* Light hover effect */
+					cursor: pointer; /* Pointer cursor on hover */
+				}
+
+				.datepicker td.day.active {
+					background-color: #007bff; /* Active date color */
+					color: white; /* Active date text color */
+				}
+
+				.datepicker td.day.disabled {
+					color: #ced4da; /* Disabled dates color */
+				}
+
+		#searchInput {
+			background: #fad550 !important;
+			border: none !important;
+			font-weight: 600 !important;
+			outline: none !important;
+			box-shadow: none !important;
+		}
+	</style>
 </head>
 <body>
-    <!-- Bootstrap JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    
-    <div class="position-fixed overflow-hide d-flex justify-content-center align-items-center w-100 h-100 bg-light loader-container">
-      <div class="loader"></div>
-    </div>
+	<!-- Bootstrap JS Bundle -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
-    <nav id="mainNavbar" class="navbar navbar-expand-lg navbar-light">
-        <div class="container-fluid">
-            <!-- Logo on the left -->
-            <a class="navbar-brand" href="/">
-                <img src="https://api.myjyotishg.in/Images/Logo.png" alt="company Logo" width="50" height="50" class="d-inline-block align-text-top">
+	<div class="position-fixed overflow-hide d-flex justify-content-center align-items-center w-100 h-100 bg-light loader-container">
+		<div class="loader"></div>
+	</div>
 
-            </a>
+	<nav id="mainNavbar" class="navbar navbar-expand-lg navbar-light">
+		<div class="container-fluid">
+			<!-- Logo on the left -->
+			<a class="navbar-brand" href="/">
+				<img src="https://api.myjyotishg.in/Images/Logo.png" alt="company Logo" width="50" height="50" class="d-inline-block align-text-top">
 
-            <!-- Toggler for mobile -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+			</a>
 
-            <!-- Navigation items in the middle -->
-            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Home/Chat">Chat with Astrologer</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Home/Talk">Call with Astrologer</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/home/BookPooja">Book a Pooja</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/home/FreeKundali">Free Kundli</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Home/KundaliMatching">Kundli Matching</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/home/TodayHoroscope" >
-                            Horoscope
-                        </a>
-                    </li>
-                    <li class="nav-item dropdown" id="LoginDropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Login
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end" style="z-index:1040;">
-                            <li><a class="dropdown-item" href="/Jyotish/Login">Astrologer</a></li>
-                            <li><a class="dropdown-item" href="/Home/Login">User</a></li>
-                        </ul>
-                    </li>
-                    <li class="btn fw-bolder ms-3 fw-bold d-flex justify-content-center align-items-center" id="toggleSearch">
-                        <i class="fas fa-search"></i>
-                    </li>
-                </ul>
-            </div>
-            <!-- Search Bar -->
+			<!-- Toggler for mobile -->
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
 
-            <div id="searchForm" class="justify-content-center shadow-lg position-absolute align-items-center">
-                <form id="userInputform" action="/Home/Search" method="post" class="w-100">
-                    <input type="hidden" name="filterValue" id="filtervalue" />
-                    <label for="searchInput" class="visually-hidden">Search</label>
-                <input id="searchInput" autocomplete="off" name="searchInput" class="form-control me-2 py-3" type="search" placeholder="Search" aria-label="Search" style="height:30px">
-                </form>
-                <button class='btn fw-bolder text-dark' id="SearchBoxIcon"><i class="far  fa-times-circle"></i></button>
+			<!-- Navigation items in the middle -->
+			<div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+				<ul class="navbar-nav ms-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="/Home/Chat">Chat with Astrologer</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/Home/Talk">Call with Astrologer</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/home/BookPooja">Book a Pooja</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/home/FreeKundali">Free Kundli</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/Home/KundaliMatching">Kundli Matching</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/home/TodayHoroscope">
+							Horoscope
+						</a>
+					</li>
+					<li class="nav-item dropdown" id="LoginDropdown">
+						<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							Login
+						</a>
+						<ul class="dropdown-menu dropdown-menu-end" style="z-index:1040;">
+							<li><a class="dropdown-item" href="/Jyotish/Login">Astrologer</a></li>
+							<li><a class="dropdown-item" href="/Home/Login">User</a></li>
+						</ul>
+					</li>
+					<li class="btn fw-bolder ms-3 fw-bold d-flex justify-content-center align-items-center" id="toggleSearch">
+						<i class="fas fa-search"></i>
+					</li>
+				</ul>
+			</div>
+			<!-- Search Bar -->
 
-                <div class="position-absolute bottom-0 rounded-bottom d-none bg-light py-4 px-2" id="search-Detail">
-                    <div class="card border-0" aria-hidden="true">
-                        <div class="card-body d-flex">
-                            <div class="w-100 px-2">
-                                <h5 class="card-title placeholder-glow">
-                                    <span class="placeholder col-12"></span>
-                                </h5>
-                                <p class="card-text placeholder-glow">
-                                    <span class="placeholder col-7"></span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Profile icon on the right -->
-            <div class="navbar-nav profile-menu justify-content-center">
-               
-            </div>
-        </div>
-    </nav>
+			<div id="searchForm" class="justify-content-center shadow-lg position-absolute align-items-center">
+				<form id="userInputform" action="/Home/Search" method="post" class="w-100">
+					<input type="hidden" name="filterValue" id="filtervalue" />
+					<label for="searchInput" class="visually-hidden">Search</label>
+					<input id="searchInput" autocomplete="off" name="searchInput" class="form-control me-2 py-3" type="search" placeholder="Search" aria-label="Search" style="height:30px">
+				</form>
+				<button class='btn fw-bolder text-dark' id="SearchBoxIcon"><i class="far  fa-times-circle"></i></button>
 
-      <!-- jQuery -->
-  <script>
-                var BaseUrl = "https://api.myjyotishg.in/";
-               // var BaseUrl = "https://localhost:7118/";
+				<div class="position-absolute bottom-0 rounded-bottom d-none bg-light py-4 px-2" id="search-Detail">
+					<div class="card border-0" aria-hidden="true">
+						<div class="card-body d-flex">
+							<div class="w-100 px-2">
+								<h5 class="card-title placeholder-glow">
+									<span class="placeholder col-12"></span>
+								</h5>
+								<p class="card-text placeholder-glow">
+									<span class="placeholder col-7"></span>
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Profile icon on the right -->
+			<div class="navbar-nav profile-menu justify-content-center">
+			</div>
+		</div>
+	</nav>
 
-        var BaseUrlImg = "https://myjyotishg.in/";
-        let userId = "636001";
-        let apiKey = "58547b5b6c5211fa99d428ff4eee17f55dd71ac1";
-        //let userId = "636002";
-       // let apiKey = "4a4c2c2493e4f406999b2144cb11f05fb09492ba";
-        var auth = "Basic " + btoa(userId + ":" + apiKey).toString("base64");
-        var pdfauth = "Basic " + btoa("4545" + ":" + "ByVOIaODH57QRVi6CqswHXGlcpDvj7tZBRoorY").toString("base64");
-           const appID = 865742206;
-          const serverSecret = "5a72180880214f43c9358d38af32eacc";
-  </script>
-      
-    <div>
-        @RenderBody()
-    </div>
+	<!-- jQuery -->
+	<script>
+			     var BaseUrl = "https://api.myjyotishg.in/";
+				 //var BaseUrl = "https://localhost:7118/";
 
-    <div class="container-fluid-fluid bg-black  py-4">
-        <div class="container-fluid">
-            <div class="row g-4 align-items-center">
-                <div class="col-md-10  text-md-start mb-md-0">
-                    <span class="text-body ">
-                        <a title="macreel" class="border-bottom text-white" style="text-decoration:none;">
-                            <i class="fas fa-copyright text-light me-2"></i>
-                            <script>document.write(new Date().getFullYear())</script> Macreel Infosoft Pvt . Ltd.
-                        </a>,
-                        <span class="text-light">All right reserved.</span>
-                    </span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <footer class="py-4 px-2">
-        <div class="container-fluid">
-            <div class="row">
-                <!-- 1st Column: Jyotish Services -->
-                <div class="col-md-3">
-                    <h5 class="footer-heading" style="font-weight:bolder">Our Services</h5>
-                    <hr class="footer-line">
-                    <ul class="list-unstyled">
-                        <li class="footer-item"><a href="/home/talk"><i class="fas fa-caret-right"></i>  Call with Astrologers</a></li>
-                        <li class="footer-item"><a href="/home/chat"><i class="fas fa-caret-right"></i>  Chat with Astrologers</a></li>
-                        <li class="footer-item"><a href="/home/Astrology"><i class="fas fa-caret-right"></i>  Astrology</a></li>
-                        <li class="footer-item"><a href="/home/Palmistry"><i class="fas fa-caret-right"></i>  Palmistry</a></li>
-                        <li class="footer-item"><a href="/home/Tarot"><i class="fas fa-caret-right"></i>  Tarot</a></li>
-                        <li class="footer-item"><a href="/home/Vastu"><i class="fas fa-caret-right"></i>  Vastu</a></li>
-                        <li class="footer-item"><a href="/home/Compatibility"><i class="fas fa-caret-right"></i>  Compatibilty</a></li>
-                        <li class="footer-item"><a href="/Home/Search"><i class="fas fa-caret-right"></i>  Find astrologers</a></li>
-                      
-                    </ul>
-                </div>
+		 var BaseUrlImg = "https://myjyotishg.in/";
+		 let userId = "636001";
+		 let apiKey = "58547b5b6c5211fa99d428ff4eee17f55dd71ac1";
+		 //let userId = "636002";
+		// let apiKey = "4a4c2c2493e4f406999b2144cb11f05fb09492ba";
+		 var auth = "Basic " + btoa(userId + ":" + apiKey).toString("base64");
+		 var pdfauth = "Basic " + btoa("4545" + ":" + "ByVOIaODH57QRVi6CqswHXGlcpDvj7tZBRoorY").toString("base64");
+			const appID = 865742206;
+		   const serverSecret = "5a72180880214f43c9358d38af32eacc";
+	</script>
 
-                <!-- 2nd Column: Our Services -->
-                <div class="col-md-3">
-                    <h5 class="footer-heading" style="font-weight:bolder">Free Services</h5>
-                    <hr class="footer-line">
-                    <ul class="list-unstyled">
-                        <li class="footer-item"><a href="/home/KundaliMatching"><i class="fas fa-caret-right"></i>  Kundali Matching</a></li>
-                        <li class="footer-item"><a href="/home/FreeKundali"><i class="fas fa-caret-right"></i>  Free Kundali</a></li>
-                        <li class="footer-item"><a href="/home/TodayHoroscope"><i class="fas fa-caret-right"></i>  Horoscope</a></li>
-                        <li class="footer-item"><a href="/home/BookPooja"><i class="fas fa-caret-right"></i>  Book Pooja</a></li>
-                        <li class="footer-item"><a href="/home/Panchang"><i class="fas fa-caret-right"></i>  Todays Panchang</a></li>
-                        <li class="footer-item"><a href="/home/IndianCalendarFestivals"><i class="fas fa-caret-right"></i>  Festive Calender</a></li>
-                    </ul>
-                </div>
+	<div>
+		@RenderBody()
+	</div>
 
-                <!-- 3rd Column: Quick Links & Privacy Policy -->
-                <div class="col-md-3">
-                    <h5 class="footer-heading" style="font-weight:bolder">Quick Links</h5>
-                    <hr class="footer-line">
-                    <ul class="list-unstyled">
-                        <li class="footer-item"><a href="/home/aboutus"><i class="fas fa-caret-right"></i>  About Jyotish G</a></li>
-                        <li class="footer-item"><a href="/home/contactus"><i class="fas fa-caret-right"></i>  Contact Jyotish G</a></li>
-                        <li class="footer-item"><a href="/home/FrequentlyAskQuestion"><i class="fas fa-caret-right"></i>  FAQ</a></li>
-                    </ul>
+	<div class="container-fluid-fluid bg-black  py-4">
+		<div class="container-fluid">
+			<div class="row g-4 align-items-center">
+				<div class="col-md-10  text-md-start mb-md-0">
+					<span class="text-body ">
+						<a title="macreel" class="border-bottom text-white" style="text-decoration:none;">
+							<i class="fas fa-copyright text-light me-2"></i>
+							<script>document.write(new Date().getFullYear())</script> Macreel Infosoft Pvt . Ltd.
+						</a>,
+						<span class="text-light">All right reserved.</span>
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<footer class="py-4 px-2">
+		<div class="container-fluid">
+			<div class="row">
+				<!-- 1st Column: Jyotish Services -->
+				<div class="col-md-3">
+					<h5 class="footer-heading" style="font-weight:bolder">Our Services</h5>
+					<hr class="footer-line">
+					<ul class="list-unstyled">
+						<li class="footer-item"><a href="/home/talk"><i class="fas fa-caret-right"></i>  Call with Astrologers</a></li>
+						<li class="footer-item"><a href="/home/chat"><i class="fas fa-caret-right"></i>  Chat with Astrologers</a></li>
+						<li class="footer-item"><a href="/home/Astrology"><i class="fas fa-caret-right"></i>  Astrology</a></li>
+						<li class="footer-item"><a href="/home/Palmistry"><i class="fas fa-caret-right"></i>  Palmistry</a></li>
+						<li class="footer-item"><a href="/home/Tarot"><i class="fas fa-caret-right"></i>  Tarot</a></li>
+						<li class="footer-item"><a href="/home/Vastu"><i class="fas fa-caret-right"></i>  Vastu</a></li>
+						<li class="footer-item"><a href="/home/Compatibility"><i class="fas fa-caret-right"></i>  Compatibilty</a></li>
+						<li class="footer-item"><a href="/Home/Search"><i class="fas fa-caret-right"></i>  Find astrologers</a></li>
 
-                    <h5 class="footer-heading" style="font-weight:bolder">Privacy Policy & Terms</h5>
-                    <hr class="footer-line">
-                    <ul class="list-unstyled">
-                        <li class="footer-item"><a href="/home/privacy"><i class="fas fa-caret-right"></i>  Privacy Policy</a></li>
-                        <li class="footer-item"><a href="/home/TermCondition"><i class="fas fa-caret-right"></i>  Terms & Conditions</a></li>
-                    </ul>
-                </div>
+					</ul>
+				</div>
 
-                <!-- 4th Column: Contact Info -->
-                <div class="col-md-3">
-                    <h5 class="footer-heading" style="font-weight:bolder">Contact Info</h5>
-                    <hr class="footer-line">
+				<!-- 2nd Column: Our Services -->
+				<div class="col-md-3">
+					<h5 class="footer-heading" style="font-weight:bolder">Free Services</h5>
+					<hr class="footer-line">
+					<ul class="list-unstyled">
+						<li class="footer-item"><a href="/home/KundaliMatching"><i class="fas fa-caret-right"></i>  Kundali Matching</a></li>
+						<li class="footer-item"><a href="/home/FreeKundali"><i class="fas fa-caret-right"></i>  Free Kundali</a></li>
+						<li class="footer-item"><a href="/home/TodayHoroscope"><i class="fas fa-caret-right"></i>  Horoscope</a></li>
+						<li class="footer-item"><a href="/home/BookPooja"><i class="fas fa-caret-right"></i>  Book Pooja</a></li>
+						<li class="footer-item"><a href="/home/Panchang"><i class="fas fa-caret-right"></i>  Todays Panchang</a></li>
+						<li class="footer-item"><a href="/home/IndianCalendarFestivals"><i class="fas fa-caret-right"></i>  Festive Calender</a></li>
+					</ul>
+				</div>
 
-                    <p class="footer-item"> <i class="fa-solid fa-location-dot"></i> &nbsp; <span id="companyAddress"></span></p>
-                    <p class="footer-item"><a href=""> <i class="fa-solid fa-envelope"></i> &nbsp; <span id="companyEmail"></span></a></p>
-                    <p class="footer-item"><a href="#" id="dialCompanyMobile"> <i class="fa-solid fa-phone"></i> &nbsp;+(91) <span id="companyMobile"></span></a></p>
-                    <p class="footer-item"><a href="" target="_blank"><i class="fa-brands fa-edge"></i>&nbsp; <span id="companyWebsite"></span></a></p>
-                </div>
-            </div>
-            @* <div class="d-flex justify-content-center mt-3"> *@
-            @*     <div class="btn-toolbar"> *@
+				<!-- 3rd Column: Quick Links & Privacy Policy -->
+				<div class="col-md-3">
+					<h5 class="footer-heading" style="font-weight:bolder">Quick Links</h5>
+					<hr class="footer-line">
+					<ul class="list-unstyled">
+						<li class="footer-item"><a href="/home/aboutus"><i class="fas fa-caret-right"></i>  About Jyotish G</a></li>
+						<li class="footer-item"><a href="/home/contactus"><i class="fas fa-caret-right"></i>  Contact Jyotish G</a></li>
+						<li class="footer-item"><a href="/home/FrequentlyAskQuestion"><i class="fas fa-caret-right"></i>  FAQ</a></li>
+					</ul>
 
-            @*         <a class="btn btn-md-square rounded-circle mx-2" href="#" target="_blank" title="facebook"> *@
-            @*             <img src="https://api.myjyotishg.in/Images/Icon/facebook.png" width="30" /> *@
-            @*         </a> *@
+					<h5 class="footer-heading" style="font-weight:bolder">Privacy Policy & Terms</h5>
+					<hr class="footer-line">
+					<ul class="list-unstyled">
+						<li class="footer-item"><a href="/home/privacy"><i class="fas fa-caret-right"></i>  Privacy Policy</a></li>
+						<li class="footer-item"><a href="/home/TermCondition"><i class="fas fa-caret-right"></i>  Terms & Conditions</a></li>
+					</ul>
+				</div>
 
-            @*         <a class="btn  btn-md-square rounded-circle mx-2" href="#" target="_blank" title="instagram"> *@
-            @*             <img src="https://api.myjyotishg.in/Images/Icon/Instagram.png" width="30" /> *@
-            @*         </a> *@
+				<!-- 4th Column: Contact Info -->
+				<div class="col-md-3">
+					<h5 class="footer-heading" style="font-weight:bolder">Contact Info</h5>
+					<hr class="footer-line">
 
-            @*         <a class="btn  btn-md-square rounded-circle mx-2" title="linkedin" href="#" target="_blank"> *@
-            @*             <img src="https://api.myjyotishg.in/Images/Icon/Linkedin.png" width="30" /> *@
-            @*         </a> *@
+					<p class="footer-item"> <i class="fa-solid fa-location-dot"></i> &nbsp; <span id="companyAddress"></span></p>
+					<p class="footer-item"><a href=""> <i class="fa-solid fa-envelope"></i> &nbsp; <span id="companyEmail"></span></a></p>
+					<p class="footer-item"><a href="#" id="dialCompanyMobile"> <i class="fa-solid fa-phone"></i> &nbsp;+(91) <span id="companyMobile"></span></a></p>
+					<p class="footer-item"><a href="" target="_blank"><i class="fa-brands fa-edge"></i>&nbsp; <span id="companyWebsite"></span></a></p>
+				</div>
+			</div>
+			@* <div class="d-flex justify-content-center mt-3"> *@
+			@*     <div class="btn-toolbar"> *@
 
-            @*         <a class="btn  btn-md-square rounded-circle mx-2" href="#" target="_blank" title="youtube"> *@
-            @*             <img src="https://api.myjyotishg.in/Images/Icon/Youtube.png" width="30" /> *@
-            @*         </a> *@
+			@*         <a class="btn btn-md-square rounded-circle mx-2" href="#" target="_blank" title="facebook"> *@
+			@*             <img src="https://api.myjyotishg.in/Images/Icon/facebook.png" width="30" /> *@
+			@*         </a> *@
 
-            @*         <a class="btn  btn-md-square rounded-circle mx-2" href="#" title="twitter" target="_blank"> *@
-            @*             <img src="https://api.myjyotishg.in/Images/Icon/twitter.png" width="30" /> *@
-            @*         </a> *@
+			@*         <a class="btn  btn-md-square rounded-circle mx-2" href="#" target="_blank" title="instagram"> *@
+			@*             <img src="https://api.myjyotishg.in/Images/Icon/Instagram.png" width="30" /> *@
+			@*         </a> *@
 
-            @*         <a class="btn  btn-md-square rounded-circle mx-2" href="#" title="pinterest" target="_blank"> *@
-            @*             <img src="https://api.myjyotishg.in/Images/Icon/pinterest.png" width="30" /> *@
-            @*         </a> *@
+			@*         <a class="btn  btn-md-square rounded-circle mx-2" title="linkedin" href="#" target="_blank"> *@
+			@*             <img src="https://api.myjyotishg.in/Images/Icon/Linkedin.png" width="30" /> *@
+			@*         </a> *@
 
-            @*         <a class="btn  btn-md-square rounded-circle mx-2" href="#" title="blogger" target="_blank"> *@
-            @*             <img src="https://api.myjyotishg.in/Images/Icon/blogger.png" width="30" /> *@
-            @*         </a> *@
-            @*     </div> *@
-            @* </div> *@
-            <hr style="color:grey" />
-        </div>
-    </footer>
-    @await RenderSectionAsync("Scripts", required: false)
+			@*         <a class="btn  btn-md-square rounded-circle mx-2" href="#" target="_blank" title="youtube"> *@
+			@*             <img src="https://api.myjyotishg.in/Images/Icon/Youtube.png" width="30" /> *@
+			@*         </a> *@
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/web-socket-js/1.0.0/web_socket.min.js" integrity="sha512-jtr9/t8rtBf1Sv832XjG1kAtUECQCqFnTAJWccL8CSC82VGzkPPih8rjtOfiiRKgqLXpLA1H/uQ/nq2bkHGWTQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script>
-        $("#searchInput").on("input",function(){
-            $("#search-Detail").removeClass("d-none")
-            $("#search-Detail").html(
-                `
-                 <div class="card border-0" aria-hidden="true">
-                                 <div class="card-body d-flex">
-                                     <div class="w-100 px-2">
-                                         <h5 class="card-title placeholder-glow">
-                                             <span class="placeholder col-12"></span>
-                                         </h5>
-                                         <p class="card-text placeholder-glow">
-                                             <span class="placeholder col-7"></span>
-                                         </p>
-                                     </div>
-                                 </div>
-                             </div>
-                                            `
-            )
-            let wordsForCourts = $(this).val().split(" ")
-            const regex = new RegExp(`(${wordsForCourts.join("|")})`, "gi");
-            $("#search-content").show("slow")
-            $.ajax({
-                url: BaseUrl+"api/user/searchAstrologers",
-                type: "post",
-                data: { searchInp: $(this).val() },
-                success: function (res) {
-                    console.log(res)
-                    $("#search-Detail").empty()
+			@*         <a class="btn  btn-md-square rounded-circle mx-2" href="#" title="twitter" target="_blank"> *@
+			@*             <img src="https://api.myjyotishg.in/Images/Icon/twitter.png" width="30" /> *@
+			@*         </a> *@
 
-                    let checkDuplicate = []
-                    if (res.status == 200) {
-                        if (res.data.length > 0) {
+			@*         <a class="btn  btn-md-square rounded-circle mx-2" href="#" title="pinterest" target="_blank"> *@
+			@*             <img src="https://api.myjyotishg.in/Images/Icon/pinterest.png" width="30" /> *@
+			@*         </a> *@
 
-                            res.data.forEach(function (d) {
+			@*         <a class="btn  btn-md-square rounded-circle mx-2" href="#" title="blogger" target="_blank"> *@
+			@*             <img src="https://api.myjyotishg.in/Images/Icon/blogger.png" width="30" /> *@
+			@*         </a> *@
+			@*     </div> *@
+			@* </div> *@
+			<hr style="color:grey" />
+		</div>
+	</footer>
+	@await RenderSectionAsync("Scripts", required: false)
 
-                                if (regex.test(d.expertise)) {
-                                    if (!checkDuplicate.includes(d.expertise)) {
-                                        checkDuplicate.push(d.expertise)
-                                        const newElement = $(`
-                <p class='search-url'>Find a <a role="button" data-filtervalue='${d.expertise}' onclick='filterData(this)' class="fw-bold text-primary cursor-pointer">${d.expertise}</a> <small> Astrologers</small>
-                              </p>
-                               `)
-                                        $("#search-Detail").prepend(newElement)
-                                    }
-
-                                }
-                                if (regex.test(d.specialization)) {
-                                    if (!checkDuplicate.includes(d.specialization.toLowerCase())) {
-                                        checkDuplicate.push(d.specialization.toLowerCase())
-                                        const newElement = $(`
-                                                <p class='search-url'>Find a <a role="button" data-filtervalue='${d.specialization}' onclick='filterData(this)' class="fw-bold text-primary cursor-pointer">${d.specialization}</a> <small> Astrologers</small>
-                              </p>
-                               `)
-                                        $("#search-Detail").prepend(newElement)
-                                    }
-
-                                }
-                                if (regex.test(d.country)) {
-                                    if (!checkDuplicate.includes(d.country)) {
-                                        checkDuplicate.push(d.country)
-                                        const newElement = $(`
-                                                                                <p class='search-url' >Find a <a role="button" data-filtervalue='${d.country}' onclick='filterData(this)' class="fw-bold text-primary cursor-pointer"> Top Astrologers in ${d.country}</a> <small></small>
-                                      </p>
-                                       `)
-                                        $("#search-Detail").prepend(newElement)
-                                    }
-
-                                }
-                                if (regex.test(d.state)) {
-                                    if (!checkDuplicate.includes(d.state)) {
-                                        checkDuplicate.push(d.state)
-                                        const newElement = $(`
-                                                                                                <p class='search-url'>Find a <a role="button" data-filtervalue='${d.state}' onclick='filterData(this)' class="fw-bold text-primary cursor-pointer">Top Astrologers in ${d.state}</a> <small></small>
-                                      </p>
-                                       `)
-                                        $("#search-Detail").prepend(newElement)
-                                    }
-
-                                }
-                                if (regex.test(d.city)) {
-                                    if (!checkDuplicate.includes(d.city)) {
-                                        checkDuplicate.push(d.city)
-                                        const newElement = $(`
-                                                                                                                <p class='search-url'>Find a <a role="button" data-filtervalue='${d.city}' onclick='filterData(this)' class="fw-bold text-primary cursor-pointer">Top Astrologers in ${d.city}</a> <small></small>
-                                      </p>
-                                       `)
-                                        $("#search-Detail").prepend(newElement)
-                                    }
-
-                                }
-                                if (!checkDuplicate.includes(d.name)) {
-                                    checkDuplicate.push(d.name)
-                                    const newElement = $(`
-                                                                                                                                <p class='search-url'> <a  role="button" data-filtervalue='${d.name}' onclick='filterData(this)' class="fw-bold text-primary cursor-pointer">${d.name}</a> <small>- ${d.expertise}</small>
-                                      </p>
-                                       `)
-                                    $("#search-Detail").append(newElement)
-                                }
-                            })
-                            let firstUrl = $("#search-Detail").children().first().children().first();
-                            $("#filtervalue").val(firstUrl.attr("data-filtervalue"));
-                            debugger
-                        }
-                        else {
-                            $("#search-Detail").append(
-                                `
-        no record found
-
-                                   `
-                            )
-                        }
-                    }
-                },
-                error: function () {
-                        $("#search-Detail").append(
-                        `
-        some error occured please try again later
-
-                                   `
-                    )
-                }
-            })
-        })
-        function filterData(data) {
-            let filterValue = $(data).attr("data-filtervalue")
-            $("#filtervalue").val(filterValue);
-            $("#userInputform").submit();
-        }
-        document.addEventListener('DOMContentLoaded', function () {
-
-            var toggleIcon = document.getElementById('SearchBoxIcon');
-            var toggleButton = document.getElementById('toggleSearch');
-            var searchForm = document.getElementById('searchForm');
-            var loginMenu = document.getElementById('LoginDropdown');
-            var navbarNav = document.querySelector('.profile-menu');
-
-            // Function to check user login status
-            function checkUserLogin() {
-                var userId = localStorage.getItem('userId');
-                var token = localStorage.getItem('Token');
-                if (userId !== null && token!=null) {
-                    // Hide login menu and show profile section
-                    loginMenu.style.display = 'none';
-
-                    // Create Profile section
-                    var profileSection = document.createElement('li');
-                    profileSection.classList.add('nav-item', 'dropdown');
-                    profileSection.innerHTML = `
-                                <a class="nav-link dropdown-toggle d-flex justify-content-center align-items-center gap-1" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fas fa-user-circle fs-3"></i> Profile
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                                    <li><a class="dropdown-item" href="/Home/Profile">View Profile</a></li>   
-                                    <li><a class="dropdown-item" href="/Home/Wallet">Wallet</a></li>
-                                    <li><a class="dropdown-item" href="/Home/Appointments">Upcomming Appointments</a></li>
-                                            <li><a class="dropdown-item" href="/Home/AppointmentHistory">Appointment History</a></li>
-                                    <li><a class="dropdown-item" href="/Home/ProblemSolution ">ProblemSolution</a></li>
-                                    <li><a class="dropdown-item" href="/Home/ServiceRecord ">ServiceRecord</a></li>
-                                    <li><a class="dropdown-item" id="logoutBtn">Logout</a></li>
-                                </ul>
-                            `;
-                    navbarNav.appendChild(profileSection);
-
-                    // Handle logout
-                    document.getElementById('logoutBtn').addEventListener('click', function () {
-                         
-                        localStorage.clear();
-                        window.location.href = "/Home/Login";
-                    });
-                }
-            }
-
-            // Search bar toggle functionality
-            toggleButton.addEventListener('click', function () {
-                if (searchForm.style.display === 'none' || searchForm.style.display === '') {
-                    searchForm.style.display = 'flex';
-                    $("#searchInput").focus()
-                    $("#search-Detail").addClass("d-none")
-                } else {
-                    searchForm.style.display = 'none';
-                    $("#search-Detail").addClass("d-none")
-
-                }
-            });
-
-            toggleIcon.addEventListener('click', function () {
-                searchForm.style.display = 'none';
-            });
-
-            // Check user login on page load
-            checkUserLogin();
-        });
-
-      
-        $(document).ready(function () {
-            let table = new DataTable('#myTable');
-
-        })
-       
-    </script>
-
-    
-    <script>
-        //navbar js
-        document.addEventListener('DOMContentLoaded', function () {
-            var navbar = document.getElementById('mainNavbar');
-            var sticky = 200; // Scroll threshold
-
-            function handleScroll() {
-                if (window.pageYOffset >= sticky) {
-                    navbar.classList.add('sticky-top');
-                    document.body.classList.add('fixed-nav');
-                } else {
-                    navbar.classList.remove('sticky-top');
-                    document.body.classList.remove('fixed-nav');
-                }
-            }
-
-            window.onscroll = handleScroll;
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/web-socket-js/1.0.0/web_socket.min.js" integrity="sha512-jtr9/t8rtBf1Sv832XjG1kAtUECQCqFnTAJWccL8CSC82VGzkPPih8rjtOfiiRKgqLXpLA1H/uQ/nq2bkHGWTQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script>
 
 
-        });
 
-        window.addEventListener('load', function () {
-            $(".loader-container").addClass("d-none")
-            $("#searchForm").hide()
-            setTimeout(() => {
-                $("#searchForm").show("slow")
-            }, 30000)
-        })
+		$("#searchInput").on("input",function(){
+			$("#search-Detail").removeClass("d-none")
+			$("#search-Detail").html(
+				`
+				 <div class="card border-0" aria-hidden="true">
+								 <div class="card-body d-flex">
+									 <div class="w-100 px-2">
+										 <h5 class="card-title placeholder-glow">
+											 <span class="placeholder col-12"></span>
+										 </h5>
+										 <p class="card-text placeholder-glow">
+											 <span class="placeholder col-7"></span>
+										 </p>
+									 </div>
+								 </div>
+							 </div>
+											`
+			)
+			let wordsForCourts = $(this).val().split(" ")
+			const regex = new RegExp(`(${wordsForCourts.join("|")})`, "gi");
+			$("#search-content").show("slow")
+			$.ajax({
+				url: BaseUrl+"api/user/searchAstrologers",
+				type: "post",
+				data: { searchInp: $(this).val() },
+				success: function (res) {
+					console.log(res)
+					$("#search-Detail").empty()
 
-        
-        $(document).ready(function(){
-            $.ajax({
-                url:BaseUrl+"api/admin/getPrivacyPolicy",
-                type:"get",
-                success:function(res){
-                    console.log(res)
-                    if(res.status==200){
-                        if(res.data!=null){
+					let checkDuplicate = []
+					if (res.status == 200) {
+						if (res.data.length > 0) {
 
-                        $("#companyAddress").text(res.data.address)
-                        $("#companyEmail").text(res.data.email)
-                        $("#companyEmail").parent().attr("href","mailto:"+res.data.email)
-                        $("#companyMobile").text(res.data.mobile)
-                        $("#companyWebsite").text(res.data.websiteUrl)
-                        $("#companyWebsite").parent().attr("href",res.data.websiteUrl)
-                        $("#dialCompanyMobile").attr("href","tel:"+res.data.mobile)
-                        $("#aboutusContainer").html(res.data.aboutUs)
-                        }
-                    }
-                },error:function(xhr){
-                    Swal.fire({
-                        title:"error",
-                        text:"some error occured",
-                        icon:"error"
-                    })
-                }
-            })
-            })
+							res.data.forEach(function (d) {
 
-        
-    </script>
-    <!-- JavaScript for Search Toggle and User Profile -->
-   
+								if (regex.test(d.expertise)) {
+									if (!checkDuplicate.includes(d.expertise)) {
+										checkDuplicate.push(d.expertise)
+										const newElement = $(`
+				<p class='search-url'>Find a <a role="button" data-filtervalue='${d.expertise}' onclick='filterData(this)' class="fw-bold text-primary cursor-pointer">${d.expertise}</a> <small> Astrologers</small>
+							  </p>
+							   `)
+										$("#search-Detail").prepend(newElement)
+									}
+
+								}
+								if (regex.test(d.specialization)) {
+									if (!checkDuplicate.includes(d.specialization.toLowerCase())) {
+										checkDuplicate.push(d.specialization.toLowerCase())
+										const newElement = $(`
+												<p class='search-url'>Find a <a role="button" data-filtervalue='${d.specialization}' onclick='filterData(this)' class="fw-bold text-primary cursor-pointer">${d.specialization}</a> <small> Astrologers</small>
+							  </p>
+							   `)
+										$("#search-Detail").prepend(newElement)
+									}
+
+								}
+								if (regex.test(d.country)) {
+									if (!checkDuplicate.includes(d.country)) {
+										checkDuplicate.push(d.country)
+										const newElement = $(`
+																				<p class='search-url' >Find a <a role="button" data-filtervalue='${d.country}' onclick='filterData(this)' class="fw-bold text-primary cursor-pointer"> Top Astrologers in ${d.country}</a> <small></small>
+									  </p>
+									   `)
+										$("#search-Detail").prepend(newElement)
+									}
+
+								}
+								if (regex.test(d.state)) {
+									if (!checkDuplicate.includes(d.state)) {
+										checkDuplicate.push(d.state)
+										const newElement = $(`
+																								<p class='search-url'>Find a <a role="button" data-filtervalue='${d.state}' onclick='filterData(this)' class="fw-bold text-primary cursor-pointer">Top Astrologers in ${d.state}</a> <small></small>
+									  </p>
+									   `)
+										$("#search-Detail").prepend(newElement)
+									}
+
+								}
+								if (regex.test(d.city)) {
+									if (!checkDuplicate.includes(d.city)) {
+										checkDuplicate.push(d.city)
+										const newElement = $(`
+																												<p class='search-url'>Find a <a role="button" data-filtervalue='${d.city}' onclick='filterData(this)' class="fw-bold text-primary cursor-pointer">Top Astrologers in ${d.city}</a> <small></small>
+									  </p>
+									   `)
+										$("#search-Detail").prepend(newElement)
+									}
+
+								}
+								if (!checkDuplicate.includes(d.name)) {
+									checkDuplicate.push(d.name)
+									const newElement = $(`
+																																<p class='search-url'> <a  role="button" data-filtervalue='${d.name}' onclick='filterData(this)' class="fw-bold text-primary cursor-pointer">${d.name}</a> <small>- ${d.expertise}</small>
+									  </p>
+									   `)
+									$("#search-Detail").append(newElement)
+								}
+							})
+							let firstUrl = $("#search-Detail").children().first().children().first();
+							$("#filtervalue").val(firstUrl.attr("data-filtervalue"));
+							debugger
+						}
+						else {
+							$("#search-Detail").append(
+								`
+		no record found
+
+								   `
+							)
+						}
+					}
+				},
+				error: function () {
+						$("#search-Detail").append(
+						`
+		some error occured please try again later
+
+								   `
+					)
+				}
+			})
+		})
+
+		 async function getSomeUser(id) {
+			 let userData;
+			await $.ajax({
+				url: `${BaseUrl}api/user/LayoutData`,
+				method: "GET",
+				headers: {
+					'Authorization': `Bearer ${localStorage.getItem("Token")}`
+				},
+				data: { Id: id },
+				success: function (res) {
+					if (res.status === 200) {
+						userData=res.data
+					}
+					$("#jyotishCallImg").on("error",function(){
+								$("#jyotishCallImg").attr("src", "/user-not-found.png")
+
+					})
+				}
+			})
+			return userData;
+		}
+
+		function filterData(data) {
+			let filterValue = $(data).attr("data-filtervalue")
+			$("#filtervalue").val(filterValue);
+			$("#userInputform").submit();
+		}
+		document.addEventListener('DOMContentLoaded', function () {
+
+			var toggleIcon = document.getElementById('SearchBoxIcon');
+			var toggleButton = document.getElementById('toggleSearch');
+			var searchForm = document.getElementById('searchForm');
+			var loginMenu = document.getElementById('LoginDropdown');
+			var navbarNav = document.querySelector('.profile-menu');
+
+			// Function to check user login status
+		async	function checkUserLogin() {
+				var userId = localStorage.getItem('userId');
+				var token = localStorage.getItem('Token');
+				let userData=await getSomeUser(userId)
+				if (userId !== null && token!=null) {
+					// Hide login menu and show profile section
+					loginMenu.style.display = 'none';
+
+					// Create Profile section
+					var profileSection = document.createElement('li');
+					profileSection.classList.add('nav-item', 'dropdown');
+					profileSection.innerHTML = `
+								<a class="nav-link dropdown-toggle d-flex justify-content-center align-items-center gap-1" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+									<img class="userLayoutImage rounded-circle shadow-sm border" height="35" width="35" src="${BaseUrl}${userData.image}"> ${userData.name}
+								</a>
+								<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+									<li><a class="dropdown-item" href="/Home/Profile">View Profile</a></li>
+									<li><a class="dropdown-item" href="/Home/Wallet">Wallet</a></li>
+									<li><a class="dropdown-item" href="/Home/Appointments">Upcomming Appointments</a></li>
+											<li><a class="dropdown-item" href="/Home/AppointmentHistory">Appointment History</a></li>
+									<li><a class="dropdown-item" href="/Home/ProblemSolution ">ProblemSolution</a></li>
+									<li><a class="dropdown-item" href="/Home/ServiceRecord ">ServiceRecord</a></li>
+									<li><a class="dropdown-item" id="logoutBtn">Logout</a></li>
+								</ul>
+							`;
+					navbarNav.appendChild(profileSection);
+
+					// Handle logout
+					document.getElementById('logoutBtn').addEventListener('click', function () {
+
+						localStorage.clear();
+						window.location.href = "/Home/Login";
+					});
+				}
+			}
+
+			// Search bar toggle functionality
+			toggleButton.addEventListener('click', function () {
+				if (searchForm.style.display === 'none' || searchForm.style.display === '') {
+					searchForm.style.display = 'flex';
+					$("#searchInput").focus()
+					$("#search-Detail").addClass("d-none")
+				} else {
+					searchForm.style.display = 'none';
+					$("#search-Detail").addClass("d-none")
+
+				}
+			});
+
+			toggleIcon.addEventListener('click', function () {
+				searchForm.style.display = 'none';
+			});
+
+			// Check user login on page load
+			checkUserLogin();
+		});
+
+
+		$(document).ready(function () {
+			let table = new DataTable('#myTable');
+
+		})
+
+	</script>
+
+
+	<script>
+		//navbar js
+		document.addEventListener('DOMContentLoaded', function () {
+			var navbar = document.getElementById('mainNavbar');
+			var sticky = 200; // Scroll threshold
+
+			function handleScroll() {
+				if (window.pageYOffset >= sticky) {
+					navbar.classList.add('sticky-top');
+					document.body.classList.add('fixed-nav');
+				} else {
+					navbar.classList.remove('sticky-top');
+					document.body.classList.remove('fixed-nav');
+				}
+			}
+
+			window.onscroll = handleScroll;
+
+
+		});
+
+		window.addEventListener('load', function () {
+			$(".loader-container").addClass("d-none")
+			$("#searchForm").hide()
+			setTimeout(() => {
+				$("#searchForm").show("slow")
+			}, 30000)
+		})
+
+
+		$(document).ready(function(){
+			$.ajax({
+				url:BaseUrl+"api/admin/getPrivacyPolicy",
+				type:"get",
+				success:function(res){
+					console.log(res)
+					if(res.status==200){
+						if(res.data!=null){
+
+						$("#companyAddress").text(res.data.address)
+						$("#companyEmail").text(res.data.email)
+						$("#companyEmail").parent().attr("href","mailto:"+res.data.email)
+						$("#companyMobile").text(res.data.mobile)
+						$("#companyWebsite").text(res.data.websiteUrl)
+						$("#companyWebsite").parent().attr("href",res.data.websiteUrl)
+						$("#dialCompanyMobile").attr("href","tel:"+res.data.mobile)
+						$("#aboutusContainer").html(res.data.aboutUs)
+						}
+					}
+				},error:function(xhr){
+					Swal.fire({
+						title:"error",
+						text:"some error occured",
+						icon:"error"
+					})
+				}
+			})
+			})
+
+
+	</script>
+	<!-- JavaScript for Search Toggle and User Profile -->
+
 </body>
 </html>

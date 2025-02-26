@@ -1149,11 +1149,7 @@ public IActionResult SkipDateList(int Id)
 	{
 		var result = _jyotish.SkipDateList(Id);
 
-		if (result == null || result.Count == 0)
-		{
-			return Ok(new { Status = 400, Message = "No skip Date found for the provided Jyotish Id." });
-		}
-		if (result == null || result.Count == 0)
+		if (result == null)
 		{
 			return Ok(new { Status = 400, Message = "No skip Date found for the provided Jyotish Id." });
 		}

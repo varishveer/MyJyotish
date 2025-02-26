@@ -53,7 +53,10 @@ namespace BusinessAccessLayer.Implementation
         public string JRegisterAndSendOtp(string Email)
         {
             var IsMobileValid = _context.JyotishRecords.Where(x => x.Email == Email).FirstOrDefault();
-            
+            var userRecord = _context.Users.FirstOrDefault(e => e.Email == Email);
+
+                if(userRecord!=null) return "Invalid email or may be already registered";
+
             if (IsMobileValid != null)
             {
                 if (IsMobileValid.ApprovedStatus == "Unverified" || IsMobileValid.ApprovedStatus==null)
@@ -173,7 +176,7 @@ namespace BusinessAccessLayer.Implementation
             <head>
     <meta charset=""UTF-8"">
     <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
-    <title>My Jyotish G Email</title>
+    <title>MyJyotishG Email</title>
     <style>
         body {{
             font-family: Arial, sans-serif;
@@ -402,10 +405,6 @@ namespace BusinessAccessLayer.Implementation
        
             <div class=""header"" style=""color:orange"">My Jyotish G</div>
             <h4>www.myjyotishg.in</h4>
-            <h4>myjyotishg@gmail.com</h4>
-            <h4>7985738804</h4>
-            
-        
     </div>
 </body>
 </html>
@@ -572,7 +571,11 @@ namespace BusinessAccessLayer.Implementation
         public string RegisterUserEmail(string Email)
         {
             var record = _context.Users.FirstOrDefault(x => x.Email == Email);
-
+            var jyotishRecord = _context.JyotishRecords.FirstOrDefault(x => x.Email == Email);
+            if (jyotishRecord != null)
+            {
+                return "Email already registered";
+            }
             if (record != null)
             {
                 if (record.Status == "Otp Unverified")
@@ -840,8 +843,80 @@ namespace BusinessAccessLayer.Implementation
             var result = _context.SaveChanges();
             if(result>0)
             {
-                var message = "Dear User ," +
-                  "/n Your account has been successfully created and your Credential are below , \n Email : " + _user.Email + "\n Password: " + record.Password;
+                string message = $@"
+           <!DOCTYPE html>
+            <html lang=""en"">
+            <head>
+    <meta charset=""UTF-8"">
+    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+    <title>MyJyotishG Email</title>
+    <style>
+        body {{
+            font-family: Arial, sans-serif;
+        }}
+        .container {{
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }}
+        .header {{
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }}
+        .content {{
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }}
+        .otp {{
+            font-size: 20px;
+            font-weight: bold;
+            color: #000;
+        }}
+        .logo {{
+            margin: 20px 0;
+            text-align: center;
+        }}
+        .logo img {{
+            max-width: 150px;
+        }}
+        .footer {{
+            font-size: 14px;
+            color: #555;
+            margin-top: 20px;
+        }}
+        .footer a {{
+            color: #000;
+            text-decoration: none;
+        }}
+    </style>
+</head>
+<body>
+    <div class=""container"">
+       
+         <div class=""logo"">
+            <img src=""https://api.myjyotishg.in/Images/Logo.png"" alt=""My Jyotish G Logo"">
+        </div>
+        <div class=""content"">
+           Dear User ,<br/>
+            Your account has been successfully created and your Credential are below , <br/>
+            Email: {_user.Email}<br/>
+            Password: {_user.Password}<br/>
+            If you have any questions, feel free to reach out!<br/>
+        </div>
+
+       
+            <div class=""header"" style=""color:orange"">My Jyotish G</div>
+            <h4>www.myjyotishg.in</h4>
+    </div>
+</body>
+</html>
+";
+
                 var subject = "MyJyotishG Account Credential";
                 SendEmail(message, _user.Email, subject);
                 return "Successful";

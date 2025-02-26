@@ -171,11 +171,14 @@ namespace BusinessAccessLayer.Implementation
                                 var totalAmount = getJyotishchatCharges * totalMinutes;
                                 _callTimeManager.Remove(userData);
                                 string messages = "call with astrologers";
-                                Task.Run(() =>
+                                if (getJyotishchatCharges != 0)
                                 {
-                                    _service.ApplyChargesFromUserWalletForService(int.Parse(id), Convert.ToInt32(totalAmount), messages, int.Parse(senderId));
-                                }).Wait();
-                                _service.UpdateUserService(int.Parse(id), 2, totalMinutes);
+                                    Task.Run(() =>
+                                    {
+                                        _service.ApplyChargesFromUserWalletForService(int.Parse(id), Convert.ToInt32(totalAmount), messages, int.Parse(senderId));
+                                    }).Wait();
+                                }
+                                    _service.UpdateUserService(int.Parse(id), 2, totalMinutes);
 
                             }
 
