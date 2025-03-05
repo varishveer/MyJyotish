@@ -1417,7 +1417,7 @@ z-index:10000000000000000000;
 					}, // Corrected JSON.stringify
 					contentType: "application/json", // Ensure content type is set to JSON
 					success: function (res) {
-						debugger
+							console.log(ActionType)
 						if (res.status === 200) {
 							if (res.userWallet > (res.charges * 5)) {
 								checkChatValidation=true

@@ -977,11 +977,11 @@ namespace MyJyotishGApi.Controllers
 				dynamic jyotishserviceCharges = 0;
 				if (type == "call")
 				{
-					jyotishserviceCharges = _services.getJyotishServicesCharges(jyotishId);
+					jyotishserviceCharges = _services.getJyotishCallServicesCharges(jyotishId);
 				}
 				else
 				{
-					jyotishserviceCharges = _services.getJyotishCallServicesCharges(jyotishId);
+					jyotishserviceCharges = _services.getJyotishServicesCharges(jyotishId);
 				}
 
 				var userWallet = _services.GetWallet(userId);
